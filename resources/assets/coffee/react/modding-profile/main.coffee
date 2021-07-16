@@ -17,6 +17,9 @@ import { Posts } from "./posts"
 import * as React from 'react'
 import { a, button, div, i, span } from 'react-dom-factories'
 import UserProfileContainer from 'user-profile-container'
+import { pageChange } from 'utils/page-change'
+import { nextVal } from 'utils/seq'
+
 el = React.createElement
 
 pages = document.getElementsByClassName("js-switchable-mode-page--scrollspy")
@@ -30,6 +33,7 @@ export class Main extends React.PureComponent
   constructor: (props) ->
     super props
 
+    @eventId = "users-modding-history-index-#{nextVal()}"
     @cache = {}
     @tabs = React.createRef()
     @pages = React.createRef()
@@ -49,9 +53,9 @@ export class Main extends React.PureComponent
         posts: props.posts
         votes: props.votes
         profileOrder: ['events', 'discussions', 'posts', 'votes', 'kudosu']
-        rankedAndApprovedBeatmapsets: @props.extras.rankedAndApprovedBeatmapsets
+        rankedBeatmapsets: @props.extras.rankedBeatmapsets
         lovedBeatmapsets: @props.extras.lovedBeatmapsets
-        unrankedBeatmapsets: @props.extras.unrankedBeatmapsets
+        pendingBeatmapsets: @props.extras.pendingBeatmapsets
         graveyardBeatmapsets: @props.extras.graveyardBeatmapsets
         recentlyReceivedKudosu: @props.extras.recentlyReceivedKudosu
         showMorePagination: {}
@@ -65,14 +69,14 @@ export class Main extends React.PureComponent
 
 
   componentDidMount: =>
-    $.subscribe 'user:update.profilePage', @userUpdate
-    $.subscribe 'profile:showMore.moddingProfilePage', @showMore
-    $.subscribe 'profile:page:jump.moddingProfilePage', @pageJump
-    $.subscribe 'beatmapsetDiscussions:update.moddingProfilePage', @discussionUpdate
-    $(document).on 'ajax:success.moddingProfilePage', '.js-beatmapset-discussion-update', @ujsDiscussionUpdate
-    $(window).on 'scroll.moddingProfilePage', @pageScan
+    $.subscribe "user:update.#{@eventId}", @userUpdate
+    $.subscribe "profile:showMore.#{@eventId}", @showMore
+    $.subscribe "profile:page:jump.#{@eventId}", @pageJump
+    $.subscribe "beatmapsetDiscussions:update.#{@eventId}", @discussionUpdate
+    $(document).on "ajax:success.#{@eventId}", '.js-beatmapset-discussion-update', @ujsDiscussionUpdate
+    $(window).on "scroll.#{@eventId}", @pageScan
 
-    osu.pageChange()
+    pageChange()
 
     @modeScrollUrl = currentLocation()
 
@@ -81,8 +85,8 @@ export class Main extends React.PureComponent
 
 
   componentWillUnmount: =>
-    $.unsubscribe '.moddingProfilePage'
-    $(window).off '.moddingProfilePage'
+    $.unsubscribe ".#{@eventId}"
+    $(window).off ".#{@eventId}"
 
     $(window).stop()
     Timeout.clear @modeScrollTimeout

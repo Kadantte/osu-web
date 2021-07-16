@@ -6,6 +6,7 @@ import * as React from 'react';
 import { Spinner } from 'spinner';
 import { onErrorWithClick } from 'utils/ajax';
 import { classWithModifiers, Modifiers } from 'utils/css';
+import { nextVal } from 'utils/seq';
 
 interface Props {
   alwaysVisible?: boolean;
@@ -25,7 +26,7 @@ const bn = 'user-action-button';
 
 export default class FollowUserMappingButton extends React.Component<Props, State> {
   private buttonRef = React.createRef<HTMLButtonElement>();
-  private eventId = `follow-user-mapping-button-${osu.uuid()}`;
+  private eventId = `follow-user-mapping-button-${nextVal()}`;
   private xhr?: JQueryXHR;
 
   constructor(props: Props) {
@@ -71,10 +72,10 @@ export default class FollowUserMappingButton extends React.Component<Props, Stat
     return (
       <div title={title}>
         <button
+          ref={this.buttonRef}
           className={blockClass}
           disabled={disabled}
           onClick={this.onClick}
-          ref={this.buttonRef}
         >
           {this.renderIcon()}
           {this.renderCounter()}

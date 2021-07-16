@@ -3,7 +3,6 @@
 
 import { BeatmapIcon } from 'beatmap-icon';
 import * as React from 'react';
-import { FunctionComponent } from 'react';
 import { BeatmapsContext } from './beatmaps-context';
 import { DiscussionsContext } from './discussions-context';
 
@@ -13,7 +12,7 @@ interface Props {
   };
 }
 
-export const ReviewPostEmbed: FunctionComponent<Props> = ({data}) => {
+export const ReviewPostEmbed = ({data}: Props) => {
   const bn = 'beatmap-discussion-review-post-embed-preview';
   const discussions = React.useContext(DiscussionsContext);
   const beatmaps = React.useContext(BeatmapsContext);
@@ -71,8 +70,8 @@ export const ReviewPostEmbed: FunctionComponent<Props> = ({data}) => {
     return (
       <div className={`${bn}__link`}>
         <a
-          href={BeatmapDiscussionHelper.url({discussion})}
           className={`${bn}__link-text js-beatmap-discussion--jump`}
+          href={BeatmapDiscussionHelper.url({discussion})}
           title={osu.trans('beatmap_discussions.review.go_to_child')}
         >
           <i className='fas fa-external-link-alt'/>
