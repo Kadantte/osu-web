@@ -3,41 +3,81 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
 // See the LICENCE file in the repository root for full licence text.
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| Here you may define all of your model factories. Model factories give
-| you a convenient way to create models for testing and seeding your
-| database. Just tell the factory how a default model should look.
-|
-*/
+namespace Database\Factories;
 
 use App\Models\BeatmapDiscussion;
+use App\Models\BeatmapDiscussionPost;
+use App\Models\Beatmapset;
+use App\Models\User;
 
-$factory->define(BeatmapDiscussion::class, function (Faker\Generator $faker) use ($factory) {
-    $type = rand(0, 1) === 0 ? 'timeline' : 'general';
-
-    return $factory->raw(BeatmapDiscussion::class, [], $type);
-});
-
-$factory->defineAs(BeatmapDiscussion::class, 'timeline', function () {
-    return [
-        'timestamp' => 0,
-        'message_type' => 'problem',
+class BeatmapDiscussionFactory extends Factory
+{
+    // TODO: decouple message_type
+    const DEFAULTS = [
+        'general' => [
+            'timestamp' => null,
+            'message_type' => 'problem',
+        ],
+        'review' => [
+            'timestamp' => null,
+            'message_type' => 'review',
+        ],
+        'timeline' => [
+            'timestamp' => 0,
+            'message_type' => 'problem',
+        ],
     ];
-});
 
-$factory->defineAs(BeatmapDiscussion::class, 'general', function () {
-    return [
-        'timestamp' => null,
-        'message_type' => 'problem',
-    ];
-});
+    protected $model = BeatmapDiscussion::class;
 
-$factory->defineAs(BeatmapDiscussion::class, 'review', function () {
-    return [
-        'message_type' => 'review',
-    ];
-});
+    public function configure(): static
+    {
+        return $this->afterCreating(
+            fn (BeatmapDiscussion $discussion) => $discussion->beatmapDiscussionPosts()->save(
+                BeatmapDiscussionPost::factory()->state(['user_id' => $discussion->user_id])->make()
+            )
+        );
+    }
+
+    public function definition(): array
+    {
+
+
+        return [
+            ...array_rand_val(static::DEFAULTS),
+            'beatmapset_id' => Beatmapset::factory(),
+            'resolved' => false,
+            'user_id' => User::factory(),
+        ];
+    }
+
+    public function general()
+    {
+        return $this->state(static::DEFAULTS['general']);
+    }
+
+    public function mapperNote()
+    {
+        return $this->messageType('mapper_note');
+    }
+
+    public function messageType(string $type)
+    {
+        return $this->state(['message_type' => $type]);
+    }
+
+    public function problem()
+    {
+        return $this->messageType('problem');
+    }
+
+    public function review()
+    {
+        return $this->state(static::DEFAULTS['review']);
+    }
+
+    public function timeline()
+    {
+        return $this->state(static::DEFAULTS['timeline']);
+    }
+}

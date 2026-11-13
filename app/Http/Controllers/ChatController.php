@@ -5,12 +5,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Libraries\Chat;
+use App\Libraries\UserChannelList;
 use App\Models\Chat\Channel;
 use App\Models\Chat\Message;
-use App\Models\Chat\UserChannel;
 use App\Models\User;
-use Auth;
-use Request;
+use App\Transformers\Chat\ChannelTransformer;
+use App\Transformers\UserCompactTransformer;
 
 class ChatController extends Controller
 {
@@ -18,27 +19,59 @@ class ChatController extends Controller
     {
         $this->middleware('auth');
 
-        return parent::__construct();
+        // TODO: notification server and chat client needs some updating
+        // to handle verification_requirement_change properly.
+        if ($GLOBALS['cfg']['osu']['user']['post_action_verification']) {
+            $this->middleware('verify-user');
+        }
+
+        parent::__construct();
     }
 
     public function index()
     {
+        $user = auth()->user();
+        Chat::ack($user);
+
+        $params = get_params(request()->all(), null, [
+            'channel_id:int',
+            'sendto:int',
+        ], ['null_missing' => true]);
+
+        // rejoin any existing channel first, so it will be in the user channel list.
+        if ($params['sendto'] !== null) {
+            $targetUser = User::lookup($params['sendto'], 'id');
+            if ($targetUser !== null) {
+                $channel = Channel::findPM($targetUser, $user);
+                $channel?->addUser($user);
+
+                $sendToJson = [
+                    'can_message_error' => ($channel?->checkCanMessage($user) ?? priv_check('ChatPmStart', $targetUser))->message(),
+                    'channel_id' => $channel?->getKey(),
+                    'target' => json_item($targetUser, new UserCompactTransformer()),
+                ];
+            }
+        } elseif ($params['channel_id'] !== null) {
+            // This is only for rejoining / unhiding channels the user is already in.
+            $channel = Channel::find($params['channel_id']);
+            $channel?->unhide($user);
+
+            if ($channel?->isPublic()) {
+                $currentChannel = $channel;
+            }
+        }
+
         $json = [
+            'current_channel' => isset($currentChannel) ? json_item($currentChannel, new ChannelTransformer()) : null,
+            'current_user_attributes' => [
+                'can_chat_announce' => priv_check('ChatAnnounce')->can(),
+            ],
             'last_message_id' => optional(Message::last())->getKey(),
-            'presence' => UserChannel::presenceForUser(Auth::user()),
+            'presence' => (new UserChannelList($user))->get(),
         ];
 
-        $targetUser = User::lookup(Request::input('sendto'), 'id');
-        if ($targetUser) {
-            $sendTo = [
-                'target' => json_item($targetUser, 'UserCompact'),
-                'can_message' => priv_check('ChatStart', $targetUser)->can(),
-            ];
-
-            $channel = Channel::findPM($targetUser, Auth::user());
-            optional($channel)->addUser(Auth::user());
-
-            $json['send_to'] = $sendTo;
+        if (isset($sendToJson)) {
+            $json['send_to'] = $sendToJson;
         }
 
         return ext_view('chat.index', compact('json'));

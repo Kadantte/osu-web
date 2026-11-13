@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => '管理者',
     ],
-    'admin_forum' => [
-        '_' => '管理者',
-    ],
-    'admin_store' => [
-        '_' => '管理者',
-    ],
     'error' => [
         'error' => [
             '400' => '無効なリクエスト',
@@ -29,20 +23,19 @@ return [
     ],
     'forum' => [
         '_' => 'フォーラム',
-        'topic_watches_controller' => [
-            'index' => 'ダッシュボード',
+        'topic_logs_controller' => [
+            'index' => 'トピックログ',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'ダッシュボード',
             'verify_link' => 'アカウント認証',
         ],
         'artists_controller' => [
             '_' => '注目アーティスト',
         ],
         'beatmap_discussion_posts_controller' => [
-            '_' => 'ビートマップディスカッション投稿',
+            '_' => 'ビートマップディスカッションの投稿',
         ],
         'beatmap_discussions_controller' => [
             '_' => 'ビートマップディスカッション',
@@ -51,18 +44,16 @@ return [
             '_' => 'ビートマップパック',
         ],
         'beatmapset_discussion_votes_controller' => [
-            '_' => 'ビートマップディスカッション投票',
+            '_' => 'ビートマップディスカッションの投票',
         ],
         'beatmapset_events_controller' => [
             '_' => 'ビートマップ履歴',
-        ],
-        'beatmapset_watches_controller' => [
-            'index' => 'ダッシュボード',
         ],
         'beatmapsets_controller' => [
             'discussion' => 'ビートマップディスカッション',
             'index' => 'ビートマップリスト',
             'show' => 'ビートマップ情報',
+            'versions' => 'ビートマップのバージョン履歴',
         ],
         'changelog_controller' => [
             '_' => '更新履歴',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'コメント',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'コンテストの審査結果',
+        ],
         'contests_controller' => [
             '_' => 'コンテスト',
+            'judge' => 'コンテストの審査',
         ],
-        'follows_controller' => [
-            'index' => 'ダッシュボード',
-        ],
-        'friends_controller' => [
-            'index' => 'ダッシュボード',
+        'group_history_controller' => [
+            '_' => 'グループの履歴',
         ],
         'groups_controller' => [
             'show' => 'グループ',
@@ -92,14 +84,14 @@ return [
             'support_the_game' => 'ゲームを支援',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => 'マッチ',
+        ],
         'legal_controller' => [
             '_' => '情報',
         ],
         'livestreams_controller' => [
             '_' => 'ライブストリーム',
-        ],
-        'matches_controller' => [
-            '_' => 'マッチ',
         ],
         'news_controller' => [
             '_' => 'ニュース',
@@ -116,31 +108,58 @@ return [
         'scores_controller' => [
             '_' => 'パフォーマンス',
         ],
-        'store_controller' => [
-            '_' => 'osu!ストア',
+        'seasons_controller' => [
+            '_' => 'ランキング',
+        ],
+        'teams_controller' => [
+            '_' => 'チーム',
+            'create' => 'チームの作成',
+            'edit' => 'チームの設定',
+            'leaderboard' => 'チームリーダーボード',
+            'show' => 'チーム情報',
         ],
         'tournaments_controller' => [
             '_' => 'トーナメント',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'ユーザーカバープリセット',
+        ],
+        'user_totp_controller' => [
+            '_' => '認証アプリ',
+        ],
         'users_controller' => [
             '_' => 'プレイヤー情報',
+            'create' => 'アカウント作成',
             'disabled' => '通知',
         ],
         'wiki_controller' => [
-            '_' => 'ナレッジベース',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'ランキング',
+            'events' => 'ルームの履歴',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'アプリを認証',
         ],
     ],
     'store' => [
-        '_' => 'osu!ストア',
+        '_' => 'ストア',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'チームメンバー',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'modder情報',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'マルチプレイヤー履歴',
         ],
     ],
 ];

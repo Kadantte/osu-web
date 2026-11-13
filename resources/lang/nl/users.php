@@ -33,10 +33,14 @@ return [
 
     'blocks' => [
         'banner_text' => 'U hebt deze gebruiker geblokkeerd.',
+        'comment_text' => 'Deze reactie is verdekt.',
         'blocked_count' => 'geblokkeerde gebruikers (:count)',
         'hide_profile' => 'profiel verbergen',
+        'hide_comment' => 'verbergen',
+        'forum_post_text' => 'Deze post is verborgen.',
         'not_blocked' => 'Deze gebruiker is niet geblokkeerd.',
         'show_profile' => 'profiel weergeven',
+        'show_comment' => 'tonen',
         'too_many' => 'Blok limiet bereikt.',
         'button' => [
             'block' => 'blokkeren',
@@ -45,8 +49,25 @@ return [
     ],
 
     'card' => [
+        'gift_supporter' => 'Geef supporter tag cadeau',
         'loading' => 'Bezig met laden...',
-        'send_message' => 'stuur bericht',
+        'send_message' => 'Bericht sturen',
+    ],
+
+    'create' => [
+        'form' => [
+            'password' => 'wachtwoord',
+            'password_confirmation' => 'wacthwoordbevestiging',
+            'submit' => 'account aanmaken',
+            'user_email' => 'e-mail',
+            'user_email_confirmation' => 'e-mailadres bevestigen',
+            'username' => 'gebruikersnaam',
+
+            'tos_notice' => [
+                '_' => 'door een account aan te maken ga je akkoord met de :link',
+                'link' => 'gebruiksvoorwaarden',
+            ],
+        ],
     ],
 
     'disabled' => [
@@ -76,6 +97,7 @@ return [
 
     'force_reactivation' => [
         'reason' => [
+            'inactive' => "Je account is lange tijd niet gebruikt.",
             'inactive_different_country' => "Je account is lange tijd niet gebruikt.",
         ],
     ],
@@ -99,6 +121,24 @@ return [
         'beta' => [
             'main' => 'Beta toegang is momenteel beperkt voor bepaalde gebruikers.',
             'small' => '(osu!supporters krijgen binnenkort in)',
+        ],
+    ],
+
+    'multiplayer' => [
+        'index' => [
+            'active' => 'Actief',
+            'ended' => 'Afgelopen',
+        ],
+    ],
+
+    'ogp' => [
+        'modding_description' => 'Beatmaps: :counts',
+        'modding_description_empty' => 'Gebruiker heeft geen beatmaps...',
+
+        'description' => [
+            '_' => 'Rang (:ruleset): :global × :country',
+            'country' => 'Land :rank',
+            'global' => 'Globaal :rank',
         ],
     ],
 
@@ -126,18 +166,30 @@ return [
             'cancel' => 'Annuleren',
         ],
 
+        'dmca' => [
+            'message_1' => [
+                '_' => 'Rapporteer graag copyright overschrijding via een DMCA claim aan :mail als per :policy.',
+                'policy' => 'het osu! auteursrechtbeleid',
+            ],
+            'message_2' => 'Dit geldt voor gevallen waarin audio tracks, visuele inhoud of beatmap content wordt gebruikt zonder de juiste toestemming.',
+        ],
+
         'options' => [
             'cheating' => 'Valsspelen',
+            'copyright_infringement' => 'Copyrightschending',
+            'inappropriate_chat' => 'Ongepast chatgedrag',
             'insults' => 'Beledigen van mij / anderen',
-            'spam' => 'Spammen',
-            'unwanted_content' => 'Linken van ongepaste inhoud',
+            'multiple_accounts' => 'Meerdere accounts gebruiken',
             'nonsense' => 'Nonsense',
             'other' => 'Anders (type hieronder)',
+            'spam' => 'Spammen',
+            'unwanted_content' => 'Linken van ongepaste inhoud',
         ],
     ],
     'restricted_banner' => [
         'title' => 'Je account is gerestrict!',
-        'message' => 'Zolang je gerestrict bent, kan je niet communiceren met andere spelers en kan enkel jij je scores zien. Meestal is dit het resultaat van een geautomatiseerd proces en wordt het binnen 24 uur verwijderd. Als je in beroep wil gaan, <a href="mailto:accounts@ppy.sh">contacteer dan support</a>.',
+        'message' => 'Zolang je gerestrict bent, kun je niet communiceren met andere spelers en zijn je scores enkel voor jou zichtbaar. Meestal gebeurt deze restrictie automatisch en wordt ze opgeheven binnen 24 uur. :link',
+        'message_link' => 'Check deze pagina voor meer informatie.',
     ],
     'show' => [
         'age' => ':age jaar oud',
@@ -147,21 +199,55 @@ return [
         'is_supporter' => 'osu!supporter',
         'joined_at' => 'Werd lid op :date',
         'lastvisit' => 'Laatst gezien op :date',
-        'lastvisit_online' => 'Momenteel online',
+        'lastvisit_online' => 'Nu online',
         'missingtext' => 'Je hebt misschien een typfout gemaakt! (of de gebruiker is verbannen)',
         'origin_country' => 'Uit :country',
         'previous_usernames' => 'vroeger bekend als',
         'plays_with' => 'Speelt met :devices',
-        'title' => "Profiel van :username",
+
+        'badge' => [
+            'pin' => [
+                'to_0' => '',
+                'to_1' => '',
+            ],
+        ],
 
         'comments_count' => [
-            '_' => 'Geplaatst op :link',
-            'count' => ':count_delimited commentaar::count_delimited reacties',
+            '_' => 'Heeft :link gepost',
+            'count' => ':count_delimited reactie|:count_delimited reacties',
+        ],
+        'cover' => [
+            'to_0' => 'Omslagfoto verbergen',
+            'to_1' => 'Omslagfoto tonen',
+        ],
+        'daily_challenge' => [
+            'daily' => 'Dagelijkse Reeks',
+            'daily_streak_best' => 'Beste Dagelijkse Reeks',
+            'daily_streak_current' => 'Huidige Dagelijkse Reeks',
+            'playcount' => 'Totale deelname',
+            'title' => 'Dagelijkse\nUitdaging',
+            'top_10p_placements' => 'Top 10% Plaatsing',
+            'top_50p_placements' => 'Top 50% Plaatsing',
+            'weekly' => 'Wekelijkse Reeks',
+            'weekly_streak_best' => 'Beste wekelijkse reeks',
+            'weekly_streak_current' => 'Huidige wekelijkse reeks',
+
+            'unit' => [
+                'day' => ':valued',
+                'week' => ':valuew',
+            ],
+        ],
+        'detail_switch' => [
+            'to_v1' => '',
+            'to_v2' => '',
         ],
         'edit' => [
             'cover' => [
                 'button' => 'Verander Profiel Cover',
                 'defaults_info' => 'In de toekomst zullen er meer cover opties beschikbaar zijn',
+                'holdover_remove_confirm' => "De eerder geselecteerde omslag is niet meer beschikbaar voor selectie. Je kunt deze niet meer selecteren na het overschakelen naar een andere omslag. Doorgaan?",
+                'title' => 'Omslag',
+
                 'upload' => [
                     'broken_file' => 'Afbeelding verwerken mislukt. Controleer de geüploade afbeelding en probeer opnieuw.',
                     'button' => 'Upload afbeelding',
@@ -181,6 +267,16 @@ return [
             'default_playmode' => [
                 'is_default_tooltip' => 'standaard spelmode',
                 'set' => 'zet :mode als standaard profiel spelmode',
+            ],
+
+            'hue' => [
+                'reset_no_supporter' => 'Kleur herstellen naar standaard? De supporter tag is vereist om deze in een andere kleur te veranderen.',
+                'title' => 'Kleur',
+
+                'supporter' => [
+                    '_' => '',
+                    'link' => 'osu!supporters',
+                ],
             ],
         ],
 
@@ -203,14 +299,20 @@ return [
                 'graveyard' => [
                     'title' => 'Beatmaps in het kerkhof',
                 ],
+                'guest' => [
+                    'title' => 'Beatmaps met gastdeelname',
+                ],
                 'loved' => [
                     'title' => 'Loved Beatmaps',
                 ],
-                'ranked_and_approved' => [
-                    'title' => 'Gerankte & Goedgekeurde Beatmaps',
+                'nominated' => [
+                    'title' => 'Genomineerde Ranked Beatmaps',
                 ],
-                'unranked' => [
+                'pending' => [
                     'title' => 'Afwachtende Beatmaps',
+                ],
+                'ranked' => [
+                    'title' => 'Gerankte & Goedgekeurde Beatmaps',
                 ],
             ],
             'discussions' => [
@@ -239,8 +341,11 @@ return [
                     'title' => 'Recent gespeeld',
                 ],
                 'replays_watched_counts' => [
-                    'title' => 'Replays Gekeken Geschiedenis',
-                    'count_label' => 'Replays Bekeken',
+                    'title' => 'Kijkgeschiedenis Replays',
+                    'count_label' => 'Aantal Replays Bekeken',
+                ],
+                'score_replay_stats' => [
+                    'title' => 'Meest Bekeken Replays',
                 ],
             ],
             'kudosu' => [
@@ -300,16 +405,25 @@ return [
                 'recent' => 'Recent',
                 'title' => 'Medailles',
             ],
+            'playlists' => [
+                'title' => 'Spellen via afspeellijst',
+            ],
             'posts' => [
                 'title' => 'Berichten',
                 'title_longer' => 'Recente berichten',
                 'show_more' => 'bekijk meer berichten',
             ],
+            'ranked-play' => [
+                'title' => 'Ranked Spelen Rondes',
+            ],
             'recent_activity' => [
                 'title' => 'Recent',
             ],
+            'realtime' => [
+                'title' => 'Multiplayerspellen',
+            ],
             'top_ranks' => [
-                'download_replay' => 'Download Replay',
+                'download_replay' => 'Replay Downloaden',
                 'not_ranked' => 'Enkel gerankte beatmaps geven pp.',
                 'pp_weight' => 'gewogen :percentage',
                 'view_details' => 'Details Bekijken',
@@ -320,6 +434,15 @@ return [
                 ],
                 'first' => [
                     'title' => 'Eerste Ranks',
+                ],
+                'pin' => [
+                    'to_0' => 'Losmaken',
+                    'to_0_done' => 'Losgemaakte score',
+                    'to_1' => 'Vastzetten',
+                    'to_1_done' => 'Vastgezette score',
+                ],
+                'pinned' => [
+                    'title' => 'Vastgezette Scores',
                 ],
             ],
             'votes' => [
@@ -339,13 +462,14 @@ return [
                     'date' => 'datum',
                     'action' => 'actie',
                     'length' => 'lengte',
-                    'length_permanent' => 'Permanent',
+                    'length_indefinite' => 'Onbepaald',
                     'description' => 'omschrijving',
                     'actor' => 'door :username',
 
                     'actions' => [
                         'restriction' => 'Ban',
                         'silence' => 'Silence',
+                        'tournament_ban' => 'Verbannen van toernooien',
                         'note' => 'Opmerking',
                     ],
                 ],
@@ -360,6 +484,19 @@ return [
             'twitter' => '',
             'website' => 'Website',
         ],
+
+        'matchmaking' => [
+            'losses' => '',
+            'plays' => '',
+            'rank' => '',
+            'rating' => '',
+            'recent_history' => '',
+            'recent_history_provisional' => '',
+            'tier' => '',
+            'title' => 'Ranked Spelen',
+            'wins' => '',
+        ],
+
         'not_found' => [
             'reason_1' => 'Misschien is hun gebruikersnaam veranderd.',
             'reason_2' => 'Het account kan tijdelijk onbeschikbaar zijn vanwege beveiligingsredenen of misbruik.',
@@ -387,9 +524,26 @@ return [
             'country_simple' => 'Landelijke Ranking',
             'global' => 'Globale rank voor :mode',
             'global_simple' => 'Wereldwijde Ranking',
+            'highest' => 'Hoogste rank: :rank op :date',
+            'kudosu_outside_top_1000' => '',
+            'kudosu_simple' => '',
+        ],
+        'score_processing' => [
+            'title' => '',
+            'title_link' => '',
+            'message' => '',
+        ],
+        'season_stats' => [
+            'division_top_percentage' => 'Top :value',
+            'label' => '',
+            'total_score' => 'Totale score',
+        ],
+        'solo' => [
+            'title' => '',
         ],
         'stats' => [
             'hit_accuracy' => 'Hit Precisie',
+            'hits_per_play' => '',
             'level' => 'Level :level',
             'level_progress' => 'Voortgang naar volgend level',
             'maximum_combo' => 'Hoogste Combo',
@@ -402,10 +556,12 @@ return [
             'total_hits' => 'Totaal Aantal Hits',
             'total_score' => 'Totale Score',
             // modding stats
-            'ranked_and_approved_beatmapset_count' => 'Gerankte & Goedgekeurde Beatmaps',
-            'loved_beatmapset_count' => 'Loved Beatmaps',
-            'unranked_beatmapset_count' => 'Afwachtende Beatmaps',
             'graveyard_beatmapset_count' => 'Graveyarded Beatmaps',
+            'guest_beatmapset_count' => '',
+            'loved_beatmapset_count' => 'Loved Beatmaps',
+            'nominated_beatmapset_count' => '',
+            'pending_beatmapset_count' => 'Afwachtende Beatmaps',
+            'ranked_beatmapset_count' => 'Gerankte & Goedgekeurde Beatmaps',
         ],
     ],
 
@@ -419,7 +575,15 @@ return [
         'online' => 'Online',
         'offline' => 'Offline',
     ],
+    'relationship' => [
+        'title' => '',
+        'all' => '',
+        'mutual' => '',
+        'non_mutual' => '',
+    ],
     'store' => [
+        'from_client' => 'registreer je alsjeblieft via de game client!',
+        'from_web' => 'voltooi alsjeblieft de registratie via de osu! website',
         'saved' => 'Door gebruiker gemaakt',
     ],
     'verify' => [

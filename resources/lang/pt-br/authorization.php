@@ -6,7 +6,7 @@
 return [
     'play_more' => 'Que tal jogar um pouco de osu! em vez disso?',
     'require_login' => 'Por favor, inicie a sessão para continuar.',
-    'require_verification' => 'Por favor verifique para prosseguir.',
+    'require_verification' => 'Verifique para continuar.',
     'restricted' => "Não é possível fazer isso enquanto restrito.",
     'silenced' => "Não é possível fazer isso enquanto silenciado.",
     'unauthorized' => 'Acesso negado.',
@@ -15,6 +15,7 @@ return [
         'destroy' => [
             'is_hype' => 'Não é possível desfazer o hype.',
             'has_reply' => 'Não é possível excluir uma discussão com respostas',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => 'Você atingiu o limite de nomeações diárias, tente novamente amanhã.',
@@ -27,7 +28,7 @@ return [
         ],
 
         'store' => [
-            'mapper_note_wrong_user' => 'Apenas o criador do beatmap ou nominator/membros QAT podem publicar notas do mapeador.',
+            'mapper_note_wrong_user' => 'Apenas o criador do beatmap ou nominator/membros QAT podem publicar notas do mapper.',
         ],
 
         'vote' => [
@@ -43,22 +44,33 @@ return [
             'not_owner' => 'Você só pode excluir suas próprias publicações.',
             'resolved' => 'Você não pode excluir a publicação de uma discussão resolvida.',
             'system_generated' => 'Publicações geradas automaticamente não podem ser excluídas.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
             'not_owner' => 'Somente o autor pode editar a publicação.',
             'resolved' => 'Você não pode editar a publicação de uma discussão resolvida.',
             'system_generated' => 'Publicações geradas automaticamente não podem ser editadas.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => 'Este beatmap está bloqueado para discussão.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => 'Este beatmap está trancado para discussão.',
+
         'metadata' => [
             'nominated' => 'Você não pode alterar os metadados de um mapa nomeado. Entre em contato com um membro do BN ou NAT se você acha que ele está definido incorretamente.',
+        ],
+
+        'rate' => [
+            'owner' => 'Você não pode avaliar um beatmap no qual está envolvido.',
+            'status' => 'Você não pode avaliar um beatmap neste estado.',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => 'Você deve definir uma pontuação num beatmap para adicionar uma marcação.',
         ],
     ],
 
@@ -67,17 +79,23 @@ return [
         'friends_only' => 'O usuário está bloqueando mensagens de pessoas fora de sua lista de amigos.',
         'moderated' => 'O canal atual está sendo moderado.',
         'no_access' => 'Você não tem acesso a esse canal.',
+        'no_announce' => 'Você não tem permissão para publicar anunciados.',
+        'receive_friends_only' => 'O usuário pode não ser capaz de te responder porque você só está aceitando mensagens de pessoas em sua lista de amigos.',
         'restricted' => 'Você não pode enviar mensagens enquanto silenciado, restrito ou banido.',
         'silenced' => 'Você não pode enviar mensagens enquanto silenciado, restrito ou banido.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => 'Comentários estão desativados',
+        ],
         'update' => [
             'deleted' => "Não é possível editar publicações deletadas.",
         ],
     ],
 
     'contest' => [
+        'judging_not_active' => 'A avaliação deste concurso não está ativa.',
         'voting_over' => 'Não é possível alterar o voto após o fim do período de votação.',
 
         'entry' => [
@@ -103,19 +121,20 @@ return [
                 'deleted' => 'Não é possível editar uma publicação excluída.',
                 'locked' => 'A edição desta publicação está bloqueada.',
                 'no_forum_access' => 'O acesso ao fórum solicitado é necessário.',
+                'no_permission' => 'Sem permissão para editar.',
                 'not_owner' => 'Somente o autor da publicação pode editar a publicação.',
                 'topic_locked' => 'Não é possível editar publicações de um tópico trancado.',
             ],
 
             'store' => [
                 'play_more' => 'Por favor tente jogar antes de postar nos fóruns! Se você tiver algum problema com o jogo, por favor poste no fórum de Suporte e Ajuda.',
-                'too_many_help_posts' => "Você precisa jogar mais antes que você possa criar postagens adicionais. Se você ainda estiver tendo problemas com o jogo, envie um email para support@ppy.sh", // FIXME: unhardcode email address.
+                'too_many_help_posts' => "Você precisa jogar mais antes que possa criar publicações adicionais. Se você ainda estiver tendo problemas com o jogo, envie um email para support@ppy.sh", // FIXME: unhardcode email address.
             ],
         ],
 
         'topic' => [
             'reply' => [
-                'double_post' => 'Por favor, edite sua última publicação em vez de publicar novamente.',
+                'double_post' => 'Edite sua última publicação em vez de publicar novamente.',
                 'locked' => 'Não é possível responder a uma discussão trancada.',
                 'no_forum_access' => 'O acesso ao fórum solicitado é necessário.',
                 'no_permission' => 'Sem permissão para responder.',
@@ -166,13 +185,50 @@ return [
         ],
     ],
 
+    'room' => [
+        'destroy' => [
+            'not_owner' => 'Apenas o proprietário da sala pode fechá-lo.',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "Não é possível fixar este tipo de pontuação",
+            'failed' => "Não é possível fixar uma pontuação que falhou.",
+            'not_owner' => 'Somente o proprietário da pontuação pode fixar sua pontuação.',
+            'too_many' => 'Muitas pontuações fixadas.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "Você já faz parte da equipe.",
+                'already_other_member' => "Você já faz parte de outra equipe.",
+                'currently_applying' => 'Você tem uma solicitação de entrada em equipe pendente.',
+                'team_closed' => 'A equipe não está aceitando nenhuma solicitação de entrada.',
+                'team_full' => "A equipe está cheia e não pode aceitar mais membros.",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "O líder da equipe não pode sair da equipe.",
+            'not_member' => 'Não é um membro da equipe.',
+        ],
+        'store' => [
+            'require_supporter_tag' => 'É necessário uma possuir tag de osu!supporter para criar uma equipe.',
+        ],
+    ],
+
     'user' => [
         'page' => [
             'edit' => [
                 'locked' => 'A página do usuário está trancada.',
                 'not_owner' => 'Só é possível editar sua própria página de usuário.',
-                'require_supporter_tag' => 'É necessário possuir uma osu!supporter tag.',
+                'require_supporter_tag' => 'É necessário possuir uma tag de osu!supporter.',
             ],
+        ],
+        'update_email' => [
+            'locked' => 'o endereço de email está bloqueado',
         ],
     ],
 ];

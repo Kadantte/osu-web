@@ -3,6 +3,8 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
 // See the LICENCE file in the repository root for full licence text.
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -16,9 +18,6 @@ class CreateContestTables extends Migration
     public function up()
     {
         Schema::create('contests', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_general_ci';
-
             $table->increments('id');
             $table->string('name');
             $table->text('description');
@@ -32,9 +31,6 @@ class CreateContestTables extends Migration
         });
 
         Schema::create('contest_entries', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_general_ci';
-
             $table->increments('id');
             $table->string('name');
             $table->string('masked_name');
@@ -51,9 +47,6 @@ class CreateContestTables extends Migration
         });
 
         Schema::create('contest_votes', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_general_ci';
-
             $table->increments('id');
 
             $table->integer('contest_id')->unsigned();

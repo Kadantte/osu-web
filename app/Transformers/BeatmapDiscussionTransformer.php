@@ -9,7 +9,7 @@ use App\Models\BeatmapDiscussion;
 
 class BeatmapDiscussionTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
         'beatmap',
         'beatmapset',
         'posts',
@@ -34,10 +34,10 @@ class BeatmapDiscussionTransformer extends TransformerAbstract
             'resolved' => $discussion->resolved,
             'can_be_resolved' => $discussion->canBeResolved(),
             'can_grant_kudosu' => $discussion->canGrantKudosu(),
-            'created_at' => json_time($discussion->created_at),
-            'updated_at' => json_time($discussion->updated_at),
-            'deleted_at' => json_time($discussion->deleted_at),
-            'last_post_at' => json_time($discussion->last_post_at),
+            'created_at' => $discussion->getJsonTime('created_at'),
+            'updated_at' => $discussion->getJsonTime('updated_at'),
+            'deleted_at' => $discussion->getJsonTime('deleted_at'),
+            'last_post_at' => $discussion->getJsonTime('last_post_at'),
 
             'kudosu_denied' => $discussion->kudosu_denied,
         ];
@@ -96,8 +96,6 @@ class BeatmapDiscussionTransformer extends TransformerAbstract
             return;
         }
 
-        $score = 0;
-
         // This assumes beatmapDiscussionVotes are already preloaded and
         // thus will save one query.
         foreach ($discussion->beatmapDiscussionVotes as $vote) {
@@ -107,16 +105,12 @@ class BeatmapDiscussionTransformer extends TransformerAbstract
             }
         }
 
-        $ret = [
-            'vote_score' => $score,
+        return $this->primitive([
+            'vote_score' => $score ?? 0,
             'can_moderate_kudosu' => priv_check_user($currentUser, 'BeatmapDiscussionAllowOrDenyKudosu', $discussion)->can(),
             'can_resolve' => priv_check_user($currentUser, 'BeatmapDiscussionResolve', $discussion)->can(),
             'can_reopen' => priv_check_user($currentUser, 'BeatmapDiscussionReopen', $discussion)->can(),
             'can_destroy' => priv_check_user($currentUser, 'BeatmapDiscussionDestroy', $discussion)->can(),
-        ];
-
-        return $this->item($discussion, function () use ($ret) {
-            return $ret;
-        });
+        ]);
     }
 }

@@ -13,12 +13,10 @@ class LoginTest extends DuskTestCase
 {
     /**
      * Test sign in.
-     *
-     * @return void
      */
-    public function testLogin()
+    public function testLogin(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/')
@@ -27,31 +25,26 @@ class LoginTest extends DuskTestCase
                 ->type('password', 'password') // User factory generates users with the password hardcoded as 'password'
                 ->press('Sign in')
                 ->waitFor('.user-home')
-                ->assertPathIs('/home')
+                ->assertPathIs('/')
                 ->assertSee('dashboard')
                 ->assertSee('account settings')
                 ->assertDontSee('Incorrect sign in');
         });
     }
 
-    /**
-     * Test sign out.
-     *
-     * @return void
-     */
-    public function testLogout()
+    public function testLogout(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
-        $this->browse(function (Browser $browser) use ($user) {
+        $this->browseWithRetries(fn (Browser $browser) =>
             $browser->loginAs($user)
                 ->visit('/')
                 ->click('.js-user-login--menu') // bring up user menu
+                ->waitFor('.js-user-header-popup .js-logout-link')
                 ->click('.js-user-header-popup .js-logout-link') // click the logout 'button'
                 ->acceptDialog()
                 ->waitFor('.landing-hero__bg-container')
-                ->assertPathIs('/home')
-                ->assertVisible('.landing-hero');
-        });
+                ->assertPathIs('/')
+                ->assertVisible('.landing-hero'));
     }
 }

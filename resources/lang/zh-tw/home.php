@@ -26,8 +26,11 @@ return [
         'placeholder' => '請輸入以搜尋',
         'title' => '搜尋',
 
+        'artist_track' => [
+            'more_simple' => '查看更多精選藝術家曲目的搜尋結果',
+        ],
         'beatmapset' => [
-            'login_required' => '登入以搜索譜面',
+            'login_required' => '登入以搜尋圖譜',
             'more' => '搜尋到 :count 張圖譜',
             'more_simple' => '查看更多搜尋結果',
             'title' => '圖譜',
@@ -42,7 +45,8 @@ return [
 
             'label' => [
                 'forum' => '在論壇中搜尋',
-                'forum_children' => '包含小主題',
+                'forum_children' => '包括小主題',
+                'include_deleted' => '包括已刪除的貼文',
                 'topic_id' => '主題 #',
                 'username' => '作者',
             ],
@@ -50,10 +54,17 @@ return [
 
         'mode' => [
             'all' => '所有',
+            'artist_track' => '精選藝術家曲目',
             'beatmapset' => '圖譜',
             'forum_post' => '論壇',
+            'team' => '團隊',
             'user' => '玩家',
             'wiki_page' => 'wiki',
+        ],
+
+        'team' => [
+            'login_required' => '登入以搜尋隊伍',
+            'more_simple' => '查看更多團隊搜尋結果',
         ],
 
         'user' => [
@@ -72,12 +83,23 @@ return [
     ],
 
     'download' => [
-        'tagline' => "讓我們<br>開始吧！",
-        'action' => '下載 osu!',
+        'action_lazer_info' => '點此來了解更多',
+        'download' => '下載',
+        'for_os' => ':os 版',
+        'macos-fallback' => 'macOS 使用者',
+        'mirror' => '鏡像站',
+        'or' => '或',
+        'os_version_or_later' => ':os_version或更新版本',
+        'other_os' => '其他平台',
+        'quick_start_guide' => '三步開始遊玩 osu!',
+        'stable_text' => '如果你正在尋找舊版本',
+        'tagline_1' => '讓我們',
+        'tagline_2' => '開始吧！',
+        'video-guide' => '影片教學',
 
         'help' => [
             '_' => '如果您在啟動遊戲或註冊帳號時遇到問題，請:help_forum_link或:support_button。',
-            'help_forum_link' => '查看幫助論壇',
+            'help_forum_link' => '查看說明論壇',
             'support_button' => '聯絡支援團隊',
         ],
 
@@ -86,8 +108,6 @@ return [
             'macos' => 'macOS 版',
             'linux' => 'Linux 版',
         ],
-        'mirror' => '鏡像站',
-        'macos-fallback' => 'macOS 使用者',
         'steps' => [
             'register' => [
                 'title' => '註冊帳號',
@@ -105,7 +125,6 @@ return [
                 ],
             ],
         ],
-        'video-guide' => '影片教學',
     ],
 
     'user' => [
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
+            'daily_challenge' => '每日挑戰圖譜',
             'new' => '新進榜圖譜',
             'popular' => '熱門圖譜',
             'by_user' => '由 :user',
+            'resets' => '重設時間：:ends',
         ],
         'buttons' => [
             'download' => '下載 osu!',
             'support' => '贊助 osu!',
             'store' => 'osu! 商店',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => '哇！',
-        'subtitle' => '看起來你玩得很開心！',
-        'body' => [
-            'part-1' => '你知道嗎？ osu! 是一款沒有廣告，完全依賴玩家贊助以維持開發及營運的遊戲。',
-            'part-2' => '如果你選擇給 osu! 捐贈，就可以解鎖額外的功能，例如<strong>遊戲內自動下載</strong>。',
+        'livestream' => [
+            'title' => '精選直播',
         ],
-        'find-out-more' => '點擊這裡以瞭解更多',
-        'download-starting' => "喔 ! 別擔心 - 下載已經開始了 ;)",
+        'show' => [
+            'admin' => [
+                'page' => '開啟管理控制台',
+            ],
+        ],
     ],
 ];

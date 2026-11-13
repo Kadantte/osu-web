@@ -7,6 +7,7 @@ return [
     'cancel' => 'Annulla',
 
     'authorise' => [
+        'app_owner' => 'un\'applicazione di :owner',
         'request' => 'sta richiedendo l\'autorizzazione di accedere al tuo account.',
         'scopes_title' => 'Questa applicazione sarà in grado di:',
         'title' => 'Richiesta di autorizzazione',
@@ -16,7 +17,7 @@ return [
         'confirm_revoke' => 'Sei sicuro di voler revocare i permessi di questo client?',
         'scopes_title' => 'Questa applicazione può:',
         'owned_by' => 'Di :user',
-        'none' => 'Nessun Client',
+        'none' => 'Nessun client',
 
         'revoked' => [
             'false' => 'Revoca Accesso',
@@ -26,8 +27,8 @@ return [
 
     'client' => [
         'id' => 'Client ID',
-        'name' => 'Nome Applicazione',
-        'redirect' => 'URL di richiamo dell\'applicazione',
+        'name' => 'Nome applicazione',
+        'redirect' => 'URL di callback dell\'applicazione (uno o più)',
         'reset' => 'Resetta il client secret',
         'reset_failed' => 'Impossibile resettare il client secret',
         'secret' => 'Client Secret',
@@ -50,12 +51,18 @@ return [
     'own_clients' => [
         'confirm_delete' => 'Sei sicuro di voler eliminare questo client?',
         'confirm_reset' => 'Sei sicuro di voler resettare il client secret? Questo revocherà tutti i token esistenti.',
-        'new' => 'Nuova Applicazione OAuth',
-        'none' => 'Nessun Client',
+        'new' => 'Nuova applicazione OAuth',
+        'none' => 'Nessun client',
 
         'revoked' => [
             'false' => 'Elimina',
             'true' => 'Eliminato',
+        ],
+
+        'secret' => [
+            'copy' => 'Assicurati di copiare il contenuto prima di navigare altrove.',
+            'generate_new' => 'Resetta il client secret per generarne uno nuovo.',
+            'visible_once' => 'Il client secret è visibile solamente dopo la configurazione iniziale.',
         ],
     ],
 ];

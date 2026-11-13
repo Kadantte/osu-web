@@ -5,18 +5,21 @@
 
 return [
     'button' => [
-        'cancel' => 'Annuleer',
-        'resend' => 'Verificatie e-mail opnieuw versturen',
+        'resend' => 'Verstuur verificatie e-mail opnieuw',
         'set' => 'Wachtwoord instellen',
         'start' => 'Start',
     ],
 
     'error' => [
-        'contact_support' => 'Contakteer support om je account te herstellen.',
-        'is_privileged' => 'Contacteer peppy lol.',
+        'contact_support' => 'Contacteer support om je account te herstellen.',
+        'expired' => 'Verificatiecode is verlopen.',
+        'invalid' => 'Onverwachte fout in verificatiecode.',
+        'is_privileged' => 'Neem contact op met een beheerder van een hoog niveau om je account te herstellen.',
         'missing_key' => 'Vereist.',
+        'too_many_requests' => 'Het wachtwoord reset verzoek limiet is bereikt. Neem contact op met support om het account te herstellen.',
         'too_many_tries' => 'Te veel mislukte pogingen.',
         'user_not_found' => 'Deze gebruiker bestaat niet.',
+        'wait_resend' => 'Een ogenblik geduld, alstublieft.',
         'wrong_key' => 'Onjuiste code.',
     ],
 
@@ -35,6 +38,9 @@ return [
     'starting' => [
         'username' => 'Vul e-mail adres of gebruikersnaam in',
 
+        'reason' => [
+            'inactive_different_country' => "Uw account is een lange tijd niet gebruikt. Om uw accountbeveiliging te verzekeren, reset uw wachtwoord.",
+        ],
         'support' => [
             '_' => 'Meer hulp nodig? Neem contact met ons op via onze :button.',
             'button' => 'ondersteuningssysteem',

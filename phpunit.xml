@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="bootstrap/autoload.php"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
          colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false">
+>
+    <extensions>
+        <bootstrap class="Tests\SeederExtension" />
+    </extensions>
     <testsuites>
         <testsuite name="Application Test Suite">
-            <directory>./tests/</directory>
+            <directory suffix="Test.php">./tests/</directory>
             <exclude>./tests/Browser</exclude>
         </testsuite>
     </testsuites>
@@ -19,12 +18,10 @@
         <env name="APP_ENV" value="testing"/>
         <env name="BEATMAPSET_REQUIRED_HYPE" value="0"/>
         <env name="BROADCAST_DRIVER" value="log"/>
-        <env name="CACHE_DRIVER" value="array"/>
-        <env name="CACHE_DRIVER_LOCAL" value="array"/>
         <env name="CHAT_PRIVATE_LIMIT" value="2"/>
-        <env name="SESSION_DRIVER" value="array"/>
 
         <env name="ADMIN_FORUM_ID" value="0"/>
+        <env name="CLIENT_CHECK_VERSION" value="0"/>
         <env name="DOUBLE_POST_ALLOWED_FORUM_IDS" value="0"/>
         <env name="FEATURE_FORUM_ID" value="0"/>
         <env name="HELP_FORUM_ID" value="0"/>

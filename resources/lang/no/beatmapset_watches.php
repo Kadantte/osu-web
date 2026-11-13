@@ -9,13 +9,13 @@ return [
         'title_compact' => 'modding overvåkningsliste',
 
         'counts' => [
-            'total' => '',
-            'unread' => '',
+            'total' => 'Lagrede beatmap',
+            'unread' => 'Beatmaps med ny aktivitet',
         ],
 
         'table' => [
             'empty' => 'Ingen beatmapdiskusjon overvåket.',
-            'last_update' => '',
+            'last_update' => 'Siste oppdatering',
             'open_issues' => 'Åpne problemstillinger',
             'state' => 'Tilstand',
             'title' => 'Tittel',

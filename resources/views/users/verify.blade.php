@@ -8,10 +8,10 @@
     @include('layout._page_header_v4')
 
     <div class="osu-page osu-page--generic js-user-verification--on-load">
-        {{ trans('users.verify.title') }}
+        {{ osu_trans('users.verify.title') }}
     </div>
 @endsection
 
 @section('user-verification-box')
-    @include('users._verify_box', compact('email'))
+    @include('users._verify_box', compact('state'))
 @endsection

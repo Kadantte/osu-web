@@ -4,6 +4,11 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'beatmapset' => [
+        'button' => 'Segnala',
+        'title' => 'Segnalare la beatmap di :username?',
+    ],
+
     'beatmapset_discussion_post' => [
         'button' => 'Segnala',
         'title' => 'Segnalare il post di :username?',
@@ -19,9 +24,19 @@ return [
         'title' => 'Segnalare il post di :username?',
     ],
 
+    'message' => [
+        'button' => 'Segnala Messaggio',
+        'title' => 'Segnalare il messaggio di :username?',
+    ],
+
     'scores' => [
-        'button' => 'Segnala Punteggio',
+        'button' => 'Segnala punteggio',
         'title' => 'Segnalare il punteggio di :username?',
+    ],
+
+    'team' => [
+        'button' => 'Segnala squadra',
+        'title' => 'Vuoi segnalare la squadra di :username?',
     ],
 
     'user' => [

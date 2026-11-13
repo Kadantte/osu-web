@@ -9,7 +9,7 @@ return [
     ],
 
     'defaults' => [
-        'page_description' => 'osu! - ¡El ritmo está a solo un *clic* de distancia! Con Ouendan/EBA, Taiko y modos de juego originales, así como un editor de niveles totalmente funcional.',
+        'page_description' => 'osu! - ¡El ritmo está a un solo *clic* de distancia! Con Ouendan/EBA, Taiko y modos de juego originales, así como un editor de niveles totalmente funcional.',
     ],
 
     'header' => [
@@ -19,11 +19,16 @@ return [
             'contest' => 'concurso',
             'contests' => 'concursos',
             'root' => 'consola',
-            'store_orders' => 'administrador de tienda',
         ],
 
         'artists' => [
             'index' => 'listado',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'información',
+            'discussions' => 'discusión',
+            'versions' => 'historial de versiones',
         ],
 
         'changelog' => [
@@ -47,14 +52,17 @@ return [
 
         'users' => [
             'modding' => 'modding',
+            'playlists' => 'listas de juego',
+            'ranked-play' => 'partidas clasificatorias',
+            'realtime' => 'multijugador',
             'show' => 'información',
         ],
     ],
 
     'gallery' => [
         'close' => 'Cerrar (Esc)',
-        'fullscreen' => 'Activar/Desactivar pantalla completa',
-        'zoom' => 'Zoom Acercar/Alejar',
+        'fullscreen' => 'Alternar pantalla completa',
+        'zoom' => 'Acercar/Alejar',
         'previous' => 'Anterior (flecha izquierda)',
         'next' => 'Siguiente (flecha derecha)',
     ],
@@ -62,49 +70,27 @@ return [
     'menu' => [
         'beatmaps' => [
             '_' => 'mapas',
-            'artists' => 'artistas destacados',
-            'index' => 'listado',
-            'packs' => 'paquetes',
         ],
         'community' => [
             '_' => 'comunidad',
-            'chat' => 'chat',
-            'contests' => 'concursos',
             'dev' => 'desarrollo',
-            'forum-forums-index' => 'foros',
-            'getLive' => 'en vivo',
-            'tournaments' => 'torneos',
         ],
         'help' => [
             '_' => 'ayuda',
-            'getAbuse' => 'notificar abuso',
+            'getAbuse' => 'reportar abuso',
             'getFaq' => 'preguntas frecuentes',
             'getRules' => 'reglas',
             'getSupport' => 'no, en serio, ¡necesito ayuda!',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => 'inicio',
-            'changelog-index' => 'listado de cambios',
-            'getDownload' => 'descargar',
-            'news-index' => 'novedades',
-            'search' => 'buscar',
             'team' => 'equipo',
         ],
         'rankings' => [
             '_' => 'clasificaciones',
-            'charts' => 'destacados',
-            'country' => 'país',
-            'index' => 'rendimiento',
-            'kudosu' => 'kudosu',
-            'multiplayer' => 'multijugador',
-            'score' => 'puntuación',
         ],
         'store' => [
             '_' => 'tienda',
-            'cart-show' => 'carrito',
-            'getListing' => 'listado',
-            'orders-index' => 'historial de pedidos',
         ],
     ],
 
@@ -121,13 +107,15 @@ return [
             'faq' => 'Preguntas frecuentes',
             'forum' => 'Foros de la comunidad',
             'livestreams' => 'Transmisiones en vivo',
-            'report' => 'Informar de un problema',
+            'report' => 'Reportar un problema',
             'wiki' => 'Wiki',
         ],
         'legal' => [
             '_' => 'Legal y estado',
             'copyright' => 'Derechos de autor (DMCA)',
+            'jp_sctl' => 'SCTL',
             'privacy' => 'Privacidad',
+            'rules' => 'Reglas',
             'server_status' => 'Estado del servidor',
             'source_code' => 'Código fuente',
             'terms' => 'Términos',
@@ -184,23 +172,23 @@ return [
     ],
 
     'popup_login' => [
-        'button' => 'iniciar sesión / registrarse',
+        'button' => 'iniciar sesión / registrarme',
 
         'login' => [
             'forgot' => "He olvidado mis datos",
             'password' => 'contraseña',
-            'title' => 'Iniciar sesión para continuar',
+            'title' => 'Inicia sesión para continuar',
             'username' => 'nombre de usuario',
 
             'error' => [
-                'email' => "El nombre de usuario o correo electrónico no existe",
+                'email' => "El nombre de usuario o correo no existe",
                 'password' => 'Contraseña incorrecta',
             ],
         ],
 
         'register' => [
             'download' => 'Descargar',
-            'info' => '¡Descargue osu! para crear su propia cuenta!',
+            'info' => '¡Descarga osu! para crear tu propia cuenta!',
             'title' => "¿No tienes una cuenta?",
         ],
     ],
@@ -208,15 +196,21 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => 'Configuración',
+            'create_team' => 'Crear equipo',
             'follows' => 'Listas de seguimiento',
             'friends' => 'Amigos',
+            'legacy_score_only_toggle' => 'Modo lazer',
+            'legacy_score_only_toggle_tooltip' => 'El modo lazer muestra las puntuaciones enviadas desde lazer con un nuevo algoritmo de puntuación',
             'logout' => 'Cerrar sesión',
             'profile' => 'Mi perfil',
+            'scoring_mode_toggle' => 'Puntuación clásica',
+            'scoring_mode_toggle_tooltip' => 'Ajusta los valores de las puntuaciones para que se parezcan más a las puntuaciones clásicas sin límite',
+            'team' => 'Mi equipo',
         ],
     ],
 
     'popup_search' => [
-        'initial' => '¡Escriba para buscar!',
+        'initial' => '¡Escribe para buscar!',
         'retry' => 'Búsqueda fallida. Haz clic aquí para reintentar.',
     ],
 ];

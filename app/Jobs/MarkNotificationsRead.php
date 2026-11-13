@@ -18,7 +18,9 @@ use Illuminate\Queue\SerializesModels;
 
 class MarkNotificationsRead implements ShouldQueue
 {
-    use NotificationQueue, Queueable, SerializesModels;
+    use NotificationQueue;
+    use Queueable;
+    use SerializesModels;
 
     private $object;
     private $user;
@@ -58,11 +60,11 @@ class MarkNotificationsRead implements ShouldQueue
         $count = $userNotifications->update(['is_read' => true]);
 
         if ($count > 0) {
-            event(new NotificationReadEvent($this->user->getKey(), [
+            (new NotificationReadEvent($this->user->getKey(), [
                 'notifications' => $notificationIdentities,
                 'read_count' => $count,
                 'timestamp' => now(),
-            ]));
+            ]))->broadcast();
         }
     }
 }

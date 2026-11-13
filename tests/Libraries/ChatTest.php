@@ -5,23 +5,136 @@
 
 namespace Tests\Libraries;
 
+use App\Events\NewPrivateNotificationEvent;
+use App\Exceptions\AuthorizationException;
 use App\Exceptions\VerificationRequiredException;
+use App\Jobs\Notifications\ChannelAnnouncement;
 use App\Libraries\Chat;
+use App\Mail\UserNotificationDigest;
 use App\Models\Chat\Channel;
 use App\Models\Chat\Message;
+use App\Models\OAuth\Client;
 use App\Models\User;
+use App\Models\UserNotificationOption;
+use Event;
 use Exception;
+use Mail;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Queue;
 use Tests\TestCase;
 
 class ChatTest extends TestCase
 {
-    /**
-     * @dataProvider verifiedDataProvider
-     */
-    public function testSendMessage(bool $verified, $expectedException)
+    #[DataProvider('createAnnouncementApiDataProvider')]
+    public function testCreateAnnouncementApi(?string $group, bool $isApiRequest, bool $isAllowed)
     {
-        $sender = factory(User::class)->create();
-        $channel = factory(Channel::class)->state('public')->create();
+        $sender = User::factory()->withGroup($group)->create()->markSessionVerified();
+        $users = User::factory()->count(2)->create();
+
+        if ($isApiRequest) {
+            $client = Client::factory()->create(['user_id' => $sender]);
+            $token = $this->createToken($sender, ['chat.write'], $client);
+            $sender->withAccessToken($token);
+        }
+
+        if (!$isAllowed) {
+            $this->expectException(AuthorizationException::class);
+        }
+
+        $channel = $this->createAnnouncement($sender, $users->pluck('user_id')->toArray());
+
+        if ($isAllowed) {
+            $this->assertTrue($channel->fresh()->exists());
+        }
+    }
+
+    public function testCreateAnnouncementIncludesSender()
+    {
+        $sender = User::factory()->withGroup('announce')->create()->markSessionVerified();
+        $user = User::factory()->create();
+
+        $channel = $this->createAnnouncement($sender, [$user->getKey()]);
+
+        $this->assertTrue($channel->fresh()->users()->contains('user_id', $sender->getKey()));
+    }
+
+    public function testCreateAnnouncementSendsNotification()
+    {
+        Queue::fake();
+        Event::fake();
+        Mail::fake();
+
+        $sender = User::factory()->withGroup('announce')->create()->markSessionVerified();
+        $user = User::factory()->create();
+
+        $this->createAnnouncement($sender, [$user->getKey()]);
+
+        Queue::assertPushed(ChannelAnnouncement::class);
+        $this->runFakeQueue();
+
+        Event::assertDispatched(NewPrivateNotificationEvent::class);
+
+        $this->artisan('notifications:send-mail');
+        $this->runFakeQueue();
+
+        Mail::assertSent(UserNotificationDigest::class);
+    }
+
+    #[DataProvider('minPlaysDataProvider')]
+    public function testMinPlaysSendMessage(?string $groupIdentifier, bool $hasMinPlays, bool $successful)
+    {
+        config_set('osu.user.min_plays_allow_verified_bypass', false);
+        config_set('osu.user.min_plays_for_posting', 2);
+
+        $playCount = $hasMinPlays ? null : 1;
+
+        $sender = User::factory()->withGroup($groupIdentifier)->withPlays($playCount)->create()->markSessionVerified();
+        $channel = Channel::factory()->type('public')->create();
+        $channel->addUser($sender);
+
+        $countChange = $successful ? 1 : 0;
+
+        $this->expectCountChange(fn () => Message::count(), $countChange);
+
+        if (!$successful) {
+            $this->expectException(AuthorizationException::class);
+        }
+
+        Chat::sendMessage($sender, $channel, 'test', false);
+    }
+
+    #[DataProvider('minPlaysDataProvider')]
+    public function testMinPlaysSendPM(?string $groupIdentifier, bool $hasMinPlays, bool $successful)
+    {
+        config_set('osu.user.min_plays_allow_verified_bypass', false);
+        config_set('osu.user.min_plays_for_posting', 2);
+
+        $playCount = $hasMinPlays ? null : 1;
+
+        $sender = User::factory()->withGroup($groupIdentifier)->withPlays($playCount)->create()->markSessionVerified();
+        $target = User::factory()->create(['pm_friends_only' => false]);
+
+        $countChange = $successful ? 1 : 0;
+
+        $this->expectCountChange(fn () => Channel::count(), $countChange);
+        $this->expectCountChange(fn () => Message::count(), $countChange);
+
+        if (!$successful) {
+            $this->expectException(AuthorizationException::class);
+        }
+
+        Chat::sendPrivateMessage($sender, $target, 'test message', false);
+
+        if ($successful) {
+            $this->assertInstanceOf(Channel::class, Channel::findPM($sender, $target));
+        }
+    }
+
+    #[DataProvider('verifiedDataProvider')]
+    public function testSendMessage(bool $verified, ?string $expectedException)
+    {
+        $sender = User::factory()->create();
+        $channel = Channel::factory()->type('public')->create();
         $channel->addUser($sender);
 
         if ($verified) {
@@ -37,35 +150,93 @@ class ChatTest extends TestCase
         Chat::sendMessage($sender, $channel, 'test', false);
     }
 
+    public function testSendMessageMentionNotifiesUser(): void
+    {
+        \Event::fake();
+        \Mail::fake();
+
+        $sender = User::factory()->create();
+        $mention = User::factory()->create();
+        $mention->notificationOptions()->create([
+            'name' => UserNotificationOption::CHANNEL_MENTION,
+            'details' => [
+                'mail' => true,
+                'push' => true,
+            ],
+        ]);
+
+        $channel = Channel::factory()->type('public')->create();
+        $channel->addUser($sender);
+
+        $sender->markSessionVerified();
+
+        $mentionUsername = strtr($mention->username, [' ' => '_']);
+        Chat::sendMessage($sender, $channel, "hello @{$mentionUsername}!", false);
+        $this->artisan('notifications:send-mail');
+
+        Event::assertDispatched(NewPrivateNotificationEvent::class);
+        Mail::assertSent(UserNotificationDigest::class);
+    }
+
+    public function testSendMessageMentionOnUsernameWithSpaceAsIs(): void
+    {
+        \Event::fake();
+
+        $sender = User::factory()->create();
+        $mention = User::factory()->create(['username' => 'test user']);
+        $channel = Channel::factory()->type('public')->create();
+        $channel->addUser($sender);
+
+        $sender->markSessionVerified();
+
+        Chat::sendMessage($sender, $channel, "hello @{$mention->username}!", false);
+
+        Event::assertNotDispatched(NewPrivateNotificationEvent::class);
+    }
+
+    public function testSendMessageMentionOnUsernameWithSpaceReplaced(): void
+    {
+        \Event::fake();
+
+        $sender = User::factory()->create();
+        $mention = User::factory()->create(['username' => 'test user']);
+
+        $channel = Channel::factory()->type('public')->create();
+        $channel->addUser($sender);
+
+        $sender->markSessionVerified();
+
+        $mentionUsername = strtr($mention->username, [' ' => '_']);
+        Chat::sendMessage($sender, $channel, "hello @{$mentionUsername}!", false);
+        $this->artisan('notifications:send-mail');
+
+        Event::assertDispatched(NewPrivateNotificationEvent::class);
+    }
+
     public function testSendPM()
     {
-        $sender = factory(User::class)->create();
+        $sender = User::factory()->create();
         $sender->markSessionVerified();
-        $target = factory(User::class)->create(['pm_friends_only' => false]);
+        $target = User::factory()->create(['pm_friends_only' => false]);
 
-        $initialChannelsCount = Channel::count();
-        $initialMessagesCount = Message::count();
+        $this->expectCountChange(fn () => Channel::count(), 1);
+        $this->expectCountChange(fn () => Message::count(), 1);
 
         Chat::sendPrivateMessage($sender, $target, 'test message', false);
 
-        $channel = Channel::findPM($sender, $target);
-
-        $this->assertInstanceOf(Channel::class, $channel);
-        $this->assertSame($initialChannelsCount + 1, Channel::count());
-        $this->assertSame($initialMessagesCount + 1, Message::count());
+        $this->assertInstanceOf(Channel::class, Channel::findPM($sender, $target));
     }
 
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testSendPMFriendsOnly($groupIdentifier, $successful)
+    #[DataProvider('sendPmFriendsOnlyGroupsDataProvider')]
+    public function testSendPMFriendsOnly(?string $groupIdentifier, bool $successful)
     {
-        $sender = $this->createUserWithGroup($groupIdentifier);
+        $sender = User::factory()->withGroup($groupIdentifier)->create();
         $sender->markSessionVerified();
-        $target = factory(User::class)->create(['pm_friends_only' => true]);
+        $target = User::factory()->create(['pm_friends_only' => true]);
 
-        $initialChannelsCount = Channel::count();
-        $initialMessagesCount = Message::count();
+        $countChange = $successful ? 1 : 0;
+        $this->expectCountChange(fn () => Channel::count(), $countChange);
+        $this->expectCountChange(fn () => Message::count(), $countChange);
 
         try {
             Chat::sendPrivateMessage($sender, $target, 'test message', false);
@@ -73,29 +244,52 @@ class ChatTest extends TestCase
             $savedException = $e;
         }
 
+        $channel = Channel::findPM($sender, $target);
+
         if ($successful) {
-            $this->assertSame($initialChannelsCount + 1, Channel::count());
-            $this->assertSame($initialMessagesCount + 1, Message::count());
+            $this->assertNotNull($channel);
         } else {
-            $this->assertNull(Channel::findPM($sender, $target));
-            $this->assertSame($initialChannelsCount, Channel::count());
-            $this->assertSame($initialMessagesCount, Message::count());
+            $this->assertNull($channel);
             $this->assertSame(
-                'User is blocking messages from people not on their friends list.',
+                osu_trans('authorization.chat.friends_only'),
                 $savedException->getMessage()
             );
         }
     }
 
+    #[DataProvider('sendPmSenderFriendsOnlyGroupsDataProvider')]
+    public function testSendPmSenderFriendsOnly(?string $groupIdentifier)
+    {
+        $sender = User::factory()->withGroup($groupIdentifier)->create(['pm_friends_only' => true]);
+        $sender->markSessionVerified();
+        $target = User::factory()->create(['pm_friends_only' => false]);
+
+        $this->expectCountChange(fn () => Channel::count(), 0);
+        $this->expectCountChange(fn () => Message::count(), 0);
+
+        try {
+            Chat::sendPrivateMessage($sender, $target, 'test message', false);
+        } catch (Exception $e) {
+            $savedException = $e;
+        }
+
+        $this->assertNull(Channel::findPM($sender, $target));
+        $this->assertSame(
+            osu_trans('authorization.chat.receive_friends_only'),
+            $savedException->getMessage()
+        );
+    }
+
     public function testSendPMTooLongNotCreatingNewChannel()
     {
-        $sender = factory(User::class)->create();
+        $sender = User::factory()->create();
         $sender->markSessionVerified();
-        $target = factory(User::class)->create(['pm_friends_only' => false]);
+        $target = User::factory()->create(['pm_friends_only' => false]);
 
-        $initialChannelsCount = Channel::count();
-        $initialMessagesCount = Message::count();
-        $longMessage = str_repeat('a', config('osu.chat.message_length_limit') + 1);
+        $this->expectCountChange(fn () => Channel::count(), 0);
+        $this->expectCountChange(fn () => Message::count(), 0);
+
+        $longMessage = str_repeat('a', $GLOBALS['cfg']['osu']['chat']['message_length_limit'] + 1);
 
         try {
             Chat::sendPrivateMessage($sender, $target, $longMessage, false);
@@ -104,47 +298,97 @@ class ChatTest extends TestCase
         }
 
         $this->assertNull(Channel::findPM($sender, $target));
-        $this->assertSame($initialChannelsCount, Channel::count());
-        $this->assertSame($initialMessagesCount, Message::count());
         $this->assertSame(
-            'The message you are trying to send is too long.',
+            osu_trans('api.error.chat.too_long'),
             $savedException->getMessage()
         );
     }
 
     public function testSendPMSecondTime()
     {
-        $sender = factory(User::class)->create();
+        $sender = User::factory()->create();
         $sender->markSessionVerified();
-        $target = factory(User::class)->create(['pm_friends_only' => false]);
+        $target = User::factory()->create(['pm_friends_only' => false]);
 
         Chat::sendPrivateMessage($sender, $target, 'test message', false);
 
-        $initialChannelsCount = Channel::count();
-        $initialMessagesCount = Message::count();
+        $this->expectCountChange(fn () => Channel::count(), 0);
+        $this->expectCountChange(fn () => Message::count(), 1);
 
         Chat::sendPrivateMessage($sender, $target, 'test message again', false);
-
-        $this->assertSame($initialChannelsCount, Channel::count());
-        $this->assertSame($initialMessagesCount + 1, Message::count());
     }
 
-    public function groupsDataProvider()
+    public static function createAnnouncementApiDataProvider()
+    {
+        return [
+            [null, false, false],
+            [null, true, false],
+            ['admin', false, true],
+            ['admin', true, false],
+            ['announce', false, true],
+            ['announce', true, true], // announce group retains its group permission with OAuth.
+            ['bng', false, false],
+            ['bng', true, false],
+            ['bot', false, false],
+            ['bot', true, false],
+            ['gmt', false, true],
+            ['gmt', true, false],
+            ['nat', false, true],
+            ['nat', true, false],
+        ];
+    }
+
+    public static function minPlaysDataProvider()
+    {
+        return [
+            'bot group with minplays' => ['bot', true, true],
+            'bot group without minplays' => ['bot', false, true],
+            'default group with minplays' => [null, true, true],
+            'default group without minplays' => [null, false, false],
+        ];
+    }
+
+    public static function sendPmFriendsOnlyGroupsDataProvider()
     {
         return [
             ['admin', true],
             ['bng', false],
+            ['bot', true],
             ['gmt', true],
             ['nat', true],
-            [[], false],
+            [null, false],
         ];
     }
 
-    public function verifiedDataProvider()
+    public static function sendPmSenderFriendsOnlyGroupsDataProvider()
+    {
+        return [
+            // admin skip because OsuAuthorize skips the check when admin.
+            ['bng'],
+            ['bot'],
+            ['gmt'],
+            ['nat'],
+            [null],
+        ];
+    }
+
+    public static function verifiedDataProvider()
     {
         return [
             [false, VerificationRequiredException::class],
             [true, null],
         ];
+    }
+
+    private function createAnnouncement(User $sender, array $targetIds): Channel
+    {
+        return Chat::createAnnouncement($sender, [
+            'channel' => [
+                'description' => 'best',
+                'name' => 'announcements',
+            ],
+            'message' => 'test',
+            'target_ids' => $targetIds,
+        ]);
     }
 }

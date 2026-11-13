@@ -4,9 +4,14 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'promote' => [
+        'pin' => 'Êtes-vous sûr de vouloir promouvoir ce stream sur la page d\'accueil ? ',
+        'unpin' => "Êtes-vous sûr de vouloir supprimer la promotion de ce stream de la page d'accueil ?",
+    ],
+
     'top-headers' => [
         'headline' => 'Streams en direct',
-        'description' => 'Les données sont obtenues de twitch.tv toutes les minutes basées sur les listes et répertoires. Libre à vous de streamer et d\'apparaître ici! Pour plus d\'informations sur osu! en streaming, merci d\'aller voir la page wiki sur le live streaming.',
+        'description' => 'Les données sont extraites de twitch.tv toutes les cinq minutes en fonction de la liste des streams. N\'hésitez pas à commencer à diffuser votre jeu et à vous faire référencer ! Pour plus d\'informations sur comment tout mettre en place, veuillez consulter :link.',
 
         'link' => 'la page wiki consacrée au streaming en direct',
     ],

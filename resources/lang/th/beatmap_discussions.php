@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => '',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'ต้องเข้าสู่ระบบก่อนจะแก้ไข',
@@ -16,6 +18,16 @@ return [
         'empty' => 'อืม... ยังไม่มีอะไรเกิดขึ้น',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'ถูกลบไปแล้ว',
         'none_found' => 'ไม่พบการสนทนาตามเกณฑ์การค้นหาที่เลือก',
@@ -24,7 +36,9 @@ return [
         'form' => [
             '_' => 'ค้นหา',
             'deleted' => 'รวมการสนทนาที่ถูกลบ',
+            'mode' => 'โหมดของบีทแมพ',
             'only_unresolved' => 'มองเห็นเฉพาะการสนทนา/ปัญหาที่ยังไม่ได้แก้',
+            'show_review_embeds' => 'แสดงกระทู้รีวิว',
             'types' => 'ชนิดของข้อความ',
             'username' => 'ชื่อผู้ใช้',
 
@@ -32,8 +46,8 @@ return [
                 '_' => 'สถานะบีทแมพ',
                 'all' => 'ทั้งหมด',
                 'disqualified' => 'ถูกตัดสิทธิ์',
-                'never_qualified' => 'ไม่เคยถูก Qualified',
-                'qualified' => 'Qualified',
+                'never_qualified' => 'ไม่เคยผ่านการรับรอง',
+                'qualified' => 'ผ่านการรับรอง',
                 'ranked' => 'จัดอันดับแล้ว',
             ],
 
@@ -57,6 +71,20 @@ return [
         'unsaved' => ':count ในบทวิจารณ์นี้',
     ],
 
+    'owner_editor' => [
+        'button' => 'เจ้าของระดับความยาก',
+        'reset_confirm' => 'รีเซ็ตเจ้าของสําหรับระดับความยากนี้ไหม',
+        'user' => 'เจ้าของ',
+        'version' => 'ระดับความยาก',
+    ],
+
+    'refresh' => [
+        'checking' => 'กำลังตรวจสอบการอัปเดต…',
+        'has_updates' => 'การสนทนามีอัปเดต คลิกเพื่อรีเฟรช',
+        'no_updates' => 'ไม่มีการอัปเดท',
+        'updating' => 'กำลังอัปเดต',
+    ],
+
     'reply' => [
         'open' => [
             'guest' => 'เข้าสู่ระบบเพื่อตอบกลับ',
@@ -73,6 +101,7 @@ return [
             'external_references' => 'บทวิจารณ์นี้มีการพูดถึงปัญหาที่ไม่เกี่ยวข้องกับบทวิจารณ์นี้',
             'invalid_block_type' => 'ชนิดของบล็อกไม่ถูกต้อง',
             'invalid_document' => 'บทวิจารณ์ไม่ถูกต้อง',
+            'invalid_discussion_type' => 'ไม่มีประเภทการพูดคุยนี้',
             'minimum_issues' => 'บทวิจารณ์ต้องมีปัญหาอย่างน้อย :count ปัญหา|บทวิจารณ์ต้องมีปัญหาอย่างน้อย :count ปัญหา',
             'missing_text' => 'บล็อกไม่มีข้อความ',
             'too_many_blocks' => 'บทวิจารณ์จำกัดให้มีแค่ :count ย่อหน้าต่อปัญหา|บทวิจารณ์จำกัดให้มีแค่ :count ย่อหน้าต่อหลายปัญหา',
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'ทุกคน',
         'label' => 'กรองโดยผู้ใช้',
+        'multiple' => '',
     ],
 ];

@@ -5,11 +5,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\SetLocale;
+use App\Libraries\User\CountryChange;
 use App\Libraries\User\DatadogLoginAttempt;
 use App\Libraries\User\ForceReactivation;
+use App\Models\Country;
 use App\Models\User;
+use App\Transformers\CurrentUserTransformer;
 use Auth;
-use NoCaptcha;
+use romanzipp\Turnstile\Validator as TurnstileValidator;
 
 class SessionsController extends Controller
 {
@@ -19,17 +23,21 @@ class SessionsController extends Controller
             'store',
         ]]);
 
-        return parent::__construct();
+        parent::__construct();
     }
 
     public function store()
     {
         $request = request();
 
-        $params = get_params($request->all(), null, ['username:string', 'password:string', 'remember:bool', 'g-recaptcha-response:string']);
-        $username = presence(trim($params['username'] ?? null));
-        $password = presence($params['password'] ?? null);
-        $remember = $params['remember'] ?? false;
+        $params = get_params(
+            $request->all(),
+            null,
+            ['username:string', 'password', 'cf-turnstile-response'],
+            ['null_missing' => true],
+        );
+        $username = presence(trim($params['username'] ?? ''));
+        $password = $params['password'];
 
         if ($username === null) {
             DatadogLoginAttempt::log('missing_username');
@@ -43,12 +51,12 @@ class SessionsController extends Controller
             abort(422);
         }
 
-        if (captcha_triggered()) {
-            $token = presence($params['g-recaptcha-response'] ?? null);
+        if (captcha_login_triggered()) {
+            $token = $params['cf-turnstile-response'];
             $validCaptcha = false;
 
             if ($token !== null) {
-                $validCaptcha = NoCaptcha::verifyResponse($token);
+                $validCaptcha = (new TurnstileValidator())->validate($token)->isValid();
             }
 
             if (!$validCaptcha) {
@@ -58,7 +66,7 @@ class SessionsController extends Controller
                     DatadogLoginAttempt::log('invalid_captcha');
                 }
 
-                return $this->triggerCaptcha(trans('users.login.invalid_captcha'), 422);
+                return $this->triggerCaptcha(osu_trans('users.login.invalid_captcha'), 422);
             }
         }
 
@@ -66,8 +74,8 @@ class SessionsController extends Controller
 
         $user = User::findForLogin($username);
 
-        if ($user === null && strpos($username, '@') !== false && !config('osu.user.allow_email_login')) {
-            $authError = trans('users.login.email_login_disabled');
+        if ($user === null && strpos($username, '@') !== false && !$GLOBALS['cfg']['osu']['user']['allow_email_login']) {
+            $authError = osu_trans('users.login.email_login_disabled');
         } else {
             $authError = User::attemptLogin($user, $password, $ip);
         }
@@ -76,21 +84,41 @@ class SessionsController extends Controller
             $forceReactivation = new ForceReactivation($user, $request);
 
             if ($forceReactivation->isRequired()) {
+                DatadogLoginAttempt::log('password_reset');
                 $forceReactivation->run();
+
+                \Session::flash('password_reset_start', [
+                    'reason' => $forceReactivation->getReason(),
+                    'username' => $username,
+                ]);
 
                 return ujs_redirect(route('password-reset'));
             }
 
-            $this->login($user, $remember);
+            // try fixing user country if it's currently set to unknown
+            if ($user->country_acronym === Country::UNKNOWN) {
+                try {
+                    CountryChange::handle($user, request_country(), 'automated unknown country fixup on login');
+                } catch (\Throwable $e) {
+                    // report failures but continue anyway
+                    log_error($e);
+                }
+            }
+
+            DatadogLoginAttempt::log(null);
+            $this->login($user);
+            SetLocale::setLocaleWeb($request);
 
             return [
+                'csrf_token' => csrf_token(),
+                'current_locale' => \App::getLocale(),
                 'header' => view('layout._header_user')->render(),
                 'header_popup' => view('layout._popup_user')->render(),
-                'user' => Auth::user()->defaultJson(),
+                'user' => json_item($user, new CurrentUserTransformer()),
             ];
         }
 
-        if (captcha_triggered()) {
+        if (captcha_login_triggered()) {
             return $this->triggerCaptcha($authError);
         }
 
@@ -103,11 +131,7 @@ class SessionsController extends Controller
             logout();
         }
 
-        if (get_bool(request('redirect_home'))) {
-            return ujs_redirect(route('home'));
-        }
-
-        return captcha_triggered() ? ['captcha_triggered' => true] : [];
+        return [];
     }
 
     private function triggerCaptcha($message, $returnCode = 403)

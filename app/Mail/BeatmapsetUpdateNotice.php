@@ -12,7 +12,8 @@ use Illuminate\Queue\SerializesModels;
 
 class BeatmapsetUpdateNotice extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $tries = 5;
 
@@ -48,7 +49,7 @@ class BeatmapsetUpdateNotice extends Mailable implements ShouldQueue
 
         return $this
             ->text('emails.beatmapset.update_notice')
-            ->subject(trans('mail.beatmapset_update_notice.subject', [
+            ->subject(osu_trans('mail.beatmapset_update_notice.subject', [
                 'title' => $beatmapset->getDisplayTitle($user),
             ]))
             ->with(compact('beatmapset', 'user'));

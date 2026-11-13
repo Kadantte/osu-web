@@ -7,6 +7,7 @@ return [
     'cancel' => 'إلغاء',
 
     'authorise' => [
+        'app_owner' => 'تطبيق من :owner',
         'request' => 'يطلب الإذن بالوصول إلى حسابك.',
         'scopes_title' => 'هذا التطبيق سوف يكون قادر على:',
         'title' => 'طلب الأذن',
@@ -16,7 +17,7 @@ return [
         'confirm_revoke' => 'هل انت متأكد من سحب أذونات هذا العميل؟',
         'scopes_title' => 'يمكن لهذا التطبيق ان:',
         'owned_by' => 'يمتلكها :user',
-        'none' => 'لا عملاء',
+        'none' => 'لا يوجد عملاء',
 
         'revoked' => [
             'false' => 'إبطال الدخول',
@@ -56,6 +57,12 @@ return [
         'revoked' => [
             'false' => 'حذف',
             'true' => 'محذوف',
+        ],
+
+        'secret' => [
+            'copy' => '',
+            'generate_new' => '',
+            'visible_once' => '',
         ],
     ],
 ];

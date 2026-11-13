@@ -5,17 +5,29 @@
 
 return [
     'mode' => [
+        'artist_track' => 'Melodie Artist Oficial',
         'beatmapset' => 'Beatmap',
         'forum_post' => 'Forum',
         'other' => 'Altele',
+        'team' => 'Echipă',
         'user' => 'Jucător',
         'wiki_page' => 'Wiki',
     ],
 
     'result' => [
-        'empty' => 'Niciun rezultat',
-        'empty_for' => 'Niciun rezultat pentru :modes',
-        'more' => 'Mai multe rezultate de la :mode',
-        'title' => 'Rezultate de la :mode',
+        'more' => 'Mai multe rezultate pentru: :mode',
+        'title' => 'Rezultate pentru: :mode',
+
+        'no_results' => [
+            '_' => '',
+
+            'artist_track' => '',
+            'beatmapset' => '',
+            'forum_post' => '',
+            'other' => '',
+            'team' => '',
+            'user' => '',
+            'wiki_page' => '',
+        ],
     ],
 ];

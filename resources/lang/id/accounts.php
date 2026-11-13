@@ -5,20 +5,30 @@
 
 return [
     'edit' => [
-        'title_compact' => 'pengaturan',
+        'title_compact' => 'pengaturan akun',
         'username' => 'nama pengguna',
 
         'avatar' => [
             'title' => 'Avatar',
-            'rules' => 'Pastikan avatar Anda mematuhi :link yang berlaku.<br/>  Dengan kata lain, avatar Anda harus <strong>cocok untuk segala usia</strong> tanpa mengandung unsur-unsur yang tidak dibenarkan seperti cacian, hinaan, atau konten-konten yang bersifat sugestif.',
-            'rules_link' => 'peraturan komunitas',
+            'reset' => 'atur ulang',
+            'rules' => 'Pastikan avatarmu tunduk pada :link yang berlaku.<br/>Hal ini berarti avatar ini harus <strong>cocok untuk segala usia</strong> tanpa unsur apa pun yang tidak dibenarkan, mis. konten yang berketelanjangan, menyinggung, atau sugestif.',
+            'rules_link' => 'Pertimbangan konten visual',
         ],
 
         'email' => [
-            'current' => 'email saat ini',
             'new' => 'email baru',
             'new_confirmation' => 'konfirmasi email',
             'title' => 'Email',
+            'locked' => [
+                '_' => 'Silakan hubungi :accounts apabila kamu perlu memperbarui alamat emailmu.',
+                'accounts' => 'tim dukungan akun',
+            ],
+        ],
+
+        'legacy_api' => [
+            'api' => 'api',
+            'irc' => 'irc',
+            'title' => 'API Lawas',
         ],
 
         'password' => [
@@ -29,7 +39,13 @@ return [
         ],
 
         'profile' => [
+            'country' => 'negara',
             'title' => 'Profil',
+
+            'country_change' => [
+                '_' => "Sepertinya negara akunmu tidak sesuai dengan negara tempat kamu tinggal. :update_link.",
+                'update_link' => 'Perbarui ke :country',
+            ],
 
             'user' => [
                 'user_discord' => '',
@@ -47,46 +63,79 @@ return [
         ],
     ],
 
+    'github_user' => [
+        'info' => "Apabila kamu adalah kontributor repositori open-source osu!, kamu bisa menautkan akun GitHub kamu di sini untuk menghubungkan entri riwayat perubahanmu dengan profil osu! kamu. Akun GitHub yang tidak memiliki riwayat kontribusi terhadap osu! tidak bisa ditautkan.",
+        'link' => 'Tautkan Akun GitHub',
+        'title' => 'GitHub',
+        'unlink' => 'Lepas Tautan Akun GitHub',
+
+        'error' => [
+            'already_linked' => 'Akun GitHub ini sudah terhubung ke pengguna lain.',
+            'no_contribution' => 'Akun GitHub yang tidak memiliki riwayat kontribusi pada repositori osu! tidak bisa ditautkan.',
+            'unverified_email' => 'Silakan verifikasi email utama kamu di GitHub, lalu cobalah untuk menghubungkan akunmu kembali.',
+        ],
+    ],
+
     'notifications' => [
-        'beatmapset_discussion_qualified_problem' => 'terima notifikasi pada saat terdapat masalah baru pada beatmap yang berstatus Qualified pada mode',
+        'beatmapset_discussion_reply' => 'terima notifikasi untuk balasan baru pada diskusi beatmap yang kamu ikuti',
+        'beatmapset_discussion_qualified_problem' => 'terima notifikasi pada saat terdapat masalah baru pada beatmap Qualified di mode',
         'beatmapset_disqualify' => 'terima notifikasi pada saat terdapat beatmap yang terdiskualifikasi pada mode',
-        'comment_reply' => 'terima notifikasi pada saat terdapat balasan baru pada komentar yang Anda kirim',
+        'comment_reply' => 'terima notifikasi untuk balasan baru pada komentar yang kamu tulis',
+        'news_post' => 'terima notifikasi untuk postingan berita yang berkaitan dengan',
         'title' => 'Notifikasi',
-        'topic_auto_subscribe' => 'hidupkan notifikasi secara otomatis di topik forum baru yang Anda buat',
+        'topic_auto_subscribe' => 'aktifkan notifikasi secara otomatis bagi topik forum baru yang kamu buat atau balas',
 
         'options' => [
-            '_' => 'kirimkan notifikasi melalui',
-            'beatmapset:modding' => 'modding beatmap',
+            '_' => 'opsi pengiriman',
+            'beatmap_owner_change' => 'tingkat kesulitan tamu',
+            'beatmapset:modding' => 'modding',
+            'channel_mention' => 'panggilan obrolan',
             'channel_message' => 'pesan pribadi',
+            'channel_team' => 'pesan obrolan tim',
             'comment_new' => 'komentar baru',
-            'forum_topic_reply' => 'balasan pada topik',
+            'forum_topic_reply' => 'balasan topik',
             'mail' => 'email',
-            'mapping' => 'pembuat beatmap',
-            'push' => 'web',
-            'user_achievement_unlock' => 'terbukanya medali baru',
+            'mapping' => 'mapper',
+            'news_post' => 'postingan berita',
+            'push' => 'push (web)',
+        ],
+
+        'tooltips' => [
+            'beatmap_owner_change' => 'pada saat kamu ditambahkan sebagai mapper tamu pada tingkat kesulitan beatmap',
+            'beatmapset:modding' => 'pada saat halaman diskusi beatmap yang kamu amati menerima pembaruan, atau apabila terdapat masalah atau saran pada beatmap milikmu',
+            'channel_mention' => 'pada saat namamu dipanggil di kanal publik',
+            'channel_message' => 'pada saat kamu menerima pesan pribadi baru',
+            'channel_team' => 'pada saat kanal obrolan timmu memiliki pesan baru',
+            'comment_new' => 'pada saat terdapat komentar baru pada item yang kamu ikuti',
+            'forum_topic_reply' => 'pada saat topik forum yang kamu amati menerima balasan baru',
+            'mapping' => 'pada saat mapper yang kamu ikuti mengunggah beatmap',
+            'news_post' => 'pada saat terdapat postingan berita baru',
         ],
     ],
 
     'oauth' => [
-        'authorized_clients' => 'klien yang memiliki akses',
-        'own_clients' => 'klien yang Anda miliki',
+        'authorized_clients' => 'klien yang terizin',
+        'own_clients' => 'klien yang kamu miliki',
         'title' => 'OAuth',
     ],
 
     'options' => [
-        'beatmapset_show_nsfw' => 'nonaktifkan peringatan untuk beatmap-beatmap yang mengandung konten eksplisit',
+        'beatmapset_show_anime_cover' => 'tampilkan sampul beatmap bergaya anime',
+        'beatmapset_show_nsfw' => 'sembunyikan peringatan untuk konten eksplisit pada beatmap',
         'beatmapset_title_show_original' => 'tampilkan metadata beatmap dalam bahasa aslinya',
         'title' => 'Pengaturan',
 
         'beatmapset_download' => [
-            '_' => 'tipe pengunduhan beatmap default',
+            '_' => 'jenis unduhan beatmap bawaan',
             'all' => 'dengan video (apabila tersedia)',
-            'direct' => 'buka melalui osu!direct',
+            'direct' => 'buka di osu!direct',
+            'lazer' => '',
             'no_video' => 'tanpa video',
         ],
     ],
 
     'playstyles' => [
+        'default_ruleset' => 'mode permainan bawaan',
         'keyboard' => 'keyboard',
         'mouse' => 'mouse',
         'tablet' => 'tablet',
@@ -95,18 +144,20 @@ return [
     ],
 
     'privacy' => [
-        'friends_only' => 'Blokir pesan pribadi dari orang yang tidak ada dalam daftar teman Anda',
-        'hide_online' => 'sembunyikan keberadaan online Anda',
-        'title' => 'Kebijakan Privasi',
+        'friends_only' => 'blokir pesan pribadi dari pengguna yang tidak ada dalam daftar temanmu',
+        'friends_only_info' => 'pemblokiran ini juga berlaku bagi undangan multiplayer dan permintaan duel ranked play di osu!lazer',
+        'hide_online' => 'sembunyikan status onlinemu',
+        'hide_online_info' => 'pengaturan ini akan terhubung ke mode "tampil offline" di osu!lazer',
+        'title' => 'Privasi',
     ],
 
     'security' => [
         'current_session' => 'saat ini',
         'end_session' => 'Akhiri Sesi',
-        'end_session_confirmation' => 'Aksi ini akan langsung mengakhiri sesi anda di perangkat tersebut. Apakah anda yakin?',
+        'end_session_confirmation' => 'Tindakan ini akan mengakhiri sesimu pada perangkat yang bersangkutan dengan segera. Apakah kamu yakin?',
         'last_active' => 'Terakhir aktif:',
         'title' => 'Keamanan',
-        'web_sessions' => 'web session',
+        'web_sessions' => 'sesi web',
     ],
 
     'update_email' => [
@@ -117,12 +168,27 @@ return [
         'update' => 'perbarui',
     ],
 
+    'user_totp' => [
+        'title' => 'Apl. Autentikator',
+        'usage_note' => 'Gunakan aplikasi autentikator untuk memverifikasi akun sebagai pengganti verifikasi via email. Verifikasi email akan tetap tersedia sebagai metode cadangan.',
+
+        'button' => [
+            'remove' => 'Hapus',
+            'setup' => 'Tambah Aplikasi Autentikator',
+        ],
+        'status' => [
+            'label' => 'status',
+            'not_set' => 'Belum diatur',
+            'set' => 'Sudah diatur',
+        ],
+    ],
+
     'verification_completed' => [
-        'text' => 'Anda dapat menutup laman ini sekarang',
+        'text' => 'Kamu bisa menutup tab/jendela ini sekarang',
         'title' => 'Verifikasi selesai',
     ],
 
     'verification_invalid' => [
-        'title' => 'Tautan verifikasi tidak valid atau kedaluwarsa',
+        'title' => 'Tautan verifikasi tidak valid atau sudah kedaluwarsa',
     ],
 ];

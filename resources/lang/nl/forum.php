@@ -4,27 +4,28 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'pinned_topics' => 'Gepinde Onderwerpen',
+    'pinned_topics' => 'Gepinde Topics',
     'slogan' => "het is gevaarlijk om alleen te spelen.",
     'subforums' => 'Subforums',
-    'title' => 'osu! forums',
+    'title' => 'Forums',
 
     'covers' => [
-        'edit' => 'Wijzig omslag',
+        'edit' => 'Wijzig omslagfoto',
 
         'create' => [
-            '_' => 'Stel omslagafbeelding in',
+            '_' => 'Stel omslagfoto in',
             'button' => 'Afbeelding uploaden',
-            'info' => 'Omslag grootte moet :dimensions zijn. Je kunt ook een afbeelding hier loslaten om hem te uploaden.',
+            'info' => 'De grootte van de omslagfoto moet :dimensions zijn. Je kunt hier ook een afbeelding slepen en neerzetten om hem te uploaden.',
         ],
 
         'destroy' => [
-            '_' => 'Verwijder omslag afbeelding',
-            'confirm' => 'Weet je zeker dat je de omslag afbeelding wilt verwijderen?',
+            '_' => 'Verwijder omslagfoto',
+            'confirm' => 'Weet je zeker dat je de omslagfoto wilt verwijderen?',
         ],
     ],
 
     'forums' => [
+        'forums' => 'Forums',
         'latest_post' => 'Laatste bericht',
 
         'index' => [
@@ -47,7 +48,7 @@ return [
         'confirm_restore' => 'Will je deze post echt terugzetten?',
         'edited' => 'Laatst bewerkt door :user op :when. :count keer bewerkt in totaal.',
         'posted_at' => 'gepost op :when',
-        'posted_by' => 'geplaatst door :username',
+        'posted_by_in' => 'gepost door :username in :forum',
 
         'actions' => [
             'destroy' => 'Verwijder bericht',
@@ -77,15 +78,16 @@ return [
     'topic' => [
         'confirm_destroy' => 'Topic echt verwijderen?',
         'confirm_restore' => 'Topic echt herstellen?',
-        'deleted' => 'verwijder topic',
+        'deleted' => 'topic verwijderd',
         'go_to_latest' => 'bekijk nieuwste post',
+        'go_to_unread' => 'eerste ongelezen bericht weergeven',
         'has_replied' => 'Je hebt gereageerd op dit onderwerp',
         'in_forum' => 'in :forum ',
         'latest_post' => ':when door :user',
         'latest_reply_by' => 'laatste bericht door :user',
         'new_topic' => 'Nieuw onderwerp',
-        'new_topic_login' => 'Log in om een nieuw onderwerp maken',
-        'post_reply' => 'Post',
+        'new_topic_login' => 'Log in om een nieuwe topic te maken',
+        'post_reply' => 'Plaatsen',
         'reply_box_placeholder' => 'Typ hier om te antwoorden',
         'reply_title_prefix' => 'Re',
         'started_by' => 'door :user',
@@ -102,14 +104,14 @@ return [
             // TL note: this is used in the topic reply preview, when
             // the user goes back from previewing to editing the reply
             'preview_hide' => 'Schrijf',
-            'submit' => 'Post',
+            'submit' => 'Plaatsen',
 
             'necropost' => [
                 'default' => 'Dit onderwerp is al een tijdje inactief. Maak alleen een post hier als je een specifieke reden daarvoor hebt.',
 
                 'new_topic' => [
-                    '_' => "Dit onderwerp is al een tijdje inactief. Als je geen specifieke reden om hier te posten hebt, :create in plaats daarvan.",
-                    'create' => 'maak een onderwerp aan',
+                    '_' => "Dit onderwerp is al een tijdje inactief. Als je geen specifieke reden hebt om hier te posten, :create in plaats daarvan.",
+                    'create' => 'maak een topic aan',
                 ],
             ],
 
@@ -125,6 +127,55 @@ return [
             'last' => 'ga naar laatste post',
             'next' => 'sla 10 posts over',
             'previous' => 'ga 10 posts terug',
+        ],
+
+        'logs' => [
+            '_' => 'Topic logs',
+            'button' => 'Blader door topic logs',
+
+            'columns' => [
+                'action' => 'Actie',
+                'date' => 'Datum',
+                'user' => 'Gebruiker',
+            ],
+
+            'data' => [
+                'add_tag' => '":tag" tag toegevoegd',
+                'announcement' => 'topic gepind en gemarkeerd als aankondiging',
+                'edit_topic' => 'naar :title',
+                'fork' => 'van :topic',
+                'pin' => 'topic gepind',
+                'post_operation' => 'geplaatst door :username',
+                'remove_tag' => '":tag" tag verwijderd',
+                'source_forum_operation' => 'van :forum',
+                'unpin' => 'topic geontpind',
+            ],
+
+            'no_results' => 'geen logs gevonden...',
+
+            'operations' => [
+                'delete_post' => 'Bericht verwijderd',
+                'delete_topic' => 'Topic verwijderd',
+                'edit_topic' => 'Topic titel veranderd',
+                'edit_poll' => 'Onderwerpsstemming gewijzigd',
+                'fork' => 'Topic gekopieerd',
+                'issue_tag' => 'Uitgegeven tag',
+                'lock' => 'Topic vergrendeld',
+                'merge' => 'Berichten samengevoegd naar deze topic',
+                'move' => 'Topic verplaatst',
+                'pin' => 'Topic gepind',
+                'post_edited' => 'Bericht bewerkt',
+                'restore_post' => 'Bericht hersteld',
+                'restore_topic' => 'Topic hersteld',
+                'split_destination' => 'Gesplitste berichten verplaatst',
+                'split_source' => 'Berichten gesplitst',
+                'topic_type' => 'Topic type ingesteld',
+                'topic_type_changed' => 'Topic type veranderd',
+                'unlock' => 'Topic ontgrendeld',
+                'unpin' => 'Topic geontpind',
+                'user_lock' => 'Eigen topic vergrendeld',
+                'user_unlock' => 'Eigen topic ongrendeld',
+            ],
         ],
 
         'post_edit' => [
@@ -202,48 +253,6 @@ return [
             'views' => 'keer bekeken',
         ],
 
-        'issue_tag_added' => [
-            'to_0' => 'Verwijder "toegevoegd" tag',
-            'to_0_done' => 'Verwijderde "toegevoegd" tag',
-            'to_1' => 'Voeg "toegevoegd" tag toe',
-            'to_1_done' => 'Voegde "toegevoegd" tag toe',
-        ],
-
-        'issue_tag_assigned' => [
-            'to_0' => 'Verwijder "toegewezen" tag',
-            'to_0_done' => 'Verwijderde "toegewezen" tag',
-            'to_1' => 'Voeg "toegewezen" tag toe',
-            'to_1_done' => 'Voegde "toegewezen" tag toe',
-        ],
-
-        'issue_tag_confirmed' => [
-            'to_0' => 'Verwijder "bevestigd" tag',
-            'to_0_done' => 'Verwijderde "bevestigd" tag',
-            'to_1' => 'Voeg "bevestigd" tag toe',
-            'to_1_done' => 'Voegde "bevestigd" tag toe',
-        ],
-
-        'issue_tag_duplicate' => [
-            'to_0' => 'Verwijder "duplicaat" tag',
-            'to_0_done' => 'Verwijderde "duplicaat" tag',
-            'to_1' => 'Voeg "duplicaat" tag toe',
-            'to_1_done' => 'Voegde "duplicaat" tag toe',
-        ],
-
-        'issue_tag_invalid' => [
-            'to_0' => 'Verwijder "invalide" tag',
-            'to_0_done' => 'Verwijderde "invalide" tag',
-            'to_1' => 'Voeg "invalide" tag toe',
-            'to_1_done' => 'Voegde "invalide" tag toe',
-        ],
-
-        'issue_tag_resolved' => [
-            'to_0' => 'Verwijder "opgelost" tag',
-            'to_0_done' => 'Verwijderde "opgelost" tag',
-            'to_1' => 'Voeg "opgelost" tag toe',
-            'to_1_done' => 'Voegde "opgelost" tag toe',
-        ],
-
         'lock' => [
             'is_locked' => 'Dit onderwerp is gesloten en kan niet meer op beantwoord worden',
             'to_0' => 'Ontgrendel topic',
@@ -278,6 +287,7 @@ return [
         'show' => [
             'deleted-posts' => 'Verwijderde posts',
             'total_posts' => 'Alle posts',
+            'total_watches' => 'Totaal aantal abonnees',
 
             'feature_vote' => [
                 'current' => 'Prioriteit: +:count',

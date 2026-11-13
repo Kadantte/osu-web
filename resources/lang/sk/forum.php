@@ -25,6 +25,7 @@ return [
     ],
 
     'forums' => [
+        'forums' => '',
         'latest_post' => 'Posledný príspevok',
 
         'index' => [
@@ -47,7 +48,7 @@ return [
         'confirm_restore' => 'Naozaj chceš tento príspevok obnoviť?',
         'edited' => 'Naposledy upravil :user :when, celkový počet úprav :count.',
         'posted_at' => 'publikované :when',
-        'posted_by' => '',
+        'posted_by_in' => '',
 
         'actions' => [
             'destroy' => 'Odstraniť príspevok',
@@ -79,6 +80,7 @@ return [
         'confirm_restore' => '',
         'deleted' => 'odstranená téma',
         'go_to_latest' => 'zobraziť najnovší príspevok',
+        'go_to_unread' => '',
         'has_replied' => '',
         'in_forum' => 'v :forum',
         'latest_post' => ':when použivateľom :user',
@@ -125,6 +127,55 @@ return [
             'last' => 'prejsť na posledný príspevok',
             'next' => 'preskočiť ďalších 10 príspevkov',
             'previous' => 'vrátiť sa o 10 príspevkov',
+        ],
+
+        'logs' => [
+            '_' => '',
+            'button' => '',
+
+            'columns' => [
+                'action' => '',
+                'date' => '',
+                'user' => '',
+            ],
+
+            'data' => [
+                'add_tag' => '',
+                'announcement' => '',
+                'edit_topic' => '',
+                'fork' => '',
+                'pin' => '',
+                'post_operation' => '',
+                'remove_tag' => '',
+                'source_forum_operation' => '',
+                'unpin' => '',
+            ],
+
+            'no_results' => '',
+
+            'operations' => [
+                'delete_post' => '',
+                'delete_topic' => '',
+                'edit_topic' => '',
+                'edit_poll' => '',
+                'fork' => '',
+                'issue_tag' => '',
+                'lock' => '',
+                'merge' => '',
+                'move' => '',
+                'pin' => '',
+                'post_edited' => '',
+                'restore_post' => '',
+                'restore_topic' => '',
+                'split_destination' => '',
+                'split_source' => '',
+                'topic_type' => '',
+                'topic_type_changed' => '',
+                'unlock' => '',
+                'unpin' => '',
+                'user_lock' => '',
+                'user_unlock' => '',
+            ],
         ],
 
         'post_edit' => [
@@ -202,48 +253,6 @@ return [
             'views' => 'videní',
         ],
 
-        'issue_tag_added' => [
-            'to_0' => 'Odstrániť označenie "pridané"',
-            'to_0_done' => 'Odstránenie označenia "pridané"',
-            'to_1' => 'Pridať označenie "pridané"',
-            'to_1_done' => 'Pridané označenie "pridané"',
-        ],
-
-        'issue_tag_assigned' => [
-            'to_0' => 'Odstrániť označenie "pridelený"',
-            'to_0_done' => 'Odstránenie označenia "pridelený"',
-            'to_1' => 'Pridanie označenia "pridelený"',
-            'to_1_done' => 'Pridané označenie "pridelený"',
-        ],
-
-        'issue_tag_confirmed' => [
-            'to_0' => 'Odstrániť označenie "potvrdený"',
-            'to_0_done' => 'Odstránenie označenia "potvrdený"',
-            'to_1' => 'Pridať označenie "potvrdený"',
-            'to_1_done' => 'Pridané označenie "potvrdený"',
-        ],
-
-        'issue_tag_duplicate' => [
-            'to_0' => 'Odstrániť označenie "duplicitný"',
-            'to_0_done' => 'Odstránenie označenia "duplicitný"',
-            'to_1' => 'Pridať označenie "duplicitný"',
-            'to_1_done' => 'Pridané označenie "duplicitný"',
-        ],
-
-        'issue_tag_invalid' => [
-            'to_0' => 'Odstrániť označenie "neplatný"',
-            'to_0_done' => 'Odstránenie označenia "neplatný"',
-            'to_1' => 'Pridať označenie "neplatný"',
-            'to_1_done' => 'Pridané označenie "neplatný"',
-        ],
-
-        'issue_tag_resolved' => [
-            'to_0' => 'Odstrániť označenie "vyriešené"',
-            'to_0_done' => 'Odstránenie označenia "vyriešené"',
-            'to_1' => 'Pridať označenie "vyriešené"',
-            'to_1_done' => 'Pridané označenie "vyriešené"',
-        ],
-
         'lock' => [
             'is_locked' => 'Táto téma je uzamknutá a nedá sa na ňu odpovedať',
             'to_0' => 'Odomknúť tému',
@@ -278,6 +287,7 @@ return [
         'show' => [
             'deleted-posts' => 'Odstránené Príspevky',
             'total_posts' => 'Celkovo Príspevkov',
+            'total_watches' => '',
 
             'feature_vote' => [
                 'current' => 'Aktuálna priorita: +:count',

@@ -3,175 +3,284 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
 // See the LICENCE file in the repository root for full licence text.
 
+declare(strict_types=1);
+
 namespace App\Libraries;
 
 class LocaleMeta
 {
+    /**
+     * Keys must be a superset of app.available_locales. Additional locales are
+     * available for use only in wiki articles
+     *
+     * php (IntlDateFormatter etc) isn't mapped at the moment.
+     *
+     * Check respective packages for supported list of languages:
+     * carbon: vendor/nesbot/carbon/src/Carbon/Lang/
+     * html: lang attribute in html tag. Mainly for uppercasing country code if used.
+     * jsPlural: node_modules/lang.js/src/lang.js
+     * laravelPlural: vendor/laravel/framework/src/Illuminate/Translation/MessageSelector.php
+     * moment: node_modules/moment/locale/
+     */
     const MAPPINGS = [
         'ar' => [
-            'name' => 'اَلْعَرَبِيَّةُ‎',
             'flag' => 'SA',
+            'name' => 'اَلْعَرَبِيَّةُ‎',
         ],
         'be' => [
-            'name' => 'Беларуская мова',
             'flag' => 'BY',
+            'name' => 'беларуская мова',
         ],
         'bg' => [
-            'name' => 'Български',
             'flag' => 'BG',
+            'name' => 'български',
+        ],
+        'ca' => [
+            'flag' => 'AD', // ES-CA in crowdin
+            'name' => 'català',
         ],
         'cs' => [
-            'name' => 'Česky',
             'flag' => 'CZ',
+            'name' => 'česky',
         ],
         'da' => [
-            'name' => 'Dansk',
             'flag' => 'DK',
+            'name' => 'dansk',
         ],
         'de' => [
-            'name' => 'Deutsch',
             'flag' => 'DE',
+            'name' => 'Deutsch',
         ],
         'el' => [
-            'name' => 'Ελληνικά',
             'flag' => 'GR',
+            'name' => 'ελληνικά',
         ],
         'en' => [
-            'name' => 'English',
             'flag' => 'GB',
+            'moment' => 'en-gb',
+            'name' => 'English',
         ],
         'es' => [
-            'name' => 'español',
             'flag' => 'ES',
+            'name' => 'español',
+        ],
+        'es-419' => [
+            'flag' => 'MX',
+            'jsPlural' => 'es',
+            'laravelPlural' => 'es_MX',
+            'moment' => 'es-mx',
+            'name' => 'español (Latinoamérica)',
         ],
         'fi' => [
-            'name' => 'Suomi',
             'flag' => 'FI',
+            'name' => 'suomi',
+        ],
+        'fil' => [
+            'flag' => 'PH',
+            'name' => 'wikang Filipino',
         ],
         'fr' => [
-            'name' => 'français',
             'flag' => 'FR',
+            'name' => 'français',
+        ],
+        'he' => [
+            'flag' => 'IL',
+            'name' => 'עִבְרִית‎',
         ],
         'hu' => [
-            'name' => 'Magyar',
             'flag' => 'HU',
+            'name' => 'magyar',
         ],
         'id' => [
-            'name' => 'Bahasa Indonesia',
             'flag' => 'ID',
+            'name' => 'bahasa Indonesia',
         ],
         'it' => [
-            'name' => 'Italiano',
             'flag' => 'IT',
+            'name' => 'italiano',
         ],
         'ja' => [
-            'name' => '日本語',
             'flag' => 'JP',
+            'name' => '日本語',
         ],
         'ko' => [
-            'name' => '한국어',
             'flag' => 'KR',
+            'name' => '한국어',
+        ],
+        'lt' => [
+            'flag' => 'LT',
+            'name' => 'lietuvių kalba',
+        ],
+        'lv' => [
+            'flag' => 'LV',
+            'name' => 'latviešu valoda',
+        ],
+        'ms' => [
+            'flag' => 'MY',
+            'name' => 'bahasa Melayu',
         ],
         'nl' => [
-            'name' => 'Nederlands',
             'flag' => 'NL',
+            'name' => 'Nederlands',
         ],
         'no' => [
-            'name' => 'Norsk',
             'flag' => 'NO',
+            'moment' => 'nb',
+            'name' => 'norsk',
         ],
         'pl' => [
-            'name' => 'polski',
             'flag' => 'PL',
+            'name' => 'polski',
         ],
         'pt' => [
-            'name' => 'Português',
             'flag' => 'PT',
+            'name' => 'português',
         ],
         'pt-br' => [
-            'name' => 'Português (Brasil)',
             'flag' => 'BR',
+            'html' => 'pt-BR',
+            'jsPlural' => 'pt',
+            'laravelPlural' => 'pt_BR',
+            'name' => 'português brasileiro',
         ],
         'ro' => [
-            'name' => 'Română',
             'flag' => 'RO',
+            'name' => 'română',
         ],
         'ru' => [
-            'name' => 'Русский',
             'flag' => 'RU',
+            'name' => 'русский',
         ],
         'sk' => [
-            'name' => 'Slovenčina',
             'flag' => 'SK',
+            'name' => 'slovenčina',
+        ],
+        'sl' => [
+            'flag' => 'SI',
+            'name' => 'slovenščina',
+        ],
+        'sr' => [
+            'carbon' => 'sr_Cyrl',
+            'flag' => 'RS',
+            'moment' => 'sr-cyrl',
+            'name' => 'српски',
         ],
         'sv' => [
-            'name' => 'Svenska',
             'flag' => 'SE',
+            'name' => 'svenska',
         ],
         'th' => [
-            'name' => 'ไทย',
             'flag' => 'TH',
-        ],
-        'tl' => [
-            'name' => 'Tagalog',
-            'flag' => 'PH',
+            'name' => 'ไทย',
         ],
         'tr' => [
-            'name' => 'Türkçe',
             'flag' => 'TR',
+            'name' => 'Türkçe',
         ],
         'uk' => [
-            'name' => 'Українська мова',
             'flag' => 'UA',
+            'name' => 'українська мова',
         ],
         'vi' => [
-            'name' => 'Tiếng Việt',
             'flag' => 'VN',
+            'name' => 'tiếng Việt',
         ],
         'zh' => [
-            'name' => '简体中文',
             'flag' => 'CN',
-        ],
-        'zh-hk' => [
-            'name' => '繁體中文（香港）',
-            'flag' => 'HK',
+            'moment' => 'zh-cn',
+            'name' => '简体中文',
         ],
         'zh-tw' => [
-            'name' => '繁體中文（台灣）',
             'flag' => 'TW',
+            'html' => 'zh-TW',
+            'laravelPlural' => 'zh_TW',
+            'name' => '繁體中文（台灣）',
         ],
     ];
 
-    const UNKNOWN = [
-        'name' => '??',
-        'flag' => '__',
-    ];
+    private static array $instances = [];
 
-    // doesn't actually return instance of this class :D
-    public static function find($locale)
+    private array $data;
+
+    public function __construct(private string $locale)
     {
-        return static::MAPPINGS[static::sanitizeCode($locale)] ?? static::UNKNOWN;
+        $this->data = static::MAPPINGS[$locale];
     }
 
-    public static function flagFor($locale)
+    /**
+     * Return cached instance of specified locale.
+     *
+     * Only valid locale listed as key in MAPPINGS constant is accepted.
+     * Passing in invalid locale will result in error.
+     */
+    public static function find(string $locale): self
     {
-        return static::find($locale)['flag'];
+        return static::$instances[$locale] ??= new static($locale);
     }
 
-    public static function isValid($locale)
+    public static function isValid(?string $locale): bool
     {
         return isset(static::MAPPINGS[$locale]);
     }
 
-    public static function nameFor($locale)
+    public static function jsPluralMap(): string
     {
-        return static::find($locale)['name'];
-    }
+        static $ret;
+        if (!isset($ret)) {
+            $map = [];
+            foreach (static::MAPPINGS as $locale => $data) {
+                if (isset($data['jsPlural'])) {
+                    $map[$locale] = $data['jsPlural'];
+                }
+            }
+            $ret = json_encode($map);
+        }
 
-    public static function sanitizeCode($locale)
+        return $ret;
+    }
+    public static function sanitizeCode(?string $locale): ?string
     {
+        if ($locale === null) {
+            return null;
+        }
+
         $ret = strtolower($locale);
 
-        return isset(static::MAPPINGS[$ret]) ? $ret : null;
+        return static::isValid($ret) ? $ret : null;
+    }
+
+    public function carbon(): string
+    {
+        return $this->data['carbon'] ?? $this->locale;
+    }
+
+    public function flag(): string
+    {
+        return $this->data['flag'];
+    }
+
+    public function html(): string
+    {
+        return $this->data['html'] ?? $this->locale;
+    }
+
+    public function laravelPlural(): string
+    {
+        return $this->data['laravelPlural'] ?? $this->locale;
+    }
+
+    public function locale(): string
+    {
+        return $this->locale;
+    }
+
+    public function moment(): string
+    {
+        return $this->data['moment'] ?? $this->locale;
+    }
+
+    public function name(): string
+    {
+        return $this->data['name'];
     }
 }

@@ -26,8 +26,11 @@ return [
         'placeholder' => 'digite para pesquisar',
         'title' => 'Pesquisar',
 
+        'artist_track' => [
+            'more_simple' => 'Ver mais resultados de busca de trilhas de artistas em destaque',
+        ],
         'beatmapset' => [
-            'login_required' => 'Inicie a sessão para procurar por beatmaps',
+            'login_required' => 'Entre para procurar por beatmaps',
             'more' => ':count mais resultados de beatmaps',
             'more_simple' => 'Veja mais resultados de busca de beatmaps',
             'title' => 'Beatmaps',
@@ -36,13 +39,14 @@ return [
         'forum_post' => [
             'all' => 'Todos os fóruns',
             'link' => 'Procurar no fórum',
-            'login_required' => 'Inicie a sessão para pesquisar no fórum',
+            'login_required' => 'Entre para pesquisar no fórum',
             'more_simple' => 'Veja mais resultados de busca nos fóruns',
             'title' => 'Fórum',
 
             'label' => [
                 'forum' => 'procurar nos fóruns',
                 'forum_children' => 'incluir subfóruns',
+                'include_deleted' => 'incluir publicações excluídas',
                 'topic_id' => 'tópico #',
                 'username' => 'autor',
             ],
@@ -50,14 +54,21 @@ return [
 
         'mode' => [
             'all' => 'todos',
+            'artist_track' => 'trilha de artista em destaque',
             'beatmapset' => 'beatmap',
             'forum_post' => 'fórum',
+            'team' => 'equipe',
             'user' => 'jogador',
             'wiki_page' => 'wiki',
         ],
 
+        'team' => [
+            'login_required' => 'Entre para procurar equipes',
+            'more_simple' => 'Ver mais resultados de busca de equipes',
+        ],
+
         'user' => [
-            'login_required' => 'Inicie a sessão para procurar usuários',
+            'login_required' => 'Entre para procurar usuários',
             'more' => ':count mais resultados de busca por usuários',
             'more_simple' => 'Veja mais resultados de busca por usuários',
             'more_hidden' => 'O limite de busca por jogador é limitado em :max. Tente refinar mais a sua pesquisa.',
@@ -72,8 +83,19 @@ return [
     ],
 
     'download' => [
-        'tagline' => "vamos<br>começar!",
-        'action' => 'Baixar osu!',
+        'action_lazer_info' => 'cheque esta página para mais informações',
+        'download' => 'Baixar',
+        'for_os' => 'para :os',
+        'macos-fallback' => 'usuários de macOS',
+        'mirror' => 'link alternativo',
+        'or' => 'ou',
+        'os_version_or_later' => ':os_version ou mais novo',
+        'other_os' => 'outras plataformas',
+        'quick_start_guide' => 'guia de início rápido',
+        'stable_text' => 'caso você esteja procurando pelo mais antigo',
+        'tagline_1' => 'vamos',
+        'tagline_2' => 'começar!',
+        'video-guide' => 'guia em vídeo',
 
         'help' => [
             '_' => 'se você tiver problemas para iniciar o jogo ou registrar-se, :help_forum_link ou :support_button.',
@@ -86,12 +108,10 @@ return [
             'macos' => 'para macOS',
             'linux' => 'para Linux',
         ],
-        'mirror' => 'link alternativo',
-        'macos-fallback' => 'usuários de macOS',
         'steps' => [
             'register' => [
                 'title' => 'crie uma conta',
-                'description' => 'siga as instruções quando iniciar o jogo para conectar-se ou criar uma nova conta',
+                'description' => 'siga as instruções quando iniciar o jogo para entrar ou criar uma nova conta',
             ],
             'download' => [
                 'title' => 'baixar o jogo',
@@ -105,7 +125,6 @@ return [
                 ],
             ],
         ],
-        'video-guide' => 'guia em vídeo',
     ],
 
     'user' => [
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
+            'daily_challenge' => 'Beatmap de desafio diário',
             'new' => 'Novos beatmaps ranqueados',
             'popular' => 'Beatmaps Populares',
             'by_user' => 'por :user',
+            'resets' => 'redefine :ends',
         ],
         'buttons' => [
             'download' => 'Baixar osu!',
             'support' => 'Apoie o osu!',
             'store' => 'osu!store',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Nossa!',
-        'subtitle' => 'Parece que você está se divertindo bastante! :D',
-        'body' => [
-            'part-1' => 'Você sabia que o osu! não tem nenhum anúncio e depende do apoio dos jogadores para cobrir custos de estabilidade e desenvolvimento?',
-            'part-2' => 'Você também sabia que apoiar o osu! te dá um monte de coisas úteis, como <strong>download dentro do jogo</strong> que é automaticamente ativado no modo espectador ou em partidas multijogadores?',
+        'livestream' => [
+            'title' => 'Livestream em destaque',
         ],
-        'find-out-more' => 'Clique aqui para saber mais!',
-        'download-starting' => "Ah, e não se preocupe - seu download já começou ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Abrir painel de administração',
+            ],
+        ],
     ],
 ];

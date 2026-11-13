@@ -4,8 +4,9 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'blocked' => 'Tento uživatel si tě zablokoval.',
     'title_compact' => 'přátelé',
-    'too_many' => 'Dosažen limit počtu přátel.',
+    'too_many' => 'Dosažen limit počtu přátel',
 
     'buttons' => [
         'add' => 'přidat přítele',

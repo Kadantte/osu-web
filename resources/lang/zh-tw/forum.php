@@ -15,7 +15,7 @@ return [
         'create' => [
             '_' => '新增封面',
             'button' => '上傳圖片',
-            'info' => '圖片尺寸應為 :dimensions. 也可以將圖片拉到此處上傳.',
+            'info' => '封面大小應為 :dimensions。您也可以將圖片拖曳至此以上傳。',
         ],
 
         'destroy' => [
@@ -25,10 +25,11 @@ return [
     ],
 
     'forums' => [
+        'forums' => '論壇',
         'latest_post' => '最新貼文',
 
         'index' => [
-            'title' => '論壇主頁',
+            'title' => '論壇索引',
         ],
 
         'topics' => [
@@ -44,10 +45,10 @@ return [
 
     'post' => [
         'confirm_destroy' => '刪除此回覆？',
-        'confirm_restore' => '恢復此回覆？',
+        'confirm_restore' => '確定要還原貼文嗎？',
         'edited' => '最後由 :user 於 :when 編輯，總共編輯了 :count 次。',
         'posted_at' => '發表於 :when',
-        'posted_by' => '由 :username 發布',
+        'posted_by_in' => ':username 在 ":forum" 中發表了貼文',
 
         'actions' => [
             'destroy' => '刪除回覆',
@@ -76,9 +77,12 @@ return [
 
     'topic' => [
         'confirm_destroy' => '確定要刪除這個主題嗎？',
-        'confirm_restore' => '確定要復原這個主題嗎？',
+        'confirm_restore' => '確定要還原這個主題嗎？',
         'deleted' => '已刪除的主題',
         'go_to_latest' => '查看最後的貼文',
+        'go_to_unread' => '查看第一篇未讀帖子
+
+',
         'has_replied' => '您已回覆此主題',
         'in_forum' => '目前看板[ :forum ]',
         'latest_post' => ':when :user',
@@ -88,12 +92,12 @@ return [
         'post_reply' => '發表',
         'reply_box_placeholder' => '輸入回覆',
         'reply_title_prefix' => 'Re',
-        'started_by' => '發表人： :user',
+        'started_by' => '發文者：:user',
         'started_by_verbose' => '由 :user 發起',
 
         'actions' => [
             'destroy' => '刪除主題',
-            'restore' => '恢復主題',
+            'restore' => '復原主題',
         ],
 
         'create' => [
@@ -105,26 +109,75 @@ return [
             'submit' => '發表',
 
             'necropost' => [
-                'default' => '此主題不被討論一段時間了。如非有特殊理由，請勿在此回覆。',
+                'default' => '這個主題已經閒置一段時間了。除非你有特別的原因，否則請不要在這裡回覆。',
 
                 'new_topic' => [
-                    '_' => "此主題不被討論一段時間了。如果你沒有在這裡回文的具體理由, 請用 :create 代替。",
-                    'create' => '建立一個新的主題',
+                    '_' => "這個主題已經閒置一段時間了。如果你沒有特別的原因在這裡發文，請使用 :create 發表新的主題。",
+                    'create' => '建立新主題',
                 ],
             ],
 
             'placeholder' => [
                 'body' => '在這裡輸入內文',
-                'title' => '點擊這裡編輯標題',
+                'title' => '按這裡編輯標題',
             ],
         ],
 
         'jump' => [
-            'enter' => '點擊這裡跳轉到指定的回覆',
+            'enter' => '按這裡跳至指定的貼文編號',
             'first' => '返回頂部',
             'last' => '跳至最後',
             'next' => '往後 10 篇',
             'previous' => '往前 10 篇',
+        ],
+
+        'logs' => [
+            '_' => '主題日誌',
+            'button' => '瀏覽主題日誌',
+
+            'columns' => [
+                'action' => '動作',
+                'date' => '日期',
+                'user' => '使用者',
+            ],
+
+            'data' => [
+                'add_tag' => '已加入「:tag」標籤',
+                'announcement' => '已置頂主題，並標記為公告',
+                'edit_topic' => '到 :title',
+                'fork' => '源自 :topic',
+                'pin' => '已置頂主題',
+                'post_operation' => '由 :username 發表',
+                'remove_tag' => '已移除「:tag」標籤',
+                'source_forum_operation' => '源自 :forum',
+                'unpin' => '已取消置頂主題',
+            ],
+
+            'no_results' => '找不到記錄檔…',
+
+            'operations' => [
+                'delete_post' => '已刪除貼文',
+                'delete_topic' => '已刪除主題',
+                'edit_topic' => '已變更主題標題',
+                'edit_poll' => '已編輯主題投票',
+                'fork' => '已複製主題',
+                'issue_tag' => '已打上標籤',
+                'lock' => '已鎖定主題',
+                'merge' => '已將貼文合併進這則主題',
+                'move' => '已移動主題',
+                'pin' => '已置頂主題',
+                'post_edited' => '已編輯貼文',
+                'restore_post' => '已還原貼文',
+                'restore_topic' => '已還原主題',
+                'split_destination' => '已移動分割的貼文',
+                'split_source' => '已分割貼文',
+                'topic_type' => '已設定主題類型',
+                'topic_type_changed' => '已變更主題類型',
+                'unlock' => '已解鎖主題',
+                'unpin' => '已取消置頂主題',
+                'user_lock' => '已鎖定自己的主題',
+                'user_unlock' => '已解鎖自己的主題',
+            ],
         ],
 
         'post_edit' => [
@@ -202,56 +255,14 @@ return [
             'views' => '瀏覽數',
         ],
 
-        'issue_tag_added' => [
-            'to_0' => '移除 "added" 標籤',
-            'to_0_done' => '已移除 "added" 標籤',
-            'to_1' => '新增 "added" 標籤',
-            'to_1_done' => '已新增 "added" 標籤',
-        ],
-
-        'issue_tag_assigned' => [
-            'to_0' => '移除 "assigned" 標籤',
-            'to_0_done' => '已移除 "assigned" 标签',
-            'to_1' => '新增 "assigned" 標籤',
-            'to_1_done' => '已新增 "assigned" 標籤',
-        ],
-
-        'issue_tag_confirmed' => [
-            'to_0' => '移除 "confirmed" 標籤',
-            'to_0_done' => '已移除 "confirmed" 標籤',
-            'to_1' => '新增 "confirmed" 標籤',
-            'to_1_done' => '已新增 "confirmed" 標籤',
-        ],
-
-        'issue_tag_duplicate' => [
-            'to_0' => '移除 "duplicate" 標籤',
-            'to_0_done' => '已移除 "duplicate" 標籤',
-            'to_1' => '新增 "duplicate" 標籤',
-            'to_1_done' => '已新增 "duplicate" 標籤',
-        ],
-
-        'issue_tag_invalid' => [
-            'to_0' => '移除 "invalid" 標籤',
-            'to_0_done' => '已移除 "invalid" 標籤',
-            'to_1' => '新增 "invalid" 標籤',
-            'to_1_done' => '已新增 "invalid" 標籤',
-        ],
-
-        'issue_tag_resolved' => [
-            'to_0' => '移除 "resolved" 標籤',
-            'to_0_done' => '已移除 "resolved" 標籤',
-            'to_1' => '新增 "resolved" 標籤',
-            'to_1_done' => '已新增 "resolved" 標籤',
-        ],
-
         'lock' => [
             'is_locked' => '主題已被鎖定，不能回覆',
-            'to_0' => '解鎖主题',
+            'to_0' => '解鎖主題',
             'to_0_confirm' => '解鎖主題?',
             'to_0_done' => '主题已經解鎖',
-            'to_1' => '鎖定主题',
+            'to_1' => '鎖定主題',
             'to_1_confirm' => '鎖定主題?',
-            'to_1_done' => '主题已被鎖定',
+            'to_1_done' => '主題已被鎖定',
         ],
 
         'moderate_move' => [
@@ -261,13 +272,13 @@ return [
         'moderate_pin' => [
             'to_0' => '取消置頂',
             'to_0_confirm' => '取消置頂主題?',
-            'to_0_done' => '該主题已取消置頂',
+            'to_0_done' => '該主題已取消置頂',
             'to_1' => '置頂',
             'to_1_confirm' => '置頂主題?',
-            'to_1_done' => '該主题已置頂',
-            'to_2' => '至頂並標記為公告',
+            'to_1_done' => '該主題已置頂',
+            'to_2' => '置頂並標記為公告',
             'to_2_confirm' => '置頂主題並設為公告?',
-            'to_2_done' => '該主题已置頂並標記為公告',
+            'to_2_done' => '該主題已置頂並標記為公告',
         ],
 
         'moderate_toggle_deleted' => [
@@ -278,9 +289,10 @@ return [
         'show' => [
             'deleted-posts' => '刪除主題',
             'total_posts' => '總主題數量',
+            'total_watches' => '訂閱者',
 
             'feature_vote' => [
-                'current' => '當前優先順序: +:count',
+                'current' => '目前優先順序：+:count',
                 'do' => '提升這個請求',
 
                 'info' => [
@@ -291,7 +303,7 @@ return [
 
                 'user' => [
                     'count' => '{0} 沒有票|[1,*] :count 票',
-                    'current' => '剩下 :votes 票.',
+                    'current' => '你還有 :votes 票.',
                     'not_enough' => "沒有票了",
                 ],
             ],
@@ -302,7 +314,7 @@ return [
                 'vote' => '投票',
 
                 'button' => [
-                    'change_vote' => '更改投票',
+                    'change_vote' => '變更投票',
                     'edit' => '編輯投票',
                     'view_results' => '直接跳到結果',
                     'vote' => '投票',
@@ -321,8 +333,8 @@ return [
             'to_not_watching' => '未訂閱',
             'to_watching' => '訂閱',
             'to_watching_mail' => '訂閱並開啟電子郵件通知',
-            'tooltip_mail_disable' => '通知已啟用。點擊以禁用。',
-            'tooltip_mail_enable' => '通知已禁用。點擊以啟用。',
+            'tooltip_mail_disable' => '通知已啟用。按這裡停用。',
+            'tooltip_mail_enable' => '通知已停用。按這裡啟用。',
         ],
     ],
 ];

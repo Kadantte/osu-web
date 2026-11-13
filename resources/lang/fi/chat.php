@@ -4,32 +4,67 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'talking_in' => 'keskustellaan :channel:ssa',
+    'loading_users' => 'ladataan käyttäjiä...',
+    'searching_users' => 'etsitään käyttäjiä...',
+    'talking_in' => 'keskustellaan kanavalla :channel',
     'talking_with' => 'keskustelu :name:n kanssa',
     'title_compact' => 'viestit',
+    'unread_messages' => 'lukemattomia viestejä',
 
     'cannot_send' => [
         'channel' => 'Et voi lähettää tälle kanavalle viestejä juuri nyt, koska',
         'user' => 'Et voi lähettää tälle käyttäjälle viestejä, koska',
-        'reasons' => [
-            'blocked' => 'Viestin vastaanottaja on estänyt sinut',
-            'channel_moderated' => 'Tämä kanava on moderoitu',
-            'friends_only' => 'Vastaanottaja sallii viestit vain hänen kavereiltaan',
-            'not_enough_plays' => '',
-            'not_verified' => '',
-            'restricted' => 'Käyttäjätilisi on rajoitetussa tilassa',
-            'silenced' => '',
-            'target_restricted' => 'Vastaanottaja on rajoitetussa tilassa',
+    ],
+
+    'channels' => [
+        'confirm_part' => 'Haluatko piilottaa tämän kanavan? Tulet yhä saamaan viestejä tältä kanavalta.',
+        'create' => 'luo tiedote',
+        'join' => 'liity kanavalle',
+        'none' => 'ei kanavaa',
+
+        'list' => [
+            'title' => [
+                'ANNOUNCE' => 'Tiedotukset',
+                'GROUP' => 'Ryhmät',
+                'PM' => 'Yksityisviestit',
+                'PUBLIC' => 'Kanavat',
+                'TEAM' => 'Tiimi',
+            ],
         ],
     ],
+
+    'form' => [
+        'title' => [
+            'announcement' => 'Luo uusi tiedote',
+        ],
+
+        'labels' => [
+            'description' => 'kuvaus',
+            'message' => 'viesti',
+            'name' => 'huoneen nimi',
+            'users' => 'lisättävät pelaajat',
+        ],
+    ],
+
+    'not_found' => [
+        'message' => 'Täällä ei ole mitään, ehkä poistuit kanavalta tai sitä ei ole...',
+        'title' => 'kanavaa ei löydetty',
+    ],
+
+    'not_joined' => [
+        'message' => 'Liity kanavalle nähdäksesi sen viestit.',
+        'join' => 'Liity kanavalle',
+    ],
+
     'input' => [
+        'create' => 'Luo',
         'disabled' => 'viestiä ei voida lähettää...',
+        'disconnected' => 'Yhteys katkaistu',
         'placeholder' => 'kirjoita viesti...',
         'send' => 'Lähetä',
     ],
-    'no-conversations' => [
-        'howto' => "Aloita keskusteluja käyttäjän profiilista tai käyttäjäkortti-ikkunasta.",
-        'lazer' => 'Julkiset kanavat joihin olet liittynyt <a href=":link">osu!lazerilla</a> näkyvät myös täällä.',
-        'title' => 'ei keskusteluja...',
+
+    'join_channels' => [
+        'loading' => 'Ladataan kanavaluetteloa...',
     ],
 ];

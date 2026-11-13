@@ -8,8 +8,11 @@ namespace App\Providers;
 use App\Http\Controllers\Passport\AuthorizationController;
 use App\Models\OAuth\Client;
 use App\Models\OAuth\Token;
+use Auth;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\Http\Controllers\ApproveAuthorizationController;
 use Laravel\Passport\Http\Controllers\DenyAuthorizationController;
 use Laravel\Passport\Passport;
@@ -24,18 +27,29 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Passport::ignoreMigrations();
+        Passport::enablePasswordGrant();
+        Passport::ignoreRoutes();
+
+        // Copied from PassportServiceProvider with the correct
+        // AuthorizationController class.
+        $this->app->when(AuthorizationController::class)
+            ->needs(StatefulGuard::class)
+            ->give(fn () => Auth::guard($GLOBALS['cfg']['passport']['guard']));
     }
 
     public function boot()
     {
+        Passport::$clientUuids = false;
+        // technically should be checked for private key but there's no option for that
+        Passport::$validateKeyPermissions = false;
         Passport::tokensExpireIn(Carbon::now()->addDays(1));
         Passport::refreshTokensExpireIn(Carbon::now()->addMonths(3));
 
         Passport::useTokenModel(Token::class);
         Passport::useClientModel(Client::class);
+        Passport::viewPrefix('vendor.passport');
 
-        if ($path = config('services.passport.path')) {
+        if ($path = $GLOBALS['cfg']['services']['passport']['path']) {
             Passport::keyPath($path);
         }
 
@@ -43,7 +57,7 @@ class AuthServiceProvider extends ServiceProvider
         // RouteServiceProvider current runs before our provider, so Passport's default routes will override
         // those set in routes/web.php.
         Route::group(['prefix' => 'oauth', 'as' => 'oauth.'], function () {
-            Route::post('token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken')->middleware('throttle')->name('passport.token');
+            Route::post('token', AccessTokenController::class.'@issueToken')->middleware('throttle')->name('passport.token');
             Route::get('authorize', AuthorizationController::class.'@authorize')
                 ->middleware(['web', 'verify-user'])
                 ->name('authorizations.authorize');
@@ -56,12 +70,17 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Passport::tokensCan([
-            'bot' => trans('api.scopes.bot'),
-            'forum.write' => trans('api.scopes.forum.write'),
-            'chat.write' => trans('api.scopes.chat.write'),
-            'friends.read' => trans('api.scopes.friends.read'),
-            'identify' => trans('api.scopes.identify'),
-            'public' => trans('api.scopes.public'),
+            'delegate' => '',
+            'forum.write' => osu_trans('api.scopes.forum.write'),
+            'forum.write_manage' => osu_trans('api.scopes.forum.write_manage'),
+            'chat.read' => osu_trans('api.scopes.chat.read'),
+            'chat.write' => osu_trans('api.scopes.chat.write'),
+            'chat.write_manage' => osu_trans('api.scopes.chat.write_manage'),
+            'friends.read' => osu_trans('api.scopes.friends.read'),
+            'group_permissions' => '',
+            'identify' => osu_trans('api.scopes.identify'),
+            'multiplayer.write_manage' => osu_trans('api.scopes.multiplayer.write_manage'),
+            'public' => osu_trans('api.scopes.public'),
         ]);
     }
 }

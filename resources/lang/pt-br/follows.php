@@ -20,19 +20,23 @@ return [
     ],
 
     'index' => [
-        'title_compact' => 'observações',
+        'title_compact' => 'listas de observação',
     ],
 
     'mapping' => [
-        'empty' => 'Nenhum mapeador encontrado.',
-        'followers' => 'seguidores do mapeamento',
-        'page_title' => 'observações do mapeador',
-        'title' => 'mapeador',
+        'empty' => 'Nenhum mapper encontrado.',
+        'followers' => 'inscritos de mapping',
+        'page_title' => 'lista de observação de mapper',
+        'title' => 'mapper',
         'to_0' => 'parar de me notificar quando este usuário criar um novo beatmap',
         'to_1' => 'notificar-me quando esse usuário criar um novo beatmap',
     ],
 
     'modding' => [
         'title' => 'discussão do beatmap',
+    ],
+
+    'store' => [
+        'too_many' => 'Limite de seguimento alcançado.',
     ],
 ];

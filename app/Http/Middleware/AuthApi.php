@@ -5,29 +5,15 @@
 
 namespace App\Http\Middleware;
 
+use App\Libraries\OAuth\EncodeToken;
+use App\Libraries\SessionVerification;
+use App\Models\OAuth\Token;
 use Closure;
 use Illuminate\Auth\AuthenticationException;
-use Laravel\Passport\ClientRepository;
-use League\OAuth2\Server\Exception\OAuthServerException;
-use League\OAuth2\Server\ResourceServer;
-use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
-use Zend\Diactoros\ResponseFactory;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Diactoros\StreamFactory;
-use Zend\Diactoros\UploadedFileFactory;
 
 class AuthApi
 {
     const REQUEST_OAUTH_TOKEN_KEY = 'oauth_token';
-
-    protected $clients;
-    protected $server;
-
-    public function __construct(ResourceServer $server, ClientRepository $clients)
-    {
-        $this->clients = $clients;
-        $this->server = $server;
-    }
 
     public function handle($request, Closure $next)
     {
@@ -35,9 +21,10 @@ class AuthApi
         // default session guard is used. This really works by coincidence with cookies disabled
         // since session user resolution will fail, but it'll still keep repeatedly attempting to resolve it.
 
-        if ($request->bearerToken() !== null) {
-            $psr = $this->validateRequest($request);
-            $token = $this->validTokenFromRequest($psr);
+        $bearerToken = $request->bearerToken();
+
+        if ($bearerToken !== null) {
+            $token = $this->validTokenFromRequest($bearerToken);
             $request->attributes->set(static::REQUEST_OAUTH_TOKEN_KEY, $token);
         } else {
             if (!RequireScopes::noTokenRequired($request)) {
@@ -48,54 +35,32 @@ class AuthApi
         return $next($request);
     }
 
-    private function validateRequest($request)
+    private function validTokenFromRequest(string $bearerToken): Token
     {
-        $psr = (new PsrHttpFactory(
-            new ServerRequestFactory(),
-            new StreamFactory(),
-            new UploadedFileFactory(),
-            new ResponseFactory()
-        ))->createRequest($request);
+        $tokenId = EncodeToken::decodeAccessToken($bearerToken);
+        $token = Token::findActiveOrFail($tokenId);
 
-        try {
-            return $this->server->validateAuthenticatedRequest($psr);
-        } catch (OAuthServerException $e) {
-            throw new AuthenticationException();
+        // increment hit count for about every 10 hits
+        if (rand(0, 9) === 0) {
+            $token->incrementInstance('hit_count', 10);
         }
-    }
-
-    private function validTokenFromRequest($psr)
-    {
-        $psrClientId = $psr->getAttribute('oauth_client_id');
-        $psrUserId = get_int($psr->getAttribute('oauth_user_id'));
-        $psrTokenId = $psr->getAttribute('oauth_access_token_id');
-
-        $client = $this->clients->findActive($psrClientId);
-        if ($client === null) {
-            throw new AuthenticationException('invalid client');
-        }
-
-        $token = $client->tokens()->validAt(now())->find($psrTokenId);
-        if ($token === null) {
-            throw new AuthenticationException('invalid token');
-        }
-
-        $token->validate();
 
         $user = $token->getResourceOwner();
 
-        if ($token->isClientCredentials() && $psrUserId !== null) {
-            throw new AuthenticationException();
-        }
-
-        if (!$token->isClientCredentials() && $user->getKey() !== $psrUserId) {
-            throw new AuthenticationException();
-        }
-
         if ($user !== null) {
-            auth()->setUser($user);
+            \Auth::setUser($user);
             $user->withAccessToken($token);
-            $user->markSessionVerified();
+
+            if ($token->isVerified()) {
+                $user->markSessionVerified();
+            } else {
+                if ($token->getVerificationMethod() === null) {
+                    $verificationState = new SessionVerification\State($token, $user);
+                    if ($verificationState->getMethod() === 'mail') {
+                        $verificationState->issueMail(true);
+                    }
+                }
+            }
         }
 
         return $token;

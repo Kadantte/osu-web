@@ -5,25 +5,31 @@
 
 return [
     'show' => [
-        'title' => '',
+        'non_preserved' => 'Toto skóre je označeno pro smazání a brzy zmizí.',
+        'title' => ':username na :title [:version]',
 
         'beatmap' => [
-            'by' => '',
+            'by' => 'od :artist',
         ],
 
         'player' => [
-            'by' => '',
-            'submitted_on' => '',
+            'by' => 'Zahrál',
+            'played_on' => 'Odehráno na',
+            'submitted_on' => 'Nahráno',
+            'watched' => 'Zhlédnuto',
+            'watched_count' => ':count_delimitedkrát|:count_delimitedkrát|:count_delimitedkrát',
 
             'rank' => [
-                'country' => '',
-                'global' => '',
+                'country' => 'Státní žebříčky',
+                'global' => 'Celosvětové žebříčky',
             ],
         ],
     ],
 
     'status' => [
-        'non_best' => '',
-        'processing' => '',
+        'non_best' => 'Pouze osobní nejlepší skóre ocenění',
+        'no_pp' => 'pp není za toto skóre uděleno',
+        'processing' => 'Toto skóre se stále počítá a bude brzy zobrazeno',
+        'no_rank' => 'Toto skóre nemá žádné získané hodnocení, protože je nehodnocené nebo označené pro smazání',
     ],
 ];

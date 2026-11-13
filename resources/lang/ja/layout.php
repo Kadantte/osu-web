@@ -19,11 +19,16 @@ return [
             'contest' => 'コンテスト',
             'contests' => 'コンテスト',
             'root' => 'コンソール',
-            'store_orders' => 'ストア管理者',
         ],
 
         'artists' => [
             'index' => '一覧',
+        ],
+
+        'beatmapsets' => [
+            'show' => '詳細',
+            'discussions' => 'ディスカッション',
+            'versions' => 'バージョン履歴',
         ],
 
         'changelog' => [
@@ -47,6 +52,9 @@ return [
 
         'users' => [
             'modding' => 'modding',
+            'playlists' => 'プレイリスト',
+            'ranked-play' => 'ランクマッチ',
+            'realtime' => 'マルチプレイヤー',
             'show' => '詳細',
         ],
     ],
@@ -62,18 +70,10 @@ return [
     'menu' => [
         'beatmaps' => [
             '_' => 'ビートマップ',
-            'artists' => '注目アーティスト',
-            'index' => '一覧',
-            'packs' => 'パック',
         ],
         'community' => [
             '_' => 'コミュニティ',
-            'chat' => 'チャット',
-            'contests' => 'コンテスト',
             'dev' => '開発',
-            'forum-forums-index' => 'フォーラム',
-            'getLive' => '配信',
-            'tournaments' => 'トーナメント',
         ],
         'help' => [
             '_' => 'ヘルプ',
@@ -81,30 +81,16 @@ return [
             'getFaq' => 'FAQ',
             'getRules' => 'ルール',
             'getSupport' => 'サポートが必要です！',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => 'ホーム',
-            'changelog-index' => '更新履歴',
-            'getDownload' => 'ダウンロード',
-            'news-index' => 'お知らせ',
-            'search' => '検索',
             'team' => 'osu!team',
         ],
         'rankings' => [
             '_' => 'ランキング',
-            'charts' => 'スポットライト',
-            'country' => '国別',
-            'index' => 'パフォーマンス',
-            'kudosu' => 'kudosu',
-            'multiplayer' => 'マルチプレイヤー',
-            'score' => 'スコア',
         ],
         'store' => [
             '_' => 'ストア',
-            'cart-show' => 'カート',
-            'getListing' => '商品一覧',
-            'orders-index' => '注文履歴',
         ],
     ],
 
@@ -127,7 +113,9 @@ return [
         'legal' => [
             '_' => 'Legal & Status',
             'copyright' => '著作権 (DMCA)',
+            'jp_sctl' => '特定商取引法',
             'privacy' => 'プライバシー',
+            'rules' => 'ルール',
             'server_status' => 'サーバー状態',
             'source_code' => 'ソースコード',
             'terms' => '利用規約',
@@ -160,7 +148,7 @@ return [
             'description' => '',
         ],
         '429' => [
-            'error' => '試行可能回数の上限に達しました。',
+            'error' => 'レート制限に達しました',
             'description' => '',
         ],
         '500' => [
@@ -184,7 +172,7 @@ return [
     ],
 
     'popup_login' => [
-        'button' => 'サインイン / 登録',
+        'button' => 'ログイン / 登録',
 
         'login' => [
             'forgot' => "ログイン情報を忘れた",
@@ -208,10 +196,16 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => '設定',
+            'create_team' => 'チームを作成',
             'follows' => 'ウォッチリスト',
             'friends' => 'フレンド',
+            'legacy_score_only_toggle' => 'Lazerモード',
+            'legacy_score_only_toggle_tooltip' => 'Lazerモードは、新しいスコアリングアルゴリズムを使用して、Lazerから提出されたスコアを表示します',
             'logout' => 'ログアウト',
             'profile' => 'プロフィール',
+            'scoring_mode_toggle' => 'クラシックスコアリング',
+            'scoring_mode_toggle_tooltip' => 'スコア値を調整し、クラシックな無制限スコアリングに近い感覚に変える',
+            'team' => 'チーム',
         ],
     ],
 

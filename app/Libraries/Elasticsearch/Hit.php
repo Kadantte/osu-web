@@ -44,9 +44,10 @@ class Hit implements \ArrayAccess
             return array_map(function ($text) use ($limit) {
                 // ensure cutoff is after the end of the highlight, if any.
                 // TODO: look at storing offsets in index and using those to build highlights instead?
-                $cap = strpos($text, '</em>') + 5;
+                $cap = mb_strrpos($text, '</em>');
+                $cap = $cap === false ? false : $cap + 5;
 
-                return str_limit($text, $cap === false ? $limit : max($cap, $limit));
+                return truncate_inclusive($text, $cap === false ? $limit : max($cap, $limit));
             }, $highlights);
         }
 
@@ -59,7 +60,7 @@ class Hit implements \ArrayAccess
         $results = $this->raw['inner_hits'][$name] ?? null;
 
         if ($results) {
-            return new SearchResponse($results, $name);
+            return new SearchResponse($results);
         }
 
         return SearchResponse::empty();
@@ -83,22 +84,22 @@ class Hit implements \ArrayAccess
     // ArrayAccess
     //================
 
-    public function offsetExists($key)
+    public function offsetExists($key): bool
     {
         return array_has($this->raw, $key);
     }
 
-    public function offsetGet($key)
+    public function offsetGet($key): mixed
     {
         return data_get($this->raw, $key);
     }
 
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value): void
     {
         throw new \BadMethodCallException('not supported');
     }
 
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         throw new \BadMethodCallException('not supported');
     }

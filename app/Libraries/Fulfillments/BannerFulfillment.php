@@ -5,7 +5,6 @@
 
 namespace App\Libraries\Fulfillments;
 
-use App\Events\Fulfillments\OrderFulfillerEvent;
 use App\Models\Store\OrderItem;
 
 /**
@@ -17,6 +16,7 @@ abstract class BannerFulfillment extends OrderFulfiller
     const ALLOWED_TAGGED_NAMES = [
         'owc-supporter',
         'mwc7-supporter',
+        'player-supporter',
         'twc-supporter',
         'cwc-supporter',
         'mwc4-supporter',
@@ -30,7 +30,7 @@ abstract class BannerFulfillment extends OrderFulfiller
             $this->applyBanner($orderItem);
         }
 
-        event("store.fulfillments.run.{$this->taggedName()}", new OrderFulfillerEvent($this->order));
+        $this->incrementRun();
     }
 
     public function revoke()
@@ -40,7 +40,17 @@ abstract class BannerFulfillment extends OrderFulfiller
             $this->revokeBanner($orderItem);
         }
 
-        event("store.fulfillments.revoke.{$this->taggedName()}", new OrderFulfillerEvent($this->order));
+        $this->incrementRevoke();
+    }
+
+    protected function applyBanner(OrderItem $orderItem)
+    {
+        $extraData = $orderItem->extra_data;
+        $user = $orderItem->order->user;
+        $user->profileBanners()->create([
+            'tournament_id' => $extraData->tournamentId,
+            'country_acronym' => $extraData->countryAcronym,
+        ]);
     }
 
     protected function getOrderItems()
@@ -57,42 +67,29 @@ abstract class BannerFulfillment extends OrderFulfiller
         return $this->orderItems;
     }
 
-    private function applyBanner(OrderItem $orderItem)
-    {
-        $extraData = $orderItem->extra_data;
-        $user = $orderItem->order->user;
-        $user->profileBanners()->create([
-            'tournament_id' => $extraData['tournament_id'],
-            'country_acronym' => $extraData['cc'],
-        ]);
-    }
-
-    private function revokeBanner(OrderItem $orderItem)
+    protected function revokeBanner(OrderItem $orderItem)
     {
         $extraData = $orderItem->extra_data;
         $user = $orderItem->order->user;
 
         // just any matching banner
-        $banner = $user
+        $user
             ->profileBanners()
-            ->where('tournament_id', $extraData['tournament_id'])
-            ->where('country_acronym', $extraData['cc'])
-            ->first();
-
-        if ($banner) {
-            $banner->delete();
-        }
+            ->where('tournament_id', $extraData->tournamentId)
+            ->where('country_acronym', $extraData->countryAcronym)
+            ->first()
+            ?->delete();
     }
 
     //================
     // Validatable
     //================
-    public function validationErrorsTranslationPrefix()
+    public function validationErrorsTranslationPrefix(): string
     {
         return 'fulfillments.banner-supporter';
     }
 
-    public function validationErrorsKeyBase()
+    public function validationErrorsKeyBase(): string
     {
         return 'model_validation/';
     }

@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited reposta está oculta.|:count_delimited respostas estão ocultas.',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Precisa estar conectado para editar.',
@@ -16,6 +18,16 @@ return [
         'empty' => 'Nada aconteceu... ainda.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'excluído',
         'none_found' => 'Não foram encontradas discussões que correspondam aos critérios de pesquisa.',
@@ -24,22 +36,24 @@ return [
         'form' => [
             '_' => 'Pesquisar',
             'deleted' => 'Incluir discussões excluídas',
+            'mode' => 'Modo de jogo',
             'only_unresolved' => 'Mostrar apenas discussões não resolvidas',
+            'show_review_embeds' => 'Mostrar publicações de análise',
             'types' => 'Tipos de mensagem',
-            'username' => 'Nome de Usuário',
+            'username' => 'Nome de usuário',
 
             'beatmapset_status' => [
-                '_' => 'Status do Beatmap',
+                '_' => 'Status do beatmap',
                 'all' => 'Todos',
                 'disqualified' => 'Desqualificado',
-                'never_qualified' => 'Nunca Qualificado',
+                'never_qualified' => 'Nunca qualificado',
                 'qualified' => 'Qualificado',
                 'ranked' => 'Ranqueado',
             ],
 
             'user' => [
                 'label' => 'Usuário',
-                'overview' => 'Supervisão de atividades',
+                'overview' => 'Visão geral de atividades',
             ],
         ],
     ],
@@ -52,9 +66,23 @@ return [
     ],
 
     'nearby_posts' => [
-        'confirm' => 'Nenhuma das postagens corresponde ao que procuro',
+        'confirm' => 'Nenhuma das publicações abordam minha questão',
         'notice' => 'Existem postagens próximas de :timestamp (:existing_timestamps). Por favor, visualize-as antes de postar.',
-        'unsaved' => ':count nesta revisão',
+        'unsaved' => ':count nesta análise',
+    ],
+
+    'owner_editor' => [
+        'button' => 'Dono da dificuldade',
+        'reset_confirm' => 'Redefinir o proprietário para esta dificuldade?',
+        'user' => 'Dono',
+        'version' => 'Dificuldade',
+    ],
+
+    'refresh' => [
+        'checking' => 'Buscando atualizações...',
+        'has_updates' => 'A discussão tem uma atualização, clique para atualizar.',
+        'no_updates' => 'Sem atualizações.',
+        'updating' => 'Atualizando...',
     ],
 
     'reply' => [
@@ -66,16 +94,17 @@ return [
 
     'review' => [
         'block_count' => ':used / :max blocos usados',
-        'go_to_parent' => 'Ver Publicação de Revisão',
-        'go_to_child' => 'Ver Discussão',
+        'go_to_parent' => 'Ver publicação de análise',
+        'go_to_child' => 'Ver discussão',
         'validation' => [
             'block_too_large' => 'cada bloco só pode conter até :limit caracteres',
-            'external_references' => 'revisão contém referências a problemas que não pertencem a esta revisão',
+            'external_references' => 'análise contém referências a problemas que não pertencem a esta análise',
             'invalid_block_type' => 'tipo de bloco inválido',
-            'invalid_document' => 'revisão inválida',
-            'minimum_issues' => 'revisão deve conter um mínimo de :count problema|revisão deve conter um mínimo de :count problemas',
+            'invalid_document' => 'análise inválida',
+            'invalid_discussion_type' => 'tipo de discussão inválida',
+            'minimum_issues' => 'análise deve conter um mínimo de :count problema|análise deve conter um mínimo de :count problemas',
             'missing_text' => 'bloco está sem texto',
-            'too_many_blocks' => 'revisões podem conter apenas :count parágrafo/problema|revisões só podem conter até :count parágrafos/problemas',
+            'too_many_blocks' => 'análises podem conter apenas :count parágrafo/problema|análises só podem conter até :count parágrafos/problemas',
         ],
     ],
 
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'Todos',
         'label' => 'Filtrar por usuário',
+        'multiple' => ':count_delimited usuário selecionado|:count_delimited usuários selecionados',
     ],
 ];

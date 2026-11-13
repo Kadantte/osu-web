@@ -3,30 +3,23 @@
     See the LICENCE file in the repository root for full licence text.
 --}}
 @extends('master', [
-    'titlePrepend' => blade_safe(str_replace(' ', '&nbsp;', e($user->username))),
+    'currentHue' => $user->user_style,
     'pageDescription' => page_description($user->username),
+    'titlePrepend' => App\Libraries\Opengraph\UserOpengraph::escapeForTitle($user->username),
 ])
 
 @section('content')
-    @if (Auth::user() && Auth::user()->isAdmin() && $user->isRestricted())
-        @include('objects._notification_banner', [
-            'type' => 'warning',
-            'title' => trans('admin.users.restricted_banner.title'),
-            'message' => trans('admin.users.restricted_banner.message'),
-        ])
-    @endif
+    @include('users._restricted_banner', compact('user'))
 
-    <div class="js-react--modding-profile osu-layout osu-layout--full"></div>
+    <div class="js-react u-contents" data-react="modding-profile"></div>
 @endsection
 
 @section ("script")
     @parent
 
-    @foreach ($jsonChunks as $name => $data)
-        <script id="json-{{$name}}" type="application/json">
-            {!! json_encode($data) !!}
-        </script>
-    @endforeach
+    <script id="json-bundle" type="application/json">
+        {!! json_encode($jsonChunks) !!}
+    </script>
 
-    @include('layout._extra_js', ['src' => 'js/react/modding-profile.js'])
+    @include('layout._react_js', ['src' => 'js/modding-profile.js'])
 @endsection

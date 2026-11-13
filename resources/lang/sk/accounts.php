@@ -10,15 +10,25 @@ return [
 
         'avatar' => [
             'title' => 'Avatar',
-            'rules' => 'Prosím uistite sa že váš avatar sedí s :link.<br/>Toto znamená že musí byť <strong>primeraný pre každý vek</strong>. to znamená žiadna nudita, vulgarizmy alebo sugestívny obsah.',
+            'reset' => 'resetovať',
+            'rules' => 'Prosím uistite sa, že váš avatar sedí s :link.<br/>To znamená, že musí byť <strong>primeraný pre každý vek</strong>. To je žiadna nudita, vulgarizmy alebo sugestívny obsah.',
             'rules_link' => 'pravidlá komunity',
         ],
 
         'email' => [
-            'current' => 'aktuálny email',
             'new' => 'nový email',
             'new_confirmation' => 'potvrdenie emailu',
             'title' => 'Email',
+            'locked' => [
+                '_' => 'Prosím kontaktujte :accounts, ak potrebujete aktualizovať svoj email.',
+                'accounts' => 'tím podpory pre účty',
+            ],
+        ],
+
+        'legacy_api' => [
+            'api' => 'api',
+            'irc' => 'irc',
+            'title' => '',
         ],
 
         'password' => [
@@ -29,7 +39,13 @@ return [
         ],
 
         'profile' => [
+            'country' => 'krajina',
             'title' => 'Profil',
+
+            'country_change' => [
+                '_' => "Zdá sa, že krajina vášho účtu nezodpovedá krajine vášho bydliska. :update_link.",
+                'update_link' => 'Aktualizovať na :country',
+            ],
 
             'user' => [
                 'user_discord' => '',
@@ -47,24 +63,54 @@ return [
         ],
     ],
 
+    'github_user' => [
+        'info' => "Ak ste prispievateľom do úložisiek s otvoreným zdrojovým kódom osu!, prepojenie účtu GitHub tu priradí vaše záznamy z denníku zmien k vášmu osu! profilu. Účty GitHub bez histórie príspevkov do osu! nemožno prepojiť.",
+        'link' => 'Prepoj GitHub účet',
+        'title' => 'GitHub',
+        'unlink' => 'Preruš prepojenie GitHub účtu',
+
+        'error' => [
+            'already_linked' => 'Tento GitHub účet je už prepojený na iného užívateľa.',
+            'no_contribution' => 'GitHub účet bez histórie príspevkov do úložisiek osu! nemožno prepojiť.',
+            'unverified_email' => 'Prosím skontrolujte svoj primárny email v GitHub, potom skúste znova prepojiť svoj účet.',
+        ],
+    ],
+
     'notifications' => [
+        'beatmapset_discussion_reply' => '',
         'beatmapset_discussion_qualified_problem' => 'dostávať notifikácie pre nové problémy na kvalifikovaných beatmapách pre následujúce módy',
-        'beatmapset_disqualify' => 'prijímať upozornenia, keď sú beatmapy diskvalifikované s týchto módov',
-        'comment_reply' => 'prijímať upozornenia pre odpovede na moje komentáre',
+        'beatmapset_disqualify' => 'prijímať upozornenia, keď sú beatmapy diskvalifikované z týchto módov',
+        'comment_reply' => 'prijímať upozornenia pre odpovede na vaše komentáre',
+        'news_post' => '',
         'title' => 'Oznámenia',
-        'topic_auto_subscribe' => 'automaticky zapnúť notifikácie pre nové fórove témy ktoré vytvoríte',
+        'topic_auto_subscribe' => 'automaticky zapnúť notifikácie pre nové témy fóra, ktoré vytvoríte',
 
         'options' => [
-            '_' => 'spôsoby doručenia',
+            '_' => 'možnosti doručenia',
+            'beatmap_owner_change' => 'obtiažnosť hosťa',
             'beatmapset:modding' => 'módovanie beatmáp',
-            'channel_message' => 'súkromné správy',
+            'channel_mention' => '',
+            'channel_message' => 'správy súkromného chatu',
+            'channel_team' => '',
             'comment_new' => 'nové komentáre
 ',
             'forum_topic_reply' => 'odpoveď na tému',
             'mail' => 'pošta',
+            'mapping' => 'tvorca beatmapy',
+            'news_post' => '',
+            'push' => 'push',
+        ],
+
+        'tooltips' => [
+            'beatmap_owner_change' => '',
+            'beatmapset:modding' => '',
+            'channel_mention' => '',
+            'channel_message' => '',
+            'channel_team' => '',
+            'comment_new' => '',
+            'forum_topic_reply' => '',
             'mapping' => '',
-            'push' => 'upozornenia na stránke',
-            'user_achievement_unlock' => 'hráčska medaila odomknutá',
+            'news_post' => '',
         ],
     ],
 
@@ -75,19 +121,22 @@ return [
     ],
 
     'options' => [
-        'beatmapset_show_nsfw' => '',
+        'beatmapset_show_anime_cover' => '',
+        'beatmapset_show_nsfw' => 'skryť varovania pre explicitný obsah v beatmapách',
         'beatmapset_title_show_original' => 'zobraziť metadáta beatmapy v originálnom jazyku',
         'title' => 'Možnosti',
 
         'beatmapset_download' => [
-            '_' => 'predvolený druh sťahovania beatmáp',
+            '_' => 'predvolený typ sťahovania beatmáp',
             'all' => 's videom, ak je dostupné',
             'direct' => 'otvoriť v osu!direct',
+            'lazer' => '',
             'no_video' => 'bez videa',
         ],
     ],
 
     'playstyles' => [
+        'default_ruleset' => '',
         'keyboard' => 'klávesnica',
         'mouse' => 'myš',
         'tablet' => 'tablet',
@@ -97,14 +146,16 @@ return [
 
     'privacy' => [
         'friends_only' => 'blokovať súkromné správy od osôb mimo vášho zoznamu priateľov',
+        'friends_only_info' => '',
         'hide_online' => 'skryť online status',
+        'hide_online_info' => '',
         'title' => 'Súkromie',
     ],
 
     'security' => [
         'current_session' => 'aktuálne',
         'end_session' => 'Koniec relácie',
-        'end_session_confirmation' => 'Toto okamžite vypne reláciu na vybranom zariadení. Ste si istí?',
+        'end_session_confirmation' => 'Toto okamžite ukončí reláciu na vybranom zariadení. Ste si istí?',
         'last_active' => 'Naposledy aktívny:',
         'title' => 'Zabezpečenie',
         'web_sessions' => 'webové relácie',
@@ -118,12 +169,27 @@ return [
         'update' => 'aktualizovať',
     ],
 
+    'user_totp' => [
+        'title' => '',
+        'usage_note' => '',
+
+        'button' => [
+            'remove' => '',
+            'setup' => '',
+        ],
+        'status' => [
+            'label' => '',
+            'not_set' => '',
+            'set' => '',
+        ],
+    ],
+
     'verification_completed' => [
-        'text' => 'Už môžete túto kartu/okno zatvoriť',
+        'text' => 'Túto kartu/okno už môžete zatvoriť',
         'title' => 'Overenie bolo dokončené',
     ],
 
     'verification_invalid' => [
-        'title' => 'Link už vypršal alebo je neplatný',
+        'title' => 'Link vypršal alebo je neplatný',
     ],
 ];

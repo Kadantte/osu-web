@@ -8,10 +8,11 @@ return [
     'not_negative' => ':attributeに負の数は使用できません',
     'required' => ':attributeが必須です',
     'too_long' => ':attributeの使用文字数の制限を超えています。上限は:limit文字です。',
+    'url' => '有効なURLを入力してください。',
     'wrong_confirmation' => '認証が一致しません。',
 
     'beatmapset_discussion' => [
-        'beatmap_missing' => 'タイムスタンプは存在しますがビートマップが見つかりませんでした',
+        'beatmap_missing' => 'タイムスタンプは指定されていますが、ビートマップの難易度が不足しています。',
         'beatmapset_no_hype' => "このビートマップはHypeできません。",
         'hype_requires_null_beatmap' => 'Hypeは一般（全ての難易度）セクションで行ってください。',
         'invalid_beatmap_id' => '無効な難易度が指定されました。',
@@ -109,6 +110,16 @@ return [
         ],
     ],
 
+    'legacy_api_key' => [
+        'exists' => '現時点では、ユーザーごとに1つの API キーのみが提供されます。',
+
+        'attributes' => [
+            'api_key' => 'apiキー',
+            'app_name' => 'アプリケーション名',
+            'app_url' => 'アプリケーション URL',
+        ],
+    ],
+
     'oauth' => [
         'client' => [
             'too_many' => '許可されるOAuthアプリケーションの最大数を超えました。',
@@ -118,6 +129,20 @@ return [
                 'name' => 'アプリケーション名',
                 'redirect' => 'アプリケーションコールバックURL',
             ],
+        ],
+    ],
+
+    'team' => [
+        'invalid_characters' => 'この :attribute には無効な文字が含まれています。',
+        'used' => 'この :attribute はすでに使用されています。',
+        'word_not_allowed' => 'この :attribute の使用は許可されていません。',
+
+        'attributes' => [
+            'default_ruleset_id' => 'デフォルトのルールセット',
+            'is_open' => 'チームの参加設定',
+            'name' => '名前',
+            'short_name' => '略称',
+            'url' => 'URL',
         ],
     ],
 
@@ -164,7 +189,10 @@ return [
     ],
 
     'user_report' => [
-        'reason_not_valid' => ':reason はこのテレポートタイプでは無効です。',
+        'no_ranked_beatmapset' => 'ランク付けされたビートマップは報告できません。',
+        'not_in_channel' => 'あなたはこのチャンネルに参加していません。',
+        'in_team' => 'あなたはチームの一員です。',
+        'reason_not_valid' => ':reason はこの報告タイプでは無効です。',
         'self' => "自分自身を報告することはできません！",
     ],
 

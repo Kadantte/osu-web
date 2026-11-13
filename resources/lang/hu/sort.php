@@ -15,14 +15,33 @@ return [
     'top' => 'Felső',
     'username' => 'Felhasználónév',
 
+    'artist_tracks' => [
+        'album' => 'Album',
+        'artist' => 'Előadó',
+        'bpm' => 'BPM',
+        'genre' => 'Műfaj',
+        'length' => 'Hossz',
+        'relevance' => 'Relevancia',
+        'title' => 'Cím',
+        'update' => 'Frissítés',
+    ],
+
     'forum_posts' => [
         'created' => 'Közzétéve',
         'relevance' => 'Relevancia',
     ],
 
     'forum_topics' => [
+        'created' => 'Létrehozva',
         'feature_votes' => 'Csillag prioritás',
         'new' => 'Legutóbbi válasz',
+    ],
+
+    'teams' => [
+        'created' => 'Létrehozva',
+        'relevance' => 'Relevancia',
+        'name' => 'Név',
+        'short-name' => 'Rövid Név',
     ],
 
     'users' => [

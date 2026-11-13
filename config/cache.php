@@ -13,8 +13,7 @@ return [
     |
     */
 
-    'default' => env('CACHE_DRIVER', 'file'),
-    'local' => env('CACHE_DRIVER_LOCAL', 'file'),
+    'default' => env('CACHE_DRIVER', 'redis'),
 
     /*
     |--------------------------------------------------------------------------
@@ -61,6 +60,10 @@ return [
             'driver' => 'redis',
             'connection' => 'cache',
         ],
+
+        'octane' => [
+            'driver' => 'octane',
+        ],
     ],
 
     /*
@@ -74,6 +77,6 @@ return [
     |
     */
 
-    'prefix' => 'osu-next',
+    'prefix' => null,
 
 ];

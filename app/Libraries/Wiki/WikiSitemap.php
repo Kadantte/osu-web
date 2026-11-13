@@ -20,7 +20,7 @@ class WikiSitemap
         return (new BasicSearch(Page::esIndexName(), 'wiki_sitemap'))
             ->query(['exists' => ['field' => 'page']])
             ->sort(new Sort('path.keyword', 'asc'))
-            ->sort(new Sort('_id', 'asc'));
+            ->sort(new Sort('locale.keyword', 'asc'));
     }
 
     public static function get()
@@ -93,7 +93,7 @@ class WikiSitemap
 
         $this->titles[$key] = $page->title();
 
-        if ($page->locale === config('app.fallback_locale')) {
+        if ($page->locale === $GLOBALS['cfg']['app']['fallback_locale']) {
             static::arraySet($this->sitemap, $page->path, null);
         }
     }

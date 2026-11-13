@@ -6,7 +6,9 @@
 namespace Tests\Transformers;
 
 use App\Models\Beatmapset;
+use App\Models\User;
 use App\Transformers\BeatmapsetCompactTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class BeatmapsetCompactTransformerTest extends TestCase
@@ -14,14 +16,12 @@ class BeatmapsetCompactTransformerTest extends TestCase
     protected $beatmapset;
     protected $viewer;
 
-    /**
-     * @dataProvider regularOAuthScopesDataProvider
-     */
+    #[DataProvider('regularOAuthScopesDataProvider')]
     public function testHasFavouritedWithOAuthNormalScopes($scope)
     {
         $this->actAsScopedUser($this->viewer, [$scope]);
 
-        $json = json_item($this->beatmapset, 'BeatmapsetCompact', ['has_favourited']);
+        $json = json_item($this->beatmapset, new BeatmapsetCompactTransformer(), ['has_favourited']);
         $this->assertArrayNotHasKey('has_favourited', $json);
     }
 
@@ -29,7 +29,7 @@ class BeatmapsetCompactTransformerTest extends TestCase
     {
         $this->actAsScopedUser($this->viewer);
 
-        $json = json_item($this->beatmapset, 'BeatmapsetCompact', ['has_favourited']);
+        $json = json_item($this->beatmapset, new BeatmapsetCompactTransformer(), ['has_favourited']);
         $this->assertArrayHasKey('has_favourited', $json);
     }
 
@@ -37,33 +37,29 @@ class BeatmapsetCompactTransformerTest extends TestCase
     {
         $this->actAsUser($this->viewer);
 
-        $json = json_item($this->beatmapset, 'BeatmapsetCompact', ['has_favourited']);
+        $json = json_item($this->beatmapset, new BeatmapsetCompactTransformer(), ['has_favourited']);
         $this->assertArrayHasKey('has_favourited', $json);
     }
 
-    /**
-     * @dataProvider propertyPermissionsDataProvider
-     */
+    #[DataProvider('propertyPermissionsDataProvider')]
     public function testPropertyIsNotVisibleWithOAuth(string $property)
     {
         $this->actAsScopedUser($this->viewer);
 
-        $json = json_item($this->beatmapset, 'BeatmapsetCompact', [$property]);
+        $json = json_item($this->beatmapset, new BeatmapsetCompactTransformer(), [$property]);
         $this->assertArrayNotHasKey($property, $json);
     }
 
-    /**
-     * @dataProvider propertyPermissionsDataProvider
-     */
+    #[DataProvider('propertyPermissionsDataProvider')]
     public function testPropertyIsVisibleWithoutOAuth(string $property)
     {
         $this->actAsUser($this->viewer);
 
-        $json = json_item($this->beatmapset, 'BeatmapsetCompact', [$property]);
+        $json = json_item($this->beatmapset, new BeatmapsetCompactTransformer(), [$property]);
         $this->assertArrayHasKey($property, $json);
     }
 
-    public function propertyPermissionsDataProvider()
+    public static function propertyPermissionsDataProvider()
     {
         $data = [];
         $transformer = new BeatmapsetCompactTransformer();
@@ -80,7 +76,7 @@ class BeatmapsetCompactTransformerTest extends TestCase
     {
         parent::setUp();
 
-        $this->viewer = $this->createUserWithGroup([]);
-        $this->beatmapset = factory(Beatmapset::class)->create();
+        $this->viewer = User::factory()->create();
+        $this->beatmapset = Beatmapset::factory()->create();
     }
 }

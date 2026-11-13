@@ -7,27 +7,23 @@ namespace Tests\Libraries\Search;
 
 use App\Libraries\Search\BeatmapsetQueryParser;
 use App\Models\Beatmapset;
+use Carbon\CarbonImmutable;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class BeatmapsetQueryParserTest extends TestCase
 {
-    /**
-     * @dataProvider queryDataProvider
-     */
-    public function testParse(?string $query, ?array $expected)
-    {
-        $this->assertSame(json_encode($expected), json_encode(BeatmapsetQueryParser::parse($query)));
-    }
-
-    public function queryDataProvider()
+    public static function queryDataProvider()
     {
         return [
             // basic options
-            ['stars=1', ['keywords' => null, 'options' => ['stars' => ['gte' => 0.995, 'lte' => 1.005]]]],
+            ['stars=1', ['keywords' => null, 'options' => ['stars' => ['gte' => 1.0, 'lte' => 1.0]]]],
+            ['star=1', ['keywords' => null, 'options' => ['stars' => ['gte' => 1.0, 'lte' => 1.0]]]],
             ['ar=2', ['keywords' => null, 'options' => ['ar' => ['gte' => 1.95, 'lte' => 2.05]]]],
             ['dr=3', ['keywords' => null, 'options' => ['dr' => ['gte' => 2.95, 'lte' => 3.05]]]],
             ['hp<4', ['keywords' => null, 'options' => ['dr' => ['lte' => 3.95]]]],
             ['cs>5', ['keywords' => null, 'options' => ['cs' => ['gte' => 5.05]]]],
+            ['od>=9', ['keywords' => null, 'options' => ['od' => ['gte' => 8.95]]]],
             ['bpm<=6', ['keywords' => null, 'options' => ['bpm' => ['lte' => 6.005]]]],
             ['length<70000ms', ['keywords' => null, 'options' => ['length' => ['lte' => 69.9995]]]],
             ['length>=70', ['keywords' => null, 'options' => ['length' => ['gte' => 69.5]]]],
@@ -41,16 +37,23 @@ class BeatmapsetQueryParserTest extends TestCase
             ['creator=hello', ['keywords' => null, 'options' => ['creator' => 'hello']]],
             ['artist=hello', ['keywords' => null, 'options' => ['artist' => 'hello']]],
             ['artist="hello world"', ['keywords' => null, 'options' => ['artist' => 'hello world']]],
-            ['created=2017', ['keywords' => null, 'options' => ['created' => ['gte' => '2017-01-01T00:00:00+00:00', 'lt' => '2018-01-01T00:00:00+00:00']]]],
-            ['ranked>2018', ['keywords' => null, 'options' => ['ranked' => ['gte' => '2019-01-01T00:00:00+00:00']]]],
-            ['ranked<2018-05', ['keywords' => null, 'options' => ['ranked' => ['lt' => '2018-05-01T00:00:00+00:00']]]],
-            ['ranked<=2018.05', ['keywords' => null, 'options' => ['ranked' => ['lt' => '2018-06-01T00:00:00+00:00']]]],
-            ['ranked=2018/05', ['keywords' => null, 'options' => ['ranked' => ['gte' => '2018-05-01T00:00:00+00:00', 'lt' => '2018-06-01T00:00:00+00:00']]]],
-            ['ranked=2018.05.01', ['keywords' => null, 'options' => ['ranked' => ['gte' => '2018-05-01T00:00:00+00:00', 'lt' => '2018-05-02T00:00:00+00:00']]]],
-            ['ranked>2018/05/01', ['keywords' => null, 'options' => ['ranked' => ['gte' => '2018-05-02T00:00:00+00:00']]]],
-            ['ranked>="2020-07-21 12:30:30 +09:00"', ['keywords' => null, 'options' => ['ranked' => ['gte' => '2020-07-21T12:30:30+09:00']]]],
-            ['ranked="2020-07-21 12:30:30 +09:00"', ['keywords' => null, 'options' => ['ranked' => ['gte' => '2020-07-21T12:30:30+09:00', 'lt' => '2020-07-21T12:30:31+09:00']]]],
+            ['created=2017', ['keywords' => null, 'options' => ['created' => ['gte' => static::parseTime('2017-01-01'), 'lt' => static::parseTime('2018-01-01')]]]],
+            ['submitted=2017', ['keywords' => null, 'options' => ['created' => ['gte' => static::parseTime('2017-01-01'), 'lt' => static::parseTime('2018-01-01')]]]],
+            ['ranked>2018', ['keywords' => null, 'options' => ['ranked' => ['gte' => static::parseTime('2019-01-01')]]]],
+            ['ranked<2018-05', ['keywords' => null, 'options' => ['ranked' => ['lt' => static::parseTime('2018-05-01')]]]],
+            ['ranked<=2018.05', ['keywords' => null, 'options' => ['ranked' => ['lt' => static::parseTime('2018-06-01')]]]],
+            ['ranked=2018/05', ['keywords' => null, 'options' => ['ranked' => ['gte' => static::parseTime('2018-05-01'), 'lt' => static::parseTime('2018-06-01')]]]],
+            ['ranked=2018.05.01', ['keywords' => null, 'options' => ['ranked' => ['gte' => static::parseTime('2018-05-01'), 'lt' => static::parseTime('2018-05-02')]]]],
+            ['ranked>2018/05/01', ['keywords' => null, 'options' => ['ranked' => ['gte' => static::parseTime('2018-05-02')]]]],
+            ['ranked>="2020-07-21 12:30:30 +09:00"', ['keywords' => null, 'options' => ['ranked' => ['gte' => static::parseTime('2020-07-21 03:30:30')]]]],
+            ['ranked="2020-07-21 12:30:30 +09:00"', ['keywords' => null, 'options' => ['ranked' => ['gte' => static::parseTime('2020-07-21 03:30:30'), 'lt' => static::parseTime('2020-07-21 03:30:31')]]]],
+            ['ranked>="2020-07-21 12:30:30 +09:00" ranked<="2020-08-21 13:40:40 +09:00"', ['keywords' => null, 'options' => ['ranked' => ['gte' => static::parseTime('2020-07-21 03:30:30'), 'lt' => static::parseTime('2020-08-21 04:40:41')]]]],
             ['ranked="invalid date format"', ['keywords' => 'ranked="invalid date format"', 'options' => []]],
+            ['tag=hello', ['keywords' => null, 'options' => ['tag' => ['hello']]]],
+            ['tag=hello tag=world', ['keywords' => null, 'options' => ['tag' => ['hello', 'world']]]],
+            ['tag="hello world"', ['keywords' => null, 'options' => ['tag' => ['hello world']]]],
+            ['tag="hello world" tag="foo bar"', ['keywords' => null, 'options' => ['tag' => ['hello world', 'foo bar']]]],
+            ['tag="hello world"aa tag="foo bar"', ['keywords' => 'aa', 'options' => ['tag' => ['hello world', 'foo bar']]]],
 
             // multiple options
             ['artist=hello creator:world', ['keywords' => null, 'options' => ['artist' => 'hello', 'creator' => 'world']]],
@@ -63,7 +66,7 @@ class BeatmapsetQueryParserTest extends TestCase
             ['dr=1 hp<9', ['keywords' => null, 'options' => ['dr' => ['gte' => 0.95, 'lte' => 8.95]]]],
 
             // keyword with options
-            ['hello stars>=1 stars<4', ['keywords' => 'hello', 'options' => ['stars' => ['gte' => 0.995, 'lte' => 3.995]]]],
+            ['hello stars>=1 stars<4', ['keywords' => 'hello', 'options' => ['stars' => ['gte' => 1.0, 'lt' => 4.0]]]],
 
             // keywords with option in between
             ['hello ar<:1 world', ['keywords' => 'hello  world', 'options' => ['ar' => ['lte' => 1.05]]]],
@@ -73,10 +76,11 @@ class BeatmapsetQueryParserTest extends TestCase
             ['dr=a', ['keywords' => 'dr=a', 'options' => []]],
 
             // taken from https://github.com/ppy/osu/blob/b3e96c8385fdfec3ea1bb3899f74763ccafa055c/osu.Game.Tests/NonVisual/Filtering/FilterQueryParserTest.cs
-            ['stars<4 easy', ['keywords' => 'easy', 'options' => ['stars' => ['lte' => 3.995]]]],
+            ['stars<=4 easy', ['keywords' => 'easy', 'options' => ['stars' => ['lte' => 4.0]]]],
             ['ar>=9 difficult', ['keywords' => 'difficult', 'options' => ['ar' => ['gte' => 8.95]]]],
             ['dr>2 quite specific dr<:6', ['keywords' => 'quite specific', 'options' => ['dr' => ['gte' => 2.05, 'lte' => 6.05]]]],
             ['hp>2 quite specific hp<=6', ['keywords' => 'quite specific', 'options' => ['dr' => ['gte' => 2.05, 'lte' => 6.05]]]],
+            ['od>4 easy od<8', ['keywords' => 'easy', 'options' => ['od' => ['gte' => 4.05, 'lte' => 7.95]]]],
             ['bpm>:200 gotta go fast', ['keywords' => 'gotta go fast', 'options' => ['bpm' => ['gte' => 199.995]]]],
             ['length=6ms time', ['keywords' => 'time', 'options' => ['length' => ['gte' => (6 / 1000 - 1 / 2000), 'lte' => (6 / 1000 + 1 / 2000)]]]],
             ['length=23s time', ['keywords' => 'time', 'options' => ['length' => ['gte' => 22.5, 'lte' => 23.5]]]],
@@ -89,12 +93,26 @@ class BeatmapsetQueryParserTest extends TestCase
             ['find me songs by artist=singer please', ['keywords' => 'find me songs by  please', 'options' => ['artist' => 'singer']]],
             ['really like artist="name with space" yes', ['keywords' => 'really like  yes', 'options' => ['artist' => 'name with space']]],
             ['weird artist=double"quote', ['keywords' => 'weird', 'options' => ['artist' => 'double"quote']]],
+            ['weird artist="nested \"quote\"" thing', ['keywords' => 'weird  thing', 'options' => ['artist' => 'nested "quote"']]],
             ['artist=><something', ['keywords' => null, 'options' => ['artist' => '><something']]],
             ['unrecognised=keyword', ['keywords' => 'unrecognised=keyword', 'options' => []]],
             ['cs=nope', ['keywords' => 'cs=nope', 'options' => []]],
             ['bpm=bad', ['keywords' => 'bpm=bad', 'options' => []]],
             ['divisor<nah', ['keywords' => 'divisor<nah', 'options' => []]],
             ['status=noidea', ['keywords' => 'status=noidea', 'options' => []]],
+            ['status=l', ['keywords' => null, 'options' => ['status' => ['gte' => Beatmapset::STATES['loved'], 'lte' => Beatmapset::STATES['loved']]]]],
+            ['status=lo', ['keywords' => null, 'options' => ['status' => ['gte' => Beatmapset::STATES['loved'], 'lte' => Beatmapset::STATES['loved']]]]],
         ];
+    }
+
+    private static function parseTime(string $timeString): int
+    {
+        return CarbonImmutable::parse($timeString)->getTimestampMs();
+    }
+
+    #[DataProvider('queryDataProvider')]
+    public function testParse(?string $query, ?array $expected)
+    {
+        $this->assertSame(json_encode($expected), json_encode(BeatmapsetQueryParser::parse($query)));
     }
 }

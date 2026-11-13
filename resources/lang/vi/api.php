@@ -17,17 +17,24 @@ return [
         'identify' => 'Nhận diện và đọc trang cá nhân công khai của bạn.',
 
         'chat' => [
+            'read' => 'Đọc tin nhắn dưới tư cách của bạn.',
             'write' => 'Gửi tin nhắn dưới tư cách của bạn.',
+            'write_manage' => 'Tham gia và rời kênh dưới tư cách của bạn.',
         ],
 
         'forum' => [
-            'write' => '',
+            'write' => 'Tạo và chỉnh sửa các chủ đề, bài đăng trên diễn đàn dưới tư cách của bạn.',
+            'write_manage' => 'Chỉnh sửa các chủ đề và bài đăng thay mặt bạn.',
         ],
 
         'friends' => [
             'read' => 'Xem những ai bạn đang theo dõi.',
         ],
 
-        'public' => 'Đọc dữ liệu công khai nhân danh bạn.',
+        'multiplayer' => [
+            'write_manage' => 'Tạo và quản lý phòng chơi nhiều người thay bạn.',
+        ],
+
+        'public' => 'Đọc dữ liệu công khai thay mặt bạn.',
     ],
 ];

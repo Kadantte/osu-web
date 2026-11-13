@@ -7,6 +7,7 @@ return [
     'cancel' => 'Annuler',
 
     'authorise' => [
+        'app_owner' => 'Application créée par :owner',
         'request' => 'demande la permission d\'accéder à votre compte.',
         'scopes_title' => 'Cette application pourra :',
         'title' => 'Demande d’autorisation',
@@ -15,7 +16,7 @@ return [
     'authorized_clients' => [
         'confirm_revoke' => 'Êtes-vous sûr de vouloir révoquer les permissions de ce client ?',
         'scopes_title' => 'Cette application peut :',
-        'owned_by' => 'Crée par :user',
+        'owned_by' => 'Créé par :user',
         'none' => 'Aucun client',
 
         'revoked' => [
@@ -27,35 +28,41 @@ return [
     'client' => [
         'id' => 'ID du client',
         'name' => 'Nom de l\'application',
-        'redirect' => 'URL de retour de l\'application',
-        'reset' => 'Réinitialiser le secret du client',
-        'reset_failed' => 'Impossible de réinitialiser le secret du client',
+        'redirect' => 'Callback URL de l\'application',
+        'reset' => 'Réinitialiser le Client Secret',
+        'reset_failed' => 'La réinitialisation du Client Secret a échoué.',
         'secret' => 'Client Secret',
 
         'secret_visible' => [
-            'false' => 'Afficher le secret du client',
-            'true' => 'Masquer le secret du client',
+            'false' => 'Afficher le Client Secret',
+            'true' => 'Masquer le Client Secret',
         ],
     ],
 
     'new_client' => [
-        'header' => 'Inscrire une nouvelle application OAuth',
-        'register' => 'Inscrire une application',
+        'header' => 'Ajouter une nouvelle application via OAuth',
+        'register' => 'Ajouter une application',
         'terms_of_use' => [
-            '_' => 'En utilisant cette API vous acceptez :link.',
-            'link' => 'Termes d\'utilisation',
+            '_' => 'En utilisant cette API, vous acceptez les :link.',
+            'link' => 'Conditions d’Utilisations',
         ],
     ],
 
     'own_clients' => [
         'confirm_delete' => 'Êtes-vous sûr de vouloir supprimer ce client ?',
-        'confirm_reset' => 'Êtes-vous sûr de vouloir réinitialiser le secret du client ? Cela révoquera tous les jetons existants.',
+        'confirm_reset' => 'Êtes-vous sûr de vouloir réinitialiser le Client Secret ? Cela révoquera tous les tokens existants.',
         'new' => 'Nouvelle application OAuth',
         'none' => 'Aucun client',
 
         'revoked' => [
             'false' => 'Supprimer',
             'true' => 'Supprimé',
+        ],
+
+        'secret' => [
+            'copy' => 'Pensez à copier cette valeur avant de naviguer autre part.',
+            'generate_new' => 'Réinitialiser le secret du client pour en générer un nouveau.',
+            'visible_once' => 'Le secret du client n\'est seulement visible qu\'après la création initiale.',
         ],
     ],
 ];

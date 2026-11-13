@@ -4,12 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'blocked' => '',
     'title_compact' => 'prieteni',
     'too_many' => 'A fost atinsă limita de prieteni.',
 
     'buttons' => [
         'add' => 'adaugă prieten',
-        'disabled' => 'prieteni',
+        'disabled' => 'urmăritori',
         'remove' => 'elimină prieten',
     ],
 ];

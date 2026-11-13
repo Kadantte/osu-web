@@ -4,12 +4,9 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'admin' => [
-        'warehouse' => 'Depo',
-    ],
-
     'cart' => [
         'checkout' => 'Ödeme',
+        'empty_cart' => 'Sepetteki tüm ürünleri kaldır',
         'info' => ':count_delimited ürün sepette ($:subtotal)|:count_delimited ürün sepette ($:subtotal)',
         'more_goodies' => 'Ödememi yapmadan önce başka eşyalara göz atmak istiyorum',
         'shipping_fees' => 'kargo ücretleri',
@@ -35,6 +32,7 @@ return [
         'cart_problems_edit' => 'Düzenlemek için buraya tıklayın.',
         'declined' => 'Ödeme iptal edildi.',
         'delayed_shipping' => 'Şu an siparişlere boğulmuş durumdayız! Siparişinizi vermekte özgürsünüz ancak biz mevcut siparişleri yetiştirmekle uğraşırken **ek olarak 1-2 hafta gecikme** bekleyebilirsiniz.',
+        'hide_from_activity' => 'Bu siparişteki tüm osu!supporter etiketlerini etkinliğimden gizle',
         'old_cart' => 'Sepetiniz güncel görünmediği için tekrar yüklendi, lütfen tekrar deneyin.',
         'pay' => 'Paypal ile Ödeme Yap',
         'title_compact' => 'kasaya git',
@@ -51,18 +49,53 @@ return [
     ],
 
     'discount' => '%:percent kazanın',
+    'free' => 'ücretsiz!',
 
     'invoice' => [
+        'contact' => 'İletişim:',
+        'date' => 'Tarih:',
         'echeck_delay' => 'Ödemenizin bir eCheck olması nedeniyle, ödemenizin PayPal\'dan temizlenmesi için 10 ekstra günü göz önüne alın!',
+        'echeck_denied' => 'eCheck ödemesi PayPal tarafından reddedildi.',
+        'hide_from_activity' => 'Bu siparişteki osu!supporter etiketleri yakın zamandaki etkinliklerinizde gösterilmez.',
+        'sent_via' => 'Kargo şirketi:',
+        'shipping_to' => 'Gönderim adresi:',
+        'title' => 'Fatura',
         'title_compact' => 'fatura',
 
         'status' => [
+            'cancelled' => [
+                'title' => 'Siparişiniz iptal edildi',
+                'line_1' => [
+                    '_' => "Eğer iptal edilmesini talep etmediyseniz lütfen :link yoluyla sipariş numaranızı bahsederek ulaşınız. (#:order_number).",
+                    'link_text' => 'osu!store destek',
+                ],
+            ],
+            'delivered' => [
+                'title' => 'Siparişiniz teslim edildi! İyi günlerde kullanmanız dileğiyle!',
+                'line_1' => [
+                    '_' => 'Satın alımınızla ilgili bir problem yaşıyorsanız,lütfen :link ile görüşün.',
+                    'link_text' => 'osu!store destek',
+                ],
+            ],
+            'prepared' => [
+                'title' => 'Siparişiniz hazılrlanıyor!',
+                'line_1' => 'Lütfen kargolanması için az daha bekleyiniz. Takip bilgisi, siparişiniz işlenip gönderildiğinde burada belirecektir. Meşgullük durumumuza göre 5 güne kadar sürebilir (ama genellikle daha az!).',
+                'line_2' => 'Siparişleri, ağırlığı ve değerine bağlı olarak çeşitli kargo şirketleri kullanarak gönderiyoruz. Bu alan, siparişi gönderdiğimizde detaylarla güncellenecektir.',
+            ],
             'processing' => [
                 'title' => 'Ödemeniz henüz onaylanmadı!',
                 'line_1' => 'Eğer çoktan ödemeyi yaptıysanız, biz hala ödemenizin doğrulamasını bekliyor olabiliriz. Lütfen bu sayfayı bir ya da iki dakika sonra yenileyin!',
                 'line_2' => [
                     '_' => 'Eğer ödeme sırasında bir sorun ile karşılaştıysanız, :link',
                     'link_text' => 'ödeme özetini görmek için buraya tıklayın',
+                ],
+            ],
+            'shipped' => [
+                'title' => 'Siparişiniz kargoya verildi!',
+                'tracking_details' => 'Kargo takip detayları aşağıdadır:',
+                'no_tracking_details' => [
+                    '_' => "Paketinizi uçak kargosu yoluyla gönderdiğimiz için takip ayrıntılarına sahip değiliz, ancak paketinizi 1-3 hafta içinde almayı bekleyebilirsiniz. Avrupa'da bazen gümrükler bizim kontrolümüz dışında siparişi geciktirebilir. Herhangi bir endişeniz varsa lütfen sana gelen sipariş onay e-postasını yanıtlayınız (ya da :link).",
+                    'link_text' => 'bize bir e-mail yollayın',
                 ],
             ],
         ],
@@ -76,13 +109,31 @@ return [
         'no_orders' => 'Görüntülenecek sipariş yok.',
         'paid_on' => 'Sipariş verme tarihi :date',
         'resume' => 'Sepete Dön',
+        'shipping_and_handling' => 'Kargo & Taşıma',
         'shopify_expired' => 'Bu sipariş için ödeme bağlantısının süresi doldu.',
+        'subtotal' => 'Ara toplam',
+        'total' => 'Toplam',
+        'unavailable' => 'Bu siparişle ilgili başka bilgi bulunmamaktadır.',
+
+        'details' => [
+            'order_number' => 'Sipariş No.',
+            'payment_terms' => 'Ödeme Koşulları',
+            'salesperson' => 'Satış Temsilcisi',
+            'shipping_method' => 'Gönderim Yolu',
+            'shipping_terms' => 'Teslimat Koşulları',
+            'title' => 'Sipariş Detayları',
+        ],
 
         'item' => [
+            'quantity' => 'Adet',
+
             'display_name' => [
                 'supporter_tag' => ':username için :name (:duration)',
             ],
-            'quantity' => 'Adet',
+
+            'subtext' => [
+                'supporter_tag' => 'Mesaj: :message',
+            ],
         ],
 
         'not_modifiable_exception' => [
@@ -102,6 +153,15 @@ return [
             'paid' => 'Ödendi',
             'processing' => 'Onay bekleniyor',
             'shipped' => 'Ulaştırılıyor',
+            'title' => 'Sipariş Durumu',
+        ],
+
+        'thanks' => [
+            'title' => 'Siparişiniz için teşekkür ederiz!',
+            'line_1' => [
+                '_' => 'Yakında bir onay e-postası alacaksınız. Sorunuz varsa, lütfen :link!',
+                'link_text' => 'bizimle iletişime geçin',
+            ],
         ],
     ],
 
@@ -115,6 +175,7 @@ return [
 
         'add_to_cart' => 'Sepete Ekle',
         'notify' => 'Mevcut olduğundan bana bildir!',
+        'out_of_stock' => 'Tükendi',
 
         'notification_success' => 'yeni ürün geldiğinde size haber vereceğiz. iptal etmek için :link tıklayın',
         'notification_remove_text' => 'buraya',
@@ -124,6 +185,8 @@ return [
 
     'supporter_tag' => [
         'gift' => 'oyuncuya hediye et',
+        'gift_message' => 'isterseniz hediyenize bir mesaj ekleyin! (en fazla :length karakter)',
+
         'require_login' => [
             '_' => 'osu!supporter etiketi almak için :link !',
             'link_text' => 'giriş yapmış',
@@ -133,6 +196,10 @@ return [
     'username_change' => [
         'check' => 'Geçerliliğini kontrol etmek için bir kullanıcı adı girin!',
         'checking' => ':username geçerliliği kontrol ediliyor...',
+        'placeholder' => 'İstenilen Kullanıcı Adı',
+        'label' => 'Yeni kullanıcı adı',
+        'current' => 'Şu anki kullanıcı adınız ":username".',
+
         'require_login' => [
             '_' => 'İsmini değiştirmek için :link olman gerekiyor!',
             'link_text' => 'giriş yapmış',

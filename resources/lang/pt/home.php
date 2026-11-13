@@ -5,7 +5,7 @@
 
 return [
     'landing' => [
-        'download' => 'Descarregar agora',
+        'download' => 'Transferir agora',
         'online' => '<strong>:players</strong> atualmente online em <strong>:games</strong> jogos',
         'peak' => 'Pico, :count utilizadores online',
         'players' => '<strong>:count</strong> jogadores registados',
@@ -22,27 +22,31 @@ return [
         'advanced_link' => 'Pesquisa avançada',
         'button' => 'Pesquisar',
         'empty_result' => 'Nada encontrado!',
-        'keyword_required' => 'Uma palavra-chave de pesquisa é necessária',
-        'placeholder' => 'escreve para procurar',
+        'keyword_required' => 'É necessária uma palavra-chave de pesquisa',
+        'placeholder' => 'escreva para procurar',
         'title' => 'Procurar',
 
+        'artist_track' => [
+            'more_simple' => 'Ver mais resultados da pesquisa de músicas dos artistas em destaque',
+        ],
         'beatmapset' => [
-            'login_required' => 'Inicia a sessão para procurar por beatmaps',
-            'more' => 'Há mais :count resultados de pesquisa de beatmap',
-            'more_simple' => 'Ver mais resultados de pesquisa de beatmap',
-            'title' => 'Beatmaps',
+            'login_required' => 'Inicie a sessão para procurar por mapas',
+            'more' => 'mais :count resultados de pesquisa de mapas',
+            'more_simple' => 'Ver mais resultados de pesquisa de mapas',
+            'title' => 'Mapas',
         ],
 
         'forum_post' => [
             'all' => 'Todos os fóruns',
             'link' => 'Pesquisar o fórum',
-            'login_required' => 'Inicia a sessão para pesquisar no fórum',
+            'login_required' => 'Inicie a sessão para pesquisar no fórum',
             'more_simple' => 'Ver mais resultados de pesquisa de fórum',
             'title' => 'Fórum',
 
             'label' => [
                 'forum' => 'procurar nos fóruns',
                 'forum_children' => 'incluir sub-fóruns',
+                'include_deleted' => 'incluir publicações eliminadas',
                 'topic_id' => 'tópico #',
                 'username' => 'autor',
             ],
@@ -50,17 +54,24 @@ return [
 
         'mode' => [
             'all' => 'todos',
-            'beatmapset' => 'beatmap',
+            'artist_track' => 'música do artista em destaque',
+            'beatmapset' => 'mapa',
             'forum_post' => 'fórum',
+            'team' => 'equipa',
             'user' => 'jogador',
             'wiki_page' => 'wiki',
         ],
 
+        'team' => [
+            'login_required' => 'Inicie a sessão para procurar equipas',
+            'more_simple' => 'Ver mais resultados da pesquisa por equipa',
+        ],
+
         'user' => [
-            'login_required' => 'Inicia a sessão para procurar utilizadores',
-            'more' => 'Há mais :count resultados de pesquisa de jogador',
+            'login_required' => 'Inicie a sessão para procurar utilizadores',
+            'more' => 'mais :count resultados de pesquisa de jogadores',
             'more_simple' => 'Ver mais resultados de pesquisa de jogador',
-            'more_hidden' => 'A pesquisa de jogador está limitada a :max jogadores. Tenta redefinir a questão de pesquisa.',
+            'more_hidden' => 'A pesquisa de jogadores está limitada a :max jogadores. Tente refinar a consulta de pesquisa.',
             'title' => 'Jogadores',
         ],
 
@@ -72,11 +83,22 @@ return [
     ],
 
     'download' => [
-        'tagline' => "vamos pôr-te<br>a começar!",
-        'action' => 'Descarrega o osu!',
+        'action_lazer_info' => 'verifique esta página para obter mais informações',
+        'download' => 'Transferir',
+        'for_os' => 'para :os',
+        'macos-fallback' => 'utilizadores de macOS',
+        'mirror' => 'link alternativo',
+        'or' => 'ou',
+        'os_version_or_later' => ':os_version ou superior',
+        'other_os' => 'outras plataformas',
+        'quick_start_guide' => 'guia de início rápido',
+        'stable_text' => 'se estiver à procura da mais antiga',
+        'tagline_1' => 'vamos',
+        'tagline_2' => 'começar!',
+        'video-guide' => 'vídeo de guia',
 
         'help' => [
-            '_' => 'se tiveres problemas ao iniciar o jogo ou ao criar uma conta, vê :help_forum_link ou :support_button.',
+            '_' => 'se tiver problemas ao iniciar o jogo ou ao criar uma conta, veja :help_forum_link ou :support_button.',
             'help_forum_link' => 'consultar o fórum de ajuda',
             'support_button' => 'contactar apoio',
         ],
@@ -86,33 +108,30 @@ return [
             'macos' => 'para macOS',
             'linux' => 'para Linux',
         ],
-        'mirror' => 'link alternativo',
-        'macos-fallback' => 'utilizadores de macOS',
         'steps' => [
             'register' => [
-                'title' => 'adquire uma conta',
-                'description' => 'segue as indicações ao iniciares o jogo para iniciar sessão ou criar uma nova conta',
+                'title' => 'obtenha uma conta',
+                'description' => 'siga as indicações ao iniciar o jogo para iniciar a sessão ou criar uma conta',
             ],
             'download' => [
-                'title' => 'descarrega o jogo',
-                'description' => 'clica no botão acima para transferir o instalador e depois abre-o!',
+                'title' => 'transfira o jogo',
+                'description' => 'clique no botão acima para transferir o instalador e depois abra‑o!',
             ],
             'beatmaps' => [
-                'title' => 'obtém beatmaps',
+                'title' => 'adquira mapas',
                 'description' => [
-                    '_' => ':browse a biblioteca vasta de beatmaps criados por utilizadores e começa a jogar!',
-                    'browse' => 'navegar',
+                    '_' => ':browse a vasta biblioteca de mapas criados por utilizadores e comece a jogar!',
+                    'browse' => 'explore',
                 ],
             ],
         ],
-        'video-guide' => 'vídeo de guia',
     ],
 
     'user' => [
         'title' => 'painel de controlo',
         'news' => [
             'title' => 'Notícias',
-            'error' => 'Erro ao carregar notícias, melhor tentares recarregar a página?...',
+            'error' => 'Erro ao carregar as notícias, tente atualizar a página?...',
         ],
         'header' => [
             'stats' => [
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
-            'new' => 'Novos beatmaps classificados',
-            'popular' => 'Beatmaps populares',
+            'daily_challenge' => 'Mapa do Desafio Diário',
+            'new' => 'Novos mapas classificados',
+            'popular' => 'Mapas populares',
             'by_user' => 'por :user',
+            'resets' => 'reinicia a :ends',
         ],
         'buttons' => [
-            'download' => 'Transfere o osu!',
-            'support' => 'Apoia o osu!',
+            'download' => 'Transfira o osu!',
+            'support' => 'Apoie o osu!',
             'store' => 'osu!store',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Uau!',
-        'subtitle' => 'Pareces estar a passar um momento agradável! :D',
-        'body' => [
-            'part-1' => 'Sabias que o osu! corre sem nenhuma publicidade e que depende de jogadores para apoiar o seu desenvolvimento e custos de manutenção?',
-            'part-2' => 'Também sabias que ao apoiar o osu! recebes um monte de funcionalidades úteis, tal como <strong>downloads dentro do jogo</strong> que aciona automaticamente em jogos de espectador e multijogador?',
+        'livestream' => [
+            'title' => 'Transmissão Destacada',
         ],
-        'find-out-more' => 'Clica aqui para descobrir mais!',
-        'download-starting' => "Ah e não te preocupes - o teu download já foi iniciado para ti ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Abrir terminal de administração',
+            ],
+        ],
     ],
 ];

@@ -3,7 +3,7 @@
     See the LICENCE file in the repository root for full licence text.
 --}}
 <div class="livestream-item">
-    <a class="livestream-item__content" href="{{ $stream->url() }}">
+    <a class="livestream-item__content" href="{{ $stream->url() }}" target="_blank">
         <div
             class="livestream-item__image"
             style="background-image: url('{{ $stream->preview(640, 360) }}');"
@@ -23,12 +23,13 @@
             <button
                 type="button"
                 class="btn-circle"
+                data-confirm="{{ osu_trans('livestreams.promote.pin') }}"
                 data-remote="1"
                 data-method="POST"
                 data-url="{{ route('livestreams.promote', ['id' => $stream->data['id']]) }}"
             >
                 <span class="btn-circle__content">
-                    <i class="fas fa-thumbs-up"></i>
+                    <i class="fas fa-thumbtack"></i>
                 </span>
             </button>
         </div>

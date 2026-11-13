@@ -6,8 +6,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
-use Auth;
-use Request;
+use App\Libraries\Session\Store as SessionStore;
 
 class SessionsController extends Controller
 {
@@ -16,22 +15,23 @@ class SessionsController extends Controller
         $this->middleware('auth');
         $this->middleware('verify-user');
 
-        return parent::__construct();
+        parent::__construct();
     }
 
     public function destroy($id)
     {
-        if (!Auth::check()) {
-            abort(403);
-        }
-
-        if (Request::session()->isCurrentSession($id)) {
+        if (\Session::getId() === $id) {
             // current session
             logout();
         } else {
-            Request::session()->destroyUserSession($id);
+            $session = SessionStore::findOrNew($id);
+            if ($session->userId() === \Auth::user()->getKey()) {
+                $session->delete();
+            } else {
+                abort(404);
+            }
         }
 
-        return response([], 204);
+        return response()->noContent();
     }
 }

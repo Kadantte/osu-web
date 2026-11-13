@@ -8,6 +8,7 @@ namespace App\Models\Wiki;
 use App\Exceptions\GitHubNotFoundException;
 use App\Libraries\OsuWiki;
 use Exception;
+use Illuminate\Contracts\Cache\LockTimeoutException;
 
 class Image implements WikiObject
 {
@@ -17,27 +18,10 @@ class Image implements WikiObject
 
     private $cache;
 
-    public static function lookupForController($path, $url = null, $referrer = null)
-    {
-        $url = presence($url);
-        $referrer = presence($referrer);
-        $image = (new static($path))->sync();
-
-        if (!$image->isVisible()) {
-            if ($url !== null && $referrer !== null && starts_with($url, $referrer)) {
-                $newPath = 'shared/'.substr($url, strlen($referrer));
-
-                return (new static($newPath))->sync();
-            }
-        }
-
-        return $image;
-    }
-
     public function __construct($path)
     {
         $this->path = OsuWiki::cleanPath($path);
-        $this->cache = cache()->get($this->cacheKey());
+        $this->cache = $this->fetchFromCache();
     }
 
     public function cacheKey()
@@ -67,10 +51,24 @@ class Image implements WikiObject
             return $this;
         }
 
-        $lock = cache()->lock($this->cacheKey().':lock', 300);
+        $cache = cache();
+        $cacheKey = $this->cacheKey();
+        $lock = $cache->lock($cacheKey.':lock', 300);
 
         if (!$lock->get()) {
-            return $this;
+            if ($this->cache !== null) {
+                return $this;
+            }
+
+            try {
+                $lock->block(10);
+                $lock->release();
+                $this->cache = $this->fetchFromCache();
+
+                return $this->sync($force);
+            } catch (LockTimeoutException $_e) {
+                // previous attempt is taking too long; try fetching the image anyway
+            }
         }
 
         try {
@@ -84,18 +82,26 @@ class Image implements WikiObject
             // do nothing and cache empty data
         } catch (Exception $e) {
             log_error($e);
+            $lock->release();
 
             return $this;
+        }
+
+        try {
+            $this->cache = [
+                'data' => $data ?? null,
+                'cached_at' => time(),
+            ];
+            $cache->put($cacheKey, $this->cache);
         } finally {
             $lock->release();
         }
 
-        $this->cache = [
-            'data' => $data ?? null,
-            'cached_at' => time(),
-        ];
-        cache()->put($this->cacheKey(), $this->cache);
-
         return $this;
+    }
+
+    private function fetchFromCache(): ?array
+    {
+        return cache()->get($this->cacheKey());
     }
 }

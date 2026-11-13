@@ -10,15 +10,25 @@ return [
 
         'avatar' => [
             'title' => 'プロフィール画像',
+            'reset' => 'リセット',
             'rules' => 'あなたのプロフィール画像が公序良俗に反したもので無いか確認してください。 :link.<br/>易しく言えば<strong>全ての年齢に適した</strong>、つまりヌードや冒涜的な表現などを想起させるものを含んでいない事を確認してください。',
             'rules_link' => 'コミュニティールール',
         ],
 
         'email' => [
-            'current' => '現在のメールアドレス',
             'new' => '新しいメールアドレス',
             'new_confirmation' => '新しいメールアドレス（再入力）',
             'title' => 'メールアドレス',
+            'locked' => [
+                '_' => 'メールアドレスの更新が必要な場合は、 :accounts までご連絡ください。',
+                'accounts' => 'アカウントサポートチーム',
+            ],
+        ],
+
+        'legacy_api' => [
+            'api' => 'api',
+            'irc' => 'irc',
+            'title' => 'レガシーAPI',
         ],
 
         'password' => [
@@ -29,7 +39,13 @@ return [
         ],
 
         'profile' => [
+            'country' => '国',
             'title' => 'プロフィール',
+
+            'country_change' => [
+                '_' => "アカウントの国が居住国と一致しません。 :update_link.",
+                'update_link' => ':country に更新',
+            ],
 
             'user' => [
                 'user_discord' => '',
@@ -47,23 +63,53 @@ return [
         ],
     ],
 
+    'github_user' => [
+        'info' => "osu! のオープンソースリポジトリへのコントリビューターであれば、ここでGitHubアカウントをリンクすると、更新ログエントリがosu! プロフィールに関連付けられます。 osu! への貢献履歴がないGitHubアカウントはリンクできません。",
+        'link' => 'GitHubアカウントをリンク',
+        'title' => 'GitHub',
+        'unlink' => 'GitHubアカウントのリンクを解除',
+
+        'error' => [
+            'already_linked' => 'この GitHub アカウントはすでに別のユーザにリンクされています。',
+            'no_contribution' => 'osu!リポジトリにコントリビューション履歴がなければGitHubアカウントをリンクできません。',
+            'unverified_email' => 'GitHubでEメールを確認してから、もう一度アカウントをリンクしてみてください。',
+        ],
+    ],
+
     'notifications' => [
+        'beatmapset_discussion_reply' => '自分が参加しているビートマップのディスカッションに返信があった際、通知を受け取る',
         'beatmapset_discussion_qualified_problem' => '次のモードのQualifiedビートマップで新しい問題の通知を受け取る',
         'beatmapset_disqualify' => '次のモードのビートマップがDisqualifiedになった場合に通知を受け取る',
         'comment_reply' => 'コメントへの返信の通知を受け取る',
+        'news_post' => 'ニュースの通知を受け取る',
         'title' => '通知',
         'topic_auto_subscribe' => '作成した新しいフォーラムトピックに関する通知を自動的に有効にします',
 
         'options' => [
             '_' => '配送設定',
+            'beatmap_owner_change' => 'ゲスト難易度',
             'beatmapset:modding' => 'ビートマップmodding',
+            'channel_mention' => 'チャットのメンション',
             'channel_message' => 'プライベートチャットメッセージ',
+            'channel_team' => 'チームチャットメッセージ',
             'comment_new' => '新しいコメント',
             'forum_topic_reply' => 'トピックへの返信',
             'mail' => 'メール',
             'mapping' => 'ビートマップマッパー',
+            'news_post' => '新しい投稿',
             'push' => 'プッシュ通知',
-            'user_achievement_unlock' => 'ユーザーメダルのアンロック',
+        ],
+
+        'tooltips' => [
+            'beatmap_owner_change' => 'ビートマップの難易度作成にゲストマッパーとして参加したとき',
+            'beatmapset:modding' => 'ウォッチ中のビートマップのディスカッションが更新されたとき、または自分のビートマップに問題や提案があったとき。',
+            'channel_mention' => '公開チャンネルでメンションされたとき',
+            'channel_message' => '新着のプライベートメッセージが届いたとき',
+            'channel_team' => 'チームのチャットチャンネルに新しいメッセージが届いたとき',
+            'comment_new' => 'フォロー中のアイテムに新しいコメントが投稿されたとき',
+            'forum_topic_reply' => 'ウォッチ中のフォーラムトピックに新しい返信があったとき',
+            'mapping' => 'フォロー中のマッパーが譜面をアップロードしたとき',
+            'news_post' => '新しいニュースが投稿されたとき',
         ],
     ],
 
@@ -74,19 +120,22 @@ return [
     ],
 
     'options' => [
+        'beatmapset_show_anime_cover' => 'アニメ調のビートマップカバーを表示する',
         'beatmapset_show_nsfw' => 'ビートマップ内の不適切なコンテンツの警告を非表示にする',
         'beatmapset_title_show_original' => 'ビートマップのメタデータを元の言語で表示',
         'title' => 'オプション',
 
         'beatmapset_download' => [
-            '_' => 'デフォルトのビートマップダウンロートタイプ',
+            '_' => 'デフォルトのビートマップダウンロードタイプ',
             'all' => '可能であれば動画付き',
             'direct' => 'osu!directで開く',
+            'lazer' => '',
             'no_video' => '動画なし',
         ],
     ],
 
     'playstyles' => [
+        'default_ruleset' => 'メインのゲームモード',
         'keyboard' => 'キーボード',
         'mouse' => 'マウス',
         'tablet' => 'ペンタブ',
@@ -96,7 +145,9 @@ return [
 
     'privacy' => [
         'friends_only' => 'フレンドリストにいない人からのプライベートメッセージをブロックする',
+        'friends_only_info' => 'このブロック機能は、osu!lazerのマルチプレイヤーへの招待や、ランクマッチでの対戦リクエストにも適用されます',
         'hide_online' => 'オンライン状態を隠す',
+        'hide_online_info' => 'これはosu!lazerの「オフラインで表示する」にマップされます',
         'title' => 'プライバシー',
     ],
 
@@ -115,6 +166,22 @@ return [
 
     'update_password' => [
         'update' => '更新',
+    ],
+
+    'user_totp' => [
+        'title' => '認証アプリ',
+        'usage_note' => '認証には、メールの代わりに認証アプリを使用してください。
+メール認証は引き続き、代替手段として利用可能です。',
+
+        'button' => [
+            'remove' => '削除',
+            'setup' => '認証アプリを追加',
+        ],
+        'status' => [
+            'label' => 'ステータス',
+            'not_set' => '設定されていません',
+            'set' => '設定済み',
+        ],
     ],
 
     'verification_completed' => [

@@ -8,60 +8,99 @@ return [
         'disabled' => 'บีทแมพนี้ยังไม่สามารถดาวน์โหลดได้',
         'parts-removed' => 'บางส่วนของบีทแมพนี้ถูกลบตามคำขอของผู้แต่งหรือผู้ถือสิทธิ์บุคคลสาม',
         'more-info' => 'เช็คที่นี่เพื่อดูรายละเอียดเพิ่มเติม',
-        'rule_violation' => '',
+        'rule_violation' => 'เนื้อหาบางส่วนในแมพนี้ได้ถูกนำออกเนื่องจากถูกตัดสินว่าไม่เหมาะสมใน osu!',
+    ],
+
+    'cover' => [
+        'deleted' => 'บีทแมพที่ถูกลบ',
     ],
 
     'download' => [
-        'limit_exceeded' => '',
+        'limit_exceeded' => 'ช้าลงหน่อย เล่นมากขึ้น',
+        'no_mirrors' => 'ไม่มีเซิร์ฟเวอร์สำหรับดาวน์โหลด',
+    ],
+
+    'featured_artist_badge' => [
+        'label' => 'ศิลปินที่โดดเด่น',
     ],
 
     'index' => [
-        'title' => 'รายการ Beatmap',
+        'title' => 'รายการบีทแมพ',
         'guest_title' => 'บีทแมพ',
     ],
 
+    'ogp' => [
+        'favourites' => '',
+        'playcount' => '',
+    ],
+
     'panel' => [
-        'empty' => '',
+        'empty' => 'ไม่มีบีทแมพ',
 
         'download' => [
             'all' => 'ดาวน์โหลด',
             'video' => 'ดาวน์โหลดพร้อมวิดีโอ',
             'no_video' => 'ดาวน์โหลดโดยไม่มีวิดีโอ',
             'direct' => 'เปิดใน osu!direct',
+            'lazer' => '',
         ],
     ],
 
     'nominate' => [
-        'hybrid_requires_modes' => '',
-        'incorrect_mode' => '',
-        'full_bn_required' => '',
-        'too_many' => '',
+        'bng_limited_too_many_rulesets' => 'Probationary nominators cannot nominate multiple rulesets.',
+        'full_nomination_required' => 'You must be a full nominator to perform the final nomination of a ruleset.',
+        'hybrid_requires_modes' => 'บีตแมปแบบไฮบริดจำเป็นให้คุณต้องเลือกโหมดการเล่นอย่างน้อยหนึ่งโหมดเพื่อเสนอชื่อเข้าชิง',
+        'incorrect_mode' => 'คุณไม่มีสิทธิในการเสนอชื่อในโหมด :mode',
+        'invalid_limited_nomination' => 'บีทแมพนี้มีการเสนอชื่อที่ไม่ถูกต้องและไม่สามารถผ่านการคัดเลือกในสถานะนี้ได้',
+        'invalid_ruleset' => 'การเสนอชื่อนี้มีรูลเซ็ตที่ไม่ถูกต้อง',
+        'too_many' => 'ความต้องการเสนอชื่อได้สำเร็จแล้ว',
+        'too_many_non_main_ruleset' => 'ข้อกำหนดการเสนอชื่อสำหรับรูลเซ็ตที่ไม่ใช่รูลเซ็ตหลักได้ถูกทำครบแล้ว',
 
         'dialog' => [
-            'confirmation' => '',
-            'header' => '',
-            'hybrid_warning' => '',
-            'which_modes' => '',
+            'confirmation' => 'คุณแน่ใจที่จะเสนอชื่อแมพนี้ใช่ไหม',
+            'different_nominator_warning' => 'การผ่านคุณสมบัติบีทแมพนี้กับโนมิเนเตอร์ที่แตกต่างกันจะรีเซ็ตตำแหน่งในคิวการตรวจสอบคุณสมบัติ',
+            'header' => 'เสนอชื่อบีทแมพ',
+            'hybrid_warning' => 'โน้ต: คุณสามารถเสนอชื่อได้เพียงแค่ครั้งเดียว ดังนั้นโปรดตรวจสอบให้แน่ใจว่าคุณเสนอชื่อในเกมโหมดทั้งหมดที่คุณต้องการจะเสนอชื่อ',
+            'current_main_ruleset' => 'รูลเซ็ตในตอนนี้คือ: :ruleset',
+            'which_modes' => 'เสนอชื่อให้โหมดไหน',
         ],
     ],
 
     'nsfw_badge' => [
-        'label' => '',
+        'label' => 'ไม่เหมาะสม',
+    ],
+
+    'rate' => [
+        'invalid' => '',
     ],
 
     'show' => [
         'discussion' => 'การสนทนา',
 
+        'admin' => [
+            'full_size_cover' => 'ดูภาพปกขนาดเต็ม',
+            'page' => 'ดูหน้าผู้ดูแล',
+        ],
+
+        'deleted_banner' => [
+            'title' => 'บีทแมพนี้ถูกลบไปแล้ว',
+            'message' => '(ผู้ดูแลเท่านั้นที่สามารถเห็นสิ่งนี้)',
+        ],
+
         'details' => [
-            'favourite' => 'กดชื่นชอบ beatmapset นี้',
+            'by_artist' => 'โดย :artist',
+            'favourite' => 'ชื่นชอบบีทแมพนี้',
+            'favourite_login' => 'ลงชื่อเข้าใช้เพื่อเพิ่มบีทแมพนี้เข้าในรายการโปรด',
             'logged-out' => 'คุณต้องเข้าสู่ระบบก่อนที่จะดาวน์โหลดบีทแมพ',
             'mapped_by' => 'แมพโดย :mapper',
-            'unfavourite' => 'เลิก Favourite beatmapset นี้',
+            'mapped_by_guest' => 'ระดับความยากโดย :mapper',
+            'unfavourite' => 'นำบีทแมพนี้ออกจากรายการโปรด',
             'updated_timeago' => 'อัปเดตล่าสุดเมื่อ :timeago',
 
             'download' => [
                 '_' => 'ดาวน์โหลด',
                 'direct' => '',
+                'lazer' => '',
                 'no-video' => 'ไม่มีวิดิโอ',
                 'video' => 'พร้อมวิดิโอ',
             ],
@@ -74,8 +113,8 @@ return [
 
         'details_date' => [
             'approved' => 'อนุมัติ :timeago',
-            'loved' => 'loved เมื่อ :timeago',
-            'qualified' => 'qualified :timeago',
+            'loved' => 'เลิฟด์เมื่อ :timeago',
+            'qualified' => 'ผ่านการรับรอง :timeago',
             'ranked' => 'จัดอันดับแล้วเมื่อ :timeago',
             'submitted' => 'ส่งเมื่อ :timeago',
             'updated' => 'อัปเดตครั้งล่าสุดเมื่อ :timeago',
@@ -93,13 +132,13 @@ return [
 
                 'status' => [
                     'pending' => 'อยู่ระหว่างดำเนินการ',
-                    'qualified' => 'qualified',
+                    'qualified' => 'ผ่านการรับรอง',
                     'wip' => 'อยู่ระหว่างดำเนินการ',
                 ],
             ],
 
             'disqualify' => [
-                '_' => 'ถ้าคุณพบปัญหากับบีทแมพนี้ ให้คุณยกเลิกสถานะ Qualified ของบีทแมพนี้ไป :link',
+                '_' => 'ถ้าคุณพบปัญหากับบีทแมพนี้ ให้คุณยกเลิกสถานะ "ผ่านการรับรอง" ของบีทแมพนี้ออก :link',
             ],
 
             'report' => [
@@ -113,86 +152,117 @@ return [
             'description' => 'คำอธิบาย',
             'genre' => 'ประเภท',
             'language' => 'ภาษา',
+            'mapper_tags' => 'แท็กผู้สร้างบีทแมพ',
             'no_scores' => 'ข้อมูลกำลังถูกคำนวณ...',
-            'nsfw' => '',
+            'nominators' => 'ผู้เสนอชื่อ',
+            'nsfw' => 'เนื้อหาไม่เหมาะสม',
+            'offset' => 'ออฟเซ็ตออนไลน์',
+            'pack_tags' => 'แพ็กบีทแมพ',
             'points-of-failure' => 'ความล้มเหลว',
             'source' => 'แหล่งที่มา',
-            'storyboard' => '',
+            'storyboard' => 'บีทแมพนี้มี storyboard',
             'success-rate' => 'อัตราการผ่าน',
-            'tags' => 'แท็ก',
+            'success_rate_plays' => ':passes/:count_delimited ครั้งที่เล่น|:passes/:count_delimited ครั้งที่เล่น',
+            'user_tags' => 'แทกผู้ใช้',
+            'video' => 'บีทแมพนี้มีวิดีโอ',
+        ],
+
+        'lazer_only' => [
+            'title' => '',
+            'description' => '',
+
+            'scoreboard_switch_mode' => [
+                '_' => '',
+                'enable_link' => '',
+            ],
         ],
 
         'nsfw_warning' => [
-            'details' => '',
-            'title' => '',
+            'details' => 'บีทแมพนี้มีเนื้อหาไม่เหมาะสม, รุนแรง, หรือรบกวนใจ คุณยังจะต้องการดูมันไหม',
+            'title' => 'เนื้อหาไม่เหมาะสม',
 
             'buttons' => [
-                'disable' => '',
-                'listing' => '',
-                'show' => '',
+                'disable' => 'ปิดการแจ้งเตือน',
+                'listing' => 'รายชื่อบีทแมพ',
+                'show' => 'แสดง',
             ],
         ],
 
         'scoreboard' => [
             'achieved' => 'ได้รับ :when',
             'country' => 'อันดับประเทศ',
+            'error' => 'โหลดอันดับไม่สำเร็จ',
             'friend' => 'อันดับเพื่อน',
             'global' => 'อันดับโลก',
-            'supporter-link' => 'คลิก <a href=":link">ที่นี่</a> เพื่อดูสิ่งสวยงามทั้งหมดที่คุณได้รับ!',
+            'supporter-link' => 'คลิก <a href=":link">ที่นี่</a> เพื่อดูสิทธิประโยชน์ทั้งหมดที่คุณจะได้รับ!',
             'supporter-only' => 'คุณต้องเป็นผู้สนับสนุนเพื่อเข้าถึงการจัดอันดับเพื่อนและประเทศ!',
+            'team' => 'อันดับทีม',
             'title' => 'กระดานคะแนน',
 
             'headers' => [
                 'accuracy' => 'ความแม่นยำ',
                 'combo' => 'คอมโบสูงสุด',
-                'miss' => 'Miss',
+                'miss' => 'พลาด',
                 'mods' => 'ม็อด',
+                'pin' => 'ปักหมุด',
                 'player' => 'ผู้เล่น',
                 'pp' => '',
                 'rank' => 'อันดับ',
-                'score_total' => 'คะแนนรวม',
                 'score' => 'คะแนน',
+                'score_total' => 'คะแนนรวม',
                 'time' => 'เวลา',
             ],
 
             'no_scores' => [
-                'country' => 'ยังไม่มีใครในประเทศของคุณที่ทำคะแนนบนแมพนี้ได้!',
-                'friend' => 'ยังไม่มีใครในเพือนของคุณที่ทำคะแนนบนแมพนี้ได้!',
-                'global' => 'ยังไม่มีคะแนน บางทีคุณอาจจะลองทำดูนะ',
+                'country' => 'แมพนี้ยังไม่มีใครในประเทศทำคะแนนเลย!',
+                'friend' => 'แมพนี้ยังไม่มีเพื่อนทำคะแนนเลย!',
+                'global' => 'ตอนนี้ยังไม่มีคะแนน ลองทำคำแนนได้นะ',
                 'loading' => 'กำลังโหลดคะแนน...',
-                'unranked' => 'แมพที่ไม่ได้จัดอันดับ',
+                'team' => 'แมพนี้ยังไม่มีใครในทีมทำคะแนนเลย!',
+                'unranked' => 'บีทแมพที่ไม่ได้จัดอันดับ',
             ],
             'score' => [
-                'first' => 'นำ',
+                'first' => 'สูงสุด',
                 'own' => 'คะแนนดีที่สุดของคุณ',
+            ],
+            'supporter_link' => [
+                '_' => 'คลิก :here เพื่อดูสิทธิประโยชน์ทั้งหมดที่คุณจะได้รับ!',
+                'here' => 'ที่นี่',
             ],
         ],
 
         'stats' => [
-            'cs' => 'ขนาดวงกลม',
+            'cs' => 'ขนาดเซอร์เคิล',
             'cs-mania' => 'จำนวนคีย์',
             'drain' => 'การลด HP',
             'accuracy' => 'ความแม่นยำ',
             'ar' => 'อัตราการเข้าใกล้',
             'stars' => 'ระดับความยาก',
-            'total_length' => 'ความยาว',
+            'total_length' => 'ความยาว (ความยาว Drain: :hit_length)',
             'bpm' => 'BPM',
-            'count_circles' => 'จำนวนวงกลม',
+            'count_circles' => 'จำนวนเซอร์เคิล',
             'count_sliders' => 'จำนวนสไลเดอร์',
+            'offset' => 'ออฟเซ็ตออนไลน์: :offset',
             'user-rating' => 'คะแนน',
             'rating-spread' => 'การกระจายคะแนนโหวต',
             'nominations' => 'การเสนอชื่อ',
             'playcount' => 'จำนวนครั้งที่เล่น',
+            'favourites' => 'รายการโปรด',
+            'no_favourites' => 'ยังไม่มีรายการโปรด',
         ],
 
         'status' => [
             'ranked' => 'จัดอันดับแล้ว',
             'approved' => 'อนุมัติ',
-            'loved' => 'Loved',
-            'qualified' => 'Qualified',
+            'loved' => 'เลิฟด์',
+            'qualified' => 'ผ่านการรับรอง',
             'wip' => 'WIP',
             'pending' => 'อยู่ระหว่างดำเนินการ',
             'graveyard' => 'สุสาน',
         ],
+    ],
+
+    'spotlight_badge' => [
+        'label' => 'สปอตไลท์',
     ],
 ];

@@ -8,6 +8,7 @@ return [
     'not_negative' => ':attribute não pode ser negativo.',
     'required' => ':attribute é necessário.',
     'too_long' => ':attribute ultrapassou tamanho máximo - deve ser até :limit caracteres.',
+    'url' => 'Por favor, insira uma URL válida.',
     'wrong_confirmation' => 'Confirmação não confere.',
 
     'beatmapset_discussion' => [
@@ -25,7 +26,7 @@ return [
 
         'hype' => [
             'discussion_locked' => "Esse beatmap está bloqueado para discussão e não pode ser hypado",
-            'guest' => 'Precisa estar conectado para hypar.',
+            'guest' => 'Você precisa entrar para hypar.',
             'hyped' => 'Você já hypou este beatmap.',
             'limit_exceeded' => 'Você usou todo seu hype.',
             'not_hypeable' => 'Este beatmap não pode ser hypado',
@@ -108,15 +109,39 @@ return [
         ],
     ],
 
+    'legacy_api_key' => [
+        'exists' => 'Apenas uma chave de API é fornecida por usuário no momento.',
+
+        'attributes' => [
+            'api_key' => 'chave de api',
+            'app_name' => 'nome da aplicação ',
+            'app_url' => 'url da aplicação ',
+        ],
+    ],
+
     'oauth' => [
         'client' => [
             'too_many' => 'Número máximo de aplicações OAuth excedido.',
             'url' => 'Por favor, insira uma URL válida.',
 
             'attributes' => [
-                'name' => 'Nome da Aplicação',
+                'name' => 'Nome da aplicação',
                 'redirect' => 'URL de Callback da Aplicação',
             ],
+        ],
+    ],
+
+    'team' => [
+        'invalid_characters' => ':attribute contém caracteres inválidos.',
+        'used' => 'Essa escolha de :attribute já está sendo usada.',
+        'word_not_allowed' => 'Essa escolha de :attribute não é permitida.',
+
+        'attributes' => [
+            'default_ruleset_id' => 'Modalidade padrão',
+            'is_open' => 'Aplicação para equipe',
+            'name' => 'Nome',
+            'short_name' => 'Nome curto',
+            'url' => 'URL',
         ],
     ],
 
@@ -156,13 +181,16 @@ return [
             'restricted' => 'Não é possível alterar seu nome de usuário enquanto estiver em modo restrito.',
             'supporter_required' => [
                 '_' => 'Você precisa ser um :link para mudar seu nome de usuário!',
-                'link_text' => 'osu!supporter',
+                'link_text' => 'ajudou o osu!',
             ],
             'username_is_same' => 'Este já é seu nome de usuário, bobinho!',
         ],
     ],
 
     'user_report' => [
+        'no_ranked_beatmapset' => 'Beatmaps ranqueados não podem ser reportados',
+        'not_in_channel' => 'Você não está nesse canal.',
+        'in_team' => 'Você não faz parte da equipe.',
         'reason_not_valid' => ':reason não é valido para este tipo de denúncia.',
         'self' => "Você não pode se denunciar!",
     ],

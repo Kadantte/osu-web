@@ -5,17 +5,18 @@
 
 namespace App\Http\Controllers\Store;
 
-use App\Events\Fulfillments\PaymentEvent;
 use App\Libraries\OrderCheckout;
+use App\Libraries\Payments\PaymentCompleted;
+use App\Libraries\Payments\PaypalCreatePayment;
+use App\Libraries\Payments\XsollaCreateToken;
+use App\Models\Store\Order;
 use App\Traits\CheckoutErrorSettable;
-use App\Traits\StoreNotifiable;
 use Auth;
 use DB;
-use Exception;
 
 class CheckoutController extends Controller
 {
-    use CheckoutErrorSettable, StoreNotifiable;
+    use CheckoutErrorSettable;
 
     protected $layout = 'master';
 
@@ -27,7 +28,7 @@ class CheckoutController extends Controller
         }
         $this->middleware('verify-user');
 
-        return parent::__construct();
+        parent::__construct();
     }
 
     public function show($id)
@@ -40,34 +41,41 @@ class CheckoutController extends Controller
         // TODO: should be able to notify user that items were changed due to stock/price changes.
         $order->refreshCost();
         $checkout = new OrderCheckout($order);
-        $addresses = Auth::user()->storeAddresses()->with('country')->get();
 
         // using $errors will conflict with laravel's default magic MessageBag/ViewErrorBag that doesn't act like
         // an array and will cause issues in shared views.
         $validationErrors = session('checkout.error.errors') ?? $checkout->validate();
 
-        return ext_view('store.checkout.show', compact('order', 'addresses', 'checkout', 'validationErrors'));
+        return ext_view('store.checkout.show', compact('order', 'checkout', 'validationErrors'));
     }
 
     public function store()
     {
-        $orderId = get_int(request('orderId'));
-        $provider = request('provider');
-        $shopifyCheckoutId = presence(request('shopifyCheckoutId'));
+        $params = get_params(request()->all(), null, [
+            'hide_from_activity:bool',
+            'order_id:int',
+            'provider',
+            'shopify_checkout_id',
+        ], ['null_missing' => true]);
 
-        $order = $this->orderForCheckout($orderId);
+        $order = $this->orderForCheckout($params['order_id']);
 
         if ($order === null || $order->isEmpty()) {
             return ujs_redirect(route('store.cart.show'));
         }
 
-        $checkout = new OrderCheckout($order, $provider, $shopifyCheckoutId);
+        $hideFromActivity = $params['hide_from_activity'];
+        if ($hideFromActivity) {
+            $order->setGiftsHidden($hideFromActivity);
+        }
+
+        $checkout = new OrderCheckout($order, $params['provider'], $params['shopify_checkout_id']);
 
         $validationErrors = $checkout->validate();
         if (!empty($validationErrors)) {
             return $this->setAndRedirectCheckoutError(
                 $order,
-                trans('store.checkout.cart_problems'),
+                osu_trans('store.checkout.cart_problems'),
                 $validationErrors
             );
         }
@@ -76,24 +84,29 @@ class CheckoutController extends Controller
 
         if ((float) $order->getTotal() === 0.0) {
             return $this->freeCheckout($checkout);
+        } else if ($params['provider'] === Order::PROVIDER_PAYPAL) {
+            return [
+                'paypal_approve_url' => new PaypalCreatePayment($order)->run(),
+                'provider' => Order::PROVIDER_PAYPAL,
+            ];
+        } else if ($params['provider'] === Order::PROVIDER_XSOLLA) {
+            return [
+                ...new XsollaCreateToken($order, \Auth::user())->run(),
+                'order_number' => $order->getOrderNumber(),
+                'provider' => Order::PROVIDER_XSOLLA,
+            ];
         }
 
-        return 'ok';
+        return response()->noContent();
     }
 
     private function freeCheckout($checkout)
     {
         $order = DB::connection('mysql-store')->transaction(function () use ($checkout) {
-            try {
-                $order = $checkout->getOrder();
-                $checkout->completeCheckout();
-                $order->paid(null);
-            } catch (Exception $exception) {
-                $this->notifyError($exception, $order, 'store.payments.error.free');
-                throw $exception;
-            }
+            $order = $checkout->getOrder();
+            $checkout->completeCheckout();
 
-            event('store.payments.completed.free', new PaymentEvent($order));
+            (new PaymentCompleted($order, null))->handle();
 
             return $order;
         });
@@ -101,11 +114,11 @@ class CheckoutController extends Controller
         return ujs_redirect(route('store.invoice.show', ['invoice' => $order->order_id, 'thanks' => 1]));
     }
 
-    private function orderForCheckout($id)
+    private function orderForCheckout($id): ?Order
     {
         return Auth::user()
             ->orders()
-            ->whereIn('status', ['incart', 'processing'])
+            ->whereCanCheckout()
             ->with('items.product')
             ->find($id);
     }

@@ -5,7 +5,7 @@
 
 return [
     'header' => [
-        'small' => 'Compete em mais maneiras do que só clicar em círculos.',
+        'small' => 'Compita de mais maneiras do que apenas clicar em círculos.',
         'large' => 'Concursos da comunidade',
     ],
 
@@ -13,43 +13,86 @@ return [
         'nav_title' => 'listagem',
     ],
 
+    'judge' => [
+        'comments' => 'comentários',
+        'hide_judged' => 'esconder inscrições avaliadas',
+        'nav_title' => 'avaliar',
+        'no_current_vote' => 'ainda não votou.',
+        'update' => 'atualizar',
+        'unsaved_changes' => 'alterações não salvas',
+        'validation' => [
+            'missing_score' => 'pontuação em falta',
+            'contest_vote_judged' => 'não pode votar em concursos apreciados',
+        ],
+        'voted' => 'Já submetou um voto nesta participação.',
+    ],
+
+    'judge_results' => [
+        '_' => 'Resultados da apreciação',
+        'creator' => 'criador',
+        'hosts_only' => '',
+        'provisional' => '',
+        'score' => 'Pontuação',
+        'score_std' => 'Pontuação padronizada',
+        'total_score' => 'pontuação total',
+        'total_score_std' => 'pontuação padronizada total',
+    ],
+
     'voting' => [
-        'login_required' => 'Por favor inicia sessão para votar.',
+        'host_link' => '',
+        'judge_link' => 'É um dos jurados deste concurso. Avalie as participações aqui!',
+        'judged_notice' => 'Este concurso está a utilizar o sistema de avaliação. Os jurados estão atualmente a analisar as participações.',
+        'login_required' => 'Inicie a sessão para votar.',
         'over' => 'A votação para este concurso terminou',
         'show_voted_only' => 'Mostrar votados',
 
         'best_of' => [
-            'none_played' => "Não parece que jogaste nenhuns beatmaps que se qualificam para este concurso!",
+            'none_played' => "Parece que não jogou nenhum mapa que se qualifique para este concurso!",
         ],
 
         'button' => [
             'add' => 'Votar',
             'remove' => 'Remover voto',
-            'used_up' => 'Usaste todos os teus votos',
+            'used_up' => 'Usou todos os seus votos',
+        ],
+
+        'progress' => [
+            '_' => ':used / :max votos utilizados',
+        ],
+
+        'requirement' => [
+            'playlist_beatmapsets' => [
+                'incomplete_play' => 'Tem de jogar todos os mapas das listas de reprodução especificadas antes de votar',
+            ],
         ],
     ],
+
     'entry' => [
         '_' => 'inscrição',
-        'login_required' => 'Por favor inicia sessão para entrar no concurso.',
-        'silenced_or_restricted' => 'Não podes entrar em concursos enquanto estiveres restrito ou silenciado.',
-        'preparation' => 'Atualmente, estamos a preparar este concurso. Por favor espera pacientemente!',
-        'drop_here' => 'Larga a tua inscrição aqui',
+        'login_required' => 'Inicie a sessão para entrar no concurso.',
+        'silenced_or_restricted' => 'Não pode entrar em concursos enquanto estiver restrito ou silenciado.',
+        'preparation' => 'Estamos atualmente a preparar este concurso. Por favor, aguarde pacientemente!',
+        'drop_here' => 'Largue a sua inscrição aqui',
+        'allowed_extensions' => 'os ficheiros :types são aceites',
+        'max_size' => 'Tamanho máximo: :limit',
+        'required_dimensions' => 'As dimensões devem ser :widthx:height',
         'download' => 'Transferir .osz',
-        'wrong_type' => [
-            'art' => 'Somente ficheiros .jpg e .png são aceites para este concurso.',
-            'beatmap' => 'Somente ficheiros .osu são aceites para este concurso.',
-            'music' => 'Somente ficheiros .mp3 são aceites para este concurso.',
-        ],
+        'wrong_file_type' => 'Apenas os ficheiros :types são aceites para este concurso.',
+        'wrong_dimensions' => 'As entradas para este concurso devem ser :widthx:height',
         'too_big' => 'As inscrições para este concurso só podem ser até :limit.',
     ],
+
     'beatmaps' => [
         'download' => 'Transferir inscrição',
     ],
+
     'vote' => [
         'list' => 'votos',
-        'count' => ':count voto|:count votos',
-        'points' => ':count ponto|:count pontos',
+        'count' => ':count_delimited voto|:count_delimited votos',
+        'points' => ':count_delimited ponto|:count_delimited pontos',
+        'points_float' => ':points pontos',
     ],
+
     'dates' => [
         'ended' => 'Terminou em :date',
         'ended_no_date' => 'Concluído',
@@ -59,9 +102,16 @@ return [
             'soon' => 'em breve™',
         ],
     ],
+
     'states' => [
         'entry' => 'Entrada aberta',
         'voting' => 'A votação começou',
         'results' => 'Resultados',
+    ],
+
+    'show' => [
+        'admin' => [
+            'page' => 'Ver informações e participações',
+        ],
     ],
 ];

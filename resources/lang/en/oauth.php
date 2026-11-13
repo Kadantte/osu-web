@@ -7,6 +7,7 @@ return [
     'cancel' => 'Cancel',
 
     'authorise' => [
+        'app_owner' => 'an app by :owner',
         'request' => 'is requesting permission to access your account.',
         'scopes_title' => 'This application will be able to:',
         'title' => 'Authorisation Request',
@@ -27,7 +28,7 @@ return [
     'client' => [
         'id' => 'Client ID',
         'name' => 'Application Name',
-        'redirect' => 'Application Callback URL',
+        'redirect' => 'Application Callback URLs',
         'reset' => 'Reset client secret',
         'reset_failed' => 'Failed to reset client secret',
         'secret' => 'Client Secret',
@@ -56,6 +57,12 @@ return [
         'revoked' => [
             'false' => 'Delete',
             'true' => 'Deleted',
+        ],
+
+        'secret' => [
+            'copy' => 'Make sure to copy the value before navigating away.',
+            'generate_new' => 'Reset client secret to generate a new one.',
+            'visible_once' => 'Client secret is only visible after initial creation.',
         ],
     ],
 ];

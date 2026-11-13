@@ -6,27 +6,46 @@
 return [
     '_' => 'Zoradiť podľa',
 
-    'all' => '',
-    'friends' => '',
+    'all' => 'Všetko',
+    'friends' => 'Priatelia',
     'last_visit' => 'Nedávno aktívne',
     'new' => 'Nedávne',
     'old' => 'Staré',
     'rank' => 'Poradie',
     'top' => 'Najlepšie',
-    'username' => 'Meno Uživateľa',
+    'username' => 'Meno Používateľa',
+
+    'artist_tracks' => [
+        'album' => 'Album',
+        'artist' => 'Umelec',
+        'bpm' => 'BPM',
+        'genre' => 'Žáner',
+        'length' => 'Dĺžka',
+        'relevance' => 'Relevantnosť',
+        'title' => 'Názov',
+        'update' => 'Aktualizácia',
+    ],
 
     'forum_posts' => [
-        'created' => '',
-        'relevance' => '',
+        'created' => 'Čas zverejnenia',
+        'relevance' => 'Relevantnosť',
     ],
 
     'forum_topics' => [
-        'feature_votes' => '',
+        'created' => 'Vytvorené',
+        'feature_votes' => 'Priorita hviezd',
         'new' => 'Posledná odpoveď',
     ],
 
+    'teams' => [
+        'created' => 'Vytvorené',
+        'relevance' => 'Relevantnosť',
+        'name' => 'Meno',
+        'short-name' => 'Krátke Meno',
+    ],
+
     'users' => [
-        'relevance' => '',
-        'username' => '',
+        'relevance' => 'Relevantnosť',
+        'username' => 'Meno',
     ],
 ];

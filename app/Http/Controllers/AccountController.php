@@ -5,15 +5,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ImageProcessorException;
 use App\Exceptions\ModelNotSavedException;
-use App\Libraries\UserVerification;
-use App\Libraries\UserVerificationState;
+use App\Libraries\Session\Store as SessionStore;
+use App\Libraries\SessionVerification;
+use App\Libraries\User\AvatarHelper;
+use App\Libraries\User\CountryChange;
+use App\Libraries\User\CountryChangeTarget;
 use App\Mail\UserEmailUpdated;
 use App\Mail\UserPasswordUpdated;
+use App\Models\Beatmap;
+use App\Models\GithubUser;
 use App\Models\OAuth\Client;
 use App\Models\UserAccountHistory;
 use App\Models\UserNotificationOption;
+use App\Models\UserProfileCustomization;
+use App\Transformers\CurrentUserTransformer;
+use App\Transformers\GithubUserTransformer;
+use App\Transformers\LegacyApiKeyTransformer;
+use App\Transformers\LegacyIrcKeyTransformer;
+use App\Transformers\OAuth\ClientTransformer;
 use Auth;
 use DB;
 use Mail;
@@ -29,7 +39,7 @@ class AccountController extends Controller
 
         $this->middleware(function ($request, $next) {
             if (Auth::check() && Auth::user()->isSilenced()) {
-                return abort(403, trans('authorization.silenced'));
+                return abort(403, osu_trans('authorization.silenced'));
             }
 
             return $next($request);
@@ -37,6 +47,7 @@ class AccountController extends Controller
             'except' => [
                 'edit',
                 'reissueCode',
+                'updateCountry',
                 'updateEmail',
                 'updateNotificationOptions',
                 'updateOptions',
@@ -50,68 +61,82 @@ class AccountController extends Controller
             'updateOptions',
         ]]);
 
-        $this->middleware('throttle:60,10', ['only' => [
+        $this->middleware('throttle:3,5', ['only' => [
             'reissueCode',
+        ]]);
+
+        $this->middleware('throttle:60,10', ['only' => [
             'updateEmail',
             'updatePassword',
             'verify',
             'verifyLink',
         ]]);
 
-        return parent::__construct();
+        parent::__construct();
     }
 
     public function avatar()
     {
-        try {
-            Auth::user()->setAvatar(Request::file('avatar_file'));
-        } catch (ImageProcessorException $e) {
-            return error_popup($e->getMessage());
-        }
+        $user = auth()->user();
 
-        return Auth::user()->defaultJson();
+        AvatarHelper::set($user, Request::file('avatar_file'));
+
+        return json_item($user, new CurrentUserTransformer());
     }
 
     public function cover()
     {
-        if (Request::hasFile('cover_file') && !Auth::user()->osu_subscriber) {
-            return error_popup(trans('errors.supporter_only'));
+        $user = \Auth::user();
+        $params = get_params(\Request::all(), null, [
+            'cover_file:file',
+            'cover_id:int',
+        ], ['null_missing' => true]);
+
+        if ($params['cover_file'] !== null && !$user->osu_subscriber) {
+            return error_popup(osu_trans('errors.supporter_only'));
         }
 
-        try {
-            Auth::user()
-                ->profileCustomization()
-                ->setCover(Request::input('cover_id'), Request::file('cover_file'));
-        } catch (ImageProcessorException $e) {
-            return error_popup($e->getMessage());
-        }
+        $user->cover()->set($params['cover_id'], $params['cover_file']);
+        $user->save();
 
-        return Auth::user()->defaultJson();
+        return json_item($user, new CurrentUserTransformer());
     }
 
     public function edit()
     {
-        $user = auth()->user();
+        $user = \Auth::user();
 
-        $blocks = $user->blocks()
-            ->orderBy('username')
-            ->get();
+        $blocks = $user->blocks->load('target:user_id,username')->sortBy('target.username');
 
-        $sessions = Request::session()
-            ->currentUserSessions();
+        $sessions = SessionStore::sessions($user->getKey());
+        $currentSessionId = \Session::getId();
 
-        $currentSessionId = Request::session()
-            ->getIdWithoutKeyPrefix();
+        $authorizedClients = json_collection(Client::forUser($user), new ClientTransformer(), 'user');
+        $ownClients = json_collection(
+            $user->clients()->where('revoked', false)->get(),
+            new ClientTransformer(),
+            ['redirect', 'secret', 'secret_hint'],
+        );
 
-        $authorizedClients = json_collection(Client::forUser($user), 'OAuth\Client', 'user');
-        $ownClients = json_collection($user->oauthClients()->where('revoked', false)->get(), 'OAuth\Client', ['redirect', 'secret']);
+        $legacyApiKey = $user->apiKeys()->available()->first();
+        $legacyApiKeyJson = $legacyApiKey === null ? null : json_item($legacyApiKey, new LegacyApiKeyTransformer());
+
+        $legacyIrcKey = $user->legacyIrcKey;
+        $legacyIrcKeyJson = $legacyIrcKey === null ? null : json_item($legacyIrcKey, new LegacyIrcKeyTransformer());
 
         $notificationOptions = $user->notificationOptions->keyBy('name');
+
+        $githubUser = GithubUser::canAuthenticate() && $user->githubUser !== null
+            ? json_item($user->githubUser, new GithubUserTransformer())
+            : null;
 
         return ext_view('accounts.edit', compact(
             'authorizedClients',
             'blocks',
             'currentSessionId',
+            'githubUser',
+            'legacyApiKeyJson',
+            'legacyIrcKeyJson',
             'notificationOptions',
             'ownClients',
             'sessions'
@@ -130,37 +155,58 @@ class AccountController extends Controller
             'user_twitter:string',
             'user_website:string',
             'user_discord:string',
+            'user_style:int',
         ]);
+
+        // setting it to null (default) is always allowed
+        if (isset($params['user_style']) && !$user->osu_subscriber) {
+            return error_popup(osu_trans('errors.supporter_only'));
+        }
 
         try {
             $user->fill($params)->saveOrExplode();
         } catch (ModelNotSavedException $e) {
-            return $this->errorResponse($user, $e);
+            return ModelNotSavedException::makeResponse($e, compact('user'));
         }
 
-        return $user->defaultJson();
+        return json_item($user, new CurrentUserTransformer());
+    }
+
+    public function updateCountry()
+    {
+        $newCountry = get_string(Request::input('country_acronym'));
+        $user = Auth::user();
+
+        if ($newCountry === null || CountryChangeTarget::get($user) !== $newCountry) {
+            abort(403, 'specified country_acronym is not allowed');
+        }
+
+        CountryChange::handle($user, $newCountry, 'account settings');
+        \Session::flash('popup', osu_trans('common.saved'));
+
+        return ext_view('layout.ujs-reload', [], 'js');
     }
 
     public function updateEmail()
     {
+        priv_check('UserUpdateEmail')->ensureCan();
+
         $params = get_params(request()->all(), 'user', ['current_password', 'user_email', 'user_email_confirmation']);
         $user = Auth::user()->validateCurrentPassword()->validateEmailConfirmation();
         $previousEmail = $user->user_email;
 
         if ($user->update($params) === true) {
-            $addresses = [$user->user_email];
-            if (present($previousEmail)) {
-                $addresses[] = $previousEmail;
-            }
-            foreach ($addresses as $address) {
-                Mail::to($address)->locale($user->preferredLocale())->send(new UserEmailUpdated($user));
+            foreach ([$previousEmail, $user->user_email] as $address) {
+                if (is_valid_email_format($address)) {
+                    Mail::to($address)->locale($user->preferredLocale())->send(new UserEmailUpdated($user));
+                }
             }
 
             UserAccountHistory::logUserUpdateEmail($user, $previousEmail);
 
-            return response([], 204);
+            return response()->noContent();
         } else {
-            return $this->errorResponse($user);
+            return ModelNotSavedException::makeResponse(null, compact('user'));
         }
     }
 
@@ -172,7 +218,13 @@ class AccountController extends Controller
         }
 
         DB::transaction(function () use ($requestParams) {
-            // FIXME: less queries
+            $user = auth()->user();
+            $user
+                ->notificationOptions()
+                ->whereIn('name', array_keys($requestParams))
+                ->select('user_id')
+                ->lockForUpdate()
+                ->get();
             foreach ($requestParams as $key => $value) {
                 if (!UserNotificationOption::supportsNotifications($key)) {
                     continue;
@@ -180,13 +232,13 @@ class AccountController extends Controller
 
                 $params = get_params($value, null, ['details:any']);
 
-                $option = auth()->user()->notificationOptions()->firstOrNew(['name' => $key]);
+                $option = $user->notificationOptions()->firstOrNew(['name' => $key]);
                 // TODO: show correct field error.
                 $option->fill($params)->saveOrExplode();
             }
         });
 
-        return response(null, 204);
+        return response()->noContent();
     }
 
     public function updateOptions()
@@ -202,22 +254,19 @@ class AccountController extends Controller
             'user_notify:bool',
         ]);
 
-        $profileParams = get_params($params, 'user_profile_customization', [
-            'audio_autoplay:bool',
-            'audio_muted:bool',
-            'audio_volume:float',
-            'beatmapset_download:string',
-            'beatmapset_show_nsfw:bool',
-            'beatmapset_title_show_original:bool',
-            'comments_show_deleted:bool',
-            'comments_sort:string',
-            'extras_order:string[]',
-            'forum_posts_show_deleted:bool',
-            'ranking_expanded:bool',
-            'user_list_filter:string',
-            'user_list_sort:string',
-            'user_list_view:string',
-        ]);
+        if (isset($userParams['playmode']) && !Beatmap::isModeValid($userParams['playmode'])) {
+            abort(422, 'invalid value specified for user[playmode]');
+        }
+
+        $profileParams = get_params(
+            $params,
+            'user_profile_customization',
+            // type validation is done by each setters
+            array_map(fn ($key) => $key.':any', array_keys(UserProfileCustomization::DEFAULTS)),
+        );
+
+        $profileCustomization = $user->userProfileCustomization()->firstOrCreate();
+        $user->setRelation('userProfileCustomization', $profileCustomization);
 
         try {
             if (!empty($userParams)) {
@@ -225,13 +274,16 @@ class AccountController extends Controller
             }
 
             if (!empty($profileParams)) {
-                $user->profileCustomization()->fill($profileParams)->saveOrExplode();
+                $profileCustomization->fill($profileParams)->saveOrExplode();
             }
         } catch (ModelNotSavedException $e) {
-            return $this->errorResponse($user, $e);
+            return ModelNotSavedException::makeResponse($e, [
+                'user' => $user,
+                'user_profile_customization' => $profileCustomization,
+            ]);
         }
 
-        return $user->defaultJson();
+        return json_item($user, new CurrentUserTransformer());
     }
 
     public function updatePassword()
@@ -240,47 +292,38 @@ class AccountController extends Controller
         $user = Auth::user()->validateCurrentPassword()->validatePasswordConfirmation();
 
         if ($user->update($params) === true) {
-            if (present($user->user_email)) {
+            if (is_valid_email_format($user->user_email)) {
                 Mail::to($user)->send(new UserPasswordUpdated($user));
             }
 
-            return response([], 204);
+            $user->resetSessions(\Session::getId());
+
+            return response()->noContent();
         } else {
-            return $this->errorResponse($user);
+            return ModelNotSavedException::makeResponse(null, compact('user'));
         }
+    }
+
+    public function verificationMailFallback()
+    {
+        return SessionVerification\Controller::mailFallback(
+            SessionVerification\State::getCurrent(),
+            SessionVerification\Controller::FALLBACK_MODES['user_initiated'],
+        );
     }
 
     public function verify()
     {
-        return UserVerification::fromCurrentRequest()->verify();
+        return SessionVerification\Controller::verify();
     }
 
     public function verifyLink()
     {
-        $state = UserVerificationState::fromVerifyLink(request('key'));
-
-        if ($state === null) {
-            UserVerification::logAttempt('link', 'fail', 'incorrect_key');
-
-            return ext_view('accounts.verification_invalid', null, null, 404);
-        }
-
-        UserVerification::logAttempt('link', 'success');
-        $state->markVerified();
-
-        return ext_view('accounts.verification_completed');
+        return SessionVerification\Controller::verifyLink();
     }
 
     public function reissueCode()
     {
-        return UserVerification::fromCurrentRequest()->reissue();
-    }
-
-    private function errorResponse($user, $exception = null)
-    {
-        return response([
-            'form_error' => ['user' => $user->validationErrors()->all()],
-            'error' => optional($exception)->getMessage(),
-        ], 422);
+        return SessionVerification\Controller::reissue();
     }
 }

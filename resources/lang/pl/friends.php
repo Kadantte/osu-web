@@ -4,8 +4,9 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'blocked' => 'Ten użytkownik cię zablokował.',
     'title_compact' => 'znajomi',
-    'too_many' => 'Limit znajomych został osiągnięty.',
+    'too_many' => 'Osiągnięto limit znajomych',
 
     'buttons' => [
         'add' => 'dodaj znajomego',

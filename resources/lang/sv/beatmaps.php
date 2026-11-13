@@ -4,6 +4,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => 'Ogiltigt regelset specificerat.',
+
+    'change_owner' => [
+        'too_many' => 'För många gäst mappare.',
+    ],
+
     'discussion-votes' => [
         'update' => [
             'error' => 'Kunde ej uppdatera röst',
@@ -12,24 +18,29 @@ return [
 
     'discussions' => [
         'allow_kudosu' => 'tillåt kudosu',
-        'beatmap_information' => 'Beatmap Sida',
+        'beatmap_information' => 'Beatmap-sida',
         'delete' => 'radera',
         'deleted' => 'Raderad av :editor :delete_time.',
         'deny_kudosu' => 'neka kudosu',
         'edit' => 'redigera',
         'edited' => 'Senast redigerad av :editor :update_time.',
+        'guest' => 'Gästsvårighetsgrad av :user',
         'kudosu_denied' => 'Nekad från att skaffa kudosu.',
+        'include_replies' => 'Inkludera gensvar',
         'message_placeholder_deleted_beatmap' => 'Denna svårighetsgrad har tagits bort så den kan inte längre diskuteras.',
         'message_placeholder_locked' => 'Diskussioner för denna beatmap har inaktiverats.',
-        'message_placeholder_silenced' => "Kan inte lägga upp diskussionen som tystad.",
-        'message_type_select' => 'Välj Kommentarstyp',
+        'message_placeholder_silenced' => "Kan inte lägga upp diskussionen medan du är tystad.",
+        'message_type_select' => 'Välj kommentarstyp',
         'reply_notice' => 'Tryck enter för att svara.',
+        'reply_resolve_notice' => 'Tryck enter för att svara. Tryck ctrl+enter för att svara och lösa.',
         'reply_placeholder' => 'Skriv ditt svar här',
         'require-login' => 'Var vänlig logga in för att skicka inlägg eller svara',
         'resolved' => 'Löst',
         'restore' => 'återställ',
         'show_deleted' => 'Visa borttagna',
+        'show_other_replies' => 'Visa andra svar',
         'title' => 'Diskussioner',
+        'unresolved_count' => ':count_delimited olösta problem|:count_delimited olösta problem',
 
         'collapse' => [
             'all-collapse' => 'Kollapsa allt',
@@ -54,26 +65,39 @@ return [
         ],
 
         'message_hint' => [
-            'in_general' => 'Detta inlägg kommer att gå till allmän beatmapset diskussion. För att modifiera denna beatmap, starta meddelande med tidsstämpel (t.ex. 00:12:345).',
+            'in_general' => 'Detta inlägg kommer att läggas upp i den allmäna beatmapset-diskussionen. För att modda denna beatmap, starta ditt meddelande med tidsstämpel (t.ex. 00:12:345).',
             'in_timeline' => 'För att modda flera tidsstämplar, lägg upp flera inlägg (ett inlägg för varje tidsstämpel).',
         ],
 
         'message_placeholder' => [
-            'general' => 'Skriv här för att posta till General (:version)',
-            'generalAll' => 'Skriv här för att posta till General (Alla svårighetsgrader)',
+            'general' => 'Skriv här för att posta till allmänt (:version)',
+            'generalAll' => 'Skriv här för att posta till allmänt (alla svårighetsgrader)',
             'review' => 'Skriv här för att posta en recension',
-            'timeline' => 'Skriv här för att posta till Tidslinjen (:version)',
+            'timeline' => 'Skriv här för att posta till tidslinjen (:version)',
         ],
 
         'message_type' => [
             'disqualify' => 'Diskvalificera',
             'hype' => 'Hype!',
             'mapper_note' => 'Anteckning',
-            'nomination_reset' => 'Återställ Nominering',
+            'nomination_reset' => 'Återställ nominering',
             'praise' => 'Beröm',
             'problem' => 'Problem',
+            'problem_warning' => 'Rapportera problem',
             'review' => 'Recension',
             'suggestion' => 'Förslag',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => 'Lägg ut diskvalificering',
+            'hype' => 'Lägg ut Hype!',
+            'mapper_note' => 'Lägg ut Anteckning',
+            'nomination_reset' => 'Ta bort alla Nomineringar',
+            'praise' => 'Lägg ut Beröm',
+            'problem' => 'Lägg ut Problem',
+            'problem_warning' => 'Lägg Upp Problem',
+            'review' => 'Lägg Upp Recension',
+            'suggestion' => 'Lägg Upp Förslag',
         ],
 
         'mode' => [
@@ -91,12 +115,12 @@ return [
             'pin' => 'Fäst',
             'timestamp' => 'Tidsstämpel',
             'timestamp_missing' => 'Tryck ctrl-c i redigeringsläget och klistra in ditt meddelande för att lägga till en tidsstämpel!',
-            'title' => 'Ny Diskussion',
+            'title' => 'Ny diskussion',
             'unpin' => 'Lossa',
         ],
 
         'review' => [
-            'new' => 'Ny Recension',
+            'new' => 'Ny recension',
             'embed' => [
                 'delete' => 'Radera',
                 'missing' => '[DISKUSSION RADERAD]',
@@ -104,10 +128,11 @@ return [
                 'unsaved' => 'Ej sparad',
                 'timestamp' => [
                     'all-diff' => 'Inlägg med "Alla svårighetsgrader" kan inte tidsstämplas.',
-                    'diff' => 'Om denna :type börjar med en tidsstämpel, visas den under Tidslinje.',
+                    'diff' => 'Om denna :type börjar med en tidsstämpel, visas den under tidslinje.',
                 ],
             ],
             'insert-block' => [
+                'mapper_note' => '',
                 'paragraph' => 'infoga paragraf',
                 'praise' => 'infoga beröm',
                 'problem' => 'infoga problem',
@@ -128,17 +153,17 @@ return [
         'stats' => [
             'deleted' => 'Raderad',
             'mapper_notes' => 'Anteckningar',
-            'mine' => 'Min',
-            'pending' => 'Avvaktar',
+            'mine' => 'Mina',
+            'pending' => 'Väntande',
             'praises' => 'Beröm',
             'resolved' => 'Löst',
             'total' => 'Alla',
         ],
 
         'status-messages' => [
-            'approved' => 'This beatmap was approved on :date!',
-            'graveyard' => "Denna beatmap har inte blivit uppdaterad sen :date och har mest troligast blivit övergiven av skaparen...",
-            'loved' => 'Denna beatmap blev tillagd i älskad :date!',
+            'approved' => 'Denna beatmap blev godkänd :date!',
+            'graveyard' => "Denna beatmap har inte blivit uppdaterad sedan :date och har hamnat på kyrkogården...",
+            'loved' => 'Denna beatmap blev tillagd som älskad :date!',
             'ranked' => 'Denna beatmap blev rankad :date!',
             'wip' => 'Notera: Denna beatmap är markerad som pågående arbete av skaparen.',
         ],
@@ -156,33 +181,36 @@ return [
     ],
 
     'hype' => [
-        'button' => 'Hype Beatmap!',
+        'button' => 'Hype beatmap!',
         'button_done' => 'Redan hypad!',
-        'confirm' => "Är du säker? Detta kommer att använda en av dina återstånde :n hypes och kan inte tas tillbaka.",
-        'explanation' => 'Att lägga till beröm ❤ kommer höja denna beatmaps hype, vilket gör den mer synlig för nominering och rankning!',
+        'confirm' => "Är du säker? Detta kommer att använda en av dina återstående :n hypes och kan inte tas tillbaka.",
+        'explanation' => 'Hypa denna beatmap för att göra den mer synlig för nominering och rankning!',
         'explanation_guest' => 'Logga in och hypa denna beatmap för att göra den mer synlig för nomineringar och rankning!',
         'new_time' => "Du kommer att få en till hype :new_time.",
         'remaining' => 'Du har :remaining hypes kvar.',
         'required_text' => 'Hype: :current/:required',
-        'section_title' => 'Hype Tåg',
+        'section_title' => 'Hype-tåg',
         'title' => 'Hype',
     ],
 
     'feedback' => [
-        'button' => 'Lämna Feedback',
+        'button' => 'Lämna feedback',
     ],
 
     'nominations' => [
+        'already_nominated' => 'Du har redan nominerat denna beatmap.',
+        'cannot_nominate' => 'Du kan inte nominera detta beatmap spelläge.',
         'delete' => 'Radera',
         'delete_own_confirm' => 'Är du säker? Beatmapen kommer att raderas och du kommer att omdirigeras tillbaka till din profil.',
         'delete_other_confirm' => 'Är du säker? Beatmapen kommer att raderas och du kommer att omdirigeras tillbaka till användarens profil.',
         'disqualification_prompt' => 'Anledning för diskvalificering?',
         'disqualified_at' => 'Diskvalificerad :time_ago (:reason).',
-        'disqualified_no_reason' => 'inget anledning specificerad',
+        'disqualified_no_reason' => 'ingen anledning specificerad',
         'disqualify' => 'Diskvalificera',
         'incorrect_state' => 'Ett fel uppstod, pröva att uppdatera sidan.',
-        'love' => 'Kärlek',
-        'love_confirm' => 'Älskar du denna beatmap?',
+        'love' => 'Älska',
+        'love_choose' => 'Välj svårighetsgrad för älskad',
+        'love_confirm' => 'Älska denna beatmap?',
         'nominate' => 'Nominera',
         'nominate_confirm' => 'Nominera denna beatmap?',
         'nominated_by' => 'nominerad av :users',
@@ -195,7 +223,10 @@ return [
         'unresolved_issues' => 'Det finns fortfarande olösta problem som måste tas hand om först.',
 
         'rank_estimate' => [
-            '_' => 'Denna map uppskattas vara rankad den :date, så länge inga fel uppstår. Den är #:position i kön :queue.',
+            '_' => 'Denna beatmap uppskattas vara rankad :date, så länge inga fel uppstår. Den är #:position i :queue.',
+            'unresolved_problems' => 'Denna låt är för närvarande blockerad från att lämna den Kvalificerade sektionen tills :problems är löst.',
+            'problems' => 'dessa problem',
+            'on' => 'den :date',
             'queue' => 'rankkö',
             'soon' => 'snart',
         ],
@@ -206,8 +237,9 @@ return [
         ],
 
         'reset_confirm' => [
-            'nomination_reset' => 'Är du säker? Lägga upp ett nytt problem kommer återställa nomineringar.',
             'disqualify' => 'Är du säker? Detta kommer att ta bort beatmap från kvalificering och återställa nomineringsprocessen.',
+            'nomination_reset' => 'Är du säker? Lägga upp ett nytt problem kommer återställa nomineringar.',
+            'problem_warning' => 'Är du säker på att rapportera problem på denna beatmap? Detta kommer att meddela Beatmap Nominatorerna.',
         ],
     ],
 
@@ -215,19 +247,20 @@ return [
         'search' => [
             'prompt' => 'skriv in nyckelord...',
             'login_required' => 'Logga in för att söka.',
-            'options' => 'Mer Sök Alternativ',
-            'supporter_filter' => 'Filtrering av :filters kräver en aktiv osu!supporter tagg',
+            'options' => 'Fler sökalternativ',
+            'rank_filter_note' => 'Profilens topprankning och resultat som visas på denna sida baseras på dina högsta "standardiserade" (alias "lazer") poäng på beatmaps.',
+            'supporter_filter' => 'Filtrering av :filters kräver en aktiv osu!supporter-tagg',
             'not-found' => 'inga resultat',
-            'not-found-quote' => '... nope, ingenting hittades.',
+            'not-found-quote' => '... näpp, ingenting hittades.',
             'filters' => [
-                'extra' => 'extra',
+                'extra' => 'Extra',
                 'general' => 'Allmänt',
                 'genre' => 'Genre',
                 'language' => 'Språk',
                 'mode' => 'Läge',
                 'nsfw' => 'Explicit innehåll',
                 'played' => 'Spelade',
-                'rank' => 'Rank Uppnådd',
+                'rank' => 'Rank uppnådd',
                 'status' => 'Kategorier',
             ],
             'sorting' => [
@@ -244,14 +277,20 @@ return [
             ],
             'supporter_filter_quote' => [
                 '_' => 'Filtrering av :filters kräver en aktiv :link',
-                'link_text' => 'osu!supporter tagg',
+                'link_text' => 'osu!supporter-tagg',
+            ],
+            'tag_picker' => [
+                'tooltip' => '',
+                'prompt' => '',
             ],
         ],
     ],
     'general' => [
         'converts' => 'Inkludera konverterade beatmaps',
-        'follows' => '',
+        'featured_artists' => 'Utvalda artister',
+        'follows' => 'Prenumererade mappare',
         'recommended' => 'Rekommenderad svårighetsgrad',
+        'spotlights' => 'Beatmaps i rampljuset',
     ],
     'mode' => [
         'all' => 'Alla',
@@ -260,16 +299,18 @@ return [
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => 'inte inställt',
     ],
     'status' => [
         'any' => 'Alla',
-        'approved' => 'Godkänd',
+        'approved' => 'Godkända',
         'favourites' => 'Favoriter',
         'graveyard' => 'Kyrkogård',
-        'leaderboard' => 'Har Topplista',
-        'loved' => 'Älskad',
-        'mine' => 'Mina Maps',
-        'pending' => 'Pågående & WIP',
+        'leaderboard' => 'Har topplista',
+        'loved' => 'Älskade',
+        'mine' => 'Mina beatmaps',
+        'pending' => 'Väntande',
+        'wip' => 'WIP',
         'qualified' => 'Kvalificerad',
         'ranked' => 'Rankad',
     ],
@@ -280,40 +321,14 @@ return [
         'anime' => 'Anime',
         'rock' => 'Rock',
         'pop' => 'Pop',
-        'other' => 'Annan',
+        'other' => 'Annat',
         'novelty' => 'Novelty',
-        'hip-hop' => 'Hip Hop',
-        'electronic' => 'Elektronisk',
+        'hip-hop' => 'Hiphop',
+        'electronic' => 'Elektroniskt',
         'metal' => 'Metal',
-        'classical' => 'Klassisk',
+        'classical' => 'Klassiskt',
         'folk' => 'Folk',
         'jazz' => 'Jazz',
-    ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => 'Score V2',
     ],
     'language' => [
         'any' => 'Alla',
@@ -344,8 +359,8 @@ return [
         'unplayed' => 'Ej spelade',
     ],
     'extra' => [
-        'video' => 'Har Video',
-        'storyboard' => 'Har Storyboard',
+        'video' => 'Har video',
+        'storyboard' => 'Har storyboard',
     ],
     'rank' => [
         'any' => 'Alla',

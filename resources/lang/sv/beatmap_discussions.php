@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => '',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Måste vara inloggad för att kunna redigera.',
@@ -16,16 +18,28 @@ return [
         'empty' => 'Inget har hänt... ännu.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'raderad',
         'none_found' => 'Inga diskussioner som matchar det sökkriteriet hittades.',
-        'title' => 'Beatmap diskussioner',
+        'title' => 'Beatmapdiskussioner',
 
         'form' => [
             '_' => 'Sök',
             'deleted' => 'Inkludera raderade diskussioner',
+            'mode' => 'Beatmapläge',
             'only_unresolved' => 'Visa bara olösta diskussioner',
-            'types' => 'Typ av meddelande',
+            'show_review_embeds' => 'Visa recensionsinlägg',
+            'types' => 'Meddelandetyper',
             'username' => 'Användarnamn',
 
             'beatmapset_status' => [
@@ -53,8 +67,22 @@ return [
 
     'nearby_posts' => [
         'confirm' => 'Inget av inläggen tar upp min oro',
-        'notice' => 'Det finns inlägg runt :timestamp (:existing_timestamps). Var vänlig kontrollera detta innan du lägger upp ett inlägg.',
+        'notice' => 'Det finns inlägg runt :timestamp (:existing_timestamps). Var vänlig kontrollera dessa innan du lägger upp ett inlägg.',
         'unsaved' => ':count i denna recension',
+    ],
+
+    'owner_editor' => [
+        'button' => 'Svårighetsgradens ägare',
+        'reset_confirm' => 'Återställ ägare för denna svårighetsgrad?',
+        'user' => 'Ägare',
+        'version' => 'Svårighetsgrad',
+    ],
+
+    'refresh' => [
+        'checking' => 'Letar efter uppdateringar...',
+        'has_updates' => 'Diskussionen har uppdateringar, klicka för att uppdatera.',
+        'no_updates' => 'Inga uppdateringar.',
+        'updating' => 'Uppdaterar...',
     ],
 
     'reply' => [
@@ -65,7 +93,7 @@ return [
     ],
 
     'review' => [
-        'block_count' => '',
+        'block_count' => ':used / :max block används',
         'go_to_parent' => 'Visa granskningsinlägg',
         'go_to_child' => 'Visa diskussion',
         'validation' => [
@@ -73,6 +101,7 @@ return [
             'external_references' => 'granskningen innehåller referenser till problem som inte hör till denna recension',
             'invalid_block_type' => 'ogiltig blocktyp',
             'invalid_document' => 'ogiltig granskning',
+            'invalid_discussion_type' => 'ogiltig diskussionstyp',
             'minimum_issues' => 'granskningen måste innehålla minst :count problem|granskningen måste innehålla minst :count problem',
             'missing_text' => 'blocket saknar text',
             'too_many_blocks' => 'granskningarna måste endast innehålla :count stycke/problem granskningarna får endast innehålla upp till :count stycken/problem',
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'Allihopa',
         'label' => 'Filtrera efter användare',
+        'multiple' => '',
     ],
 ];

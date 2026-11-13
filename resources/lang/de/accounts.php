@@ -5,39 +5,55 @@
 
 return [
     'edit' => [
-        'title_compact' => 'einstellungen',
-        'username' => 'benutzername',
+        'title_compact' => 'Einstellungen',
+        'username' => 'Benutzername',
 
         'avatar' => [
             'title' => 'Avatar',
-            'rules' => 'Bitte stelle sicher, dass sich dein Avatar an :link hält.<br/>Das heißt, er muss <strong>für alle Altersklassen geeignet</strong> sein und darf keine Nacktheit oder anstößige Inhalte enthalten.',
+            'reset' => 'Zurücksetzen',
+            'rules' => 'Bitte stelle sicher, dass sich dein Avatar an :link hält.<br/>Das heißt, er muss <strong>für alle Altersklassen geeignet</strong> sein und darf keine Nacktheit oder anstößigen Inhalte enthalten.',
             'rules_link' => 'die Community-Regeln',
         ],
 
         'email' => [
-            'current' => 'aktuelle e-mail',
-            'new' => 'neue e-mail',
-            'new_confirmation' => 'e-mail bestätigen',
+            'new' => 'Neue E-Mail',
+            'new_confirmation' => 'E-Mail bestätigen',
             'title' => 'E-Mail',
+            'locked' => [
+                '_' => 'Bitte kontaktiere das :accounts, wenn du deine E-Mail-Adresse aktualisieren möchtest.',
+                'accounts' => 'Account-Support-Team',
+            ],
+        ],
+
+        'legacy_api' => [
+            'api' => 'API',
+            'irc' => 'IRC',
+            'title' => 'Legacy-API',
         ],
 
         'password' => [
-            'current' => 'aktuelles passwort',
-            'new' => 'neues passwort',
-            'new_confirmation' => 'passwort bestätigen',
+            'current' => 'Aktuelles Passwort',
+            'new' => 'Neues Passwort',
+            'new_confirmation' => 'Passwort bestätigen',
             'title' => 'Passwort',
         ],
 
         'profile' => [
+            'country' => 'Land',
             'title' => 'Profil',
+
+            'country_change' => [
+                '_' => "Es sieht so aus, als ob das Land deines Accounts nicht mit dem Land deines Wohnsitzes übereinstimmt. :update_link.",
+                'update_link' => 'Zu :country ändern',
+            ],
 
             'user' => [
                 'user_discord' => '',
-                'user_from' => 'aktueller standort',
-                'user_interests' => 'interessen',
-                'user_occ' => 'beschäftigung',
+                'user_from' => 'Aktueller Standort',
+                'user_interests' => 'Interessen',
+                'user_occ' => 'Beschäftigung',
                 'user_twitter' => '',
-                'user_website' => 'webseite',
+                'user_website' => 'Webseite',
             ],
         ],
 
@@ -47,56 +63,91 @@ return [
         ],
     ],
 
+    'github_user' => [
+        'info' => "Wenn du zu den Open-Source-Repositories von osu! beiträgst, kannst du dein GitHub-Konto hier verlinken, um deine Changelog-Einträge mit deinem osu!-Profil zu verknüpfen. GitHub-Konten ohne Beitragshistorie zu osu! können nicht verknüpft werden.",
+        'link' => 'GitHub-Konto verknüpfen',
+        'title' => 'GitHub',
+        'unlink' => 'GitHub-Konto entkoppeln',
+
+        'error' => [
+            'already_linked' => 'Dein GitHub-Konto ist bereits mit einem anderen Benutzerkonto verknüpft.',
+            'no_contribution' => 'GitHub-Konto ohne Beitragshistorie in osu!-Repositories kann nicht verknüpft werden.',
+            'unverified_email' => 'Bitte verifiziere deine primäre E-Mail-Adresse auf GitHub und versuche dann, dein Konto erneut zu verknüpfen.',
+        ],
+    ],
+
     'notifications' => [
-        'beatmapset_discussion_qualified_problem' => 'erhalte benachrichtigungen für neue probleme auf qualifizierten beatmaps der folgenden modi',
-        'beatmapset_disqualify' => 'erhalte benachrichtigungen, wenn beatmaps der folgenden modi disqualifiziert werden',
-        'comment_reply' => 'erhalte benachrichtigungen für antworten auf deine kommentare',
+        'beatmapset_discussion_reply' => 'Benachrichtigungen über Antworten in Beatmap-Diskussionen erhalten, an denen du teilnimmst',
+        'beatmapset_discussion_qualified_problem' => 'Erhalte Benachrichtigungen für neue Probleme auf qualifizierten Beatmaps von folgenden Modi',
+        'beatmapset_disqualify' => 'Erhalte Benachrichtigungen, wenn Beatmaps der folgenden Modi disqualifiziert werden',
+        'comment_reply' => 'Erhalte Benachrichtigungen für Antworten auf deine Kommentare',
+        'news_post' => 'Erhalte Benachrichtigungen bei Neuigkeiten',
         'title' => 'Benachrichtigungen',
-        'topic_auto_subscribe' => 'automatisch benachrichtigungen zu den von dir erstellten forenthreads aktivieren',
+        'topic_auto_subscribe' => 'Benachrichtigungen zu den Forenposts, die du erstellt oder auf die du geantwortet hast, immer aktivieren',
 
         'options' => [
-            '_' => 'zustelloptionen',
-            'beatmapset:modding' => 'beatmap-modding',
-            'channel_message' => 'private chatnachrichten',
-            'comment_new' => 'neue kommentare',
-            'forum_topic_reply' => 'antwort auf einen thread',
-            'mail' => 'mail',
-            'mapping' => 'beatmap-mapper',
-            'push' => 'push',
-            'user_achievement_unlock' => 'medaille freigeschaltet',
+            '_' => 'Zustelloptionen',
+            'beatmap_owner_change' => 'Guest-Difficulty',
+            'beatmapset:modding' => 'Beatmap-Modding',
+            'channel_mention' => 'Erwähnung im Chat',
+            'channel_message' => 'Private Chat-Nachrichten',
+            'channel_team' => 'Nachrichten im Team-Chat',
+            'comment_new' => 'Neue Kommentare',
+            'forum_topic_reply' => 'Antwort auf Forenthema',
+            'mail' => 'Mail',
+            'mapping' => 'Beatmap-Mapper',
+            'news_post' => 'Neuigkeiten',
+            'push' => 'Push',
+        ],
+
+        'tooltips' => [
+            'beatmap_owner_change' => 'wenn du als Gastmapper auf einem Schwierigkeitsgrad hinzugefügt wirst',
+            'beatmapset:modding' => 'wenn gemerkte Beatmapdiskussionen Updates bekommen, oder es ein Problem oder Vorschlag für deine Beatmap gibt',
+            'channel_mention' => 'wenn du in einem öffentlichen Channel erwähnt wurdest',
+            'channel_message' => 'wenn du eine neue private Nachricht erhältst',
+            'channel_team' => 'wenn es in deinem Teamchat eine neue Nachricht gibt',
+            'comment_new' => 'wenn ein neuer Kommentar auf einem gefolgten Beitrag erscheint',
+            'forum_topic_reply' => 'wenn gemerkte Forenposts neue Antworten erhalten',
+            'mapping' => 'wenn ein Mapper, dem du folgst, eine Beatmap hochlädt',
+            'news_post' => 'wenn es Neuigkeiten gibt',
         ],
     ],
 
     'oauth' => [
-        'authorized_clients' => 'autorisierte clients',
-        'own_clients' => 'eigene clients',
+        'authorized_clients' => 'Autorisierte Anwendungen',
+        'own_clients' => 'Eigene Anwendungen',
         'title' => 'OAuth',
     ],
 
     'options' => [
-        'beatmapset_show_nsfw' => 'warnungen für expliziten inhalt in beatmaps ausblenden',
-        'beatmapset_title_show_original' => 'beatmap-metadaten in originalsprache anzeigen',
+        'beatmapset_show_anime_cover' => 'Beatmap-Cover mit Anime-Stil anzeigen',
+        'beatmapset_show_nsfw' => 'Warnungen für expliziten Inhalt in Beatmaps ausblenden',
+        'beatmapset_title_show_original' => 'Beatmap-Metadaten in Originalsprache anzeigen',
         'title' => 'Optionen',
 
         'beatmapset_download' => [
-            '_' => 'bevorzuge beatmap-download',
-            'all' => 'mit video, falls verfügbar',
+            '_' => 'Bevorzuge Beatmap-Download-Typ',
+            'all' => 'mit Video, falls verfügbar',
             'direct' => 'in osu!direct öffnen',
-            'no_video' => 'ohne video',
+            'lazer' => '',
+            'no_video' => 'ohne Video',
         ],
     ],
 
     'playstyles' => [
-        'keyboard' => 'tastatur',
-        'mouse' => 'maus',
-        'tablet' => 'tablet',
+        'default_ruleset' => 'Standardspielmodus',
+        'keyboard' => 'Tastatur',
+        'mouse' => 'Maus',
+        'tablet' => 'Tablet',
         'title' => 'Spielstil',
-        'touch' => 'touch',
+        'touch' => 'Touch',
     ],
 
     'privacy' => [
-        'friends_only' => 'blockiere nachrichten von benutzern, die nicht auf deiner freundesliste sind',
-        'hide_online' => 'online-status verbergen',
+        'friends_only' => 'Blockiere Nachrichten von Benutzern, die nicht in deiner Freundesliste sind',
+        'friends_only_info' => 'Dadurch werden in osu!lazer auch Einladungen in den Mehrspielermodus und zu Duellen im "Ranked Play"-Modus blockiert',
+        'hide_online' => 'Online-Status verbergen',
+        'hide_online_info' => 'Dies entspricht dem "Offline"-Modus in osu!lazer',
         'title' => 'Privatsphäre',
     ],
 
@@ -106,7 +157,7 @@ return [
         'end_session_confirmation' => 'Das wird deine Sitzung auf diesem Gerät sofort beenden. Bist du sicher?',
         'last_active' => 'Zuletzt aktiv:',
         'title' => 'Sicherheit',
-        'web_sessions' => 'web-sitzungen',
+        'web_sessions' => 'Web-Sitzungen',
     ],
 
     'update_email' => [
@@ -115,6 +166,21 @@ return [
 
     'update_password' => [
         'update' => 'speichern',
+    ],
+
+    'user_totp' => [
+        'title' => 'Zwei-Faktor-Authentifizierung',
+        'usage_note' => 'Nutze die Authentifizierungs-App anstatt der E-Mail zur Authentifizierung. Die Authentifizierung per E-Mail wird weiterhin als Alternative zur Verfügung stehen.',
+
+        'button' => [
+            'remove' => 'Entfernen',
+            'setup' => 'Zwei-Faktor-Authentifizierung hinzufügen',
+        ],
+        'status' => [
+            'label' => 'Status',
+            'not_set' => 'Deaktiviert',
+            'set' => 'Aktiviert',
+        ],
     ],
 
     'verification_completed' => [

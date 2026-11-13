@@ -17,15 +17,22 @@ return [
         'identify' => 'Identificeer je en lees je openbare profiel.',
 
         'chat' => [
+            'read' => 'Berichten namens jou lezen.',
             'write' => 'Berichten namens jou verzenden.',
+            'write_manage' => 'Doe mee en verlaat kanalen namens jou.',
         ],
 
         'forum' => [
             'write' => 'Maak en bewerk forumonderwerpen en berichten namens u.',
+            'write_manage' => 'Beheer forum onderwerpen en berichten namens jou.',
         ],
 
         'friends' => [
             'read' => 'Zie wie u volgt.',
+        ],
+
+        'multiplayer' => [
+            'write_manage' => 'Creëer en beheer multiplayer ruimtes namens jou.',
         ],
 
         'public' => 'Openbare gegevens lezen namens jou.',

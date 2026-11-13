@@ -19,9 +19,9 @@ return [
     ],
 
     'buttons' => [
-        'admin' => 'ผู้ดูแล',
         'authorise' => 'อนุญาต',
         'authorising' => 'กำลังอนุญาต...',
+        'back' => 'กลับ',
         'back_to_previous' => 'กลับไปยังตำแหน่งก่อนหน้านี้',
         'back_to_top' => 'กลับไปด้านบน',
         'cancel' => 'ยกเลิก',
@@ -39,11 +39,13 @@ return [
         'pin' => 'ปักหมุด',
         'post' => 'โพสต์',
         'read_more' => 'อ่านเพิ่มเติม',
+        'refresh' => 'รีเฟรช',
         'reply' => 'ตอบกลับ',
         'reply_reopen' => 'ตอบกลับ และเปิดใหม่',
         'reply_resolve' => 'ตอบกลับ และแก้ไข',
         'reset' => 'รีเซ็ต',
         'restore' => 'กู้คืน',
+        'retry' => 'ลองใหม่',
         'save' => 'บันทึก',
         'saving' => 'กำลังบันทึก...',
         'search' => 'ค้นหา',
@@ -53,6 +55,7 @@ return [
         'show_less' => 'แสดงน้อยลง',
         'show_more' => 'แสดงเพิ่มเติม',
         'show_more_options' => 'แสดงตัวเลือกเพิ่มเติม',
+        'submit' => 'ส่ง',
         'unpin' => 'ยกเลิกการปักหมุด',
         'update' => 'อัปเดต',
         'upload_image' => 'อัปโหลดรูปภาพ',
@@ -64,7 +67,7 @@ return [
     ],
 
     'count' => [
-        'badges' => ':count_delimited เหรียญ|:count_delimited เหรียญ',
+        'badges' => ':count_delimited ตรา|:count_delimited ตรา',
         'days' => ':count_delimited วัน|:count_delimited วัน',
         'hour_short_unit' => 'ชั่วโมง|ชั่วโมง',
         'hours' => ':count ชั่วโมง|:count ชั่วโมง',
@@ -73,12 +76,13 @@ return [
         'minutes' => ':count_delimited นาที|:count_delimited นาที',
         'months' => ':count_delimited เดือน|:count_delimited เดือน',
         'notifications' => ':count_delimited การแจ้งเตือน|:count_delimited การแจ้งเตือนทั้งหมด',
-        'plus_others' => 'อีก + :count_delimited อัน!|อีก + :count_delimited อัน!',
+        'player' => ':count_delimited คน|:count_delimited คน',
+        'plus_others' => '+ :count_delimited อัน!|+ :count_delimited อัน!',
         'post' => ':count_delimited โพสต์|:count_delimited โพสต์',
         'second_short_unit' => 'วินาที|วินาที',
         'star_priority' => ':count_delimited ดาวความสำคัญ|:count_delimited ดาวความสำคัญ',
         'update' => ':count_delimited อัพเดต|:count_delimited อัปเดต',
-        'view' => ':count_delimited วิว|:count_delimited วิว',
+        'view' => ':count_delimited ดู|:count_delimited ดู',
         'years' => ':count_delimited ปี|:count_delimited ปี',
     ],
 
@@ -90,6 +94,12 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => 'เดือน',
+        ],
+        'year' => [
+            'php' => 'ปี',
+        ],
         'year_month' => [
             'moment' => 'MMMM YYYY',
             'php' => 'MMMM y',
@@ -133,10 +143,10 @@ return [
         'dd' => '%d วัน',
         'h' => '%d ชั่วโมง',
         'hh' => '%d ชั่วโมง',
-        'M' => '%d เดือน',
         'm' => '%d นาที',
-        'MM' => '%d เดือน',
         'mm' => '%d นาที',
+        'month' => '%d เดือน',
+        'months' => '%d เดือน',
         'past' => '',
         's' => '%d วินาที',
         'y' => '%d ปี',

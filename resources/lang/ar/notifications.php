@@ -6,30 +6,48 @@
 return [
     'all_read' => 'جميع الإشعارات مقروءة!',
     'delete' => 'حذف :type',
-    'loading' => 'تحميل الإشعارات الغير مقروءة...',
+    'loading' => 'جاري تحميل الإشعارات غير المقروءة...',
     'mark_read' => 'مَحو :type',
-    'none' => 'لا إشعارات',
-    'see_all' => 'أِظهار جميع الإشعارات',
+    'none' => 'لا توجد إشعارات',
+    'see_all' => 'عرض جميع الإشعارات',
     'see_channel' => 'انتقل للمُحادثة',
-    'verifying' => '',
+    'verifying' => 'الرجاء التحقق من الجلسة لعرض الإشعارات',
+
+    'action_type' => [
+        '_' => 'الكل',
+        'beatmapset' => 'الخرائط',
+        'build' => 'النُسَخ',
+        'channel' => 'المحادثة',
+        'forum_topic' => 'منتدى',
+        'news_post' => 'الأخبار',
+        'team' => 'الفريق',
+        'user' => 'الملف الشخصي',
+    ],
 
     'filters' => [
         '_' => 'الكل',
-        'user' => 'الملف الشخصي',
         'beatmapset' => 'الخرائط',
-        'forum_topic' => 'المنتدى',
-        'news_post' => 'الأخبار',
         'build' => 'النُسَخ',
         'channel' => 'محادثة',
+        'forum_topic' => 'المنتدى',
+        'news_post' => 'الأخبار',
+        'team' => 'الفريق',
+        'user' => 'الملف الشخصي',
     ],
 
     'item' => [
         'beatmapset' => [
             '_' => 'المقطوعة',
 
+            'beatmap_owner_change' => [
+                '_' => 'صعوبة الضيف',
+                'beatmap_owner_change' => 'أنت الآن مالك صعوبة ":beatmap" على الخريطة ":title"',
+                'beatmap_owner_change_compact' => 'أنت الآن مالك صعوبة ":beatmap"',
+            ],
+
             'beatmapset_discussion' => [
-                '_' => 'منشاقشة المقطوعة',
-                'beatmapset_discussion_lock' => 'تم اقفال مناقشة على ":title"',
+                '_' => 'مناقشة الخريطة',
+                'beatmapset_discussion_lock' => 'تم إغلاق المناقشة حول ”:title“',
                 'beatmapset_discussion_lock_compact' => 'المناقشة مقفلة',
                 'beatmapset_discussion_post_new' => 'منشور جديد على ":title" من قبل :username',
                 'beatmapset_discussion_post_new_empty' => 'منشور جديد على ":title" من قبل :username',
@@ -39,13 +57,20 @@ return [
                 'beatmapset_discussion_review_new_compact' => 'مراجعة جديدة من قبل :username تحتوي على مشاكل: :problems, اقتراحات: :suggestions, تشجيع: :praises',
                 'beatmapset_discussion_unlock' => 'تم فتح قفل المناقشة على ":title"',
                 'beatmapset_discussion_unlock_compact' => 'تم الغاء قفل المناقشة',
+
+                'review_count' => [
+                    'praises' => ':count_delimited إشادة|:count_delimited إشادات',
+                    'problems' => ':count_delimited مشكلة|:count_delimited مشاكل',
+                    'suggestions' => ':count_delimited إقتراح|:count_delimited مقترحات',
+                ],
             ],
 
             'beatmapset_problem' => [
                 '_' => 'مشكلة في خريطة مؤهلة',
                 'beatmapset_discussion_qualified_problem' => 'ابلغ عنه بواسطة :username على ":title": ":content"',
                 'beatmapset_discussion_qualified_problem_empty' => 'ابلغ عنه بواسطة :username على ":title"',
-                'beatmapset_discussion_qualified_problem_compact' => 'ابلغ عنه بواسطة :username على ":content"',
+                'beatmapset_discussion_qualified_problem_compact' => 'تم الإبلاغ بواسطة :username: ":content"
+',
                 'beatmapset_discussion_qualified_problem_compact_empty' => 'ابلغ عنه بواسطة :username',
             ],
 
@@ -53,16 +78,16 @@ return [
                 '_' => 'تم تغيير حالة الخريطة',
                 'beatmapset_disqualify' => 'حرُِمت ":title" من التأهل',
                 'beatmapset_disqualify_compact' => 'تم استبعاد الخريطة',
-                'beatmapset_love' => 'أرتقت ":title" لـ خريطة محبوبة',
-                'beatmapset_love_compact' => 'أرتقت  الخريطة لـ محبوبة',
+                'beatmapset_love' => 'أرتقت ":title" لـ خريطة Loved',
+                'beatmapset_love_compact' => 'أرتقت الخريطة لتصبح Loved',
                 'beatmapset_nominate' => 'تم ترشيح ":title"',
                 'beatmapset_nominate_compact' => 'تم ترشيح الخريطة',
                 'beatmapset_qualify' => '":title" حصلت على ترشيحات كافية ودخلت حالة التصنيف',
                 'beatmapset_qualify_compact' => 'دخلت الخريطة قائمة التصنيف',
-                'beatmapset_rank' => 'اصبحت ":title" مُصنفة',
-                'beatmapset_rank_compact' => 'تم تصنيف الخريطة',
-                'beatmapset_remove_from_loved' => '":title" تمت ازالتها من "الخرائط المحبوبة"',
-                'beatmapset_remove_from_loved_compact' => 'أُزيلت الخريطة من "الخرائِط المحبوبة"',
+                'beatmapset_rank' => '":title" اصبحت الأن Ranked',
+                'beatmapset_rank_compact' => ' كانت هذه الخريطة Ranked',
+                'beatmapset_remove_from_loved' => '":title" تمت ازالتها من "خرائط Loved"',
+                'beatmapset_remove_from_loved_compact' => 'أُزيلت الخريطة من "خرائط Loved"',
                 'beatmapset_reset_nominations' => 'تم اعادة تعيين ترشيحات ":title"',
                 'beatmapset_reset_nominations_compact' => 'تم اعادة ضبط الترشيح',
             ],
@@ -80,12 +105,43 @@ return [
         'channel' => [
             '_' => 'دردشة',
 
+            'announcement' => [
+                '_' => 'إعلان جديد',
+
+                'announce' => [
+                    'channel_announcement' => ':username يقول ":title"',
+                    'channel_announcement_compact' => ':title',
+                    'channel_announcement_group' => 'إعلان من :username',
+                ],
+            ],
+
             'channel' => [
                 '_' => 'رسالة جديدة',
+
                 'pm' => [
                     'channel_message' => ':title يقول :username',
                     'channel_message_compact' => 'العنوان:',
                     'channel_message_group' => 'من :username',
+                ],
+            ],
+
+            'channel_mention' => [
+                '_' => 'ذكر في الدردشة',
+
+                'public' => [
+                    'channel_mention' => 'قام :username بذكرك في :name ":title"',
+                    'channel_mention_compact' => ':username ":title"',
+                    'channel_mention_group' => 'تم ذكرك في :name',
+                ],
+            ],
+
+            'channel_team' => [
+                '_' => 'رسالة فريق جديدة',
+
+                'team' => [
+                    'channel_team' => ':username يقول: ":title"',
+                    'channel_team_compact' => ':username يقول: ":title"',
+                    'channel_team_group' => ':username يقول: ":title"',
                 ],
             ],
         ],
@@ -114,6 +170,13 @@ return [
                 'comment_reply' => ':username رد ":content" على ":title"',
                 'comment_reply_compact' => ':username رد ":content"',
             ],
+
+            'news_post' => [
+                '_' => 'الأخبار (:series)',
+
+                'news_post_new' => ':title',
+                'news_post_new_compact' => ':title',
+            ],
         ],
 
         'forum_topic' => [
@@ -126,12 +189,19 @@ return [
             ],
         ],
 
-        'legacy_pm' => [
-            '_' => 'نظام الرسائل القديم',
+        'team' => [
+            'team_application' => [
+                '_' => 'طلب الانضمام للفريق',
 
-            'legacy_pm' => [
-                '_' => '',
-                'legacy_pm' => ':count_delimited رسالة غير مقروءة|:count_delimited رسائل غير مقروءة',
+                'team_application_accept' => "لقد أصبحت الآن عضواً في فريق :title",
+                'team_application_accept_compact' => "لقد أصبحت الآن عضواً في فريق :title",
+
+                'team_application_group' => 'تحديثات طلب الانضمام إلى الفريق',
+
+                'team_application_reject' => 'تم رفض طلبك للانضمام إلى الفريق :title',
+                'team_application_reject_compact' => 'تم رفض طلبك للانضمام إلى الفريق :title',
+                'team_application_store' => ':title طلب الانضمام إلى فريقك',
+                'team_application_store_compact' => ':title طلب الانضمام إلى فريقك',
             ],
         ],
 
@@ -142,6 +212,9 @@ return [
                 'user_beatmapset_new' => 'خريطة جديدة ":title" بواسطة :username',
                 'user_beatmapset_new_compact' => 'خريطة جديدة ":title"',
                 'user_beatmapset_new_group' => 'خرائِط جديدة بواسطة :username',
+
+                'user_beatmapset_revive' => 'الخريطة ":title" تم إحياؤها بواسطة :username',
+                'user_beatmapset_revive_compact' => 'تم إحياء الخريطة ":title"',
             ],
         ],
 
@@ -158,7 +231,13 @@ return [
     ],
 
     'mail' => [
+        'news' => 'الأخبار',
+
         'beatmapset' => [
+            'beatmap_owner_change' => [
+                'beatmap_owner_change' => 'أنت الآن ضيف خريطة ":title"',
+            ],
+
             'beatmapset_discussion' => [
                 'beatmapset_discussion_lock' => 'تم قفل المناقشة على ":title"',
                 'beatmapset_discussion_post_new' => 'المناقشة حول ":title" تحتوي على تحديثات جديدة',
@@ -171,11 +250,11 @@ return [
 
             'beatmapset_state' => [
                 'beatmapset_disqualify' => 'حُرِمَت ":title" من التأهُل',
-                'beatmapset_love' => 'اصبحت ":title" محبوبة',
+                'beatmapset_love' => '":title" اصبخت الأن Loved',
                 'beatmapset_nominate' => 'اصبحت ":title" مرشحة',
                 'beatmapset_qualify' => '":title" حصلت على ترشيحات كافية ودخلت حالة التصنيف',
-                'beatmapset_rank' => 'اصبحت ":title" مصنفة',
-                'beatmapset_remove_from_loved' => '":title" أُزيلَت مِن "الخرائط المحبوبة"',
+                'beatmapset_rank' => '":title" اصبحت الأن Ranked',
+                'beatmapset_remove_from_loved' => '":title" أُزيلَت مِن "خرائط Loved"',
                 'beatmapset_reset_nominations' => 'تم اعادة تعيين ترشيحات ":title"',
             ],
 
@@ -185,8 +264,18 @@ return [
         ],
 
         'channel' => [
+            'announcement' => [
+                'channel_announcement' => 'هناك إعلان جديد في ":name"',
+            ],
             'channel' => [
-                'pm' => 'لقد تلقيت رسالة جديدة من :username',
+                'channel_message' => 'لقد تلقيت رسالة جديدة من :username',
+            ],
+            'channel_mention' => [
+                'channel_mention' => 'قام :username بذكرك في :name ":title"',
+            ],
+
+            'channel_team' => [
+                'channel_team' => 'هناك رسالة جديدة في فريق ":name"',
             ],
         ],
 
@@ -208,14 +297,18 @@ return [
             ],
         ],
 
-        'user' => [
-            'user_achievement_unlock' => [
-                'user_achievement_unlock' => ':username فتح ميدالية جديدة، ":title"!',
-                'user_achievement_unlock_self' => 'لقد فتحت ميدالية جديدة، ":title"!',
+        'team' => [
+            'team_application' => [
+                'team_application_accept' => "لقد أصبحت الآن عضواً في فريق :title",
+                'team_application_reject' => 'تم رفض طلبك للانضمام إلى فريق :title',
+                'team_application_store' => 'طلب :title الانضمام إلى فريقك',
             ],
+        ],
 
+        'user' => [
             'user_beatmapset_new' => [
                 'user_beatmapset_new' => 'قام :username بإنشاء خرائط جديدة',
+                'user_beatmapset_revive' => ':username قام بإحياء الخرائط',
             ],
         ],
     ],

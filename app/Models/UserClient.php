@@ -21,19 +21,16 @@ use Exception;
 class UserClient extends Model
 {
     const CREATED_AT = 'timestamp';
+    const UPDATED_AT = null;
+
+    public $incrementing = false;
 
     protected $casts = [
         'verified' => 'boolean',
     ];
-
-    protected $table = 'osu_user_security';
-
-    protected $dates = ['timestamp'];
-
+    protected $primaryKey = ':composite';
     protected $primaryKeys = ['user_id', 'osu_md5', 'unique_md5'];
-
-    public $incrementing = false;
-    public $timestamps = false;
+    protected $table = 'osu_user_security';
 
     public static function lookupOrNew($userId, $hash)
     {
@@ -57,16 +54,17 @@ class UserClient extends Model
             $client->fill(['verified' => true])->save();
         } catch (Exception $e) {
             if (is_sql_unique_exception($e)) {
-                return static::markVerified($userId, $hash);
+                static::markVerified($userId, $hash);
+                return;
             }
 
             throw $e;
         }
     }
 
-    public static function splitHash($hash)
+    public static function splitHash(?string $hash)
     {
-        $hashes = explode(':', $hash);
+        $hashes = explode(':', $hash ?? '');
 
         if (count($hashes) < 5) {
             throw new InvariantException('invalid client hash format');
@@ -89,20 +87,5 @@ class UserClient extends Model
     public function build()
     {
         return $this->belongsTo(Build::class, 'osu_md5', 'hash');
-    }
-
-    public function isLatest()
-    {
-        if ($this->build === null) {
-            return false;
-        }
-
-        $latestBuild = Build::select('build_id')
-            ->where([
-                'test_build' => false,
-                'stream_id' => $this->build->stream_id,
-            ])->last();
-
-        return $this->build->getKey() === optional($latestBuild)->getKey();
     }
 }

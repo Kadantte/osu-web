@@ -5,6 +5,7 @@
 
 namespace App\Models;
 
+use App\Jobs\Notifications\NewsPostNew;
 use App\Traits\Validatable;
 
 /**
@@ -13,6 +14,7 @@ use App\Traits\Validatable;
  * @property string $name
  * @property int $id
  * @property \Carbon\Carbon $updated_at
+ * @property User $user
  * @property int $user_id
  */
 class UserNotificationOption extends Model
@@ -24,19 +26,37 @@ class UserNotificationOption extends Model
         Notification::BEATMAPSET_DISQUALIFY,
     ];
 
+    const BEATMAPSET_DISCUSSION_REPLY = 'beatmapset_discussion_reply';
     const BEATMAPSET_MODDING = 'beatmapset:modding'; // matches Follow notifiable_type:subtype
+    const CHANNEL_ANNOUNCEMENT = 'channel_announcement';
+    const CHANNEL_MENTION = 'channel_mention';
     const COMMENT_REPLY = 'comment_reply';
     const DELIVERY_MODES = ['mail', 'push'];
     const FORUM_TOPIC_REPLY = Notification::FORUM_TOPIC_REPLY;
     const MAPPING = 'mapping';
+    const NEWS_POST = 'news_post';
+
+    // lookup used by settings page, doesn't include overrides with no configurable options.
+    const DELIVERY_MODE_DEFAULTS = [
+        self::NEWS_POST => NewsPostNew::DELIVERY_MODE_DEFAULTS,
+    ];
 
     const HAS_DELIVERY_MODES = [
+        Notification::BEATMAP_OWNER_CHANGE,
         self::MAPPING,
         self::BEATMAPSET_MODDING,
+        Notification::CHANNEL_MENTION,
         Notification::CHANNEL_MESSAGE,
+        Notification::CHANNEL_TEAM,
         Notification::COMMENT_NEW,
         self::FORUM_TOPIC_REPLY,
-        Notification::USER_ACHIEVEMENT_UNLOCK,
+        self::NEWS_POST,
+    ];
+
+    const SUPPORTS_NOTIFICATIONS = [
+        ...self::BEATMAPSET_DISQUALIFIABLE_NOTIFICATIONS,
+        ...self::HAS_DELIVERY_MODES,
+        self::CHANNEL_ANNOUNCEMENT,
     ];
 
     protected $casts = [
@@ -45,13 +65,12 @@ class UserNotificationOption extends Model
 
     public static function supportsNotifications(string $name)
     {
-        return in_array($name, static::HAS_DELIVERY_MODES, true)
-            || in_array($name, static::BEATMAPSET_DISQUALIFIABLE_NOTIFICATIONS, true);
+        return in_array($name, static::SUPPORTS_NOTIFICATIONS, true);
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function setDetailsAttribute($value)
@@ -85,6 +104,17 @@ class UserNotificationOption extends Model
             }
         }
 
+        if ($this->name === static::BEATMAPSET_MODDING) {
+            if (isset($value[static::BEATMAPSET_DISCUSSION_REPLY])) {
+                $details[static::BEATMAPSET_DISCUSSION_REPLY] = get_bool($value[static::BEATMAPSET_DISCUSSION_REPLY]);
+            }
+        }
+
+        if ($this->name === static::NEWS_POST && is_array($value['series'] ?? null)) {
+            $series = array_filter($value['series'], 'is_string');
+            $details['series'] = array_values(array_filter(array_intersect($series, NewsPost::SERIES)));
+        }
+
         if (!empty($details)) {
             $detailsString = json_encode($details);
         }
@@ -99,6 +129,29 @@ class UserNotificationOption extends Model
         }
 
         $this->attributes['name'] = $value;
+    }
+
+    public function getAttribute($key)
+    {
+        return match ($key) {
+            'id',
+            'name',
+            'user_id' => $this->getRawAttribute($key),
+
+            'details' => $this->getArray($key),
+
+            'created_at',
+            'updated_at' => $this->getTimeFast($key),
+
+            'user' => $this->getRelationValue($key),
+        };
+    }
+
+    public function getNewsPostSeries(): ?array
+    {
+        return $this->name === static::NEWS_POST
+            ? $this->details['series'] ?? NewsPost::SERIES
+            : null;
     }
 
     public function isValid()
@@ -121,7 +174,7 @@ class UserNotificationOption extends Model
         return $this->isValid() && parent::save($options);
     }
 
-    public function validationErrorsTranslationPrefix()
+    public function validationErrorsTranslationPrefix(): string
     {
         return 'user_notification_option';
     }

@@ -6,28 +6,31 @@
 return [
     'match' => [
         'beatmap-deleted' => 'beatmap supprimée',
-        'difference' => 'de :difference points',
-        'failed' => 'Échec',
+        'failed' => 'ÉCHEC',
         'header' => 'Match multijoueur',
         'in-progress' => '(match en cours)',
         'in_progress_spinner_label' => 'match en cours',
-        'loading-events' => 'Chargement des évènements...',
+        'loading-events' => 'Chargement des événements...',
         'winner' => ':team gagne',
+        'winner_by' => ':winner de :difference',
 
         'events' => [
-            'player-left' => ':user a quitté le match',
-            'player-joined' => ':user a rejoint le match',
-            'player-kicked' => ':user a été exclu du match',
-            'match-created' => ':user a créé le match',
-            'match-disbanded' => ':user a dissous le match',
-            'host-changed' => ':user a pris le contrôle de la salle',
-
-            'player-left-no-user' => 'un joueur a quitté le match',
-            'player-joined-no-user' => 'un joueur a rejoint le match',
-            'player-kicked-no-user' => 'un joueur a été exclu du match',
-            'match-created-no-user' => 'le match a été créé',
-            'match-disbanded-no-user' => 'le match a été dissous',
-            'host-changed-no-user' => 'l\'hôte a changé',
+            'game_aborted' => 'la partie a été annulée',
+            'game_aborted_no_user' => 'la partie a été annulée',
+            'game_completed' => 'la partie est terminée',
+            'game_completed_no_user' => 'la partie est terminée',
+            'host_changed' => ':user a pris le contrôle de la salle',
+            'host_changed_no_user' => 'l\'hôte a changé',
+            'player_joined' => ':user a rejoint le match',
+            'player_joined_no_user' => 'un joueur a rejoint le match',
+            'player_kicked' => ':user a été expulsé du match',
+            'player_kicked_no_user' => 'un joueur a été expulsé du match',
+            'player_left' => ':user a quitté le match',
+            'player_left_no_user' => 'un joueur a quitté le match',
+            'room_created' => ':user a créé le match',
+            'room_created_no_user' => 'le match a été créé',
+            'room_disbanded' => 'le match a été dissous',
+            'room_disbanded_no_user' => 'le match a été dissous',
         ],
 
         'score' => [
@@ -38,23 +41,25 @@ return [
             ],
         ],
 
-        'team-types' => [
-            'head-to-head' => 'Chacun pour soi',
-            'tag-coop' => 'Tag en coopération',
-            'team-vs' => 'Équipes en versus',
-            'tag-team-vs' => 'Tag en versus (2 équipes)',
+        'team_types' => [
+            'head_to_head' => 'Head-to-head',
+            'tag_coop' => 'Tag Co-op',
+            'tag_team_versus' => 'Tag Team VS',
+            'team_versus' => 'Team VS',
         ],
 
         'teams' => [
-            'blue' => 'Équipe bleue',
-            'red' => 'Équipe rouge',
+            'blue' => 'L\'équipe bleue',
+            'red' => 'L\'équipe rouge',
         ],
     ],
     'game' => [
+        'freestyle' => 'Freestyle',
+
         'scoring-type' => [
-            'score' => 'Score le plus haut',
-            'accuracy' => 'Précision la plus haute',
-            'combo' => 'Combo le plus haut',
+            'score' => 'Score le plus élevé',
+            'accuracy' => 'Précision la plus élevée',
+            'combo' => 'Combo le plus élevé',
             'scorev2' => 'Score V2',
         ],
     ],

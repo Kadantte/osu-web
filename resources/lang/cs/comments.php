@@ -5,13 +5,15 @@
 
 return [
     'deleted' => 'odstraněno',
-    'deleted_count' => ':count_delimited smazaný komentář
-:count_delimited smazané komentáře',
+    'deleted_by' => 'odstraněno :timeago uživatelem :user',
+    'deleted_by_system' => 'systém',
+    'deleted_count' => ':count_delimited smazaný komentář|:count_delimited smazané komentáře|:count_delimited smazaných komentářů',
     'edited' => 'upraveno před :timeago uživatelem :user',
     'pinned' => 'připnuto',
     'empty' => 'Zatím zde nejsou žádné komentáře.',
+    'empty_other' => 'Zatím zde nejsou žádné další komentáře.',
     'load_replies' => 'načíst odpovědi',
-    'replies_count' => '',
+    'replies_count' => ':count_delimited odpověď|:count_delimited odpovědi|:count_delimited odpovědí',
     'title' => 'Komentáře',
 
     'commentable_name' => [
@@ -23,28 +25,32 @@ return [
 
     'editor' => [
         'textarea_hint' => [
-            '_' => 'Zmáčkněte Enter pro :action. Použijte Shift+Enter pro nový řádek.',
-            'edit' => 'uložit',
-            'new' => 'odeslat',
-            'reply' => 'odpovědět',
+            '_' => 'Zmáčkni enter pro :action. Použij shift+enter pro nový řádek.',
+            'edit' => 'uložení',
+            'new' => 'postnutí',
+            'reply' => 'odeslání odpovědi',
         ],
     ],
 
     'guest_button' => [
-        'new' => 'Přihlašte se pro možnost komentovat',
-        'reply' => 'Přihlašte se pro možnost odpovídat',
+        'new' => 'Přihlaste se pro možnost komentovat',
+        'reply' => 'Přihlaste se pro možnost odpovídat',
     ],
 
     'index' => [
-        'nav_comments' => '',
+        'nav_comments' => 'komentáře',
         'nav_title' => 'výpis',
-        'no_comments' => '',
+        'no_comments' => 'nenalezeny žádné komentáře...',
+    ],
+
+    'ogp' => [
+        'title' => 'komentář od :user',
     ],
 
     'placeholder' => [
         'edit' => 'Upravte komentář zde',
-        'new' => 'Napište nový komentář zde',
-        'reply' => 'Napište svojí odpověď zde',
+        'new' => 'Sem napiš nový komentář',
+        'reply' => 'Sem napiš svou odpověď',
     ],
 
     'show' => [

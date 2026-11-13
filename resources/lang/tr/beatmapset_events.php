@@ -6,6 +6,7 @@
 return [
     'event' => [
         'approve' => 'Onaylı.',
+        'beatmap_owner_change' => ':beatmap zorluğunun sahibi :new_user kullanıcısı ile değiştirildi.',
         'discussion_delete' => 'Moderatör :discussion tartışmasını sildi.',
         'discussion_lock' => 'Bu beatmap için tartışma sağlandı',
         'discussion_post_delete' => ':discussion tartışmasındaki gönderi Moderatör tarafından silindi.',
@@ -27,9 +28,13 @@ return [
         'nominate' => ':user tarafından aday gösterildi.',
         'nominate_modes' => ' :user (:modes) tarafından aday gösterildi.',
         'nomination_reset' => 'Yeni sorun :discussion (:text) bir adaylık sıfırlamasını tetikledi.',
+        'nomination_reset_received' => ':user tarafından gerçekleştirilen aday gösterme :source_user tarafından sıfırlandı (:text)',
+        'nomination_reset_received_profile' => 'Adaylık :user tarafından sıfırlandı (:text)',
+        'offset_edit' => 'Çevrimiçi ofset :old dan :new e değiştirildi.',
         'qualify' => 'Bu beatmap gerekli aday gösterilme miktarına ulaştı ve nitelikli oldu.',
         'rank' => 'Dereceli.',
         'remove_from_loved' => ':user tarafından Sevilenlerden çıkarıldı (:text)',
+        'tags_edit' => 'Etiketler ":old" dan ":new" ile değiştirildi.',
 
         'nsfw_toggle' => [
             'to_0' => 'Müstehcen işareti kaldırıldı',
@@ -54,10 +59,13 @@ return [
 
     'type' => [
         'approve' => 'Onay',
+        'beatmap_owner_change' => 'Zorluk sahibi değiştirme',
         'discussion_delete' => 'Tartışma silindi',
+        'discussion_lock' => 'Tartışmayı kilitle',
         'discussion_post_delete' => 'Tartışma yanıtı silme',
         'discussion_post_restore' => 'Tartışma yanıtı geri getirme',
         'discussion_restore' => 'Tartışma geri getirme',
+        'discussion_unlock' => 'Tartışma kilidini aç',
         'disqualify' => 'Diskalifiye',
         'genre_edit' => 'Tür düzeni',
         'issue_reopen' => 'Tekrar açılan tartışmalar',
@@ -70,10 +78,13 @@ return [
         'language_edit' => 'Dil düzeni',
         'love' => 'Love',
         'nominate' => 'Adaylık',
-        'nomination_reset' => 'Adaylık Sıfırlama',
+        'nomination_reset' => 'Adaylık sıfırlama',
+        'nomination_reset_received' => 'Adaylık sıfırlaması alındı',
         'nsfw_toggle' => 'Müstehcen işareti',
+        'offset_edit' => 'Ofset düzenleme',
         'qualify' => 'Adaylık',
         'rank' => 'Sıralama',
         'remove_from_loved' => 'Sevilenlerden çıkarma',
+        'tags_edit' => 'Etiketleri düzenle',
     ],
 ];

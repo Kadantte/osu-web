@@ -17,15 +17,22 @@ return [
         'identify' => 'Identificar você e ler seu perfil público.',
 
         'chat' => [
+            'read' => 'Ler mensagens em seu nome.',
             'write' => 'Enviar mensagens em seu nome.',
+            'write_manage' => 'Entrar e deixar canais em seu nome.',
         ],
 
         'forum' => [
-            'write' => 'Criar e editar tópicos e postagens do fórum em seu nome.',
+            'write' => 'Criar e editar tópicos e publicações do fórum em seu nome.',
+            'write_manage' => 'Gerenciar tópicos e publicações do fórum em seu nome.',
         ],
 
         'friends' => [
             'read' => 'Veja quem você está seguindo.',
+        ],
+
+        'multiplayer' => [
+            'write_manage' => 'Criar e gerir salas multijogador em seu nome.',
         ],
 
         'public' => 'Ler dados públicos em seu nome.',

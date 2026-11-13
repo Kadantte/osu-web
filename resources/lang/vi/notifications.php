@@ -7,99 +7,154 @@ return [
     'all_read' => 'Tất cả các thông báo đã được đọc!',
     'delete' => 'Xóa :type',
     'loading' => 'Đang tải thông báo chưa đọc...',
-    'mark_read' => '',
+    'mark_read' => 'Xóa :type',
     'none' => 'Không có thông báo nào',
     'see_all' => 'xem tất cả thông báo',
-    'see_channel' => '',
-    'verifying' => '',
+    'see_channel' => 'đi đến trò chuyện',
+    'verifying' => 'Vui lòng xác minh phiên để xem thông báo',
+
+    'action_type' => [
+        '_' => 'tất cả',
+        'beatmapset' => 'beatmap',
+        'build' => 'xây dựng',
+        'channel' => 'trò chuyện',
+        'forum_topic' => 'diễn đàn',
+        'news_post' => 'tin tức',
+        'team' => 'đội',
+        'user' => 'trang cá nhân',
+    ],
 
     'filters' => [
         '_' => 'tất cả',
-        'user' => 'trang cá nhân',
         'beatmapset' => 'beatmap',
+        'build' => 'xây dựng',
+        'channel' => 'chat',
         'forum_topic' => 'diễn đàn',
         'news_post' => 'tin tức',
-        'build' => '',
-        'channel' => 'chat',
+        'team' => 'đội',
+        'user' => 'trang cá nhân',
     ],
 
     'item' => [
         'beatmapset' => [
             '_' => 'Beatmap',
 
+            'beatmap_owner_change' => [
+                '_' => 'Độ khó khách mời',
+                'beatmap_owner_change' => 'Bây giờ bạn là chủ sở hữu độ khó ":beatmap" cho beatmap ":title"',
+                'beatmap_owner_change_compact' => 'Bây giờ bạn là chủ sở hữu độ khó ":beatmap"',
+            ],
+
             'beatmapset_discussion' => [
                 '_' => 'Góc thảo luận beatmap',
-                'beatmapset_discussion_lock' => 'Beatmap ":title" đã bị khóa để thảo luận.',
+                'beatmapset_discussion_lock' => 'Beatmap ":title" đã bị khóa để thảo luận',
                 'beatmapset_discussion_lock_compact' => 'Cuộc thảo luận đã được khóa',
-                'beatmapset_discussion_post_new' => ':username đã đăng tin nhắn mới trong cuộc thảo luận beatmap ":title".',
+                'beatmapset_discussion_post_new' => 'Bài đăng mới tại ":title" bởi :username: ":content"',
                 'beatmapset_discussion_post_new_empty' => 'Bài đăng mới trên ":title" bởi :username',
-                'beatmapset_discussion_post_new_compact' => 'Bài đăng mới bởi :username',
+                'beatmapset_discussion_post_new_compact' => 'Bài đăng mới bởi :username: ":content"',
                 'beatmapset_discussion_post_new_compact_empty' => 'Bài đăng mới bởi :username',
-                'beatmapset_discussion_review_new' => '',
-                'beatmapset_discussion_review_new_compact' => '',
+                'beatmapset_discussion_review_new' => 'Đánh giá mới cho ":title" bởi :username, bao gồm :review_counts',
+                'beatmapset_discussion_review_new_compact' => 'Đánh giá mới từ :username với :review_counts',
                 'beatmapset_discussion_unlock' => 'Cuộc thảo luận trên ":title" đã được mở khóa',
                 'beatmapset_discussion_unlock_compact' => 'Cuộc thảo luận đã được mở khóa',
+
+                'review_count' => [
+                    'praises' => ':count_delimited lời khen|:count_delimited lời khen',
+                    'problems' => ':count_delimited vấn đề|:count_delimited vấn đề',
+                    'suggestions' => ':count_delimited gợi ý|:count_delimited gợi ý',
+                ],
             ],
 
             'beatmapset_problem' => [
-                '_' => '',
-                'beatmapset_discussion_qualified_problem' => '',
-                'beatmapset_discussion_qualified_problem_empty' => '',
-                'beatmapset_discussion_qualified_problem_compact' => '',
-                'beatmapset_discussion_qualified_problem_compact_empty' => '',
+                '_' => 'Vấn đề về beatmap đủ điều kiện',
+                'beatmapset_discussion_qualified_problem' => 'Báo cáo bởi :username trên ":title": ":content"',
+                'beatmapset_discussion_qualified_problem_empty' => 'Báo cáo bởi :username trên ":title"',
+                'beatmapset_discussion_qualified_problem_compact' => 'Báo cáo bởi :username: ":content"',
+                'beatmapset_discussion_qualified_problem_compact_empty' => 'Báo cáo bởi :username',
             ],
 
             'beatmapset_state' => [
                 '_' => 'Trạng thái Beatmap đã thay đổi',
-                'beatmapset_disqualify' => '":title" đã bị bỏ xếp hạng',
-                'beatmapset_disqualify_compact' => 'Beatmap đã bị bỏ xếp hạng',
-                'beatmapset_love' => '":title" đã được tiến vào danh mục Được yêu thích',
-                'beatmapset_love_compact' => 'Beatmap đã được tiến vào danh mục Được yêu thích',
+                'beatmapset_disqualify' => '":title" đã bị hủy trạng thái đủ điều kiện',
+                'beatmapset_disqualify_compact' => 'Beatmap đã bị hủy trạng thái đủ điều kiện',
+                'beatmapset_love' => '":title" đã được tiến vào danh mục loved',
+                'beatmapset_love_compact' => 'Beatmap đã được tiến vào danh mục loved',
                 'beatmapset_nominate' => '":title" đã được đề cử',
                 'beatmapset_nominate_compact' => 'Beatmap đã được đề cử',
-                'beatmapset_qualify' => '":title" đã nhận được đủ đề cử và tiến vào danh mục Được xếp hạng',
-                'beatmapset_qualify_compact' => 'Beatmap đã được thêm vào hàng chờ xếp hạng',
+                'beatmapset_qualify' => '":title" đã nhận được đủ đề cử và đã vào hàng chờ xếp hạng',
+                'beatmapset_qualify_compact' => 'Beatmap đã vào hàng chờ xếp hạng',
                 'beatmapset_rank' => '":title" đã được xếp hạng',
                 'beatmapset_rank_compact' => 'Beatmap đã được xếp hạng',
-                'beatmapset_remove_from_loved' => '',
-                'beatmapset_remove_from_loved_compact' => '',
-                'beatmapset_reset_nominations' => '',
-                'beatmapset_reset_nominations_compact' => '',
+                'beatmapset_remove_from_loved' => '":title" đã bị gỡ khỏi Loved',
+                'beatmapset_remove_from_loved_compact' => 'Beatmap đã bị gỡ khỏi Loved',
+                'beatmapset_reset_nominations' => 'Đề cử cho ":title" đã được đặt lại',
+                'beatmapset_reset_nominations_compact' => 'Đề cử đã đặt lại',
             ],
 
             'comment' => [
                 '_' => 'Bình luận mới',
 
-                'comment_new' => '',
-                'comment_new_compact' => '',
-                'comment_reply' => '',
-                'comment_reply_compact' => '',
+                'comment_new' => '":username" đã nhận xét:content trên:title',
+                'comment_new_compact' => ':username đã nhận xét ":content"',
+                'comment_reply' => ':username gửi lại ":content" trên ":title"',
+                'comment_reply_compact' => ':username đã gửi lại ":content" ',
             ],
         ],
 
         'channel' => [
             '_' => 'Chat',
 
+            'announcement' => [
+                '_' => 'Thông báo mới',
+
+                'announce' => [
+                    'channel_announcement' => ':username nói rằng ":title"',
+                    'channel_announcement_compact' => ':title',
+                    'channel_announcement_group' => 'Thông báo từ :username',
+                ],
+            ],
+
             'channel' => [
                 '_' => 'Tin nhắn mới',
+
                 'pm' => [
-                    'channel_message' => '',
+                    'channel_message' => ':username nói ":title"',
                     'channel_message_compact' => ':title',
                     'channel_message_group' => 'từ :username',
+                ],
+            ],
+
+            'channel_mention' => [
+                '_' => 'Nhắc tên trong chat',
+
+                'public' => [
+                    'channel_mention' => ':username đã nhắc đến bạn trong :name ":title"',
+                    'channel_mention_compact' => ':username ":title"',
+                    'channel_mention_group' => 'đã nhắc đến bạn trong :name',
+                ],
+            ],
+
+            'channel_team' => [
+                '_' => 'Tin nhắn mới của đội',
+
+                'team' => [
+                    'channel_team' => ':username nói ":title"',
+                    'channel_team_compact' => ':username nói ":title"',
+                    'channel_team_group' => ':username nói ":title"',
                 ],
             ],
         ],
 
         'build' => [
-            '_' => 'Chi tiết thay đổi',
+            '_' => 'Nhật ký thay đổi',
 
             'comment' => [
                 '_' => 'Bình luận mới',
 
-                'comment_new' => '',
-                'comment_new_compact' => '',
-                'comment_reply' => '',
-                'comment_reply_compact' => '',
+                'comment_new' => ':username đã nhận xét ":content" trên ":title"',
+                'comment_new_compact' => ':username đã nhận xét ":content"',
+                'comment_reply' => ':username đã gửi lại ":content" trên ":title"',
+                'comment_reply_compact' => ':username đã gửi lại ":content"',
             ],
         ],
 
@@ -109,10 +164,17 @@ return [
             'comment' => [
                 '_' => 'Bình luận mới',
 
-                'comment_new' => '',
-                'comment_new_compact' => '',
-                'comment_reply' => '',
-                'comment_reply_compact' => '',
+                'comment_new' => ':username đã trả lời ":content" trên ":title"',
+                'comment_new_compact' => ':username đã trả lời ":content"',
+                'comment_reply' => ':username đã gửi lại ":content" trên ":title"',
+                'comment_reply_compact' => ':username đã gửi lại ":content"',
+            ],
+
+            'news_post' => [
+                '_' => 'Tin tức (:series)',
+
+                'news_post_new' => ':title',
+                'news_post_new_compact' => ':title',
             ],
         ],
 
@@ -126,22 +188,32 @@ return [
             ],
         ],
 
-        'legacy_pm' => [
-            '_' => '',
+        'team' => [
+            'team_application' => [
+                '_' => 'Yêu cầu gia nhập đội',
 
-            'legacy_pm' => [
-                '_' => '',
-                'legacy_pm' => ':count_delimited tin nhắn chưa đọc|:count_delimited tin nhắn chưa đọc',
+                'team_application_accept' => "Bạn vừa trở thành thành viên của đội :title",
+                'team_application_accept_compact' => "Bây giờ bạn là thành viên của đội :title",
+
+                'team_application_group' => 'Cập nhật yêu cầu tham gia đội',
+
+                'team_application_reject' => 'Yêu cầu gia nhập đội :title của bạn đã bị từ chối',
+                'team_application_reject_compact' => 'Yêu cầu gia nhập đội :title của bạn đã bị từ chối',
+                'team_application_store' => ':title yêu cầu tham gia đội của bạn',
+                'team_application_store_compact' => ':title yêu cầu tham gia đội của bạn',
             ],
         ],
 
         'user' => [
             'user_beatmapset_new' => [
-                '_' => '',
+                '_' => 'Beatmap mới',
 
-                'user_beatmapset_new' => '',
-                'user_beatmapset_new_compact' => '',
-                'user_beatmapset_new_group' => '',
+                'user_beatmapset_new' => 'Beatmap mới ":title" bởi :username',
+                'user_beatmapset_new_compact' => 'Beatmap mới ":title"',
+                'user_beatmapset_new_group' => 'Beatmaps mới bởi :username',
+
+                'user_beatmapset_revive' => 'Beatmap ":title" đã được hồi sinh bởi :username',
+                'user_beatmapset_revive_compact' => 'Beatmap ":title" đã được hồi sinh',
             ],
         ],
 
@@ -158,64 +230,84 @@ return [
     ],
 
     'mail' => [
+        'news' => 'Tin tức',
+
         'beatmapset' => [
+            'beatmap_owner_change' => [
+                'beatmap_owner_change' => 'Bạn hiện là khách của beatmap ":title"',
+            ],
+
             'beatmapset_discussion' => [
-                'beatmapset_discussion_lock' => '',
-                'beatmapset_discussion_post_new' => '',
-                'beatmapset_discussion_unlock' => '',
+                'beatmapset_discussion_lock' => 'Cuộc thảo luận về ":title" đã bị khóa',
+                'beatmapset_discussion_post_new' => 'Cuộc thảo luận về ":title" đã có cập nhật mới',
+                'beatmapset_discussion_unlock' => 'Cuộc thảo luận về ":title" đã mở khóa',
             ],
 
             'beatmapset_problem' => [
-                'beatmapset_discussion_qualified_problem' => '',
+                'beatmapset_discussion_qualified_problem' => 'Một vấn đề mới đã được báo cáo về ":title"',
             ],
 
             'beatmapset_state' => [
-                'beatmapset_disqualify' => '',
-                'beatmapset_love' => '',
-                'beatmapset_nominate' => '',
-                'beatmapset_qualify' => '',
+                'beatmapset_disqualify' => '":title" đã bị hủy trạng thái đủ điều kiện',
+                'beatmapset_love' => '":title" đã được tiến vào danh mục loved',
+                'beatmapset_nominate' => '":title" đã được đề cử',
+                'beatmapset_qualify' => '":title" đã đạt đủ đề cử và đã vào hàng chờ xếp hạng',
                 'beatmapset_rank' => '":title" đã được xếp hạng',
-                'beatmapset_remove_from_loved' => '',
-                'beatmapset_reset_nominations' => '',
+                'beatmapset_remove_from_loved' => '":title" đã bị gỡ khỏi Loved',
+                'beatmapset_reset_nominations' => 'Đề cử cho ":title" đã được đặt lại',
             ],
 
             'comment' => [
-                'comment_new' => '',
+                'comment_new' => 'Beatmap ":title" đã có bình luận mới',
             ],
         ],
 
         'channel' => [
+            'announcement' => [
+                'channel_announcement' => 'Có một thông báo mới ở ":name"',
+            ],
             'channel' => [
-                'pm' => '',
+                'channel_message' => 'Bạn nhận được tin nhắn mới từ :username',
+            ],
+            'channel_mention' => [
+                'channel_mention' => ':username đã nhắc đến bạn trong :name ":title"',
+            ],
+
+            'channel_team' => [
+                'channel_team' => 'Có tin nhắn mới trong đội ":name"',
             ],
         ],
 
         'build' => [
             'comment' => [
-                'comment_new' => '',
+                'comment_new' => 'Nhật kí thay đổi ":title" đã có bình luận mới',
             ],
         ],
 
         'news_post' => [
             'comment' => [
-                'comment_new' => '',
+                'comment_new' => 'Tin mới ":title" đã có bình luận mới',
             ],
         ],
 
         'forum_topic' => [
             'forum_topic_reply' => [
-                'forum_topic_reply' => '',
+                'forum_topic_reply' => 'Có câu trả lời mới trong ":title"',
+            ],
+        ],
+
+        'team' => [
+            'team_application' => [
+                'team_application_accept' => "Bây giờ bạn là thành viên của đội :title",
+                'team_application_reject' => 'Yêu cầu gia nhập đội :title của bạn đã bị từ chối',
+                'team_application_store' => ':title yêu cầu tham gia đội của bạn',
             ],
         ],
 
         'user' => [
-            'user_achievement_unlock' => [
-                'user_achievement_unlock' => '',
-                'user_achievement_unlock_self' => '',
-            ],
-
             'user_beatmapset_new' => [
-                'user_beatmapset_new' => '',
+                'user_beatmapset_new' => ':username đã tạo beatmap mới',
+                'user_beatmapset_revive' => ':username đã hồi sinh một số beatmap',
             ],
         ],
     ],

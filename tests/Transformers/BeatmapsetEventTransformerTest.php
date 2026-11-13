@@ -8,6 +8,8 @@ namespace Tests\Transformers;
 use App\Models\Beatmapset;
 use App\Models\BeatmapsetEvent;
 use App\Models\User;
+use App\Transformers\BeatmapsetEventTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class BeatmapsetEventTransformerTest extends TestCase
@@ -15,19 +17,17 @@ class BeatmapsetEventTransformerTest extends TestCase
     /** @var Beatmapset */
     protected $beatmapset;
 
-    /**
-     * @dataProvider dataProvider
-     */
-    public function testWithOAuth($groupIdentifier, $eventType, $visibleWithOAuth)
+    #[DataProvider('dataProvider')]
+    public function testWithOAuth(?string $groupIdentifier, string $eventType, bool $visibleWithOAuth, bool $_visibleWithoutOAuth)
     {
         $event = $this->beatmapset->events()->create([
             'type' => $eventType,
         ]);
 
-        $viewer = $this->createUserWithGroup($groupIdentifier);
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
         $this->actAsScopedUser($viewer);
 
-        $json = json_item($event, 'BeatmapsetEvent');
+        $json = json_item($event, new BeatmapsetEventTransformer());
 
         if ($visibleWithOAuth) {
             $this->assertArrayHasKey('user_id', $json);
@@ -36,19 +36,17 @@ class BeatmapsetEventTransformerTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider dataProvider
-     */
-    public function testWithoutOAuth($groupIdentifier, $eventType, $visibleWithOAuth, $visibleWithoutOAuth)
+    #[DataProvider('dataProvider')]
+    public function testWithoutOAuth(?string $groupIdentifier, string $eventType, bool $_visibleWithOAuth, bool $visibleWithoutOAuth)
     {
         $event = $this->beatmapset->events()->create([
             'type' => $eventType,
         ]);
 
-        $viewer = $this->createUserWithGroup($groupIdentifier);
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
         $this->actAsUser($viewer);
 
-        $json = json_item($event, 'BeatmapsetEvent');
+        $json = json_item($event, new BeatmapsetEventTransformer());
 
         if ($visibleWithoutOAuth) {
             $this->assertArrayHasKey('user_id', $json);
@@ -57,9 +55,10 @@ class BeatmapsetEventTransformerTest extends TestCase
         }
     }
 
-    public function dataProvider()
+    public static function dataProvider()
     {
         // one event type of each priviledge type.
+        // The third argument is for testWithOAuth and the fourth one is for testWithoutOAuth
         return [
             ['admin', BeatmapsetEvent::NOMINATE, true, true], // public
             ['admin', BeatmapsetEvent::KUDOSU_ALLOW, false, true], // kudosuModeration
@@ -77,9 +76,9 @@ class BeatmapsetEventTransformerTest extends TestCase
             ['nat', BeatmapsetEvent::KUDOSU_ALLOW, false, true],
             ['nat', BeatmapsetEvent::DISCUSSION_DELETE, false, true],
 
-            [[], BeatmapsetEvent::NOMINATE, true, true],
-            [[], BeatmapsetEvent::KUDOSU_ALLOW, false, false],
-            [[], BeatmapsetEvent::DISCUSSION_DELETE, false, false],
+            [null, BeatmapsetEvent::NOMINATE, true, true],
+            [null, BeatmapsetEvent::KUDOSU_ALLOW, false, false],
+            [null, BeatmapsetEvent::DISCUSSION_DELETE, false, false],
         ];
     }
 
@@ -87,9 +86,6 @@ class BeatmapsetEventTransformerTest extends TestCase
     {
         parent::setUp();
 
-        $mapper = factory(User::class)->create();
-        $this->beatmapset = factory(Beatmapset::class)->states('with_discussion')->create([
-            'user_id' => $mapper->getKey(),
-        ]);
+        $this->beatmapset = Beatmapset::factory()->owner()->withDiscussion()->create();
     }
 }

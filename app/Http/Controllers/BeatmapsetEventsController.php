@@ -13,12 +13,12 @@ class BeatmapsetEventsController extends Controller
     {
         $this->middleware('require-scopes:public', ['only' => ['index']]);
 
-        return parent::__construct();
+        parent::__construct();
     }
 
     public function index()
     {
-        $bundle = ModdingHistoryEventsBundle::forListing(null, request()->all());
+        $bundle = ModdingHistoryEventsBundle::forListing(null, \Request::all(), []);
         $jsonChunks = $bundle->toArray();
         $paginator = $bundle->getPaginator();
         $params = $bundle->getParams();

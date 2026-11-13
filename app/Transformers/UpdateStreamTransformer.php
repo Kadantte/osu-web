@@ -9,7 +9,7 @@ use App\Models\UpdateStream;
 
 class UpdateStreamTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
         'latest_build',
         'user_count',
     ];
@@ -26,7 +26,7 @@ class UpdateStreamTransformer extends TransformerAbstract
 
     public function includeLatestBuild(UpdateStream $stream)
     {
-        return $this->item($stream->latestBuild(), new BuildTransformer());
+        return $this->item($stream->latestBuild, new BuildTransformer());
     }
 
     public function includeUserCount(UpdateStream $stream)

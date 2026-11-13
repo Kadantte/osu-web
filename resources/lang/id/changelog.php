@@ -4,7 +4,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'generic' => 'Penumpasan bug dan berbagai penyempurnaan berskala kecil lainnya',
+    'generic' => 'Perbaikan bug dan berbagai penyempurnaan berskala kecil lainnya',
 
     'build' => [
         'title' => 'daftar perubahan pada :version',
@@ -23,18 +23,18 @@ return [
             '_' => 'daftar riwayat perubahan',
             '_from' => 'perubahan sejak :from',
             '_from_to' => 'perubahan antara :from dan :to',
-            '_stream' => 'perubahan dalam :stream',
-            '_stream_from' => 'perubahan dalam :stream sejak :from',
-            '_stream_from_to' => 'perubahan dalam :stream antara :from dan :to',
-            '_stream_to' => 'perubahan dalam :stream hingga :to',
+            '_stream' => 'perubahan pada :stream',
+            '_stream_from' => 'perubahan pada :stream sejak :from',
+            '_stream_from_to' => 'perubahan pada :stream antara :from dan :to',
+            '_stream_to' => 'perubahan pada :stream hingga :to',
             '_to' => 'perubahan hingga :to',
         ],
     ],
 
     'support' => [
-        'heading' => 'Apakah Anda menyukai pembaruan ini?',
-        'text_1' => 'Dukung osu! agar dapat terus berkembang dan :link mulai hari ini!',
-        'text_1_link' => 'jadilah seorang osu!supporter',
-        'text_2' => 'Di samping mempercepat pengembangan, dengan menjadi seorang osu!supporter Anda juga akan mendapatkan berbagai fitur tambahan dan opsi personalisasi lainnya!',
+        'heading' => 'Suka dengan pembaruan ini?',
+        'text_1' => 'Dukung osu! untuk terus berkembang dan :link sekarang juga!',
+        'text_1_link' => 'jadilah osu!supporter',
+        'text_2' => 'Di samping memperlaju pengembangan, kamu juga akan memperoleh berbagai fitur dan opsi kustomisasi tambahan!',
     ],
 ];

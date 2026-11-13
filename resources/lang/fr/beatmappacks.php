@@ -6,42 +6,38 @@
 return [
     'index' => [
         'description' => 'Des collections pré-packagées de beatmaps autour d\'un thème commun.',
+        'empty' => 'Arrive prochainement !',
         'nav_title' => 'liste',
-        'title' => 'Collections de Beatmaps',
+        'title' => 'Beatmap packs',
 
         'blurb' => [
             'important' => 'LISEZ CECI AVANT DE TÉLÉCHARGER',
-            'instruction' => [
-                '_' => "Installation: Une fois la collection téléchargée, extraire le .rar dans le dossier Songs d'osu!.
-                    Toutes les musiques sont encore en .zip et/ou en .osz dans la collection, osu! s'occupera d'extraire tout seul les beatmaps la prochaine fois que vous jouerez.
-                    :scary extraire les zip/osz vous-même,
-                    ou les beatmaps ne vont pas s'afficher correctement et osu! va mal fonctionner.",
-                'scary' => 'Ne PAS',
-            ],
-            'note' => [
-                '_' => 'Notez aussi qu\'il est recommandé de :scary, car les anciennes beatmaps sont de moins bonne qualité que les nouvelles beatmaps.',
-                'scary' => 'télécharger les collections de la plus récente à la plus ancienne',
-            ],
+            'install_instruction' => 'Installation : Une fois qu\'un pack a été téléchargé, extrayez le contenu du pack dans un dossier, sélectionnez les fichiers osz et glissez-les dans une instance active d\'osu!.',
         ],
     ],
 
     'show' => [
+        'created_by' => 'par :author',
         'download' => 'Télécharger',
+        'no_diff_reduction_badge' => 'Défi',
         'item' => [
-            'cleared' => 'terminé',
-            'not_cleared' => 'non terminé',
+            'cleared' => 'terminée',
+            'not_cleared' => 'non terminée',
         ],
         'no_diff_reduction' => [
-            '_' => ':link ne peut pas être utilisé pour effacer ce pack.',
-            'link' => 'Mods de réduction de la difficulté',
+            '_' => ':link ne peuvent pas être utilisés pour ce pack.',
+            'link' => 'Les mods réduisant la difficulté',
         ],
     ],
 
     'mode' => [
         'artist' => 'Artiste/Album',
-        'chart' => 'En avant',
+        'chart' => 'Spotlights',
+        'featured' => 'Featured Artist',
+        'loved' => 'Project Loved',
         'standard' => 'Standard',
         'theme' => 'Thème',
+        'tournament' => 'Tournoi',
     ],
 
     'require_login' => [

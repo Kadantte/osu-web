@@ -15,18 +15,37 @@ return [
     'top' => 'Mest likt',
     'username' => 'Brukernavn',
 
+    'artist_tracks' => [
+        'album' => 'Album',
+        'artist' => 'Artist',
+        'bpm' => 'BPM',
+        'genre' => 'Sjanger',
+        'length' => 'Lengde',
+        'relevance' => 'Relevans',
+        'title' => 'Tittel',
+        'update' => 'Oppdatering',
+    ],
+
     'forum_posts' => [
-        'created' => '',
-        'relevance' => '',
+        'created' => 'Innleggstid',
+        'relevance' => 'Relevans',
     ],
 
     'forum_topics' => [
+        'created' => 'Opprettet',
         'feature_votes' => 'Stjerneprioritet',
         'new' => 'Siste svar',
     ],
 
-    'users' => [
+    'teams' => [
+        'created' => '',
         'relevance' => '',
-        'username' => '',
+        'name' => '',
+        'short-name' => '',
+    ],
+
+    'users' => [
+        'relevance' => 'Relevans',
+        'username' => 'Navn',
     ],
 ];

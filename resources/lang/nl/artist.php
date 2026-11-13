@@ -4,15 +4,15 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'page_description' => 'Featured Artists in osu!',
-    'title' => 'Featured Artists',
+    'page_description' => 'Aanbevolen Artiesten op osu!',
+    'title' => 'Uitgelichte artiesten',
 
     'admin' => [
         'hidden' => 'ARTIEST IS MOMENTEEL VERBORGEN',
     ],
 
     'beatmaps' => [
-        '_' => 'Beatmappen',
+        '_' => 'Beatmaps',
         'download' => 'Beatmap Sjabloon Downloaden',
         'download-na' => 'Beatmap Sjabloon nog niet beschikbaar',
     ],
@@ -22,6 +22,7 @@ return [
     ],
 
     'links' => [
+        'beatmaps' => 'osu! beatmaps',
         'osu' => 'osu! profiel',
         'site' => 'Officiële Website',
     ],
@@ -29,7 +30,8 @@ return [
     'songs' => [
         '_' => 'Nummers',
         'count' => ':count nummer|:count nummers',
-        'exclusive' => 'osu!-exclusief',
+        'original' => 'osu! origineel',
+        'original_badge' => 'ORIGINAL',
     ],
 
     'tracklist' => [
@@ -37,5 +39,30 @@ return [
         'length' => 'lengte',
         'bpm' => 'bpm',
         'genre' => 'genre',
+    ],
+
+    'tracks' => [
+        'index' => [
+            '_' => 'nummers zoeken',
+
+            'exclusive_only' => [
+                'all' => 'Alles',
+                'exclusive_only' => 'osu! origineel',
+            ],
+
+            'form' => [
+                'advanced' => 'Geavanceerd Zoeken',
+                'album' => 'Album',
+                'artist' => 'Artiest',
+                'bpm_gte' => 'Minimale BPM',
+                'bpm_lte' => 'Maximale BPM',
+                'empty' => 'Er zijn geen nummers gevonden die aan de zoekcriteria voldoen.',
+                'exclusive_only' => 'Type',
+                'genre' => 'Genre',
+                'genre_all' => 'Alles',
+                'length_gte' => 'Minimale Lengte',
+                'length_lte' => 'Maximale Lengte',
+            ],
+        ],
     ],
 ];

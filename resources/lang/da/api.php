@@ -17,15 +17,22 @@ return [
         'identify' => 'Identificere dig og læse din offentlige profil.',
 
         'chat' => [
+            'read' => 'Læs beskeder på dine vegne.',
             'write' => 'Send beskeder på dine vegne.',
+            'write_manage' => 'Deltag og forlad kanaler på dine vegne.',
         ],
 
         'forum' => [
-            'write' => '',
+            'write' => 'Opret og rediger forumemner og indlæg på dine vegne.',
+            'write_manage' => 'Håndtér forumemner og indlæg på dine vegne.',
         ],
 
         'friends' => [
             'read' => 'Se hvem du følger.',
+        ],
+
+        'multiplayer' => [
+            'write_manage' => 'Opret og håndtér multiplayerrum på dine vegne.',
         ],
 
         'public' => 'Læs offentlige data på dine vegne.',

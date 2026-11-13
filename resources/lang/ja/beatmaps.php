@@ -4,6 +4,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => '無効なルールセットが指定されています。',
+
+    'change_owner' => [
+        'too_many' => 'ゲストマッパーの数が多すぎます。',
+    ],
+
     'discussion-votes' => [
         'update' => [
             'error' => '評価の更新に失敗しました',
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'kudosuを拒否',
         'edit' => '編集',
         'edited' => ':editorが:update_timeに編集',
+        'guest' => 'ゲスト難易度 by :user',
         'kudosu_denied' => 'kudosuの入手を拒否されました。',
+        'include_replies' => '返信を含める',
         'message_placeholder_deleted_beatmap' => 'この難易度は削除された為これ以上ディスカッションに投稿できません。',
         'message_placeholder_locked' => 'このビートマップに関するディスカッションは無効になっています。',
         'message_placeholder_silenced' => "サイレンス中はディスカッションへ投稿できません。",
         'message_type_select' => 'コメントタイプを選択',
         'reply_notice' => 'Enterキーを押して送信',
+        'reply_resolve_notice' => 'Enterを押して返信します。Ctrl + Enter キーを押して返信し、解決済みにします。',
         'reply_placeholder' => 'ここに入力してください',
         'require-login' => '返信するにはログインが必要です。',
         'resolved' => '解決済み',
         'restore' => '復元',
         'show_deleted' => '削除済みを表示',
+        'show_other_replies' => '他の返信を表示',
         'title' => 'ディスカッション',
+        'unresolved_count' => ':count_delimited 個の未解決問題|:count_delimited 個の未解決問題',
 
         'collapse' => [
             'all-collapse' => '全てを折りたたむ',
@@ -54,7 +65,7 @@ return [
         ],
 
         'message_hint' => [
-            'in_general' => 'これは一般のディスカッションに投稿されます。 このビートマップをmodするにはタイムスタンプ（例：00:12:345）を付けたメッセージを入力してください。',
+            'in_general' => 'この投稿はビートマップディスカッションの一般に投稿されます。この難易度の問題を修正するには、タイムスタンプ（例：00:12:345）でメッセージを開始してください。',
             'in_timeline' => '複数のタイムスタンプをmodするには、投稿を複数回に分けてください。',
         ],
 
@@ -68,12 +79,25 @@ return [
         'message_type' => [
             'disqualify' => 'Disqualify',
             'hype' => 'Hype!',
-            'mapper_note' => '注意',
+            'mapper_note' => 'メモ',
             'nomination_reset' => 'ノミネーションをリセット',
             'praise' => '称賛',
             'problem' => '問題',
+            'problem_warning' => '問題を報告する',
             'review' => 'レビュー',
             'suggestion' => '提案',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => '失格を投稿',
+            'hype' => 'Hypeを投稿',
+            'mapper_note' => 'メモを投稿',
+            'nomination_reset' => 'すべてのノミネートを削除する',
+            'praise' => '称賛を投稿',
+            'problem' => '問題を投稿',
+            'problem_warning' => '問題を投稿',
+            'review' => 'レビューを投稿',
+            'suggestion' => '提案を投稿',
         ],
 
         'mode' => [
@@ -103,11 +127,12 @@ return [
                 'unlink' => 'リンク解除',
                 'unsaved' => '未保存',
                 'timestamp' => [
-                    'all-diff' => '「全ての難易度」に関する投稿はタイムスタンプできません。',
+                    'all-diff' => '「全ての難易度」にはタイムスタンプを含む投稿はできません。',
                     'diff' => 'この:typeがタイムスタンプで始まる場合、タイムラインの下に表示されます。',
                 ],
             ],
             'insert-block' => [
+                'mapper_note' => 'メモを挿入',
                 'paragraph' => '段落の挿入',
                 'praise' => '称賛を挿入',
                 'problem' => '問題の挿入',
@@ -127,9 +152,9 @@ return [
 
         'stats' => [
             'deleted' => '削除済み',
-            'mapper_notes' => '注意',
+            'mapper_notes' => 'メモ',
             'mine' => '自分',
-            'pending' => '保留中',
+            'pending' => '未解決',
             'praises' => '称賛',
             'resolved' => '解決済み',
             'total' => '全て',
@@ -173,6 +198,8 @@ return [
     ],
 
     'nominations' => [
+        'already_nominated' => '既にこのビートマップをHypeしています。',
+        'cannot_nominate' => 'このゲームモードをノミネートすることはできません。',
         'delete' => '削除',
         'delete_own_confirm' => '本当によろしいですか？ビートマップは削除され、プロフィール画面にリダイレクトされます。',
         'delete_other_confirm' => '本当によろしいですか？ビートマップは削除され、ユーザーのプロフィール画面にリダイレクトされます。',
@@ -182,6 +209,7 @@ return [
         'disqualify' => 'Disqualify',
         'incorrect_state' => 'エラーが発生しました。ページの再読み込みを試してください。',
         'love' => 'Lovedに追加',
+        'love_choose' => 'lovedの難易度を選択',
         'love_confirm' => 'Lovedに追加しますか？',
         'nominate' => 'ノミネート',
         'nominate_confirm' => 'このビートマップをノミネートしますか？',
@@ -196,6 +224,9 @@ return [
 
         'rank_estimate' => [
             '_' => 'このマップは、問題が見つからなければ :date にrankedされると推定されます。:queue 内の #:position ',
+            'unresolved_problems' => '現在このマップは :problems が解決されるまでQualified状態から離れることをブロックされています。',
+            'problems' => 'この問題',
+            'on' => ':date',
             'queue' => 'ランキングキュー',
             'soon' => '間もなく',
         ],
@@ -206,8 +237,9 @@ return [
         ],
 
         'reset_confirm' => [
-            'nomination_reset' => '本当によろしいですか？新しい問題を投稿するとノミネーション審査中ではなくなります。',
             'disqualify' => '本当によろしいですか？これによりビートマップがQualifiedから外され、ノミネーション審査がリセットされます。',
+            'nomination_reset' => '本当によろしいですか？新しい問題を投稿するとノミネーション審査中ではなくなります。',
+            'problem_warning' => 'このビートマップを報告してもよろしいですか？報告するとビートマップノミネーターに通知が行きます。',
         ],
     ],
 
@@ -216,6 +248,7 @@ return [
             'prompt' => 'キーワードを入力・・・',
             'login_required' => 'ログインして検索する。',
             'options' => '検索の詳細設定',
+            'rank_filter_note' => 'このページに表示されているプロフィールのトップランク数および実績は、各譜面におけるあなたの最高「標準化」（別名 "lazer"）スコアに基づいています。',
             'supporter_filter' => ':filters による絞り込みにはosu!サポータータグが必要です',
             'not-found' => '該当結果なし',
             'not-found-quote' => '・・・なにも見つからなかったようだ。',
@@ -246,12 +279,18 @@ return [
                 '_' => ':filters による絞り込みには有効な:link が必要です',
                 'link_text' => 'osu!サポータータグ',
             ],
+            'tag_picker' => [
+                'tooltip' => 'ユーザータグで検索する',
+                'prompt' => '入力して検索',
+            ],
         ],
     ],
     'general' => [
         'converts' => 'コンバートビートマップを含める',
-        'follows' => '購読中のマッパー',
+        'featured_artists' => '注目アーティスト',
+        'follows' => 'サブスクライブ中のマッパー',
         'recommended' => '推奨難易度',
+        'spotlights' => 'スポットライト',
     ],
     'mode' => [
         'all' => '全て',
@@ -260,6 +299,7 @@ return [
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => '未設定',
     ],
     'status' => [
         'any' => '全て',
@@ -269,7 +309,8 @@ return [
         'leaderboard' => 'リーダーボード',
         'loved' => 'Loved',
         'mine' => 'マイマップ',
-        'pending' => 'Pending & WIP',
+        'pending' => 'Pending',
+        'wip' => 'WIP',
         'qualified' => 'Qualified',
         'ranked' => 'Ranked',
     ],
@@ -288,32 +329,6 @@ return [
         'classical' => 'クラシカル',
         'folk' => 'フォーク',
         'jazz' => 'ジャズ',
-    ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => 'スコア V2',
     ],
     'language' => [
         'any' => '全て',

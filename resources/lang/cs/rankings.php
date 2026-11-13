@@ -5,24 +5,83 @@
 
 return [
     'countries' => [
-        'all' => '',
-        'title' => '',
+        'all' => 'Vše',
+        'title' => 'Stát',
     ],
 
-    'filter' => [
-        'title' => '',
-
-        'variant' => [
-            'title' => '',
+    'daily_challenge' => [
+        'beatmap' => 'Obtížnost',
+        'theme' => 'Téma',
+        'top_10p' => 'Skóre pro Top 10%',
+        'top_50p' => 'Skóre pro Top 50%',
+        'unavailable' => [
+            'future' => 'Prozatím žádná denní výzva pro zadané datum!',
+            'past' => 'Žádná denní výzva pro zadané datum!',
         ],
     ],
 
+    'filter' => [
+        'title' => 'Zobrazit',
+
+        'variant' => [
+            'title' => 'Varianta',
+        ],
+    ],
+
+    'kudosu' => [
+        'total' => 'Získáno',
+        'available' => 'Dostupné',
+        'used' => 'Použito',
+    ],
+
+    'matchmaking' => [
+        'plays' => 'Zahrání',
+        'points' => 'Bodů',
+        'provisional' => 'Prozatimní hodnocení kvůli nedostatečnému počtu nedávných zápasů',
+        'rating' => 'Hodnocení',
+        'wins' => 'Výher',
+    ],
+
+    'multiplayer' => [
+        'room_name' => 'Název místnosti',
+    ],
+
+    'performance' => [
+        'insufficient_history' => 'Tento uživatel má méně než 30 dní nedávné ranking historie. ',
+    ],
+
+    'top_plays' => [
+        'empty' => 'Data se vypočítávají...',
+        'last_updated' => 'Naposledy aktualizováno',
+    ],
+
+    'playlists' => [
+        'charts' => 'zvýrazněné (staré)',
+        'featured' => 'výběry',
+        'season_room' => 'sezónní místnost',
+        'seasons' => 'sezóny',
+    ],
+
     'type' => [
-        'charts' => 'Výběry',
-        'country' => 'Stát',
-        'multiplayer' => '',
-        'performance' => 'Výkon',
-        'score' => 'Skóre',
+        'country' => 'stát',
+        'daily_challenge' => 'denní výzva',
+        'global' => 'svět',
+        'kudosu' => 'kudosu',
+        'matchmaking' => 'hodnocená hra',
+        'playlists' => 'playlisty',
+        'team' => 'týmy',
+        'top_plays' => 'nejlepší výkony',
+    ],
+
+    'seasons' => [
+        'empty' => 'V této sezóně nejsou žádné místnosti.',
+        'ongoing' => 'Tato sezóna stále probíhá (více playlistů bude přidáno průběhem času).',
+        'room_count' => 'Počet playlistů',
+        'summary' => 'Zobrazit shrnutí sezóny',
+        'url' => 'Zobrazit více informací pro tuto sezónu.',
+        'validation' => [
+            'not_enough_factors' => 'neexistuje dostatek prvků skóre pro řádný výpočet',
+        ],
     ],
 
     'spotlight' => [
@@ -36,6 +95,8 @@ return [
         'accuracy' => 'Přesnost',
         'active_users' => 'Aktivní uživatelé',
         'country' => 'Stát',
+        'division' => 'Divize',
+        'members' => 'Členové',
         'play_count' => 'Počet zahrání',
         'performance' => 'Výkon',
         'total_score' => 'Celkové skóre',

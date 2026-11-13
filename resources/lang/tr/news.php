@@ -18,6 +18,25 @@ return [
         ],
     ],
 
+    'series' => [
+        'beatmap_spotlights' => 'Beatmap Spotlightları',
+        'community_contests' => 'topluluk yarışmaları',
+        'community_tournaments' => 'topluluk turnuvaları',
+        'fanart_contests' => 'resim yarışmaları',
+        'featured_artists' => 'Featured Artist duyuruları',
+        'game_updates' => 'istemci ve web sitesi güncellemeleri',
+        'mappers_guild' => 'Mappers\' Guild',
+        'monthly_beatmapping_contest' => 'Aylık Beatmapping Yarışmaları',
+        'merch_runs' => 'osu! ürünleri',
+        'miscellaneous' => 'çeşitli duyurular',
+        'official_contests' => 'resmi yarışmalar',
+        'offline_events' => 'çevrimdışı etkinlikler',
+        'online_events' => 'çevrimiçi etkinlikler',
+        'project_loved' => 'Project Loved',
+        'ranking_system_updates' => 'sıralama sistemi güncellemeleri',
+        'world_cups' => 'osu! Dünya Kupaları',
+    ],
+
     'show' => [
         'by' => ':user tarafından',
 

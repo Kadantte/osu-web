@@ -4,8 +4,9 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'blocked' => 'Этот пользователь заблокировал вас.',
     'title_compact' => 'друзья',
-    'too_many' => 'Достигнут лимит количества друзей.',
+    'too_many' => 'Достигнут лимит количества друзей',
 
     'buttons' => [
         'add' => 'добавить в друзья',

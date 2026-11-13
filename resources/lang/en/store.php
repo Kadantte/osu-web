@@ -4,12 +4,9 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'admin' => [
-        'warehouse' => 'Warehouse',
-    ],
-
     'cart' => [
         'checkout' => 'Checkout',
+        'empty_cart' => 'Remove all items from cart',
         'info' => ':count_delimited item in cart ($:subtotal)|:count_delimited items in cart ($:subtotal)',
         'more_goodies' => 'I want to check out more goodies before completing the order',
         'shipping_fees' => 'shipping fees',
@@ -35,6 +32,7 @@ return [
         'cart_problems_edit' => 'Click here to go edit it.',
         'declined' => 'The payment was cancelled.',
         'delayed_shipping' => 'We are currently overwhelmed with orders! You are welcome to place your order, but please expect an **additional 1-2 week delay** while we catch up with existing orders.',
+        'hide_from_activity' => 'Hide all osu!supporter tags in this order from my activity',
         'old_cart' => 'Your cart appears to be out of date and has been reloaded, please try again.',
         'pay' => 'Checkout with Paypal',
         'title_compact' => 'checkout',
@@ -51,18 +49,53 @@ return [
     ],
 
     'discount' => 'save :percent%',
+    'free' => 'free!',
 
     'invoice' => [
+        'contact' => 'Contact:',
+        'date' => 'Date:',
         'echeck_delay' => 'As your payment was an eCheck, please allow up to 10 extra days for the payment to clear through PayPal!',
+        'echeck_denied' => 'The eCheck payment was rejected by PayPal.',
+        'hide_from_activity' => 'osu!supporter tags in this order are not displayed in your recent activities.',
+        'sent_via' => 'Sent Via:',
+        'shipping_to' => 'Shipping To:',
+        'title' => 'Invoice',
         'title_compact' => 'invoice',
 
         'status' => [
+            'cancelled' => [
+                'title' => 'Your order has been cancelled',
+                'line_1' => [
+                    '_' => "If you didn't request a cancellation please contact :link quoting your order number (#:order_number).",
+                    'link_text' => 'osu!store support',
+                ],
+            ],
+            'delivered' => [
+                'title' => 'Your order has been delivered! We hope you are enjoying it!',
+                'line_1' => [
+                    '_' => 'If you have any issues with your purchase, please contact the :link.',
+                    'link_text' => 'osu!store support',
+                ],
+            ],
+            'prepared' => [
+                'title' => 'Your order is being prepared!',
+                'line_1' => 'Please wait a bit longer for it to be shipped. Tracking information will appear here once the order has been processed and sent. This can take up to 5 days (but usually less!) depending on how busy we are.',
+                'line_2' => 'We send all orders from Japan using a variety of shipping services depending on the weight and value. This area will update with specifics once we have shipped the order.',
+            ],
             'processing' => [
                 'title' => 'Your payment has not yet been confirmed!',
                 'line_1' => 'If you have already paid, we may still be waiting to receive confirmation of your payment. Please refresh this page in a minute or two!',
                 'line_2' => [
                     '_' => 'If you encountered a problem during checkout, :link',
                     'link_text' => 'click here to resume your checkout',
+                ],
+            ],
+            'shipped' => [
+                'title' => 'Your order has been shipped!',
+                'tracking_details' => 'Tracking details follow:',
+                'no_tracking_details' => [
+                    '_' => "We don't have tracking details as we sent your package via Air Mail, but you can expect to receive it within 1-3 weeks. For Europe, sometimes customs can delay the order out of our control. If you have any concerns, please reply to the order confirmation email you received (or :link).",
+                    'link_text' => 'send us an email',
                 ],
             ],
         ],
@@ -76,13 +109,31 @@ return [
         'no_orders' => 'No orders to view.',
         'paid_on' => 'Order placed :date',
         'resume' => 'Resume Checkout',
+        'shipping_and_handling' => 'Shipping & Handling',
         'shopify_expired' => 'The checkout link for this order has expired.',
+        'subtotal' => 'Subtotal',
+        'total' => 'Total',
+        'unavailable' => 'No additional information available for this order.',
+
+        'details' => [
+            'order_number' => 'Order #',
+            'payment_terms' => 'Payment Terms',
+            'salesperson' => 'Salesperson',
+            'shipping_method' => 'Shipping Method',
+            'shipping_terms' => 'Shipping Terms',
+            'title' => 'Order Details',
+        ],
 
         'item' => [
+            'quantity' => 'quantity',
+
             'display_name' => [
                 'supporter_tag' => ':name for :username (:duration)',
             ],
-            'quantity' => 'Quantity',
+
+            'subtext' => [
+                'supporter_tag' => 'Message: :message',
+            ],
         ],
 
         'not_modifiable_exception' => [
@@ -102,6 +153,15 @@ return [
             'paid' => 'Paid',
             'processing' => 'Pending confirmation',
             'shipped' => 'Shipped',
+            'title' => 'Order Status',
+        ],
+
+        'thanks' => [
+            'title' => 'Thanks for your order!',
+            'line_1' => [
+                '_' => 'You will receive a confirmation email soon. If you have any enquiries, please :link!',
+                'link_text' => 'contact us',
+            ],
         ],
     ],
 
@@ -115,6 +175,7 @@ return [
 
         'add_to_cart' => 'Add to Cart',
         'notify' => 'Notify me when available!',
+        'out_of_stock' => 'Out of stock',
 
         'notification_success' => 'you will be notified when we have new stock. click :link to cancel',
         'notification_remove_text' => 'here',
@@ -124,6 +185,8 @@ return [
 
     'supporter_tag' => [
         'gift' => 'gift to player',
+        'gift_message' => 'add an optional message to your gift! (up to :length characters)',
+
         'require_login' => [
             '_' => 'You need to be :link to get an osu!supporter tag!',
             'link_text' => 'signed in',
@@ -133,6 +196,10 @@ return [
     'username_change' => [
         'check' => 'Enter a username to check availability!',
         'checking' => 'Checking availability of :username...',
+        'placeholder' => 'Requested Username',
+        'label' => 'New Username',
+        'current' => 'Your current username is ":username".',
+
         'require_login' => [
             '_' => 'You need to be :link to change your name!',
             'link_text' => 'signed in',

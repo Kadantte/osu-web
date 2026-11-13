@@ -8,12 +8,13 @@ return [
     'not_negative' => ':attribute kann nicht negativ sein.',
     'required' => ':attribute ist erforderlich.',
     'too_long' => ':attribute hat die maximale Länge überschritten - höchstens :limit Zeichen.',
+    'url' => 'Bitte gib eine gültige URL ein.',
     'wrong_confirmation' => 'Bestätigung stimmt nicht überein.',
 
     'beatmapset_discussion' => [
-        'beatmap_missing' => 'Ein Zeitpunkt ist angegeben, aber die Beatmap fehlt.',
+        'beatmap_missing' => 'Ein Zeitstempel ist angegeben, aber die Beatmapschwierigkeitsstufe fehlt.',
         'beatmapset_no_hype' => "Diese Beatmap kann nicht gehypt werden.",
-        'hype_requires_null_beatmap' => 'Hypen muss in der "Generell"-Sektion (für alle Schwierigkeitsstufen) stattfinden.',
+        'hype_requires_null_beatmap' => 'Hypes werden in der Sektion Allgemein (Alle Difficulties) vergeben.',
         'invalid_beatmap_id' => 'Ungültige Schwierigkeitsstufe gewählt.',
         'invalid_beatmapset_id' => 'Ungültige Beatmap gewählt.',
         'locked' => 'Die Diskussion ist gesperrt.',
@@ -33,8 +34,8 @@ return [
         ],
 
         'timestamp' => [
-            'exceeds_beatmapset_length' => 'Der gewählte Zeitpunkt ist nach dem Ende der Beatmap.',
-            'negative' => "Der Zeitpunkt muss positiv sein.",
+            'exceeds_beatmapset_length' => 'Der gewählte Zeitstempel ist nach dem Ende der Beatmap.',
+            'negative' => "Der Zeitstempel muss positiv sein.",
         ],
     ],
 
@@ -73,8 +74,8 @@ return [
         'post' => [
             'beatmapset_post_no_delete' => 'Den Metadaten-Beitrag einer Beatmap kann man nicht löschen.',
             'beatmapset_post_no_edit' => 'Den Metadaten-Beitrag einer Beatmap kann man nicht bearbeiten.',
-            'first_post_no_delete' => '',
-            'missing_topic' => '',
+            'first_post_no_delete' => 'Der erste Beitrag kann nicht gelöscht werden',
+            'missing_topic' => 'Dem Post fehlt ein Thread',
             'only_quote' => 'In deiner Antwort ist nur ein Zitat enthalten.',
 
             'attributes' => [
@@ -89,7 +90,7 @@ return [
         ],
 
         'topic_poll' => [
-            'duplicate_options' => 'Die gleiche Antwort kann nicht doppelt enthalten sein.',
+            'duplicate_options' => 'Doppelte Antworten sind nicht erlaubt.',
             'grace_period_expired' => 'Eine Umfrage kann nach mehr als :limit Stunden nicht bearbeitet werden',
             'hiding_results_forever' => 'Die Ergebnisse einer Umfrage, die nie endet, können nicht versteckt werden.',
             'invalid_max_options' => 'Die Zahl an Antworten pro Benutzer kann die Anzahl an Antworten nicht überschreiten.',
@@ -108,15 +109,39 @@ return [
         ],
     ],
 
+    'legacy_api_key' => [
+        'exists' => 'Momentan wird pro Benutzer nur ein API-Schlüssel zur Verfügung gestellt.',
+
+        'attributes' => [
+            'api_key' => 'API-Schlüssel',
+            'app_name' => 'Anwendungsname',
+            'app_url' => 'Anwendungs-URL',
+        ],
+    ],
+
     'oauth' => [
         'client' => [
             'too_many' => 'Maximale Anzahl erlaubter OAuth-Anwendungen überschritten.',
-            'url' => 'Bitte geben Sie eine gültige URL ein.',
+            'url' => 'Bitte gib gültige URLs ein.',
 
             'attributes' => [
                 'name' => 'Anwendungsname',
                 'redirect' => 'Anwendungs-Callback-URL',
             ],
+        ],
+    ],
+
+    'team' => [
+        'invalid_characters' => 'Das gewählte Attribut :attribute enthält ungültige Zeichen.',
+        'used' => 'Das gewählte Attribut :attribute wird bereits verwendet.',
+        'word_not_allowed' => 'Das gewählte Attribut :attribute ist nicht erlaubt.',
+
+        'attributes' => [
+            'default_ruleset_id' => 'Standardspielmodus',
+            'is_open' => 'Team-Bewerbungen',
+            'name' => 'Name',
+            'short_name' => 'Kürzel',
+            'url' => 'URL',
         ],
     ],
 
@@ -135,12 +160,12 @@ return [
         'username_invalid_characters' => 'Der angeforderte Nutzername enthält ungültige Zeichen.',
         'username_in_use' => 'Dieser Nutzername wird bereits verwendet!',
         'username_locked' => 'Dieser Nutzername wird bereits verwendet!', // TODO: language for this should be slightly different.
-        'username_no_space_userscore_mix' => 'Bitte verwende entweder Unterstrich oder Leerzeichen, nicht beides zusammen!',
-        'username_no_spaces' => "Nutzernamen können nicht mit Leerzeichen beginnen oder enden.",
+        'username_no_space_userscore_mix' => 'Bitte verwende entweder Unterstriche oder Leerzeichen, nicht beides zusammen!',
+        'username_no_spaces' => "Nutzernamen dürfen nicht mit Leerzeichen beginnen oder enden.",
         'username_not_allowed' => 'Dieser Nutzername ist nicht erlaubt.',
         'username_too_short' => 'Der angeforderte Nutzername ist zu kurz.',
         'username_too_long' => 'Der angeforderte Nutzername ist zu lang.',
-        'weak' => 'Das Passwort ist auf einer Blacklist.',
+        'weak' => 'Das Passwort ist zu schwach.',
         'wrong_current_password' => 'Das aktuelle Passwort ist falsch.',
         'wrong_email_confirmation' => 'E-Mail-Bestätigung stimmt nicht überein.',
         'wrong_password_confirmation' => 'Passwortbestätigung stimmt nicht überein.',
@@ -153,7 +178,7 @@ return [
         ],
 
         'change_username' => [
-            'restricted' => 'Du kannst deinen Benutzernamen nicht ändern solange dein Zugang beschränkt ist.',
+            'restricted' => 'Du kannst deinen Benutzernamen nicht ändern, solange dein Zugang beschränkt ist.',
             'supporter_required' => [
                 '_' => 'Du musst :link haben, um deinen Nutzernamen zu ändern!',
                 'link_text' => 'osu! unterstützt',
@@ -163,6 +188,9 @@ return [
     ],
 
     'user_report' => [
+        'no_ranked_beatmapset' => 'Beatmaps mit dem Ranked-Status können nicht gemeldet werden',
+        'not_in_channel' => 'Du bist nicht in diesem Kanal.',
+        'in_team' => 'Du bist Teil des Teams.',
         'reason_not_valid' => ':reason ist für diesen Meldungstyp nicht gültig.',
         'self' => "Du kannst dich nicht selbst melden!",
     ],

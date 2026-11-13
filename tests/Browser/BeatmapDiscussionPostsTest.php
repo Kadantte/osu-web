@@ -15,7 +15,14 @@ use Tests\DuskTestCase;
 
 class BeatmapDiscussionPostsTest extends DuskTestCase
 {
-    private $new_reply_widget_selector = '.beatmap-discussion-post--new-reply';
+    private const NEW_REPLY_SELECTOR = '.beatmap-discussion-post--new-reply';
+    private const RESOLVE_BUTTON_SELECTOR = '.btn-osu-big[data-action=reply_resolve]';
+
+    private Beatmap $beatmap;
+    private BeatmapDiscussion $beatmapDiscussion;
+    private Beatmapset $beatmapset;
+    private User $mapper;
+    private User $user;
 
     public function testConcurrentPostAfterResolve()
     {
@@ -41,8 +48,8 @@ class BeatmapDiscussionPostsTest extends DuskTestCase
 
     protected function writeReply(Browser $browser, $reply)
     {
-        $browser->with($this->new_reply_widget_selector, function ($new_reply) use ($reply) {
-            $new_reply->press('Respond')
+        $browser->with(static::NEW_REPLY_SELECTOR, function (Browser $newReply) use ($reply) {
+            $newReply->press(osu_trans('beatmap_discussions.reply.open.user'))
                 ->waitFor('textarea')
                 ->type('textarea', $reply);
         });
@@ -50,13 +57,16 @@ class BeatmapDiscussionPostsTest extends DuskTestCase
 
     protected function postReply(Browser $browser, $action)
     {
-        $browser->with($this->new_reply_widget_selector, function ($new_reply) use ($action) {
+        $browser->with(static::NEW_REPLY_SELECTOR, function (Browser $newReply) use ($action) {
             switch ($action) {
                 case 'resolve':
-                    $new_reply->press('Reply and Resolve');
+                    // button may be covered by dev banner;
+                    // ->element->($selector)->getLocationOnScreenOnceScrolledIntoView() uses { block: 'end', inline: 'nearest' } which isn't enough.
+                    $newReply->scrollIntoView(static::RESOLVE_BUTTON_SELECTOR);
+                    $newReply->element(static::RESOLVE_BUTTON_SELECTOR)->click();
                     break;
                 default:
-                    $new_reply->keys('textarea', '{enter}');
+                    $newReply->keys('textarea', '{enter}');
                     break;
             }
         });
@@ -71,16 +81,9 @@ class BeatmapDiscussionPostsTest extends DuskTestCase
             ]);
     }
 
-    protected function createUserCapableOfDiscussing(): User
-    {
-        $user = factory(User::class)->create();
-        $user->statisticsOsu()->create(['playcount' => $this->minPlays]);
-
-        return $user;
-    }
-
     protected function deleteUser(User $user): void
     {
+        $user->statisticsOsu->delete();
         $user->userProfileCustomization()->forceDelete();
         $user->forceDelete();
     }
@@ -101,24 +104,24 @@ class BeatmapDiscussionPostsTest extends DuskTestCase
     {
         parent::setUp();
 
-        $this->minPlays = config('osu.user.min_plays_for_posting');
+        $this->mapper = User::factory()->withPlays()->create();
+        $this->user = User::factory()->withPlays()->create();
 
-        $this->mapper = $this->createUserCapableOfDiscussing();
-        $this->user = $this->createUserCapableOfDiscussing();
-
-        $this->beatmapset = factory(Beatmapset::class)->create([
-            'user_id' => $this->mapper->getKey(),
+        $this->beatmapset = Beatmapset::factory()->create([
+            'user_id' => $this->mapper,
         ]);
-        $this->beatmap = $this->beatmapset->beatmaps()->save(factory(Beatmap::class)->make());
-        $this->beatmapDiscussion = factory(BeatmapDiscussion::class, 'timeline')->create([
-            'beatmapset_id' => $this->beatmapset->getKey(),
-            'beatmap_id' => $this->beatmap->getKey(),
-            'user_id' => $this->user->getKey(),
+        $this->beatmap = $this->beatmapset->beatmaps()->save(Beatmap::factory()->make([
+            'user_id' => $this->mapper,
+        ]));
+        $this->beatmapDiscussion = BeatmapDiscussion::factory()->timeline()->create([
+            'beatmapset_id' => $this->beatmapset,
+            'beatmap_id' => $this->beatmap,
+            'user_id' => $this->user,
         ]);
-        $post = factory(BeatmapDiscussionPost::class, 'timeline')->make([
-            'user_id' => $this->user->getKey(),
+        $post = BeatmapDiscussionPost::factory()->timeline()->make([
+            'user_id' => $this->user,
         ]);
-        $this->beatmapDiscussionPost = $this->beatmapDiscussion->beatmapDiscussionPosts()->save($post);
+        $this->beatmapDiscussion->beatmapDiscussionPosts()->save($post);
 
         $this->beforeApplicationDestroyed(function () {
             // Similar case to SanityTest, cleanup the models we created during the test.

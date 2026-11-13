@@ -15,14 +15,33 @@ return [
     'top' => '热门',
     'username' => '用户名',
 
+    'artist_tracks' => [
+        'album' => '专辑',
+        'artist' => '艺术家',
+        'bpm' => 'BPM',
+        'genre' => '风格',
+        'length' => '时长',
+        'relevance' => '相关性',
+        'title' => '标题',
+        'update' => '更新时间',
+    ],
+
     'forum_posts' => [
         'created' => '发表时间',
         'relevance' => '相关性',
     ],
 
     'forum_topics' => [
+        'created' => '创建时间',
         'feature_votes' => '星级优先级',
         'new' => '最后回复',
+    ],
+
+    'teams' => [
+        'created' => '创建时间',
+        'relevance' => '相关性',
+        'name' => '名称',
+        'short-name' => '简称',
     ],
 
     'users' => [

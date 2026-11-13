@@ -8,13 +8,16 @@ namespace App\Models\UserStatistics;
 use App\Exceptions\ClassNotFoundException;
 use App\Models\Beatmap;
 use App\Models\Model as BaseModel;
+use App\Models\RankHistory;
 use App\Models\Score\Best;
 use App\Models\User;
 use App\Traits\Memoizes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property mixed $country_acronym
- * @property User $user
+ * @property-read \App\Models\RankHistory|null $rankHistory
+ * @property-read \App\Models\User $user
  */
 abstract class Model extends BaseModel
 {
@@ -24,22 +27,24 @@ abstract class Model extends BaseModel
 
     public $timestamps = false;
     public $incrementing = false;
+    /**
+     * allows preloading the value if it's known through other means
+     * (for use in RankingController)
+     */
+    public int $countryRank;
 
     const UPDATED_AT = 'last_update';
+
+    public function rankHistory(): BelongsTo
+    {
+        return $this
+            ->belongsTo(RankHistory::class, 'user_id', 'user_id')
+            ->where('mode', Beatmap::modeInt(static::getMode()));
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function setCreatedAt($value)
-    {
-        // Do nothing.
-    }
-
-    public function getCreatedAtColumn()
-    {
-        // Do nothing.
     }
 
     public function getCountryAcronymAttribute($value)
@@ -50,6 +55,13 @@ abstract class Model extends BaseModel
     public function getHitAccuracyAttribute($value)
     {
         return $this->accuracy_new ?? round($this->accuracy * 100, 2);
+    }
+
+    public function getAccuracyNormalisedAttribute()
+    {
+        return $this->accuracy_new !== null
+        ? $this->accuracy_new / 100
+        : $this->accuracy;
     }
 
     public function currentLevelProgress()
@@ -75,7 +87,10 @@ abstract class Model extends BaseModel
     public static function calculateRecommendedStarDifficulty(?self $stats)
     {
         if ($stats !== null && $stats->rank_score > 0) {
-            return pow($stats->rank_score, 0.4) * 0.195;
+            return match ($stats->getMode()) {
+                'taiko' => pow($stats->rank_score, 0.35) * 0.27,
+                default => pow($stats->rank_score, 0.4) * 0.195,
+            };
         }
 
         return 1.0;
@@ -103,7 +118,7 @@ abstract class Model extends BaseModel
 
     public static function recalculateRankedScoreForUser(User $user)
     {
-        $bestClass = Best\Model::getClassByString(static::getMode());
+        $bestClass = Best\Model::getClass(static::getMode());
 
         $instance = new static();
         $statsTable = $instance->getTable();
@@ -117,41 +132,46 @@ abstract class Model extends BaseModel
     public function __construct($attributes = [], $zeroInsteadOfNull = true)
     {
         if ($zeroInsteadOfNull) {
-            $this->level = 1;
+            // these are still missing last_update and last_played but they're not user visible anywhere
+            $attributes = array_merge([
+                'accuracy' => 0,
+                'accuracy_count' => 0,
+                'accuracy_new' => 0,
+                'accuracy_total' => 0,
+                'country_acronym' => '',
+                'level' => 1,
+                'max_combo' => 0,
+                'playcount' => 0,
+                'rank' => 0,
+                'rank_score' => 0,
+                'rank_score_index' => 0,
+                'ranked_score' => 0,
+                'replay_popularity' => 0,
+                'total_score' => 0,
+                'total_seconds_played' => 0,
 
-            $this->rank_score_index = 0;
-            $this->ranked_score = 0;
+                'count300' => 0,
+                'count100' => 0,
+                'count50' => 0,
+                'countMiss' => 0,
 
-            $this->accuracy_new = 0;
-            $this->playcount = 0;
-            $this->total_score = 0;
-            $this->max_combo = 0;
+                'fail_count' => 0,
+                'exit_count' => 0,
 
-            $this->count300 = 0;
-            $this->count100 = 0;
-            $this->count50 = 0;
-
-            $this->replay_popularity = 0;
-
-            $this->x_rank_count = 0;
-            $this->xh_rank_count = 0;
-            $this->s_rank_count = 0;
-            $this->sh_rank_count = 0;
-            $this->a_rank_count = 0;
-
-            $this->accuracy_total = 0;
-            $this->accuracy_count = 0;
-            $this->accuracy = 0;
-            $this->rank = 0;
-            $this->rank_score = 0;
+                'x_rank_count' => 0,
+                'xh_rank_count' => 0,
+                's_rank_count' => 0,
+                'sh_rank_count' => 0,
+                'a_rank_count' => 0,
+            ], $attributes);
         }
 
-        return parent::__construct($attributes);
+        parent::__construct($attributes);
     }
 
     public function countryRank()
     {
-        return $this->memoize(__FUNCTION__, function () {
+        return $this->countryRank ?? $this->memoize(__FUNCTION__, function () {
             if (!$this->isRanked()) {
                 return;
             }
@@ -166,31 +186,44 @@ abstract class Model extends BaseModel
             //   rank_score_index < $this->rank_score_index AND rank_score_index > 0 AND rank_score > 0
             // but it is slower.
             return static::where('country_acronym', $this->country_acronym)
-                ->where('rank_score', '>', function ($q) {
-                    $q->from($this->table)->where('user_id', $this->user_id)->select('rank_score');
-                })
+                ->where('rank_score', '>', static::where('user_id', $this->user_id)->select('rank_score'))
                 ->count() + 1;
         });
     }
 
-    public function globalRank()
+    public function globalRank(): ?int
     {
-        if (!$this->isRanked()) {
-            return;
+        $value = $this->rank_score_index;
+
+        return $value === 0 || $this->rank_score === 0.0 ? null : $value;
+    }
+
+    public function globalRankPercent(): ?float
+    {
+        $rank = $this->globalRank();
+
+        if ($rank === null) {
+            return null;
         }
 
-        return $this->rank_score_index;
+        $count = app('user-count-by-ruleset')->get(true, $this->getMode());
+
+        return $count === null ? null : $rank / max(1, $count);
     }
 
     public function isRanked()
     {
-        return $this->rank_score !== 0.0 && $this->rank_score_index !== 0;
+        return $this->globalRank() !== null;
     }
 
     public function scopeFriendsOf($query, $user)
     {
-        $userIds = $user->friends()->allRelatedIds();
-        $userIds[] = $user->getKey();
+        if ($user === null) {
+            $userIds = [];
+        } else {
+            $userIds = $user->friends()->pluck('zebra_id');
+            $userIds[] = $user->getKey();
+        }
 
         return $query->whereIn('user_id', $userIds);
     }

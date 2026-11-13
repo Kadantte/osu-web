@@ -15,6 +15,7 @@ $mysqlDefaults = [
     'host' => env('DB_HOST', 'localhost'),
     'username' => env('DB_USERNAME', 'osuweb'),
     'password' => env('DB_PASSWORD', ''),
+    'port' => env('DB_PORT', '3306'),
     'charset' => 'utf8mb4',
     'collation' => 'utf8mb4_0900_ai_ci',
     'prefix' => '',
@@ -35,10 +36,19 @@ $mysqlDefaults = [
         'NO_ENGINE_SUBSTITUTION',
     ],
     'options' => [
-        PDO::ATTR_PERSISTENT => true,
-        PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '+00:00'",
+        Pdo\Mysql::ATTR_PERSISTENT => true,
+        Pdo\Mysql::ATTR_INIT_COMMAND => "SET time_zone = '+00:00'",
     ],
 ];
+
+$redisDefault = [
+    'host' => presence(env('REDIS_HOST')) ?? '127.0.0.1',
+    'port' => get_int(env('REDIS_PORT')) ?? 6379,
+    'database' => get_int(env('REDIS_DB')) ?? 0,
+    'password' => presence(env('REDIS_PASSWORD')),
+    'persistent' => true,
+];
+$redisCachePrefix = 'osu-next:';
 
 return [
 
@@ -131,23 +141,25 @@ return [
             'host' => presence(env('CACHE_REDIS_HOST')) ?? presence(env('REDIS_HOST')) ?? '127.0.0.1',
             'port' => get_int(env('CACHE_REDIS_PORT')) ?? get_int(env('REDIS_PORT')) ?? 6379,
             'database' => get_int(env('CACHE_REDIS_DB')) ?? 0,
+            'password' => presence(env('CACHE_REDIS_PASSWORD')) ?? presence(env('REDIS_PASSWORD')),
             'persistent' => true,
+            'prefix' => $redisCachePrefix,
         ],
 
-        'default' => [
-            'host' => presence(env('REDIS_HOST')) ?? '127.0.0.1',
-            'port' => get_int(env('REDIS_PORT')) ?? 6379,
-            'database' => get_int(env('REDIS_DB')) ?? 0,
-            'persistent' => true,
-        ],
+        'default' => $redisDefault,
 
         'notification' => [
             'host' => presence(env('NOTIFICATION_REDIS_HOST')) ?? '127.0.0.1',
             'port' => get_int(env('NOTIFICATION_REDIS_PORT')) ?? 6379,
             'database' => get_int(env('NOTIFICATION_REDIS_DB')) ?? 0,
+            'password' => presence(env('NOTIFICATION_REDIS_PASSWORD')),
             'persistent' => true,
         ],
 
+        'session' => [
+            ...$redisDefault,
+            'prefix' => $redisCachePrefix,
+        ],
     ],
 
 ];

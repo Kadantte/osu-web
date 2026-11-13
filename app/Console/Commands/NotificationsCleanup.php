@@ -7,7 +7,6 @@ namespace App\Console\Commands;
 
 use App\Models\Notification;
 use App\Models\UserNotification;
-use Datadog;
 use Illuminate\Console\Command;
 
 class NotificationsCleanup extends Command
@@ -21,7 +20,7 @@ class NotificationsCleanup extends Command
 
     public function handle()
     {
-        $total = config('osu.notification.cleanup.max_delete_per_run');
+        $total = $GLOBALS['cfg']['osu']['notification']['cleanup']['max_delete_per_run'];
 
         if ($total === 0) {
             return;
@@ -46,7 +45,7 @@ class NotificationsCleanup extends Command
 
         for ($i = 0; $i < $loops; $i++) {
             $deleted = Notification::where('id', '<', $maxNotificationId)->limit($perLoop)->delete();
-            Datadog::increment(config('datadog-helper.prefix_web').'.notifications_cleanup.notifications', 1, null, $deleted);
+            datadog_increment('notifications_cleanup.notifications', value: $deleted);
 
             $deletedTotal += $deleted;
         }

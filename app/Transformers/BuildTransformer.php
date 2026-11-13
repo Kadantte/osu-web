@@ -10,24 +10,25 @@ use App\Models\ChangelogEntry;
 
 class BuildTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
         'changelog_entries',
         'update_stream',
         'versions',
     ];
 
-    protected $defaultIncludes = [
+    protected array $defaultIncludes = [
         'update_stream',
     ];
 
     public function transform(Build $build)
     {
         return [
-            'id' => $build->getKey(),
-            'version' => $build->version,
+            'created_at' => $build->getJsonTime('date'),
             'display_version' => $build->displayVersion(),
+            'id' => $build->getKey(),
             'users' => $build->users ?? 0,
-            'created_at' => json_time($build->date),
+            'version' => $build->version,
+            'youtube_id' => $build->youtube_id,
         ];
     }
 
@@ -35,11 +36,8 @@ class BuildTransformer extends TransformerAbstract
     {
         $legacyEntries = $build
             ->defaultChangelogs
-            ->filter(function ($item) use ($build) {
-                return $item->stream_id === $build->stream_id;
-            })->map(function ($item) {
-                return ChangelogEntry::convertLegacy($item);
-            });
+            ->filter(fn ($item) => $item->stream_id === $build->stream_id)
+            ->map(fn ($item) => ChangelogEntry::convertLegacy($item));
 
         $entries = $build
             ->defaultChangelogEntries
@@ -60,18 +58,18 @@ class BuildTransformer extends TransformerAbstract
 
     public function includeVersions(Build $build)
     {
-        return $this->item($build, function ($build) {
-            $versions = [];
+        $versions = new \stdClass();
 
-            if ($build->versionNext() !== null) {
-                $versions['next'] = json_item($build->versionNext(), 'Build');
-            }
+        $next = $build->versionNext();
+        if ($next !== null) {
+            $versions->next = json_item($next, $this);
+        }
 
-            if ($build->versionPrevious() !== null) {
-                $versions['previous'] = json_item($build->versionPrevious(), 'Build');
-            }
+        $previous = $build->versionPrevious();
+        if ($previous !== null) {
+            $versions->previous = json_item($previous, $this);
+        }
 
-            return $versions;
-        });
+        return $this->primitive($versions);
     }
 }

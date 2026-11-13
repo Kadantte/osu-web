@@ -6,43 +6,46 @@
 return [
     'match' => [
         'beatmap-deleted' => 'silinmiş beatmap',
-        'difference' => ':difference puan farkla kazandı',
         'failed' => 'BAŞARISIZ',
         'header' => 'Çok Oyunculu Maçlar',
         'in-progress' => '(devam eden maç)',
         'in_progress_spinner_label' => 'devam eden maç',
         'loading-events' => 'Olaylar yükleniyor...',
         'winner' => ':team',
+        'winner_by' => ':difference farkla :winner',
 
         'events' => [
-            'player-left' => ':user maçtan ayrıldı',
-            'player-joined' => ':user maça katıldı',
-            'player-kicked' => ':user maçtan atıldı',
-            'match-created' => ':user maçı oluşturdu',
-            'match-disbanded' => 'maç dağıtıldı',
-            'host-changed' => ':user odanın sahibi oldu',
-
-            'player-left-no-user' => 'bir oyuncu maçı terk etti',
-            'player-joined-no-user' => 'bir oyuncu maça katıldı',
-            'player-kicked-no-user' => 'bir oyuncu maçtan atıldı',
-            'match-created-no-user' => 'maç oluşturuldu',
-            'match-disbanded-no-user' => 'maç dağıtıldı',
-            'host-changed-no-user' => 'odanın sahibi değiştirildi',
+            'game_aborted' => 'oyun iptal edildi',
+            'game_aborted_no_user' => 'oyun iptal edildi',
+            'game_completed' => 'oyun sona erdi',
+            'game_completed_no_user' => 'oyun sona erdi',
+            'host_changed' => ':user odanın sahibi oldu',
+            'host_changed_no_user' => 'oda sahibi değişti',
+            'player_joined' => ':user oyuna katıldı',
+            'player_joined_no_user' => 'bir oyuncu oyuna katıldı',
+            'player_kicked' => ':user oyundan atıldı ',
+            'player_kicked_no_user' => 'bir oyuncu oyundan atıldı',
+            'player_left' => ':user eşleşmeyi terk etti',
+            'player_left_no_user' => 'bir oyuncu eşleşmeyi terk etti',
+            'room_created' => ':user oyunu oluşturdu',
+            'room_created_no_user' => 'Maç oluşturuldu',
+            'room_disbanded' => 'Maç dağıtıldı',
+            'room_disbanded_no_user' => 'Maç dağıtıldı',
         ],
 
         'score' => [
             'stats' => [
-                'accuracy' => 'Doğruluk',
+                'accuracy' => 'İsabetlilik',
                 'combo' => 'Kombo',
                 'score' => 'Skor',
             ],
         ],
 
-        'team-types' => [
-            'head-to-head' => 'Başa-baş',
-            'tag-coop' => 'Sıralı Co-op',
-            'team-vs' => 'Takım VS',
-            'tag-team-vs' => 'Tag takım VS',
+        'team_types' => [
+            'head_to_head' => 'Bire bir',
+            'tag_coop' => 'Tag Co-op',
+            'tag_team_versus' => 'Tag Takım VS',
+            'team_versus' => 'Takım VS',
         ],
 
         'teams' => [
@@ -51,9 +54,11 @@ return [
         ],
     ],
     'game' => [
+        'freestyle' => 'Serbest',
+
         'scoring-type' => [
             'score' => 'En Yüksek Skor',
-            'accuracy' => 'Yüksek doğruluk',
+            'accuracy' => 'En Yüksek İsabetlilik',
             'combo' => 'En yüksek Kombo',
             'scorev2' => 'Skor V2',
         ],

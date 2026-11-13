@@ -3,8 +3,8 @@
     See the LICENCE file in the repository root for full licence text.
 --}}
 @php
-    $username = $score->user === null || $score->user->isDeleted() ? trans('users.deleted') : $score->user->username;
-    $title = trans('scores.show.title', [
+    $username = $score->user === null || $score->user->trashed() ? osu_trans('users.deleted') : $score->user->username;
+    $title = osu_trans('scores.show.title', [
         'username' => $username,
         'title' => $score->beatmap->beatmapset->getDisplayTitle(auth()->user()),
         'version' => $score->beatmap->version,
@@ -15,11 +15,15 @@
 ])
 
 @section('content')
-    <div class="js-react--scores-show osu-layout osu-layout--full"></div>
+    <div class="js-react u-contents" data-react="scores-show"></div>
 
     <script id="json-show" type="application/json">
         {!! json_encode($scoreJson) !!}
     </script>
 
-    @include('layout._extra_js', ['src' => 'js/react/scores-show.js'])
+    <script id="json-raw" type="application/json">
+        {!! json_encode($score->getAttributes()) !!}
+    </script>
+
+    @include('layout._react_js', ['src' => 'js/scores-show.js'])
 @endsection

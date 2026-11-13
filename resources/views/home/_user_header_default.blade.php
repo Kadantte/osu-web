@@ -3,32 +3,33 @@
     See the LICENCE file in the repository root for full licence text.
 --}}
 @php
-    $currentActive = app('route-section')->getCurrent('controller').'.'.app('route-section')->getCurrent('action');
+    $currentRoute = app('route-section')->getCurrent();
+    $currentActive = $currentRoute['controller'].'.'.$currentRoute['action'];
 @endphp
 @include('layout._page_header_v4', ['params' => [
-    'backgroundExtraClass' => 'js-current-user-cover',
+    'backgroundExtraClass' => 'u-current-user-cover',
     'currentActive' => $currentActive,
     'theme' => $themeOverride ?? 'home',
 
     'links' => [
         [
             'active' => $currentActive === 'home_controller.index',
-            'title' => trans('home.user.title'),
+            'title' => osu_trans('home.user.title'),
             'url' => route('home'),
         ],
         [
             'active' => $currentActive === 'friends_controller.index',
-            'title' => trans('friends.title_compact'),
+            'title' => osu_trans('friends.title_compact'),
             'url' => route('friends.index'),
         ],
         [
             'active' => $currentActive === 'follows_controller.index',
-            'title' => trans('follows.index.title_compact'),
+            'title' => osu_trans('follows.index.title_compact'),
             'url' => route('follows.index', ['subtype' => App\Models\Follow::DEFAULT_SUBTYPE]),
         ],
         [
             'active' => $currentActive === 'account_controller.edit',
-            'title' => trans('accounts.edit.title_compact'),
+            'title' => osu_trans('accounts.edit.title_compact'),
             'url' => route('account.edit'),
         ],
     ],

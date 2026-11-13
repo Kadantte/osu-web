@@ -10,18 +10,18 @@ use League\Fractal;
 
 class SpotlightTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
         'participant_count',
     ];
 
     public function transform(Spotlight $spotlight)
     {
         return [
-            'end_date' => json_time($spotlight->end_date),
+            'end_date' => $spotlight->getJsonTime('end_date'),
             'id' => $spotlight->getKey(),
             'mode_specific' => $spotlight->mode_specific,
             'name' => $spotlight->name,
-            'start_date' => json_time($spotlight->start_date),
+            'start_date' => $spotlight->getJsonTime('start_date'),
             'type' => $spotlight->type,
         ];
     }

@@ -5,17 +5,29 @@
 
 return [
     'mode' => [
+        'artist_track' => 'Skladba od Významného Umelca',
         'beatmapset' => 'Beatmapa',
         'forum_post' => 'Fórum',
         'other' => 'Ostatné',
+        'team' => 'Tím',
         'user' => 'Hráč',
         'wiki_page' => 'Wiki',
     ],
 
     'result' => [
-        'empty' => 'Bez výsledkov',
-        'empty_for' => '',
-        'more' => '',
-        'title' => '',
+        'more' => 'Viac výsledkov pre :mode',
+        'title' => 'Výsledky pre :mode',
+
+        'no_results' => [
+            '_' => 'Žiadne výsledky pre :mode',
+
+            'artist_track' => 'Skladby od Významného Umelca',
+            'beatmapset' => 'Beatmapy',
+            'forum_post' => 'Fórá',
+            'other' => 'Ostatné',
+            'team' => 'Tímy',
+            'user' => 'Hráči',
+            'wiki_page' => 'Wiki',
+        ],
     ],
 ];

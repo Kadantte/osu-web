@@ -9,22 +9,26 @@ use App\Models\NewsPost;
 
 class NewsPostTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
         'content',
+        'content_markdown',
         'navigation',
         'preview',
     ];
 
     public function transform(NewsPost $post)
     {
+        $firstImage = $post->firstImageWith2x();
+
         return [
             'id' => $post->id,
 
             'author' => $post->author(),
             'edit_url' => $post->editUrl(),
-            'first_image' => $post->firstImage(),
-            'published_at' => json_time($post->published_at),
-            'updated_at' => json_time($post->updated_at),
+            'first_image' => $firstImage['1x'],
+            'first_image@2x' => $firstImage['2x'],
+            'published_at' => $post->getJsonTime('published_at'),
+            'updated_at' => $post->getJsonTime('updated_at'),
             'slug' => $post->slug,
             'title' => $post->title(),
         ];
@@ -32,30 +36,33 @@ class NewsPostTransformer extends TransformerAbstract
 
     public function includeContent(NewsPost $post)
     {
-        return $this->primitive($post->bodyHtml(), function ($html) {
-            return $html;
-        });
+        return $this->primitive($post->bodyHtml());
+    }
+
+    public function includeContentMarkdown(NewsPost $post)
+    {
+        return $this->primitive($post->markdown());
     }
 
     public function includeNavigation(NewsPost $post)
     {
-        return $this->item($post, function ($post) {
-            $ret = [];
-            if ($post->newer() !== null) {
-                $ret['newer'] = json_item($post->newer(), 'NewsPost');
-            }
-            if ($post->older() !== null) {
-                $ret['older'] = json_item($post->older(), 'NewsPost');
-            }
+        $ret = [];
 
-            return $ret;
-        });
+        $newer = $post->newer();
+        if ($newer !== null) {
+            $ret['newer'] = json_item($newer, $this);
+        }
+
+        $older = $post->older();
+        if ($older !== null) {
+            $ret['older'] = json_item($older, $this);
+        }
+
+        return $this->primitive($ret);
     }
 
     public function includePreview(NewsPost $post)
     {
-        return $this->primitive($post->previewText(), function ($text) {
-            return $text;
-        });
+        return $this->primitive($post->previewText());
     }
 }

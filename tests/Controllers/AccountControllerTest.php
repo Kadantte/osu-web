@@ -3,12 +3,21 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
 // See the LICENCE file in the repository root for full licence text.
 
+declare(strict_types=1);
+
 namespace Tests\Controllers;
 
+use App\Libraries\User\PasswordHelper;
+use App\Mail\UserEmailUpdated;
+use App\Mail\UserPasswordUpdated;
+use App\Models\Country;
 use App\Models\User;
 use App\Models\UserProfileCustomization;
 use App\Models\WeakPassword;
-use Hash;
+use Database\Factories\UserFactory;
+use Mail;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
 class AccountControllerTest extends TestCase
@@ -59,9 +68,37 @@ class AccountControllerTest extends TestCase
             ->assertJsonFragment(['profile_order' => $newOrder]);
     }
 
+    /**
+     * More complete tests are done through CountryChange and CountryChangeTarget.
+     */
+    #[DataProvider('dataProviderForUpdateCountry')]
+    #[Group('RequiresScoreIndexer')]
+    public function testUpdateCountry(?string $historyCountry, ?string $targetCountry, bool $success): void
+    {
+        $user = $this->user();
+        foreach (array_unique([$historyCountry, $targetCountry]) as $country) {
+            if ($country !== null) {
+                Country::factory()->create(['acronym' => $country]);
+            }
+        }
+        if ($historyCountry !== null) {
+            UserFactory::createRecentCountryHistory($user, $historyCountry, null);
+        }
+
+        $resultCountry = $success ? $targetCountry : $user->country_acronym;
+
+        $this->actingAsVerified($user)
+            ->json('PUT', route('account.country', ['country_acronym' => $targetCountry]))
+            ->assertStatus($success ? 200 : 403);
+
+        $this->assertSame($user->fresh()->country_acronym, $resultCountry);
+    }
+
     public function testUpdateEmail()
     {
         $newEmail = 'new-'.$this->user->user_email;
+
+        Mail::fake();
 
         $this->actingAsVerified($this->user())
             ->json('PUT', route('account.email'), [
@@ -75,7 +112,23 @@ class AccountControllerTest extends TestCase
 
         $this->assertSame($newEmail, $this->user->fresh()->user_email);
 
-        // FIXME: add test to check there's mail sent
+        Mail::assertQueued(UserEmailUpdated::class, 2);
+    }
+
+    public function testUpdateEmailLocked()
+    {
+        $newEmail = 'new-'.$this->user->user_email;
+        $this->user->update(['lock_email_changes' => true]);
+
+        $this->actingAsVerified($this->user())
+            ->json('PUT', route('account.email'), [
+                'user' => [
+                    'current_password' => 'password',
+                    'user_email' => $newEmail,
+                    'user_email_confirmation' => $newEmail,
+                ],
+            ])
+            ->assertStatus(403);
     }
 
     public function testUpdateEmailInvalidPassword()
@@ -93,9 +146,51 @@ class AccountControllerTest extends TestCase
             ->assertStatus(422);
     }
 
+    public function testOptionsViaApi()
+    {
+        $user = User::factory()->create();
+
+        $this->actAsScopedUser($user)
+            ->putJson(route('api.me.options'), [
+                'user_profile_customization' => [
+                    'beatmapset_show_anime_cover' => false,
+                ],
+            ])
+            ->assertSuccessful()
+            ->assertJson(['user_preferences' => [
+                'beatmapset_show_anime_cover' => false,
+            ]]);
+    }
+
+    public function testOptionsViaApiFailsWhenIncorrectScopes()
+    {
+        $user = User::factory()->create();
+
+        $this->actAsScopedUser($user, ['public', 'identify'])
+            ->putJson(route('api.me.options'), [
+            'user_profile_customization' => [
+                'beatmapset_show_anime_cover' => false,
+            ],
+        ])
+            ->assertStatus(403);
+    }
+
+    public function testOptionsViaApiFailsWhenUnauthorised()
+    {
+        $this->putJson(route('api.me.options'), [
+            'user_profile_customization' => [
+                'beatmapset_show_anime_cover' => false,
+            ],
+        ])
+            ->assertStatus(401);
+    }
+
+
     public function testUpdatePassword()
     {
         $newPassword = 'newpassword';
+
+        Mail::fake();
 
         $this->actingAsVerified($this->user())
             ->json('PUT', route('account.password'), [
@@ -107,7 +202,9 @@ class AccountControllerTest extends TestCase
             ])
             ->assertSuccessful();
 
-        $this->assertTrue(Hash::check($newPassword, $this->user->fresh()->user_password));
+        $this->assertTrue(PasswordHelper::check($this->user->fresh(), $newPassword));
+
+        Mail::assertQueued(UserPasswordUpdated::class);
     }
 
     public function testUpdatePasswordInvalidCurrentPassword()
@@ -179,11 +276,20 @@ class AccountControllerTest extends TestCase
             ->assertStatus(422);
     }
 
+    public static function dataProviderForUpdateCountry(): array
+    {
+        return [
+            ['_A', '_A', true],
+            ['_B', '_A', false],
+            [null, null, false],
+        ];
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
     }
 
     private function user()

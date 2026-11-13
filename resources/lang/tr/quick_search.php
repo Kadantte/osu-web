@@ -5,17 +5,29 @@
 
 return [
     'mode' => [
+        'artist_track' => 'Öne çıkan artist parçası',
         'beatmapset' => 'Beatmap',
         'forum_post' => 'Forum',
         'other' => 'Diğer',
+        'team' => 'Takım',
         'user' => 'Oyuncu',
         'wiki_page' => 'Wiki',
     ],
 
     'result' => [
-        'empty' => 'Sonuç yok',
-        'empty_for' => ':modes için bir sonuç yok',
         'more' => ':mode için Daha Fazla Arama Sonuçları',
         'title' => ':mode için Arama Sonuçları',
+
+        'no_results' => [
+            '_' => ':mode için sonuç bulunamadı',
+
+            'artist_track' => 'Öne Çıkan Sanatçı Şarkıları',
+            'beatmapset' => 'Haritalar',
+            'forum_post' => 'Forumlar',
+            'other' => 'Diğer',
+            'team' => 'Takımlar',
+            'user' => 'Oyuncular',
+            'wiki_page' => 'Wiki',
+        ],
     ],
 ];

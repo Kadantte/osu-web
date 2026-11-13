@@ -5,17 +5,29 @@
 
 return [
     'mode' => [
+        'artist_track' => 'Featured-Artist-Song',
         'beatmapset' => 'Beatmap',
         'forum_post' => 'Forum',
         'other' => 'Sonstige',
+        'team' => 'Team',
         'user' => 'Spieler',
         'wiki_page' => 'Wiki',
     ],
 
     'result' => [
-        'empty' => 'Keine Ergebnisse',
-        'empty_for' => 'Keine Ergebnisse für :modes',
         'more' => 'Mehr :mode-Suchergebnisse',
         'title' => ':mode-Suchergebnisse',
+
+        'no_results' => [
+            '_' => 'Keine Ergebnisse für :mode',
+
+            'artist_track' => 'Featured-Artist-Songs',
+            'beatmapset' => 'Beatmaps',
+            'forum_post' => 'Foren',
+            'other' => 'Sonstiges',
+            'team' => 'Teams',
+            'user' => 'Spieler',
+            'wiki_page' => 'Wiki',
+        ],
     ],
 ];

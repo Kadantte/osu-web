@@ -5,142 +5,161 @@
 
 return [
     'admin' => [
-        '_' => '',
-    ],
-    'admin_forum' => [
-        '_' => '',
-    ],
-    'admin_store' => [
-        '_' => '',
+        '_' => 'διαχειριστής',
     ],
     'error' => [
         'error' => [
-            '400' => '',
-            '404' => '',
-            '403' => '',
-            '401' => '',
-            '401-verification' => '',
-            '405' => '',
-            '422' => '',
-            '429' => '',
-            '500' => '',
-            '503' => '',
+            '400' => 'μη έγκυρο αίτημα',
+            '404' => 'λείπει',
+            '403' => 'απαγορευμένο',
+            '401' => 'μη εξουσιοδοτημένη',
+            '401-verification' => 'επαλήθευση λογαριασμού',
+            '405' => 'λείπει',
+            '422' => 'μη έγκυρο αίτημα',
+            '429' => 'πάρα πολλά αιτήματα',
+            '500' => 'κάτι έσπασε',
+            '503' => 'συντήρηση',
         ],
     ],
     'forum' => [
-        '_' => '',
-        'topic_watches_controller' => [
-            'index' => '',
+        '_' => 'φόρουμ',
+        'topic_logs_controller' => [
+            'index' => 'αρχεία καταγραφής θεμάτων',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => '',
-            'verify_link' => '',
+            'verify_link' => 'επαλήθευση λογαριασμού',
         ],
         'artists_controller' => [
-            '_' => '',
+            '_' => 'επιλεγμένοι καλλιτέχνες',
         ],
         'beatmap_discussion_posts_controller' => [
-            '_' => '',
+            '_' => 'δημοσιεύσεις συζήτησης beatmap',
         ],
         'beatmap_discussions_controller' => [
-            '_' => '',
+            '_' => 'συζητήσεις beatmap',
         ],
         'beatmap_packs_controller' => [
-            '_' => '',
+            '_' => 'πακέτα beatmap',
         ],
         'beatmapset_discussion_votes_controller' => [
-            '_' => '',
+            '_' => 'beatmap ψήφους συζήτησης',
         ],
         'beatmapset_events_controller' => [
-            '_' => '',
-        ],
-        'beatmapset_watches_controller' => [
-            'index' => '',
+            '_' => 'beatmap history',
         ],
         'beatmapsets_controller' => [
-            'discussion' => '',
-            'index' => '',
-            'show' => '',
+            'discussion' => 'συζήτηση beatmap',
+            'index' => 'beatmap listing',
+            'show' => 'beatmap info',
+            'versions' => '',
         ],
         'changelog_controller' => [
-            '_' => '',
+            '_' => 'αρχείο αλλαγών',
         ],
         'chat_controller' => [
-            '_' => '',
+            '_' => 'συνομιλία',
         ],
         'comments_controller' => [
-            '_' => '',
+            '_' => 'σχόλια',
+        ],
+        'contest_entries_controller' => [
+            'judge_results' => 'διαγωνισμός κρίνοντας αποτελέσματα',
         ],
         'contests_controller' => [
+            '_' => 'διαγωνισμοί',
+            'judge' => 'διαγωνισμός κρίνοντας',
+        ],
+        'group_history_controller' => [
             '_' => '',
-        ],
-        'follows_controller' => [
-            'index' => '',
-        ],
-        'friends_controller' => [
-            'index' => '',
         ],
         'groups_controller' => [
-            'show' => '',
+            'show' => 'ομάδες',
         ],
         'home_controller' => [
-            'get_download' => '',
-            'index' => '',
-            'search' => '',
-            'support_the_game' => '',
-            'testflight' => '',
+            'get_download' => 'λήψη',
+            'index' => 'ταμπλό',
+            'search' => 'αναζήτηση',
+            'support_the_game' => 'υποστήριξη του παιχνιδιού',
+            'testflight' => 'δοκιμή',
+        ],
+        'legacy_matches_controller' => [
+            '_' => 'αγώνες',
         ],
         'legal_controller' => [
-            '_' => '',
+            '_' => 'πληροφορίες',
         ],
         'livestreams_controller' => [
-            '_' => '',
-        ],
-        'matches_controller' => [
-            '_' => '',
+            '_' => 'ζωντανές ροές',
         ],
         'news_controller' => [
-            '_' => '',
+            '_' => 'ειδήσεις',
         ],
         'notifications_controller' => [
-            '_' => '',
+            '_' => 'ιστορικό ειδοποιήσεων',
         ],
         'password_reset_controller' => [
-            '_' => '',
+            '_' => 'επαναφορά κωδικού πρόσβασης',
         ],
         'ranking_controller' => [
-            '_' => '',
+            '_' => 'κατατάξεις',
         ],
         'scores_controller' => [
-            '_' => '',
+            '_' => 'απόδοση',
         ],
-        'store_controller' => [
-            '_' => '',
+        'seasons_controller' => [
+            '_' => 'κατατάξεις',
+        ],
+        'teams_controller' => [
+            '_' => 'ομάδες',
+            'create' => 'δημιουργία ομάδας',
+            'edit' => 'ρυθμίσεις ομάδας',
+            'leaderboard' => 'πίνακας κατάταξης',
+            'show' => 'πληροφορίες ομάδας',
         ],
         'tournaments_controller' => [
+            '_' => 'πρωταθλήματα',
+        ],
+        'user_cover_presets_controller' => [
+            '_' => 'προεπιλογές καλύμματος χρήστη',
+        ],
+        'user_totp_controller' => [
             '_' => '',
         ],
         'users_controller' => [
-            '_' => '',
-            'disabled' => '',
+            '_' => 'πληροφορίες παίκτη',
+            'create' => 'δημιούργησε λογαριασμό',
+            'disabled' => 'ειδοποίηση',
         ],
         'wiki_controller' => [
-            '_' => '',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => '',
+            'events' => 'ιστορικό δωματίου',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'εξουσιοδότηση εφαρμογής',
         ],
     ],
     'store' => [
-        '_' => '',
+        '_' => 'κατάστημα',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'μέλη ομάδας',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
-            '_' => '',
+            '_' => 'modder info',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'ιστορικό multiplayer',
         ],
     ],
 ];

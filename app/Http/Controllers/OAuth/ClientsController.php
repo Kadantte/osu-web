@@ -7,6 +7,7 @@ namespace App\Http\Controllers\OAuth;
 
 use App\Http\Controllers\Controller;
 use App\Models\OAuth\Client;
+use App\Transformers\OAuth\ClientTransformer;
 
 class ClientsController extends Controller
 {
@@ -20,26 +21,30 @@ class ClientsController extends Controller
 
     public function destroy($clientId)
     {
-        $client = auth()->user()->oauthClients()->findOrFail($clientId);
+        $client = \Auth::user()->clients()->findOrFail($clientId);
         $client->revoke();
 
-        return response(null, 204);
+        return response()->noContent();
     }
 
     public function index()
     {
-        return json_collection(auth()->user()->oauthClients()->where('revoked', false)->get(), 'OAuth\Client', ['redirect', 'secret']);
+        return json_collection(
+            \Auth::user()->clients()->where('revoked', false)->get(),
+            new ClientTransformer(),
+            ['redirect', 'secret', 'secret_hint'],
+        );
     }
 
     public function resetSecret($clientId)
     {
-        $client = auth()->user()->oauthClients()->findOrFail($clientId);
+        $client = \Auth::user()->clients()->findOrFail($clientId);
 
         if (!$client->resetSecret()) {
-            return error_popup(trans('oauth.client.reset_failed'));
+            return error_popup(osu_trans('oauth.client.reset_failed'));
         }
 
-        return json_item($client, 'OAuth\Client', ['redirect', 'secret']);
+        return json_item($client, new ClientTransformer(), ['redirect', 'secret', 'secret_hint']);
     }
 
     public function store()
@@ -51,13 +56,12 @@ class ClientsController extends Controller
 
         // from ClientRepository::create but with custom Client.
         $client = (new Client())->forceFill([
-            'user_id' => auth()->user()->getKey(),
+            'grant_types' => ['authorization_code', 'client_credentials', 'refresh_token'],
             'name' => $params['name'] ?? null,
-            'secret' => str_random(40),
             'redirect' => $params['redirect'] ?? '',
-            'personal_access_client' => false,
-            'password_client' => false,
             'revoked' => false,
+            'secret' => str_random(40),
+            'user_id' => \Auth::user()->getKey(),
         ]);
 
         if (!$client->save()) {
@@ -66,12 +70,12 @@ class ClientsController extends Controller
             ], 422);
         }
 
-        return json_item($client, 'OAuth\Client', ['redirect', 'secret']);
+        return json_item($client, new ClientTransformer(), ['redirect', 'secret', 'secret_hint']);
     }
 
     public function update($clientId)
     {
-        $client = auth()->user()->oauthClients()->findOrFail($clientId);
+        $client = \Auth::user()->clients()->findOrFail($clientId);
 
         $params = request(['redirect']);
 
@@ -82,6 +86,6 @@ class ClientsController extends Controller
             ], 422);
         }
 
-        return json_item($client, 'OAuth\Client', ['redirect', 'secret']);
+        return json_item($client, new ClientTransformer(), ['redirect', 'secret', 'secret_hint']);
     }
 }

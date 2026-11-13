@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'administrador',
     ],
-    'admin_forum' => [
-        '_' => 'administrador',
-    ],
-    'admin_store' => [
-        '_' => 'administrador',
-    ],
     'error' => [
         'error' => [
             '400' => 'pedido inválido',
@@ -23,64 +17,62 @@ return [
             '405' => 'em falta',
             '422' => 'pedido inválido',
             '429' => 'demasiados pedidos',
-            '500' => 'algo quebrou',
+            '500' => 'algo avariou',
             '503' => 'manutenção',
         ],
     ],
     'forum' => [
         '_' => 'fórum',
-        'topic_watches_controller' => [
-            'index' => 'painel de controlo',
+        'topic_logs_controller' => [
+            'index' => 'registos do tópico',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'painel de controlo',
             'verify_link' => 'verificação da conta',
         ],
         'artists_controller' => [
             '_' => 'artistas destacados',
         ],
         'beatmap_discussion_posts_controller' => [
-            '_' => 'publicações de discussão de beatmap',
+            '_' => 'publicações de discussão do mapa',
         ],
         'beatmap_discussions_controller' => [
-            '_' => 'discussões do beatmap',
+            '_' => 'discussões do mapa',
         ],
         'beatmap_packs_controller' => [
-            '_' => 'pacotes de beatmaps',
+            '_' => 'pacotes de mapas',
         ],
         'beatmapset_discussion_votes_controller' => [
-            '_' => 'votos de discussão do beatmap',
+            '_' => 'votos de discussão do mapa',
         ],
         'beatmapset_events_controller' => [
-            '_' => 'histórico do beatmap',
-        ],
-        'beatmapset_watches_controller' => [
-            'index' => 'painel de controlo',
+            '_' => 'histórico do mapa',
         ],
         'beatmapsets_controller' => [
-            'discussion' => 'discussão do beatmap',
-            'index' => 'listagem do beatmap',
-            'show' => 'informação do beatmap',
+            'discussion' => 'discussão do mapa',
+            'index' => 'listagem de mapas',
+            'show' => 'informação do mapa',
+            'versions' => 'histórico de versões do mapa',
         ],
         'changelog_controller' => [
             '_' => 'registo de alterações',
         ],
         'chat_controller' => [
-            '_' => 'chat',
+            '_' => 'conversa',
         ],
         'comments_controller' => [
             '_' => 'comentários',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'resultados da avaliação do concurso',
+        ],
         'contests_controller' => [
             '_' => 'concursos',
+            'judge' => 'avaliação do concurso',
         ],
-        'follows_controller' => [
-            'index' => 'painel de controlo',
-        ],
-        'friends_controller' => [
-            'index' => 'painel de controlo',
+        'group_history_controller' => [
+            '_' => 'histórico do grupo',
         ],
         'groups_controller' => [
             'show' => 'grupos',
@@ -89,17 +81,17 @@ return [
             'get_download' => 'transferir',
             'index' => 'painel de controlo',
             'search' => 'pesquisar',
-            'support_the_game' => 'apoia o jogo',
-            'testflight' => 'testes beta',
+            'support_the_game' => 'apoie o jogo',
+            'testflight' => 'ensaio',
+        ],
+        'legacy_matches_controller' => [
+            '_' => 'partidas',
         ],
         'legal_controller' => [
             '_' => 'informação',
         ],
         'livestreams_controller' => [
-            '_' => 'transmissões ao vivo',
-        ],
-        'matches_controller' => [
-            '_' => 'partidas',
+            '_' => 'transmissões em direto',
         ],
         'news_controller' => [
             '_' => 'notícias',
@@ -108,39 +100,66 @@ return [
             '_' => 'histórico de notificações',
         ],
         'password_reset_controller' => [
-            '_' => 'redefinir palavra-passe',
+            '_' => 'redefinir a palavra-passe',
         ],
         'ranking_controller' => [
-            '_' => 'classificação',
+            '_' => 'classificações',
         ],
         'scores_controller' => [
             '_' => 'desempenho',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'classificações',
+        ],
+        'teams_controller' => [
+            '_' => 'equipas',
+            'create' => 'criar uma equipa',
+            'edit' => 'definições da equipa',
+            'leaderboard' => 'classificação da equipa',
+            'show' => 'informações da equipa',
         ],
         'tournaments_controller' => [
             '_' => 'torneios',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'capas predefinidas',
+        ],
+        'user_totp_controller' => [
+            '_' => 'aplicação de autenticação',
+        ],
         'users_controller' => [
             '_' => 'informação do jogador',
+            'create' => 'criar uma conta',
             'disabled' => 'aviso',
         ],
         'wiki_controller' => [
-            '_' => 'base de conhecimento',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'classificação',
+            'events' => 'histórico da sala',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'autorizar aplicação',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'loja',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'membros da equipa',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
-            '_' => 'informação do modder',
+            '_' => 'informação do modificador de mapas',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'histórico do multijogador',
         ],
     ],
 ];

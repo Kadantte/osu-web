@@ -6,35 +6,34 @@
 namespace Tests\Transformers;
 
 use App\Models\Comment;
+use App\Models\User;
+use App\Transformers\CommentTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class CommentTransformerTest extends TestCase
 {
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testWithOAuth($groupIdentifier)
+    #[DataProvider('groupsDataProvider')]
+    public function testWithOAuth(?string $groupIdentifier, bool $_visible)
     {
-        $viewer = $this->createUserWithGroup($groupIdentifier);
-        $comment = factory(Comment::class)->states('deleted')->create();
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
+        $comment = Comment::factory()->deleted()->create();
         $this->actAsScopedUser($viewer);
 
-        $json = json_item($comment, 'Comment');
+        $json = json_item($comment, new CommentTransformer());
 
         $this->assertArrayNotHasKey('message', $json);
         $this->assertArrayNotHasKey('message_html', $json);
     }
 
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testWithoutOAuth($groupIdentifier, $visible)
+    #[DataProvider('groupsDataProvider')]
+    public function testWithoutOAuth(?string $groupIdentifier, bool $visible)
     {
-        $viewer = $this->createUserWithGroup($groupIdentifier);
-        $comment = factory(Comment::class)->states('deleted')->create();
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
+        $comment = Comment::factory()->deleted()->create();
         $this->actAsUser($viewer);
 
-        $json = json_item($comment, 'Comment');
+        $json = json_item($comment, new CommentTransformer());
 
         if ($visible) {
             $this->assertArrayHasKey('message', $json);
@@ -45,14 +44,15 @@ class CommentTransformerTest extends TestCase
         }
     }
 
-    public function groupsDataProvider()
+    public static function groupsDataProvider()
     {
+        // The second argument is only for testWithoutOAuth
         return [
             ['admin', true],
             ['bng', false],
             ['gmt', true],
             ['nat', true],
-            [[], false],
+            [null, false],
         ];
     }
 }

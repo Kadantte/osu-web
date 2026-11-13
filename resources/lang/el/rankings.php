@@ -5,24 +5,83 @@
 
 return [
     'countries' => [
-        'all' => '',
-        'title' => '',
+        'all' => 'Όλα',
+        'title' => 'Χώρα',
     ],
 
-    'filter' => [
-        'title' => '',
-
-        'variant' => [
-            'title' => '',
+    'daily_challenge' => [
+        'beatmap' => 'Δυσκολία',
+        'theme' => '',
+        'top_10p' => 'Κορυφαία 10% Βαθμολογία',
+        'top_50p' => 'Κορυφαία 50% Βαθμολογία',
+        'unavailable' => [
+            'future' => 'Δεν υπάρχει ημερήσια πρόκληση στη συγκεκριμένη ημερομηνία ακόμα!',
+            'past' => 'Καμία ημερήσια πρόκληση στην καθορισμένη ημερομηνία!',
         ],
     ],
 
+    'filter' => [
+        'title' => 'Εμφάνιση',
+
+        'variant' => [
+            'title' => 'Παραλλαγή',
+        ],
+    ],
+
+    'kudosu' => [
+        'total' => 'Κερδισμένα',
+        'available' => 'Διαθέσιμο',
+        'used' => 'Ξοδεύτηκαν',
+    ],
+
+    'matchmaking' => [
+        'plays' => '',
+        'points' => '',
+        'provisional' => '',
+        'rating' => '',
+        'wins' => '',
+    ],
+
+    'multiplayer' => [
+        'room_name' => '',
+    ],
+
+    'performance' => [
+        'insufficient_history' => 'Αυτός ο χρήστης έχει λιγότερο από 30 ημέρες πρόσφατου ιστορικού κατάταξης.',
+    ],
+
+    'top_plays' => [
+        'empty' => '',
+        'last_updated' => '',
+    ],
+
+    'playlists' => [
+        'charts' => '',
+        'featured' => '',
+        'season_room' => '',
+        'seasons' => '',
+    ],
+
     'type' => [
-        'charts' => 'Spotlights',
         'country' => 'Χώρας',
-        'multiplayer' => '',
-        'performance' => 'Επίδοσης',
-        'score' => 'Σκορ',
+        'daily_challenge' => 'ημερήσια πρόκληση',
+        'global' => 'παγκόσμια',
+        'kudosu' => 'kudosu',
+        'matchmaking' => '',
+        'playlists' => '',
+        'team' => 'ομάδα',
+        'top_plays' => '',
+    ],
+
+    'seasons' => [
+        'empty' => 'Δεν υπάρχουν ακόμα δωμάτια σε αυτή τη σεζόν.',
+        'ongoing' => 'Αυτή η σεζόν βρίσκεται ακόμα σε εξέλιξη (θα υπάρξουν περισσότερες λίστες αναπαραγωγής).',
+        'room_count' => 'Πλήθος λίστας αναπαραγωγής',
+        'summary' => '',
+        'url' => 'Εμφάνιση περισσότερων πληροφοριών σε εκείνη τη σεζόν.',
+        'validation' => [
+            'not_enough_factors' => 'δεν υπάρχουν αρκετοί παράγοντες βαθμολογίας για τον σωστό υπολογισμό',
+        ],
     ],
 
     'spotlight' => [
@@ -36,6 +95,8 @@ return [
         'accuracy' => 'Ακρίβεια',
         'active_users' => 'Ενεργοί Χρήστες',
         'country' => 'Χώρα',
+        'division' => 'Διαίρεση',
+        'members' => 'Μέλη',
         'play_count' => 'Αριθμός Προσπαθειών',
         'performance' => 'Eπίδοση',
         'total_score' => 'Συνολικό Σκορ',

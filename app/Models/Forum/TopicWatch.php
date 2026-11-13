@@ -17,14 +17,15 @@ use App\Models\User;
  */
 class TopicWatch extends Model
 {
-    protected $table = 'phpbb_topics_watch';
+    public $incrementing = false;
+    public $timestamps = false;
+
     protected $casts = [
         'notify_status' => 'boolean',
         'mail' => 'boolean',
     ];
-
-    public $timestamps = false;
-
+    protected $table = 'phpbb_topics_watch';
+    protected $primaryKey = ':composite';
     protected $primaryKeys = ['topic_id', 'user_id'];
 
     public static function unreadCount($user)
@@ -82,16 +83,13 @@ class TopicWatch extends Model
 
             try {
                 if ($state === 'not_watching') {
-                    $notify = false;
                     $watch->delete();
                 } else {
-                    $notify = $state === 'watching_mail';
-
-                    $watch->fill(['mail' => $notify])->saveOrExplode();
+                    $watch->fill(['mail' => $state === 'watching_mail'])->saveOrExplode();
                 }
 
                 return $watch;
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 if (is_sql_unique_exception($e) && $tries < 2) {
                     $tries++;
                 } else {

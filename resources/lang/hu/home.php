@@ -5,7 +5,7 @@
 
 return [
     'landing' => [
-        'download' => 'Letöltés',
+        'download' => 'Letöltés most',
         'online' => 'Jelenleg <strong>:players</strong> játszik <strong>:games</strong> játékban',
         'peak' => 'Csúcsfokon, :count játékos volt elérhető',
         'players' => '<strong>:count</strong> regisztrált játékos',
@@ -22,38 +22,49 @@ return [
         'advanced_link' => 'Részletes keresés',
         'button' => 'Keresés',
         'empty_result' => 'Nincs találat!',
-        'keyword_required' => 'Adj meg egy kulcsszót is',
+        'keyword_required' => 'Adj meg egy kulcsszót',
         'placeholder' => 'keresendő szöveg',
         'title' => 'Keresés',
 
+        'artist_track' => [
+            'more_simple' => 'További kiemelt előadók dalainak keresési eredményei',
+        ],
         'beatmapset' => [
-            'login_required' => 'Beatmap-ek kereséséhez jelentkezz be',
+            'login_required' => 'Beatmapek kereséséhez jelentkezz be',
             'more' => ':count talált beatmap',
             'more_simple' => 'Több beatmap keresése',
-            'title' => 'Beatmap-ek',
+            'title' => 'Beatmapek',
         ],
 
         'forum_post' => [
-            'all' => 'Összes forum',
+            'all' => 'Összes Fórum',
             'link' => 'Forum keresése',
             'login_required' => 'Jelentkezz be, hogy keresni tudj a fórumon',
-            'more_simple' => 'Több forum keresése',
-            'title' => 'Forum',
+            'more_simple' => 'Több fórum keresése',
+            'title' => 'Fórum',
 
             'label' => [
-                'forum' => 'forumokban keresés',
-                'forum_children' => 'alforumok tartalmazása',
-                'topic_id' => 'témák #',
+                'forum' => 'fórumokban keresés',
+                'forum_children' => 'alfórumok tartalmazása',
+                'include_deleted' => 'törölt hozzászólásokat tartalmaz',
+                'topic_id' => 'téma #',
                 'username' => 'szerző',
             ],
         ],
 
         'mode' => [
             'all' => 'mind',
+            'artist_track' => 'kiemelt előadó zenéje',
             'beatmapset' => 'beatmap',
             'forum_post' => 'fórum',
+            'team' => 'csapat',
             'user' => 'játékos',
             'wiki_page' => 'wiki',
+        ],
+
+        'team' => [
+            'login_required' => 'Jelentkezz be csapatok kereséséhez',
+            'more_simple' => 'További csapatkeresési eredmények megtekintése',
         ],
 
         'user' => [
@@ -72,12 +83,23 @@ return [
     ],
 
     'download' => [
-        'tagline' => "vágjunk<br>bele!",
-        'action' => 'osu! letöltése',
+        'action_lazer_info' => 'lásd ezt az oldalt több információért',
+        'download' => 'Letöltés',
+        'for_os' => ':os operációs rendszerhez',
+        'macos-fallback' => 'macOS használók',
+        'mirror' => 'tükör',
+        'or' => 'vagy',
+        'os_version_or_later' => ':os_version vagy újabb',
+        'other_os' => 'egyéb platoformok',
+        'quick_start_guide' => 'gyors útmutató',
+        'stable_text' => 'ha a régebbit keresed',
+        'tagline_1' => 'hát akkor,',
+        'tagline_2' => 'kezdjük!',
+        'video-guide' => 'videó útmutató',
 
         'help' => [
             '_' => 'ha meccs indításakor vagy fiók létrehozásánál problémába ütközöl, :help_forum_link vagy :support_button.',
-            'help_forum_link' => 'segítő fórum megtekintése',
+            'help_forum_link' => 'súgófórum megtekintése',
             'support_button' => 'kapcsolatfelvétel',
         ],
 
@@ -86,8 +108,6 @@ return [
             'macos' => 'macOS rendszerre',
             'linux' => 'Linux rendszerre',
         ],
-        'mirror' => 'tükör',
-        'macos-fallback' => 'macOS használók',
         'steps' => [
             'register' => [
                 'title' => 'hozz létre fiókot',
@@ -98,18 +118,17 @@ return [
                 'description' => 'nyomd meg a fenti gombot a telepítő letöltéséhez, majd indítsd el!',
             ],
             'beatmaps' => [
-                'title' => 'beatmap-ek beszerzése',
+                'title' => 'beatmapek beszerzése',
                 'description' => [
                     '_' => ':browse felhasználók által létrehozott hatalmas beatmap könyvtárban és kezd játszani!',
                     'browse' => 'böngéssz',
                 ],
             ],
         ],
-        'video-guide' => 'videó útmutató',
     ],
 
     'user' => [
-        'title' => 'áttekintő',
+        'title' => 'áttekintés',
         'news' => [
             'title' => 'Hírek',
             'error' => 'Hiba a hírek betöltése közben, talán próbáld meg újratölteni az oldalt?...',
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
-            'new' => 'Új Rangsorolt Beatmap-ek',
-            'popular' => 'Népszerű beatmap-ek',
+            'daily_challenge' => 'Napi Kihívás Beatmap',
+            'new' => 'Új rangsorolt beatmapek',
+            'popular' => 'Népszerű beatmapek',
             'by_user' => ':user által',
+            'resets' => 'visszaáll :ends',
         ],
         'buttons' => [
             'download' => 'osu! letöltése',
             'support' => 'osu! támogatása',
             'store' => 'osu!bolt',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Hűha!',
-        'subtitle' => 'Úgy néz ki nagyon jól szórakozol! :D',
-        'body' => [
-            'part-1' => 'Tudtad, hogy az osu! reklámok nélkül van fenntartva, és teljesen a játékosi támogatásra hagyatkozik a fenntartási és fejlesztési költségekhez?',
-            'part-2' => 'És azt tudtad, hogy az osu! támogatásával egy rakás hasznos funkciót kapsz, mint például a <strong>játékon belüli letöltés</strong> ami automatikusan életbe lép megfigyelőként és többjátékos módban?',
+        'livestream' => [
+            'title' => 'Kiemelt Élő Adás',
         ],
-        'find-out-more' => 'További információért kattints ide!',
-        'download-starting' => "Oh, és ne aggódj - a letöltésedet már elindítottuk ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Admin konzol megnyitása',
+            ],
+        ],
     ],
 ];

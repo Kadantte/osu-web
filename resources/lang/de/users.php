@@ -7,7 +7,7 @@ return [
     'deleted' => '[gelöschter Benutzer]',
 
     'beatmapset_activities' => [
-        'title' => ":users Moddingverlauf",
+        'title' => "Moddingverlauf von :user",
         'title_compact' => 'Modding',
 
         'discussions' => [
@@ -33,39 +33,60 @@ return [
 
     'blocks' => [
         'banner_text' => 'Du hast diesen Benutzer geblockt.',
-        'blocked_count' => '(:count) geblockte Benutzer ',
-        'hide_profile' => 'Profil verbergen',
-        'not_blocked' => 'Dieser Benutzer ist nicht geblockt.',
+        'comment_text' => 'Dieser Kommentar ist ausgeblendet.',
+        'blocked_count' => 'blockierte Benutzer (:count)',
+        'hide_profile' => 'Profil ausblenden',
+        'hide_comment' => 'ausblenden',
+        'forum_post_text' => 'Dieser Beitrag wird ausgeblendet.',
+        'not_blocked' => 'Dieser Benutzer ist nicht blockiert.',
         'show_profile' => 'Profil anzeigen',
+        'show_comment' => 'anzeigen',
         'too_many' => 'Block-Limit erreicht.',
         'button' => [
-            'block' => 'Blocken',
+            'block' => 'Blockieren',
             'unblock' => 'Entblocken',
         ],
     ],
 
     'card' => [
+        'gift_supporter' => 'Verschenke ein osu!supporter-Tag',
         'loading' => 'Lädt...',
         'send_message' => 'Nachricht senden',
     ],
 
+    'create' => [
+        'form' => [
+            'password' => 'Passwort',
+            'password_confirmation' => 'Passwort bestätigen',
+            'submit' => 'Account erstellen',
+            'user_email' => 'E-Mail',
+            'user_email_confirmation' => 'E-Mail bestätigen',
+            'username' => 'Benutzername',
+
+            'tos_notice' => [
+                '_' => 'durch die Erstellung eines Accounts bist du mit den :link einverstanden',
+                'link' => 'Nutzungsbedingungen',
+            ],
+        ],
+    ],
+
     'disabled' => [
         'title' => 'Uh, oh! Anscheinend wurde dein Konto deaktiviert.',
-        'warning' => "Falls Du gegen eine Regel verstoßen hast, beachte bitte, dass es in der Regel eine Frist von einem Monat gibt, in der wir keine Anträge berücksichtigen. Nach diesem Zeitraum kannst Du uns jederzeit kontaktieren, falls Du dies für erforderlich hältst. Beachte, dass das Erstellen neuer Konten nach dem Deaktivieren eines Kontos zu einer <strong>Verlängerung dieser einmonatigen Frist</strong> führt. Bitte beachte auch, dass du für <strong>jedes Konto, das du erstellst, weitere Regeln verletzt</strong>. Wir empfehlen Dir dringend, diesen Weg nicht zu gehen!",
+        'warning' => "Falls Du gegen eine Regel verstoßen hast, beachte bitte, dass es in der Regel eine Bedenkzeit von einem Monat gibt, in der wir keine Anträge berücksichtigen. Nach diesem Zeitraum kannst Du uns jederzeit kontaktieren, falls Du dies für erforderlich hältst. Beachte, dass das Erstellen neuer Konten nach dem Deaktivieren eines Kontos zu einer <strong>Verlängerung dieser einmonatigen Bedenkzeit</strong> führt. Bitte beachte auch, dass du für <strong>jedes Konto, das du erstellst, weitere Regeln verletzt</strong>. Wir raten Dir dringend davon ab, diesen Weg einzuschlagen!",
 
         'if_mistake' => [
-            '_' => 'Wenn Du der Meinung bist, dass dies ein Fehler ist, kannst Du uns gerne kontaktieren (per :email oder durch Klicken auf das "?" in der rechten unteren Ecke dieser Seite). Bitte beachte, dass wir bei unseren Handlungen immer volles Vertrauen haben, da sie auf sehr soliden Daten beruhen. Wir behalten uns das Recht vor, Deine Anfrage zu ignorieren, wenn wir das Gefühl haben, dass Du absichtlich unehrlich bist.',
+            '_' => 'Wenn du der Meinung bist, dass dies ein Fehler ist, kannst du uns gerne kontaktieren (per :email oder durch Klicken auf das "?" in der rechten unteren Ecke dieser Seite). Bitte beachte, dass wir bei unseren Handlungen immer volles Vertrauen haben, da sie auf sehr soliden Daten beruhen. Wir behalten uns das Recht vor, deine Anfrage zu ignorieren, wenn wir das Gefühl haben, dass du absichtlich unehrlich bist.',
             'email' => 'E-Mail',
         ],
 
         'reasons' => [
-            'compromised' => 'Dein Konto wurde als gefährdet eingestuft. Es kann vorübergehend deaktiviert werden, während seine Identität bestätigt wird.',
+            'compromised' => 'Dein Konto wurde als gefährdet eingestuft. Es kann vorübergehend deaktiviert werden, während die Identität bestätigt wird.',
             'opening' => 'Es gibt eine Reihe von Gründen, die dazu führen können, dass Dein Konto deaktiviert wird:',
 
             'tos' => [
-                '_' => 'Du hast eine oder mehr von unseren :community_rules oder :tos gebrochen.',
-                'community_rules' => 'Communityregeln',
-                'tos' => 'Nutzungsbedinungen',
+                '_' => 'Du hast eine oder mehrere von unseren :community_rules oder :tos gebrochen.',
+                'community_rules' => 'Community-Regeln',
+                'tos' => 'Nutzungsbedingungen',
             ],
         ],
     ],
@@ -76,6 +97,7 @@ return [
 
     'force_reactivation' => [
         'reason' => [
+            'inactive' => "Dein Account wurde längere Zeit nicht benutzt.",
             'inactive_different_country' => "Dein Konto wurde längere Zeit nicht benutzt.",
         ],
     ],
@@ -83,8 +105,8 @@ return [
     'login' => [
         '_' => 'Login',
         'button' => 'Einloggen',
-        'button_posting' => 'Einloggen...',
-        'email_login_disabled' => 'Das Anmelden per E-Mail ist derzeit deaktiviert. Bitte benutze stattdessen Deinen Benutzernamen.',
+        'button_posting' => 'Logge ein...',
+        'email_login_disabled' => 'Das Anmelden per E-Mail ist derzeit deaktiviert. Bitte benutze stattdessen deinen Benutzernamen.',
         'failed' => 'Falscher Login',
         'forgot' => 'Passwort vergessen?',
         'info' => 'Bitte melde dich an, um fortzufahren',
@@ -102,6 +124,24 @@ return [
         ],
     ],
 
+    'multiplayer' => [
+        'index' => [
+            'active' => 'Aktiv',
+            'ended' => 'Beendet',
+        ],
+    ],
+
+    'ogp' => [
+        'modding_description' => 'Beatmaps: :counts',
+        'modding_description_empty' => 'Der Nutzer hat keine Beatmaps.',
+
+        'description' => [
+            '_' => 'Rang (:ruleset): :global | :country',
+            'country' => 'Land :rank',
+            'global' => 'Global :rank',
+        ],
+    ],
+
     'posts' => [
         'title' => 'Posts von :username',
     ],
@@ -114,30 +154,42 @@ return [
     ],
     'logout_confirm' => 'Sicher, dass du dich ausloggen willst? :(',
     'report' => [
-        'button_text' => 'melden',
+        'button_text' => 'Melden',
         'comments' => 'Weitere Kommentare',
         'placeholder' => 'Bitte stelle jegliche Infomationen zur Verfügung, die nützlich sein könnten.',
         'reason' => 'Grund',
         'thanks' => 'Danke für deine Meldung!',
-        'title' => 'Meldung :username?',
+        'title' => ':username melden?',
 
         'actions' => [
             'send' => 'Meldung abschicken',
             'cancel' => 'Abbrechen',
         ],
 
+        'dmca' => [
+            'message_1' => [
+                '_' => 'Bitte melde Urheberrechtsverstöße durch einen DMCA-Antrag an :mail wie in :policy beschrieben.',
+                'policy' => 'der osu!-Urheberrechtsrichtlinie',
+            ],
+            'message_2' => 'Dies betrifft Fälle, in denen Audiospuren, visuelle Inhalte oder Inhalte aus Beatmapleveln ohne korrekte Genehmigung verwendet werden.',
+        ],
+
         'options' => [
             'cheating' => 'Cheating',
+            'copyright_infringement' => 'Urheberrechtsverletzung',
+            'inappropriate_chat' => 'Unangemessenes Verhalten im Chat',
             'insults' => 'Beleidigt mich / andere',
-            'spam' => 'Spamming',
-            'unwanted_content' => 'Verlinkt unangemessene Inhalte',
+            'multiple_accounts' => 'Verwendet mehrere Konten',
             'nonsense' => 'Unsinn',
             'other' => 'Anderes (unten angeben)',
+            'spam' => 'Spamming',
+            'unwanted_content' => 'Unangemessene Inhalte',
         ],
     ],
     'restricted_banner' => [
         'title' => 'Dein Account wurde restricted!',
-        'message' => 'Während du restricted bist, kannst du nicht mit anderen Spielern interagieren und deine Ranglistenscores sind nur für dich sichtbar. Dies passiert normalerweise durch einen automatischen Prozess und wird üblicherweise innerhalb von 24 Stunden aufgehoben. Wenn du Einspruch gegen deine Restriction erheben möchtest, wende dich bitte an <a href="mailto:accounts@ppy.sh">den Support</a>.',
+        'message' => 'Während einer Sperrung kannst du nicht mit anderen Spielern interagieren und deine Ranglistenscores sind nur für dich sichtbar. Dies passiert normalerweise durch einen automatischen Prozess und wird üblicherweise innerhalb von 24 Stunden aufgehoben. :link',
+        'message_link' => 'Siehe hier für weitere Informationen.',
     ],
     'show' => [
         'age' => ':age Jahre alt',
@@ -152,22 +204,56 @@ return [
         'origin_country' => 'Aus :country',
         'previous_usernames' => 'auch bekannt als',
         'plays_with' => 'Spielt mit :devices',
-        'title' => "Profil von :username",
+
+        'badge' => [
+            'pin' => [
+                'to_0' => '',
+                'to_1' => '',
+            ],
+        ],
 
         'comments_count' => [
             '_' => ':link abgegeben',
             'count' => ':count_delimited Kommentar|:count_delimited Kommentare',
         ],
+        'cover' => [
+            'to_0' => 'Cover ausblenden',
+            'to_1' => 'Cover anzeigen',
+        ],
+        'daily_challenge' => [
+            'daily' => 'Tägliche Serie',
+            'daily_streak_best' => 'Beste Tagesserie',
+            'daily_streak_current' => 'Aktuelle Tagesserie',
+            'playcount' => 'Gesamtbeteiligung',
+            'title' => 'Tägliche\nHerausforderung',
+            'top_10p_placements' => 'Platzierungen in den Top 10 %',
+            'top_50p_placements' => 'Platzierungen in den Top 50 %',
+            'weekly' => 'Wöchentliche Serie',
+            'weekly_streak_best' => 'Beste Wochenserie',
+            'weekly_streak_current' => 'Aktuelle Wochenserie',
+
+            'unit' => [
+                'day' => ':value T',
+                'week' => ':value W',
+            ],
+        ],
+        'detail_switch' => [
+            'to_v1' => 'Weniger Details anzeigen',
+            'to_v2' => 'Mehr Details anzeigen',
+        ],
         'edit' => [
             'cover' => [
                 'button' => 'Profilbanner ändern',
                 'defaults_info' => 'In der Zukunft wird es mehr Optionen für das Banner geben',
+                'holdover_remove_confirm' => "Das davor ausgewählte Cover ist nicht mehr zur Auswahl verfügbar. Du kannst es nach dem Wechsel zu einem anderen Cover nicht wieder auswählen. Trotzdem fortfahren?",
+                'title' => 'Banner',
+
                 'upload' => [
                     'broken_file' => 'Verarbeitung des Bildes fehlgeschlagen. Überprüfe das hochgeladene Bild und versuch es erneut.',
                     'button' => 'Bild hochladen',
                     'dropzone' => 'Zum Hochladen hier ablegen',
                     'dropzone_info' => 'Du kannst das Bild auch hier ablegen, um es hochzuladen',
-                    'size_info' => 'Banner sollte 2400x620 groß sein',
+                    'size_info' => 'Banner sollte 2000x500 groß sein',
                     'too_large' => 'Datei ist zu groß.',
                     'unsupported_format' => 'Format wird nicht unterstützt.',
 
@@ -179,8 +265,18 @@ return [
             ],
 
             'default_playmode' => [
-                'is_default_tooltip' => 'standard-spielmodus',
-                'set' => 'wähle :mode als standard-spielmodus',
+                'is_default_tooltip' => 'Standard-Spielmodus',
+                'set' => 'Wähle :mode als Standard-Spielmodus',
+            ],
+
+            'hue' => [
+                'reset_no_supporter' => 'Zur Standardfarbe zurückkehren? Für die Wahl einer anderen Farbe wird ein Supporter-Tag benötigt.',
+                'title' => 'Farbe',
+
+                'supporter' => [
+                    '_' => 'Eigene Farbschemata nur für :link verfügbar',
+                    'link' => 'osu!supporter',
+                ],
             ],
         ],
 
@@ -203,14 +299,20 @@ return [
                 'graveyard' => [
                     'title' => 'Begrabene Beatmaps',
                 ],
+                'guest' => [
+                    'title' => 'Als Gast beigetragene Beatmaps',
+                ],
                 'loved' => [
                     'title' => 'Loved Beatmaps',
                 ],
-                'ranked_and_approved' => [
-                    'title' => 'Ranked & Approved Beatmaps',
+                'nominated' => [
+                    'title' => 'Nominierte Ranked Beatmaps',
                 ],
-                'unranked' => [
+                'pending' => [
                     'title' => 'Ausstehende Beatmaps',
+                ],
+                'ranked' => [
+                    'title' => 'Ranked Beatmaps',
                 ],
             ],
             'discussions' => [
@@ -224,23 +326,26 @@ return [
                 'show_more' => 'mehr Events anzeigen',
             ],
             'historical' => [
-                'title' => 'Historisch',
+                'title' => 'Historie',
 
                 'monthly_playcounts' => [
-                    'title' => 'Play-Verlauf',
+                    'title' => 'Spielverlauf',
                     'count_label' => 'Spiele',
                 ],
                 'most_played' => [
-                    'count' => 'mal gespielt',
+                    'count' => 'Anzahl der Spiele',
                     'title' => 'Meistgespielte Beatmaps',
                 ],
                 'recent_plays' => [
-                    'accuracy' => 'genauigkeit: :percentage',
-                    'title' => 'Neuliche Plays (24h)',
+                    'accuracy' => 'Genauigkeit: :percentage',
+                    'title' => 'Zuletzt gespielt (24h)',
                 ],
                 'replays_watched_counts' => [
-                    'title' => 'Angeschaute Wiederholungen',
-                    'count_label' => 'Wiederholungen angeschaut',
+                    'title' => 'Angeschaute Replays',
+                    'count_label' => 'Replays angeschaut',
+                ],
+                'score_replay_stats' => [
+                    'title' => 'Meistgesehene Replays',
                 ],
             ],
             'kudosu' => [
@@ -300,26 +405,44 @@ return [
                 'recent' => 'Neueste',
                 'title' => 'Medaillen',
             ],
+            'playlists' => [
+                'title' => 'Playlist-Spiele',
+            ],
             'posts' => [
                 'title' => 'Beiträge',
                 'title_longer' => 'Neueste Beiträge',
                 'show_more' => 'weitere Beiträge anschauen',
             ],
+            'ranked-play' => [
+                'title' => 'Ranked-Play-Spiele',
+            ],
             'recent_activity' => [
                 'title' => 'Neulich',
+            ],
+            'realtime' => [
+                'title' => 'Mehrspieler-Spiele',
             ],
             'top_ranks' => [
                 'download_replay' => 'Replay herunterladen',
                 'not_ranked' => 'Nur Ranked Beatmaps geben PP.',
                 'pp_weight' => ':percentage gewichtet',
                 'view_details' => 'Details anzeigen',
-                'title' => 'Ränge',
+                'title' => 'Scores',
 
                 'best' => [
                     'title' => 'Beste Performance',
                 ],
                 'first' => [
                     'title' => 'Erster Platz',
+                ],
+                'pin' => [
+                    'to_0' => 'Ablösen',
+                    'to_0_done' => 'Score abgelöst',
+                    'to_1' => 'Anpinnen',
+                    'to_1_done' => 'Score angepinnt',
+                ],
+                'pinned' => [
+                    'title' => 'Angepinnte Scores',
                 ],
             ],
             'votes' => [
@@ -331,21 +454,22 @@ return [
             ],
             'account_standing' => [
                 'title' => 'Accountstatus',
-                'bad_standing' => "Der Account von <strong>:username</strong> ist zurzeit eingeschränkt :(",
-                'remaining_silence' => '<strong>:username</strong> kann in :duration wieder sprechen.',
+                'bad_standing' => "Der Account von :username hat zurzeit keinen guten Ruf :(",
+                'remaining_silence' => ':username wird :duration wieder sprechen können.',
 
                 'recent_infringements' => [
                     'title' => 'Neuliche Verstöße',
-                    'date' => 'datum',
-                    'action' => 'maßnahme',
-                    'length' => 'länge',
-                    'length_permanent' => 'Permanent',
-                    'description' => 'beschreibung',
+                    'date' => 'Datum',
+                    'action' => 'Maßnahme',
+                    'length' => 'Dauer',
+                    'length_indefinite' => 'Unbefristet',
+                    'description' => 'Beschreibung',
                     'actor' => 'von :username',
 
                     'actions' => [
                         'restriction' => 'Bann',
-                        'silence' => 'Silence',
+                        'silence' => 'Stummschaltung',
+                        'tournament_ban' => 'Turniersperre',
                         'note' => 'Warnung',
                     ],
                 ],
@@ -360,6 +484,19 @@ return [
             'twitter' => '',
             'website' => 'Webseite',
         ],
+
+        'matchmaking' => [
+            'losses' => 'Niederlagen',
+            'plays' => 'Spiele insgesamt',
+            'rank' => 'Rang',
+            'rating' => 'Wertung',
+            'recent_history' => 'Neuester Spielverlauf',
+            'recent_history_provisional' => 'Nicht genügend Daten, um präzise Statistiken anzuzeigen. Spiel mehr!',
+            'tier' => 'Stufe',
+            'title' => 'Ranked Play',
+            'wins' => 'Siege',
+        ],
+
         'not_found' => [
             'reason_1' => 'Der gesuchte Benutzer könnte seinen Namen geändert haben.',
             'reason_2' => 'Der Account ist aus Sicherheitsgründen temporär nicht verfügbar.',
@@ -374,7 +511,7 @@ return [
             'placeholder' => 'Seiteninhalt hier eingeben',
 
             'restriction_info' => [
-                '_' => 'Sie müssen ein :link sein, um diese Funktion freizuschalten.',
+                '_' => 'Du musst ein :link sein, um diese Funktion freizuschalten.',
                 'link' => 'osu!supporter',
             ],
         ],
@@ -384,12 +521,29 @@ return [
         ],
         'rank' => [
             'country' => 'Länderrang im Modus :mode',
-            'country_simple' => 'Landesrangliste',
+            'country_simple' => 'Nationaler Rang',
             'global' => 'Globaler Rang im Modus :mode',
-            'global_simple' => 'Globale Rangliste',
+            'global_simple' => 'Globaler Rang',
+            'highest' => 'Höchster Rang: :rank am :date',
+            'kudosu_outside_top_1000' => 'Der Rang wird nur bei den 1000 besten Plätzen angezeigt',
+            'kudosu_simple' => 'Kudosu-Rang',
+        ],
+        'score_processing' => [
+            'title' => 'Eine neue Sternbewertung / PP-Algorithmus :link.',
+            'title_link' => 'wird bereitgestellt',
+            'message' => 'Aktuelle Ergebnisse werden möglicherweise nicht sofort in den Benutzerprofilen angezeigt.',
+        ],
+        'season_stats' => [
+            'division_top_percentage' => 'Top :value',
+            'label' => 'Spotlights',
+            'total_score' => 'Gesamtpunktzahl',
+        ],
+        'solo' => [
+            'title' => 'Einzelspielermodus',
         ],
         'stats' => [
             'hit_accuracy' => 'Genauigkeit',
+            'hits_per_play' => 'Treffer pro Spiel',
             'level' => 'Level :level',
             'level_progress' => 'Fortschritt bis zum nächsten Level',
             'maximum_combo' => 'Höchste Combo',
@@ -397,21 +551,23 @@ return [
             'play_count' => 'Anzahl Spiele',
             'play_time' => 'Gesamtspielzeit',
             'ranked_score' => 'Punktzahl auf Ranglisten',
-            'replays_watched_by_others' => 'Von anderen angeschaute Wiederholungen',
+            'replays_watched_by_others' => 'Von anderen angesehene Replays',
             'score_ranks' => 'Ränge durch Punkte',
             'total_hits' => 'Anzahl Treffer',
             'total_score' => 'Gesamtpunktzahl',
             // modding stats
-            'ranked_and_approved_beatmapset_count' => 'Ranked & Approved Beatmaps',
+            'graveyard_beatmapset_count' => 'Begrabene Beatmaps',
+            'guest_beatmapset_count' => 'Als Gast beigetragene Beatmaps',
             'loved_beatmapset_count' => 'Loved Beatmaps',
-            'unranked_beatmapset_count' => 'Ausstehende Beatmaps',
-            'graveyard_beatmapset_count' => 'Begrabende Beatmaps',
+            'nominated_beatmapset_count' => 'Nominierte Ranked Beatmaps',
+            'pending_beatmapset_count' => 'Ausstehende Beatmaps',
+            'ranked_beatmapset_count' => 'Ranked & Approved Beatmaps',
         ],
     ],
 
     'silenced_banner' => [
-        'title' => '',
-        'message' => '',
+        'title' => 'Du bist derzeit stumm.',
+        'message' => 'Einige Aktionen sind möglicherweise nicht verfügbar.',
     ],
 
     'status' => [
@@ -419,7 +575,15 @@ return [
         'online' => 'Online',
         'offline' => 'Offline',
     ],
+    'relationship' => [
+        'title' => '',
+        'all' => '',
+        'mutual' => '',
+        'non_mutual' => '',
+    ],
     'store' => [
+        'from_client' => 'Bitte registriere dich stattdessen über den Spiel-Client!',
+        'from_web' => 'Bitte melde dich über die osu!-Webseite an',
         'saved' => 'Benutzer erstellt',
     ],
     'verify' => [

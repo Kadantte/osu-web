@@ -14,17 +14,18 @@ return [
 
         'create' => [
             '_' => '设置封面',
-            'button' => '上传图片',
-            'info' => '图片尺寸应为 :dimensions 。 也可以将图片拖动到这里上传。',
+            'button' => '上传封面',
+            'info' => '图片尺寸应为 :dimensions。也可以将图片拖放到这里上传。',
         ],
 
         'destroy' => [
             '_' => '移除封面',
-            'confirm' => '要移除这个封面吗？',
+            'confirm' => '确定要移除封面吗？',
         ],
     ],
 
     'forums' => [
+        'forums' => '论坛',
         'latest_post' => '最新帖子',
 
         'index' => [
@@ -45,9 +46,9 @@ return [
     'post' => [
         'confirm_destroy' => '删除此回复？',
         'confirm_restore' => '恢复此回复？',
-        'edited' => '最后由 :user 于 :when 编辑，总共编辑了 :count 次。',
+        'edited' => '最后一次由 :user 在 :when 编辑，总共编辑了 :count_delimited 次。',
         'posted_at' => '发表于 :when',
-        'posted_by' => '发帖人：:username',
+        'posted_by_in' => ':username 在 “:forum” 下发帖',
 
         'actions' => [
             'destroy' => '删除回复',
@@ -69,7 +70,7 @@ return [
     ],
 
     'search' => [
-        'go_to_post' => '前往该楼层',
+        'go_to_post' => '前往该帖子',
         'post_number_input' => '输入楼层号',
         'total_posts' => '一共有 :posts_count 楼',
     ],
@@ -78,7 +79,8 @@ return [
         'confirm_destroy' => '删除此主题？',
         'confirm_restore' => '恢复此主题？',
         'deleted' => '已删除的主题',
-        'go_to_latest' => '查看最后的帖子',
+        'go_to_latest' => '查看最新的帖子',
+        'go_to_unread' => '查看第一条未读帖',
         'has_replied' => '你已回复过此主题',
         'in_forum' => '在 :forum',
         'latest_post' => ':when :user',
@@ -115,7 +117,7 @@ return [
 
             'placeholder' => [
                 'body' => '在这里输入正文',
-                'title' => '点击这里设置标题',
+                'title' => '点击这里输入标题',
             ],
         ],
 
@@ -125,6 +127,55 @@ return [
             'last' => '跳转到最后一条回复',
             'next' => '向后 10 条',
             'previous' => '向前 10 条',
+        ],
+
+        'logs' => [
+            '_' => '主题记录',
+            'button' => '浏览主题记录',
+
+            'columns' => [
+                'action' => '操作',
+                'date' => '日期',
+                'user' => '用户',
+            ],
+
+            'data' => [
+                'add_tag' => '已添加 ":tag" 标签',
+                'announcement' => '置顶并标记为公告',
+                'edit_topic' => '到 :title',
+                'fork' => '来自 :topic',
+                'pin' => '已置顶主题',
+                'post_operation' => '由 :username 发布',
+                'remove_tag' => '已移除 ":tag" 标签',
+                'source_forum_operation' => '来自 :forum',
+                'unpin' => '取消置顶',
+            ],
+
+            'no_results' => '未找到记录……',
+
+            'operations' => [
+                'delete_post' => '删除回复',
+                'delete_topic' => '删除主题',
+                'edit_topic' => '修改标题',
+                'edit_poll' => '编辑投票',
+                'fork' => '复制主题',
+                'issue_tag' => '发布标签',
+                'lock' => '锁定主题',
+                'merge' => '合并回复到这个主题',
+                'move' => '移动主题',
+                'pin' => '置顶主题',
+                'post_edited' => '编辑回复',
+                'restore_post' => '恢复回复',
+                'restore_topic' => '恢复主题',
+                'split_destination' => '移动拆分的回复',
+                'split_source' => '拆分回复',
+                'topic_type' => '设置主题类型',
+                'topic_type_changed' => '更改类型',
+                'unlock' => '解锁',
+                'unpin' => '取消置顶',
+                'user_lock' => '锁定自己发布的主题',
+                'user_unlock' => '解锁自己发布的主题',
+            ],
         ],
 
         'post_edit' => [
@@ -178,17 +229,17 @@ return [
 
             'poll' => [
                 'hide_results' => '隐藏投票结果。',
-                'hide_results_info' => '这些内容只在投票结束之后显示。',
+                'hide_results_info' => '相关内容将在投票结束后显示。',
                 'length' => '投票持续',
                 'length_days_suffix' => '天',
                 'length_info' => '如果无期限则留空',
                 'max_options' => '最大可选数',
-                'max_options_info' => '填写每个人最多可以选的选项数。',
+                'max_options_info' => '投票可选选项上限。',
                 'options' => '选项',
-                'options_info' => '一个选项占一行，最多10个选项。',
+                'options_info' => '每个选项单独一行，最多可输入 10 个选项。',
                 'title' => '问题',
                 'vote_change' => '允许修改',
-                'vote_change_info' => '如果选中，则用户可以更改他们的投票。',
+                'vote_change_info' => '如果开启此功能，用户可修改已提交的投票。',
             ],
         ],
 
@@ -200,48 +251,6 @@ return [
             'feature_votes' => '星级优先级',
             'replies' => '回复数',
             'views' => '查看数',
-        ],
-
-        'issue_tag_added' => [
-            'to_0' => '移除 "added" 标签',
-            'to_0_done' => '已移除 "added" 标签',
-            'to_1' => '添加 "added" 标签',
-            'to_1_done' => '已添加 "added" 标签',
-        ],
-
-        'issue_tag_assigned' => [
-            'to_0' => '移除 "assigned" 标签',
-            'to_0_done' => '已移除 "assigned" 标签',
-            'to_1' => '添加 "assigned" 标签',
-            'to_1_done' => '已添加 "assigned" 标签',
-        ],
-
-        'issue_tag_confirmed' => [
-            'to_0' => '移除 "confirmed" 标签',
-            'to_0_done' => '已移除 "confirmed" 标签',
-            'to_1' => '添加 "confirmed" 标签',
-            'to_1_done' => '已添加 "confirmed" 标签',
-        ],
-
-        'issue_tag_duplicate' => [
-            'to_0' => '移除 "duplicate" 标签',
-            'to_0_done' => '已移除 "duplicate" 标签',
-            'to_1' => '添加 "duplicate" 标签',
-            'to_1_done' => '已添加 "duplicate" 标签',
-        ],
-
-        'issue_tag_invalid' => [
-            'to_0' => '移除 "invalid" 标签',
-            'to_0_done' => '已移除 "invalid" 标签',
-            'to_1' => '添加 "invalid" 标签',
-            'to_1_done' => '已添加 "invalid" 标签',
-        ],
-
-        'issue_tag_resolved' => [
-            'to_0' => '移除 "resolved" 标签',
-            'to_0_done' => '已移除 "resolved" 标签',
-            'to_1' => '添加 "resolved" 标签',
-            'to_1_done' => '已添加 "resolved" 标签',
         ],
 
         'lock' => [
@@ -278,20 +287,21 @@ return [
         'show' => [
             'deleted-posts' => '删除主题',
             'total_posts' => '讨论总数',
+            'total_watches' => '订阅总数',
 
             'feature_vote' => [
                 'current' => '当前优先级: +:count',
-                'do' => '提升这个请求',
+                'do' => '推动此提案',
 
                 'info' => [
-                    '_' => '这是一个 :feature_request。:supporters 可以为新功能请求投票。',
-                    'feature_request' => '新功能请求',
+                    '_' => '这是一个 :feature_request。:supporters 可以为新功能提案投票。',
+                    'feature_request' => '新功能提案',
                     'supporters' => 'osu! 支持者',
                 ],
 
                 'user' => [
-                    'count' => ':count 票',
-                    'current' => '还有 :votes 。',
+                    'count' => '{0} 0|{1} :count_delimited|[2,*] :count_delimited',
+                    'current' => '您还有 :votes 张选票。',
                     'not_enough' => "没有票了",
                 ],
             ],
@@ -318,7 +328,7 @@ return [
         ],
 
         'watch' => [
-            'to_not_watching' => '未订阅',
+            'to_not_watching' => '不订阅',
             'to_watching' => '订阅',
             'to_watching_mail' => '订阅并启用邮件通知',
             'tooltip_mail_disable' => '通知已启用。点击禁用',

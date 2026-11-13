@@ -11,7 +11,7 @@ return [
         'issuing' => 'Se trimite un cod nou...',
 
         'info' => [
-            'check_spam' => "Verifică-ți folderul spam dacă nu poți găsi e-mailul.",
+            'check_spam' => "Asigurați-vă că ați verificat și directorul spam dacă nu  puteți găsi e-mailul.",
             'recover' => "Dacă nu-ți poți accesa e-mailul sau ai uitat ce adresă ai folosit, te rugăm să urmezi :link.",
             'recover_link' => 'procesul de recuperare al e-mailului aici',
             'reissue' => 'Poți, de asemenea, :reissue_link sau să :logout_link.',
@@ -20,11 +20,28 @@ return [
         ],
     ],
 
+    'box_totp' => [
+        'heading' => '',
+
+        'info' => [
+            'logout' => [
+                '_' => '',
+                'link' => '',
+            ],
+            'mail_fallback' => [
+                '_' => '',
+                'link' => '',
+            ],
+        ],
+    ],
+
     'errors' => [
         'expired' => 'Codul de verificare a expirat, a fost trimis un nou e-mail de verificare.',
         'incorrect_key' => 'Cod de verificare incorect.',
         'retries_exceeded' => 'Cod de verificare incorect. Limita de reîncercări a fost depășită, a fost trimis un nou e-mail de verificare.',
         'reissued' => 'Un nou cod de verificare a fost generat și trimis, te rugăm să-ți verifici e-mailul.',
+        'totp_used_key' => '',
+        'totp_gone' => '',
         'unknown' => 'A apărut o problemă necunoscută, a fost trimis un e-mail de verificare nou.',
     ],
 ];

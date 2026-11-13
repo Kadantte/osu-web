@@ -7,6 +7,7 @@ return [
     'cancel' => 'İptal et',
 
     'authorise' => [
+        'app_owner' => ':owner tarafından bir uygulama',
         'request' => 'hesabınıza erişmek için izin istiyor.',
         'scopes_title' => 'Bu uygulama şunları yapabilecek:',
         'title' => 'Doğrulama Talebi',
@@ -56,6 +57,12 @@ return [
         'revoked' => [
             'false' => 'Sil',
             'true' => 'Silindi',
+        ],
+
+        'secret' => [
+            'copy' => '',
+            'generate_new' => '',
+            'visible_once' => '',
         ],
     ],
 ];

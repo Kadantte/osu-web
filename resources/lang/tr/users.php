@@ -33,10 +33,14 @@ return [
 
     'blocks' => [
         'banner_text' => 'Bu kullanıcıyı engelledin.',
+        'comment_text' => 'Bu yorum gizlenmiş.',
         'blocked_count' => 'engellenen kullanıcılar (:count)',
         'hide_profile' => 'profili gizle',
+        'hide_comment' => 'gizle',
+        'forum_post_text' => 'Bu başlık gizli.',
         'not_blocked' => 'Bu kullanıcı engellenmemiş.',
         'show_profile' => 'profili göster',
+        'show_comment' => 'göster',
         'too_many' => 'Engelleme sınırına ulaşıldı.',
         'button' => [
             'block' => 'engelle',
@@ -45,8 +49,25 @@ return [
     ],
 
     'card' => [
+        'gift_supporter' => 'Supporter etiketi hediye et',
         'loading' => 'Yükleniyor...',
         'send_message' => 'mesaj gönder',
+    ],
+
+    'create' => [
+        'form' => [
+            'password' => 'şifre',
+            'password_confirmation' => 'şifre onayı',
+            'submit' => 'hesap oluştur',
+            'user_email' => 'e-posta',
+            'user_email_confirmation' => 'e-posta onayı',
+            'username' => 'kullanıcı adı',
+
+            'tos_notice' => [
+                '_' => 'hesap oluşturarak :link kabul edersiniz',
+                'link' => 'hizmet şartları\'nı',
+            ],
+        ],
     ],
 
     'disabled' => [
@@ -76,6 +97,7 @@ return [
 
     'force_reactivation' => [
         'reason' => [
+            'inactive' => "Hesabınız uzun bir süredir kullanılmamış.",
             'inactive_different_country' => "Hesabın uzun bir zamandır kullanılmamıştır.",
         ],
     ],
@@ -99,6 +121,24 @@ return [
         'beta' => [
             'main' => 'Beta erişimi ayrıcalıklı üyelere kısıtlandırılmıştır.',
             'small' => '(osu!supporterlar yakında erişebilecekler)',
+        ],
+    ],
+
+    'multiplayer' => [
+        'index' => [
+            'active' => 'Aktif',
+            'ended' => 'Sona Erdi',
+        ],
+    ],
+
+    'ogp' => [
+        'modding_description' => 'Beatmapler: :counts',
+        'modding_description_empty' => 'Kullanıcının hiç beatmapi yok...',
+
+        'description' => [
+            '_' => 'Sıralama (:ruleset): :global | :country',
+            'country' => 'Ülke :rank',
+            'global' => 'Küresel :rank',
         ],
     ],
 
@@ -126,18 +166,30 @@ return [
             'cancel' => 'İptal',
         ],
 
+        'dmca' => [
+            'message_1' => [
+                '_' => 'Lütfen telif hakkı ihlallerini :policy\'ne göre :mail adresine DMCA talebi göndererek bildiriniz.',
+                'policy' => 'osu! telif hakkı yönergesi',
+            ],
+            'message_2' => 'Bu, ses parçalarının, görsel içeriklerin ve beatmap seviye içeriği doğru izin olmadan kullanıldığında geçerlidir.',
+        ],
+
         'options' => [
             'cheating' => 'Kuraldışı oyun / Hile',
+            'copyright_infringement' => 'Telif hakkı ihlali',
+            'inappropriate_chat' => 'Uygunsuz sohbet davranışı',
             'insults' => 'Bana / başkalarına hakaret',
-            'spam' => 'Spam yapmak',
-            'unwanted_content' => 'Uygunsuz içerik paylaşma',
+            'multiple_accounts' => 'Birden fazla hesap kullanımı',
             'nonsense' => 'Saçmalık',
             'other' => 'Diğer (aşağıda belirtin)',
+            'spam' => 'Spam yapmak',
+            'unwanted_content' => 'Uygunsuz içerik paylaşma',
         ],
     ],
     'restricted_banner' => [
         'title' => 'Hesabınız kısıtlandı!',
         'message' => 'Kısıtlanmışken, diğer oyuncularla etkileşime geçemeyecek ve skorlarınızı sadece siz görebileceksiniz. Bu genellikle otomatik olan bir işlemin sonucudur ve 24 saat içerisinde kalkabilir. Kısıtlamanızın açılması için başvurmak istiyorsanız, lütfen <a href="mailto:accounts@ppy.sh">destek hattıyla</a> iletişime geçin.',
+        'message_link' => 'Daha fazla bilgi için bu sayfaya göz atın.',
     ],
     'show' => [
         'age' => ':age yaşında',
@@ -152,16 +204,50 @@ return [
         'origin_country' => 'Ülke: :country',
         'previous_usernames' => 'nâm-ı diğer',
         'plays_with' => ':devices ile oynuyor',
-        'title' => ":username kullanıcısının profili",
+
+        'badge' => [
+            'pin' => [
+                'to_0' => '',
+                'to_1' => '',
+            ],
+        ],
 
         'comments_count' => [
             '_' => ':link gönderdi',
             'count' => ':count_delimited yorum|:count_delimited yorum',
         ],
+        'cover' => [
+            'to_0' => 'Kapağı gizle',
+            'to_1' => 'Kapağı göster',
+        ],
+        'daily_challenge' => [
+            'daily' => 'Günlük Seri',
+            'daily_streak_best' => 'En İyi Günlük Seri',
+            'daily_streak_current' => 'Mevcut Günlük Seri',
+            'playcount' => 'Toplam Katılım',
+            'title' => 'Günlük\nMeydan Okuma',
+            'top_10p_placements' => 'İlk %10 Sıralama',
+            'top_50p_placements' => 'İlk %50 Sıralama',
+            'weekly' => 'Haftalık Seri',
+            'weekly_streak_best' => 'En İyi Haftalık Seri',
+            'weekly_streak_current' => 'Mevcut Haftalık Seri',
+
+            'unit' => [
+                'day' => ':value',
+                'week' => ':value',
+            ],
+        ],
+        'detail_switch' => [
+            'to_v1' => 'Daha az detay göster',
+            'to_v2' => 'Daha fazla detay göster',
+        ],
         'edit' => [
             'cover' => [
                 'button' => 'Kapak Fotoğrafını Değiştir',
                 'defaults_info' => 'Diğer kapak seçenekleri gelecekte mevcut olacak',
+                'holdover_remove_confirm' => "Önceden seçili olan kapak artık seçileme uygun değil ve farklı bir kapağa değiştirirsen geri seçemezsin. Devam edilsin mi?",
+                'title' => 'Örtü',
+
                 'upload' => [
                     'broken_file' => 'Resmin işlenmesi başarısız oldu. Yüklediğiniz resmi doğrulayıp tekrar deneyin.',
                     'button' => 'Resim yükle',
@@ -181,6 +267,16 @@ return [
             'default_playmode' => [
                 'is_default_tooltip' => 'varsayılan oyun modu',
                 'set' => ':mode \'ı varsayılan oyun modu olarak ayarla',
+            ],
+
+            'hue' => [
+                'reset_no_supporter' => 'Renk varsayılana döndürülsün mü? Supporter tag başka bir renge değiştirmek için gerekli olacaktır.',
+                'title' => 'Renk',
+
+                'supporter' => [
+                    '_' => 'Özel renk temaları sadece :link\'ten ulaşılabilir.',
+                    'link' => 'osu!supporterlar',
+                ],
             ],
         ],
 
@@ -203,14 +299,20 @@ return [
                 'graveyard' => [
                     'title' => 'Mezarlıktaki Beatmapler',
                 ],
+                'guest' => [
+                    'title' => 'Konuk Olarak Katıldığı Beatmapler',
+                ],
                 'loved' => [
                     'title' => 'Sevilen Beatmapler',
                 ],
-                'ranked_and_approved' => [
-                    'title' => 'Dereceli & Onaylı Beatmapler',
+                'nominated' => [
+                    'title' => 'Aday Gösterilen Dereceli Beatmapler',
                 ],
-                'unranked' => [
+                'pending' => [
                     'title' => 'Beklemedeki Beatmapler',
+                ],
+                'ranked' => [
+                    'title' => 'Dereceli & Onaylı Beatmapler',
                 ],
             ],
             'discussions' => [
@@ -241,6 +343,9 @@ return [
                 'replays_watched_counts' => [
                     'title' => 'Tekrar İzlenme Geçmişi',
                     'count_label' => 'Tekrar İzlendi',
+                ],
+                'score_replay_stats' => [
+                    'title' => 'En Çok İzlenen Tekrarlar',
                 ],
             ],
             'kudosu' => [
@@ -300,13 +405,22 @@ return [
                 'recent' => 'En Son',
                 'title' => 'Madalyalar',
             ],
+            'playlists' => [
+                'title' => 'Oynama listesi Oyunları',
+            ],
             'posts' => [
                 'title' => 'Gönderiler',
                 'title_longer' => 'Son Gönderiler',
                 'show_more' => 'daha fazla gönderi gör',
             ],
+            'ranked-play' => [
+                'title' => 'Dereceli Oynanan Maçlar',
+            ],
             'recent_activity' => [
                 'title' => 'Son',
+            ],
+            'realtime' => [
+                'title' => 'Çok Oyunculu Oyunlar',
             ],
             'top_ranks' => [
                 'download_replay' => 'Tekrarı İndir',
@@ -321,6 +435,15 @@ return [
                 'first' => [
                     'title' => 'Birincilikler',
                 ],
+                'pin' => [
+                    'to_0' => 'Sabitlemeyi kaldır',
+                    'to_0_done' => 'Skoru sabitlemeyi kaldır',
+                    'to_1' => 'Sabitle',
+                    'to_1_done' => 'Sabitlenmiş skor',
+                ],
+                'pinned' => [
+                    'title' => 'Sabitlenen Skorlar',
+                ],
             ],
             'votes' => [
                 'given' => 'Verilen Oylar (son 3 ayda)',
@@ -331,7 +454,7 @@ return [
             ],
             'account_standing' => [
                 'title' => 'Hesap Durumu',
-                'bad_standing' => "<strong>:username'in</strong> hesabı iyi durumda değil :(",
+                'bad_standing' => "<strong>:username</strong> kullanıcısının hesabı iyi durumda değil :(",
                 'remaining_silence' => '<strong>:username</strong> :duration sonra konuşabilecek.',
 
                 'recent_infringements' => [
@@ -339,13 +462,14 @@ return [
                     'date' => 'tarih',
                     'action' => 'eylem',
                     'length' => 'uzunluk',
-                    'length_permanent' => 'Kalıcı',
+                    'length_indefinite' => 'Belirsiz',
                     'description' => 'açıklama',
                     'actor' => ':username tarafından',
 
                     'actions' => [
                         'restriction' => 'Ban',
                         'silence' => 'Susturma',
+                        'tournament_ban' => 'Turnuva banı',
                         'note' => 'Not',
                     ],
                 ],
@@ -360,6 +484,19 @@ return [
             'twitter' => '',
             'website' => 'Web sitesi',
         ],
+
+        'matchmaking' => [
+            'losses' => 'Yenilgiler',
+            'plays' => 'Toplam Maç',
+            'rank' => 'Rütbe',
+            'rating' => 'Derecelendirme',
+            'recent_history' => 'Son Maç Geçmişi',
+            'recent_history_provisional' => '',
+            'tier' => 'Seviye',
+            'title' => 'Quick Play',
+            'wins' => 'Galibiyetler',
+        ],
+
         'not_found' => [
             'reason_1' => 'Kullanıcı adını değiştirmiş olabilir.',
             'reason_2' => 'Bu hesap kötüye kullanım veya güvenlik sebepleriyle geçici olarak kullanım dışı olabilir.',
@@ -387,9 +524,26 @@ return [
             'country_simple' => 'Ülkesel Sıralama',
             'global' => ':mode için Dünya sıralaması',
             'global_simple' => 'Küresel Sıralama',
+            'highest' => ':date tarihinde en yüksek rank: :rank',
+            'kudosu_outside_top_1000' => '',
+            'kudosu_simple' => '',
+        ],
+        'score_processing' => [
+            'title' => 'Yeni Yıldız Sıralaması / PP algoritması :link.',
+            'title_link' => 'sunucuya aktarılıyor',
+            'message' => 'Yeni skorlar kullanıcı profilinde hemen görünmeyebilir.',
+        ],
+        'season_stats' => [
+            'division_top_percentage' => 'İlk :value',
+            'label' => 'Öne Çıkanlar',
+            'total_score' => 'Toplam skor',
+        ],
+        'solo' => [
+            'title' => 'Tek Kişilik Oyun',
         ],
         'stats' => [
             'hit_accuracy' => 'Vuruş İsabeti',
+            'hits_per_play' => 'Oyun Başı Vuruşlar',
             'level' => ':level Seviye',
             'level_progress' => 'Sonraki seviyeye ilerle',
             'maximum_combo' => 'Maksimum Kombo',
@@ -402,10 +556,12 @@ return [
             'total_hits' => 'Toplam Vuruş',
             'total_score' => 'Toplam Skor',
             // modding stats
-            'ranked_and_approved_beatmapset_count' => 'Dereceli ve Onaylanmış Beatmapler',
-            'loved_beatmapset_count' => 'Sevilen Beatmapler',
-            'unranked_beatmapset_count' => 'Onay Bekleyen Beatmapler',
             'graveyard_beatmapset_count' => 'Mezarlıktaki Beatmapler',
+            'guest_beatmapset_count' => '',
+            'loved_beatmapset_count' => 'Sevilen Beatmapler',
+            'nominated_beatmapset_count' => '',
+            'pending_beatmapset_count' => 'Onay Bekleyen Beatmapler',
+            'ranked_beatmapset_count' => 'Dereceli ve Onaylanmış Beatmapler',
         ],
     ],
 
@@ -419,7 +575,15 @@ return [
         'online' => 'Çevrimiçi',
         'offline' => 'Çevrimdışı',
     ],
+    'relationship' => [
+        'title' => '',
+        'all' => '',
+        'mutual' => '',
+        'non_mutual' => '',
+    ],
     'store' => [
+        'from_client' => 'lütfen bunun yerine oyun istemcisi ile kaydolun!',
+        'from_web' => 'lütfen kayıt işleminizi osu! web sitesinde tamamlayın',
         'saved' => 'Kullanıcı oluşturuldu',
     ],
     'verify' => [

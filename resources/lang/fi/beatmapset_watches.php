@@ -5,17 +5,17 @@
 
 return [
     'index' => [
-        'description' => 'Seuraat näiden beatmappien keskusteluja. Sinulle huomautetaan uusista viesteistä ja päivityksistä.',
-        'title_compact' => 'modiseuranta',
+        'description' => 'Seuraat näiden rytmikarttojen keskusteluja. Sinulle huomautetaan uusista viesteistä ja päivityksistä.',
+        'title_compact' => 'rytmikarttojen keskustelujen seurantalista',
 
         'counts' => [
-            'total' => '',
-            'unread' => '',
+            'total' => 'Seurattuja rytmikarttoja',
+            'unread' => 'Rytmikarttoja, joissa on uusia tapahtumia',
         ],
 
         'table' => [
             'empty' => 'Ei seurattuja keskusteluja.',
-            'last_update' => '',
+            'last_update' => 'Viimeisin päivitys',
             'open_issues' => 'Avoimet ongelmat',
             'state' => 'Tila',
             'title' => 'Nimi',

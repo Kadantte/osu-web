@@ -4,6 +4,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => '',
+
+    'change_owner' => [
+        'too_many' => '',
+    ],
+
     'discussion-votes' => [
         'update' => [
             'error' => 'Kunne ikke oppdatere stemme',
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'avvis kudosu',
         'edit' => 'rediger',
         'edited' => 'Sist endret av :editor :update_time.',
+        'guest' => 'Gjest vanskelighetsgrad av :user',
         'kudosu_denied' => 'Avvist fra å få kudosu.',
+        'include_replies' => '',
         'message_placeholder_deleted_beatmap' => 'Denne vanskelighetsgraden har blitt slettet så den kan ikke bli diskutert lenger.',
         'message_placeholder_locked' => 'Diskusjon for dette beatmappet har blitt deaktivert.',
         'message_placeholder_silenced' => "Kan ikke publisere diskusjonen mens du er dempet.",
         'message_type_select' => 'Velg kommentartype',
         'reply_notice' => 'Trykk enter for å svare.',
+        'reply_resolve_notice' => '',
         'reply_placeholder' => 'Skriv din respons her',
         'require-login' => 'Vennligst logg inn for å skrive et innlegg eller svare',
         'resolved' => 'Løst',
         'restore' => 'gjenopprett',
         'show_deleted' => 'Vis slettede',
+        'show_other_replies' => '',
         'title' => 'Diskusjoner',
+        'unresolved_count' => '',
 
         'collapse' => [
             'all-collapse' => 'Skjul alle',
@@ -72,8 +83,21 @@ return [
             'nomination_reset' => 'Tilbakestill Nominasjon',
             'praise' => 'Ros',
             'problem' => 'Problem',
+            'problem_warning' => 'Rapporter Problem',
             'review' => 'Anmeldelse',
             'suggestion' => 'Forslag',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => 'Legg ut Diskvalifikasjon',
+            'hype' => 'Legg ut Hype!',
+            'mapper_note' => 'Legg ut Notat',
+            'nomination_reset' => 'Fjern alle Nominasjoner',
+            'praise' => 'Legg ut Ros',
+            'problem' => 'Legg ut Problem',
+            'problem_warning' => 'Legg ut Problem',
+            'review' => 'Legg ut Anmeldelse',
+            'suggestion' => 'Legg ut Forslag',
         ],
 
         'mode' => [
@@ -108,6 +132,7 @@ return [
                 ],
             ],
             'insert-block' => [
+                'mapper_note' => '',
                 'paragraph' => 'sett inn avsnitt',
                 'praise' => 'sett inn ros',
                 'problem' => 'sett inn problem',
@@ -173,6 +198,8 @@ return [
     ],
 
     'nominations' => [
+        'already_nominated' => 'Du har allerede nominert dette beatmappet.',
+        'cannot_nominate' => 'Du kan ikke nominere beatmaps i denne spillmodusen.',
         'delete' => 'Slett',
         'delete_own_confirm' => 'Er du sikker? Beatmappet vil bli slettet og du vil bli omdirigert tilbake til profilen din.',
         'delete_other_confirm' => 'Er du sikker? Beatmappet vil bli slettet og du vil bli omdirigert tilbake til brukeren sin profil.',
@@ -182,22 +209,27 @@ return [
         'disqualify' => 'Diskvalifiser',
         'incorrect_state' => 'Feil under utføringen av denne handlingen, prøv å oppdatere siden.',
         'love' => 'Elsker',
+        'love_choose' => 'Velg vanskelighetsgrad for loved',
         'love_confirm' => 'Elsk dette beatmappet?',
         'nominate' => 'Nominer',
         'nominate_confirm' => 'Nominer dette beatmappet?',
         'nominated_by' => 'nominert av :users',
         'not_enough_hype' => "Det er ikke nok hype.",
-        'remove_from_loved' => '',
-        'remove_from_loved_prompt' => '',
+        'remove_from_loved' => 'Fjern fra Loved',
+        'remove_from_loved_prompt' => 'Grunn for å fjerne fra Loved:',
         'required_text' => 'Nominasjoner :current/:required',
         'reset_message_deleted' => 'slettet',
         'title' => 'Nominasjon Status',
         'unresolved_issues' => 'Det er fortsatt uløste problemer som må løses først.',
 
         'rank_estimate' => [
-            '_' => '',
-            'queue' => '',
-            'soon' => '',
+            '_' => 'Dette kartet er estimert til å bli rangert som :date hvis ingen problemer er funnet. Det er #:position i :queue.',
+            'unresolved_problems' => 'Dette kartet er for øyeblikket forhindret fra å forlate den kvalifiserte seksjonen inntil :problems er løst.',
+            'problems' => 'disse problemene
+',
+            'on' => 'den :date',
+            'queue' => 'rangerings kø ',
+            'soon' => 'snart',
         ],
 
         'reset_at' => [
@@ -206,8 +238,9 @@ return [
         ],
 
         'reset_confirm' => [
-            'nomination_reset' => 'Er du sikker? Hvis du legger inn et nytt problem, vil nominasjonsprosessen bli tilbakestilt.',
             'disqualify' => 'Er du sikker? Dette vil fjerne beatmappets kvalifisert-status og tilbakestille nomineringsprosessen.',
+            'nomination_reset' => 'Er du sikker? Hvis du legger inn et nytt problem, vil nominasjonsprosessen bli tilbakestilt.',
+            'problem_warning' => 'Er du sikker på at du vil rapportere problem på dette beatmapet? Dette vil varsle Beatmap Nominatorene.',
         ],
     ],
 
@@ -216,6 +249,7 @@ return [
             'prompt' => 'skriv inn nøkkelord...',
             'login_required' => 'Logg inn for å søke.',
             'options' => 'Flere søkemuligheter',
+            'rank_filter_note' => '',
             'supporter_filter' => 'Filtrering ved bruk av :filters krever en aktiv osu!supporter tag',
             'not-found' => 'ingen treff',
             'not-found-quote' => '... nei, ingenting ble funnet.',
@@ -225,7 +259,7 @@ return [
                 'genre' => 'Sjanger',
                 'language' => 'Språk',
                 'mode' => 'Modus',
-                'nsfw' => '',
+                'nsfw' => 'Eksplisitt innhold',
                 'played' => 'Spilt',
                 'rank' => 'Rangering Oppnådd',
                 'status' => 'Kategorier',
@@ -246,20 +280,27 @@ return [
                 '_' => 'Filtrering ved bruk av :filters krever en aktiv :link',
                 'link_text' => 'osu!supporter tag',
             ],
+            'tag_picker' => [
+                'tooltip' => '',
+                'prompt' => '',
+            ],
         ],
     ],
     'general' => [
         'converts' => 'Inkluder konverterte beatmaps',
-        'follows' => '',
+        'featured_artists' => 'Utvalgte artister',
+        'follows' => 'Abonnerte mappers',
         'recommended' => 'Anbefalt vanskelighetsgrad',
+        'spotlights' => 'Utvalgte beatmaps',
     ],
     'mode' => [
-        'all' => '',
+        'all' => 'Alle',
         'any' => 'Alle',
         'osu' => '',
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => 'ikke valgt',
     ],
     'status' => [
         'any' => 'Alle',
@@ -270,6 +311,7 @@ return [
         'loved' => 'Elsket',
         'mine' => 'Mine Maps',
         'pending' => 'Ventende & WIP',
+        'wip' => 'WIP',
         'qualified' => 'Kvalifisert',
         'ranked' => 'Rangert',
     ],
@@ -289,34 +331,8 @@ return [
         'folk' => 'Folkemusikk',
         'jazz' => 'Jazz',
     ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => 'Score V2',
-    ],
     'language' => [
-        'any' => '',
+        'any' => '    Alle',
         'english' => 'Engelsk',
         'chinese' => 'Kinesisk',
         'french' => 'Fransk',
@@ -334,8 +350,8 @@ return [
     ],
 
     'nsfw' => [
-        'exclude' => '',
-        'include' => '',
+        'exclude' => 'Skjul',
+        'include' => 'Vis',
     ],
 
     'played' => [

@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => '管理员',
     ],
-    'admin_forum' => [
-        '_' => '管理',
-    ],
-    'admin_store' => [
-        '_' => '管理员',
-    ],
     'error' => [
         'error' => [
             '400' => '请求无效',
@@ -20,22 +14,21 @@ return [
             '403' => '拒绝访问',
             '401' => '权限不足',
             '401-verification' => '账户认证',
-            '405' => '访问方法错误',
+            '405' => '请求被拒绝',
             '422' => '请求无效',
             '429' => '请求过多',
-            '500' => '服务器出现了一些问题...',
+            '500' => '服务器出现了一些问题……',
             '503' => '服务器维护中',
         ],
     ],
     'forum' => [
         '_' => '论坛',
-        'topic_watches_controller' => [
-            'index' => '主页',
+        'topic_logs_controller' => [
+            'index' => '主题记录',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => '主页',
             'verify_link' => '账户验证',
         ],
         'artists_controller' => [
@@ -56,13 +49,11 @@ return [
         'beatmapset_events_controller' => [
             '_' => '谱面历史',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => '主页',
-        ],
         'beatmapsets_controller' => [
             'discussion' => '谱面讨论',
             'index' => '谱面列表',
             'show' => '谱面信息',
+            'versions' => '谱面版本历史',
         ],
         'changelog_controller' => [
             '_' => '更新日志',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => '评论',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => '竞赛打分结果',
+        ],
         'contests_controller' => [
             '_' => '评选',
+            'judge' => '竞赛打分',
         ],
-        'follows_controller' => [
-            'index' => '看板',
-        ],
-        'friends_controller' => [
-            'index' => '主页',
+        'group_history_controller' => [
+            '_' => '用户组历史',
         ],
         'groups_controller' => [
             'show' => '用户组',
@@ -92,14 +84,14 @@ return [
             'support_the_game' => '支持 osu!',
             'testflight' => 'testflight 测试',
         ],
+        'legacy_matches_controller' => [
+            '_' => '比赛',
+        ],
         'legal_controller' => [
             '_' => '信息',
         ],
         'livestreams_controller' => [
             '_' => '直播',
-        ],
-        'matches_controller' => [
-            '_' => '比赛',
         ],
         'news_controller' => [
             '_' => '新闻',
@@ -116,31 +108,58 @@ return [
         'scores_controller' => [
             '_' => '表现',
         ],
-        'store_controller' => [
-            '_' => 'osu! 商店',
+        'seasons_controller' => [
+            '_' => '排名',
+        ],
+        'teams_controller' => [
+            '_' => '战队',
+            'create' => '创建战队',
+            'edit' => '战队设置',
+            'leaderboard' => '战队排行',
+            'show' => '战队信息',
         ],
         'tournaments_controller' => [
             '_' => '比赛',
         ],
+        'user_cover_presets_controller' => [
+            '_' => '用户封面图预设',
+        ],
+        'user_totp_controller' => [
+            '_' => '身份验证器应用',
+        ],
         'users_controller' => [
             '_' => '玩家信息',
+            'create' => '创建账户',
             'disabled' => '通知',
         ],
         'wiki_controller' => [
-            '_' => '知识库',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => '排名',
+            'events' => '房间历史',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => '授权应用',
         ],
     ],
     'store' => [
-        '_' => 'osu! 商店',
+        '_' => '商店',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => '战队成员',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => '摸图者信息',
+        ],
+        'multiplayer_controller' => [
+            '_' => '多人游戏历史',
         ],
     ],
 ];

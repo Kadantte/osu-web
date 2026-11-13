@@ -15,14 +15,33 @@ return [
     'top' => 'Mejor',
     'username' => 'Nombre de usuario',
 
+    'artist_tracks' => [
+        'album' => 'Álbum',
+        'artist' => 'Artista',
+        'bpm' => 'BPM',
+        'genre' => 'Género',
+        'length' => 'Duración',
+        'relevance' => 'Relevancia',
+        'title' => 'Título',
+        'update' => 'Fecha de actualización',
+    ],
+
     'forum_posts' => [
         'created' => 'Tiempo de publicación',
         'relevance' => 'Relevancia',
     ],
 
     'forum_topics' => [
+        'created' => 'Creado',
         'feature_votes' => 'Prioridad de estrella',
         'new' => 'Última respuesta',
+    ],
+
+    'teams' => [
+        'created' => 'Creado',
+        'relevance' => 'Relevancia',
+        'name' => 'Nombre',
+        'short-name' => 'Nombre abreviado',
     ],
 
     'users' => [

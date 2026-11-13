@@ -5,7 +5,6 @@
 
 return [
     'button' => [
-        'cancel' => 'Mégse',
         'resend' => 'Megerősítő email újraküldése',
         'set' => 'Jelszó beállítása',
         'start' => 'Start',
@@ -13,10 +12,14 @@ return [
 
     'error' => [
         'contact_support' => 'Fiókod visszaszerzéséhez kérlek vedd fel a kapcsolatot az ügyfélszolgálattal.',
-        'is_privileged' => 'Nyaggasd peppy-t lol.',
+        'expired' => 'Hitelesítő kód lejárt.',
+        'invalid' => 'Váratlan hiba a hitelesítő kódban.',
+        'is_privileged' => 'A fiók helyreállításához kérjük, vegye fel a kapcsolatot egy magas szintű rendszergazdával.',
         'missing_key' => 'Kötelező.',
+        'too_many_requests' => 'Elérte a jelszó-visszaállítási kérések számának korlátját. Kérjük, vegye fel a kapcsolatot az ügyfélszolgálattal a fiók helyreállításához.',
         'too_many_tries' => 'Túl sok sikertelen próbálkozás.',
         'user_not_found' => 'A megadott felhasználó nem létezik.',
+        'wait_resend' => 'Kérjük, várjon egy pillanatot.',
         'wrong_key' => 'Helytelen kód.',
     ],
 
@@ -35,8 +38,11 @@ return [
     'starting' => [
         'username' => 'Add meg az e-mail címed vagy felhasználóneved',
 
+        'reason' => [
+            'inactive_different_country' => "A fiókod nem volt használva egy jó ideje. A fiókod biztonsága érdekében kérlek állítsd vissza a jelszavad.",
+        ],
         'support' => [
-            '_' => 'Segítség kéne? Lépj kapcsolatba velünk itt :botton.',
+            '_' => 'Segítség kéne? Lépj kapcsolatba velünk itt :button.',
             'button' => 'támogatói rendszer',
         ],
     ],

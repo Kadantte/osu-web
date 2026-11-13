@@ -18,6 +18,25 @@ return [
         ],
     ],
 
+    'series' => [
+        'beatmap_spotlights' => 'ビートマップ スポットライト',
+        'community_contests' => 'コミュニティ コンテスト',
+        'community_tournaments' => 'コミュニティ トーナメント',
+        'fanart_contests' => 'アート コンテスト',
+        'featured_artists' => '注目アーティストのお知らせ',
+        'game_updates' => 'クライアントとウェブサイトの更新',
+        'mappers_guild' => 'Mappers\' Guild',
+        'monthly_beatmapping_contest' => '毎月ビートマップコンテスト',
+        'merch_runs' => 'osu! 公式グッズ',
+        'miscellaneous' => 'その他のお知らせ',
+        'official_contests' => '公式コンテスト',
+        'offline_events' => 'オフラインイベント',
+        'online_events' => 'オンラインイベント',
+        'project_loved' => 'Project Loved',
+        'ranking_system_updates' => 'ランキングシステムの更新',
+        'world_cups' => 'osu! World Cups',
+    ],
+
     'show' => [
         'by' => 'by :user',
 

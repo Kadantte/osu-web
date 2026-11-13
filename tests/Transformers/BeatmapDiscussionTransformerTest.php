@@ -7,35 +7,33 @@ namespace Tests\Transformers;
 
 use App\Models\Beatmapset;
 use App\Models\User;
+use App\Transformers\BeatmapDiscussionTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class BeatmapDiscussionTransformerTest extends TestCase
 {
     protected $deletedBeatmapDiscussion;
 
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testWithOAuth($groupIdentifier)
+    #[DataProvider('groupsDataProvider')]
+    public function testWithOAuth(?string $groupIdentifier, bool $_visibleWithoutOAuth)
     {
-        $viewer = $this->createUserWithGroup($groupIdentifier);
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
 
         $this->actAsScopedUser($viewer);
 
-        $json = json_item($this->deletedBeatmapDiscussion, 'BeatmapDiscussion');
+        $json = json_item($this->deletedBeatmapDiscussion, new BeatmapDiscussionTransformer());
 
         $this->assertEmpty($json);
     }
 
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testWithoutOAuth($groupIdentifier, $visible)
+    #[DataProvider('groupsDataProvider')]
+    public function testWithoutOAuth(?string $groupIdentifier, bool $visible)
     {
-        $viewer = $this->createUserWithGroup($groupIdentifier);
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
         $this->actAsUser($viewer);
 
-        $json = json_item($this->deletedBeatmapDiscussion, 'BeatmapDiscussion');
+        $json = json_item($this->deletedBeatmapDiscussion, new BeatmapDiscussionTransformer());
 
         if ($visible) {
             $this->assertNotEmpty($json);
@@ -44,14 +42,15 @@ class BeatmapDiscussionTransformerTest extends TestCase
         }
     }
 
-    public function groupsDataProvider()
+    public static function groupsDataProvider()
     {
+        // The second argument is only for testWithoutOAuth
         return [
             ['admin', true],
             ['bng', false],
             ['gmt', true],
             ['nat', true],
-            [[], false],
+            [null, false],
         ];
     }
 
@@ -59,10 +58,7 @@ class BeatmapDiscussionTransformerTest extends TestCase
     {
         parent::setUp();
 
-        $mapper = factory(User::class)->create();
-        $beatmapset = factory(Beatmapset::class)->states('with_discussion')->create([
-            'user_id' => $mapper->getKey(),
-        ]);
+        $beatmapset = Beatmapset::factory()->owner()->withDiscussion()->create();
 
         $this->deletedBeatmapDiscussion = $beatmapset->beatmapDiscussions()->first();
         $this->deletedBeatmapDiscussion->update(['deleted_at' => now()]);

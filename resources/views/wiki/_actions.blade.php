@@ -2,22 +2,12 @@
     Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
     See the LICENCE file in the repository root for full licence text.
 --}}
-@php
-    $otherLocales = $page->otherLocales();
-    $locale = $page->requestedLocale;
-
-    // put back original page locale when showing fallback translation
-    if ($page->isVisible() && $locale !== $page->locale && !in_array($page->locale, $otherLocales, true)) {
-        array_unshift($otherLocales, $page->locale);
-        sort($otherLocales);
-    }
-@endphp
 <div class="header-buttons">
     <div class="header-buttons__item">
         <a
             class="btn-osu-big btn-osu-big--rounded-thin"
             href="{{ $page->editUrl() }}"
-            title="{{ trans('wiki.show.edit.link') }}"
+            title="{{ osu_trans('wiki.show.edit.link', [], $displayLocale) }}"
         >
             <i class="fab fa-github"></i>
         </a>
@@ -29,9 +19,9 @@
                 type="button"
                 class="btn-osu-big btn-osu-big--rounded-thin"
                 data-remote="true"
-                data-url="{{ wiki_url($page->path, $locale) }}"
+                data-url="{{ route('wiki.show', ['path' => $page->path, 'locale' => $displayLocale]) }}"
                 data-method="PUT"
-                title="{{ trans('wiki.show.edit.refresh') }}"
+                title="{{ osu_trans('wiki.show.edit.refresh', [], $displayLocale) }}"
             >
                 <i class="fas fa-sync"></i>
             </button>
@@ -40,9 +30,8 @@
 
     <div class="header-buttons__item">
         @include('wiki._locale_menu', [
-            'contentLocale' => $page->locale,
-            'displayLocale' => $locale,
-            'otherLocales' => $otherLocales,
+            'availableLocales' => $page->availableLocales(),
+            'displayLocale' => $displayLocale,
             'path' => $page->path,
         ])
     </div>

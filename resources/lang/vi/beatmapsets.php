@@ -8,60 +8,99 @@ return [
         'disabled' => 'Hiện tại beatmap này không có sẵn để tải xuống.',
         'parts-removed' => 'Một phần của beatmap này đã bị xóa bỏ theo yêu cầu của người tạo lập hoặc bên người có quyền bên thứ ba.',
         'more-info' => 'Nhấp vào đây để biết thêm thông tin.',
-        'rule_violation' => '',
+        'rule_violation' => 'Một số nội dung có trong map này đã bị xóa sau khi bị đánh giá là không phù hợp để sử dụng trong osu!.',
+    ],
+
+    'cover' => [
+        'deleted' => 'Beatmap đã bị xóa',
     ],
 
     'download' => [
-        'limit_exceeded' => '',
+        'limit_exceeded' => 'Chậm lại, chơi nhiều hơn.',
+        'no_mirrors' => 'Không có sẵn máy chủ tải xuống nào cả.',
+    ],
+
+    'featured_artist_badge' => [
+        'label' => 'Nghệ sĩ nổi bật',
     ],
 
     'index' => [
         'title' => 'Danh Sách Beatmap',
-        'guest_title' => 'Beatmaps',
+        'guest_title' => 'Beatmap',
+    ],
+
+    'ogp' => [
+        'favourites' => ':count_delimited lượt yêu thích|:count_delimited lượt yêu thích',
+        'playcount' => ':count_delimited lượt chơi|:count_delimited lượt chơi',
     ],
 
     'panel' => [
-        'empty' => '',
+        'empty' => 'không beatmaps',
 
         'download' => [
             'all' => 'tải xuống',
             'video' => 'tải xuống cùng video',
             'no_video' => 'tải xuống không video',
             'direct' => 'mở trong osu!direct',
+            'lazer' => '',
         ],
     ],
 
     'nominate' => [
-        'hybrid_requires_modes' => '',
-        'incorrect_mode' => '',
-        'full_bn_required' => '',
-        'too_many' => '',
+        'bng_limited_too_many_rulesets' => 'Những người đề cử tập sự không thể đề cử nhiều ruleset cùng lúc.',
+        'full_nomination_required' => 'Bạn phải là người đề cử chính để thực hiện đề cử cuối cùng của một ruleset.',
+        'hybrid_requires_modes' => 'Bạn cần chọn ít nhất một chế độ chơi trong beatmap có nhiều chế độ để đề cử.',
+        'incorrect_mode' => 'Bạn không có sự cho phép để đề cử cho chế độ: :mode',
+        'invalid_limited_nomination' => 'Beatmap này có những đề cử không hợp lệ và không thể đủ điều kiện trong trạng thái này.',
+        'invalid_ruleset' => 'Đề cử này có các ruleset không hợp lệ.',
+        'too_many' => 'Yêu cầu đề cử đã được đáp ứng.',
+        'too_many_non_main_ruleset' => 'Yêu cầu đề cử cho ruleset không chính đã được đáp ứng.',
 
         'dialog' => [
-            'confirmation' => '',
-            'header' => '',
-            'hybrid_warning' => '',
-            'which_modes' => '',
+            'confirmation' => 'Bạn có chắc chắn muốn đề cử beatmap này không?',
+            'different_nominator_warning' => 'Việc xét đủ điều kiện cho beatmap này với những người đề cử khác sẽ đặt lại vị trí của nó trong hàng chờ xếp hạng.',
+            'header' => 'Đề cử Beatmap',
+            'hybrid_warning' => 'lưu ý: bạn chỉ có thể đề cử một lần, vì vậy hãy đảm bảo rằng bạn đang đề cử cho tất cả các chế độ chơi mà bạn dự định',
+            'current_main_ruleset' => 'Ruleset chính hiện tại là: :ruleset',
+            'which_modes' => 'Đề cử cho những chế độ nào?',
         ],
     ],
 
     'nsfw_badge' => [
-        'label' => '',
+        'label' => 'Không lành mạnh',
+    ],
+
+    'rate' => [
+        'invalid' => 'Đánh giá không hợp lệ.',
     ],
 
     'show' => [
         'discussion' => 'Góc Thảo Luận',
 
+        'admin' => [
+            'full_size_cover' => 'Xem ảnh bìa kích thước đầy đủ',
+            'page' => 'Xem trang quản trị viên',
+        ],
+
+        'deleted_banner' => [
+            'title' => 'Beatmap này đã bị xoá.',
+            'message' => '(chỉ điều phối viên mới có thể thấy điều này)',
+        ],
+
         'details' => [
-            'favourite' => 'Yêu thích beatmapset này',
-            'logged-out' => 'Bạn cần phải đăng nhập trước khi tải xuống beatmap!',
+            'by_artist' => 'bởi :artist',
+            'favourite' => 'yêu thích beatmapset này',
+            'favourite_login' => 'đăng nhập để yêu thích beatmap này',
+            'logged-out' => 'bạn cần phải đăng nhập trước khi tải xuống beatmap!',
             'mapped_by' => 'được tạo bởi :mapper',
-            'unfavourite' => 'Bỏ yêu thích beatmapset này',
+            'mapped_by_guest' => 'độ khó khách bởi :mapper',
+            'unfavourite' => 'bỏ yêu thích beatmapset này',
             'updated_timeago' => 'cập nhật lần cuối vào :timeago',
 
             'download' => [
-                '_' => 'Tải Xuống',
+                '_' => 'Tải xuống',
                 'direct' => '',
+                'lazer' => '',
                 'no-video' => 'không Video',
                 'video' => 'cùng Video',
             ],
@@ -75,14 +114,14 @@ return [
         'details_date' => [
             'approved' => 'được chấp nhận :timeago',
             'loved' => 'được yêu thích :timeago',
-            'qualified' => '',
+            'qualified' => 'đủ điều kiện :timeago',
             'ranked' => 'được xếp hạng :timeago',
             'submitted' => 'được đăng :timeago',
             'updated' => 'cập nhật lần cuối :timeago',
         ],
 
         'favourites' => [
-            'limit_reached' => 'Bạn có quá nhiều beatmap yêu thích! Hãy hũy yêu thích vài beatmap và thử lại sau.',
+            'limit_reached' => 'Bạn có quá nhiều beatmap yêu thích! Hãy hủy yêu thích vài beatmap và thử lại sau.',
         ],
 
         'hype' => [
@@ -92,18 +131,18 @@ return [
                 '_' => 'Map này đang ở trạng thái :status.',
 
                 'status' => [
-                    'pending' => 'chờ',
-                    'qualified' => 'qualified',
+                    'pending' => 'đang chờ',
+                    'qualified' => 'đủ điều kiện',
                     'wip' => 'đang thực hiện',
                 ],
             ],
 
             'disqualify' => [
-                '_' => '',
+                '_' => 'Nếu bạn thấy có vấn đề với beatmap này, vui lòng hủy trạng thái đủ điều kiện của nó :link.',
             ],
 
             'report' => [
-                '_' => '',
+                '_' => 'Nếu bạn tìm thấy vấn đề với beatmap này, vui lòng báo cáo nó tại :link để cảnh báo cho chúng tôi.',
                 'button' => 'Báo cáo vấn đề',
                 'link' => 'đây',
             ],
@@ -111,20 +150,36 @@ return [
 
         'info' => [
             'description' => 'Mô Tả',
-            'genre' => 'Thể Loại',
-            'language' => 'Ngôn Ngữ',
+            'genre' => 'Thể loại',
+            'language' => 'Ngôn ngữ',
+            'mapper_tags' => 'Thẻ do người tạo thêm',
             'no_scores' => 'Vẫn đang tính toán dữ liệu...',
-            'nsfw' => '',
+            'nominators' => 'Người đề cử',
+            'nsfw' => 'Nội dung không lành mạnh',
+            'offset' => 'Offset trực tuyến',
+            'pack_tags' => 'Gói beatmap',
             'points-of-failure' => 'Tỉ Lệ Thất Bại',
             'source' => 'Nguồn',
-            'storyboard' => '',
+            'storyboard' => 'Beatmap này chứa storyboard',
             'success-rate' => 'Tỉ Lệ Thành Công',
-            'tags' => 'Tags',
+            'success_rate_plays' => ':passes lần vượt qua trên :count_delimited lượt chơi|:passes lần vượt qua trên :count_delimited lượt chơi',
+            'user_tags' => 'Thẻ do người dùng thêm',
+            'video' => 'Beatmap này chứa video',
+        ],
+
+        'lazer_only' => [
+            'title' => 'Chỉ Lazer',
+            'description' => 'Do cơ chế đặc thù, beatmap này chỉ có thể chơi được trên osu!lazer.',
+
+            'scoreboard_switch_mode' => [
+                '_' => ':enable_link để xem các điểm số được lập tại beatmap này.',
+                'enable_link' => 'Bật chế độ lazer',
+            ],
         ],
 
         'nsfw_warning' => [
-            'details' => '',
-            'title' => '',
+            'details' => 'Beatmap này chứa nội dung không lành mạnh, phản cảm hoặc gây khó chịu. Bạn có muốn xem nó không?',
+            'title' => 'Nội dung không lành mạnh',
 
             'buttons' => [
                 'disable' => 'Ẩn thông báo',
@@ -136,22 +191,25 @@ return [
         'scoreboard' => [
             'achieved' => 'đạt được :when',
             'country' => 'Hạng Quốc Gia',
+            'error' => 'Tải xếp hạng thất bại',
             'friend' => 'Hạng Bạn Bè',
             'global' => 'Hạng Toàn Cầu',
             'supporter-link' => 'Nhấp vào <a href=":link">đây</a> để biết thêm những tính năng bạn có thể nhận!',
             'supporter-only' => 'Bạn cần là người ủng hộ để truy cập xếp hạng bạn bè và quốc gia!',
+            'team' => 'Xếp hạng đội',
             'title' => 'Bảng Xếp hạng',
 
             'headers' => [
-                'accuracy' => 'Độ Chính Xác',
+                'accuracy' => 'Độ chính xác',
                 'combo' => 'Combo Tối Đa',
                 'miss' => 'Miss',
                 'mods' => 'Mods',
+                'pin' => 'Ghim',
                 'player' => 'Người Chơi',
                 'pp' => '',
                 'rank' => 'Xếp Hạng',
-                'score_total' => 'Tổng Điểm',
-                'score' => 'Điểm',
+                'score' => 'Số điểm',
+                'score_total' => 'Tổng điểm',
                 'time' => 'Thời gian',
             ],
 
@@ -160,39 +218,51 @@ return [
                 'friend' => 'Chưa có bạn bè nào của bạn lập điểm số tại beatmap này!',
                 'global' => 'Chưa có điểm số. Hãy thử lập một vài điểm số xem?',
                 'loading' => 'Đang tải điểm số...',
+                'team' => 'Chưa có ai từ đội của bạn lập điểm số tại beatmap này!',
                 'unranked' => 'Beatmap chưa được xếp hạng.',
             ],
             'score' => [
                 'first' => 'Dẫn Đầu',
                 'own' => 'Tốt Nhất Của Bạn',
             ],
+            'supporter_link' => [
+                '_' => 'Nháy vào :here để xem tất cả tính năng đặc biệt mà bạn có được!',
+                'here' => 'đây',
+            ],
         ],
 
         'stats' => [
-            'cs' => 'Kích Cỡ Nốt',
+            'cs' => 'Cỡ nốt tròn',
             'cs-mania' => 'Số Phím',
-            'drain' => 'Độ Giảm HP',
+            'drain' => 'Độ giảm máu',
             'accuracy' => 'Độ Chính Xác',
             'ar' => 'Tốc Độ Tiếp Cận',
             'stars' => 'Độ Khó',
-            'total_length' => 'Độ Dài',
+            'total_length' => 'Độ dài (Độ dài có tương tác: :hit_length)',
             'bpm' => 'BPM',
-            'count_circles' => 'Số Nốt Bấm',
-            'count_sliders' => 'Số Nốt Trượt',
+            'count_circles' => 'Số nốt tròn',
+            'count_sliders' => 'Số nốt trượt',
+            'offset' => 'Offset trực tuyến: :offset',
             'user-rating' => 'Đánh Giá',
             'rating-spread' => 'Phân Loại Đánh Giá',
             'nominations' => 'Đề cử',
             'playcount' => 'Đã chơi',
+            'favourites' => 'Mục ưa thích',
+            'no_favourites' => 'Hiện chưa có mục yêu thích',
         ],
 
         'status' => [
             'ranked' => 'Đã được xếp hạng',
             'approved' => 'Được Chấp Nhận',
             'loved' => 'Được yêu thích',
-            'qualified' => 'Qualified',
-            'wip' => '',
+            'qualified' => 'Đủ điều kiện',
+            'wip' => 'WIP',
             'pending' => 'Đang Chờ',
-            'graveyard' => 'Graveyard',
+            'graveyard' => 'Đắp mộ',
         ],
+    ],
+
+    'spotlight_badge' => [
+        'label' => 'Tiêu điểm',
     ],
 ];

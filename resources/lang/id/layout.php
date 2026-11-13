@@ -9,7 +9,7 @@ return [
     ],
 
     'defaults' => [
-        'page_description' => 'osu! - Rhythm is just a *click* away! Dengan berbagai mode permainan seperti Ouendan/EBA, Taiko, serta level editor yang sepenuhnya fungsional.',
+        'page_description' => 'osu! - Rhythm is just a *click* away! Dengan Ouendan/EBA, Taiko, dan berbagai mode permainan orisinal serta editor level yang sepenuhnya fungsional.',
     ],
 
     'header' => [
@@ -19,11 +19,16 @@ return [
             'contest' => 'kontes',
             'contests' => 'kontes',
             'root' => 'konsol',
-            'store_orders' => 'pengelola toko',
         ],
 
         'artists' => [
             'index' => 'daftar',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'info',
+            'discussions' => 'diskusi',
+            'versions' => 'riwayat versi',
         ],
 
         'changelog' => [
@@ -37,7 +42,7 @@ return [
 
         'store' => [
             'cart' => 'keranjang',
-            'orders' => 'riwayat transaksi',
+            'orders' => 'riwayat pemesanan',
             'products' => 'produk',
         ],
 
@@ -47,6 +52,9 @@ return [
 
         'users' => [
             'modding' => 'modding',
+            'playlists' => 'playlist',
+            'ranked-play' => 'permainan ranked',
+            'realtime' => 'multiplayer',
             'show' => 'info',
         ],
     ],
@@ -62,49 +70,27 @@ return [
     'menu' => [
         'beatmaps' => [
             '_' => 'beatmap',
-            'artists' => 'featured artist',
-            'index' => 'daftar',
-            'packs' => 'paket',
         ],
         'community' => [
             '_' => 'komunitas',
-            'chat' => 'chat',
-            'contests' => 'kontes',
             'dev' => 'pengembangan',
-            'forum-forums-index' => 'forum',
-            'getLive' => 'siaran langsung',
-            'tournaments' => 'turnamen',
         ],
         'help' => [
             '_' => 'bantuan',
-            'getAbuse' => 'laporkan penyalahgunaan',
+            'getAbuse' => 'melaporkan tindak pelecehan',
             'getFaq' => 'faq',
             'getRules' => 'peraturan',
             'getSupport' => 'beneran, saya butuh bantuan!',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => 'beranda',
-            'changelog-index' => 'riwayat perubahan',
-            'getDownload' => 'unduh',
-            'news-index' => 'berita',
-            'search' => 'cari',
             'team' => 'tim',
         ],
         'rankings' => [
             '_' => 'peringkat',
-            'charts' => 'spotlights',
-            'country' => 'negara',
-            'index' => 'performa',
-            'kudosu' => 'kudosu',
-            'multiplayer' => 'multiplayer',
-            'score' => 'skor',
         ],
         'store' => [
             '_' => 'toko',
-            'cart-show' => 'keranjang',
-            'getListing' => 'daftar',
-            'orders-index' => 'riwayat transaksi',
         ],
     ],
 
@@ -118,7 +104,7 @@ return [
         ],
         'help' => [
             '_' => 'Bantuan & Komunitas',
-            'faq' => 'Pertanyaan yang Umum Diajukan (FAQ)',
+            'faq' => 'Pertanyaan Umum (FAQ)',
             'forum' => 'Forum Komunitas',
             'livestreams' => 'Siaran Langsung',
             'report' => 'Laporkan Masalah',
@@ -127,7 +113,9 @@ return [
         'legal' => [
             '_' => 'Hukum & Status',
             'copyright' => 'Hak Cipta (DMCA)',
+            'jp_sctl' => '',
             'privacy' => 'Privasi',
+            'rules' => 'Peraturan',
             'server_status' => 'Status Server',
             'source_code' => 'Kode Sumber',
             'terms' => 'Ketentuan Layanan',
@@ -136,27 +124,27 @@ return [
 
     'errors' => [
         '400' => [
-            'error' => 'Parameter yang diminta tidak valid',
+            'error' => 'Parameter permintaan tidak valid',
             'description' => '',
         ],
         '404' => [
-            'error' => 'Laman Hilang',
-            'description' => "Maaf, tapi laman yang Anda minta tidak ada di sini!",
+            'error' => 'Halaman Tidak Ditemukan',
+            'description' => "Maaf, halaman yang kamu minta tidak ada di sini!",
         ],
         '403' => [
-            'error' => "Anda seharusnya tidak di sini.",
-            'description' => 'Anda dapat mencoba untuk kembali ke halaman sebelumnya.',
+            'error' => "Kamu tidak seharusnya berada di sini.",
+            'description' => 'Kamu bisa mencoba untuk kembali ke halaman sebelumnya.',
         ],
         '401' => [
-            'error' => "Anda seharusnya tidak di sini.",
-            'description' => 'Anda dapat mencoba untuk kembali ke halaman sebelumnya. Atau mungkin coba untuk masuk terlebih dahulu.',
+            'error' => "Kamu tidak seharusnya berada di sini.",
+            'description' => 'Kamu bisa mencoba untuk kembali ke halaman sebelumnya. Atau mungkin untuk masuk ke akunmu.',
         ],
         '405' => [
-            'error' => 'Halaman Hilang',
-            'description' => "Maaf, tapi laman yang Anda minta tidak ada di sini!",
+            'error' => 'Halaman Tidak Ditemukan',
+            'description' => "Maaf, halaman yang kamu minta tidak ada di sini!",
         ],
         '422' => [
-            'error' => 'Parameter yang diminta tidak valid',
+            'error' => 'Parameter permintaan tidak valid',
             'description' => '',
         ],
         '429' => [
@@ -164,23 +152,23 @@ return [
             'description' => '',
         ],
         '500' => [
-            'error' => 'Oh, tidak! Sepertinya ada sesuatu yang rusak! ;_;',
-            'description' => "Sistem osu! akan secara otomatis memberitahukan kami setiap kali terdapat kesalahan seperti ini.",
+            'error' => 'Oh, tidak! Sepertinya ada sesuatu yang bermasalah! ;_;',
+            'description' => "Kami menerima notifikasi secara otomatis setiap kali terdapat suatu masalah.",
         ],
         'fatal' => [
-            'error' => 'Oh, tidak! Sepertinya ada sesuatu yang (sangat) rusak! ;_;',
-            'description' => "Sistem osu! akan secara otomatis memberitahukan kami setiap kali terdapat kesalahan seperti ini.",
+            'error' => 'Oh, tidak! Sepertinya ada sesuatu yang (sangat) bermasalah! ;_;',
+            'description' => "Kami menerima notifikasi secara otomatis setiap kali terdapat suatu masalah.",
         ],
         '503' => [
             'error' => 'Sedang dalam pemeliharaan!',
-            'description' => "Proses pemeliharaan utamanya dapat berlangsung dalam durasi yang cukup beragam, mulai dari 5 detik hingga lebih dari 10 menit. Jika proses pemeliharaan ternyata berlangsung lebih lama dari yang sewajarnya, harap kunjungi :link untuk informasi lebih lanjut.",
+            'description' => "Proses pemeliharaan pada umumnya menghabiskan waktu yang cukup beragam, mulai dari 5 detik hingga 10 menit. Apabila proses ini berlangsung lebih lama dari yang sewajarnya, kunjungi :link untuk informasi lebih lanjut.",
             'link' => [
                 'text' => '',
                 'href' => '',
             ],
         ],
         // used by sentry if it returns an error
-        'reference' => "Untuk berjaga-jaga, berikut kode yang dapat Anda berikan kepada layanan dukungan kami!",
+        'reference' => "Untuk berjaga-jaga, berikut ini adalah kode yang bisa kamu berikan kepada tim layanan dukungan kami!",
     ],
 
     'popup_login' => [
@@ -193,14 +181,14 @@ return [
             'username' => 'nama pengguna',
 
             'error' => [
-                'email' => "Nama pengguna atau alamat email tidak ditemukan",
+                'email' => "Nama pengguna atau alamat email tidak ada",
                 'password' => 'Kata sandi salah',
             ],
         ],
 
         'register' => [
             'download' => 'Unduh',
-            'info' => 'Unduh osu! untuk membuat akun Anda!',
+            'info' => 'Unduh osu! untuk membuat akunmu!',
             'title' => "Belum memiliki akun?",
         ],
     ],
@@ -208,10 +196,16 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => 'Pengaturan',
-            'follows' => 'Daftar Pantauan',
+            'create_team' => 'Buat Tim',
+            'follows' => 'Daftar Pengamatan',
             'friends' => 'Teman',
+            'legacy_score_only_toggle' => 'Mode lazer',
+            'legacy_score_only_toggle_tooltip' => 'Mode lazer menampilkan skor yang diraih dari lazer dengan algoritma perhitungan skor baru',
             'logout' => 'Keluar',
             'profile' => 'Profil Saya',
+            'scoring_mode_toggle' => 'Perhitungan skor klasik',
+            'scoring_mode_toggle_tooltip' => 'Sesuaikan nilai skor untuk lebih menyerupai perhitungan skor klasik yang tidak memiliki batas',
+            'team' => 'Tim Saya',
         ],
     ],
 

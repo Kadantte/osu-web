@@ -5,6 +5,7 @@
 
 return [
     'show' => [
+        'non_preserved' => 'Detta resultat är markerat för borttagning och kommer att försvinna snart.',
         'title' => ':username på :title [:version]',
 
         'beatmap' => [
@@ -13,7 +14,10 @@ return [
 
         'player' => [
             'by' => 'Spelad av',
-            'submitted_on' => 'Inlämnad den',
+            'played_on' => '',
+            'submitted_on' => 'Uppladdat den',
+            'watched' => '',
+            'watched_count' => '',
 
             'rank' => [
                 'country' => 'Nationell rankning',
@@ -23,7 +27,9 @@ return [
     ],
 
     'status' => [
-        'non_best' => 'Endast personbästa poäng ger pp',
-        'processing' => 'Poängsiffran räknas ännu ut och kommer snart att visas',
+        'non_best' => 'Endast personbästa resultat ger pp',
+        'no_pp' => 'pp tilldelas inte för detta resultat',
+        'processing' => 'Detta resultat räknas ännu ut och kommer snart att visas',
+        'no_rank' => 'Detta resultat har ingen rank eftersom den är orankad eller markerad för borttagning',
     ],
 ];

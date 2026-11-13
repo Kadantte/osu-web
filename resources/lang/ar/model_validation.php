@@ -8,6 +8,7 @@ return [
     'not_negative' => ':attribute لا يمكن ان يكون سلبياََ.',
     'required' => ':attribute مطلوب.',
     'too_long' => ':attribute تجاوز الحد المطلوب - يمكن ان يصل حد :limit حروف فقط.',
+    'url' => 'المرجو إدخال عنوان URL صحيح.',
     'wrong_confirmation' => 'التأكيد لا يتطابق.',
 
     'beatmapset_discussion' => [
@@ -73,8 +74,8 @@ return [
         'post' => [
             'beatmapset_post_no_delete' => 'غير مسموح بحذف منشور موارد الخريطة.',
             'beatmapset_post_no_edit' => 'غير مسموح بتعديل منشور موارد الخريطة.',
-            'first_post_no_delete' => '',
-            'missing_topic' => '',
+            'first_post_no_delete' => 'لا يمكن حذف المنشور الأول',
+            'missing_topic' => 'المنشور يفتقد لـ موضوع',
             'only_quote' => 'الرد الخاص بك يحتوي على اقتباس فقط.',
 
             'attributes' => [
@@ -108,6 +109,16 @@ return [
         ],
     ],
 
+    'legacy_api_key' => [
+        'exists' => 'يتم توفير مفتاح API واحد فقط لكل مستخدم في الوقت الحالي.',
+
+        'attributes' => [
+            'api_key' => 'مفتاح واجهة برمجة التطبيقات',
+            'app_name' => 'اسم التطبيق',
+            'app_url' => 'رابط التطبيق',
+        ],
+    ],
+
     'oauth' => [
         'client' => [
             'too_many' => 'تجاوزت الحد الأقصى لعدد الـ0Auth المسموح به.',
@@ -120,12 +131,26 @@ return [
         ],
     ],
 
+    'team' => [
+        'invalid_characters' => '',
+        'used' => '',
+        'word_not_allowed' => '',
+
+        'attributes' => [
+            'default_ruleset_id' => '',
+            'is_open' => 'طلب الانضمام إلى الفريق',
+            'name' => 'الاسم',
+            'short_name' => '',
+            'url' => 'عنوان URL',
+        ],
+    ],
+
     'user' => [
         'contains_username' => 'كلمة المرور يجب أن لا تحتوي على اسم المستخدم.',
         'email_already_used' => 'البريد الإلكتروني مستخدم مسبقاََ.',
         'email_not_allowed' => 'عنوان البريد الإلكتروني غير مسموح به.',
         'invalid_country' => 'الدولة ليست في قاعدة البيانات.',
-        'invalid_discord' => 'اِسم خلاف غير صالح.',
+        'invalid_discord' => 'اسم مستخدم Discord غير صالح.',
         'invalid_email' => "لا يبدو وكأنه بريد الكتروني صالح.",
         'invalid_twitter' => 'اسم تويتر غير صالح.',
         'too_short' => 'كلمة المرور الجديدة قصيرة جداً.',
@@ -153,16 +178,19 @@ return [
         ],
 
         'change_username' => [
-            'restricted' => 'لا يمكنك تغيير اسم المستخدم اذا كان حسابك مقيد.',
+            'restricted' => 'لا يمكنك تغيير اسم المستخدم أثناء فترة التقييد.',
             'supporter_required' => [
-                '_' => 'تحتاج إلى أن تملك :link لتغيير اسمك!',
+                '_' => 'يجب أن تمتلك :link لتغيير اسمك!',
                 'link_text' => 'اِدعم osu!',
             ],
-            'username_is_same' => 'هذا هو اسم المستخدم الخاص بك حالياََ ايها السخيف!',
+            'username_is_same' => 'هذا هو اسم المستخدم الخاص بك حاليًا أيها السخيف!',
         ],
     ],
 
     'user_report' => [
+        'no_ranked_beatmapset' => 'الخرائط الـ Ranked لا يمكن الإبلاغ عنها',
+        'not_in_channel' => 'أنت لست في هذه القناة.',
+        'in_team' => 'أنت بالفعل جزء من الفريق.',
         'reason_not_valid' => ':reason ليس مقبولا لنوع الأبلاغ هذا.',
         'self' => "لا يمكنك الإبلاغ عن نفسك!",
     ],

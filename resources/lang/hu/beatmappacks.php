@@ -6,26 +6,20 @@
 return [
     'index' => [
         'description' => 'Előre csomagolt, általános témákat körbeölelő beatmap gyűjtemények.',
+        'empty' => 'Hamarosan!',
         'nav_title' => 'listázás',
         'title' => 'Beatmap Csomagok',
 
         'blurb' => [
             'important' => 'OLVASD EL LETÖLTÉS ELŐTT',
-            'instruction' => [
-                '_' => "Telepítés: Amint egy csomag letöltődött, csomagold ki a .rar fájlt az osu! Songs mappába.
-Mivel az összes szám .zip és/vagy .osz kiterjesztésű, ezért a következő Play módba lépéskor ezek a beatmapek ki lesznek csomagolva.
-:scary csomagold ki a .zip/.osz fájlokat saját magadtól, különben a beatmapek hibásan jelenhetnek meg és nem fognak megfelelően működni.",
-                'scary' => 'NE',
-            ],
-            'note' => [
-                '_' => 'Valamint vedd figyelembe, hogy erősen javasolt a :scary, mivel a régebbi pályák minősége jóval alacsonyabb az újakéhoz képest.',
-                'scary' => 'legújabb csomagok letöltése',
-            ],
+            'install_instruction' => 'Telepítés: Miután letöltötted a csomagot, bontsd ki a csomag tartalmát a osu! Songs könyvtárba és osu! a többit megteszi.',
         ],
     ],
 
     'show' => [
+        'created_by' => ':author által',
         'download' => 'Letöltés',
+        'no_diff_reduction_badge' => '',
         'item' => [
             'cleared' => 'lejátszott',
             'not_cleared' => 'nem játszott',
@@ -39,8 +33,11 @@ Mivel az összes szám .zip és/vagy .osz kiterjesztésű, ezért a következő 
     'mode' => [
         'artist' => 'Előadó/Album',
         'chart' => 'Reflektorfény',
+        'featured' => 'Kiemelt Előadó',
+        'loved' => 'Project Loved',
         'standard' => 'Standard',
         'theme' => 'Téma',
+        'tournament' => 'Bajnokság',
     ],
 
     'require_login' => [

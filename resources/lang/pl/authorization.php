@@ -15,6 +15,7 @@ return [
         'destroy' => [
             'is_hype' => 'Nie możesz cofnąć nagłośnienia.',
             'has_reply' => 'Nie możesz usunąć dyskusji z odpowiedziami',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => 'Osiągnięto dzienny limit nominacji, spróbuj ponownie jutro.',
@@ -23,18 +24,18 @@ return [
             'set_metadata' => 'Musisz ustawić gatunek i język przed nominowaniem beatmapy.',
         ],
         'resolve' => [
-            'not_owner' => 'Tylko autor wątku i autor beatmapy mogą zakończyć dyskusję.',
+            'not_owner' => 'Tylko autor wątku i twórca beatmapy mogą zakończyć dyskusję.',
         ],
 
         'store' => [
-            'mapper_note_wrong_user' => 'Adnotacje mogą być dodawane tylko przez twórcę mapy, nominatora lub członka NAT.',
+            'mapper_note_wrong_user' => 'Adnotacje mogą być dodawane tylko przez twórcę beatmapy, nominatora lub członka NAT.',
         ],
 
         'vote' => [
             'bot' => "Nie możesz głosować w dyskusji utworzonej przez bota",
             'limit_exceeded' => 'Zaczekaj, zanim zagłosujesz ponownie',
-            'owner' => "Nie możesz głosować we własnej dyskusji!",
-            'wrong_beatmapset_state' => 'Możesz głosować tylko przy oczekujących beatmapach.',
+            'owner' => "Nie możesz głosować we własnej dyskusji.",
+            'wrong_beatmapset_state' => 'Możesz głosować tylko w dyskusjach do oczekujących beatmap.',
         ],
     ],
 
@@ -43,22 +44,33 @@ return [
             'not_owner' => 'Możesz usuwać tylko swoje posty.',
             'resolved' => 'Nie możesz usunąć posta z rozwiązanej dyskusji.',
             'system_generated' => 'Nie możesz usunąć automatycznie wygenerowanego posta.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
             'not_owner' => 'Tylko autor posta może go edytować.',
             'resolved' => 'Nie możesz edytować posta z rozwiązanej dyskusji.',
             'system_generated' => 'Nie możesz edytować automatycznie wygenerowanego posta.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => 'Tworzenie dyskusji dla tej beatmapy zostało zablokowane.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => 'Tworzenie dyskusji dla tej beatmapy zostało zablokowane.',
+
         'metadata' => [
-            'nominated' => 'Nie możesz zmienić metadanych nominowanej mapy. Skontaktuj się z członkiem BN lub NAT, jeśli uważasz, że są one ustawione nieprawidłowo.',
+            'nominated' => 'Nie możesz zmienić metadanych nominowanej beatmapy. Skontaktuj się z członkiem BN lub NAT, jeśli uważasz, że są one ustawione nieprawidłowo.',
+        ],
+
+        'rate' => [
+            'owner' => 'Nie możesz ocenić beatmapy, której jesteś współtwórcą.',
+            'status' => 'Nie możesz ocenić beatmapy o tym statusie.',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => 'Musisz ustanowić wynik na beatmapie, aby dodać do niej tag.',
         ],
     ],
 
@@ -67,18 +79,24 @@ return [
         'friends_only' => 'Ten użytkownik blokuje wiadomości od osób spoza listy znajomych.',
         'moderated' => 'Ten kanał jest obecnie w trybie tylko dla moderatorów.',
         'no_access' => 'Nie masz dostępu do tego kanału.',
-        'restricted' => 'Nie możesz wysyłać wiadomości podczas uciszenia czy blokady konta.',
-        'silenced' => 'Nie możesz wysyłać wiadomości podczas uciszenia czy blokady konta.',
+        'no_announce' => 'Nie posiadasz uprawnień do zamieszczania ogłoszeń.',
+        'receive_friends_only' => 'Ten użytkownik może nie być w stanie odpowiedzieć, ponieważ blokujesz prywatne wiadomości od osób spoza listy znajomych.',
+        'restricted' => 'Nie możesz wysyłać wiadomości po tym, jak twoje konto zostało uciszone, ograniczone lub zablokowane.',
+        'silenced' => 'Nie możesz wysyłać wiadomości po tym, jak twoje konto zostało uciszone, ograniczone lub zablokowane.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => 'Komentarze są wyłączone',
+        ],
         'update' => [
             'deleted' => "Nie możesz edytować usuniętego posta.",
         ],
     ],
 
     'contest' => [
-        'voting_over' => 'Nie możesz zmieniać swojego głosu po zakończeniu głosowania.',
+        'judging_not_active' => 'Faza oceniania prac w tym konkursie nie jest aktywna.',
+        'voting_over' => 'Nie możesz zmienić swojego głosu po zakończeniu głosowania.',
 
         'entry' => [
             'limit_reached' => 'Osiągnięto limit zgłoszeń dla tego konkursu',
@@ -103,6 +121,7 @@ return [
                 'deleted' => 'Nie możesz edytować usuniętego posta.',
                 'locked' => 'Ten post jest chroniony przed edycją.',
                 'no_forum_access' => 'Nie posiadasz dostępu do tego forum.',
+                'no_permission' => 'Nie posiadasz uprawnień do edytowania.',
                 'not_owner' => 'Tylko autor posta może go edytować.',
                 'topic_locked' => 'Nie możesz edytować postów w zamkniętym wątku.',
             ],
@@ -123,7 +142,7 @@ return [
                 'user' => [
                     'require_login' => 'Zaloguj się, aby odpowiedzieć.',
                     'restricted' => "Nie możesz odpowiadać podczas blokady konta.",
-                    'silenced' => "Nie możesz odpowiadać podczas uciszenia.",
+                    'silenced' => "Nie możesz odpowiadać po tym, jak twoje konto zostało uciszone.",
                 ],
             ],
 
@@ -142,7 +161,7 @@ return [
                 'user' => [
                     'require_login' => 'Zaloguj się, aby zagłosować.',
                     'restricted' => "Nie możesz głosować podczas blokady konta.",
-                    'silenced' => "Nie możesz głosować podczas uciszenia.",
+                    'silenced' => "Nie możesz głosować po tym, jak twoje konto zostało uciszone.",
                 ],
             ],
 
@@ -166,6 +185,40 @@ return [
         ],
     ],
 
+    'room' => [
+        'destroy' => [
+            'not_owner' => 'Tylko właściciel pokoju może go zamknąć.',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "Nie możesz przypiąć tego typu wyników",
+            'failed' => "Nie możesz przypiąć wyniku zakończonego porażką.",
+            'not_owner' => 'Nie możesz przypiąć czyjegoś wyniku.',
+            'too_many' => 'Przypięto zbyt wiele wyników.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "Jesteś już członkiem tego zespołu.",
+                'already_other_member' => "Jesteś już członkiem innego zespołu.",
+                'currently_applying' => 'Twoja prośba o dołączenie do zespołu oczekuje już na rozpatrzenie.',
+                'team_closed' => 'Ten zespół nie przyjmuje aktualnie próśb o dołączenie.',
+                'team_full' => "Ten zespół jest już pełny i nie może przyjąć więcej członków.",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "Nie możesz opuścić zespołu jako jego lider.",
+            'not_member' => 'Nie jesteś członkiem tego zespołu.',
+        ],
+        'store' => [
+            'require_supporter_tag' => 'Do utworzenia zespołu wymagany jest aktywny status donatora osu!.',
+        ],
+    ],
+
     'user' => [
         'page' => [
             'edit' => [
@@ -173,6 +226,9 @@ return [
                 'not_owner' => 'Możesz edytować tylko własną stronę użytkownika.',
                 'require_supporter_tag' => 'Aby to zrobić, wymagany jest status donatora osu!.',
             ],
+        ],
+        'update_email' => [
+            'locked' => 'zmiana adresu e-mail jest zablokowana',
         ],
     ],
 ];

@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited vastaus on piilotettu.|:count_delimited vastausta on piilotettu.',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Kirjaudu sisään muokataksesi.',
@@ -16,6 +18,16 @@ return [
         'empty' => 'Mitään ei ole tapahtunut... vielä.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'poistettu',
         'none_found' => 'Hakukriteereihin täsmääviä keskusteluja ei löytynyt.',
@@ -24,7 +36,9 @@ return [
         'form' => [
             '_' => 'Hae',
             'deleted' => 'Sisällytä poistetut keskustelut',
-            'only_unresolved' => '',
+            'mode' => 'Beatmap-tila',
+            'only_unresolved' => 'Näytä vain ratkaisemattomat keskustelut',
+            'show_review_embeds' => 'Näytä arvosteluviestit',
             'types' => 'Viestityypit',
             'username' => 'Käyttäjänimi',
 
@@ -32,9 +46,9 @@ return [
                 '_' => 'Beatmapin tila',
                 'all' => 'Kaikki',
                 'disqualified' => 'Hylätty',
-                'never_qualified' => '',
-                'qualified' => 'Hyväksytty',
-                'ranked' => '',
+                'never_qualified' => 'Ei koskaan kelpuutettu',
+                'qualified' => 'Kelpuutettu',
+                'ranked' => 'Rankattu',
             ],
 
             'user' => [
@@ -54,7 +68,21 @@ return [
     'nearby_posts' => [
         'confirm' => 'Mikään viesteistä ei käsittele aihettani',
         'notice' => 'Aikajanalta :timestamp (:existing_timestamps) löytyy viestejä. Tarkista ne ennen viestin lähettämistä.',
-        'unsaved' => '',
+        'unsaved' => ':count tässä arviossa',
+    ],
+
+    'owner_editor' => [
+        'button' => 'Vaikeustason Omistaja',
+        'reset_confirm' => 'Nollaa tämän vaikeustason omistaja?',
+        'user' => 'Omistaja',
+        'version' => 'Vaikeustaso',
+    ],
+
+    'refresh' => [
+        'checking' => 'Tarkistetaan päivityksiä...',
+        'has_updates' => 'Keskustelussa on päivityksiä, klikkaa päivittääksesi.',
+        'no_updates' => 'Ei päivityksiä.',
+        'updating' => 'Päivitetään...',
     ],
 
     'reply' => [
@@ -65,17 +93,18 @@ return [
     ],
 
     'review' => [
-        'block_count' => '',
-        'go_to_parent' => '',
-        'go_to_child' => '',
+        'block_count' => ':used / :max lohkoa käytetty',
+        'go_to_parent' => 'Näytä arvostelupostaus',
+        'go_to_child' => 'Näytä keskustelu',
         'validation' => [
-            'block_too_large' => '',
-            'external_references' => '',
-            'invalid_block_type' => '',
-            'invalid_document' => '',
-            'minimum_issues' => '',
-            'missing_text' => '',
-            'too_many_blocks' => '',
+            'block_too_large' => 'jokainen lohko voi sisältää enintään :limit merkkiä',
+            'external_references' => 'arvostelu sisältää viittauksia ongelmiin, jotka eivät kuulu tähän arvosteluun',
+            'invalid_block_type' => 'virheellinen lohkotyyppi',
+            'invalid_document' => 'virheellinen arvostelu',
+            'invalid_discussion_type' => 'virheellinen keskustelutyyppi',
+            'minimum_issues' => 'arvostelun täytyy sisältää vähintään :count ongelmaa|arvostelun täytyy sisältää vähintään :count ongelmaa',
+            'missing_text' => 'lohkosta puuttuu teksti',
+            'too_many_blocks' => 'arvostelut saavat sisältää vain :count kappale/ongelmaa|arvostelut saavat sisältää vain :count kappaletta/ongelmaa',
         ],
     ],
 
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'Jokainen',
         'label' => 'Suodata käyttäjien mukaan',
+        'multiple' => ':count_delimited käyttäjä valittu|:count_delimited käyttäjää valittu',
     ],
 ];

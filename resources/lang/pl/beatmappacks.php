@@ -6,30 +6,20 @@
 return [
     'index' => [
         'description' => 'Kolekcje beatmap o wspólnej tematyce.',
+        'empty' => 'Dostępne wkrótce!',
         'nav_title' => 'lista',
         'title' => 'Paczki beatmap',
 
         'blurb' => [
             'important' => 'WAŻNE',
-            'instruction' => [
-                '_' => "Instalacja: Gdy paczka zostanie pobrana,
-                wypakuj plik .rar w folderze z beatmapami (Songs).
-                Wszystkie beatmapy w paczce będą nadal miały
-                rozszerzenie .zip czy .osz, dlatego osu! rozpakuje je
-                przy przejściu do ekranu listy beatmap.
-                :scary wypakowuj tych plików samodzielnie, inaczej nie
-                będą one funkcjonowały prawidłowo.",
-                'scary' => 'Nie',
-            ],
-            'note' => [
-                '_' => ':scary jest wysoko zalecane, ponieważ starsze mapy znacznie odstają jakością od nowszych.',
-                'scary' => 'Pobieranie paczek beatmap od najnowszych do najstarszych',
-            ],
+            'install_instruction' => 'Instalacja: Rozpakuj zawartość pobranej paczki do folderu, zaznacz wszystkie pliki .osz, a następnie przeciągnij je na uruchomione osu!.',
         ],
     ],
 
     'show' => [
+        'created_by' => 'autorstwa :author',
         'download' => 'Pobierz',
+        'no_diff_reduction_badge' => 'Wyzwanie',
         'item' => [
             'cleared' => 'ukończona',
             'not_cleared' => 'nieukończona',
@@ -43,8 +33,11 @@ return [
     'mode' => [
         'artist' => 'Artysta/Album',
         'chart' => 'Wyróżnione',
+        'featured' => 'Wyróżnieni artyści',
+        'loved' => 'Project Loved',
         'standard' => 'Standardowe',
         'theme' => 'Tematyczne',
+        'tournament' => 'Turniejowe',
     ],
 
     'require_login' => [

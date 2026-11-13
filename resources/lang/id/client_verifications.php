@@ -7,12 +7,12 @@ return [
     'completed' => [
         'home' => 'Tuju dasbor',
         'logout' => 'Keluar',
-        'text' => 'Anda dapat menutup laman ini sekarang',
-        'title' => 'verifikasi akun selesai',
+        'text' => 'Kamu bisa menutup tab/jendela ini sekarang',
+        'title' => 'Verifikasi klien osu! selesai',
     ],
 
     'create' => [
-        'confirm' => 'Klik tombol di bawah ini untuk menyelesaikan proses verifikasi akun.',
-        'title' => 'Verifikasi akun osu!',
+        'confirm' => 'Klik tombol di bawah ini untuk menyelesaikan verifikasi klien.',
+        'title' => 'Verifikasi klien osu!',
     ],
 ];

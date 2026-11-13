@@ -7,18 +7,12 @@ return [
     'admin' => [
         '_' => 'админ',
     ],
-    'admin_forum' => [
-        '_' => 'админ',
-    ],
-    'admin_store' => [
-        '_' => 'админ',
-    ],
     'error' => [
         'error' => [
             '400' => 'неверный запрос',
             '404' => 'не найдено',
-            '403' => 'отказано в доступе',
-            '401' => 'вы не авторизованы',
+            '403' => 'доступ ограничен',
+            '401' => 'необходима авторизация',
             '401-verification' => 'подтверждение аккаунта',
             '405' => 'не найдено',
             '422' => 'неверный запрос',
@@ -29,20 +23,19 @@ return [
     ],
     'forum' => [
         '_' => 'форум',
-        'topic_watches_controller' => [
-            'index' => 'инфопанель',
+        'topic_logs_controller' => [
+            'index' => 'статистика темы',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'инфопанель',
             'verify_link' => 'верификация аккаунта',
         ],
         'artists_controller' => [
-            '_' => 'featured artists',
+            '_' => 'избранные исполнители',
         ],
         'beatmap_discussion_posts_controller' => [
-            '_' => 'публикации в обсуждений карты',
+            '_' => 'посты в обсуждениях карт',
         ],
         'beatmap_discussions_controller' => [
             '_' => 'обсуждения карты',
@@ -56,14 +49,11 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'история карты',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'главная страница
-',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'обсуждение карты',
             'index' => 'библиотека карт',
             'show' => 'информация о карте',
+            'versions' => 'история версий карты',
         ],
         'changelog_controller' => [
             '_' => 'список изменений',
@@ -74,33 +64,34 @@ return [
         'comments_controller' => [
             '_' => 'комментарии',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'результаты судейства конкурса',
+        ],
         'contests_controller' => [
             '_' => 'конкурсы',
+            'judge' => 'судейство конкурса',
         ],
-        'follows_controller' => [
-            'index' => 'главная страница',
-        ],
-        'friends_controller' => [
-            'index' => 'главная страница',
+        'group_history_controller' => [
+            '_' => 'история группы',
         ],
         'groups_controller' => [
             'show' => 'группы',
         ],
         'home_controller' => [
             'get_download' => 'скачать игру',
-            'index' => 'главная страница',
+            'index' => 'дашборд',
             'search' => 'поиск',
             'support_the_game' => 'поддержать игру',
             'testflight' => 'testflight',
+        ],
+        'legacy_matches_controller' => [
+            '_' => 'матчи',
         ],
         'legal_controller' => [
             '_' => 'информация',
         ],
         'livestreams_controller' => [
             '_' => 'прямые трансляции',
-        ],
-        'matches_controller' => [
-            '_' => 'матчи',
         ],
         'news_controller' => [
             '_' => 'новости',
@@ -115,33 +106,60 @@ return [
             '_' => 'рейтинг',
         ],
         'scores_controller' => [
-            '_' => 'производительность',
+            '_' => 'рекорд',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'рейтинг',
+        ],
+        'teams_controller' => [
+            '_' => 'команды',
+            'create' => 'создание команды',
+            'edit' => 'настройки команды',
+            'leaderboard' => 'командная рейтинговая таблица',
+            'show' => 'информация о команде',
         ],
         'tournaments_controller' => [
             '_' => 'турниры',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'пресеты обложек',
+        ],
+        'user_totp_controller' => [
+            '_' => 'приложение для аутентификации',
+        ],
         'users_controller' => [
             '_' => 'информация об игроке',
+            'create' => 'создать аккаунт',
             'disabled' => 'обратите внимание',
         ],
         'wiki_controller' => [
-            '_' => 'база знаний',
+            '_' => 'вики',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'рейтинг',
+            'events' => 'история комнаты',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'авторизация приложения',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'магазин',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'участники команды',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'информация о моддере',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'история мультиплеера',
         ],
     ],
 ];

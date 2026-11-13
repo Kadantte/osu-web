@@ -25,6 +25,7 @@ return [
     ],
 
     'forums' => [
+        'forums' => 'Fora',
         'latest_post' => 'Seneste Opslag',
 
         'index' => [
@@ -47,12 +48,12 @@ return [
         'confirm_restore' => 'Gendan opslag?',
         'edited' => 'Sidst redigeret af :user den :when, redigeret i alt :count gange.',
         'posted_at' => 'slået op på :when',
-        'posted_by' => 'Nyt oplsag af :username',
+        'posted_by_in' => 'skrevet af :username i :forum',
 
         'actions' => [
             'destroy' => 'Slet opslag',
             'edit' => 'Rediger opslag',
-            'report' => '',
+            'report' => 'Anmeld opslag',
             'restore' => 'Gendan opslag',
         ],
 
@@ -79,8 +80,9 @@ return [
         'confirm_restore' => 'Gendan opslag?',
         'deleted' => 'slettede emne',
         'go_to_latest' => 'vis det seneste opslag',
-        'has_replied' => '',
-        'in_forum' => '',
+        'go_to_unread' => 'se første uløste indlæg',
+        'has_replied' => 'Du har besvaret dette emne',
+        'in_forum' => 'i :forum',
         'latest_post' => ':when af :user',
         'latest_reply_by' => 'seneste svar af :user',
         'new_topic' => 'Nyt emne',
@@ -125,6 +127,55 @@ return [
             'last' => 'gå til sidste opslag',
             'next' => 'spring over 10 opslag',
             'previous' => 'gå 10 opslag tilbage',
+        ],
+
+        'logs' => [
+            '_' => 'Emne logs',
+            'button' => 'Gennemse emnelogs',
+
+            'columns' => [
+                'action' => 'Handling',
+                'date' => 'Dato',
+                'user' => 'Bruger',
+            ],
+
+            'data' => [
+                'add_tag' => 'tilføjede ":tag" tag',
+                'announcement' => 'fastgjort emne og markeret som meddelelse',
+                'edit_topic' => 'til :title',
+                'fork' => 'fra :topic',
+                'pin' => 'fastgjort emne',
+                'post_operation' => 'postet af :username',
+                'remove_tag' => 'fjernede ":tag" tag',
+                'source_forum_operation' => 'fra :forum',
+                'unpin' => 'ufastgjort emne',
+            ],
+
+            'no_results' => 'ingen logs fundet...',
+
+            'operations' => [
+                'delete_post' => 'Slettede opslag',
+                'delete_topic' => 'Slettede emne',
+                'edit_topic' => 'Ændrede emnetitel',
+                'edit_poll' => 'Redigeret emneafstemning',
+                'fork' => 'Kopieret emne',
+                'issue_tag' => 'Udstedt tag',
+                'lock' => 'Låst emne',
+                'merge' => 'Sammenlagte opslag ind i dette emne',
+                'move' => 'Flyttet emne',
+                'pin' => 'Fastgjort emne',
+                'post_edited' => 'Redigérede opslag',
+                'restore_post' => 'Gendannet opslag',
+                'restore_topic' => 'Gendannet emne',
+                'split_destination' => 'Flyttede opdelte opslag',
+                'split_source' => 'Opdel opslag',
+                'topic_type' => 'Sæt emnetype',
+                'topic_type_changed' => 'Ændrede emnetype',
+                'unlock' => 'Oplåst emne',
+                'unpin' => 'Ufastgjort emne',
+                'user_lock' => 'Låst eget emne',
+                'user_unlock' => 'Oplåst eget emne',
+            ],
         ],
 
         'post_edit' => [
@@ -202,48 +253,6 @@ return [
             'views' => 'visninger',
         ],
 
-        'issue_tag_added' => [
-            'to_0' => 'Fjern "tilføjet" tag',
-            'to_0_done' => 'Fjern "tilføjet" tag',
-            'to_1' => 'Tilføj "tilføjet" tag',
-            'to_1_done' => 'Tilføj "tilføjet" tag',
-        ],
-
-        'issue_tag_assigned' => [
-            'to_0' => 'Fjern "tildelt" tag',
-            'to_0_done' => 'Fjern "tildelt" tag',
-            'to_1' => 'Tilføj "tildelt" tag',
-            'to_1_done' => 'Tilføj "tildelt" tag',
-        ],
-
-        'issue_tag_confirmed' => [
-            'to_0' => 'Fjern "bekræftet" tag',
-            'to_0_done' => 'Fjern "bekræftet" tag',
-            'to_1' => 'Tilføj "bekræftet" tag',
-            'to_1_done' => 'Tilføj "bekræftet" tag',
-        ],
-
-        'issue_tag_duplicate' => [
-            'to_0' => 'Fjern "duplikeret" tag',
-            'to_0_done' => 'Fjern "duplikeret" tag',
-            'to_1' => 'Tilføj "duplikeret" tag',
-            'to_1_done' => 'Tilføj "duplikeret" tag',
-        ],
-
-        'issue_tag_invalid' => [
-            'to_0' => 'Fjern "ugyldigt" tag',
-            'to_0_done' => 'Fjern "ugyldigt" tag',
-            'to_1' => 'Tilføj "ugyldigt" tag',
-            'to_1_done' => 'Tilføj "ugyldigt" tag',
-        ],
-
-        'issue_tag_resolved' => [
-            'to_0' => 'Fjern "løst" tag',
-            'to_0_done' => 'Fjern "løst" tag',
-            'to_1' => 'Tilføj "løst" tag',
-            'to_1_done' => 'Tilføj "løst" tag',
-        ],
-
         'lock' => [
             'is_locked' => 'Dette emne er arkiveret og kan ikke svares',
             'to_0' => 'Oplås emne',
@@ -278,6 +287,7 @@ return [
         'show' => [
             'deleted-posts' => 'Slettede Opslag',
             'total_posts' => 'Opslag i alt',
+            'total_watches' => '',
 
             'feature_vote' => [
                 'current' => 'Nuværende Prioritet: +:count',

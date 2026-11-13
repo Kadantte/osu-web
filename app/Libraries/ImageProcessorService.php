@@ -7,12 +7,16 @@ namespace App\Libraries;
 
 use App\Exceptions\ImageProcessorServiceException;
 use App\Models\Beatmapset;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class ImageProcessorService
 {
-    public function __construct($endpoint = null)
+    private string $endpoint;
+
+    public function __construct(?string $endpoint = null)
     {
-        $this->endpoint = $endpoint ?? config('osu.beatmap_processor.thumbnailer');
+        $this->endpoint = $endpoint ?? $GLOBALS['cfg']['osu']['beatmap_processor']['thumbnailer'];
     }
 
     private static function isValidFormat($size)
@@ -37,18 +41,22 @@ class ImageProcessorService
     // returns a handle instead of a filename to keep tmpfile alive
     public function process($method, $src)
     {
-        $src = preg_replace("/https?:\/\//", '', $src);
+        $src = preg_replace('/https?:\/\//', '', $src);
         try {
             $tmpFile = tmpfile();
-            $bytesWritten = fwrite($tmpFile, file_get_contents($this->endpoint."/{$method}/{$src}"));
-        } catch (\ErrorException $e) {
-            if (strpos($e->getMessage(), 'HTTP request failed!') !== false) {
-                throw new ImageProcessorServiceException('HTTP request failed!');
-            } elseif (strpos($e->getMessage(), 'Connection refused') !== false) {
-                throw new ImageProcessorServiceException('Connection refused.');
-            } else {
-                throw $e;
+            $bytesWritten = fwrite(
+                $tmpFile,
+                (new Client())->request('GET', "{$this->endpoint}/{$method}/{$src}")->getBody()->getContents(),
+            );
+        } catch (GuzzleException $e) {
+            if (str_contains($e->getMessage(), 'VipsJpeg: Premature end of input file')) {
+                throw new ImageProcessorServiceException(
+                    'Invalid image file',
+                    ImageProcessorServiceException::INVALID_IMAGE,
+                    $e,
+                );
             }
+            throw new ImageProcessorServiceException('HTTP request failed!', 0, $e);
         }
 
         if ($bytesWritten === false || $bytesWritten < 100) {

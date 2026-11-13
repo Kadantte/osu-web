@@ -27,10 +27,11 @@ class ChangeUsernameTest extends TestCase
         $user = $this->createUser(['user_warnings' => 1]);
 
         $errors = $user->validateChangeUsername('newusername')->all();
-        $expected = [trans('model_validation.user.change_username.restricted')];
 
-        $this->assertArrayHasKey('username', $errors);
-        $this->assertArraySubset($expected, $errors['username'], true);
+        $this->assertContains(
+            osu_trans('model_validation.user.change_username.restricted'),
+            $errors['username'],
+        );
     }
 
     public function testSupportCanChangeEvenIfUserIsRestricted()
@@ -47,10 +48,11 @@ class ChangeUsernameTest extends TestCase
         $user = $this->createUser(['osu_subscriptionexpiry' => null]);
 
         $errors = $user->validateChangeUsername('newusername')->all();
-        $expected = [ChangeUsername::requireSupportedMessage()];
 
-        $this->assertArrayHasKey('username', $errors);
-        $this->assertArraySubset($expected, $errors['username'], true);
+        $this->assertContains(
+            ChangeUsername::requireSupportedMessage(),
+            $errors['username'],
+        );
     }
 
     public function testSupportCanChangeEvenIfUserHasNeverSupported()
@@ -67,10 +69,11 @@ class ChangeUsernameTest extends TestCase
         $user = $this->createUser();
 
         $errors = $user->validateChangeUsername('iamuser')->all();
-        $expected = [trans('model_validation.user.change_username.username_is_same')];
 
-        $this->assertArrayHasKey('username', $errors);
-        $this->assertArraySubset($expected, $errors['username'], true);
+        $this->assertContains(
+            osu_trans('model_validation.user.change_username.username_is_same'),
+            $errors['username'],
+        );
     }
 
     public function testUsernameWithDifferentCasingIsSame()
@@ -78,15 +81,16 @@ class ChangeUsernameTest extends TestCase
         $user = $this->createUser();
 
         $errors = $user->validateChangeUsername('iAmUser')->all();
-        $expected = [trans('model_validation.user.change_username.username_is_same')];
 
-        $this->assertArrayHasKey('username', $errors);
-        $this->assertArraySubset($expected, $errors['username'], true);
+        $this->assertContains(
+            osu_trans('model_validation.user.change_username.username_is_same'),
+            $errors['username'],
+        );
     }
 
     public function testUserHasSupportedButExpired()
     {
-        $user = $this->createUser(['osu_subscriptionexpiry' => Carbon::now()->subMonth()]);
+        $user = $this->createUser(['osu_subscriptionexpiry' => Carbon::now()->subMonths()]);
 
         $errors = $user->validateChangeUsername('newusername');
 
@@ -100,7 +104,7 @@ class ChangeUsernameTest extends TestCase
             'username' => 'newusername',
             'username_clean' => 'newusername',
             'osu_subscriptionexpiry' => null,
-            'user_lastvisit' => Carbon::now()->subYear(),
+            'user_lastvisit' => Carbon::now()->subYears(),
         ]);
 
         $user->changeUsername('newusername', 'paid');
@@ -124,13 +128,13 @@ class ChangeUsernameTest extends TestCase
             'username' => 'newusername',
             'username_clean' => 'newusername',
             'osu_subscriptionexpiry' => null,
-            'user_lastvisit' => Carbon::now()->subYear(),
+            'user_lastvisit' => Carbon::now()->subYears(),
         ]);
         $this->createUser([
             'username' => 'newusername_old',
             'username_clean' => 'newusername_old',
             'osu_subscriptionexpiry' => null,
-            'user_lastvisit' => Carbon::now()->subYear(),
+            'user_lastvisit' => Carbon::now()->subYears(),
         ]);
 
         $user->changeUsername('newusername', 'paid');
@@ -161,7 +165,7 @@ class ChangeUsernameTest extends TestCase
         $existing->usernameChangeHistory()->create([
             'username' => 'existing_now',
             'username_last' => $newUsername,
-            'timestamp' => Carbon::now()->subYear(),
+            'timestamp' => Carbon::now()->subYears(),
             'type' => 'paid',
         ]);
 
@@ -185,7 +189,7 @@ class ChangeUsernameTest extends TestCase
         $existing->usernameChangeHistory()->create([
             'username' => 'existing_now',
             'username_last' => $newUsername,
-            'timestamp' => Carbon::now()->subYear(),
+            'timestamp' => Carbon::now()->subYears(),
             'type' => 'paid',
         ]);
 
@@ -204,7 +208,7 @@ class ChangeUsernameTest extends TestCase
             'username' => 'newusername',
             'username_clean' => 'newusername',
             'osu_subscriptionexpiry' => null,
-            'user_lastvisit' => Carbon::now()->subYear(),
+            'user_lastvisit' => Carbon::now()->subYears(),
         ]);
 
         $existing->badges()->create(['image' => 'test', 'description' => 'test', 'awarded' => now()]);
@@ -215,11 +219,11 @@ class ChangeUsernameTest extends TestCase
 
     private function createUser(array $attribs = []): User
     {
-        return factory(User::class)->create(array_merge([
+        return User::factory()->create(array_merge([
             'username' => 'iamuser',
             'username_clean' => 'iamuser',
             'user_lastvisit' => Carbon::now(),
-            'osu_subscriptionexpiry' => Carbon::now()->addMonth(),
+            'osu_subscriptionexpiry' => Carbon::now()->addMonths(),
         ], $attribs));
     }
 }

@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited câu trả lời đã bị ẩn.|:count_delimited câu trả lời đã bị ẩn.',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Cần phải đăng nhập để chỉnh sửa.',
@@ -16,6 +18,16 @@ return [
         'empty' => 'Chưa có gì xảy ra cả.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'đã xóa',
         'none_found' => 'Không có cuộc thảo luận nào khớp với bộ lọc tìm kiếm.',
@@ -24,7 +36,9 @@ return [
         'form' => [
             '_' => 'Tìm kiếm',
             'deleted' => 'Bao gồm cuộc thảo luận đã xóa',
+            'mode' => 'Chế độ Beatmap',
             'only_unresolved' => 'Chỉ hiện các cuộc thảo luận chưa được giải quyết',
+            'show_review_embeds' => 'Hiển thị các bài đăng đánh giá',
             'types' => 'Kiểu tin nhắn',
             'username' => 'Tên người dùng',
 
@@ -32,9 +46,9 @@ return [
                 '_' => 'Tình trạng Beatmap',
                 'all' => 'Tất cả',
                 'disqualified' => 'Disqualified ',
-                'never_qualified' => 'Chưa bao giờ Qualified',
-                'qualified' => 'Qualified',
-                'ranked' => 'Ranked',
+                'never_qualified' => 'Chưa từng đủ điều kiện',
+                'qualified' => 'Đủ điều kiện',
+                'ranked' => 'Xếp Hạng',
             ],
 
             'user' => [
@@ -48,13 +62,28 @@ return [
         'created_at' => 'Ngày đăng',
         'deleted_at' => 'Ngày xóa',
         'message_type' => 'Loại',
-        'permalink' => 'Permalink',
+        'permalink' => 'Liên Kết Tĩnh',
     ],
 
     'nearby_posts' => [
         'confirm' => 'Không bài đăng nào đề cập đến vấn đề của tôi',
-        'notice' => 'Có một vài bài đăng vào khoảng :timestamp (:existing_timestamps). Hãy xem chúng trước khi đăng.',
+        'notice' => 'Có một vài bài đăng vào khoảng :timestamp
+(:existing_timestamps). Hãy xem chúng trước khi đăng.',
         'unsaved' => ':count trong bài đánh giá này',
+    ],
+
+    'owner_editor' => [
+        'button' => 'Chủ Sở Hữu Độ Khó',
+        'reset_confirm' => 'Đặt lại chủ sở hữu cho độ khó này?',
+        'user' => 'Chủ sở hữu',
+        'version' => 'Độ khó',
+    ],
+
+    'refresh' => [
+        'checking' => 'Đang kiểm tra cập nhật...',
+        'has_updates' => 'Cuộc thảo luận có cập nhật, nhấn để làm mới.',
+        'no_updates' => 'Không có cập nhật mới.',
+        'updating' => 'Đang cập nhật...',
     ],
 
     'reply' => [
@@ -65,34 +94,36 @@ return [
     ],
 
     'review' => [
-        'block_count' => '',
-        'go_to_parent' => 'Xem Bài viết Đánh giá',
+        'block_count' => ':used / :max khối được sử dụng',
+        'go_to_parent' => 'Xem Bài đăng Đánh giá',
         'go_to_child' => 'Xem cuộc thảo luận',
         'validation' => [
-            'block_too_large' => '',
-            'external_references' => '',
-            'invalid_block_type' => '',
+            'block_too_large' => 'mỗi khối chỉ có thể chứa tối đa :limit giới hạn kí tự',
+            'external_references' => 'bài đánh giá có chứa tham chiếu đến các vấn đề không thuộc bài đánh giá này',
+            'invalid_block_type' => 'loại khối không hợp lệ',
             'invalid_document' => 'đánh giá không phù hợp',
-            'minimum_issues' => '',
-            'missing_text' => '',
-            'too_many_blocks' => '',
+            'invalid_discussion_type' => 'loại thảo luận không hợp lệ',
+            'minimum_issues' => 'đánh giá phải chứa tối thiểu :count vấn_đề|đánh_giá phải chứa tối thiểu :count vấn đề',
+            'missing_text' => 'khối bị thiếu văn bản',
+            'too_many_blocks' => 'đánh giá chỉ có thể chứa :count đoạn_văn/vấn_đề|đanh_giá chỉ có thể chứa tối đa :count đoạn_văn/vấn_đề',
         ],
     ],
 
     'system' => [
         'resolved' => [
-            'true' => 'Đã đánh dấu là được giải quyết bởi :user',
+            'true' => 'Đã giải quyết bởi :user',
             'false' => 'Đã mở lại bởi :user',
         ],
     ],
 
     'timestamp_display' => [
-        'general' => '',
-        'general_all' => '',
+        'general' => 'chung',
+        'general_all' => 'chung (tất cả)',
     ],
 
     'user_filter' => [
         'everyone' => 'Mọi người',
         'label' => 'Lọc theo người dùng',
+        'multiple' => ':count_delimited người dùng được chọn|:count_delimited người dùng được chọn',
     ],
 ];

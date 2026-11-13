@@ -9,7 +9,7 @@ return [
     ],
 
     'defaults' => [
-        'page_description' => 'osu! - Il ritmo è ad un *click* di distanza!  Con Ouendan/EBA, Taiko e originali modalità di gameplay, oltre che un editor di livelli completamente funzionale.',
+        'page_description' => 'osu! - Il ritmo è a distanza di un *clic*!  Con Ouendan/EBA, Taiko e modalità di gioco originali con un editor di livelli dotato di ogni funzionalità.',
     ],
 
     'header' => [
@@ -19,11 +19,16 @@ return [
             'contest' => 'concorso',
             'contests' => 'concorsi',
             'root' => 'console',
-            'store_orders' => 'amministrazione del negozio',
         ],
 
         'artists' => [
             'index' => 'lista',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'dettagli',
+            'discussions' => 'discussione',
+            'versions' => 'cronologia versioni',
         ],
 
         'changelog' => [
@@ -47,7 +52,10 @@ return [
 
         'users' => [
             'modding' => 'modding',
-            'show' => 'info',
+            'playlists' => 'playlist',
+            'ranked-play' => 'ranked play',
+            'realtime' => 'multigiocatore',
+            'show' => 'dettagli',
         ],
     ],
 
@@ -62,18 +70,10 @@ return [
     'menu' => [
         'beatmaps' => [
             '_' => 'beatmap',
-            'artists' => 'artisti in primo piano',
-            'index' => 'lista',
-            'packs' => 'pacchetti',
         ],
         'community' => [
             '_' => 'comunità',
-            'chat' => 'chat',
-            'contests' => 'concorsi',
             'dev' => 'sviluppo',
-            'forum-forums-index' => 'forum',
-            'getLive' => 'live',
-            'tournaments' => 'tornei',
         ],
         'help' => [
             '_' => 'aiuto',
@@ -81,30 +81,16 @@ return [
             'getFaq' => 'domande frequenti',
             'getRules' => 'regole',
             'getSupport' => 'davvero, mi serve aiuto!',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => 'home',
-            'changelog-index' => 'note di rilascio',
-            'getDownload' => 'download',
-            'news-index' => 'notizie',
-            'search' => 'cerca',
             'team' => 'team',
         ],
         'rankings' => [
             '_' => 'classifiche',
-            'charts' => 'spotlight',
-            'country' => 'paese',
-            'index' => 'performance',
-            'kudosu' => 'kudosu',
-            'multiplayer' => 'multigiocatore',
-            'score' => 'punteggio',
         ],
         'store' => [
             '_' => 'negozio',
-            'cart-show' => 'carrello',
-            'getListing' => 'lista',
-            'orders-index' => 'cronologia ordini',
         ],
     ],
 
@@ -112,7 +98,7 @@ return [
         'general' => [
             '_' => 'Generale',
             'home' => 'Home',
-            'changelog-index' => 'Note di rilascio',
+            'changelog-index' => 'Changelog',
             'beatmaps' => 'Lista Beatmap',
             'download' => 'Scarica osu!',
         ],
@@ -120,14 +106,16 @@ return [
             '_' => 'Aiuto e Comunità',
             'faq' => 'Domande Frequenti',
             'forum' => 'Forum della Comunità',
-            'livestreams' => 'Live',
+            'livestreams' => 'Dirette streaming',
             'report' => 'Segnala un problema',
             'wiki' => 'Wiki',
         ],
         'legal' => [
             '_' => 'Legale e Status',
             'copyright' => 'Copyright (DMCA)',
+            'jp_sctl' => '',
             'privacy' => 'Privacy',
+            'rules' => 'Regole',
             'server_status' => 'Stato del Server',
             'source_code' => 'Codice Sorgente',
             'terms' => 'Termini di Servizio',
@@ -189,7 +177,7 @@ return [
         'login' => [
             'forgot' => "Ho dimenticato i miei dati",
             'password' => 'password',
-            'title' => 'Accedi per Procedere',
+            'title' => 'Accedi Per Continuare',
             'username' => 'nome utente',
 
             'error' => [
@@ -208,15 +196,21 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => 'Impostazioni',
+            'create_team' => 'Crea squadra',
             'follows' => 'Iscrizioni',
             'friends' => 'Amici',
-            'logout' => 'Disconnettiti',
+            'legacy_score_only_toggle' => 'Modalità lazer',
+            'legacy_score_only_toggle_tooltip' => 'La modalità lazer mostra i punteggi di lazer con un nuovo algoritmo dei punti',
+            'logout' => 'Esci',
             'profile' => 'Profilo',
+            'scoring_mode_toggle' => 'Punteggio classico',
+            'scoring_mode_toggle_tooltip' => 'Adatta i valori dei punti facendoli assomigliare al punteggio illimitato classico',
+            'team' => 'Squadra',
         ],
     ],
 
     'popup_search' => [
-        'initial' => 'Digita per cercare!',
+        'initial' => 'Scrivi per cercare!',
         'retry' => 'Ricerca fallita. Clicca per riprovare.',
     ],
 ];

@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => '',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'يجب أن يتم تسجيل دخولك للتعديل.',
@@ -16,6 +18,16 @@ return [
         'empty' => 'لم يحدث أي شيء... حتى الآن.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'حُذفت',
         'none_found' => 'لم تم العثور على أي مناقشات تطابق معايير البحث.',
@@ -24,7 +36,9 @@ return [
         'form' => [
             '_' => 'البحث',
             'deleted' => 'شمل المناقشات المحذوفة',
+            'mode' => 'نمط الخريطة',
             'only_unresolved' => 'اظهار المناقشات التي لم تحل فقط',
+            'show_review_embeds' => 'إظهار منشورات المراجعات',
             'types' => 'أنواع الرسائل',
             'username' => 'اسم المستخدم',
 
@@ -34,7 +48,7 @@ return [
                 'disqualified' => 'رفض تأهيلها',
                 'never_qualified' => 'لم تؤهل ابداََ',
                 'qualified' => 'تأهلت',
-                'ranked' => 'مصفوفة',
+                'ranked' => 'Ranked',
             ],
 
             'user' => [
@@ -57,6 +71,20 @@ return [
         'unsaved' => ':count في هذه المراجعة',
     ],
 
+    'owner_editor' => [
+        'button' => 'مالك الصعوبة',
+        'reset_confirm' => 'إعادة تعيين المالك لهذه الصعوبة؟',
+        'user' => 'المالك',
+        'version' => 'الصعوبة',
+    ],
+
+    'refresh' => [
+        'checking' => 'جارٍ التحقق من التحديثات...',
+        'has_updates' => 'يوجد تحديثات في النقاش، انقر للتحديث.',
+        'no_updates' => 'لا توجد تحديثات.',
+        'updating' => 'جاري التحديث...',
+    ],
+
     'reply' => [
         'open' => [
             'guest' => 'سجل الدخول للرد',
@@ -73,6 +101,7 @@ return [
             'external_references' => 'المراجعة تحتوي إشارات إلى مشاكل لا تنتمي إلى هذه المراجعة',
             'invalid_block_type' => 'نوع كتلة غير صالح',
             'invalid_document' => 'مراجعة غير صالحة',
+            'invalid_discussion_type' => 'نوع المناقشة غير صالح',
             'minimum_issues' => 'ألمراجعة يجب ان تحوي :count مشكلة على الأقل|المراجعة يجب ان تحوي :count مشاكل على الأقل',
             'missing_text' => 'الكتلة تفتقد للنص',
             'too_many_blocks' => 'المراجعة يمكن ان تحتوي :count فقرة\مشكلة فقط| المراجعة يمكن ان تحتوي على اكثر من :count فقرات\مشاكل',
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'الجميع',
         'label' => 'الفرز حسب المستخدم',
+        'multiple' => '',
     ],
 ];

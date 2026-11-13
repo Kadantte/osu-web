@@ -7,140 +7,159 @@ return [
     'admin' => [
         '_' => 'admin',
     ],
-    'admin_forum' => [
-        '_' => 'admin',
-    ],
-    'admin_store' => [
-        '_' => 'admin',
-    ],
     'error' => [
         'error' => [
-            '400' => '',
+            '400' => 'neplatný požadavek',
             '404' => 'chybějící',
             '403' => 'zakázano',
             '401' => 'neoprávněný',
-            '401-verification' => '',
+            '401-verification' => 'ověření účtu',
             '405' => 'chybějící',
-            '422' => '',
-            '429' => '',
-            '500' => '',
-            '503' => '',
+            '422' => 'neplatný požadavek',
+            '429' => 'příliš mnoho požadavků',
+            '500' => 'něco se pokazilo',
+            '503' => 'údržba',
         ],
     ],
     'forum' => [
         '_' => 'fórum',
-        'topic_watches_controller' => [
-            'index' => '',
+        'topic_logs_controller' => [
+            'index' => 'záznamy téma',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => '',
-            'verify_link' => '',
+            'verify_link' => 'ověření účtu',
         ],
         'artists_controller' => [
-            '_' => '',
+            '_' => 'oficiální umělci',
         ],
         'beatmap_discussion_posts_controller' => [
-            '_' => '',
+            '_' => 'příspěvky diskuze o beatmapě',
         ],
         'beatmap_discussions_controller' => [
-            '_' => '',
+            '_' => 'diskuze o beatmapě',
         ],
         'beatmap_packs_controller' => [
-            '_' => '',
+            '_' => 'balíčky beatmap',
         ],
         'beatmapset_discussion_votes_controller' => [
-            '_' => '',
+            '_' => 'diskuzní hlasy beatmapy',
         ],
         'beatmapset_events_controller' => [
-            '_' => '',
-        ],
-        'beatmapset_watches_controller' => [
-            'index' => '',
+            '_' => 'historie beatmap',
         ],
         'beatmapsets_controller' => [
-            'discussion' => '',
-            'index' => '',
-            'show' => '',
+            'discussion' => 'diskuze o beatmapě',
+            'index' => 'seznam beatmap',
+            'show' => 'info o beatmapě',
+            'versions' => 'historie verzí beatmapy',
         ],
         'changelog_controller' => [
-            '_' => '',
+            '_' => 'seznam změn',
         ],
         'chat_controller' => [
-            '_' => '',
+            '_' => 'chat',
         ],
         'comments_controller' => [
-            '_' => '',
+            '_' => 'komentáře',
+        ],
+        'contest_entries_controller' => [
+            'judge_results' => 'výsledky hodnocení soutěže',
         ],
         'contests_controller' => [
-            '_' => '',
+            '_' => 'soutěže',
+            'judge' => 'hodnocení soutěže',
         ],
-        'follows_controller' => [
-            'index' => '',
-        ],
-        'friends_controller' => [
-            'index' => '',
+        'group_history_controller' => [
+            '_' => 'historie skupin',
         ],
         'groups_controller' => [
-            'show' => '',
+            'show' => 'skupiny',
         ],
         'home_controller' => [
-            'get_download' => '',
-            'index' => '',
-            'search' => '',
-            'support_the_game' => '',
-            'testflight' => '',
+            'get_download' => 'ke stažení',
+            'index' => 'nástěnka',
+            'search' => 'hledat',
+            'support_the_game' => 'podpoř hru',
+            'testflight' => 'testflight',
+        ],
+        'legacy_matches_controller' => [
+            '_' => 'zápasy',
         ],
         'legal_controller' => [
-            '_' => '',
+            '_' => 'informace',
         ],
         'livestreams_controller' => [
-            '_' => '',
-        ],
-        'matches_controller' => [
-            '_' => '',
+            '_' => 'živá vysílání',
         ],
         'news_controller' => [
-            '_' => '',
+            '_' => 'novinky',
         ],
         'notifications_controller' => [
-            '_' => '',
+            '_' => 'historie oznámení',
         ],
         'password_reset_controller' => [
-            '_' => '',
+            '_' => 'obnova hesla',
         ],
         'ranking_controller' => [
-            '_' => '',
+            '_' => 'žebříček',
         ],
         'scores_controller' => [
-            '_' => '',
+            '_' => 'výkon',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'hodnocení',
+        ],
+        'teams_controller' => [
+            '_' => 'týmy',
+            'create' => 'vytvořit tým',
+            'edit' => 'nastavení týmu',
+            'leaderboard' => 'žebříček týmu',
+            'show' => 'informace o týmu',
         ],
         'tournaments_controller' => [
-            '_' => '',
+            '_' => 'turnaje',
+        ],
+        'user_cover_presets_controller' => [
+            '_' => 'přednastavení uživatelského záhlaví',
+        ],
+        'user_totp_controller' => [
+            '_' => 'ověřovací aplikace',
         ],
         'users_controller' => [
-            '_' => '',
+            '_' => 'informace o hráči',
+            'create' => 'vytvořit účet',
             'disabled' => 'oznámení',
         ],
         'wiki_controller' => [
-            '_' => 'nápověda',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => '',
+            'events' => 'historie místnosti',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'autorizovat aplikaci',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'obchod',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'členové týmu',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
-            '_' => '',
+            '_' => 'modder info',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'historie her více hráčů',
         ],
     ],
 ];

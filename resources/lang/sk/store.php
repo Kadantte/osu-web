@@ -4,12 +4,9 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'admin' => [
-        'warehouse' => 'Sklad',
-    ],
-
     'cart' => [
         'checkout' => 'Platba',
+        'empty_cart' => '',
         'info' => '',
         'more_goodies' => 'Chcem sa ešte pozrieť na viac dobrôt než dokončím objednávku',
         'shipping_fees' => 'poplatky za dopravu',
@@ -35,6 +32,7 @@ return [
         'cart_problems_edit' => 'Pre editovanie klikni sem.',
         'declined' => 'Tvoja platba bola zamietnutá.',
         'delayed_shipping' => 'Momentálne sme zaplavení objednávkami! Svoju objednávku môžeš zadať, ale prosím počítaj s **dodatočným 1-2 tyždennym oneskorením** zatial čo dokončíme existujúce objednávky.',
+        'hide_from_activity' => '',
         'old_cart' => 'Obsah tvojho košíka sa zdá byť zastaralý a preto bol znovu načítaný, skus to prosím znovu.',
         'pay' => 'Platba cez PayPal',
         'title_compact' => '',
@@ -51,18 +49,53 @@ return [
     ],
 
     'discount' => 'ušetri :percent%',
+    'free' => '',
 
     'invoice' => [
+        'contact' => '',
+        'date' => '',
         'echeck_delay' => '',
+        'echeck_denied' => '',
+        'hide_from_activity' => '',
+        'sent_via' => '',
+        'shipping_to' => '',
+        'title' => '',
         'title_compact' => '',
 
         'status' => [
+            'cancelled' => [
+                'title' => '',
+                'line_1' => [
+                    '_' => "",
+                    'link_text' => '',
+                ],
+            ],
+            'delivered' => [
+                'title' => '',
+                'line_1' => [
+                    '_' => '',
+                    'link_text' => '',
+                ],
+            ],
+            'prepared' => [
+                'title' => '',
+                'line_1' => '',
+                'line_2' => '',
+            ],
             'processing' => [
                 'title' => 'Vaša platba ešte nebola potvrdená!',
                 'line_1' => '',
                 'line_2' => [
                     '_' => 'Ak sa vyskytol problém počas platby, :link',
                     'link_text' => 'kliknutím sem obnovíte vašu platbu',
+                ],
+            ],
+            'shipped' => [
+                'title' => '',
+                'tracking_details' => '',
+                'no_tracking_details' => [
+                    '_' => "",
+                    'link_text' => '',
                 ],
             ],
         ],
@@ -76,13 +109,31 @@ return [
         'no_orders' => 'Žiadne objednávky na zobrazenie.',
         'paid_on' => '',
         'resume' => '',
+        'shipping_and_handling' => '',
         'shopify_expired' => '',
+        'subtotal' => '',
+        'total' => '',
+        'unavailable' => '',
+
+        'details' => [
+            'order_number' => '',
+            'payment_terms' => '',
+            'salesperson' => '',
+            'shipping_method' => '',
+            'shipping_terms' => '',
+            'title' => '',
+        ],
 
         'item' => [
+            'quantity' => 'Množstvo',
+
             'display_name' => [
                 'supporter_tag' => ':name pre :username (:duration)',
             ],
-            'quantity' => 'Množstvo',
+
+            'subtext' => [
+                'supporter_tag' => '',
+            ],
         ],
 
         'not_modifiable_exception' => [
@@ -102,6 +153,15 @@ return [
             'paid' => 'Zaplatené',
             'processing' => 'Čaká sa na potvrdenie',
             'shipped' => 'Na ceste',
+            'title' => '',
+        ],
+
+        'thanks' => [
+            'title' => '',
+            'line_1' => [
+                '_' => '',
+                'link_text' => '',
+            ],
         ],
     ],
 
@@ -115,6 +175,7 @@ return [
 
         'add_to_cart' => 'Pridať do košíka',
         'notify' => 'Informujte ma, ak je k dispozícii!',
+        'out_of_stock' => '',
 
         'notification_success' => 'budeš informovaný, keď budeme mať nové zásoby. kliknite :link pre zrušenie',
         'notification_remove_text' => 'tu',
@@ -124,6 +185,8 @@ return [
 
     'supporter_tag' => [
         'gift' => 'darovať hráčovi',
+        'gift_message' => '',
+
         'require_login' => [
             '_' => 'Musíš byť :link aby si dostal osu!supporter tag!',
             'link_text' => 'prihlásený',
@@ -133,6 +196,10 @@ return [
     'username_change' => [
         'check' => 'Zadaj uživatelské meno pre kontrolu dostupnosti!',
         'checking' => 'Prebieha kontrola dostupnosti uživatelského mena :username...',
+        'placeholder' => '',
+        'label' => '',
+        'current' => '',
+
         'require_login' => [
             '_' => 'Pre zmenu uživatelského mena sa musíš :link!',
             'link_text' => 'prihlásený',

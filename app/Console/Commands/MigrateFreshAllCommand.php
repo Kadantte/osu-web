@@ -6,22 +6,19 @@
 namespace App\Console\Commands;
 
 use Illuminate\Database\Console\Migrations\FreshCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 
+#[AsCommand(name: 'migrate:fresh')]
 class MigrateFreshAllCommand extends FreshCommand
 {
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
     public function handle()
     {
         if (!$this->confirmToProceed()) {
-            return;
+            return 1;
         }
 
-        $connections = config('database.connections');
+        $connections = $GLOBALS['cfg']['database']['connections'];
 
         $this->warn('This will drop tables in the following databases:');
 
@@ -29,15 +26,17 @@ class MigrateFreshAllCommand extends FreshCommand
             $this->warn("{$name} => {$config['database']}");
         }
 
-        $continue = $this->option('yes') || $this->confirm('continue?');
+        $continue = $this->option('no-interaction') || $this->confirm('continue?', true);
         if (!$continue) {
-            return $this->error('User aborted!');
+            $this->error('User aborted!');
+            return 1;
         }
 
         foreach (array_keys($connections) as $database) {
             $this->warn($database);
             $this->call('db:wipe', [
                 '--database' => $database,
+                '--drop-views' => true,
             ]);
         }
 
@@ -51,20 +50,20 @@ class MigrateFreshAllCommand extends FreshCommand
 
         $this->call('es:index-documents', [
             '--cleanup' => true,
-            '--yes' => $this->option('yes'),
+            '--no-interaction' => $this->option('no-interaction'),
         ]);
 
         $this->call('es:index-wiki', [
             '--cleanup' => true,
             '--create-only' => true,
-            '--yes' => $this->option('yes'),
+            '--no-interaction' => $this->option('no-interaction'),
         ]);
-
-        $this->call('es:create-search-blacklist');
 
         if ($this->needsSeeding()) {
             $this->runSeeder(null);
         }
+
+        return 0;
     }
 
     /**
@@ -79,7 +78,6 @@ class MigrateFreshAllCommand extends FreshCommand
             ['path', null, InputOption::VALUE_OPTIONAL, 'The path of migrations files to be executed.'],
             ['seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.'],
             ['seeder', null, InputOption::VALUE_OPTIONAL, 'The class name of the root seeder.'],
-            ['yes', null, InputOption::VALUE_NONE, 'Skip the confirmation prompt.'],
         ];
     }
 }

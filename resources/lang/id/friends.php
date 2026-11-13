@@ -4,11 +4,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'blocked' => 'Kamu sudah diblokir oleh pengguna ini.',
     'title_compact' => 'teman',
     'too_many' => 'Batas jumlah teman tercapai',
 
     'buttons' => [
-        'add' => 'tambahkan ke daftar teman',
+        'add' => 'tambahkan sebagai teman',
         'disabled' => 'pengikut',
         'remove' => 'hapus dari daftar teman',
     ],

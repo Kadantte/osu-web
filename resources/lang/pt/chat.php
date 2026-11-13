@@ -4,32 +4,67 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'loading_users' => 'a carregar utilizadores...',
+    'searching_users' => 'procurando por usuários...',
     'talking_in' => 'a falar em :channel',
     'talking_with' => 'a falar com :name',
-    'title_compact' => 'chat',
+    'title_compact' => 'conversa',
+    'unread_messages' => 'mensagens não lidas',
 
     'cannot_send' => [
-        'channel' => 'Não podes mandar mensagens neste canal de momento. Isto poderá ser devido a uma das razões:',
-        'user' => 'Não podes enviar mensagens a este utilizador de momento. Isto poderá ser devido a uma das razões:',
-        'reasons' => [
-            'blocked' => 'Foste bloqueado pelo destinatário',
-            'channel_moderated' => 'O canal foi moderado',
-            'friends_only' => 'O destinatário só aceita mensagens de pessoas da sua lista de amigos',
-            'not_enough_plays' => 'Não jogaste o jogo suficientemente',
-            'not_verified' => 'A tua sessão não foi verificada',
-            'restricted' => 'Tu estás restrito',
-            'silenced' => 'Estás silenciado de momento',
-            'target_restricted' => 'O destinatário está atualmente restrito',
+        'channel' => 'Não pode enviar mensagens para este canal neste momento.',
+        'user' => 'Não pode enviar mensagens a este utilizador neste momento.',
+    ],
+
+    'channels' => [
+        'confirm_part' => 'Deseja ocultar este canal? Continuará a receber mensagens deste canal.',
+        'create' => 'criar notícia',
+        'join' => 'juntar-se a um canal',
+        'none' => 'sem canal',
+
+        'list' => [
+            'title' => [
+                'ANNOUNCE' => 'Notícias',
+                'GROUP' => 'Grupos',
+                'PM' => 'Mensagens diretas',
+                'PUBLIC' => 'Canais',
+                'TEAM' => 'Equipa',
+            ],
         ],
     ],
+
+    'form' => [
+        'title' => [
+            'announcement' => 'Criar notícia',
+        ],
+
+        'labels' => [
+            'description' => 'descrição',
+            'message' => 'mensagem',
+            'name' => 'nome da sala',
+            'users' => 'jogadores a adicionar',
+        ],
+    ],
+
+    'not_found' => [
+        'message' => 'Não há nada aqui. Talvez tenha saído do canal ou ele não existe...',
+        'title' => 'canal não encontrado',
+    ],
+
+    'not_joined' => [
+        'message' => 'Junte‑se ao canal para ver as mensagens.',
+        'join' => 'Entrar no canal',
+    ],
+
     'input' => [
-        'disabled' => 'incapacitado de enviar mensagem...',
+        'create' => 'Criar',
+        'disabled' => 'não foi possível enviar a mensagem...',
+        'disconnected' => 'Desconectado',
         'placeholder' => 'escrever mensagem...',
         'send' => 'Enviar',
     ],
-    'no-conversations' => [
-        'howto' => "Começa a conversar a partir do perfil dum utilizador ou dum popup cartão de utilizador.",
-        'lazer' => 'Canais públicos que te juntes via <a href=":link">osu!lazer</a> também serão visíveis aqui.',
-        'title' => 'ainda sem conversações',
+
+    'join_channels' => [
+        'loading' => 'A carregar a lista de canais...',
     ],
 ];

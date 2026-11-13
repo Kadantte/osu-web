@@ -5,39 +5,45 @@
 
 return [
     'button' => [
-        'cancel' => 'Batal',
         'resend' => 'Kirim ulang email verifikasi',
-        'set' => 'Atur Kata Sandi',
+        'set' => 'Atur kata sandi',
         'start' => 'Mulai',
     ],
 
     'error' => [
-        'contact_support' => 'Harap hubungi layanan dukungan untuk dapat memulihkan akun.',
-        'is_privileged' => 'Harap hubungi admin yang memiliki akses perizinan tingkat tinggi untuk dapat memulihkan akun.',
+        'contact_support' => 'Silakan hubungi layanan dukungan untuk memulihkan akun.',
+        'expired' => 'Kode verifikasi sudah kedaluwarsa.',
+        'invalid' => 'Terdapat kesalahan yang tidak terduga dalam kode verifikasi.',
+        'is_privileged' => 'Silakan hubungi admin dengan izin akses tingkat tinggi untuk memulihkan akun.',
         'missing_key' => 'Wajib.',
-        'too_many_tries' => 'Terlalu banyak percobaan gagal.',
+        'too_many_requests' => 'Batas jumlah permintaan pengaturan ulang kata sandi tercapai. Silakan hubungi layanan dukungan untuk memulihkan akun.',
+        'too_many_tries' => 'Terlalu banyak percobaan yang gagal.',
         'user_not_found' => 'Pengguna yang diminta tidak ditemukan.',
+        'wait_resend' => 'Silakan tunggu sejenak.',
         'wrong_key' => 'Kode salah.',
     ],
 
     'notice' => [
-        'sent' => 'Periksa email Anda untuk kode verifikasi.',
-        'saved' => 'Kata sandi baru disimpan',
+        'sent' => 'Periksa emailmu untuk memperoleh kode verifikasi.',
+        'saved' => 'Kata sandi baru disimpan!',
     ],
 
     'started' => [
         'password' => 'Kata sandi baru',
         'password_confirmation' => 'Konfirmasi kata sandi',
-        'title' => 'Mengatur ulang kata sandi akun <strong>:username</strong>.',
+        'title' => 'Mengatur ulang kata sandi untuk akun <strong>:username</strong>.',
         'verification_key' => 'Kode verifikasi',
     ],
 
     'starting' => [
         'username' => 'Masukkan alamat email atau nama pengguna',
 
+        'reason' => [
+            'inactive_different_country' => "Akunmu sudah lama tidak digunakan. Untuk memastikan keamanan akunmu, silakan atur ulang kata sandimu.",
+        ],
         'support' => [
-            '_' => 'Membutuhkan bantuan tambahan? Hubungi kami dengan menghubungi :button berikut.',
-            'button' => 'layanan dukungan',
+            '_' => 'Butuh bantuan lebih lanjut? Hubungi kami melalui :button kami.',
+            'button' => 'sistem layanan dukungan',
         ],
     ],
 ];

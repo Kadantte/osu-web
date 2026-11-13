@@ -5,20 +5,28 @@
 
 namespace App\Libraries\Search;
 
-use Illuminate\Http\Request;
-
 class MultiSearch
 {
     const MODES = [
         'all' => null,
+        'beatmapset' => [
+            'type' => BeatmapsetSearch::class,
+            'paramsType' => BeatmapsetSearchRequestParams::class,
+            'size' => 8,
+        ],
         'user' => [
             'type' => UserSearch::class,
             'paramsType' => UserSearchRequestParams::class,
             'size' => 6,
         ],
-        'beatmapset' => [
-            'type' => BeatmapsetSearch::class,
-            'paramsType' => BeatmapsetSearchRequestParams::class,
+        'team' => [
+            'type' => TeamSearch::class,
+            'paramsType' => TeamSearchRequestParams::class,
+            'size' => 6,
+        ],
+        'artist_track' => [
+            'type' => ArtistTrackSearch::class,
+            'paramsType' => ArtistTrackSearchRequestParams::class,
             'size' => 8,
         ],
         'wiki_page' => [
@@ -33,26 +41,41 @@ class MultiSearch
         ],
     ];
 
-    private $options;
-    private $query;
-    private $searches;
-    private $request;
+    private ?string $query;
+    private array $searches;
 
-    public function __construct(Request $request, array $options = [])
+    public function __construct(private array $request, private array $options = [])
     {
-        $this->query = trim($request['query']);
+        if (isset($this->request['mode'])) {
+            $this->request['mode'] = presence(get_string($this->request['mode']));
+        }
+        if (isset($this->request['query'])) {
+            $this->request['query'] = get_string($this->request['query']);
+        }
+        if (isset($this->request['username'])) {
+            $this->request['username'] = presence(get_string($this->request['username']));
+        }
+        $this->query = trim($this->request['query'] ?? '');
         $this->options = $options;
-        $this->request = $request;
     }
 
     public function getMode()
     {
-        return presence($this->request['mode']) ?? 'all';
+        return $this->request['mode'] ?? 'all';
+    }
+
+    public function getRawQuery(): ?string
+    {
+        return $this->request['query'] ?? null;
     }
 
     public function hasQuery()
     {
-        return present($this->query);
+        $currentMode = $this->getMode();
+
+        return present($this->query)
+            || ($currentMode === 'forum_post' && isset($this->request['username']))
+            || ($currentMode === 'team');
     }
 
     public function searches()
@@ -70,7 +93,7 @@ class MultiSearch
                 $class = $settings['type'];
                 $paramsClass = $settings['paramsType'];
 
-                $params = new $paramsClass($this->request->all(), $this->options['user']);
+                $params = new $paramsClass($this->request, $this->options['user']);
                 $search = new $class($params);
                 if ($search instanceof BeatmapsetSearch) {
                     $search->source(false);

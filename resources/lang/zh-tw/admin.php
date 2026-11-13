@@ -14,13 +14,6 @@ return [
         ],
         'show' => [
             'covers' => '',
-            'discussion' => [
-                '_' => '',
-                'activate' => '',
-                'activate_confirm' => '',
-                'active' => '',
-                'inactive' => '',
-            ],
         ],
     ],
 
@@ -60,15 +53,11 @@ return [
                 'beatmapsets' => '',
                 'forum' => '',
                 'general' => '',
-                'store' => '',
-            ],
-        ],
-    ],
 
-    'store' => [
-        'orders' => [
-            'index' => [
-                'title' => '',
+                'users' => [
+                    'header' => '使用者',
+                    'cover_presets' => '個人檔案封面預設',
+                ],
             ],
         ],
     ],

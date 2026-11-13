@@ -15,10 +15,11 @@ return [
         'destroy' => [
             'is_hype' => 'Verilen gaz geri alınamaz.',
             'has_reply' => 'Cevaplara sahip tartışmalar silinemez',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => 'Bugünkü aday gösterme sınırınıza ulaştınız, lütfen yarın tekrar deneyin.',
-            'incorrect_state' => 'Bu işlemi gerçekleştirirken hata oluştu, sayfayı yenilemeyi deneyin.',
+            'incorrect_state' => 'Bu eylemi gerçekleştirirken bir hata oluştu, sayfayı yenilemeyi deneyin.',
             'owner' => "Kendi beatmapinizi aday gösteremezsiniz.",
             'set_metadata' => 'Aday göstermeden önce türü ve dili ayarlamalısınız.',
         ],
@@ -43,41 +44,58 @@ return [
             'not_owner' => 'Yalnızca kendi gönderilerinizi silebilirsiniz.',
             'resolved' => 'Çözülmüş bir tartışmanın gönderisini silemezsiniz.',
             'system_generated' => 'Otomatik olarak oluşturulan gönderiler silinemez.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
             'not_owner' => 'Gönderileri yalnızca gönderen düzenleyebilir.',
             'resolved' => 'Çözülmüş bir tartışmanın gönderisini düzenleyemezsiniz.',
             'system_generated' => 'Otomatik olarak oluşturulmuş gönderiler düzenlenemez.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => 'Bu beatmap tartışma için kilitlenmiş.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => 'Bu harita tartışma için kilitlenmiştir.',
+
         'metadata' => [
             'nominated' => 'Aday gösterilen bir mapin metaverisini değiştiremezsiniz. Hatalı ayarlandığını düşünüyorsanız bir BN ya da NAT üyesiyle iletişime geçiniz.',
+        ],
+
+        'rate' => [
+            'owner' => 'Katıldığınız bir beatmap setine puan veremezsiniz.',
+            'status' => 'Bu duruma sahip bir beatmap setine puan veremezsiniz.',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => 'Beatmape etiket eklemek için önce oynaman gerek.',
         ],
     ],
 
     'chat' => [
         'blocked' => 'Sizi engelleyen ya da sizin engellediğiniz bir kullanıcıya mesaj gönderemezsiniz.',
         'friends_only' => 'Kullanıcı arkadaş listesinde bulunmayan kişilerden gelen mesajları engelliyor.',
-        'moderated' => 'Bu kanal şu anda modere ediliyor.',
+        'moderated' => 'O kanal şu anda modere ediliyor.',
         'no_access' => 'Bu kanala erişiminiz yok.',
+        'no_announce' => 'Duyuru paylaşmaya yetkiniz yok.',
+        'receive_friends_only' => 'Yalnızca arkadaş listenizdeki kişilerden gelen mesajları kabul ettiğiniz için kullanıcı yanıt veremeyebilir.',
         'restricted' => 'Susturulmuş, kısıtlanmış ya da banlanmış iken mesaj gönderemezsiniz.',
         'silenced' => 'Susturulmuşken, kısıtlıyken veya banlıyken mesaj gönderemezsiniz.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => 'Yorumlar devre dışı',
+        ],
         'update' => [
             'deleted' => "Silinmiş gönderi düzenlenemez.",
         ],
     ],
 
     'contest' => [
+        'judging_not_active' => 'Bu yarışma için değerlendirme aktif değil.',
         'voting_over' => 'Yarışma için oylama süresi bittikten sonra oyunuzu değiştiremezsiniz.',
 
         'entry' => [
@@ -103,6 +121,7 @@ return [
                 'deleted' => 'Silinmiş gönderi düzenlenemez.',
                 'locked' => 'Bu gönderi için düzenleme yasaklanmıştır.',
                 'no_forum_access' => 'İstenilen foruma erişim gereklidir.',
+                'no_permission' => 'Düzenleme izniniz yok.',
                 'not_owner' => 'Gönderi yalnızca gönderen tarafından düzenlenebilir.',
                 'topic_locked' => 'Kilitli bir konunun gönderisini düzenleyemezsiniz.',
             ],
@@ -166,6 +185,40 @@ return [
         ],
     ],
 
+    'room' => [
+        'destroy' => [
+            'not_owner' => 'Sadece oda sahibi kapatabilir.',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "Bu tür skorlar sabitlenemez",
+            'failed' => "Geçmeyen skor sabitlenemiyor.",
+            'not_owner' => 'Sadece skor sahibi skoru sabitleyebilir.',
+            'too_many' => 'Çok fazla skor sabitlendi.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "Zaten takımın bir parçasısın.",
+                'already_other_member' => "Halihazırda başka bir takıma üyesin.",
+                'currently_applying' => 'Bekleyen bir takıma giriş isteğin var.',
+                'team_closed' => 'Takım şu anda girme isteklerini kabul etmiyor.',
+                'team_full' => "Takım dolu ve daha fazla üye alamaz.",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "Takım lideri takımı terk edemez.",
+            'not_member' => 'Takımın üyesi değil.',
+        ],
+        'store' => [
+            'require_supporter_tag' => 'Bir takım yaratabilmek için osu!supporter etiketine sahip olman gerek.',
+        ],
+    ],
+
     'user' => [
         'page' => [
             'edit' => [
@@ -173,6 +226,9 @@ return [
                 'not_owner' => 'Yalnızca kendi kullanıcı sayfanızı düzenleyebilirsiniz.',
                 'require_supporter_tag' => 'osu!supporter etiketi gereklidir.',
             ],
+        ],
+        'update_email' => [
+            'locked' => 'e-posta adresi kilitlenmiş durumda',
         ],
     ],
 ];

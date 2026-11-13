@@ -7,7 +7,7 @@ return [
     'deleted' => '[slettet bruger]',
 
     'beatmapset_activities' => [
-        'title' => ":user's Modding Historie",
+        'title' => ":user's Moddinghistorik",
         'title_compact' => 'Modding',
 
         'discussions' => [
@@ -33,10 +33,14 @@ return [
 
     'blocks' => [
         'banner_text' => 'Du har blokeret denne bruger.',
+        'comment_text' => 'Denne kommentar er skjult.',
         'blocked_count' => 'blokerede brugere (:count)',
         'hide_profile' => 'Skjul profil',
+        'hide_comment' => 'skjul',
+        'forum_post_text' => 'Dette opslag er skjult.',
         'not_blocked' => 'Denne bruger er ikke blokeret.',
         'show_profile' => 'Vis profil',
+        'show_comment' => 'vis',
         'too_many' => 'Blokeringsgrænsen er nået.',
         'button' => [
             'block' => 'Bloker',
@@ -45,8 +49,25 @@ return [
     ],
 
     'card' => [
+        'gift_supporter' => 'Giv supporter tag i gave',
         'loading' => 'Indlæser...',
         'send_message' => 'Send besked',
+    ],
+
+    'create' => [
+        'form' => [
+            'password' => 'adgangskode',
+            'password_confirmation' => 'bekræftelse af adgangskode',
+            'submit' => 'opret konto',
+            'user_email' => 'e-mail',
+            'user_email_confirmation' => 'e-mail bekræftelse',
+            'username' => 'brugernavn',
+
+            'tos_notice' => [
+                '_' => 'ved at oprette konto accepterer du :link',
+                'link' => 'tjenestevilkår',
+            ],
+        ],
     ],
 
     'disabled' => [
@@ -76,6 +97,7 @@ return [
 
     'force_reactivation' => [
         'reason' => [
+            'inactive' => "Din konto har ikke været brugt i lang tid.",
             'inactive_different_country' => "Din account har ikke været i brug i lang tid.",
         ],
     ],
@@ -99,6 +121,24 @@ return [
         'beta' => [
             'main' => 'Adgang til betaversionen er i øjeblikket begrænset til priveligerede brugere.',
             'small' => '(osu!supportere ville kunne komme ind snart)',
+        ],
+    ],
+
+    'multiplayer' => [
+        'index' => [
+            'active' => 'Aktive',
+            'ended' => 'Afsluttet',
+        ],
+    ],
+
+    'ogp' => [
+        'modding_description' => 'Beatmaps :counts',
+        'modding_description_empty' => 'Brugeren har ingen beatmaps...',
+
+        'description' => [
+            '_' => 'Rang (:ruleset): :global | :country',
+            'country' => 'Land :rank',
+            'global' => 'Global :rank',
         ],
     ],
 
@@ -126,18 +166,30 @@ return [
             'cancel' => 'Annullér',
         ],
 
+        'dmca' => [
+            'message_1' => [
+                '_' => 'Anmeld venligst ophavsretskrænkelser igennem et DMCA-claim til :mail jævnfør :policy.',
+                'policy' => 'osu! ophavsretspolitik',
+            ],
+            'message_2' => 'Dette gælder i tilfælde hvor lydspor, visuelt indhold eller beapmap level indhold anvendes uden tilladelse.',
+        ],
+
         'options' => [
             'cheating' => 'Uærligt spil / Snyd',
+            'copyright_infringement' => 'Ophavsretskrænkelse',
+            'inappropriate_chat' => 'Upassende chatadfærd',
             'insults' => 'Fornærmede mig / andre',
-            'spam' => 'Spamming',
-            'unwanted_content' => 'Sender links med upassende indhold',
+            'multiple_accounts' => 'Bruger flere konti',
             'nonsense' => 'Nonsens',
             'other' => 'Andet (Skriv under)',
+            'spam' => 'Spamming',
+            'unwanted_content' => 'Upassende indhold',
         ],
     ],
     'restricted_banner' => [
-        'title' => 'Du konto er blevet begrænset!',
-        'message' => 'Når du er begrænset, kan du ikke interagere med andre spillere, og dine scores vil kun være synlige for dig. Dette er som regel en automatisk proces, og begrænsningen vil blive fjernet indenfor 24 timer. Hvis du ønsker at appellere din begrænsning, <a href="mailto:accounts@ppy.sh">kontakt supporten</a>.',
+        'title' => 'Din konto er blevet begrænset!',
+        'message' => 'Mens du er begrænset, kan du ikke interagere med andre spillere, og dine scores vil kun være synlige for dig. Dette sker som regel på grund af en automatisk proces, og begrænsningen fjernes normalt indenfor 24 timer. :link',
+        'message_link' => 'Tjek denne side for at lære mere.',
     ],
     'show' => [
         'age' => ':age år gammel',
@@ -152,22 +204,56 @@ return [
         'origin_country' => 'Fra :country',
         'previous_usernames' => 'tidligere kendt som',
         'plays_with' => 'Spiller med :devices',
-        'title' => ":username´s profil",
+
+        'badge' => [
+            'pin' => [
+                'to_0' => '',
+                'to_1' => '',
+            ],
+        ],
 
         'comments_count' => [
-            '_' => 'Slået op :link',
+            '_' => ':link opslået',
             'count' => ':count_delimited kommentar|:count_delimited kommentarer',
+        ],
+        'cover' => [
+            'to_0' => 'Skjul titelbillede',
+            'to_1' => 'Vis titelbillede',
+        ],
+        'daily_challenge' => [
+            'daily' => 'Daglig Streak',
+            'daily_streak_best' => 'Bedste Daglige Streak',
+            'daily_streak_current' => 'Nuværende Daglige Streak',
+            'playcount' => 'Samlet Deltagelse',
+            'title' => 'Daglig\nUdfordring',
+            'top_10p_placements' => 'Top 10%-placeringer',
+            'top_50p_placements' => 'Top 50%-placeringer',
+            'weekly' => 'Ugentlig Streak',
+            'weekly_streak_best' => 'Bedste Daglige Streak',
+            'weekly_streak_current' => 'Nuværende Ugentlige Streak',
+
+            'unit' => [
+                'day' => ':valued',
+                'week' => ':valuew',
+            ],
+        ],
+        'detail_switch' => [
+            'to_v1' => '',
+            'to_v2' => '',
         ],
         'edit' => [
             'cover' => [
-                'button' => 'Skift Coverbillede',
+                'button' => 'Skift Titelbillede',
                 'defaults_info' => 'Flere muligheder for coverbillede kommer snart',
+                'holdover_remove_confirm' => "Det tidligere valgte titelbillede er ikke tilgængeligt længere. Du kan ikke ændre tilbage, efter du ændrer til et nyt. Fortsæt?",
+                'title' => 'Titelbillede',
+
                 'upload' => [
-                    'broken_file' => 'Kunne ikke uploade billedet. Prøv igen.',
+                    'broken_file' => 'Kunne ikke uploade billedet. Kontroller det uploadede billede og prøv igen.',
                     'button' => 'Upload billede',
                     'dropzone' => 'Smid her for at uploade',
                     'dropzone_info' => 'Du kan også smide dit billede her for at uploade',
-                    'size_info' => 'Coverbilledet burde være 2400x620',
+                    'size_info' => 'Titelbilledet burde være 2000x500',
                     'too_large' => 'Den uploadede fil er for stor.',
                     'unsupported_format' => 'Ikke-understøttet format.',
 
@@ -181,6 +267,16 @@ return [
             'default_playmode' => [
                 'is_default_tooltip' => 'standardspiltilstand',
                 'set' => 'sæt :mode som din default mode',
+            ],
+
+            'hue' => [
+                'reset_no_supporter' => 'Nulstil farve til standard? Supporter tag vil kræves for at ændre til en anden farve.',
+                'title' => 'Farve',
+
+                'supporter' => [
+                    '_' => 'Tilpassede farvetemaer er kun tilgængelige for :link',
+                    'link' => 'osu!supporters',
+                ],
             ],
         ],
 
@@ -203,14 +299,20 @@ return [
                 'graveyard' => [
                     'title' => 'Beatmaps på Kirkegården',
                 ],
+                'guest' => [
+                    'title' => 'Gæst Deltagelse Beatmaps',
+                ],
                 'loved' => [
                     'title' => 'Elskede beatmaps',
                 ],
-                'ranked_and_approved' => [
-                    'title' => 'Ranked & Godkendte Beatmaps',
+                'nominated' => [
+                    'title' => 'Nominerede Rangerede Beatmaps',
                 ],
-                'unranked' => [
+                'pending' => [
                     'title' => 'Afventende Beatmaps',
+                ],
+                'ranked' => [
+                    'title' => 'Rangerede & Godkendte Beatmaps',
                 ],
             ],
             'discussions' => [
@@ -242,9 +344,12 @@ return [
                     'title' => 'Replays Set Historik',
                     'count_label' => 'Replays Set',
                 ],
+                'score_replay_stats' => [
+                    'title' => 'Mest Sete Genafspilninger',
+                ],
             ],
             'kudosu' => [
-                'recent_entries' => 'Seneste Kudosu Historie',
+                'recent_entries' => 'Seneste Kudosu Historik',
                 'title' => 'Kudosu!',
                 'total' => 'Total Kudosu Optjent',
 
@@ -254,29 +359,29 @@ return [
 
                     'beatmap_discussion' => [
                         'allow_kudosu' => [
-                            'give' => 'Modtog :amount fra kudosu benægtelsesophævelse af modding opslaget :post',
+                            'give' => 'Modtog :amount fra kudosu benægtelsesophævelse af moddingopslaget :post',
                         ],
 
                         'deny_kudosu' => [
-                            'reset' => 'Benægtet :amount fra modding opslaget :post',
+                            'reset' => 'Benægtet :amount fra moddingopslaget :post',
                         ],
 
                         'delete' => [
-                            'reset' => 'Mistede :amount fra sletning af modding opslag :post',
+                            'reset' => 'Mistede :amount fra sletning af moddingopslag :post',
                         ],
 
                         'restore' => [
-                            'give' => 'Modtog :amount fra modding opslag genetablering af :post',
+                            'give' => 'Modtog :amount fra genetablering af moddingopslaget :post',
                         ],
 
                         'vote' => [
-                            'give' => 'Modtog :amount fra at få stemmer på modding opslaget :post',
-                            'reset' => 'Mistede :amount fra at miste stemmer på modding opslaget :post',
+                            'give' => 'Modtog :amount fra at få stemmer på moddingopslaget :post',
+                            'reset' => 'Mistede :amount fra at miste stemmer på moddingopslaget :post',
                         ],
 
                         'recalculate' => [
-                            'give' => 'Modtog :amount fra genberegning af stemmer i modding opslaget :post',
-                            'reset' => 'Mistede :amount fra genberegning af stemmer i modding opslaget :post',
+                            'give' => 'Modtog :amount fra genberegning af stemmer i moddingopslaget :post',
+                            'reset' => 'Mistede :amount fra genberegning af stemmer i moddingopslaget :post',
                         ],
                     ],
 
@@ -293,20 +398,29 @@ return [
                 ],
             ],
             'me' => [
-                'title' => 'me!',
+                'title' => 'mig!',
             ],
             'medals' => [
                 'empty' => "Denne bruger har ikke fået nogle endnu. ;_;",
                 'recent' => 'Seneste',
                 'title' => 'Medaljer',
             ],
+            'playlists' => [
+                'title' => 'Spilleliste spil',
+            ],
             'posts' => [
                 'title' => 'Opslag',
                 'title_longer' => 'Seneste Opslag',
                 'show_more' => 'se flere opslag',
             ],
+            'ranked-play' => [
+                'title' => 'Rangeret Spil Kampe',
+            ],
             'recent_activity' => [
                 'title' => 'Seneste',
+            ],
+            'realtime' => [
+                'title' => 'Multiplayerspil',
             ],
             'top_ranks' => [
                 'download_replay' => 'Download Replay',
@@ -321,6 +435,15 @@ return [
                 'first' => [
                     'title' => 'Førstepladser',
                 ],
+                'pin' => [
+                    'to_0' => 'Frigør',
+                    'to_0_done' => 'Ufastgjort score',
+                    'to_1' => 'Fastgør',
+                    'to_1_done' => 'Fastgjort score',
+                ],
+                'pinned' => [
+                    'title' => 'Fastgjorte Scores',
+                ],
             ],
             'votes' => [
                 'given' => 'Stemmer Givet (sidste 3 måneder)',
@@ -330,22 +453,23 @@ return [
                 'vote_count' => ':count_delimited stemme|:count_delimited stemmer',
             ],
             'account_standing' => [
-                'title' => 'Account Status',
-                'bad_standing' => "<strong>:username's</strong> account er ikke i en god position :(",
-                'remaining_silence' => '<strong>:username</strong> kan tale igen om :duration.',
+                'title' => 'Kontostatus',
+                'bad_standing' => ":username's konto er ikke i en god position :(",
+                'remaining_silence' => ':username vil kunne tale igen :duration.',
 
                 'recent_infringements' => [
                     'title' => 'Seneste Overtrædelser',
                     'date' => 'dato',
                     'action' => 'handling',
-                    'length' => 'længde',
-                    'length_permanent' => 'Permanent',
+                    'length' => 'varighed',
+                    'length_indefinite' => 'Tidsubegrænset',
                     'description' => 'beskrivelse',
                     'actor' => 'af :username',
 
                     'actions' => [
                         'restriction' => 'Ban',
-                        'silence' => 'Mute',
+                        'silence' => 'Silence',
+                        'tournament_ban' => 'Turneringskarantæne',
                         'note' => 'Noter',
                     ],
                 ],
@@ -360,6 +484,19 @@ return [
             'twitter' => '',
             'website' => 'Hjemmeside',
         ],
+
+        'matchmaking' => [
+            'losses' => '',
+            'plays' => '',
+            'rank' => '',
+            'rating' => '',
+            'recent_history' => '',
+            'recent_history_provisional' => '',
+            'tier' => '',
+            'title' => 'Hurtigt Spil',
+            'wins' => '',
+        ],
+
         'not_found' => [
             'reason_1' => 'De kan have ændret deres brugernavn.',
             'reason_2' => 'Kontoen kan være midlertidigt utilgængelig pga. sikkerhedsproblemer eller misbrug.',
@@ -384,12 +521,29 @@ return [
         ],
         'rank' => [
             'country' => 'Lande Rang for :mode',
-            'country_simple' => 'Lande Rang',
+            'country_simple' => 'Landsrang',
             'global' => 'Global rang for :mode',
             'global_simple' => 'Global Rang',
+            'highest' => 'Højeste rang :rank på :date',
+            'kudosu_outside_top_1000' => '',
+            'kudosu_simple' => '',
+        ],
+        'score_processing' => [
+            'title' => '',
+            'title_link' => '',
+            'message' => '',
+        ],
+        'season_stats' => [
+            'division_top_percentage' => 'Top :value',
+            'label' => '',
+            'total_score' => 'Samlet score',
+        ],
+        'solo' => [
+            'title' => '',
         ],
         'stats' => [
             'hit_accuracy' => 'Præcision',
+            'hits_per_play' => 'Pletskud Per Spil',
             'level' => 'Level :level',
             'level_progress' => 'Progression til næste level',
             'maximum_combo' => 'Højeste Combo',
@@ -402,15 +556,17 @@ return [
             'total_hits' => 'Totale Hits',
             'total_score' => 'Total Score',
             // modding stats
-            'ranked_and_approved_beatmapset_count' => 'Ranked & Godkendte Beatmaps',
-            'loved_beatmapset_count' => 'Elskede Beatmaps',
-            'unranked_beatmapset_count' => 'Afventende Beatmaps',
             'graveyard_beatmapset_count' => 'Beatmaps på Kirkegården',
+            'guest_beatmapset_count' => '',
+            'loved_beatmapset_count' => 'Elskede Beatmaps',
+            'nominated_beatmapset_count' => '',
+            'pending_beatmapset_count' => 'Afventende Beatmaps',
+            'ranked_beatmapset_count' => 'Ranked & Godkendte Beatmaps',
         ],
     ],
 
     'silenced_banner' => [
-        'title' => 'Du er i øjeblikket gjort tavs.',
+        'title' => 'Du er silenced i øjeblikket.',
         'message' => 'Nogle handlinger kan være utilgængelige.',
     ],
 
@@ -419,7 +575,15 @@ return [
         'online' => 'Online',
         'offline' => 'Offline',
     ],
+    'relationship' => [
+        'title' => '',
+        'all' => '',
+        'mutual' => '',
+        'non_mutual' => '',
+    ],
     'store' => [
+        'from_client' => 'registrér dig gennem spilklienten i stedet!',
+        'from_web' => 'fuldfør venligst registrationen via osu!s website',
         'saved' => 'Bruger Oprettet',
     ],
     'verify' => [
@@ -427,7 +591,7 @@ return [
     ],
 
     'view_mode' => [
-        'brick' => 'Klods visning',
+        'brick' => 'Klodsvisning',
         'card' => 'Kortvisning',
         'list' => 'Listevisning',
     ],

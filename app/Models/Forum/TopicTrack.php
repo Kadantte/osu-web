@@ -5,21 +5,23 @@
 
 namespace App\Models\Forum;
 
+use App\Casts\TimestampOrZero;
+
 /**
  * @property int $forum_id
- * @property int $mark_time
+ * @property \Carbon\Carbon|null $mark_time
  * @property int $topic_id
  * @property int $user_id
  */
 class TopicTrack extends Model
 {
-    protected $table = 'phpbb_topics_track';
-
+    public $incrementing = false;
     public $timestamps = false;
-    protected $dates = ['mark_time'];
-    protected $dateFormat = 'U';
 
+    protected $casts = ['mark_time' => TimestampOrZero::class];
+    protected $primaryKey = ':composite';
     protected $primaryKeys = ['topic_id', 'user_id'];
+    protected $table = 'phpbb_topics_track';
 
     public static function readStatus($user, $topics)
     {

@@ -6,72 +6,66 @@
 namespace Tests\Transformers;
 
 use App\Models\User;
+use App\Transformers\UserCompactTransformer;
 use App\Transformers\UserTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class UserCompactTransformerTest extends TestCase
 {
-    /**
-     * @dataProvider regularOAuthScopesDataProvider
-     */
+    #[DataProvider('regularOAuthScopesDataProvider')]
     public function testFriendsIsNotVisibleWithOAuth($scopes)
     {
-        $viewer = $this->createUserWithGroup([]);
+        $viewer = User::factory()->create();
 
         $this->actAsScopedUser($viewer, [$scopes]);
 
-        $json = json_item($viewer, 'UserCompact', ['friends']);
+        $json = json_item($viewer, new UserCompactTransformer(), ['friends']);
         $this->assertArrayNotHasKey('friends', $json);
     }
 
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testGroupPermissionsUserSilenceShowExtendedInfo($groupIdentifier)
+    #[DataProvider('groupsDataProvider')]
+    public function testGroupPermissionsUserSilenceShowExtendedInfo(?string $groupIdentifier, bool $_visibleWithoutOAuth)
     {
-        $viewer = $this->createUserWithGroup($groupIdentifier);
-        $user = factory(User::class)->states('restricted', 'silenced', 'with_note')->create();
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
+        $user = User::factory()->restricted()->silenced()->tournamentBanned()->withNote()->create();
 
-        $this->assertSame(3, $user->accountHistories()->count());
+        $this->assertSame(4, $user->accountHistories()->count());
 
         $this->actAsScopedUser($viewer);
 
-        $json = json_item($user, 'UserCompact', ['account_history.actor', 'account_history.supporting_url']);
+        $json = json_item($user, new UserCompactTransformer(), ['account_history.actor', 'account_history.supporting_url']);
 
         $accountHistories = array_get($json, 'account_history');
-        $silences = array_filter($accountHistories, function ($item) {
-            return $item['type'] === 'silence';
+        $publicInfringements = array_filter($accountHistories, function ($item) {
+            return $item['type'] === 'silence' || $item['type'] === 'tournament_ban';
         });
-        $this->assertCount(1, $accountHistories);
-        $this->assertSame($accountHistories, $silences);
+        $this->assertCount(2, $accountHistories);
+        $this->assertSame($accountHistories, $publicInfringements);
     }
 
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testGroupPermissionsWithOAuth($groupIdentifier)
+    #[DataProvider('groupsDataProvider')]
+    public function testGroupPermissionsWithOAuth(?string $groupIdentifier, bool $_visibleWithoutOAuth)
     {
-        $viewer = $this->createUserWithGroup($groupIdentifier);
-        $user = factory(User::class)->states('silenced')->create();
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
+        $user = User::factory()->silenced()->create();
         $this->actAsScopedUser($viewer);
 
-        $json = json_item($user, 'UserCompact', ['account_history.actor', 'account_history.supporting_url']);
+        $json = json_item($user, new UserCompactTransformer(), ['account_history.actor', 'account_history.supporting_url']);
 
         $accountHistory = array_get($json, 'account_history.0');
         $this->assertArrayNotHasKey('actor', $accountHistory);
         $this->assertArrayNotHasKey('supporting_url', $accountHistory);
     }
 
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testGroupPermissionsWithoutOAuth($groupIdentifier, $visible)
+    #[DataProvider('groupsDataProvider')]
+    public function testGroupPermissionsWithoutOAuth(?string $groupIdentifier, bool $visible)
     {
-        $viewer = $this->createUserWithGroup($groupIdentifier);
-        $user = factory(User::class)->states('silenced')->create();
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
+        $user = User::factory()->silenced()->create();
         $this->actAsUser($viewer);
 
-        $json = json_item($user, 'UserCompact', ['account_history.actor', 'account_history.supporting_url']);
+        $json = json_item($user, new UserCompactTransformer(), ['account_history.actor', 'account_history.supporting_url']);
 
         $accountHistory = array_get($json, 'account_history.0');
         if ($visible) {
@@ -83,44 +77,41 @@ class UserCompactTransformerTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider propertyPermissionsDataProvider
-     */
+    #[DataProvider('propertyPermissionsDataProvider')]
     public function testPropertyIsNotVisibleWithOAuth(string $property)
     {
-        $viewer = $this->createUserWithGroup([]);
+        $viewer = User::factory()->create();
 
         $this->actAsScopedUser($viewer);
 
-        $json = json_item($viewer, 'User', [$property]);
+        $json = json_item($viewer, new UserTransformer(), [$property]);
         $this->assertArrayNotHasKey($property, $json);
     }
 
-    /**
-     * @dataProvider propertyPermissionsDataProvider
-     */
+    #[DataProvider('propertyPermissionsDataProvider')]
     public function testPropertyIsVisibleWithoutOAuth(string $property)
     {
-        $viewer = $this->createUserWithGroup([]);
+        $viewer = User::factory()->create();
 
         $this->actAsUser($viewer);
 
-        $json = json_item($viewer, 'User', [$property]);
+        $json = json_item($viewer, new UserTransformer(), [$property]);
         $this->assertArrayHasKey($property, $json);
     }
 
-    public function groupsDataProvider()
+    public static function groupsDataProvider()
     {
+        // The second argument is only for testGroupPermissionsWithoutOAuth
         return [
             ['admin', true],
             ['bng', false],
             ['gmt', false],
             ['nat', false],
-            [[], false],
+            [null, false],
         ];
     }
 
-    public function propertyPermissionsDataProvider()
+    public static function propertyPermissionsDataProvider()
     {
         $data = [];
         $transformer = new UserTransformer();

@@ -5,7 +5,7 @@
 
 return [
     'index' => [
-        'none_running' => 'Tidak ada turnamen yang berlangsung saat ini, silakan periksa lagi nanti!',
+        'none_running' => 'Tidak ada turnamen yang sedang berlangsung pada saat ini. Silakan periksa kembali di lain waktu!',
         'registration_period' => 'Pendaftaran: :start sampai :end',
 
         'header' => [
@@ -17,19 +17,19 @@ return [
         ],
 
         'state' => [
-            'current' => 'Turnamen yang sedang berlangsung',
-            'previous' => 'Turnamen Sebelumnya',
+            'current' => 'Turnamen yang Sedang Berlangsung',
+            'previous' => 'Turnamen Terdahulu',
         ],
     ],
 
     'show' => [
-        'banner' => 'Dukung Tim Anda',
-        'entered' => 'Anda telah berhasil mendaftarkan diri Anda pada turnamen ini. <br><br>Mohon diperhatikan bahwa hal ini bukan berarti Anda telah secara otomatis telah diikutsertakan ke dalam salah satu tim yang bertanding. <br><br>Instruksi lebih lanjut akan dikirimkan melalui email saat turnamen akan dimulai, jadi mohon pastikan alamat email akun osu! Anda valid!',
-        'info_page' => 'Laman Informasi',
+        'banner' => 'Dukung Tim Andalanmu',
+        'entered' => 'Kamu sudah terdaftar pada turnamen ini.<br><br>Mohon diperhatikan bahwa hal ini <b>tidak</b> berarti bahwa kamu sudah ditempatkan ke dalam tim tertentu. <br><br>Kami akan mengirimkan kamu instruksi lebih lanjut melalui email sebelum turnamen dimulai, jadi pastikan alamat email akun osu! milikmu bisa dihubungi!',
+        'info_page' => 'Halaman Informasi',
         'login_to_register' => 'Harap :login untuk melihat rincian pendaftaran!',
-        'not_yet_entered' => 'Anda tidak terdaftar pada turnamen ini.',
-        'rank_too_low' => 'Maaf, Anda tidak memenuhi persyaratan peringkat untuk mengikuti turnamen ini!',
-        'registration_ends' => 'Pendaftaran ditutup pada tanggal :date',
+        'not_yet_entered' => 'Kamu tidak terdaftar pada turnamen ini.',
+        'rank_too_low' => 'Maaf, kamu tidak memenuhi persyaratan peringkat untuk turnamen ini!',
+        'registration_ends' => 'Pendaftaran akan ditutup pada tanggal :date',
 
         'button' => [
             'cancel' => 'Batalkan Pendaftaran',
@@ -43,10 +43,10 @@ return [
 
         'state' => [
             'before_registration' => 'Pendaftaran untuk turnamen ini masih belum dibuka.',
-            'ended' => 'Turnamen ini telah berakhir. Mohon periksa laman informasi untuk hasil turnamen selengkapnya.',
-            'registration_closed' => 'Pendaftaran untuk turnamen ini telah ditutup. Mohon periksa laman informasi untuk informasi lebih lanjut.',
-            'running' => 'Turnamen ini sedang berlangsung. Mohon periksa laman informasi untuk keterangan lebih lanjut.',
+            'ended' => 'Turnamen ini sudah berakhir. Silakan kunjungi halaman informasi untuk melihat hasil turnamen.',
+            'registration_closed' => 'Pendaftaran untuk turnamen ini sudah ditutup. Silakan kunjungi halaman informasi untuk pembaruan terkini seputar turnamen.',
+            'running' => 'Turnamen ini sedang berlangsung. Silakan kunjungi halaman informasi untuk keterangan lebih lanjut.',
         ],
     ],
-    'tournament_period' => ':start sampai :end',
+    'tournament_period' => ':start hingga :end',
 ];

@@ -26,11 +26,11 @@ class NotificationsController extends Controller
     public function batchDestroy()
     {
         UserNotification::batchDestroy(
-            auth()->user(),
+            auth()->id(),
             BatchIdentities::fromParams(request()->all())
         );
 
-        return response(null, 204);
+        return response()->noContent();
     }
 
     public function endpoint()
@@ -64,7 +64,7 @@ class NotificationsController extends Controller
      *     {
      *       "id": 1,
      *       "name": "forum_topic_reply",
-     *       "created_at": "2019-04-24T07:12:43+00:00",
+     *       "created_at": "2019-04-24T07:12:43Z",
      *       "object_type": "forum_topic",
      *       "object_id": 1,
      *       "source_user_id": 1,
@@ -106,7 +106,13 @@ class NotificationsController extends Controller
      *
      * _empty response_
      *
-     * @bodyParam ids integer[] required `id` of notifications to be marked as read  Example: [1, 2, 3]
+     * @bodyParam identities[].category string Notification category. Example: beatmapset_state
+     * @bodyParam identities[].object_id string Id of the object triggered the notification. Example: 1
+     * @bodyParam identities[].object_type string Type of the object triggered the notification. Example: beatmapset
+     * @bodyParam notifications[].category string Notification category. Example: beatmapset_state
+     * @bodyParam notifications[].id integer Id of notifications to be marked as read. Example: 1
+     * @bodyParam notifications[].object_id string Id of the object triggered the notification. Example: 1
+     * @bodyParam notifications[].object_type string Type of the object triggered the notification. Example: beatmapset
      *
      * @response 204
      */
@@ -117,12 +123,12 @@ class NotificationsController extends Controller
             BatchIdentities::fromParams(request()->all())
         );
 
-        return response(null, 204);
+        return response()->noContent();
     }
 
     private function endpointUrl()
     {
-        $url = config('osu.notification.endpoint');
+        $url = $GLOBALS['cfg']['osu']['notification']['endpoint'];
 
         if (($url[0] ?? null) === '/') {
             $host = request()->getHttpHost();

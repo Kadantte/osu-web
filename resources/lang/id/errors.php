@@ -4,30 +4,36 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'load_failed' => 'Data gagal dimuat.',
+    'missing_route' => 'URL tidak valid atau metode permintaan tidak tepat.',
+    'no_restricted_access' => 'Kamu tidak bisa melakukan tindakan ini ketika akunmu sedang di-restrict.',
+    'param_too_large' => 'Parameter :name hanya bisa mengandung maksimal :count_delimited item|Parameter :name hanya bisa mengandung maksimal :count_delimited item',
+    'supporter_only' => 'Kamu harus menjadi osu!supporter untuk menggunakan fitur ini.',
+    'unknown' => 'Terjadi kesalahan yang tidak diketahui.',
+
     'codes' => [
-        'http-401' => 'Mohon masuk untuk melanjutkan.',
+        'http-401' => 'Silakan masuk untuk melanjutkan.',
         'http-403' => 'Akses ditolak.',
         'http-404' => 'Tidak ditemukan.',
-        'http-429' => 'Terlalu banyak percobaan. Coba lagi nanti.',
+        'http-429' => 'Terlalu banyak percobaan. Silakan coba lagi nanti.',
     ],
     'account' => [
         'profile-order' => [
-            'generic' => 'Terjadi masalah. Cobalah untuk memuat ulang laman.',
+            'generic' => 'Terdapat suatu masalah. Cobalah untuk memuat ulang halaman.',
         ],
     ],
-    'beatmaps' => [
-        'invalid_mode' => 'Mode tidak valid.',
-        'standard_converts_only' => 'Tidak ada skor yang tersedia untuk mode yang diminta pada beatmap dengan tingkat kesulitan ini.',
-    ],
     'checkout' => [
-        'generic' => 'Terjadi kesalahan ketika akan melangsungkan proses checkout.',
+        'generic' => 'Terjadi kesalahan pada saat mempersiapkan proses checkout.',
+    ],
+    'scores' => [
+        'invalid_id' => 'ID skor tidak valid.',
     ],
     'search' => [
-        'default' => 'Hasil tidak ditemukan, coba lagi nanti.',
-        'operation_timeout_exception' => 'Aktivitas pencarian saat ini lebih sibuk dari biasanya, coba lagi nanti.',
+        'default' => 'Tidak ada hasil pencarian yang bisa diperoleh. Silakan coba lagi nanti.',
+        'invalid_cursor_exception' => 'Parameter kursor yang ditentukan tidak valid.',
+        'operation_timeout_exception' => 'Aktivitas pencarian saat ini sedang lebih sibuk dari biasanya. Silakan coba lagi nanti.',
     ],
-
-    'supporter_only' => 'Anda harus menjadi seorang osu!supporter untuk dapat menggunakan fitur ini.',
-    'no_restricted_access' => 'Anda tidak dapat melakukan tindakan ini ketika akun Anda sedang di-restrict.',
-    'unknown' => 'Terjadi kesalahan yang tidak diketahui.',
+    'user_report' => [
+        'recently_reported' => "Kamu sudah melaporkan hal ini baru-baru ini.",
+    ],
 ];

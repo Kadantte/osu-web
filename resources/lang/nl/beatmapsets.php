@@ -6,18 +6,32 @@
 return [
     'availability' => [
         'disabled' => 'Deze beatmap kan momenteel niet gedownload worden.',
-        'parts-removed' => 'Delen van deze beatmap zijn verwijderd op verzoek van de maker of de houder van de rechten van een derde partij.',
+        'parts-removed' => 'Delen van deze beatmap zijn verwijderd op verzoek van de maker of een derde rechthouder.',
         'more-info' => 'Klik hier voor meer informatie.',
-        'rule_violation' => 'Sommige activa die op deze map staan zijn verwijderd nadat ze zijn beschouwd als niet geschikt voor gebruik in osu!.',
+        'rule_violation' => 'Sommige activa in deze map zijn verwijderd nadat ze zijn beschouwd als niet geschikt voor gebruik in osu!.',
+    ],
+
+    'cover' => [
+        'deleted' => 'Beatmap verwijderd',
     ],
 
     'download' => [
         'limit_exceeded' => 'Niet zo snel, speel meer.',
+        'no_mirrors' => 'Geen download servers beschikbaar.',
+    ],
+
+    'featured_artist_badge' => [
+        'label' => 'Uitgelichte artiest',
     ],
 
     'index' => [
-        'title' => 'Beatmap Lijst',
+        'title' => 'Beatmap-catalogus',
         'guest_title' => 'Beatmaps',
+    ],
+
+    'ogp' => [
+        'favourites' => '',
+        'playcount' => '',
     ],
 
     'panel' => [
@@ -28,20 +42,27 @@ return [
             'video' => 'download met video',
             'no_video' => 'download zonder video',
             'direct' => 'open in osu!direct',
+            'lazer' => '',
         ],
     ],
 
     'nominate' => [
-        'hybrid_requires_modes' => 'Een hybride beatmapset vereist dat je ten minste één speelmodus selecteert om voor te nomineren.',
+        'bng_limited_too_many_rulesets' => 'Proef nomineurs kunnen niet meerdere regels nomineren.',
+        'full_nomination_required' => 'Je moet een volledige nominator zijn om de eindnominatie van een spelmodus uit te voeren.',
+        'hybrid_requires_modes' => 'Een hybride beatmapset vereist dat je minimaal één speelmodus selecteert om voor te nomineren.',
         'incorrect_mode' => 'Je hebt geen toestemming om te nomineren voor modus: :mode',
-        'full_bn_required' => 'Je moet een volledige nominator zijn om deze nominatie uit te voeren.',
-        'too_many' => 'Nominatievereiste is al vervuld.',
+        'invalid_limited_nomination' => 'Deze beatmap heeft ongeldige nominaties en kan niet gekwalificeerd zijn in deze staat.',
+        'invalid_ruleset' => 'Deze nominatie heeft ongeldige spelmodi.',
+        'too_many' => 'Nominatievereising is al vervuld.',
+        'too_many_non_main_ruleset' => 'Nominatie eisen voor niet-hoofd spelmodus is al vervuld.',
 
         'dialog' => [
             'confirmation' => 'Weet je zeker dat je deze Beatmap wilt nomineren?',
+            'different_nominator_warning' => 'Door deze beatmap met verschillende nominators te kwalificeren, wordt de kwalificatie rij positie gereset.',
             'header' => 'Nomineer Beatmap',
-            'hybrid_warning' => 'opmerking: je mag maar één keer nomineren, dus zorg er alstublieft voor dat je nomineert voor alle spelmodus die je van plan bent te gebruiken',
-            'which_modes' => 'Welke modus benoemen?',
+            'hybrid_warning' => 'opmerking: je mag maar één keer nomineren, dus zorg er alsjeblieft voor dat je nomineert voor alle spelmodi die je van plan bent te nomineren',
+            'current_main_ruleset' => 'De hoofd spelmodus is momenteel: :ruleset',
+            'which_modes' => 'Welke modi nomineren?',
         ],
     ],
 
@@ -49,25 +70,43 @@ return [
         'label' => 'Expliciet',
     ],
 
+    'rate' => [
+        'invalid' => '',
+    ],
+
     'show' => [
         'discussion' => 'Discussie',
 
+        'admin' => [
+            'full_size_cover' => 'Bekijk afbeelding op volledige grootte',
+            'page' => 'Bekijk admin pagina',
+        ],
+
+        'deleted_banner' => [
+            'title' => 'Deze beatmap is verwijderd.',
+            'message' => '(alleen moderators kunnen dit zien)',
+        ],
+
         'details' => [
+            'by_artist' => 'door :artist',
             'favourite' => 'Markeer deze beatmapset als favoriet',
+            'favourite_login' => 'Log in om deze beatmap als favoriet te markeren',
             'logged-out' => 'Je moet ingelogd zijn voordat je beatmaps kan downloaden!',
             'mapped_by' => 'gemapped door :mapper',
+            'mapped_by_guest' => 'gast moeilijkheidsgraad door :mapper',
             'unfavourite' => 'Verwijder markering als favoriet',
             'updated_timeago' => 'laatst bijgewerkt :timeago',
 
             'download' => [
-                '_' => 'downloaden',
+                '_' => 'Downloaden',
                 'direct' => '',
-                'no-video' => 'zonder video',
+                'lazer' => '',
+                'no-video' => 'zonder Video',
                 'video' => 'met Video',
             ],
 
             'login_required' => [
-                'bottom' => 'toegang tot meer functies',
+                'bottom' => 'voor toegang tot meer functies',
                 'top' => 'Inloggen',
             ],
         ],
@@ -76,8 +115,8 @@ return [
             'approved' => 'goedgekeurd :timeago',
             'loved' => 'geliefd :timeago',
             'qualified' => 'gekwalificeerd :timeago',
-            'ranked' => 'ranked :timeago',
-            'submitted' => 'verzonden :timeago',
+            'ranked' => 'geranked :timeago',
+            'submitted' => 'ingediend :timeago',
             'updated' => 'laatst bijgewerkt :timeago',
         ],
 
@@ -86,7 +125,7 @@ return [
         ],
 
         'hype' => [
-            'action' => 'Hype deze map als je het leuk vond om deze te spelen en om het te helpen de status <strong>ranked</strong> te bereiken.',
+            'action' => 'Hype deze map als je hem leuk vond om te spelen en om hem te helpen de <strong>ranked</strong> status te bereiken.',
 
             'current' => [
                 '_' => 'Deze map is momenteel :status.',
@@ -99,11 +138,11 @@ return [
             ],
 
             'disqualify' => [
-                '_' => 'Als u een probleem met deze beatmap vindt, alsjeblieft diskwalificeer het :link.',
+                '_' => 'Als je een probleem vindt met deze beatmap, diskwalificeer hem alsjeblieft :link.',
             ],
 
             'report' => [
-                '_' => 'Als u een probleem met deze beatmap vindt, rapporteer deze dan :link om het team te waarschuwen.',
+                '_' => 'Als je een probleem vindt met deze beatmap, rapporteer deze dan :link om het team te waarschuwen.',
                 'button' => 'Rapporteer Probleem',
                 'link' => 'hier',
             ],
@@ -113,13 +152,29 @@ return [
             'description' => 'Beschrijving',
             'genre' => 'Genre',
             'language' => 'Taal',
+            'mapper_tags' => 'Mapper Labels',
             'no_scores' => 'Data nog aan het berekenen...',
+            'nominators' => 'Nominatoren',
             'nsfw' => 'Expliciete inhoud',
+            'offset' => 'Online offset',
+            'pack_tags' => 'Beatmap Pakketten',
             'points-of-failure' => 'Faalpunten',
             'source' => 'Bron',
             'storyboard' => 'Deze beatmap bevat verhaalborden',
             'success-rate' => 'Slagingspercentage',
-            'tags' => 'Labels',
+            'success_rate_plays' => ':passes van :count_delimited gespeeld:passes van :count_delimited gespeeld',
+            'user_tags' => 'Gebruiker Labels',
+            'video' => 'Deze beatmap bevat een video',
+        ],
+
+        'lazer_only' => [
+            'title' => '',
+            'description' => '',
+
+            'scoreboard_switch_mode' => [
+                '_' => '',
+                'enable_link' => '',
+            ],
         ],
 
         'nsfw_warning' => [
@@ -136,10 +191,12 @@ return [
         'scoreboard' => [
             'achieved' => 'bereikt op :when',
             'country' => 'Landranking',
+            'error' => 'Ranglijst laden is mislukt',
             'friend' => 'Vriendenranking',
             'global' => 'Globale Ranking',
             'supporter-link' => 'Klik <a href=":link">hier</a> om alle chique functies die je krijgt te zien!',
-            'supporter-only' => 'Je moet supporter zijn om land- en vriendenrankings te zien!',
+            'supporter-only' => 'Je moet een osu!supporter zijn om toegang te krijgen tot land- en vriendenrankings, net als mod-specifieke ranglijsten!',
+            'team' => 'Team Ranglijst',
             'title' => 'Scorebord',
 
             'headers' => [
@@ -147,42 +204,51 @@ return [
                 'combo' => 'Max. Combo',
                 'miss' => 'Mis',
                 'mods' => 'Mods',
+                'pin' => 'Vastzetten',
                 'player' => 'Speler',
                 'pp' => '',
                 'rank' => 'Rank',
-                'score_total' => 'Totale Score',
                 'score' => 'Score',
+                'score_total' => 'Totale Score',
                 'time' => 'Datum',
             ],
 
             'no_scores' => [
-                'country' => 'Niemand uit jouw land heeft nog een score behaald op deze map!',
+                'country' => 'Er heeft nog niemand uit jouw land een score behaald op deze map!',
                 'friend' => 'Niemand van jouw vrienden heeft nog een score behaald op deze map!',
                 'global' => 'Nog geen scores. Probeer er een paar te halen?',
                 'loading' => 'Scoren aan het laden...',
+                'team' => 'Niemand uit jouw team heeft nog een score behaald op deze map!',
                 'unranked' => 'Ongerankte beatmap.',
             ],
             'score' => [
                 'first' => 'Aan de Leiding',
                 'own' => 'Jouw beste Rang',
             ],
+            'supporter_link' => [
+                '_' => 'Benieuwd naar de functies de je krijgt? Klik :here!',
+                'here' => 'hier',
+            ],
         ],
 
         'stats' => [
             'cs' => 'Cirkelgrootte',
-            'cs-mania' => 'Aantal Lanen',
+            'cs-mania' => 'Aantal toetsen',
             'drain' => 'HP Drain',
-            'accuracy' => 'Precisie',
-            'ar' => 'Benaderingssnelheid',
+            'accuracy' => 'Nauwkeurigheidsgraad',
+            'ar' => 'Approach Rate',
             'stars' => 'Sterrenmoeilijkheid',
             'total_length' => 'Lengte',
             'bpm' => 'BPM',
             'count_circles' => 'Aantal Cirkels',
             'count_sliders' => 'Aantal Sliders',
+            'offset' => 'Online offset: :offset',
             'user-rating' => 'Gebruikersbeoordelingen',
             'rating-spread' => 'Rating Verspreiding',
             'nominations' => 'Nominaties',
             'playcount' => 'Playcount',
+            'favourites' => 'Favorieten',
+            'no_favourites' => 'Nog geen favorieten',
         ],
 
         'status' => [
@@ -194,5 +260,9 @@ return [
             'pending' => 'In behandelIng',
             'graveyard' => 'Begraafplaats',
         ],
+    ],
+
+    'spotlight_badge' => [
+        'label' => 'Uitgelicht',
     ],
 ];

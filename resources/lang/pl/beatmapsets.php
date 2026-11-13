@@ -11,13 +11,27 @@ return [
         'rule_violation' => 'Część zawartości tej beatmapy została usunięta po uznaniu jej za nieodpowiednią do użycia w osu!.',
     ],
 
+    'cover' => [
+        'deleted' => 'Usunięta beatmapa',
+    ],
+
     'download' => [
         'limit_exceeded' => 'Zwolnij, pograj więcej!',
+        'no_mirrors' => 'Brak serwerów umożliwiających pobranie beatmapy.',
+    ],
+
+    'featured_artist_badge' => [
+        'label' => 'Wyróżniony artysta',
     ],
 
     'index' => [
         'title' => 'Lista beatmap',
         'guest_title' => 'Beatmapy',
+    ],
+
+    'ogp' => [
+        'favourites' => ':count_delimited ulubiony:count_delimited ulubione',
+        'playcount' => ':count_delimited gra|:count_delimited zagrania',
     ],
 
     'panel' => [
@@ -28,19 +42,26 @@ return [
             'video' => 'pobierz z wideo',
             'no_video' => 'pobierz bez wideo',
             'direct' => 'otwórz w osu!direct',
+            'lazer' => '',
         ],
     ],
 
     'nominate' => [
-        'hybrid_requires_modes' => '',
+        'bng_limited_too_many_rulesets' => 'Nie możesz nominować dla wielu trybów gry jako nominator z niepełnymi uprawnieniami.',
+        'full_nomination_required' => 'Do dokonania ostatecznej nominacji dla trybu gry wymagane są pełne uprawnienia nominatora.',
+        'hybrid_requires_modes' => 'Beatmapa hybrydowa wymaga wybrania przynajmniej jednego trybu gry, dla którego chcesz ją nominować.',
         'incorrect_mode' => 'Nie posiadasz uprawnień do nominowania beatmap dla tych trybów (:mode)',
-        'full_bn_required' => 'Musisz posiadać pełne uprawnienia nominatora, by zakwalifikować tę beatmapę.',
+        'invalid_limited_nomination' => 'Ta beatmapa posiada nieprawidłowe nominacje i nie może zostać zakwalifikowana.',
+        'invalid_ruleset' => 'Wybrano nieprawidłowe tryby gry w nominacji.',
         'too_many' => 'Osiągnięto już wystarczającą liczbę nominacji.',
+        'too_many_non_main_ruleset' => 'Wymóg nominacji dla dodatkowych trybów gry został już spełniony.',
 
         'dialog' => [
             'confirmation' => 'Czy na pewno chcesz nominować tę beatmapę?',
+            'different_nominator_warning' => 'Zakwalifikowanie tej beatmapy z inną grupą nominatorów zresetuje jej pozycję w kolejce kwalifikacji.',
             'header' => 'Nominuj beatmapę',
-            'hybrid_warning' => '',
+            'hybrid_warning' => 'Uwaga: możesz nominować tylko raz, więc upewnij się, że nominujesz ją dla wszystkich pożądanych trybów gry.',
+            'current_main_ruleset' => 'Główny tryb gry beatmapy - :ruleset',
             'which_modes' => 'Dla jakich trybów chcesz nominować tę beatmapę?',
         ],
     ],
@@ -49,19 +70,37 @@ return [
         'label' => 'Dla pełnoletnich',
     ],
 
+    'rate' => [
+        'invalid' => 'Niewłaściwa ocena.',
+    ],
+
     'show' => [
         'discussion' => 'Dyskusja',
 
+        'admin' => [
+            'full_size_cover' => 'Wyświetl tło w pełnej rozdzielczości',
+            'page' => 'Pokaż stronę administratora',
+        ],
+
+        'deleted_banner' => [
+            'title' => 'Ta beatmapa została usunięta.',
+            'message' => '(widoczne tylko dla moderatorów)',
+        ],
+
         'details' => [
-            'favourite' => 'Dodaj do ulubionych',
-            'logged-out' => 'Zaloguj się, aby zacząć pobierać beatmapy!',
+            'by_artist' => ':artist',
+            'favourite' => 'dodaj do ulubionych',
+            'favourite_login' => 'zaloguj się, by dodać tę beatmapę do ulubionych',
+            'logged-out' => 'zaloguj się, aby zacząć pobierać beatmapy!',
             'mapped_by' => 'autorstwa :mapper',
-            'unfavourite' => 'Usuń z ulubionych',
+            'mapped_by_guest' => 'gościnny poziom trudności autorstwa :mapper',
+            'unfavourite' => 'usuń z ulubionych',
             'updated_timeago' => 'ostatnio zaktualizowana :timeago',
 
             'download' => [
                 '_' => 'Pobierz',
                 'direct' => '',
+                'lazer' => '',
                 'no-video' => 'bez wideo',
                 'video' => 'z wideo',
             ],
@@ -113,17 +152,33 @@ return [
             'description' => 'Opis',
             'genre' => 'Gatunek',
             'language' => 'Język',
+            'mapper_tags' => 'Tagi twórcy',
             'no_scores' => 'Dane są nadal ładowane...',
+            'nominators' => 'Nominatorzy',
             'nsfw' => 'Treść dla pełnoletnich',
+            'offset' => 'Opóźnienie',
+            'pack_tags' => 'Paczki beatmap',
             'points-of-failure' => 'Wykres porażek',
             'source' => 'Źródło',
             'storyboard' => 'Ta beatmapa zawiera scenorys',
             'success-rate' => 'Wskaźnik ukończonych zagrań',
-            'tags' => 'Tagi',
+            'success_rate_plays' => ':passes z :count_delimited zagrań|:passes z :count_delimited zagrań|:passes z :count_delimited zagrań',
+            'user_tags' => 'Tagi użytkowników',
+            'video' => 'Ta beatmapa zawiera wideo w tle',
+        ],
+
+        'lazer_only' => [
+            'title' => 'Tylko na osu!lazer',
+            'description' => 'Ta beatmapa wykorzystuje niekompatybilne mechaniki i może zostać zagrana wyłącznie na osu!lazer.',
+
+            'scoreboard_switch_mode' => [
+                '_' => ':enable_link, aby wyświetlić wyniki ustanowione na tej beatmapie.',
+                'enable_link' => 'Włącz tryb „lazer”',
+            ],
         ],
 
         'nsfw_warning' => [
-            'details' => '',
+            'details' => 'Ta beatmapa zawiera niedwuznaczne, obraźliwe lub niepokojące treści. Czy chcesz ją zobaczyć mimo to?',
             'title' => 'Treść dla pełnoletnich',
 
             'buttons' => [
@@ -134,12 +189,14 @@ return [
         ],
 
         'scoreboard' => [
-            'achieved' => 'osiągnięte :when',
+            'achieved' => 'osiągnięty :when',
             'country' => 'Ranking krajowy',
+            'error' => 'Nie udało się załadować rankingu',
             'friend' => 'Ranking znajomych',
             'global' => 'Ranking globalny',
             'supporter-link' => 'Kliknij <a href=":link">tutaj</a>, aby zobaczyć, jakie jeszcze funkcje otrzymasz w zamian za zakup statusu donatora!',
-            'supporter-only' => 'Musisz posiadać status donatora, aby uzyskać dostęp do rankingu krajowego i znajomych!',
+            'supporter-only' => 'Musisz posiadać status donatora, by uzyskać dostęp do rankingu krajowego, znajomych i odrębnych dla modyfikatorów!',
+            'team' => 'Ranking zespołowy',
             'title' => 'Tabela wyników',
 
             'headers' => [
@@ -147,11 +204,12 @@ return [
                 'combo' => 'Combo',
                 'miss' => 'Pudła',
                 'mods' => 'Modyfikatory',
+                'pin' => 'Przypnij',
                 'player' => 'Gracz',
                 'pp' => '',
                 'rank' => 'Pozycja',
-                'score_total' => 'Wynik',
                 'score' => 'Wynik',
+                'score_total' => 'Wynik',
                 'time' => 'Data',
             ],
 
@@ -160,11 +218,16 @@ return [
                 'friend' => 'Żaden z twoich znajomych nie ustanowił jeszcze wyniku na tej beatmapie!',
                 'global' => 'Brak wyników. Może czas jakieś ustanowić?',
                 'loading' => 'Ładowanie wyników...',
+                'team' => 'Żaden z członków twojego zespołu nie ustanowił jeszcze wyniku na tej beatmapie!',
                 'unranked' => 'Nierankingowa beatmapa.',
             ],
             'score' => [
                 'first' => 'Najlepszy wynik',
                 'own' => 'Twój wynik',
+            ],
+            'supporter_link' => [
+                '_' => 'Kliknij :here, aby zobaczyć, jakie jeszcze funkcje otrzymasz!',
+                'here' => 'tutaj',
             ],
         ],
 
@@ -179,10 +242,13 @@ return [
             'bpm' => 'BPM',
             'count_circles' => 'Liczba kółek',
             'count_sliders' => 'Liczba sliderów',
+            'offset' => 'Opóźnienie: :offset',
             'user-rating' => 'Oceny użytkowników',
-            'rating-spread' => 'Wykres ocen',
+            'rating-spread' => 'Rozkład ocen',
             'nominations' => 'Nominacje',
             'playcount' => 'Liczba zagrań',
+            'favourites' => 'Polubienia',
+            'no_favourites' => 'Brak polubień',
         ],
 
         'status' => [
@@ -194,5 +260,9 @@ return [
             'pending' => 'Oczekująca',
             'graveyard' => 'Porzucona',
         ],
+    ],
+
+    'spotlight_badge' => [
+        'label' => 'Wyróżniona',
     ],
 ];

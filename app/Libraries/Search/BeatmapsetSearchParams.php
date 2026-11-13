@@ -7,111 +7,68 @@ namespace App\Libraries\Search;
 
 use App\Libraries\Elasticsearch\SearchParams;
 use App\Models\Beatmap;
+use App\Models\User;
+use App\Models\UserProfileCustomization;
 
 class BeatmapsetSearchParams extends SearchParams
 {
     const PLAYED_STATES = ['played', 'unplayed'];
-    const STATUSES_NO_CACHE = ['favourites', 'mine'];
 
-    /** @var array|null */
-    public $ar;
+    public ?array $accuracy = null;
+    public ?array $ar = null;
+    public ?string $artist = null;
+    public ?array $bpm = null;
+    public ?array $countNormal = null;
+    public ?array $countSlider = null;
+    public ?array $created = null;
+    public ?string $creator = null;
+    public ?array $cs = null;
+    public ?string $difficulty = null;
+    public ?array $difficultyRating = null;
+    public ?array $drain = null;
+    public array $extra = [];
+    public ?array $favouriteCount = null;
+    public ?int $featuredArtist = null;
+    public ?int $genre = null;
+    public bool $includeConverts = false;
+    public bool $includeNsfw = UserProfileCustomization::DEFAULTS['beatmapset_show_nsfw'];
+    public ?array $keys = null;
+    public ?int $language = null;
+    public ?int $mode = null;
+    public ?string $playedFilter = null; // null means any state
+    public array $rank = [];
+    public ?array $ranked = null;
+    public bool $showFeaturedArtists = false;
+    public bool $showFollows = false;
+    public bool $showRecommended = false;
+    public bool $showSpotlights = false;
+    public ?string $source = null;
+    public ?string $status = null;
+    public ?array $tags = null;
+    public ?string $title = null;
+    public ?array $statusRange = null;
+    public ?array $totalLength = null;
+    public ?array $updated = null;
+    public ?User $user = null;
 
-    /** @var string|null */
-    public $artist;
-
-    /** @var array|null */
-    public $bpm;
-
-    /** @var array|null */
-    public $created;
-
-    /** @var string|null */
-    public $creator;
-
-    /** @var array|null */
-    public $cs;
-
-    /** @var array|null */
-    public $difficultyRating;
-
-    /** @var array|null */
-    public $drain;
-
-    /** @var array */
-    public $extra = [];
-
-    /** @var int|null */
-    public $genre = null;
-
-    /** @var bool */
-    public $includeConverts = false;
-
-    /** @var bool */
-    public $includeNsfw = false;
-
-    /** @var array|null */
-    public $keys;
-
-    /** @var int|null */
-    public $language = null;
-
-    /** @var int|null */
-    public $mode = null;
-
-    /**
-     * null means any state.
-     *
-     * @var string|null
-     */
-    public $playedFilter = null;
-
-    /** @var string|null */
-    public $queryString = null;
-
-    /** @var array */
-    public $rank = [];
-
-    /** @var array|null */
-    public $ranked;
-
-    /** @var bool */
-    public $showFollows = false;
-
-    /** @var bool */
-    public $showRecommended = false;
-
-    /** @var string|null */
-    public $status = null;
-
-    /** @var array|null */
-    public $statusRange;
-
-    /** @var array|null */
-    public $hitLength;
-
-    /** @var User|null */
-    public $user = null;
-
-    /** @var float|null */
-    private $recommendedDifficulty;
+    private ?float $recommendedDifficulty = null;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->size = config('osu.beatmaps.max');
+        $this->size = $GLOBALS['cfg']['osu']['beatmaps']['max'];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCacheKey(): string
+    public function getCacheKeyVars(): array
     {
-        $vars = get_object_vars($this);
+        $vars = parent::getCacheKeyVars();
         unset($vars['user']);
-        ksort($vars);
 
-        return 'beatmapset-search:'.json_encode($vars);
+        return $vars;
     }
 
     /**
@@ -121,10 +78,8 @@ class BeatmapsetSearchParams extends SearchParams
     {
         return !(
             present($this->queryString)
-            || !empty($this->rank)
-            || in_array($this->status, static::STATUSES_NO_CACHE, true)
-            || $this->showRecommended
-            || $this->playedFilter !== null
+            || $this->hasSupporterFeatures()
+            || $this->requiresUser()
             || !empty($this->blockedUserIds()) // don't cache result if blocking applied, unless filter is moved client-side.
         );
     }
@@ -148,13 +103,27 @@ class BeatmapsetSearchParams extends SearchParams
         return $this->recommendedDifficulty;
     }
 
+    /**
+     * This implies user-related search and thus requires user and can't be cached.
+     */
     public function hasSupporterFeatures(): bool
     {
         return $this->playedFilter !== null || !empty($this->rank);
     }
 
+    /**
+     * This doesn't include supporter features.
+     */
+    public function requiresUser(): bool
+    {
+        return in_array($this->status, ['favourites', 'mine'], true)
+            || $this->showFollows
+            || $this->showRecommended;
+    }
+
     public function shouldReturnEmptyResponse(): bool
     {
-        return !optional($this->user)->isSupporter() && $this->hasSupporterFeatures();
+        return ($this->user?->isSupporter() !== true && $this->hasSupporterFeatures())
+            || ($this->user === null && $this->requiresUser());
     }
 }

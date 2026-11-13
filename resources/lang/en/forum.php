@@ -25,6 +25,7 @@ return [
     ],
 
     'forums' => [
+        'forums' => 'Forums',
         'latest_post' => 'Latest Post',
 
         'index' => [
@@ -43,11 +44,11 @@ return [
     ],
 
     'post' => [
-        'confirm_destroy' => 'Really delete post?',
-        'confirm_restore' => 'Really restore post?',
+        'confirm_destroy' => 'Are you sure you want to delete this post?',
+        'confirm_restore' => 'Are you sure you want to restore this post?',
         'edited' => 'Last edited by :user :when, edited :count_delimited time in total.|Last edited by :user :when, edited :count_delimited times in total.',
         'posted_at' => 'posted :when',
-        'posted_by' => 'posted by :username',
+        'posted_by_in' => 'posted by :username in :forum',
 
         'actions' => [
             'destroy' => 'Delete post',
@@ -75,10 +76,11 @@ return [
     ],
 
     'topic' => [
-        'confirm_destroy' => 'Really delete topic?',
-        'confirm_restore' => 'Really restore topic?',
+        'confirm_destroy' => 'Are you sure you want to delete this topic?',
+        'confirm_restore' => 'Are you sure you want to restore this topic?',
         'deleted' => 'deleted topic',
         'go_to_latest' => 'view latest post',
+        'go_to_unread' => 'view first unread post',
         'has_replied' => 'You have replied to this topic',
         'in_forum' => 'in :forum',
         'latest_post' => ':when by :user',
@@ -101,7 +103,7 @@ return [
             'preview' => 'Preview',
             // TL note: this is used in the topic reply preview, when
             // the user goes back from previewing to editing the reply
-            'preview_hide' => 'Write',
+            'preview_hide' => 'Edit',
             'submit' => 'Post',
 
             'necropost' => [
@@ -125,6 +127,55 @@ return [
             'last' => 'go to last post',
             'next' => 'skip next 10 posts',
             'previous' => 'go back 10 posts',
+        ],
+
+        'logs' => [
+            '_' => 'Topic logs',
+            'button' => 'Browse topic logs',
+
+            'columns' => [
+                'action' => 'Action',
+                'date' => 'Date',
+                'user' => 'User',
+            ],
+
+            'data' => [
+                'add_tag' => 'added ":tag" tag',
+                'announcement' => 'pinned topic and marked as announcement',
+                'edit_topic' => 'to :title',
+                'fork' => 'from :topic',
+                'pin' => 'pinned topic',
+                'post_operation' => 'posted by :username',
+                'remove_tag' => 'removed ":tag" tag',
+                'source_forum_operation' => 'from :forum',
+                'unpin' => 'unpinned topic',
+            ],
+
+            'no_results' => 'no logs found...',
+
+            'operations' => [
+                'delete_post' => 'Deleted post',
+                'delete_topic' => 'Deleted topic',
+                'edit_topic' => 'Changed topic title',
+                'edit_poll' => 'Edited topic poll',
+                'fork' => 'Copied topic',
+                'issue_tag' => 'Issued tag',
+                'lock' => 'Locked topic',
+                'merge' => 'Merged posts into this topic',
+                'move' => 'Moved topic',
+                'pin' => 'Pinned topic',
+                'post_edited' => 'Edited post',
+                'restore_post' => 'Restored post',
+                'restore_topic' => 'Restored topic',
+                'split_destination' => 'Moved split posts',
+                'split_source' => 'Split posts',
+                'topic_type' => 'Set topic type',
+                'topic_type_changed' => 'Changed topic type',
+                'unlock' => 'Unlocked topic',
+                'unpin' => 'Unpinned topic',
+                'user_lock' => 'Locked own topic',
+                'user_unlock' => 'Unlocked own topic',
+            ],
         ],
 
         'post_edit' => [
@@ -202,48 +253,6 @@ return [
             'views' => 'views',
         ],
 
-        'issue_tag_added' => [
-            'to_0' => 'Remove "added" tag',
-            'to_0_done' => 'Removed "added" tag',
-            'to_1' => 'Add "added" tag',
-            'to_1_done' => 'Added "added" tag',
-        ],
-
-        'issue_tag_assigned' => [
-            'to_0' => 'Remove "assigned" tag',
-            'to_0_done' => 'Removed "assigned" tag',
-            'to_1' => 'Add "assigned" tag',
-            'to_1_done' => 'Added "assigned" tag',
-        ],
-
-        'issue_tag_confirmed' => [
-            'to_0' => 'Remove "confirmed" tag',
-            'to_0_done' => 'Removed "confirmed" tag',
-            'to_1' => 'Add "confirmed" tag',
-            'to_1_done' => 'Added "confirmed" tag',
-        ],
-
-        'issue_tag_duplicate' => [
-            'to_0' => 'Remove "duplicate" tag',
-            'to_0_done' => 'Removed "duplicate" tag',
-            'to_1' => 'Add "duplicate" tag',
-            'to_1_done' => 'Added "duplicate" tag',
-        ],
-
-        'issue_tag_invalid' => [
-            'to_0' => 'Remove "invalid" tag',
-            'to_0_done' => 'Removed "invalid" tag',
-            'to_1' => 'Add "invalid" tag',
-            'to_1_done' => 'Added "invalid" tag',
-        ],
-
-        'issue_tag_resolved' => [
-            'to_0' => 'Remove "resolved" tag',
-            'to_0_done' => 'Removed "resolved" tag',
-            'to_1' => 'Add "resolved" tag',
-            'to_1_done' => 'Added "resolved" tag',
-        ],
-
         'lock' => [
             'is_locked' => 'This topic is locked and can not be replied to',
             'to_0' => 'Unlock topic',
@@ -278,6 +287,7 @@ return [
         'show' => [
             'deleted-posts' => 'Deleted Posts',
             'total_posts' => 'Total Posts',
+            'total_watches' => 'Total Subscribers',
 
             'feature_vote' => [
                 'current' => 'Current Priority: +:count',

@@ -6,24 +6,23 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ModelNotSavedException;
-use App\Libraries\BeatmapsetDiscussionReview;
+use App\Libraries\BeatmapsetDiscussion\Review;
 use App\Libraries\BeatmapsetDiscussionsBundle;
 use App\Models\BeatmapDiscussion;
 use App\Models\Beatmapset;
 use Auth;
-use Request;
 
 /**
- @group Beatmapset Discussions
+ * @group Beatmapset Discussions
  */
 class BeatmapDiscussionsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'mediaUrl', 'show']]);
         $this->middleware('require-scopes:public', ['only' => ['index']]);
 
-        return parent::__construct();
+        parent::__construct();
     }
 
     public function allowKudosu($id)
@@ -82,14 +81,15 @@ class BeatmapDiscussionsController extends Controller
      * </aside>
      *
      * Field                     | Type                                            | Description
-     * ------------------------- | ----------------------------------------------- | -----------------------------------------------------------------------
-     * beatmaps                  | [Beatmap](#beatmap)[]                           | List of beatmaps associated with the discussions returned.
-     * cursor                    | [Cursor](#cursor)                               | |
+     * ------------------------- | ----------------------------------------------- | -----------
+     * beatmaps                  | [BeatmapExtended](#beatmapextended)[]           | List of beatmaps associated with the discussions returned.
+     * cursor_string             | [CursorString](#cursorstring)                   | |
      * discussions               | [BeatmapsetDiscussion](#beatmapsetdiscussion)[] | List of discussions according to `sort` order.
      * included_discussions      | [BeatmapsetDiscussion](#beatmapsetdiscussion)[] | Additional discussions related to `discussions`.
-     * reviews_config.max_blocks | number                                          | Maximum number of blocks allowed in a review.
-     * users                     | [UserCompact](#usercompact)[]                   | List of users associated with the discussions returned.
+     * reviews_config.max_blocks | integer                                         | Maximum number of blocks allowed in a review.
+     * users                     | [User](#user)[]                                 | List of users associated with the discussions returned.
      *
+     * @usesCursor
      * @queryParam beatmap_id `id` of the [Beatmap](#beatmap).
      * @queryParam beatmapset_id `id` of the [Beatmapset](#beatmapset).
      * @queryParam beatmapset_status One of `all`, `ranked`, `qualified`, `disqualified`, `never_qualified`. Defaults to `all`. TODO: better descriptions.
@@ -129,15 +129,13 @@ class BeatmapDiscussionsController extends Controller
 
     public function review($beatmapsetId)
     {
-        $beatmapset = Beatmapset
-            ::where('discussion_enabled', true)
-            ->findOrFail($beatmapsetId);
+        $beatmapset = Beatmapset::findOrFail($beatmapsetId);
 
         priv_check('BeatmapsetDiscussionReviewStore', $beatmapset)->ensureCan();
 
         try {
-            $document = json_decode(request()->all()['document'] ?? '[]', true);
-            BeatmapsetDiscussionReview::create($beatmapset, $document, Auth::user());
+            $document = get_arr(json_decode(get_string(request('document')) ?? '[]', true)) ?? [];
+            Review::create($beatmapset, $document, Auth::user());
         } catch (\Exception $e) {
             return error_popup($e->getMessage(), 422);
         }
@@ -153,7 +151,7 @@ class BeatmapDiscussionsController extends Controller
             abort(404);
         }
 
-        return ujs_redirect(route('beatmapsets.discussion', $discussion->beatmapset).'#/'.$id);
+        return ujs_redirect(route('beatmapsets.discussion', $discussion->beatmapset).'#/'.$discussion->getKey());
     }
 
     public function vote($id)
@@ -162,17 +160,13 @@ class BeatmapDiscussionsController extends Controller
 
         priv_check('BeatmapDiscussionVote', $discussion)->ensureCan();
 
-        $params = get_params(Request::all(), 'beatmap_discussion_vote', ['score:int']);
+        $params = get_params(\Request::all(), 'beatmap_discussion_vote', ['score:int']);
         $params['user_id'] = Auth::user()->user_id;
-
-        if ($params['score'] < 0) {
-            priv_check('BeatmapDiscussionVoteDown', $discussion)->ensureCan();
-        }
 
         if ($discussion->vote($params)) {
             return $discussion->beatmapset->defaultDiscussionJson();
         } else {
-            return error_popup(trans('beatmaps.discussion-votes.update.error'));
+            return error_popup(osu_trans('beatmaps.discussion-votes.update.error'));
         }
     }
 }

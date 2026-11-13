@@ -1,5 +1,8 @@
 <?php
 
+// require helpers here so it's correctly reloaded by octane
+require_once __DIR__.'/../app/helpers.php';
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -14,6 +17,9 @@
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
 );
+
+// Prevent laravel from merging in junk configurations (mainly database connections)
+$app->dontMergeFrameworkConfiguration();
 
 /*
 |--------------------------------------------------------------------------

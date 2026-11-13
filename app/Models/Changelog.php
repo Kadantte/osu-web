@@ -26,6 +26,12 @@ namespace App\Models;
  */
 class Changelog extends Model
 {
+    const PREFIXES = [
+        'add' => '+',
+        'fix' => '*',
+        'misc' => '?',
+    ];
+
     public $timestamps = false;
     protected $table = 'osu_changelog';
     protected $primaryKey = 'changelog_id';
@@ -33,16 +39,7 @@ class Changelog extends Model
     protected $casts = [
         'private' => 'boolean',
         'major' => 'boolean',
-    ];
-
-    protected $dates = [
-        'date',
-    ];
-
-    const PREFIXES = [
-        'add' => '+',
-        'fix' => '*',
-        'misc' => '?',
+        'date' => 'datetime',
     ];
 
     public function scopeDefault($query)
@@ -55,7 +52,7 @@ class Changelog extends Model
 
     public function scopeListing($query, $offset = 20)
     {
-        $limit = config('osu.changelog.max', 20);
+        $limit = $GLOBALS['cfg']['osu']['changelog']['max'] ?? 20;
 
         return $query
             ->where('private', 0)
@@ -101,7 +98,7 @@ class Changelog extends Model
             'user' => $user,
             'user_id' => $user->user_id,
             'prefix' => '*',
-            'message' => trans('changelog.generic'),
+            'message' => osu_trans('changelog.generic'),
         ]);
 
         return $change;

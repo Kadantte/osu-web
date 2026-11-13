@@ -5,6 +5,7 @@
 
 namespace App\Libraries\Fulfillments;
 
+use App\Models\Store\OrderItem;
 use App\Models\User;
 use App\Models\UserDonation;
 use Carbon\Carbon;
@@ -13,29 +14,22 @@ use DB;
 /**
  * Applies a Supporter Tag donation from a store transaction.
  */
-class ApplySupporterTag extends OrderItemFulfillment
+class ApplySupporterTag implements Fulfillable
 {
-    private $donor;
-    private $target;
-
-    private $donorId;
-    private $targetId;
-    private $duration;
-    private $amount;
-
-    public function __construct($orderItem)
+    public static function addDuration(Carbon $time, int $duration): Carbon
     {
-        parent::__construct($orderItem);
-        $this->donorId = $orderItem->order->user_id;
-        $this->targetId = $orderItem->extra_data['target_id'];
-        $this->duration = (int) $orderItem->extra_data['duration'];
-        $this->amount = $orderItem->cost;
+        // round(365 / 12 * 24) = 730
+        // (it's 730.485 if accounting actual year (365.2425) but still close enough)
+        return $time->addHours($duration * 730);
     }
 
-    private function assignUsers()
+    private int $amount;
+    private int $duration;
+    private User $donor;
+    private User $target;
+
+    public function __construct(protected OrderItem $orderItem)
     {
-        $this->donor = User::findOrFail($this->donorId);
-        $this->target = User::findOrFail($this->targetId);
     }
 
     public function cancelledTransactionId()
@@ -46,10 +40,12 @@ class ApplySupporterTag extends OrderItemFulfillment
     /**
      * Performs the opration.
      *
-     * @throws Illuminate\Database\Eloquent\ModelNotFoundException If the donor or target could not be found.
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the donor or target could not be found.
      */
     public function run()
     {
+        $this->setup();
+
         DB::transaction(function () {
             // check if transaction was already applied.
             if (UserDonation::where('transaction_id', $this->getTransactionId())->count() > 0) {
@@ -57,8 +53,6 @@ class ApplySupporterTag extends OrderItemFulfillment
 
                 return;
             }
-
-            $this->assignUsers();
 
             $donation = $this->applyDonation();
             $this->updateVotes($this->duration);
@@ -73,10 +67,12 @@ class ApplySupporterTag extends OrderItemFulfillment
     /**
      * Revokes the operation.
      *
-     * @throws Illuminate\Database\Eloquent\ModelNotFoundException If the donor or target could not be found.
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the donor or target could not be found.
      */
     public function revoke()
     {
+        $this->setup();
+
         DB::transaction(function () {
             // cancel only if applied.
             if (UserDonation::where('transaction_id', $this->cancelledTransactionId())->count() > 0) {
@@ -91,8 +87,6 @@ class ApplySupporterTag extends OrderItemFulfillment
 
                 return;
             }
-
-            $this->assignUsers();
 
             foreach ($donations as $donation) { // loop, but there should only be one.
                 $donation->cancel($this->cancelledTransactionId());
@@ -114,8 +108,8 @@ class ApplySupporterTag extends OrderItemFulfillment
     {
         return new UserDonation([
             'transaction_id' => $this->getTransactionId(),
-            'user_id' => $this->donorId,
-            'target_user_id' => $this->targetId,
+            'user_id' => $this->donor->getKey(),
+            'target_user_id' => $this->target->getKey(),
             'length' => $this->duration,
             'amount' => $this->amount,
         ]);
@@ -125,16 +119,32 @@ class ApplySupporterTag extends OrderItemFulfillment
     {
         // start fresh if was an existing subscriber and expired.
         // null < $now = true.
-        $now = Carbon::now();
-        $old = $this->target->osu_subscriptionexpiry < $now ? $now : $this->target->osu_subscriptionexpiry;
-        $this->target->osu_subscriptionexpiry = $old->addMonthsNoOverflow($this->duration);
+        $new = static::addDuration(max(Carbon::now(), $this->target->osu_subscriptionexpiry), $this->duration);
+        $this->target->osu_subscriptionexpiry = $new;
         $this->target->osu_subscriber = true;
+    }
+
+    private function getTransactionId()
+    {
+        return "{$this->orderItem->order->transaction_id}-{$this->orderItem->id}";
     }
 
     private function revokeSubscription()
     {
-        $old = $this->target->osu_subscriptionexpiry;
-        $this->target->osu_subscriptionexpiry = $old->subMonthsNoOverflow($this->duration);
-        $this->target->osu_subscriber = Carbon::now()->diffInMinutes($old, false) > 0;
+        $previous = static::addDuration($this->target->osu_subscriptionexpiry, -$this->duration);
+        $this->target->osu_subscriptionexpiry = $previous;
+        $this->target->osu_subscriber = Carbon::now()->diffInMinutes($previous) > 0;
+    }
+
+    private function setup()
+    {
+        /** @var \App\Models\Store\ExtraDataSupporterTag $extraData */
+        $extraData = $this->orderItem->extra_data;
+
+        $this->amount = $this->orderItem->cost;
+        $this->duration = $extraData->duration;
+
+        $this->donor = User::findOrFail($this->orderItem->order->user_id);
+        $this->target = User::findOrFail($extraData->targetId);
     }
 }

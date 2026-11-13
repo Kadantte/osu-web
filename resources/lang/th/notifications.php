@@ -6,64 +6,88 @@
 return [
     'all_read' => 'อ่านการแจ้งเตือนทั้งหมดแล้ว!',
     'delete' => 'ลบ :type',
-    'loading' => '',
+    'loading' => 'กำลังโหลดการแจ้งเตือนที่ยังไม่ได้อ่าน...',
     'mark_read' => 'ล้าง :type',
     'none' => 'ไม่มีการแจ้งเตือนใดๆ',
     'see_all' => 'ดูการแจ้งเตือนทั้งหมด',
     'see_channel' => 'ไปที่แชท',
-    'verifying' => '',
+    'verifying' => 'โปรดยืนยันเซสชันเพื่อดูการแจ้งเตือน',
+
+    'action_type' => [
+        '_' => 'ทั้งหมด',
+        'beatmapset' => 'บีทแมพ',
+        'build' => 'เวอร์ชั่น',
+        'channel' => 'แชท',
+        'forum_topic' => 'ฟอรั่ม',
+        'news_post' => 'ข่าวสาร',
+        'team' => 'ทีม',
+        'user' => 'โปรไฟล์',
+    ],
 
     'filters' => [
         '_' => 'ทั้งหมด',
-        'user' => 'โปรไฟล์',
         'beatmapset' => 'บีทแมพ',
-        'forum_topic' => 'บอร์ดข่าวสาร',
-        'news_post' => 'ข่าวสาร',
         'build' => 'เวอร์ชั่น',
         'channel' => 'แชท',
+        'forum_topic' => 'บอร์ดข่าวสาร',
+        'news_post' => 'ข่าวสาร',
+        'team' => 'ทีม',
+        'user' => 'โปรไฟล์',
     ],
 
     'item' => [
         'beatmapset' => [
-            '_' => 'Beatmap',
+            '_' => 'บีทแมพ',
+
+            'beatmap_owner_change' => [
+                '_' => 'ระดับความยากของผู้มีส่วนร่วม',
+                'beatmap_owner_change' => 'ตอนนี้คุณเป็นเจ้าของระดับความยาก ":beatmap" สําหรับบีทแมพ ":title"',
+                'beatmap_owner_change_compact' => 'ตอนนี้คุณเป็นเจ้าของระดับความยาก ":beatmap"',
+            ],
 
             'beatmapset_discussion' => [
                 '_' => 'การสนทนาบีทแมพ',
-                'beatmapset_discussion_lock' => 'Beatmap ":title" ได้ถูกปิดการใช้งานการสนทนา',
+                'beatmapset_discussion_lock' => 'บีทแมพ ":title" ได้ถูกปิดการใช้งานการสนทนา',
                 'beatmapset_discussion_lock_compact' => 'การสนทนาได้ถูกล็อกไว้',
-                'beatmapset_discussion_post_new' => ':username ได้เขียนข้อความใหม่ใน ":title" การสนทนาของ beatmap',
-                'beatmapset_discussion_post_new_empty' => 'โพสใหม่ บน :title โดย :username',
-                'beatmapset_discussion_post_new_compact' => 'โพสต์ใหม่โดย :username',
-                'beatmapset_discussion_post_new_compact_empty' => 'โพสใหม่โดย :username',
-                'beatmapset_discussion_review_new' => 'บทวิจารณ์ใหม่บน ":title" โดย :username มีปัญหาอยู่ :problems ปัญหา, คำแนะนำอยู่ :suggestions คำแนะนำ, คำชม :praises คำชม  ',
-                'beatmapset_discussion_review_new_compact' => 'บทวิจารณ์โดย :username มีปัญหาอยู่ :problems ปัญหา, คำแนะนำอยู่ :suggestions คำแนะนำ, คำชม :praises คำชม  ',
-                'beatmapset_discussion_unlock' => 'Beatmap ":title" ได้ถูกเปิดการใช้งานในการสนทนาแล้ว',
+                'beatmapset_discussion_post_new' => 'โพสต์ใหม่เกี่ยวกับ ":title" โดย :username: ":content"',
+                'beatmapset_discussion_post_new_empty' => 'โพสใหม่เกี่ยวกับ ":title" โดย :username',
+                'beatmapset_discussion_post_new_compact' => 'โพสต์ใหม่โดย :username: ":content"',
+                'beatmapset_discussion_post_new_compact_empty' => 'โพสต์ใหม่โดย :username',
+                'beatmapset_discussion_review_new' => 'บทวิจารณ์ ":title" โดย :username มี :review_counts',
+                'beatmapset_discussion_review_new_compact' => 'บทวิจารณ์โดย :username มี :review_counts',
+                'beatmapset_discussion_unlock' => 'บีทแมพ ":title" ได้ถูกเปิดการใช้งานในการสนทนาแล้ว',
                 'beatmapset_discussion_unlock_compact' => 'การสนทนาได้ถูกปลดล๊อค',
+
+                'review_count' => [
+                    'praises' => ':count_delimited คำชม|:count_delimited คำชม',
+                    'problems' => ':count_delimited ปัญหา|:count_delimited ปัญหา',
+                    'suggestions' => ':count_delimited คำแนะนำ|:count_delimited คำแนะนำ',
+                ],
             ],
 
             'beatmapset_problem' => [
-                '_' => 'ปัญหา Beatmap ที่ Qualified',
-                'beatmapset_discussion_qualified_problem' => 'รายงานโดย :username บน :title :content',
-                'beatmapset_discussion_qualified_problem_empty' => 'รายงานโดย :username บน :title ',
-                'beatmapset_discussion_qualified_problem_compact' => 'รายงานโดย :username บน :content ',
+                '_' => 'ปัญหาของบีทแมพที่ผ่านการรับรอง',
+                'beatmapset_discussion_qualified_problem' => 'รายงานโดย :username เกี่ยวกับ ":title": ":content"',
+                'beatmapset_discussion_qualified_problem_empty' => 'รายงานโดย :username เกี่ยวกับ ":title"',
+                'beatmapset_discussion_qualified_problem_compact' => 'รายงานโดย :username: ":content"',
                 'beatmapset_discussion_qualified_problem_compact_empty' => 'รายงานโดย :username',
             ],
 
             'beatmapset_state' => [
                 '_' => 'สถานะของบีทแมพถูกเปลี่ยน',
-                'beatmapset_disqualify' => 'Beatmap ":title" ได้ถูกตัดสิทธิ์โดย :username',
-                'beatmapset_disqualify_compact' => 'Beatmap ถูกตัดสิทธ์',
-                'beatmapset_love' => 'Beatmap ":title" ได้ถูกเลื่อนขั้นให้เป็นที่ชื่นชอบโดย :username',
-                'beatmapset_love_compact' => 'Beatmap โปรโมทเป็น Loved',
-                'beatmapset_nominate' => 'Beatmap ":title" ได้ถูกเสนอชื่อโดย :username',
-                'beatmapset_nominate_compact' => 'Beatmap นี้ได้รับการจัดอันดับแล้ว',
+                'beatmapset_disqualify' => '":title" ถูกตัดสิทธิ์',
+                'beatmapset_disqualify_compact' => 'บีทแมพถูกตัดสิทธิ์',
+                'beatmapset_love' => '":title" ได้รับการเลื่อนระดับเป็นเลิฟด์',
+                'beatmapset_love_compact' => 'บีทแมพได้รับการเลื่อนตำแหน่งเป็นเลิฟด์',
+                'beatmapset_nominate' => '":title" ได้รับการเสนอชื่อ',
+                'beatmapset_nominate_compact' => 'บีทแมพได้รับการเสนอชื่อ',
                 'beatmapset_qualify' => '":title" ได้รับการเสนอชื่อเพียงพอที่จะเข้าคิวจัดอันดับ',
-                'beatmapset_qualify_compact' => 'Beatmap ได้เข้าคิวจัดอันดับ',
-                'beatmapset_rank' => '":title" ได้ถูกแรงค์แล้ว',
-                'beatmapset_rank_compact' => 'Beatmap ได้รับการจัดอันดับ',
-                'beatmapset_remove_from_loved' => '":title" ได้ถูกนำออกจาก Loved',
-                'beatmapset_remove_from_loved_compact' => 'บีทแมพได้ถูกนำออกจาก Loved',
-                'beatmapset_reset_nominations' => 'ปัญหานี้โพสต์โดย :username รีเซ็ทการเสนอชื่อของ beatmap ":title" ',
+                'beatmapset_qualify_compact' => 'บีทแมพได้เข้าการคิวจัดอันดับ',
+                'beatmapset_rank' => '":title" ได้รับการจัดอันดับ',
+                'beatmapset_rank_compact' => 'บีทแมพได้รับการจัดอันดับ',
+                'beatmapset_remove_from_loved' => '":title" ได้ถูกนำออกจากเลิฟด์',
+                'beatmapset_remove_from_loved_compact' => 'บีทแมพได้ถูกนำออกจากเลิฟด์',
+                'beatmapset_reset_nominations' => 'การเสนอชื่อ ":title" ถูกรีเซ็ต',
                 'beatmapset_reset_nominations_compact' => 'การเสนอชื่อถูกรีเซ็ท',
             ],
 
@@ -80,12 +104,43 @@ return [
         'channel' => [
             '_' => 'ห้องสนทนา',
 
+            'announcement' => [
+                '_' => 'ประกาศใหม่',
+
+                'announce' => [
+                    'channel_announcement' => ':username พูดถึง ":title"',
+                    'channel_announcement_compact' => ':title',
+                    'channel_announcement_group' => 'ประกาศจาก :username',
+                ],
+            ],
+
             'channel' => [
                 '_' => 'ข้อความใหม่',
+
                 'pm' => [
                     'channel_message' => ':username พูดถึง ":title"',
                     'channel_message_compact' => ':title',
                     'channel_message_group' => 'จาก :username',
+                ],
+            ],
+
+            'channel_mention' => [
+                '_' => '',
+
+                'public' => [
+                    'channel_mention' => '',
+                    'channel_mention_compact' => '',
+                    'channel_mention_group' => '',
+                ],
+            ],
+
+            'channel_team' => [
+                '_' => 'ข้อความใหม่ทีม',
+
+                'team' => [
+                    'channel_team' => ':username กล่าว ":title"',
+                    'channel_team_compact' => ':username กล่าว ":title"',
+                    'channel_team_group' => ':username กล่าว ":title"',
                 ],
             ],
         ],
@@ -114,6 +169,13 @@ return [
                 'comment_reply' => ':username ได้ตอบกลับ ":content" บน ":title"',
                 'comment_reply_compact' => ':username ได้ตอบกลับ ":content"',
             ],
+
+            'news_post' => [
+                '_' => 'ข่าว (:series)',
+
+                'news_post_new' => ':title',
+                'news_post_new_compact' => ':title',
+            ],
         ],
 
         'forum_topic' => [
@@ -126,22 +188,32 @@ return [
             ],
         ],
 
-        'legacy_pm' => [
-            '_' => 'ฟอรั่ม PM',
+        'team' => [
+            'team_application' => [
+                '_' => 'คำขอเข้าทีม',
 
-            'legacy_pm' => [
-                '_' => '',
-                'legacy_pm' => ':count_delimited ข้อความที่ยังไม่ได้อ่าน |:count_delimited ข้อความทั้งหมดที่ยังไม่ได้อ่าน',
+                'team_application_accept' => "คุณได้เป็นสมาชิกของทีม :title แล้ว",
+                'team_application_accept_compact' => "คุณได้เป็นสมาชิกของทีม :title แล้ว",
+
+                'team_application_group' => 'อัปเดตคำขอเข้าทีม',
+
+                'team_application_reject' => 'คำของร้องเข้าร่วมทีม :title ของคุณถูกปฏิเสธ',
+                'team_application_reject_compact' => 'คำของร้องเข้าร่วมทีม :title ของคุณถูกปฏิเสธ',
+                'team_application_store' => ':title ขอเข้าทีมของคุณ',
+                'team_application_store_compact' => ':title ขอเข้าทีมของคุณ',
             ],
         ],
 
         'user' => [
             'user_beatmapset_new' => [
-                '_' => '',
+                '_' => 'บีทแมพใหม่',
 
-                'user_beatmapset_new' => '',
-                'user_beatmapset_new_compact' => '',
-                'user_beatmapset_new_group' => '',
+                'user_beatmapset_new' => 'บีทแมพใหม่ ":title" โดย :username',
+                'user_beatmapset_new_compact' => 'บีทแมพใหม่ ":title"',
+                'user_beatmapset_new_group' => 'บีทแมพใหม่โดย :username',
+
+                'user_beatmapset_revive' => 'บีทแมพ ":title" ถูกกู้คืนแล้วโดย :username',
+                'user_beatmapset_revive_compact' => 'บีทแมพ ":title" ถูกกู้คืนแล้ว',
             ],
         ],
 
@@ -158,7 +230,13 @@ return [
     ],
 
     'mail' => [
+        'news' => 'ข่าว',
+
         'beatmapset' => [
+            'beatmap_owner_change' => [
+                'beatmap_owner_change' => 'ตอนนี้คุณมีส่วนร่วมทำบีทแมพ ":title" แล้ว',
+            ],
+
             'beatmapset_discussion' => [
                 'beatmapset_discussion_lock' => 'การพูดคุยใน ":title:" ได้ถูกล็อก',
                 'beatmapset_discussion_post_new' => 'การพูดคุยใน ":title:" มีอัปเดตใหม่',
@@ -170,12 +248,12 @@ return [
             ],
 
             'beatmapset_state' => [
-                'beatmapset_disqualify' => '":title" ได้ถูกยกเลิกสถานะ Qualified',
-                'beatmapset_love' => '":title" ได้ถูกเปลี่ยนเป็น loved',
+                'beatmapset_disqualify' => '":title" ได้ถูกยกเลิกสถานะผ่านการรับรอง',
+                'beatmapset_love' => '":title" ไได้รับการเลื่อนระดับเป็นเลิฟด์',
                 'beatmapset_nominate' => '":title" ได้ถูกเสนอชื่อ',
                 'beatmapset_qualify' => '":title" ได้รับการเสนอชื่อเพียงพอที่จะเข้าคิวจัดอันดับ',
-                'beatmapset_rank' => '":title" ได้ถูก ranked แล้ว',
-                'beatmapset_remove_from_loved' => '":title" ได้ถูกนำออกจาก Loved',
+                'beatmapset_rank' => '":title" ได้ถูกจัดอันดับแล้ว',
+                'beatmapset_remove_from_loved' => '":title" ได้ถูกนำออกจากเลิฟด์',
                 'beatmapset_reset_nominations' => 'การเสนอชื่อของ ":title" ได้ถูกรีเซ็ทแล้ว',
             ],
 
@@ -185,8 +263,18 @@ return [
         ],
 
         'channel' => [
+            'announcement' => [
+                'channel_announcement' => 'มีประกาศใหม่ใน ":name"',
+            ],
             'channel' => [
-                'pm' => 'คุณได้รับข้อความจาก :username',
+                'channel_message' => 'คุณได้รับข้อความจาก :username',
+            ],
+            'channel_mention' => [
+                'channel_mention' => '',
+            ],
+
+            'channel_team' => [
+                'channel_team' => 'มีข้อความใหม่ในทีม ":name"',
             ],
         ],
 
@@ -208,14 +296,18 @@ return [
             ],
         ],
 
-        'user' => [
-            'user_achievement_unlock' => [
-                'user_achievement_unlock' => ':username ได้ปลดล็อกเหรียญตรา ":title"!',
-                'user_achievement_unlock_self' => 'คุณได้ปลดล็อกเหรียญตรา ":title"!',
+        'team' => [
+            'team_application' => [
+                'team_application_accept' => "คุณได้เป็นสมาชิกของทีม :title แล้ว",
+                'team_application_reject' => 'คำของร้องเข้าร่วมทีม :title ของคุณถูกปฏิเสธ',
+                'team_application_store' => ':title ขอเข้าทีมของคุณ',
             ],
+        ],
 
+        'user' => [
             'user_beatmapset_new' => [
-                'user_beatmapset_new' => '',
+                'user_beatmapset_new' => ':username ได้สร้างบีทแมพใหม่',
+                'user_beatmapset_revive' => ':username ได้กู้คืนบีทแมพแล้ว',
             ],
         ],
     ],

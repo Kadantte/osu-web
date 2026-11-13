@@ -5,8 +5,10 @@
 
 namespace App\Models\Forum;
 
+use App\Casts\TimestampOrZero;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property bool $allow_topic_covers
@@ -25,7 +27,7 @@ use Carbon\Carbon;
  * @property string $forum_image
  * @property int $forum_last_post_id
  * @property string $forum_last_post_subject
- * @property int $forum_last_post_time
+ * @property \Carbon\Carbon|null $forum_last_post_time
  * @property string $forum_last_poster_colour
  * @property int $forum_last_poster_id
  * @property string $forum_last_poster_name
@@ -60,19 +62,17 @@ use Carbon\Carbon;
  */
 class Forum extends Model
 {
-    protected $table = 'phpbb_forums';
-    protected $primaryKey = 'forum_id';
-
-    protected $dates = ['forum_last_post_time'];
-    protected $dateFormat = 'U';
     public $timestamps = false;
 
     protected $casts = [
         'allow_topic_covers' => 'boolean',
         'enable_indexing' => 'boolean',
         'enable_sigs' => 'boolean',
+        'forum_last_post_time' => TimestampOrZero::class,
         'moderator_groups' => 'array',
     ];
+    protected $primaryKey = 'forum_id';
+    protected $table = 'phpbb_forums';
 
     public static function lastTopics($forum = null)
     {
@@ -185,6 +185,11 @@ class Forum extends Model
         $query->orderBy('left_id');
     }
 
+    public function scopeSearchable(Builder $query): Builder
+    {
+        return $query->where('enable_indexing', true);
+    }
+
     public function setForumParentsAttribute($value)
     {
         $this->attributes['forum_parents'] = $value === null || count($value) === 0 ? '' : serialize($value);
@@ -233,31 +238,20 @@ class Forum extends Model
 
     public function setForumLastPosterColourAttribute($value)
     {
-        // also functions for casting null to string
-        $this->attributes['forum_last_poster_colour'] = ltrim($value, '#');
-    }
-
-    public function getForumLastPostTimeAttribute($value)
-    {
-        return get_time_or_null($value);
-    }
-
-    public function setForumLastPostTimeAttribute($value)
-    {
-        $this->attributes['forum_last_post_time'] = get_timestamp_or_zero($value);
+        $this->attributes['forum_last_poster_colour'] = ltrim($value ?? '', '#');
     }
 
     // feature forum shall have extra features like sorting and voting
     public function isFeatureForum()
     {
-        $id = config('osu.forum.feature_forum_id');
+        $id = $GLOBALS['cfg']['osu']['forum']['feature_forum_id'];
 
         return $this->forum_id === $id || isset($this->forum_parents[$id]);
     }
 
     public function isHelpForum()
     {
-        return $this->forum_id === config('osu.forum.help_forum_id');
+        return $this->forum_id === $GLOBALS['cfg']['osu']['forum']['help_forum_id'];
     }
 
     public function topicsAdded($count)
@@ -367,17 +361,5 @@ class Forum extends Model
 
             TopicTrack::where('user_id', $user->getKey())->whereIn('forum_id', $forumIds)->delete();
         });
-    }
-
-    public function toMetaDescription()
-    {
-        $stack = [trans('forum.title')];
-        foreach ($this->forum_parents as $forumId => $forumData) {
-            $stack[] = $forumData[0];
-        }
-
-        $stack[] = $this->forum_name;
-
-        return implode(' » ', $stack);
     }
 }

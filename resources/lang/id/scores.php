@@ -5,6 +5,7 @@
 
 return [
     'show' => [
+        'non_preserved' => 'Skor ini sudah ditandai untuk dihapus dan akan segera menghilang dari papan peringkat.',
         'title' => ':username pada :title [:version]',
 
         'beatmap' => [
@@ -13,7 +14,10 @@ return [
 
         'player' => [
             'by' => 'Dimainkan oleh',
+            'played_on' => 'Dimainkan pada',
             'submitted_on' => 'Dicapai pada',
+            'watched' => 'Ditonton',
+            'watched_count' => ':count_delimited kali|:count_delimited kali',
 
             'rank' => [
                 'country' => 'Peringkat Negara',
@@ -24,6 +28,8 @@ return [
 
     'status' => [
         'non_best' => 'Hanya skor-skor terbaik yang memberikan pp',
-        'processing' => 'Skor ini sedang diproses dan akan ditampilkan kemudian',
+        'no_pp' => 'pp tidak diberikan untuk skor ini',
+        'processing' => 'Skor ini masih dihitung dan akan ditampilkan kemudian',
+        'no_rank' => 'Skor ini tidak memiliki peringkat karena skor tidak bersifat Ranked atau sudah ditandai untuk dihapus',
     ],
 ];

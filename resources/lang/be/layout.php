@@ -5,7 +5,7 @@
 
 return [
     'audio' => [
-        'autoplay' => '',
+        'autoplay' => 'Прайграйце наступны трэк аўтаматычна',
     ],
 
     'defaults' => [
@@ -14,97 +14,83 @@ return [
 
     'header' => [
         'admin' => [
-            'beatmapset' => '',
-            'beatmapset_covers' => '',
-            'contest' => '',
-            'contests' => '',
-            'root' => '',
-            'store_orders' => '',
+            'beatmapset' => 'калекцыя бітмапаў',
+            'beatmapset_covers' => 'вокладкі калекцый бітмапаў',
+            'contest' => 'конкурс',
+            'contests' => 'конкурсы',
+            'root' => 'кансоль',
         ],
 
         'artists' => [
-            'index' => '',
+            'index' => 'спіс',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'інфармацыя',
+            'discussions' => 'абмеркаванне',
+            'versions' => 'гісторыя версій',
         ],
 
         'changelog' => [
-            'index' => '',
+            'index' => 'спіс',
         ],
 
         'help' => [
-            'index' => '',
-            'sitemap' => '',
+            'index' => 'індэкс',
+            'sitemap' => 'Карта сайта',
         ],
 
         'store' => [
-            'cart' => '',
-            'orders' => '',
-            'products' => '',
+            'cart' => 'кошык',
+            'orders' => 'гісторыя замоў',
+            'products' => 'прадукты',
         ],
 
         'tournaments' => [
-            'index' => '',
+            'index' => 'спіс',
         ],
 
         'users' => [
-            'modding' => '',
-            'show' => '',
+            'modding' => 'модынг',
+            'playlists' => 'плэйлісты',
+            'ranked-play' => 'ранкавана гульня',
+            'realtime' => 'мультыплэер',
+            'show' => 'інфармацыя',
         ],
     ],
 
     'gallery' => [
-        'close' => '',
-        'fullscreen' => '',
-        'zoom' => '',
-        'previous' => '',
-        'next' => '',
+        'close' => 'Зачыніць (Esc)',
+        'fullscreen' => 'Пераключыць поўнаэкранны рэжым',
+        'zoom' => 'Павялічыць / паменшыць',
+        'previous' => 'Папярэдні (стрэлка налева)',
+        'next' => 'Наступны (стрэлка направа)',
     ],
 
     'menu' => [
         'beatmaps' => [
             '_' => 'бітмапы',
-            'artists' => 'featured artists',
-            'index' => 'спіс',
-            'packs' => 'пакеты',
         ],
         'community' => [
             '_' => 'супольнасць',
-            'chat' => 'чат',
-            'contests' => 'конкурсы',
             'dev' => 'распрацоўка',
-            'forum-forums-index' => 'форумы',
-            'getLive' => 'жывыя трансляцыі',
-            'tournaments' => 'турніры',
         ],
         'help' => [
             '_' => 'дапамога',
-            'getAbuse' => '',
+            'getAbuse' => 'паведаміць пра парушэнне',
             'getFaq' => 'faq',
             'getRules' => 'правілы',
             'getSupport' => 'ды не ж, мне праўда патрэбна дапамога!',
-            'getWiki' => 'вікі',
         ],
         'home' => [
             '_' => 'галоўная',
-            'changelog-index' => 'спic змен',
-            'getDownload' => 'спампаваць',
-            'news-index' => 'навіны',
-            'search' => 'пошук',
             'team' => 'каманда',
         ],
         'rankings' => [
             '_' => 'рэйтынг',
-            'charts' => 'па графіках',
-            'country' => 'па краінах',
-            'index' => 'прадукцыйнасць',
-            'kudosu' => 'кудосу',
-            'multiplayer' => '',
-            'score' => 'па ачках',
         ],
         'store' => [
             '_' => 'крама',
-            'cart-show' => 'кошык',
-            'getListing' => 'спіс',
-            'orders-index' => 'сартаванне гісторыі',
         ],
     ],
 
@@ -112,7 +98,7 @@ return [
         'general' => [
             '_' => 'Агульнае',
             'home' => 'Галоўная',
-            'changelog-index' => 'Спic змен',
+            'changelog-index' => 'Гісторыя змен',
             'beatmaps' => 'Спіс бітмап',
             'download' => 'Спампаваць osu!',
         ],
@@ -122,12 +108,14 @@ return [
             'forum' => 'Супольнасць форумаў',
             'livestreams' => 'Жывыя трансляцыі',
             'report' => 'Паведаміць пра праблему',
-            'wiki' => '',
+            'wiki' => 'Вікі',
         ],
         'legal' => [
             '_' => 'Правы і статус',
             'copyright' => 'Аўтарскія правы (DMCA)',
+            'jp_sctl' => '',
             'privacy' => 'Прыватнасць',
+            'rules' => 'Правілы',
             'server_status' => 'Стан сервераў',
             'source_code' => 'Зыходны код',
             'terms' => 'Умовы выкарыстання',
@@ -136,7 +124,7 @@ return [
 
     'errors' => [
         '400' => [
-            'error' => '',
+            'error' => 'Няправільны параметр запыту',
             'description' => '',
         ],
         '404' => [
@@ -156,11 +144,11 @@ return [
             'description' => "Прабачце, але старонкі, якую вы запыталі няма тут!",
         ],
         '422' => [
-            'error' => '',
+            'error' => 'Няправільны параметр запыту',
             'description' => '',
         ],
         '429' => [
-            'error' => '',
+            'error' => 'Перавышаны ліміт запытаў',
             'description' => '',
         ],
         '500' => [
@@ -184,13 +172,13 @@ return [
     ],
 
     'popup_login' => [
-        'button' => '',
+        'button' => 'увайсці / зарэгістравацца',
 
         'login' => [
             'forgot' => "Не помню свае даныя",
             'password' => 'пароль',
             'title' => 'Увайдзіце, каб працягнуць',
-            'username' => '',
+            'username' => 'імя карыстальніка',
 
             'error' => [
                 'email' => "Імя карыстальніка або эл. пошта не існуе",
@@ -199,19 +187,25 @@ return [
         ],
 
         'register' => [
-            'download' => '',
-            'info' => 'Спадар, вам патрэбны ўліковы запіс. Чаму вы ўсё яшчэ не маеце яго?',
-            'title' => "Не маеце ўліковага запісу?",
+            'download' => 'Спампаваць',
+            'info' => 'Скачай osu!, каб зарэгістраваць акаўнт!',
+            'title' => "Не маеш акаўнту?",
         ],
     ],
 
     'popup_user' => [
         'links' => [
             'account-edit' => 'Налады',
-            'follows' => '',
+            'create_team' => '',
+            'follows' => 'Падпіскі',
             'friends' => 'Сябры',
+            'legacy_score_only_toggle' => 'Рэжым Lazer',
+            'legacy_score_only_toggle_tooltip' => 'Рэжым адлюстравання, які паказвае рэкорды, пастаўленыя ў кліенце lazer з новым алгарытмам падліку ачкоў',
             'logout' => 'Выйсці',
             'profile' => 'Мой профіль',
+            'scoring_mode_toggle' => 'Класічны выгляд ачкоў',
+            'scoring_mode_toggle_tooltip' => 'Набліжана вяртае гульнявыя ачкі да класічнага неабмежаванаму алгарытме падліку',
+            'team' => 'Мая каманда',
         ],
     ],
 

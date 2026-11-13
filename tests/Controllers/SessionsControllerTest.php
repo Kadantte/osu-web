@@ -15,8 +15,9 @@ class SessionsControllerTest extends TestCase
     public function testLogin()
     {
         $password = 'password1';
-        $user = factory(User::class)->create(compact('password'));
+        $user = User::factory()->create(compact('password'));
 
+        $this->expectCountChange(fn () => LoginAttempt::count(), 1);
         $this->post(route('login'), [
             'username' => $user->username,
             'password' => $password,
@@ -28,9 +29,9 @@ class SessionsControllerTest extends TestCase
     public function testLoginInactiveUser()
     {
         $password = 'password1';
-        $countryAcronym = (Country::first() ?? factory(Country::class)->create())->getKey();
-        $user = factory(User::class)->create(['password' => $password, 'country_acronym' => $countryAcronym]);
-        $user->update(['user_lastvisit' => now()->subDays(config('osu.user.inactive_days_verification') + 1)]);
+        $countryAcronym = (Country::first() ?? Country::factory()->create())->getKey();
+        $user = User::factory()->create(['password' => $password, 'country_acronym' => $countryAcronym]);
+        $user->update(['user_lastvisit' => time() - $GLOBALS['cfg']['osu']['user']['inactive_seconds_verification'] - 1]);
 
         $this->post(route('login'), [
             'username' => $user->username,
@@ -44,11 +45,30 @@ class SessionsControllerTest extends TestCase
         $this->get(route('home'))->assertStatus(401);
     }
 
+    public function testLoginInactiveUserForceReset(): void
+    {
+        config_set('osu.user.inactive_force_password_reset', true);
+
+        $password = 'password1';
+        $countryAcronym = (Country::first() ?? Country::factory()->create())->getKey();
+        $user = User::factory()->create(['password' => $password, 'country_acronym' => $countryAcronym]);
+        $user->update(['user_lastvisit' => time() - $GLOBALS['cfg']['osu']['user']['inactive_seconds_verification'] - 1]);
+
+        $this->post(route('login'), [
+            'username' => $user->username,
+            'password' => $password,
+        ], [
+            'CF_IPCOUNTRY' => $countryAcronym,
+        ])->assertStatus(302);
+
+        $this->assertGuest();
+    }
+
     public function testLoginInactiveUserDifferentCountry()
     {
         $password = 'password1';
-        $user = factory(User::class)->create(compact('password'));
-        $user->update(['user_lastvisit' => now()->subDays(config('osu.user.inactive_days_verification') + 1)]);
+        $user = User::factory()->create(compact('password'));
+        $user->update(['user_lastvisit' => time() - $GLOBALS['cfg']['osu']['user']['inactive_seconds_verification'] - 1]);
 
         $this->assertNotSame('', $user->fresh()->user_password);
 
@@ -66,7 +86,7 @@ class SessionsControllerTest extends TestCase
     public function testLoginMissingParameters()
     {
         $password = 'password1';
-        $user = factory(User::class)->create(compact('password'));
+        $user = User::factory()->create(compact('password'));
 
         $this->post(route('login'))->assertStatus(422);
         $this->assertGuest();
@@ -81,7 +101,7 @@ class SessionsControllerTest extends TestCase
     public function testLoginWrongPassword()
     {
         $password = 'password1';
-        $user = factory(User::class)->create(compact('password'));
+        $user = User::factory()->create(compact('password'));
 
         $this->post(route('login'), [
             'username' => $user->username,
@@ -100,7 +120,7 @@ class SessionsControllerTest extends TestCase
     public function testLoginWrongPasswordTwiceDifferent()
     {
         $password = 'password1';
-        $user = factory(User::class)->create(compact('password'));
+        $user = User::factory()->create(compact('password'));
 
         $this->post(route('login'), [
             'username' => $user->username,
@@ -125,7 +145,7 @@ class SessionsControllerTest extends TestCase
     {
         $password = 'password1';
         $wrongPassword = 'password2';
-        $user = factory(User::class)->create(compact('password'));
+        $user = User::factory()->create(compact('password'));
 
         $this->post(route('login'), [
             'username' => $user->username,
@@ -150,7 +170,7 @@ class SessionsControllerTest extends TestCase
     {
         $password = 'password1';
         $ip = '127.0.0.1';
-        $firstUser = factory(User::class)->create(compact('password'));
+        $firstUser = User::factory()->create(compact('password'));
         LoginAttempt::logAttempt($ip, $firstUser, 'fail', 'password2');
 
         $record = LoginAttempt::find('127.0.0.1');
@@ -159,7 +179,7 @@ class SessionsControllerTest extends TestCase
         $this->assertSame(1, $record->failed_attempts);
         $this->assertSame(1, $record->total_attempts);
 
-        $secondUser = factory(User::class)->create(compact('password'));
+        $secondUser = User::factory()->create(compact('password'));
 
         $this->post(route('login'), [
             'username' => $secondUser->username,

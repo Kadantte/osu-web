@@ -9,6 +9,17 @@ return [
         'title' => 'Paese',
     ],
 
+    'daily_challenge' => [
+        'beatmap' => 'Difficoltà',
+        'theme' => 'Tema',
+        'top_10p' => 'Top 10% Punteggi',
+        'top_50p' => 'Top 50% Punteggi',
+        'unavailable' => [
+            'future' => 'Ancora nessuna sfida giornaliera nella data specificata!',
+            'past' => 'Nessuna sfida giornaliera nella data specificata!',
+        ],
+    ],
+
     'filter' => [
         'title' => 'Mostra',
 
@@ -17,25 +28,75 @@ return [
         ],
     ],
 
+    'kudosu' => [
+        'total' => 'Guadagnati',
+        'available' => 'Disponibili',
+        'used' => 'Spesi',
+    ],
+
+    'matchmaking' => [
+        'plays' => 'Partite',
+        'points' => 'Punti',
+        'provisional' => 'Valutazione provvisoria a causa di un numero insufficiente di partite recenti',
+        'rating' => 'Valutazione',
+        'wins' => 'Vittorie',
+    ],
+
+    'multiplayer' => [
+        'room_name' => 'Nome stanza',
+    ],
+
+    'performance' => [
+        'insufficient_history' => 'Questo utente ha uno storico recente nelle classifiche inferiore a 30 giorni.',
+    ],
+
+    'top_plays' => [
+        'empty' => 'I dati sono in fase di calcolo...',
+        'last_updated' => 'Ultimo aggiornamento',
+    ],
+
+    'playlists' => [
+        'charts' => 'spotlight (archivio)',
+        'featured' => 'in evidenza',
+        'season_room' => 'stanza della stagione',
+        'seasons' => 'stagioni',
+    ],
+
     'type' => [
-        'charts' => 'Spotlight',
-        'country' => 'Paese',
-        'multiplayer' => 'multigiocatore',
-        'performance' => 'Performance',
-        'score' => 'Punteggio',
+        'country' => 'paese',
+        'daily_challenge' => 'sfida giornaliera',
+        'global' => 'globale',
+        'kudosu' => 'kudosu',
+        'matchmaking' => 'ranked play',
+        'playlists' => 'playlist',
+        'team' => 'squadra',
+        'top_plays' => 'migliori partite',
+    ],
+
+    'seasons' => [
+        'empty' => 'Non ci sono ancora partite per questa stagione.',
+        'ongoing' => 'Questa stagione è ancora in corso (verranno aggiunte altre playlist).',
+        'room_count' => 'Conteggio playlist',
+        'summary' => 'Vedi Riepilogo Stagione',
+        'url' => 'Mostra ulteriori informazioni su quella stagione.',
+        'validation' => [
+            'not_enough_factors' => 'non ci sono indicatori sufficienti per il calcolo',
+        ],
     ],
 
     'spotlight' => [
-        'end_date' => 'Data Inizio',
-        'map_count' => 'N° Beatmap',
+        'end_date' => 'Data fine',
+        'map_count' => 'Mappe',
         'participants' => 'Partecipanti',
-        'start_date' => 'Data Fine',
+        'start_date' => 'Data inizio',
     ],
 
     'stat' => [
         'accuracy' => 'Precisione',
         'active_users' => 'Utenti Attivi',
         'country' => 'Paese',
+        'division' => 'Divisione',
+        'members' => 'Membri',
         'play_count' => 'Partite Giocate',
         'performance' => 'Performance',
         'total_score' => 'Punteggio Totale',

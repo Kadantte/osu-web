@@ -6,19 +6,29 @@
 return [
     'edit' => [
         'title_compact' => 'asetukset',
-        'username' => 'käyttäjätunnus',
+        'username' => 'käyttäjänimi',
 
         'avatar' => [
             'title' => 'Avatar',
-            'rules' => 'Pidä huoli, että avatari ei riko :link.<br/>Tämä tarkoittaa sitä, että kuvan on <strong>sovittava kaikenikäisille</strong>, eli ei alastomuutta tai muita hävyttömyyksiä.',
+            'reset' => 'nollaa',
+            'rules' => 'Pidäthän huolen, että profiilikuvasi noudattaa :link.<br/>Tämä tarkoittaa sitä, että sen on <strong>sovittava kaikenikäisille</strong>, eli ei alastomuutta tai muita hävyttömyyksiä.',
             'rules_link' => 'yhteisön sääntöjä',
         ],
 
         'email' => [
-            'current' => 'nykyinen sähköpostiosoite',
             'new' => 'uusi sähköpostiosoite',
             'new_confirmation' => 'sähköpostivahvistus',
             'title' => 'Sähköposti',
+            'locked' => [
+                '_' => 'Ota yhteyttä :accounts, jos sinun tarvitsee päivittää sähköpostiosoitteesi.',
+                'accounts' => 'tilien tukiryhmään',
+            ],
+        ],
+
+        'legacy_api' => [
+            'api' => 'api',
+            'irc' => 'irc',
+            'title' => 'Vanha rajapinta',
         ],
 
         'password' => [
@@ -29,7 +39,13 @@ return [
         ],
 
         'profile' => [
+            'country' => 'maa',
             'title' => 'Profiili',
+
+            'country_change' => [
+                '_' => "Näyttää siltä, että tilisi maa ei ole sama kuin asuinmaasi. :update_link.",
+                'update_link' => 'Aseta tilin maaksi :country',
+            ],
 
             'user' => [
                 'user_discord' => '',
@@ -47,23 +63,53 @@ return [
         ],
     ],
 
+    'github_user' => [
+        'info' => "Jos osallistut osu!n kehitykseen, GitHub-tilin linkittäminen tässä yhdistää muutoslokin merkintäsi osu!-profiiliisi. GitHub-tilit, joilla ei ole osallistumishistoriaa osu!:n kanssa, ei voida linkittää.",
+        'link' => 'Linkitä GitHub-tili',
+        'title' => 'GitHub',
+        'unlink' => 'Poista GitHub-tilin linkitys',
+
+        'error' => [
+            'already_linked' => 'Tämä GitHub-tili on jo linkitetty toiselle käyttäjälle.',
+            'no_contribution' => 'GitHub-tiliä ei voi linkittää, jos sillä ei ole osallistumishistoriaa osu!:n tietovarastoihin.',
+            'unverified_email' => 'Ole hyvä ja vahvista ensisijainen sähköpostiosoitteesi GitHubissa ja yritä sitten yhdistää tilisi uudelleen.',
+        ],
+    ],
+
     'notifications' => [
-        'beatmapset_discussion_qualified_problem' => 'vastaanota ilmoituksia uudesta ongelmasta seuraavien tilojen hyväksytyissä beatmapeissa',
-        'beatmapset_disqualify' => 'vastaanota ilmoituksia kun beatmappeja hylätään seuraavista tiloista',
+        'beatmapset_discussion_reply' => 'vastaanota ilmoituksia vastauksiin rytmikarttakeskusteluista, joissa olet ollut osallisena',
+        'beatmapset_discussion_qualified_problem' => 'vastaanota ilmoituksia uusista ongelmista seuraavien pelimuotojen kelpuutetuissa rytmikartoissa',
+        'beatmapset_disqualify' => 'vastaanota ilmoituksia, kun rytmikarttoja hylätään seuraavissa pelimuodoissa',
         'comment_reply' => 'vastaanota ilmoituksia vastauksista kommentteihisi',
+        'news_post' => 'vastaanota ilmoituksia uutisilmoituksista',
         'title' => 'Ilmoitukset',
-        'topic_auto_subscribe' => 'automaattisesti salli ilmoitukset uusille foorumiaiheille jotka luot',
+        'topic_auto_subscribe' => 'ota automaattisesti ilmoitukset käyttöön tekemillesi uusille foorumiaiheille',
 
         'options' => [
             '_' => 'toimitusvaihtoehdot',
+            'beatmap_owner_change' => 'vieraileva vaikeustaso',
             'beatmapset:modding' => 'beatmapin modaus',
+            'channel_mention' => 'maininta keskustelussa',
             'channel_message' => 'yksityisviestit',
+            'channel_team' => 'tiimin yksityisviestit',
             'comment_new' => 'uudet kommentit',
             'forum_topic_reply' => 'aihevastaus',
             'mail' => 'posti',
-            'mapping' => '',
+            'mapping' => 'mappaaja',
+            'news_post' => 'uutisetilmoitukset',
             'push' => 'push',
-            'user_achievement_unlock' => 'käyttäjämitali avattu',
+        ],
+
+        'tooltips' => [
+            'beatmap_owner_change' => 'kun sinut on lisätty vieraskartoittajana rytmikartan vaikeustasoon',
+            'beatmapset:modding' => 'kun rytmikartta keskusteluissa joita seuraat, saa päivityksiä tai kun rytmikartassasi on ongelmia tai ehdotuksia.',
+            'channel_mention' => 'kun sinut mainitaan julkisella kanavalla',
+            'channel_message' => 'kun saat uuden yksityisviestin',
+            'channel_team' => 'kun tiimisi keskustelukanava saa uuden viestin',
+            'comment_new' => 'kun uusia kommentteja on kohteessa, jota seuraat',
+            'forum_topic_reply' => 'kun foorumiaiheita joita katsot saa uusia vastauksia',
+            'mapping' => 'kun kartoittaja jota seuraat julkaisee rytmikartan',
+            'news_post' => 'kun uusia uutisviestejä julkaistaan',
         ],
     ],
 
@@ -74,37 +120,42 @@ return [
     ],
 
     'options' => [
-        'beatmapset_show_nsfw' => '',
-        'beatmapset_title_show_original' => 'näytä beatmap-metadata alkuperäisellä kielellä',
+        'beatmapset_show_anime_cover' => 'näytä rytmikarttojen anime-tyyliset kansikuvat',
+        'beatmapset_show_nsfw' => 'piilota varoitukset sopimattomasta sisällöstä beatmapeissa',
+        'beatmapset_title_show_original' => 'näytä beatmappien metadata alkuperäisellä kielellä',
         'title' => 'Asetukset',
 
         'beatmapset_download' => [
-            '_' => 'oletus beatmap-lataus tyyppi',
+            '_' => 'rytmikarttojen oletuslataustyyppi',
             'all' => 'videon kanssa jos saatavilla',
             'direct' => 'avaa osu!directissä',
+            'lazer' => '',
             'no_video' => 'ilman videota',
         ],
     ],
 
     'playstyles' => [
+        'default_ruleset' => 'oletuspelimuoto',
         'keyboard' => 'näppäimistö',
         'mouse' => 'hiiri',
         'tablet' => 'piirtopöytä',
         'title' => 'Pelityylit',
-        'touch' => 'kosketus',
+        'touch' => 'kosketusnäyttö',
     ],
 
     'privacy' => [
         'friends_only' => 'estä yksityisviestit henkilöiltä jotka eivät ole kaverilistallasi',
-        'hide_online' => 'piilota online-tilasi',
+        'friends_only_info' => 'tämä osio koskee myös osu!lazerin moninpelikutsuja ja kilpailullisten pelien kaksintaistelupyyntöjä',
+        'hide_online' => 'piilota paikallaolotilasi',
+        'hide_online_info' => 'tämä vastaa osu!lazerin ”näy offline-tilassa” -tilaa',
         'title' => 'Yksityisyys',
     ],
 
     'security' => [
         'current_session' => 'nykyinen',
         'end_session' => 'Sulje istunto',
-        'end_session_confirmation' => 'Suljetaanko istuntosi kyseisellä laitteella?',
-        'last_active' => 'Viimeksi aktiivisena',
+        'end_session_confirmation' => 'Tämä lopettaa istuntosi välittömästi kyseisellä laitteella. Oletko varma?',
+        'last_active' => 'Viimeksi aktiivisena:',
         'title' => 'Turvallisuus',
         'web_sessions' => 'aktiiviset istunnot',
     ],
@@ -115,6 +166,21 @@ return [
 
     'update_password' => [
         'update' => 'päivitä',
+    ],
+
+    'user_totp' => [
+        'title' => 'Todennussovellus',
+        'usage_note' => 'Käytä todennussovellusta vahvistamiseen sähköpostin sijaan. Sähköpostivahvistus säilyy yhä käytettävissä varakeinona.',
+
+        'button' => [
+            'remove' => 'Poista',
+            'setup' => 'Lisää todennussovellus',
+        ],
+        'status' => [
+            'label' => 'tila',
+            'not_set' => 'Ei määritelty',
+            'set' => 'Määritetty',
+        ],
     ],
 
     'verification_completed' => [

@@ -4,18 +4,18 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'pinned_topics' => 'Připnuté témata',
+    'pinned_topics' => 'Připnutá témata',
     'slogan' => "je nebezpečné hrát sám.",
     'subforums' => 'Subfóra',
-    'title' => 'osu! fóra',
+    'title' => 'Fóra',
 
     'covers' => [
-        'edit' => '',
+        'edit' => 'Upravit záhlaví',
 
         'create' => [
             '_' => 'Přidat titulní obrázek',
             'button' => 'Nahrát obrázek',
-            'info' => 'Velikost titulního obrázku by měla mít velikost :dimesions. Obrázek zde také můžete přetáhnout.',
+            'info' => 'Velikost titulního obrázku by měla být :dimensions. K nahrání obrázku ho také můžete přetáhnout sem.',
         ],
 
         'destroy' => [
@@ -25,10 +25,11 @@ return [
     ],
 
     'forums' => [
+        'forums' => 'Fóra',
         'latest_post' => 'Poslední příspěvek',
 
         'index' => [
-            'title' => '',
+            'title' => 'Přehled',
         ],
 
         'topics' => [
@@ -43,16 +44,16 @@ return [
     ],
 
     'post' => [
-        'confirm_destroy' => 'Opravdu chcete příspěvek odstranit?',
-        'confirm_restore' => 'Opravdu chcete příspěvek obnovit?',
-        'edited' => 'Naposledy upravil :user :when, celkový počet úprav :count.',
+        'confirm_destroy' => 'Opravdu chceš tento příspěvek odstranit?',
+        'confirm_restore' => 'Opravdu chceš tento příspěvek obnovit?',
+        'edited' => 'Naposledy upravil :user :when, upraveno celkem :count_delimitedkrát.|Naposledy upravil :user :when, upraveno celkem :count_delimitedkrát.|Naposledy upravil :user :when, upraveno celkem :count_delimitedkrát.',
         'posted_at' => 'publikováno :when',
-        'posted_by' => '',
+        'posted_by_in' => 'zveřejněno uživatelem :username v :forum',
 
         'actions' => [
             'destroy' => 'Odstranit příspěvek',
             'edit' => 'Upravit příspěvek',
-            'report' => '',
+            'report' => 'Nahlásit příspěvek',
             'restore' => 'Obnovit příspěvek',
         ],
 
@@ -64,23 +65,24 @@ return [
 
         'info' => [
             'post_count' => ':count_delimited příspěvek|:count_delimited příspěvky|:count_delimited příspěvků',
-            'topic_starter' => '',
+            'topic_starter' => 'Autor tématu',
         ],
     ],
 
     'search' => [
         'go_to_post' => 'Přejít na příspěvek',
-        'post_number_input' => 'zadejte číslo příspěvku',
-        'total_posts' => ':post_count počet příspěvků',
+        'post_number_input' => 'zadej číslo příspěvku',
+        'total_posts' => ':posts_count příspěvků celkem',
     ],
 
     'topic' => [
-        'confirm_destroy' => '',
-        'confirm_restore' => '',
+        'confirm_destroy' => 'Opravdu chceš toto téma odstranit?',
+        'confirm_restore' => 'Opravdu chceš toto téma obnovit?',
         'deleted' => 'odstraněné téma',
         'go_to_latest' => 'zobrazit nejnovější příspěvek',
-        'has_replied' => '',
-        'in_forum' => '',
+        'go_to_unread' => 'zobrazit první nepřečtený příspěvek',
+        'has_replied' => 'Odpověděl jsi na toto téma',
+        'in_forum' => 'v :forum',
         'latest_post' => ':when uživatelem :user',
         'latest_reply_by' => 'poslední odpověd od :user',
         'new_topic' => 'Založit nové téma',
@@ -92,8 +94,8 @@ return [
         'started_by_verbose' => 'započal :user',
 
         'actions' => [
-            'destroy' => '',
-            'restore' => '',
+            'destroy' => 'Odstranit téma',
+            'restore' => 'Odnovit téma',
         ],
 
         'create' => [
@@ -101,21 +103,21 @@ return [
             'preview' => 'Náhled',
             // TL note: this is used in the topic reply preview, when
             // the user goes back from previewing to editing the reply
-            'preview_hide' => 'Psát',
+            'preview_hide' => 'Editovat',
             'submit' => 'Odeslat',
 
             'necropost' => [
-                'default' => 'Tohle téma bylo neaktivní už nějakou dobu. Napište pouze jesli k tomu máš důvod.',
+                'default' => 'Tohle téma je neaktivní už nějakou dobu. Napiš sem pouze, jesli k tomu máš určitý důvod.',
 
                 'new_topic' => [
-                    '_' => "Toto téma je neaktivní už nějakou dobu. Pokud nemáte důvod k napsaní, prosím :create radši.",
-                    'create' => 'vytvoř nové téma',
+                    '_' => "Toto téma je už nějakou dobu neaktivní. Pokud nemáš specifický důvod k postnutí zde, prosím :create.",
+                    'create' => 'vytvoř radši nové téma',
                 ],
             ],
 
             'placeholder' => [
                 'body' => 'Zde napiš obsah příspěvku',
-                'title' => 'Klikni sem pro nastavení názvu',
+                'title' => 'Klikni sem pro zadání názvu',
             ],
         ],
 
@@ -125,6 +127,55 @@ return [
             'last' => 'přejít na poslední příspěvek',
             'next' => 'přeskočit 10 příspěvků',
             'previous' => 'vrátit se o 10 příspěvků',
+        ],
+
+        'logs' => [
+            '_' => 'Logy témat',
+            'button' => 'Procházen logy témata',
+
+            'columns' => [
+                'action' => 'Akce',
+                'date' => 'Datum',
+                'user' => 'Uživatel',
+            ],
+
+            'data' => [
+                'add_tag' => 'přidáno označení ":tag"',
+                'announcement' => 'téma připnuto a označeno jako oznámení',
+                'edit_topic' => 'do :title',
+                'fork' => 'z :topic',
+                'pin' => 'téma připnuté',
+                'post_operation' => 'příspěvek přidal :username',
+                'remove_tag' => 'odebráno označení ":tag"',
+                'source_forum_operation' => 'z :forum',
+                'unpin' => 'téma odepnuté',
+            ],
+
+            'no_results' => 'žádné logy nenalezeny...',
+
+            'operations' => [
+                'delete_post' => 'Smazaný příspěvek',
+                'delete_topic' => 'Smazané téma',
+                'edit_topic' => 'Změněný titulek tématu',
+                'edit_poll' => 'Upraveno téma hlasování',
+                'fork' => 'Téma zkopírované',
+                'issue_tag' => 'Tag vydaný',
+                'lock' => 'Téma uzamčeno',
+                'merge' => 'Příspěvky byly sloučeny do tohoto tématu',
+                'move' => 'Téma přesunuto',
+                'pin' => 'Téma připnuto',
+                'post_edited' => 'Upravený příspěvek',
+                'restore_post' => 'Příspěvek obnoven',
+                'restore_topic' => 'Téma obnoveno',
+                'split_destination' => 'Rozdělené příspěvky přesunuty',
+                'split_source' => 'Příspěvky rozděleny',
+                'topic_type' => 'Typ témata nastaven',
+                'topic_type_changed' => 'Typ tématu změněn',
+                'unlock' => 'Téma odemknuto',
+                'unpin' => 'Téma odepnuto',
+                'user_lock' => 'Vlastní téma uzamčeno',
+                'user_unlock' => 'Vlastní téma odemčeno',
+            ],
         ],
 
         'post_edit' => [
@@ -177,8 +228,8 @@ return [
             ],
 
             'poll' => [
-                'hide_results' => '',
-                'hide_results_info' => '',
+                'hide_results' => 'Skrýt výsledky ankety.',
+                'hide_results_info' => 'Budou zobrazeny až po konci hlasování.',
                 'length' => 'Spustit anketu po dobu',
                 'length_days_suffix' => 'dnů',
                 'length_info' => 'Ponechte prázdné pro dobu neurčitou',
@@ -202,55 +253,13 @@ return [
             'views' => 'zobrazení',
         ],
 
-        'issue_tag_added' => [
-            'to_0' => 'Odstranit označení "přidáno"',
-            'to_0_done' => 'Odstraněno označení "přidáno"',
-            'to_1' => 'Přidat označení "přidáno"',
-            'to_1_done' => 'Přidáno označení "přidáno"',
-        ],
-
-        'issue_tag_assigned' => [
-            'to_0' => 'Odstranit označení "přiděleno"',
-            'to_0_done' => 'Odstraněno označení "přiděleno"',
-            'to_1' => 'Přidat označení "přiděleno"',
-            'to_1_done' => 'Přidáno označení "přiděleno"',
-        ],
-
-        'issue_tag_confirmed' => [
-            'to_0' => 'Odstranit označení "potvrzeno"',
-            'to_0_done' => 'Odstraněno označení "potvrzeno"',
-            'to_1' => 'Přidat označení "potvrzeno"',
-            'to_1_done' => 'Přidáno označení "potrvrzeno"',
-        ],
-
-        'issue_tag_duplicate' => [
-            'to_0' => 'Odstranit označení "duplicitní"',
-            'to_0_done' => 'Odstraněno označení "duplicitní"',
-            'to_1' => 'Přidat označení "duplicitní"',
-            'to_1_done' => 'Přidáno označení "duplicitní"',
-        ],
-
-        'issue_tag_invalid' => [
-            'to_0' => 'Odstranit označení "neplatný"',
-            'to_0_done' => 'Odstraněno označení "neplatný"',
-            'to_1' => 'Přidat označení "neplatný"',
-            'to_1_done' => 'Přidáno označení "neplatný"',
-        ],
-
-        'issue_tag_resolved' => [
-            'to_0' => 'Odstranit označení "vyřešeno"',
-            'to_0_done' => 'Odstraněno označení "vyřešeno"',
-            'to_1' => 'Přidat oznaění "vyřešeno"',
-            'to_1_done' => 'Přidáno označení "vyřešeno"',
-        ],
-
         'lock' => [
             'is_locked' => 'Toto téma je uzamčené a nelze na něj odpovědět',
             'to_0' => 'Odemknout téma',
-            'to_0_confirm' => '',
+            'to_0_confirm' => 'Odemknout téma?',
             'to_0_done' => 'Téma bylo odemčeno',
             'to_1' => 'Uzamknout téma',
-            'to_1_confirm' => '',
+            'to_1_confirm' => 'Uzamknout téma?',
             'to_1_done' => 'Téma bylo uzamčeno',
         ],
 
@@ -260,13 +269,13 @@ return [
 
         'moderate_pin' => [
             'to_0' => 'Odepnout téma',
-            'to_0_confirm' => '',
+            'to_0_confirm' => 'Odepnout téma?',
             'to_0_done' => 'Téma bylo odepnuto',
             'to_1' => 'Připnout téma',
-            'to_1_confirm' => '',
+            'to_1_confirm' => 'Připnout téma?',
             'to_1_done' => 'Téma bylo připnuto',
             'to_2' => 'Připíchni téma a označ jako oznámení',
-            'to_2_confirm' => '',
+            'to_2_confirm' => 'Připnout téma a označit jako oznámení?',
             'to_2_done' => 'Téma bylo připnuto a označeno jako oznámení',
         ],
 
@@ -278,6 +287,7 @@ return [
         'show' => [
             'deleted-posts' => 'Odstraněné příspěvky',
             'total_posts' => 'Celkem příspěvků',
+            'total_watches' => 'Celkem odběratelů',
 
             'feature_vote' => [
                 'current' => 'Aktuální priorita: +:count',
@@ -290,7 +300,7 @@ return [
                 ],
 
                 'user' => [
-                    'count' => '{0} žádné hlasy | {1} :count hlas | [2,*] :count hlasů',
+                    'count' => '{0} nula hlasů|{1} :count_delimited hlas|[2,4] :count_delimited hlasy|[5,*] :count_delimited hlasů',
                     'current' => 'Zbývá vám :votes.',
                     'not_enough' => "Nemáte žádné další hlasy",
                 ],
@@ -298,7 +308,7 @@ return [
 
             'poll' => [
                 'edit' => 'Upravení ankety',
-                'edit_warning' => '',
+                'edit_warning' => 'Upravování ankety odstraní všechny aktuální hlasy! ',
                 'vote' => 'Hlasovat',
 
                 'button' => [
@@ -311,7 +321,7 @@ return [
                 'detail' => [
                     'end_time' => 'Hlasování skončí za :time',
                     'ended' => 'Hlasování skončilo :time',
-                    'results_hidden' => '',
+                    'results_hidden' => 'Výsledky budou zobrazeny po ukončení hlasování.',
                     'total' => 'Celkem hlasů: :count',
                 ],
             ],

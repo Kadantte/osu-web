@@ -4,7 +4,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'play_more' => 'Wat dacht je anders van osu! ?',
+    'play_more' => 'Misschien eerst wat osu! spelen?',
     'require_login' => 'Log in om verder te gaan.',
     'require_verification' => 'Gelieve te verifiëren om verder te gaan.',
     'restricted' => "Je kan dit niet doen terwijl je restricted bent.",
@@ -15,6 +15,7 @@ return [
         'destroy' => [
             'is_hype' => 'Hyping kan niet ongedaan gemaakt worden.',
             'has_reply' => 'Je kan geen discussie met reacties verwijderen',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => 'Je hebt je dagelijkse nominatie-limiet bereikt, probeer het morgen opnieuw.',
@@ -43,22 +44,33 @@ return [
             'not_owner' => 'U kunt alleen uw eigen berichten verwijderen.',
             'resolved' => 'U kunt een bericht van een opgeloste discussie niet verwijderen.',
             'system_generated' => 'Automatisch gegenereerd bericht kan niet worden verwijderd.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
             'not_owner' => 'Alleen de eigenaar kan deze post bewerken.',
             'resolved' => 'U kunt geen bericht van een opgeloste discussie bewerken.',
             'system_generated' => 'Automatisch gegenereerde posts kunnen niet worden bewerkt.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => 'Deze beatmap is vergrendeld voor discussie.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => 'Deze beatmap is gesloten voor discussie.',
+
         'metadata' => [
             'nominated' => 'U kunt metagegevens van een nominale kaart niet wijzigen. Neem contact op met een BN of NAT lid als u denkt dat deze onjuist is ingesteld.',
+        ],
+
+        'rate' => [
+            'owner' => '',
+            'status' => '',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => 'Je moet een score behalen op een beatmap om een label toe te voegen.',
         ],
     ],
 
@@ -67,17 +79,23 @@ return [
         'friends_only' => 'Gebruiker blokkeert berichten van mensen die niet op de vriendenlijst staan.',
         'moderated' => 'Dat kanaal wordt op dit moment gemodereerd.',
         'no_access' => 'Je hebt geen toegang tot dat kanaal.',
+        'no_announce' => 'Je hebt geen toestemming om een omroep te doen.',
+        'receive_friends_only' => 'Het is mogelijk dat de gebruiker niet zal kunnen antwoorden omdat je enkel berichten van mensen op je vriendenlijst aanvaardt.',
         'restricted' => 'Je kunt geen berichten versturen wanneer je het zwijgen is opgelegd, wanneer je bent beperkt of verbannen.',
         'silenced' => 'Je kunt geen berichten verzenden als je op stil staat, bent beperkt of bent verbannen.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => 'Reacties zijn uitgeschakeld',
+        ],
         'update' => [
             'deleted' => "Je kunt geen verwijderde berichten bewerken.",
         ],
     ],
 
     'contest' => [
+        'judging_not_active' => 'Beoordeling is niet actief voor deze wedstrijd.',
         'voting_over' => 'Je kan je stem niet meer veranderen nadat de stemperiode van deze wedstrijd is afgelopen.',
 
         'entry' => [
@@ -103,6 +121,7 @@ return [
                 'deleted' => 'Je kan een verwijderde post niet bewerken.',
                 'locked' => 'De post is afgesloten voor bewerkingen.',
                 'no_forum_access' => 'Toegang tot dit forum is nodig.',
+                'no_permission' => 'Geen toestemming om te bewerken.',
                 'not_owner' => 'Alleen de eigenaar kan de post bewerken.',
                 'topic_locked' => 'Kan geen post in een gesloten onderwerp bewerken.',
             ],
@@ -166,6 +185,40 @@ return [
         ],
     ],
 
+    'room' => [
+        'destroy' => [
+            'not_owner' => 'Alleen eigenaar van de ruimte kan hem sluiten.',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "Kan dit type score niet vastzetten",
+            'failed' => "Kan geen niet-geslaagde score vastmaken.",
+            'not_owner' => 'Enkel de eigenaar van de score kan deze vastzetten.',
+            'too_many' => 'Te veel scores vastgezet.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "Je zit al in dit team.",
+                'already_other_member' => "Je zit al in een ander team.",
+                'currently_applying' => 'Je hebt een team deelname verzoek in afwachting.',
+                'team_closed' => 'Dit team is gesloten. Op dit moment kan je niet vragen om lid te worden.',
+                'team_full' => "Dit team zit vol. Het kan geen nieuwe leden toelaten.",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "De teamcaptain kan het team niet verlaten.",
+            'not_member' => 'Geen lid van het team.',
+        ],
+        'store' => [
+            'require_supporter_tag' => 'osu!supporter tag is vereist om een team te maken.',
+        ],
+    ],
+
     'user' => [
         'page' => [
             'edit' => [
@@ -173,6 +226,9 @@ return [
                 'not_owner' => 'Je kan alleen je eigen gebruikerspagina bewerken.',
                 'require_supporter_tag' => 'osu!supporter tag is vereist.',
             ],
+        ],
+        'update_email' => [
+            'locked' => 'e-mailadres is vergrendeld',
         ],
     ],
 ];

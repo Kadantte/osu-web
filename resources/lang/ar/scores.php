@@ -5,6 +5,7 @@
 
 return [
     'show' => [
+        'non_preserved' => 'هذه الدرجة معلَّمة للحذف وستختفي قريباً.',
         'title' => ':username على :title [:version]',
 
         'beatmap' => [
@@ -13,7 +14,10 @@ return [
 
         'player' => [
             'by' => 'لُعِبَت بواسطة',
+            'played_on' => 'تم اللعب في',
             'submitted_on' => 'تم تقديمه في',
+            'watched' => 'مرات المشاهدة',
+            'watched_count' => ':count_delimited مرة|:count_delimited مرات',
 
             'rank' => [
                 'country' => 'ترتيب الدولة',
@@ -23,7 +27,9 @@ return [
     ],
 
     'status' => [
-        'non_best' => '',
-        'processing' => '',
+        'non_best' => 'فقط أفضل الدرجات الشخصية تعود عليك بـ pp',
+        'no_pp' => 'هذه الدرجة لا تمنح pp',
+        'processing' => 'لا تزال النتائج قيد الحساب, وسوف تُعرض قريباََ',
+        'no_rank' => 'ليس لهذه الدرجة رتبة حيث جرى إلغاء ترتيبها أو تعليمها للحذف',
     ],
 ];

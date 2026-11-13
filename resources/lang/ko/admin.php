@@ -14,13 +14,6 @@ return [
         ],
         'show' => [
             'covers' => '',
-            'discussion' => [
-                '_' => '',
-                'activate' => '',
-                'activate_confirm' => '',
-                'active' => '',
-                'inactive' => '',
-            ],
         ],
     ],
 
@@ -60,15 +53,11 @@ return [
                 'beatmapsets' => '',
                 'forum' => '',
                 'general' => '',
-                'store' => '',
-            ],
-        ],
-    ],
 
-    'store' => [
-        'orders' => [
-            'index' => [
-                'title' => '',
+                'users' => [
+                    'header' => '사용자',
+                    'cover_presets' => '프로필 커버 프리셋',
+                ],
             ],
         ],
     ],

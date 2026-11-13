@@ -4,28 +4,43 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'beatmapset' => [
+        'button' => 'Denunciar',
+        'title' => 'Denunciar o mapa de :username?',
+    ],
+
     'beatmapset_discussion_post' => [
         'button' => 'Denunciar',
-        'title' => 'Queres denunciar a publicação de :username?',
+        'title' => 'Quer denunciar a publicação de :username?',
     ],
 
     'comment' => [
         'button' => 'Denunciar',
-        'title' => 'Queres denunciar o comentário de :username?',
+        'title' => 'Quer denunciar o comentário de :username?',
     ],
 
     'forum_post' => [
         'button' => 'Denunciar',
-        'title' => 'Queres denunciar a publicação de :username?',
+        'title' => 'Quer denunciar a publicação de :username?',
+    ],
+
+    'message' => [
+        'button' => 'Reportar mensagem',
+        'title' => 'Quer reportar a mensagem de :username?',
     ],
 
     'scores' => [
         'button' => 'Denunciar pontuação',
-        'title' => 'Denunciar a pontuação de :username?',
+        'title' => 'Quer denunciar a pontuação de :username?',
+    ],
+
+    'team' => [
+        'button' => 'Denunciar Equipa',
+        'title' => 'Quer denunciar a equipa de :username?',
     ],
 
     'user' => [
         'button' => 'Denunciar',
-        'title' => 'Pretendes denunciar :username?',
+        'title' => 'Pretende denunciar :username?',
     ],
 ];

@@ -5,22 +5,49 @@
 
 namespace App\Providers;
 
-use App\Hashing\OsuHashManager;
-use App\Libraries\Groups;
 use App\Libraries\MorphMap;
-use App\Libraries\OsuAuthorize;
+use App\Libraries\OAuth\BridgeScopeRepository;
 use App\Libraries\OsuCookieJar;
 use App\Libraries\OsuMessageSelector;
-use App\Libraries\RouteSection;
-use Datadog;
+use App\Libraries\RateLimiter;
+use App\Singletons;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Request;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\ServiceProvider;
+use Knuckles\Scribe\Scribe;
+use Laravel\Octane\Contracts\DispatchesTasks;
+use Laravel\Octane\SequentialTaskDispatcher;
+use Laravel\Octane\Swoole\SwooleTaskDispatcher;
+use Laravel\Passport\Bridge\ScopeRepository as PassportBridgeScopeRepository;
 use Queue;
-use Validator;
+use Swoole\Http\Server;
 
 class AppServiceProvider extends ServiceProvider
 {
+    const LOCAL_CACHE_SINGLETONS = [
+        'chat-filters' => Singletons\ChatFilters::class,
+        'countries' => Singletons\Countries::class,
+        'groups' => Singletons\Groups::class,
+        'layout-cache' => Singletons\LayoutCache::class,
+        'medals' => Singletons\Medals::class,
+        'smilies' => Singletons\Smilies::class,
+        'tags' => Singletons\Tags::class,
+        'user-count-by-ruleset' => Singletons\UserCountByRuleset::class,
+        'user-cover-presets' => Singletons\UserCoverPresets::class,
+    ];
+
+    const SINGLETONS = [
+        'OsuAuthorize' => Singletons\OsuAuthorize::class,
+        'assets-manifest' => Singletons\AssetsManifest::class,
+        'clean-html' => Singletons\CleanHTML::class,
+        'ip2asn' => Singletons\Ip2Asn::class,
+        'local-cache-manager' => Singletons\LocalCacheManager::class,
+        'mods' => Singletons\Mods::class,
+        'route-section' => Singletons\RouteSection::class,
+        'score-pins' => Singletons\UserScorePins::class,
+    ];
+
     /**
      * Bootstrap any application services.
      *
@@ -28,18 +55,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Relation::morphMap(array_flip(MorphMap::MAP));
+        Relation::morphMap(MorphMap::flippedMap());
 
-        Validator::extend('mixture', function ($attribute, $value, $parameters, $validator) {
-            return preg_match('/[\d]/', $value) === 1 && preg_match('/[^\d\s]/', $value) === 1;
-        });
+        $GLOBALS['cfg'] = \Config::all();
 
         Queue::after(function (JobProcessed $event) {
-            Datadog::increment(
-                config('datadog-helper.prefix_web').'.queue.run',
-                1,
+            app('OsuAuthorize')->resetCache();
+            app('local-cache-manager')->incrementResetTicker();
+
+            datadog_increment(
+                'queue.run',
                 [
-                    'job' => $event->job->resolveName(),
+                    'job' => $event->job->payload()['data']['commandName'],
                     'queue' => $event->job->getQueue(),
                 ]
             );
@@ -47,47 +74,35 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->make('translator')->setSelector(new OsuMessageSelector());
 
-        app('url')->forceScheme(substr(config('app.url'), 0, 5) === 'https' ? 'https' : 'http');
+        app('url')->forceScheme(substr($GLOBALS['cfg']['app']['url'], 0, 5) === 'https' ? 'https' : 'http');
+
+        Request::setTrustedProxies($GLOBALS['cfg']['trustedproxy']['proxies'], $GLOBALS['cfg']['trustedproxy']['headers']);
+
+        // newest scribe tries to rename {modelName} parameters to {id}
+        // but it kind of doesn't work with our route handlers.
+        Scribe::normalizeEndpointUrlUsing(fn ($url) => $url);
     }
 
     /**
      * Register any application services.
      *
      * This service provider is a great spot to register your various container
-     * bindings with the application. As you can see, we are registering our
-     * "Registrar" implementation here. You can add your own bindings too!
+     * bindings with the application.
      *
      * @return void
      */
     public function register()
     {
-        $this->app->bind(
-            'Illuminate\Contracts\Auth\Registrar',
-            'App\Services\Registrar'
-        );
-
-        $this->app->singleton('groups', function () {
-            return new Groups();
-        });
-
-        $this->app->singleton('hash', function ($app) {
-            return new OsuHashManager($app);
-        });
-
-        $this->app->singleton('hash.driver', function ($app) {
-            return $app['hash']->driver();
-        });
-
-        $this->app->singleton('OsuAuthorize', function () {
-            return new OsuAuthorize();
-        });
-
-        $this->app->singleton('route-section', function () {
-            return new RouteSection();
-        });
+        foreach (array_merge(static::SINGLETONS, static::LOCAL_CACHE_SINGLETONS) as $name => $class) {
+            $this->app->singleton($name, fn () => new $class());
+        }
+        $localCacheManager = app('local-cache-manager');
+        foreach (static::LOCAL_CACHE_SINGLETONS as $name => $_class) {
+            $localCacheManager->registerSingleton(app($name));
+        }
 
         $this->app->singleton('cookie', function ($app) {
-            $config = $app->make('config')->get('session');
+            $config = $GLOBALS['cfg']['session'];
 
             return (new OsuCookieJar())->setDefaultPathAndDomain(
                 $config['path'],
@@ -97,9 +112,24 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        // This is needed for testing with Dusk.
-        if ($this->app->environment('testing')) {
-            $this->app->register('\App\Providers\AdditionalDuskServiceProvider');
+        $this->app->singleton(RateLimiter::class, function ($app) {
+            return new RateLimiter($app->make('cache')->driver(
+                $app['config']->get('cache.limiter')
+            ));
+        });
+
+        // pre-bind to avoid SwooleHttpTaskDispatcher and fallback when not running in a swoole context.
+        $this->app->bind(
+            DispatchesTasks::class,
+            fn ($app) => $app->bound(Server::class) ? new SwooleTaskDispatcher() : new SequentialTaskDispatcher()
+        );
+
+        $this->app->bind(PassportBridgeScopeRepository::class, BridgeScopeRepository::class);
+
+        $env = $this->app->environment();
+        if ($env === 'testing' || $env === 'dusk.local') {
+            // This is needed for testing with Dusk.
+            $this->app->register(AdditionalDuskServiceProvider::class);
         }
     }
 }

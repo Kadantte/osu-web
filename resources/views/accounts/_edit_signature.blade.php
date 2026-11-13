@@ -2,15 +2,17 @@
     Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
     See the LICENCE file in the repository root for full licence text.
 --}}
-{!! Form::open([
-    'route' => 'account.update',
-    'method' => 'PUT',
-    'data-remote' => true,
-    'class' => 'account-edit js-account-edit'
-]) !!}
+<form
+    action="{{ route('account.update') }}"
+    class="account-edit js-account-edit"
+    data-remote
+    method="POST"
+>
+    @csrf
+    <input name="_method" value="PUT" type="hidden" />
     <div class="account-edit__section">
         <h2 class="account-edit__section-title">
-            {{ trans('accounts.edit.signature.title') }}
+            {{ osu_trans('accounts.edit.signature.title') }}
         </h2>
     </div>
 
@@ -51,14 +53,14 @@
                 <button
                     class="btn-osu-big btn-osu-big--account-edit"
                     type="submit"
-                    data-disable-with="{{ trans('common.buttons.saving') }}"
+                    data-disable-with="{{ osu_trans('common.buttons.saving') }}"
                     @if (Auth::user()->isSilenced())
                         disabled
                     @endif
                 >
                     <div class="btn-osu-big__content">
                         <div class="btn-osu-big__left">
-                            {{ trans('accounts.edit.signature.update') }}
+                            {{ osu_trans('accounts.edit.signature.update') }}
                         </div>
 
                         <div class="btn-osu-big__icon">
@@ -71,4 +73,4 @@
             </div>
         </div>
     </div>
-{!! Form::close() !!}
+</form>

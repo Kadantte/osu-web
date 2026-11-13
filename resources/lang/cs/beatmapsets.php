@@ -8,11 +8,20 @@ return [
         'disabled' => 'Tato beatmapa není momentálně dostupná ke stažení.',
         'parts-removed' => 'Část této beatmapy byla smazána na žádost tvůrce nebo vlastníka třetí strany.',
         'more-info' => 'Pro více informací klikněte zde.',
-        'rule_violation' => '',
+        'rule_violation' => 'Některé assety obsažené v této mapě byly odstraněny poté, co byly posouzeny jako nevhodné pro použití v osu!.',
+    ],
+
+    'cover' => [
+        'deleted' => 'Vymazaná beatmapa',
     ],
 
     'download' => [
-        'limit_exceeded' => '',
+        'limit_exceeded' => 'Zpomal, více hraj.',
+        'no_mirrors' => 'Nejsou dostupné žádné servery pro stahování.',
+    ],
+
+    'featured_artist_badge' => [
+        'label' => 'Oficiální umělec',
     ],
 
     'index' => [
@@ -20,28 +29,40 @@ return [
         'guest_title' => 'Beatmapy',
     ],
 
+    'ogp' => [
+        'favourites' => ':count_delimited má v oblíbených|:count_delimited mají v oblíbených|:count_delimited má v oblíbených',
+        'playcount' => ':count_delimited zahrání|:count_delimited zahrání|:count_delimited zahrání',
+    ],
+
     'panel' => [
-        'empty' => '',
+        'empty' => 'žádné beatmapy',
 
         'download' => [
             'all' => 'stáhnout',
             'video' => 'stáhnout s videem',
             'no_video' => 'stáhnout bez videa',
             'direct' => 'otevřít v osu!direct',
+            'lazer' => '',
         ],
     ],
 
     'nominate' => [
-        'hybrid_requires_modes' => '',
-        'incorrect_mode' => '',
-        'full_bn_required' => '',
-        'too_many' => '',
+        'bng_limited_too_many_rulesets' => 'Zkušební nominátoři nemohou nominovat více rulesetů.',
+        'full_nomination_required' => 'Musíš být plnohodnotný nominátor, abys mohl provést finální nominaci rulesetu.',
+        'hybrid_requires_modes' => 'Hybridní beatmapa vyžaduje, abyste vybrali alespoň jeden herní režim, za který ji chcete nominovat.',
+        'incorrect_mode' => 'Nemáte oprávnění k nominaci za mód: :mode',
+        'invalid_limited_nomination' => 'Tato beatmapa má neplatné nominace a nemůže být v kvalifikovaném stavu.',
+        'invalid_ruleset' => 'Tato nominace má neplatné rulesety.',
+        'too_many' => 'Požadavek na nominaci je již splněn.',
+        'too_many_non_main_ruleset' => 'Požadavek pro nominace u jiných než hlavních rulesetů je již splněn.',
 
         'dialog' => [
-            'confirmation' => '',
-            'header' => '',
-            'hybrid_warning' => '',
-            'which_modes' => '',
+            'confirmation' => 'Jste si jisti, že chcete nominovat tuto beatmapu?',
+            'different_nominator_warning' => 'Kvalifikace této beatmapy s jinými nominátory vyresetuje její pozici ve frontě kvalifikací.',
+            'header' => 'Nominovat beatmapu',
+            'hybrid_warning' => 'poznámka: můžete nominovat pouze jednou, takže se ujistěte, že nominujete za všechny herní režimy, které chcete',
+            'current_main_ruleset' => 'Hlavní ruleset je aktuálně: :ruleset',
+            'which_modes' => 'Nominovat pro jaké módy?',
         ],
     ],
 
@@ -49,34 +70,52 @@ return [
         'label' => 'Explicitní',
     ],
 
+    'rate' => [
+        'invalid' => 'Neplatné hodnocení.',
+    ],
+
     'show' => [
         'discussion' => 'Diskuze',
 
+        'admin' => [
+            'full_size_cover' => 'Zobrazit plnou velikost úvodního obrázku',
+            'page' => 'Zobrazit administrátorskou stránku',
+        ],
+
+        'deleted_banner' => [
+            'title' => 'Tato beatmapa byla odstraněna.',
+            'message' => '(toto můžou vidět jen moderátoři)',
+        ],
+
         'details' => [
-            'favourite' => 'Přidat do mých oblíbených',
-            'logged-out' => 'Pro stahování beatmap musíš být přihlášen!',
+            'by_artist' => 'od :artist',
+            'favourite' => 'přidat do mých oblíbených',
+            'favourite_login' => 'pro přidání beatmapy do oblíbených se přihlas',
+            'logged-out' => 'před stahováním beatmap se musíš nejprve přihlásit!',
             'mapped_by' => 'beatmapu vytvořil :mapper',
-            'unfavourite' => 'Odebrat z mých oblíbených',
+            'mapped_by_guest' => 'obtížnost hosta od :mapper',
+            'unfavourite' => 'odebrat z mých oblíbených',
             'updated_timeago' => 'naposledy aktualizováno :timeago',
 
             'download' => [
                 '_' => 'Stáhnout',
                 'direct' => '',
+                'lazer' => '',
                 'no-video' => 'bez Videa',
                 'video' => 's Videem',
             ],
 
             'login_required' => [
                 'bottom' => 'pro přístup k dalším funkcím',
-                'top' => 'Přihlašte se',
+                'top' => 'Přihlaste se',
             ],
         ],
 
         'details_date' => [
             'approved' => 'schváleno :timeago',
-            'loved' => '',
+            'loved' => 'oblíbeno komunitou :timeago',
             'qualified' => 'kvalifikováno :timeago',
-            'ranked' => '',
+            'ranked' => 'hodnoceno :timeago',
             'submitted' => 'odesláno :timeago',
             'updated' => 'naposledy aktualizováno :timeago',
         ],
@@ -86,15 +125,15 @@ return [
         ],
 
         'hype' => [
-            'action' => 'Dejte Hype téhle mapě, pokud jste si užili její hraní a pomocte jí se dostat do <strong>Hodnoceného</strong> stavu.',
+            'action' => 'Podpoř tuto mapu, pokud sis užili její hraní, a pomoz jí postoupit do <strong>Hodnoceného</strong> stavu.',
 
             'current' => [
                 '_' => 'Tato mapa je právě :status.',
 
                 'status' => [
                     'pending' => 'čekající',
-                    'qualified' => 'kvalifikované',
-                    'wip' => 'rozpracované',
+                    'qualified' => 'kvalifikovaná',
+                    'wip' => 'rozdělaná',
                 ],
             ],
 
@@ -113,13 +152,29 @@ return [
             'description' => 'Popis',
             'genre' => 'Žánr',
             'language' => 'Jazyk',
+            'mapper_tags' => 'Označení od autora',
             'no_scores' => 'Data se vypočítávají...',
+            'nominators' => 'Nominátoři',
             'nsfw' => 'Explicitní obsah',
+            'offset' => 'Online offset',
+            'pack_tags' => 'Balíčky beatmap',
             'points-of-failure' => 'Body neúspěchů',
             'source' => 'Zdroj',
-            'storyboard' => '',
+            'storyboard' => 'Tato beatmapa obsahuje storyboard',
             'success-rate' => 'Úspěšnost',
-            'tags' => 'Tagy',
+            'success_rate_plays' => ':passes z :count_delimited zahrání|:passes ze :count_delimited zahrání|:passes z :count_delimited zahrání',
+            'user_tags' => 'Označení od uživatelů',
+            'video' => 'Tato beatmapa obsahuje video',
+        ],
+
+        'lazer_only' => [
+            'title' => 'Pouze Lazer',
+            'description' => 'Kvůli specifickým mechanikám lze tuto beatmapu hrát pouze na osu!lazer.',
+
+            'scoreboard_switch_mode' => [
+                '_' => ':enable_link pro zobrazení skóre zahraných na této beatmapě.',
+                'enable_link' => 'Povol lazer režim',
+            ],
         ],
 
         'nsfw_warning' => [
@@ -136,22 +191,25 @@ return [
         'scoreboard' => [
             'achieved' => 'dosaženo :when',
             'country' => 'Státní žebříčky',
+            'error' => 'Nepodařilo se načíst žebříčky',
             'friend' => 'Žebříček přátel',
             'global' => 'Celosvětové žebříčky',
             'supporter-link' => 'Klikněte <a href=":link">zde</a> pro zobrazení všech výhod, které dostanete!',
-            'supporter-only' => 'Pro zobrazení státních a žebříčků přátel potřebujete funkci Supportera!',
+            'supporter-only' => 'Pro zobrazení národních žebříčků a žebříčků přátel potřebujete funkci Supportera!',
+            'team' => 'Žebříček týmu',
             'title' => 'Tabulka výsledků',
 
             'headers' => [
                 'accuracy' => 'Přesnost',
-                'combo' => 'Maximální Kombo',
+                'combo' => 'Maximální kombo',
                 'miss' => 'Minuto',
                 'mods' => 'Módy',
+                'pin' => 'Připnout',
                 'player' => 'Hráč',
                 'pp' => '',
                 'rank' => 'Umístění',
-                'score_total' => 'Celkové skóre',
                 'score' => 'Skóre',
+                'score_total' => 'Celkové skóre',
                 'time' => 'Čas',
             ],
 
@@ -160,11 +218,16 @@ return [
                 'friend' => 'Nikdo z vašich přátel na této mapě zatím žádné skóre nenahrál!',
                 'global' => 'Zatím žádné skóre. Možná by ses o to měl pokusit!',
                 'loading' => 'Načítání skóre...',
+                'team' => 'Nikdo z tvého týmu na této mapě zatím žádné skóre nenahrál!',
                 'unranked' => 'Nehodnocená beatmapa.',
             ],
             'score' => [
                 'first' => 'V čele',
-                'own' => 'Vaše nejlepší',
+                'own' => 'Tvoje nejlepší',
+            ],
+            'supporter_link' => [
+                '_' => 'Klikni :here pro zobrazení všech výhod, které dostaneš!',
+                'here' => 'sem',
             ],
         ],
 
@@ -173,26 +236,33 @@ return [
             'cs-mania' => 'Počet kláves',
             'drain' => 'Vysávání životů',
             'accuracy' => 'Přesnost',
-            'ar' => 'Rychlost zjevování koleček',
+            'ar' => 'Rychlost zjevování',
             'stars' => 'Počet hvězd',
-            'total_length' => 'Délka',
+            'total_length' => 'Délka (Délka vysávání životů: :hit_length)',
             'bpm' => 'BPM',
             'count_circles' => 'Počet koleček',
             'count_sliders' => 'Počet sliderů',
+            'offset' => 'Online offset: :offset',
             'user-rating' => 'Uživatelské hodnocení',
             'rating-spread' => 'Graf hodnocení',
             'nominations' => 'Nominace',
             'playcount' => 'Počet zahrání',
+            'favourites' => 'V oblíbených',
+            'no_favourites' => 'Nikdo ještě nepřidal do oblíbených',
         ],
 
         'status' => [
-            'ranked' => 'Hodnocené',
-            'approved' => 'Schválené',
-            'loved' => 'Oblíbené',
-            'qualified' => 'Kvalifikované',
-            'wip' => 'Nedodělané',
-            'pending' => 'Nevyřízené',
+            'ranked' => 'Hodnocená',
+            'approved' => 'Schválená',
+            'loved' => 'Oblíbená komunitou',
+            'qualified' => 'Kvalifikovaná',
+            'wip' => 'Rozdělaná',
+            'pending' => 'Čekající',
             'graveyard' => 'Hřbitov',
         ],
+    ],
+
+    'spotlight_badge' => [
+        'label' => 'Zvýrazněná',
     ],
 ];

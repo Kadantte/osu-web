@@ -26,6 +26,9 @@ return [
         'placeholder' => 'aramak için yaz',
         'title' => 'Ara',
 
+        'artist_track' => [
+            'more_simple' => 'Daha fazla öne çıkan artist parçası arama sonucu görün',
+        ],
         'beatmapset' => [
             'login_required' => 'Beatmapleri aramak için giriş yapın',
             'more' => ':count tane daha beatmap arama sonucu',
@@ -43,6 +46,7 @@ return [
             'label' => [
                 'forum' => 'forumlarda ara',
                 'forum_children' => 'alt forumları dahil et',
+                'include_deleted' => 'silinmiş gönderileri dahil et',
                 'topic_id' => 'konu #',
                 'username' => 'yazar',
             ],
@@ -50,10 +54,17 @@ return [
 
         'mode' => [
             'all' => 'hepsi',
+            'artist_track' => 'öne çıkan artist parçaları',
             'beatmapset' => 'beatmap',
             'forum_post' => 'forum',
+            'team' => 'takım',
             'user' => 'oyuncu',
             'wiki_page' => 'wiki',
+        ],
+
+        'team' => [
+            'login_required' => 'Takımları aramak için giriş yap',
+            'more_simple' => 'Daha fazla takım arama sonucu gör',
         ],
 
         'user' => [
@@ -72,8 +83,19 @@ return [
     ],
 
     'download' => [
-        'tagline' => "haydi seni<br>oyuna hazırlayalım!",
-        'action' => 'osu!\'yu indir',
+        'action_lazer_info' => 'daha fazla bilgi için bu sayfaya göz atın',
+        'download' => 'İndir',
+        'for_os' => ':os için',
+        'macos-fallback' => 'macOS kullanıcıları',
+        'mirror' => 'alternatif',
+        'or' => 'ya da',
+        'os_version_or_later' => ':os_version ve üzeri',
+        'other_os' => 'diğer platformlar',
+        'quick_start_guide' => 'hızlı başlangıç kılavuzu',
+        'stable_text' => 'eski sürümü arıyorsanız',
+        'tagline_1' => 'hadi',
+        'tagline_2' => 'başlayalım!',
+        'video-guide' => 'video kılavuzu',
 
         'help' => [
             '_' => 'oyunu çalıştırırken ya da hesap oluştururken herhangi bir sorun yaşıyorsanız, :help_forum_link veya :support_button.',
@@ -86,8 +108,6 @@ return [
             'macos' => 'macOS için',
             'linux' => 'Linux için',
         ],
-        'mirror' => 'alternatif',
-        'macos-fallback' => 'macOS kullanıcıları',
         'steps' => [
             'register' => [
                 'title' => 'bir hesap oluştur',
@@ -105,7 +125,6 @@ return [
                 ],
             ],
         ],
-        'video-guide' => 'video kılavuzu',
     ],
 
     'user' => [
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
+            'daily_challenge' => 'Günlük Meydan Okuma Haritası',
             'new' => 'Yeni Dereceli Beatmapler',
             'popular' => 'Popüler Beatmapler',
             'by_user' => ':user tarafından',
+            'resets' => ':ends tarihinde sıfırlanır',
         ],
         'buttons' => [
             'download' => 'osu!\'yu indir',
             'support' => 'osu!\'yu destekle',
             'store' => 'osu!store',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Vay canına!',
-        'subtitle' => 'İyi vakit geçiriyor gibi görünüyorsunuz! :D',
-        'body' => [
-            'part-1' => 'Osu!\'nun reklamsız çalıştığını, geliştirme ve yürütme masraflarının karşılanmasında ise kendi oyuncularının desteğine güvendiğini biliyor muydun?',
-            'part-2' => 'Ayrıca, osu!\'yu destekleyerek, izleme modunda ve çoklu oyunculu oyunlarda otomatik olarak devreye giren <strong>oyun içi indirme</strong> özelliği gibi bir çok yararlı özelliklere sahip olabileceğini de biliyor muydun?',
+        'livestream' => [
+            'title' => 'Öne Çıkan Canlı Yayın',
         ],
-        'find-out-more' => 'Daha fazlasını öğrenmek için buraya tıkla!',
-        'download-starting' => "Ah, bu arada, endişelenme! - indirme işlemin senin için çoktan başladı bile ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Yönetici konsolunu aç',
+            ],
+        ],
     ],
 ];

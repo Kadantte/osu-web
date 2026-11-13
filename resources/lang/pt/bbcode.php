@@ -6,7 +6,9 @@
 return [
     'bold' => 'Negrito',
     'heading' => 'Cabeçalho',
+    'help' => 'Ajuda',
     'image' => 'Imagem',
+    'imagemap' => 'Mapa de imagem',
     'italic' => 'Itálico',
     'link' => 'Ligação',
     'list' => 'Lista',
@@ -18,6 +20,6 @@ return [
         'normal' => 'Normal',
         'large' => 'Grande',
     ],
-    'spoilerbox' => 'Caixa do saqueador',
-    'strikethrough' => 'Excluir',
+    'spoilerbox' => 'Caixa de revelação',
+    'strikethrough' => 'Texto riscado',
 ];

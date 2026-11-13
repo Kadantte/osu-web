@@ -4,7 +4,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    '_' => 'Sorteer op',
+    '_' => 'Sorteren op',
 
     'all' => 'Alles',
     'friends' => 'Vrienden',
@@ -12,8 +12,19 @@ return [
     'new' => 'Recent',
     'old' => 'Oud',
     'rank' => 'Rank',
-    'top' => 'Terug naar boven',
+    'top' => 'Beste',
     'username' => 'Gebruikersnaam',
+
+    'artist_tracks' => [
+        'album' => 'Album',
+        'artist' => 'Artiest',
+        'bpm' => 'BPM',
+        'genre' => 'Genre',
+        'length' => 'Lengte',
+        'relevance' => 'Relevantie',
+        'title' => 'Titel',
+        'update' => 'Toevoegingsdatum',
+    ],
 
     'forum_posts' => [
         'created' => 'Post tijd',
@@ -21,8 +32,16 @@ return [
     ],
 
     'forum_topics' => [
+        'created' => 'Aangemaakt',
         'feature_votes' => 'Ster prioriteit',
         'new' => 'Laatste antwoord',
+    ],
+
+    'teams' => [
+        'created' => '',
+        'relevance' => '',
+        'name' => '',
+        'short-name' => '',
     ],
 
     'users' => [

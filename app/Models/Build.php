@@ -5,8 +5,8 @@
 
 namespace App\Models;
 
-use App\Libraries\Commentable;
-use App\Traits\CommentableDefaults;
+use App\Interfaces\CommentableInterface;
+use App\Traits\Memoizes;
 use Carbon\Carbon;
 
 /**
@@ -15,6 +15,7 @@ use Carbon\Carbon;
  * @property int $build_id
  * @property \Illuminate\Database\Eloquent\Collection $changelogEntries ChangelogEntry
  * @property \Illuminate\Database\Eloquent\Collection $changelogs Changelog
+ * @property string $commentable_identifier
  * @property Comment $comments
  * @property \Carbon\Carbon $date
  * @property mixed|null $hash
@@ -26,30 +27,29 @@ use Carbon\Carbon;
  * @property int $users
  * @property string|null $version
  */
-class Build extends Model implements Commentable
+class Build extends Model implements CommentableInterface
 {
-    use CommentableDefaults;
+    use Memoizes;
+    use Traits\CommentableDefaults;
 
     public $timestamps = false;
 
     protected $table = 'osu_builds';
     protected $primaryKey = 'build_id';
 
-    protected $dates = [
-        'date',
-    ];
-
     protected $casts = [
         'allow_bancho' => 'boolean',
+        'date' => 'datetime',
+        'private' => 'boolean',
     ];
 
     private $cache = [];
 
-    public static function importFromGithubNewTag($data)
+    public static function importFromGithubNewRelease($data)
     {
         $repository = Repository::where([
             'name' => $data['repository']['full_name'],
-            'build_on_tag' => true,
+            'build_on_release' => true,
         ])->first();
 
         // abort on unknown or non-auto build repository
@@ -57,7 +57,7 @@ class Build extends Model implements Commentable
             return;
         }
 
-        $tag = explode('-', substr($data['ref'], strlen('refs/tags/')));
+        $tag = explode('-', $data['release']['tag_name']);
         $version = $tag[0];
         $streamName = $tag[1] ?? null;
 
@@ -75,15 +75,18 @@ class Build extends Model implements Commentable
 
         $build = $stream->builds()->firstOrCreate([
             'version' => $version,
+        ], [
+            'allow_bancho' => $stream->default_allow_bancho,
         ]);
 
-        $lastChange = Carbon::parse($data['head_commit']['timestamp']);
+        // GitHub seems to use the same time as the last changelog entry
+        // except it's sometimes off by one second or so.
+        $lastChange = Carbon::parse($data['release']['created_at'])->addMinutes(1);
 
         $changelogEntry = new ChangelogEntry();
 
         $newChangelogEntryIds = $stream
-            ->changelogEntries()
-            ->orphans($stream->getKey())
+            ->orphanChangelogEntries()
             ->where($changelogEntry->qualifyColumn('created_at'), '<=', $lastChange)
             ->pluck($changelogEntry->qualifyColumn('id'));
 
@@ -120,7 +123,7 @@ class Build extends Model implements Commentable
 
     public function scopeDefault($query)
     {
-        $query->whereIn('stream_id', config('osu.changelog.update_streams'));
+        $query->where('private', false)->whereIn('stream_id', $GLOBALS['cfg']['osu']['changelog']['update_streams']);
     }
 
     public function propagationHistories()
@@ -182,6 +185,11 @@ class Build extends Model implements Commentable
         }
     }
 
+    public function commentLocked(): bool
+    {
+        return false;
+    }
+
     public function commentableTitle()
     {
         if ($this->stream_id === null || $this->updateStream === null) {
@@ -191,9 +199,61 @@ class Build extends Model implements Commentable
         return "{$this->updateStream->pretty_name} {$this->displayVersion()}";
     }
 
+    public function isLatest(): bool
+    {
+        $parent = $this->parent();
+
+        return !static
+            ::where([
+                'test_build' => false,
+                'stream_id' => $parent->stream_id,
+            ])->where('build_id', '>', $parent->getKey())
+            ->exists();
+    }
+
     public function notificationCover()
     {
         // no image
+    }
+
+    public function parent(): ?static
+    {
+        return $this->memoize(__FUNCTION__, function () {
+            $streamId = $this->stream_id;
+
+            if ($streamId !== null) {
+                return $this;
+            }
+
+            $versionParts = explode('-', $this->version);
+            $streamName = $versionParts[1] ?? null;
+
+            if ($streamName !== null) {
+                $stream = UpdateStream::firstWhere('name', $streamName);
+
+                if ($stream !== null) {
+                    $build = $stream->builds()->firstWhere('version', $versionParts[0]);
+
+                    if ($build !== null) {
+                        $build->setRelation('updateStream', $stream);
+
+                        return $build;
+                    }
+                }
+            }
+
+            return null;
+        });
+    }
+
+    public function platform(): string
+    {
+        $version = $this->version;
+        $suffixPos = strpos($version, '-');
+
+        return $suffixPos === false
+            ? ''
+            : substr($version, $suffixPos + 1);
     }
 
     public function url()

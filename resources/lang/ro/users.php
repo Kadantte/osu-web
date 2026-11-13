@@ -33,20 +33,41 @@ return [
 
     'blocks' => [
         'banner_text' => 'Ai blocat acest utilizator.',
+        'comment_text' => 'Acest comentariu este ascuns.',
         'blocked_count' => 'utilizatori blocați (:count)',
         'hide_profile' => 'ascunde profilul',
+        'hide_comment' => 'ascunde',
+        'forum_post_text' => 'Această postare este ascunsă.',
         'not_blocked' => 'Acest utilizator nu este blocat.',
         'show_profile' => 'arată profilul',
+        'show_comment' => 'arată',
         'too_many' => 'A fost atinsă limita de blocare.',
         'button' => [
-            'block' => 'blochează',
-            'unblock' => 'deblochează',
+            'block' => 'Blochează',
+            'unblock' => 'Deblochează',
         ],
     ],
 
     'card' => [
+        'gift_supporter' => 'Oferă status de suporter osu! cadou',
         'loading' => 'Se încarcă...',
         'send_message' => 'trimite mesaj',
+    ],
+
+    'create' => [
+        'form' => [
+            'password' => 'parolă',
+            'password_confirmation' => 'confirmare parolă',
+            'submit' => 'creează cont',
+            'user_email' => 'e-mail',
+            'user_email_confirmation' => 'confirmare e-mail',
+            'username' => 'nume de utilizator',
+
+            'tos_notice' => [
+                '_' => 'prin crearea contului sunteți de acord cu :link',
+                'link' => 'termeni și condiții de utilizare',
+            ],
+        ],
     ],
 
     'disabled' => [
@@ -54,8 +75,8 @@ return [
         'warning' => "În cazul în care ați încălcat o regulă, vă rugăm să notați că în general este o perioadă de răcire de o lună în care vom considera orice cerere de amnesty. După această perioadă, simtete liber să ne contactezi dacă o găsești necesar. Vă rugăm să notați că după creearea unui cont nou ați avut unul dezactivat va rezulta într-un <strong>extesie în acestă răcire de o lună</strong>. Vă rugăm să notați și că pentru <strong>orice cont creat, încalci regulile în continuare</strong>. Vă recomandăm puternic să nu faceți asta!",
 
         'if_mistake' => [
-            '_' => 'Dacă credeți că a fost o greșeală, ești bine venit să ne contactezi (prin :email sau să dați click pe "?" din colțul-drept-jos de pe această pagină). Vă rugăm notați că suntem foarte convinși cu acțiunile noastre, care sunt bazate pe date concrete. Rezervăm dreptul să vă respingem dacă simțim că sunteți dezonest.',
-            'email' => 'email',
+            '_' => 'Dacă credeți că a fost o greșeală, ești bine venit să ne contactezi (prin :email sau faceți clic pe "?" din colțul din drepta-jos de pe această pagină). Vă rugăm rețineți că suntem foarte siguri pe acțiunile noastre, care sunt bazate pe date concrete. Ne rezervăm dreptul de a vă respinge dacă considerăm că sunteți necinstit intenționat.',
+            'email' => 'e-mail',
         ],
 
         'reasons' => [
@@ -71,12 +92,13 @@ return [
     ],
 
     'filtering' => [
-        'by_game_mode' => '',
+        'by_game_mode' => 'Membrii după modul de joc',
     ],
 
     'force_reactivation' => [
         'reason' => [
-            'inactive_different_country' => "Contul dumneavoastră nu a fost folosit într-un timp îndelungat.",
+            'inactive' => "Contul tău nu a fost folosit de mult timp.",
+            'inactive_different_country' => "Contul dumneavoastră nu a fost folosit de mult timp.",
         ],
     ],
 
@@ -84,7 +106,7 @@ return [
         '_' => 'Autentifică-te',
         'button' => 'Autentifică-te',
         'button_posting' => 'Se conectează...',
-        'email_login_disabled' => 'Înregistrarea cu email este momentan dezactivată. Vă rugăm folosiți numele de utilizator în schimb.',
+        'email_login_disabled' => 'Conectarea prin e-mail este momentan dezactivată. Vă rugăm să folosiți numele de utilizator în schimb.',
         'failed' => 'Conectare incorectă',
         'forgot' => 'Ți-ai uitat parola?',
         'info' => 'Pentru a continua, vă rugam să vă autentificaţi',
@@ -99,6 +121,24 @@ return [
         'beta' => [
             'main' => 'Accesul beta este momentan limitat la utilizatorii autorizați.',
             'small' => '(suporterii osu! vor primi acces curând)',
+        ],
+    ],
+
+    'multiplayer' => [
+        'index' => [
+            'active' => 'Activ',
+            'ended' => 'Încheiat',
+        ],
+    ],
+
+    'ogp' => [
+        'modding_description' => 'Beatmap-uri: :counts',
+        'modding_description_empty' => 'Utilizatorul nu are nici un beatmap...',
+
+        'description' => [
+            '_' => 'Rang (:ruleset): :global | :country',
+            'country' => 'Național :rank',
+            'global' => 'Global :rank',
         ],
     ],
 
@@ -126,18 +166,30 @@ return [
             'cancel' => 'Anulează',
         ],
 
+        'dmca' => [
+            'message_1' => [
+                '_' => '',
+                'policy' => '',
+            ],
+            'message_2' => '',
+        ],
+
         'options' => [
-            'cheating' => 'Cheating',
+            'cheating' => 'Trișat',
+            'copyright_infringement' => '',
+            'inappropriate_chat' => 'Comportament necorespunzător în conversații',
             'insults' => 'M-a insultat pe mine / pe alții',
-            'spam' => 'Spam',
-            'unwanted_content' => 'Partajarea unui conținut nepotrivit',
+            'multiple_accounts' => 'Utilizarea mai multor conturi',
             'nonsense' => 'Nonsens',
             'other' => 'Altele (scrie mai jos)',
+            'spam' => 'Spam',
+            'unwanted_content' => 'Partajarea unui conținut nepotrivit',
         ],
     ],
     'restricted_banner' => [
         'title' => 'Contul tău a fost restricționat!',
-        'message' => 'Când ești restricționat, nu vei putea să interacționezi cu alți jucători și scorurile tale vor fi vizibile doar pentru tine. Acesta este de obicei rezultatul unui proces automat și, de obicei, în termen de 24 de ore. Dacă dorești să contești, te rugăm să <a href="mailto:accounts@ppy.sh">contactezi asistența</a>.',
+        'message' => 'Cât timp ești restricționat, nu vei putea să interacționezi cu alți jucători și scorurile tale vor fi vizibile doar pentru tine. Acesta este, de obicei, rezultatul unui proces automat și, de obicei, se rezolvă în termen de 24 de ore. :link',
+        'message_link' => 'Verificați această pagină pentru a afla mai multe.',
     ],
     'show' => [
         'age' => ':age ani',
@@ -145,35 +197,69 @@ return [
         'first_members' => 'Aici încă de la început',
         'is_developer' => 'dezvoltator osu!',
         'is_supporter' => 'suporter osu!',
-        'joined_at' => 'Încris :date',
+        'joined_at' => 'Înscris în :date',
         'lastvisit' => 'Văzut ultima dată :date',
-        'lastvisit_online' => 'Momentat online',
+        'lastvisit_online' => 'Momentan online',
         'missingtext' => 'S-ar putea să fi făcut o greșeală de scriere! (sau este posibil ca utilizatorul să fi fost restricționat)',
         'origin_country' => 'Din :country',
         'previous_usernames' => 'cunoscut anterior ca',
         'plays_with' => 'Joacă cu :devices',
-        'title' => "Profilul lui :username",
+
+        'badge' => [
+            'pin' => [
+                'to_0' => '',
+                'to_1' => '',
+            ],
+        ],
 
         'comments_count' => [
-            '_' => '',
-            'count' => '',
+            '_' => 'A postat :link',
+            'count' => 'un comentariu|:count_delimited comentarii|:count_delimited de comentarii',
+        ],
+        'cover' => [
+            'to_0' => 'Ascunde coperta',
+            'to_1' => 'Afișează coperta',
+        ],
+        'daily_challenge' => [
+            'daily' => 'Serie Zilnică',
+            'daily_streak_best' => 'Cea Mai Bună Serie Zilnică',
+            'daily_streak_current' => 'Serie Zilnică Actuală',
+            'playcount' => 'Participare Totală',
+            'title' => 'Provocare\nZilnică',
+            'top_10p_placements' => 'Plasamente Top 10%',
+            'top_50p_placements' => 'Plasamente Top 50%',
+            'weekly' => 'Serie Săptămânală',
+            'weekly_streak_best' => 'Cea Mai Bună Serie Săptămânală',
+            'weekly_streak_current' => 'Serie Săptămânală Actuală',
+
+            'unit' => [
+                'day' => ':valuez',
+                'week' => ':values',
+            ],
+        ],
+        'detail_switch' => [
+            'to_v1' => '',
+            'to_v2' => '',
         ],
         'edit' => [
             'cover' => [
-                'button' => 'Schimbă coperta de profil',
-                'defaults_info' => 'Mai multe opțiuni de coperte vor fi disponibile în viitor',
+                'button' => 'Schimbă Coperta de Profil',
+                'defaults_info' => 'Mai multe opțiuni pentru coperți vor fi disponibile în viitor',
+                'holdover_remove_confirm' => "Coperta selectată anterior nu mai este disponibilă pentru selecție. Nu o veți mai putea selecta înapoi după ce treceți la o copertă diferită. Continuați?",
+                'title' => 'Copertă',
+
                 'upload' => [
                     'broken_file' => 'Imposibil de procesat imaginea. Verifică imaginea încărcată și încearcă din nou.',
                     'button' => 'Încarcă imaginea',
                     'dropzone' => 'Plasați fișiere aici pentru a le încărca',
                     'dropzone_info' => 'Poți, de asemenea, să-ți plasezi imaginea aici pentru a o încărca',
-                    'size_info' => 'Dimensiunea coperții trebuie să fie de 2400x620',
+                    'size_info' => 'Dimensiunea coperții trebuie să fie de 2400x640',
                     'too_large' => 'Fișierul încărcat este prea mare.',
                     'unsupported_format' => 'Format nesuportat.',
 
                     'restriction_info' => [
                         '_' => 'Încărcare disponibilă pentru :link doar',
-                        'link' => 'osu!suporteri',
+                        'link' => 'suporteri osu!',
                     ],
                 ],
             ],
@@ -182,11 +268,21 @@ return [
                 'is_default_tooltip' => 'mod de joc implicit',
                 'set' => 'setează :mode ca modul de joc implicit al profilului',
             ],
+
+            'hue' => [
+                'reset_no_supporter' => 'Resetați culoarea la cea implicită? Va fi necesar statusul de suporter pentru a o schimba la o culoare diferită.',
+                'title' => 'Culoare',
+
+                'supporter' => [
+                    '_' => 'Temele de culori personalizate sunt disponibile numai pentru :link',
+                    'link' => 'suporteri osu!',
+                ],
+            ],
         ],
 
         'extra' => [
             'none' => 'niciunul',
-            'unranked' => 'Nu există jocuri recente',
+            'unranked' => 'Nu există încercări recente',
 
             'achievements' => [
                 'achieved-on' => 'Realizat pe :date',
@@ -195,22 +291,28 @@ return [
             ],
             'beatmaps' => [
                 'by_artist' => 'de :artist',
-                'title' => 'Beatmaps',
+                'title' => 'Beatmap-uri',
 
                 'favourite' => [
-                    'title' => 'Beatmap-uri favorite',
+                    'title' => 'Beatmap-uri Favorite',
                 ],
                 'graveyard' => [
-                    'title' => 'Beatmaps îngropate',
+                    'title' => 'Beatmap-uri Inactive',
+                ],
+                'guest' => [
+                    'title' => 'Beatmap-uri cu Participare ca Oaspete',
                 ],
                 'loved' => [
-                    'title' => 'Beatmaps iubite',
+                    'title' => 'Beatmap-uri Iubite',
                 ],
-                'ranked_and_approved' => [
-                    'title' => 'Beatmaps clasate & aprobate',
+                'nominated' => [
+                    'title' => 'Beatmap-uri Clasate Nominalizate',
                 ],
-                'unranked' => [
-                    'title' => 'Beatmaps în așteptare',
+                'pending' => [
+                    'title' => 'Beatmap-uri în Așteptare',
+                ],
+                'ranked' => [
+                    'title' => 'Beatmap-uri Clasate',
                 ],
             ],
             'discussions' => [
@@ -227,20 +329,23 @@ return [
                 'title' => 'Istoric',
 
                 'monthly_playcounts' => [
-                    'title' => 'Istoricul jocurilor',
-                    'count_label' => 'Jocuri',
+                    'title' => 'Istoric Încercări',
+                    'count_label' => 'Încercări',
                 ],
                 'most_played' => [
                     'count' => 'jucat de',
-                    'title' => 'Cele mai jucate beatmaps',
+                    'title' => 'Cele mai jucate beatmap-uri',
                 ],
                 'recent_plays' => [
                     'accuracy' => 'precizie: :percentage',
-                    'title' => 'Jocuri recente (24 de ore)',
+                    'title' => 'Încercări Recente (24 de ore)',
                 ],
                 'replays_watched_counts' => [
                     'title' => 'Istoricul reluărilor vizionate',
-                    'count_label' => 'Reluări vizionate',
+                    'count_label' => 'Reluări Vizionate',
+                ],
+                'score_replay_stats' => [
+                    'title' => '',
                 ],
             ],
             'kudosu' => [
@@ -288,7 +393,7 @@ return [
                 ],
 
                 'total_info' => [
-                    '_' => 'Bazat pe cât de multă contribuție acest utilizator a făcut la moderarea beatmap-ului. Vezi :link pentru mai multe informații.',
+                    '_' => 'Bazat pe cât de mult a contribuit utilizatorul la moderarea unui beatmap. Vezi :link pentru mai multe informații.',
                     'link' => 'această pagină',
                 ],
             ],
@@ -300,26 +405,44 @@ return [
                 'recent' => 'Recente',
                 'title' => 'Medalii',
             ],
+            'playlists' => [
+                'title' => 'Playlist Jocuri',
+            ],
             'posts' => [
                 'title' => 'Postări',
                 'title_longer' => 'Postări recente',
                 'show_more' => 'vedeți mai multe postări',
             ],
+            'ranked-play' => [
+                'title' => '',
+            ],
             'recent_activity' => [
                 'title' => 'Recent',
             ],
+            'realtime' => [
+                'title' => 'Meciuri multiplayer',
+            ],
             'top_ranks' => [
-                'download_replay' => 'Descarcă replay-ul',
-                'not_ranked' => 'Numai beatmaps clasate acordă pp.',
+                'download_replay' => 'Descarcă Reluarea',
+                'not_ranked' => 'Numai beatmap-uri clasate acordă pp',
                 'pp_weight' => 'ponderat :percentage',
-                'view_details' => 'Vezi detalii',
+                'view_details' => 'Vezi Detalii',
                 'title' => 'Clasamente',
 
                 'best' => [
-                    'title' => 'Cele mai bune performanțe',
+                    'title' => 'Performanțe de Top',
                 ],
                 'first' => [
-                    'title' => 'Primele locuri',
+                    'title' => 'Primele Locuri',
+                ],
+                'pin' => [
+                    'to_0' => 'Defixează',
+                    'to_0_done' => 'Scor defixat',
+                    'to_1' => 'Fixează',
+                    'to_1_done' => 'Scor fixat',
+                ],
+                'pinned' => [
+                    'title' => 'Scoruri Fixate',
                 ],
             ],
             'votes' => [
@@ -327,25 +450,26 @@ return [
                 'received' => 'Voturi Primite (ultimele 3 luni)',
                 'title' => 'Voturi',
                 'title_longer' => 'Voturi recente',
-                'vote_count' => ':count_delimited vot|:count_delimited voturi',
+                'vote_count' => 'un vot|:count_delimited voturi|:count_delimited de voturi',
             ],
             'account_standing' => [
                 'title' => 'Starea contului',
-                'bad_standing' => "Contul lui <strong>:username</strong> nu este într-o stare prea bună :(",
-                'remaining_silence' => '<strong>:username</strong> va putea să vorbească din nou în :duration.',
+                'bad_standing' => "Contul lui :username nu este într-o stare prea bună :(",
+                'remaining_silence' => ':username va putea să vorbească din nou în :duration.',
 
                 'recent_infringements' => [
                     'title' => 'Sancțiuni recente',
                     'date' => 'data',
                     'action' => 'acțiune',
                     'length' => 'durată',
-                    'length_permanent' => 'Permanent',
+                    'length_indefinite' => 'Nedeterminată',
                     'description' => 'descriere',
                     'actor' => 'de :username',
 
                     'actions' => [
                         'restriction' => 'Interdicție',
-                        'silence' => 'Amuțire',
+                        'silence' => 'Mut',
+                        'tournament_ban' => 'Interdicție turnee',
                         'note' => 'Notă',
                     ],
                 ],
@@ -355,11 +479,24 @@ return [
         'info' => [
             'discord' => '',
             'interests' => 'Interese',
-            'location' => 'Locația curentă',
+            'location' => 'Locația actuală',
             'occupation' => 'Ocupație',
             'twitter' => '',
             'website' => 'Site web',
         ],
+
+        'matchmaking' => [
+            'losses' => '',
+            'plays' => '',
+            'rank' => '',
+            'rating' => '',
+            'recent_history' => '',
+            'recent_history_provisional' => '',
+            'tier' => '',
+            'title' => '',
+            'wins' => '',
+        ],
+
         'not_found' => [
             'reason_1' => 'S-ar putea să-și fi schimbat numele de utilizator.',
             'reason_2' => 'Contul tău poate fi indisponibil momentan din cauza problemelor legate de securitate sau abuz.',
@@ -375,43 +512,62 @@ return [
 
             'restriction_info' => [
                 '_' => 'Trebuie să fii un :link să deblochezi acest feature.',
-                'link' => 'osu!ajutător',
+                'link' => 'suporter osu!',
             ],
         ],
         'post_count' => [
             '_' => 'A contribuit la :link',
-            'count' => ':count postare pe forum|:count posări pe forum',
+            'count' => 'o postare pe forum|:count_delimited postări pe forum|:count_delimited de postări pe forum',
         ],
         'rank' => [
-            'country' => 'Clasament pe țară pentru :mode',
-            'country_simple' => 'Clasament pe țară',
-            'global' => 'Clasament global pentru :mode',
-            'global_simple' => 'Clasament global',
+            'country' => 'Rang național pentru :mode',
+            'country_simple' => 'Clasament Național',
+            'global' => 'Rang global pentru :mode',
+            'global_simple' => 'Rang Global',
+            'highest' => 'Rang maxim :rank atins pe :date',
+            'kudosu_outside_top_1000' => '',
+            'kudosu_simple' => '',
+        ],
+        'score_processing' => [
+            'title' => '',
+            'title_link' => '',
+            'message' => '',
+        ],
+        'season_stats' => [
+            'division_top_percentage' => 'Top :value',
+            'label' => '',
+            'total_score' => 'Scor total',
+        ],
+        'solo' => [
+            'title' => '',
         ],
         'stats' => [
             'hit_accuracy' => 'Precizie',
+            'hits_per_play' => 'Clicuri Pe Scor',
             'level' => 'Nivelul :level',
             'level_progress' => 'Progres până la nivelul următor',
-            'maximum_combo' => 'Combo maxim',
+            'maximum_combo' => 'Combo Maxim',
             'medals' => 'Medalii',
-            'play_count' => 'Număr de jocuri',
+            'play_count' => 'Număr de Încercări',
             'play_time' => 'Timpul total de joc',
-            'ranked_score' => 'Scor clasat',
-            'replays_watched_by_others' => 'Istoria reluărilor vizionate de alții',
-            'score_ranks' => 'Clasament de scoruri',
-            'total_hits' => 'Număr de clicuri',
-            'total_score' => 'Scor total',
+            'ranked_score' => 'Scor Clasat',
+            'replays_watched_by_others' => 'Reluări Vizionate de Alții',
+            'score_ranks' => 'Clasamente Scoruri',
+            'total_hits' => 'Număr de Clicuri',
+            'total_score' => 'Scor Total',
             // modding stats
-            'ranked_and_approved_beatmapset_count' => 'Beatmap-uri Clasate & Aprobate',
-            'loved_beatmapset_count' => 'Beatmap-uri iubite',
-            'unranked_beatmapset_count' => 'Beatmap-uri în așteptare',
-            'graveyard_beatmapset_count' => 'Beatmap-uri Îngropate',
+            'graveyard_beatmapset_count' => 'Beatmap-uri Inactive',
+            'guest_beatmapset_count' => '',
+            'loved_beatmapset_count' => 'Beatmap-uri Iubite',
+            'nominated_beatmapset_count' => '',
+            'pending_beatmapset_count' => 'Beatmap-uri în Așteptare',
+            'ranked_beatmapset_count' => 'Beatmap-uri Clasate',
         ],
     ],
 
     'silenced_banner' => [
-        'title' => '',
-        'message' => '',
+        'title' => 'Ești momentan mut.',
+        'message' => 'Unele acțiuni pot fi indisponibile.',
     ],
 
     'status' => [
@@ -419,7 +575,15 @@ return [
         'online' => 'Online',
         'offline' => 'Offline',
     ],
+    'relationship' => [
+        'title' => '',
+        'all' => '',
+        'mutual' => '',
+        'non_mutual' => '',
+    ],
     'store' => [
+        'from_client' => 'te rugăm să te înregistrezi prin intermediul jocului!',
+        'from_web' => 'te rugăm să finalizezi înregistrarea prin site-ul osu!',
         'saved' => 'Utilizator creat',
     ],
     'verify' => [

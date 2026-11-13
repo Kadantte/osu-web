@@ -14,7 +14,7 @@ class GroupTest extends TestCase
     public function testRename()
     {
         $newName = 'new name';
-        $group = factory(Group::class)->create(['group_name' => 'name']);
+        $group = Group::factory()->create(['group_name' => 'name']);
         $groupRenameEventCount = $this->getGroupRenameEventCount($group);
 
         $group->rename($newName);
@@ -26,12 +26,21 @@ class GroupTest extends TestCase
     public function testRenameUnchanged()
     {
         $name = 'name';
-        $group = factory(Group::class)->create(['group_name' => $name]);
+        $group = Group::factory()->create(['group_name' => $name]);
         $groupRenameEventCount = $this->getGroupRenameEventCount($group);
 
         $group->rename($name);
 
         $this->assertSame($this->getGroupRenameEventCount($group), $groupRenameEventCount);
+    }
+
+    public function testResetCacheOnSave()
+    {
+        $previousCacheVersion = app('groups')->all();
+
+        Group::create(['group_desc' => '']);
+
+        $this->assertNotSame($previousCacheVersion, app('groups')->all());
     }
 
     private function getGroupRenameEventCount(Group $group): int

@@ -19,9 +19,9 @@ return [
     ],
 
     'buttons' => [
-        'admin' => 'المشرف',
-        'authorise' => 'استأِذان',
-        'authorising' => 'استأِذان...',
+        'authorise' => 'سماح',
+        'authorising' => 'جارٍ التحقق...',
+        'back' => 'رجوع',
         'back_to_previous' => 'العودة إلى الحالة السابقة',
         'back_to_top' => 'العودة إلى الأعلى',
         'cancel' => 'إلغاء',
@@ -39,11 +39,13 @@ return [
         'pin' => 'ثبّت',
         'post' => 'نشر',
         'read_more' => 'إقرأ المزيد',
+        'refresh' => 'تحديث',
         'reply' => 'رد',
         'reply_reopen' => 'الرد وإعادة فتح',
         'reply_resolve' => 'الرد والاِصلاح',
         'reset' => 'إعادة تعيين',
         'restore' => 'استعادة',
+        'retry' => 'إعادة المحاولة',
         'save' => 'حفظ',
         'saving' => 'جاري الحفظ...',
         'search' => 'البحث',
@@ -53,6 +55,7 @@ return [
         'show_less' => 'إظهار أقل',
         'show_more' => 'إعرض المزيد',
         'show_more_options' => 'إظهار خيارات أكثر',
+        'submit' => 'تقديم',
         'unpin' => 'ألغ التثبيت',
         'update' => 'تحديث',
         'upload_image' => 'رفع صورة',
@@ -73,6 +76,7 @@ return [
         'minutes' => ':count_delimited دقيقة|:count_delimited دقائق',
         'months' => ':count_delimited شهر|:count_delimited أشهر',
         'notifications' => ':count_delimited أِشعار|:count_delimited أِشعارات',
+        'player' => ':count_delimited لاعب|:count_delimited لاعبين',
         'plus_others' => '+ :count_delimited اخر!|+ :count_delimited اخرون!',
         'post' => ':count_delimited منشور|:count_delimited منشورات',
         'second_short_unit' => 'ثانية|ثواني',
@@ -90,6 +94,12 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => '',
+        ],
+        'year' => [
+            'php' => '',
+        ],
         'year_month' => [
             'moment' => 'MMMM YYYY',
             'php' => 'MMMM y',
@@ -133,10 +143,10 @@ return [
         'dd' => '%d يوم',
         'h' => '%d ساعة',
         'hh' => '%d ساعة',
-        'M' => '%d شهر',
         'm' => '%d دقيقة',
-        'MM' => '%d شهر',
         'mm' => '%d دقيقة',
+        'month' => '%d شهر',
+        'months' => '%d شهر',
         'past' => '',
         's' => '%d ثانية',
         'y' => '%d سنة',

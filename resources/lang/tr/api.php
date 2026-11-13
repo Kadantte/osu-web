@@ -17,15 +17,22 @@ return [
         'identify' => 'Kim olduğunuzu ve herkese açık profilinizi görüntüleyebilir.',
 
         'chat' => [
+            'read' => 'Sizin adınıza mesajları okuyun.',
             'write' => 'Sizin adınıza mesaj gönderebilir.',
+            'write_manage' => 'Kanallara sizin adınıza katılın ve ayrılın.',
         ],
 
         'forum' => [
             'write' => 'Sizin adınıza forum konuları ve gönderileri oluşturabilir ve düzenleyebilir.',
+            'write_manage' => 'Senin adına forum konularını ve gönderilerini yönetir.',
         ],
 
         'friends' => [
             'read' => 'Kimi takip ettiğinizi görebilir.',
+        ],
+
+        'multiplayer' => [
+            'write_manage' => 'Senin adına çok oyunculu odalar oluşturur ve yönetir.',
         ],
 
         'public' => 'Herkese açık verilerinizi sizin adınıza okuyabilir.',

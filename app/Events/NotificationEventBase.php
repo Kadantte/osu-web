@@ -9,7 +9,7 @@ use App\Libraries\MorphMap;
 use App\Models\Notification;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-abstract class NotificationEventBase implements ShouldBroadcast
+abstract class NotificationEventBase extends BroadcastableEventBase implements ShouldBroadcast
 {
     public $broadcastQueue;
 
@@ -24,6 +24,6 @@ abstract class NotificationEventBase implements ShouldBroadcast
 
     public function __construct()
     {
-        $this->broadcastQueue = config('osu.notification.queue_name');
+        $this->broadcastQueue = $GLOBALS['cfg']['osu']['notification']['queue_name'];
     }
 }

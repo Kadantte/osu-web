@@ -15,14 +15,33 @@ return [
     'top' => 'Top',
     'username' => 'Brugernavn',
 
+    'artist_tracks' => [
+        'album' => 'Album',
+        'artist' => 'Kunstner',
+        'bpm' => 'BPM',
+        'genre' => 'Genre',
+        'length' => 'Længde',
+        'relevance' => 'Relevans',
+        'title' => 'Titel',
+        'update' => 'Opdater',
+    ],
+
     'forum_posts' => [
         'created' => 'Oprettelsestid',
         'relevance' => 'Relevans',
     ],
 
     'forum_topics' => [
+        'created' => 'Oprettet',
         'feature_votes' => 'Stjerne prioritet',
         'new' => 'Seneste svar',
+    ],
+
+    'teams' => [
+        'created' => '',
+        'relevance' => 'Relevans',
+        'name' => 'Navn',
+        'short-name' => 'Kort Navn',
     ],
 
     'users' => [

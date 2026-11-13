@@ -5,6 +5,7 @@
 
 namespace App\Libraries\Payments;
 
+use App\Exceptions\InvalidSignatureException;
 use Illuminate\Http\Request;
 
 class ShopifySignature implements PaymentSignature
@@ -17,19 +18,24 @@ class ShopifySignature implements PaymentSignature
         $this->request = $request;
     }
 
-    public function isValid()
+    public function assertValid(): void
     {
         $received = $this->receivedSignature();
-        \Log::debug("ShopifySignature::isValidSignature calc: {$this->calculatedSignature()}, signed: {$received}");
 
-        return $received === null
-            ? false
-            : hash_equals($this->calculatedSignature(), $received);
+        if ($received === null) {
+            throw new InvalidSignatureException('missing signature');
+        }
+
+        $calculated = $this->calculatedSignature();
+
+        if (!hash_equals($calculated, $received)) {
+            throw new InvalidSignatureException('hash mismatch', compact('calculated', 'received'));
+        }
     }
 
     public static function calculateSignature(string $content)
     {
-        return base64_encode(hash_hmac('sha256', $content, config('payments.shopify.webhook_key'), true));
+        return base64_encode(hash_hmac('sha256', $content, $GLOBALS['cfg']['payments']['shopify']['webhook_key'], true));
     }
 
     private function receivedSignature()

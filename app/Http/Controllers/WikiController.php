@@ -7,11 +7,10 @@ namespace App\Http\Controllers;
 
 use App\Libraries\LocaleMeta;
 use App\Libraries\OsuWiki;
-use App\Libraries\Search\WikiSuggestions;
-use App\Libraries\Search\WikiSuggestionsRequestParams;
 use App\Libraries\Wiki\WikiSitemap;
 use App\Libraries\WikiRedirect;
 use App\Models\Wiki;
+use App\Transformers\WikiPageTransformer;
 use Request;
 
 /**
@@ -30,7 +29,8 @@ class WikiController extends Controller
      *
      * Returns [WikiPage](#wikipage).
      *
-     * @urlParam page The path name of the wiki page.
+     * @urlParam locale string required Two-letter language code of the wiki page. Example: en
+     * @urlParam path string required The path name of the wiki page. Example: Welcome
      */
     public function show($locale = null, $path = null)
     {
@@ -45,7 +45,7 @@ class WikiController extends Controller
         if (OsuWiki::isImage($path)) {
             $prependPath = $locale === 'images' || $cleanLocale === null ? $locale : null;
 
-            return ujs_redirect(route('wiki.image', concat_path([$prependPath, $path])));
+            return ujs_redirect(wiki_image_url(concat_path([$prependPath, $path])));
         }
 
         // if invalid locale, assume locale to be part of path and
@@ -61,13 +61,14 @@ class WikiController extends Controller
             return ujs_redirect(wiki_url($path, $queryLocale));
         }
 
-        // normalize path by making sure no trailing slash
-        if (substr(request()->getPathInfo(), -1) === '/') {
+        // normalize path by making sure no trailing slash and encoded forward slash (%2F)
+        $rawPath = request()->getPathInfo();
+        if (substr($rawPath, -1) === '/' || strpos($rawPath, '%2F') !== false) {
             return ujs_redirect(wiki_url(rtrim($path, '/'), $locale));
         }
 
         // legal pages should be displayed with their own style etc
-        if (starts_with("{$path}/", "Legal/")) {
+        if (starts_with("{$path}/", 'Legal/') && !is_api_request()) {
             return ujs_redirect(wiki_url($path, $locale));
         }
 
@@ -102,10 +103,17 @@ class WikiController extends Controller
                 return response(null, 404);
             }
 
-            return json_item($page, 'WikiPage');
+            return json_item($page, new WikiPageTransformer());
         }
 
-        return ext_view($page->template(), compact('page'), null, $status ?? null);
+        set_opengraph($page);
+
+        return ext_view(
+            $page->template(),
+            ['contentLocale' => $page->locale, 'page' => $page],
+            null,
+            $status ?? null
+        );
     }
 
     public function image($path)
@@ -114,16 +122,16 @@ class WikiController extends Controller
             return response('Invalid file format', 422);
         }
 
-        $image = Wiki\Image::lookupForController($path, Request::url(), Request::header('referer'));
-
-        request()->attributes->set('strip_cookies', true);
+        $image = (new Wiki\Image($path))->sync();
 
         if (!$image->isVisible()) {
             return response('Not found', 404);
         }
 
-        return response($image->get()['content'], 200)
-            ->header('Content-Type', $image->get()['type'])
+        $imageData = $image->get();
+
+        return response($imageData['content'], 200)
+            ->header('Content-Type', $imageData['type'])
             // 10 years max-age
             ->header('Cache-Control', 'max-age=315360000, public');
     }
@@ -138,22 +146,6 @@ class WikiController extends Controller
             'locale' => $locale,
             'sitemap' => WikiSitemap::get(),
         ]);
-    }
-
-    public function suggestions()
-    {
-        $search = new WikiSuggestions(new WikiSuggestionsRequestParams(request()->all()));
-
-        $response = [];
-        foreach ($search->response() as $hit) {
-            $response[] = [
-                'highlight' => $hit->highlights('title.autocomplete')[0],
-                'path' => $hit->source('path'),
-                'title' => $hit->source('title'),
-            ];
-        }
-
-        return $response;
     }
 
     public function update($locale, $path)

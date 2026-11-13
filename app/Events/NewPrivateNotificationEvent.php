@@ -6,6 +6,7 @@
 namespace App\Events;
 
 use App\Models\Notification;
+use App\Transformers\NotificationTransformer;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 
@@ -13,17 +14,14 @@ class NewPrivateNotificationEvent extends NotificationEventBase
 {
     use SerializesModels;
 
-    public $notification;
-    private $receiverIds;
-
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Notification $notification, array $receiverIds)
+    public function __construct(public Notification $notification, private array $receiverIds)
     {
-        parent::__construct($notification);
+        parent::__construct();
 
         $this->notification = $notification;
         $this->receiverIds = $receiverIds;
@@ -48,7 +46,7 @@ class NewPrivateNotificationEvent extends NotificationEventBase
 
     public function broadcastWith()
     {
-        return json_item($this->notification, 'Notification');
+        return json_item($this->notification, new NotificationTransformer());
     }
 
     public function getReceiverIds()

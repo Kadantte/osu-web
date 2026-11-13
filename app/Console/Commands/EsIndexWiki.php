@@ -22,7 +22,7 @@ class EsIndexWiki extends Command
      *
      * @var string
      */
-    protected $signature = 'es:index-wiki {--create-only} {--inplace} {--cleanup} {--yes}';
+    protected $signature = 'es:index-wiki {--create-only} {--inplace} {--cleanup}';
 
     /**
      * The console command description.
@@ -36,7 +36,6 @@ class EsIndexWiki extends Command
     private $indexName;
     private $indicesToRemove;
     private $inplace;
-    private $yes;
 
     public function handle()
     {
@@ -58,7 +57,8 @@ class EsIndexWiki extends Command
 
         $continue = $this->starterMessage();
         if (!$continue) {
-            return $this->error('User aborted!');
+            $this->error('User aborted!');
+            return;
         }
 
         if (!Es::getClient()->indices()->exists(['index' => [$this->indexName]])) {
@@ -91,7 +91,7 @@ class EsIndexWiki extends Command
     {
         return (new BasicSearch($this->indexName))
             ->query(['match_all' => new \stdClass()])
-            ->sort(new Sort('_id', 'asc'))
+            ->sort([new Sort('path.keyword', 'asc'), new Sort('locale.keyword', 'asc')])
             ->source(false);
     }
 
@@ -100,7 +100,6 @@ class EsIndexWiki extends Command
         $this->createOnly = $this->option('create-only');
         $this->inplace = $this->option('inplace');
         $this->cleanup = $this->option('cleanup');
-        $this->yes = $this->option('yes');
     }
 
     private function reindex()
@@ -121,7 +120,7 @@ class EsIndexWiki extends Command
 
         if ($this->inplace) {
             $this->line('Fetching existing list...');
-            $cursor = ['']; // works with Sort(_id, asc) to start at the beginning.
+            $cursor = ['', '']; // number of params for initial cursor must match number of sorts used.
             while ($cursor !== null) {
                 $search = $this->newBaseSearch()->searchAfter(array_values($cursor));
                 $response = $search->response();
@@ -137,10 +136,13 @@ class EsIndexWiki extends Command
         $total = count($paths);
         $this->line("Total: {$total} documents");
         $bar = $this->output->createProgressBar($total);
+        $bar->setFormat(' %current% [%bar%] %message%');
+        $logger = fn ($message) => $bar->setMessage($message);
 
         foreach ($paths as $path => $_inEs) {
             $pagePath = Page::parsePagePath($path);
             $page = new Page($pagePath['path'], $pagePath['locale']);
+            $page->logger = $logger;
             $page->sync(true, $this->indexName);
 
             if (!$page->isVisible()) {
@@ -164,7 +166,7 @@ class EsIndexWiki extends Command
             );
         }
 
-        return $this->yes || $this->confirm("This index to {$this->indexName}, begin indexing?");
+        return $this->option('no-interaction') || $this->confirm("This index to {$this->indexName}, begin indexing?", true);
     }
 
     private function updateSitemap()

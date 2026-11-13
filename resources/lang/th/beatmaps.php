@@ -4,9 +4,15 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => 'รูลเซ็ตที่เลือกไม่ถูกต้อง',
+
+    'change_owner' => [
+        'too_many' => 'มีผู้มีส่วนร่วมมากเกินไป',
+    ],
+
     'discussion-votes' => [
         'update' => [
-            'error' => 'อัปเดตโหวตล้มเหลว',
+            'error' => 'ไม่สามารถอัปเดตการลงคะแนน',
         ],
     ],
 
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'ปฏิเสธการให้ kudosu',
         'edit' => 'แก้ไข',
         'edited' => 'แก้ไขล่าสุดโดย :editor เมื่อเวลา :update_time',
+        'guest' => 'ระดับความยากโดย :user',
         'kudosu_denied' => 'ถูกปฏิเสธการให้ kudosu',
+        'include_replies' => '',
         'message_placeholder_deleted_beatmap' => 'ระดับความยากนี้ถูกลบแล้วจึงไม่ควรถูกสนทนาถึง',
         'message_placeholder_locked' => 'การสนทนาสำหรับบีทแมพนี้ถูกปิดใช้งาน',
         'message_placeholder_silenced' => "ไม่สามารถโพสต์การสนทนาในขณะที่โดนเงียบ",
         'message_type_select' => 'เลือกประเภทความคิดเห็น',
         'reply_notice' => 'กด Enter เพื่อตอบกลับ',
+        'reply_resolve_notice' => 'กด Enter เพื่อตอบกลับ กด Ctrl+Enter เพื่อตอบกลับและแก้ไข',
         'reply_placeholder' => 'พิมพ์คำตอบกลับที่นี่',
         'require-login' => 'กรุณาเข้าสู่ระบบเพื่อโพสต์หรือตอบกลับ',
         'resolved' => 'แก้ไขแล้ว',
         'restore' => 'กู้คืน',
         'show_deleted' => 'แสดงรายการที่ถูกลบ',
+        'show_other_replies' => '',
         'title' => 'การสนทนา',
+        'unresolved_count' => ':count_delimited ปัญหาที่ยังไม่ได้รับการแก้ไข|:count_delimited ปัญหาที่ยังไม่ได้รับการแก้ไข',
 
         'collapse' => [
             'all-collapse' => 'ซ่อนทั้งหมด',
@@ -72,8 +83,21 @@ return [
             'nomination_reset' => 'รีเซทการเสนอชื่อ',
             'praise' => 'ชื่นชม',
             'problem' => 'ข้อผิดพลาด',
+            'problem_warning' => 'รายงานปัญหา',
             'review' => 'บทวิจารณ์',
             'suggestion' => 'ข้อเสนอแนะ',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => 'โพสต์การตัดสิทธิ์',
+            'hype' => 'โพสต์ Hype!',
+            'mapper_note' => 'โพสต์หมายเหตุ',
+            'nomination_reset' => 'ลบการเสนอชื่อทั้งหมด',
+            'praise' => 'โพสต์การชื่นชม',
+            'problem' => 'โพสต์ปัญหา',
+            'problem_warning' => 'โพสต์ปัญหา',
+            'review' => 'โพสต์รีวิว',
+            'suggestion' => 'โพสต์คำแนะนำ',
         ],
 
         'mode' => [
@@ -108,6 +132,7 @@ return [
                 ],
             ],
             'insert-block' => [
+                'mapper_note' => '',
                 'paragraph' => 'แทรกย่อหน้า',
                 'praise' => 'ชื่นชม',
                 'problem' => 'เพิ่มปัญหา',
@@ -136,9 +161,9 @@ return [
         ],
 
         'status-messages' => [
-            'approved' => 'Beatmap นี้ถูกอนุมัติในวันที่ :date',
+            'approved' => 'บีทแมพนี้ถูกอนุมัติในวันที่ :date',
             'graveyard' => "บีทแมพนี้ไม่ถูกอัปเดตตั้งแต่ :date และน่าจะถูกละทิ้งโดยผู้ทำแมพไปแล้ว",
-            'loved' => 'บีทแมพนี้ถูก Loved ในวันที่ :date',
+            'loved' => 'บีทแมพนี้ถูกเพิ่มในเลิฟด์ในวันที่ :date',
             'ranked' => 'บีทแมพนี้ถูกจัดอันดับในวันที่ :date',
             'wip' => 'บีทแมพนี้ถูกทำเครื่องหมายไว้ว่าอยู่ในระหว่างการทำ',
         ],
@@ -156,7 +181,7 @@ return [
     ],
 
     'hype' => [
-        'button' => 'Hype Beatmap!',
+        'button' => 'Hype บีทแมพ!',
         'button_done' => 'Hype ไปแล้ว!',
         'confirm' => "แน่ใจหรอ นี่จะใช้หนึ่งใน :n Hype ที่เหลือของคุณและไม่สามารถแก้ไขได้",
         'explanation' => 'Hype บีทแมพนี้เพื่อทำให้ง่ายขึ้นต่อการเสนอชื่อและจัดอันดับ',
@@ -173,6 +198,8 @@ return [
     ],
 
     'nominations' => [
+        'already_nominated' => 'คุณได้เสนอชื่อบีทแมพนี้แล้ว',
+        'cannot_nominate' => 'คุณไม่สามารถเสนอชื่อโหมดเกมของบีทแมพนี้ได้',
         'delete' => 'ลบ',
         'delete_own_confirm' => 'คุณแน่ใจใช่ไหม? บีทแมพจะถูกลบและคุณจะถูกนำกลับไปยังหน้าโปรไฟล์ของคุณ',
         'delete_other_confirm' => 'คุณแน่ใจใช่ไหม? บีทแมพจะถูกลบและคุณจะถูกนำกลับไปยังหน้าโปรไฟล์ของผู้เล่น',
@@ -181,14 +208,15 @@ return [
         'disqualified_no_reason' => 'ไม่มีเหตุผลที่ระบุไว้',
         'disqualify' => 'ตัดสิทธิ์',
         'incorrect_state' => 'เกิดข้อผิดพลาดในการดำเนินการ ลองรีเฟรชหน้าเพจนี้ดู',
-        'love' => 'Love',
+        'love' => 'ชอบ',
+        'love_choose' => 'เลือกระดับความยากสำหรับเลิฟด์',
         'love_confirm' => 'ชอบบีทแมพนี้หรือ?',
         'nominate' => 'เสนอชื่อ',
         'nominate_confirm' => 'เสนอชื่อบีทแมพนี้?',
         'nominated_by' => 'เสนอชื่อโดย :users',
         'not_enough_hype' => "ไม่มี Hype เพียงพอ",
-        'remove_from_loved' => 'ถูกนำออกจาก Loved',
-        'remove_from_loved_prompt' => 'เหตุผลในการถูกออกจาก Loved',
+        'remove_from_loved' => 'ถูกนำออกจากเลิฟด์',
+        'remove_from_loved_prompt' => 'เหตุผลที่นำออกจากเลิฟด์',
         'required_text' => 'การเสนอชื่อ: :current/:required',
         'reset_message_deleted' => 'ถูกลบไปแล้ว',
         'title' => 'ข้อมูลการเสนอชื่อ',
@@ -196,8 +224,11 @@ return [
 
         'rank_estimate' => [
             '_' => 'แมพนี้จะถูก ranked  ใน :date ถ้าไม่พบเจอปัญหาเพิ่มเติม แมพนี้อยู่ที่ #:position ใน :queue',
-            'queue' => 'คิวการ rank',
-            'soon' => 'เร็ว ๆ นี้',
+            'unresolved_problems' => 'ขณะนี้แผนที่นี้ถูกบล็อกไม่ให้ออกจากส่วนที่ผ่านการรับรองจนกว่า :problems จะได้รับการแก้ไข',
+            'problems' => 'ปัญหาเหล่านี้',
+            'on' => 'เมื่อ :date',
+            'queue' => 'คิวการจัดอันดับ',
+            'soon' => 'เร็วๆ นี้',
         ],
 
         'reset_at' => [
@@ -206,8 +237,9 @@ return [
         ],
 
         'reset_confirm' => [
-            'nomination_reset' => 'คุณแน่ใจหรือ? ในการโพสต์ปัญหาใหม่จะรีเซ็ตการเสนอชื่อ',
             'disqualify' => 'คุณแน่ใจใช่หรือไม่? ที่จะลบบีทแมพออกและรีเซ็ตความคืบหน้า',
+            'nomination_reset' => 'คุณแน่ใจหรือ? ในการโพสต์ปัญหาใหม่จะรีเซ็ตการเสนอชื่อ',
+            'problem_warning' => 'คุณแน่ใจที่จะรายงานปัญหาบนบีทแมพนี้หรือไม่ รายงานนี้จะถูกแจ้งเตือนไปยัง Beatmap Nominators',
         ],
     ],
 
@@ -216,7 +248,8 @@ return [
             'prompt' => 'พิมพ์คำสำคัญ...',
             'login_required' => 'ลงชื่อเข้าใช้เพื่อค้นหา',
             'options' => 'ตัวเลือกการค้นหาเพิ่มเติม',
-            'supporter_filter' => 'กรองโดย :filters ต้องมี osu!supporter tag ทำงานอยู่',
+            'rank_filter_note' => 'จำนวนแรงค์สูงสุดและผลลัพธ์ในหน้านี้ขึ้นอยู่กับ "คะแนน Standardized" (หรือก็คือ "คะแนน lazer") ที่คุณทำได้',
+            'supporter_filter' => 'การกรองด้วย :filters จำเป็นต้องมีแท็กผู้สนับสนุนที่ทำงานอยู่',
             'not-found' => 'ไม่มีผลการค้นหา',
             'not-found-quote' => '... ไม่อ่ะ ไม่เจออะไรเลย',
             'filters' => [
@@ -244,14 +277,20 @@ return [
             ],
             'supporter_filter_quote' => [
                 '_' => 'กรองโดย :filters ต้องมี :link ทำงานอยู่',
-                'link_text' => 'แท็กสนับสนุน',
+                'link_text' => 'แท็กผู้สนับสนุน osu!',
+            ],
+            'tag_picker' => [
+                'tooltip' => '',
+                'prompt' => '',
             ],
         ],
     ],
     'general' => [
-        'converts' => 'รวมแมพคอนเวิรต์ด้วย',
+        'converts' => 'รวมบีทแมพที่แปลงแล้ว',
+        'featured_artists' => 'ศิลปินโดดเด่น',
         'follows' => 'ติดตามผู้ทำแมพ',
         'recommended' => 'ระดับความยากที่แนะนำ',
+        'spotlights' => 'บีทแมพสปอตไลท์',
     ],
     'mode' => [
         'all' => 'ทั้งหมด',
@@ -260,6 +299,7 @@ return [
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => 'ยังไม่ได้ตั้ง',
     ],
     'status' => [
         'any' => 'ไม่เจาะจง',
@@ -267,10 +307,11 @@ return [
         'favourites' => 'รายการโปรด',
         'graveyard' => 'สุสาน',
         'leaderboard' => 'สถิติการจัดลำดับ',
-        'loved' => 'Loved',
+        'loved' => 'เลิฟด์',
         'mine' => 'แมพของฉัน',
-        'pending' => 'รอดำเนินการ & WIP',
-        'qualified' => 'Qualified',
+        'pending' => 'รอดำเนินการ',
+        'wip' => 'WIP',
+        'qualified' => 'ผ่านการรับรอง',
         'ranked' => 'จัดอันดับแล้ว',
     ],
     'genre' => [
@@ -289,34 +330,8 @@ return [
         'folk' => 'โฟล์ค',
         'jazz' => 'แจ๊ส',
     ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => 'Score V2',
-    ],
     'language' => [
-        'any' => 'Any',
+        'any' => 'ไม่เจาะจง',
         'english' => 'อังกฤษ',
         'chinese' => 'จีน',
         'french' => 'ฝรั่งเศส',
@@ -326,8 +341,8 @@ return [
         'korean' => 'เกาหลี',
         'spanish' => 'สเปน',
         'swedish' => 'สวีเดน',
-        'russian' => 'ภาษารัสเซีย',
-        'polish' => 'ภาษาโปแลนด์',
+        'russian' => 'รัสเซีย',
+        'polish' => 'โปแลนด์',
         'instrumental' => 'เครื่องดนตรี',
         'other' => 'อื่นๆ',
         'unspecified' => 'ไม่ระบุภาษา',
@@ -360,7 +375,7 @@ return [
     ],
     'panel' => [
         'playcount' => 'จำนวนการเล่น: :count',
-        'favourites' => 'จำนวนการชื่นชอบ: :count',
+        'favourites' => 'รายการโปรด: :count',
     ],
     'variant' => [
         'mania' => [

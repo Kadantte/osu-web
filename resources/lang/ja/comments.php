@@ -5,10 +5,13 @@
 
 return [
     'deleted' => '削除済み',
+    'deleted_by' => ':timeagoに:userによって削除済み ',
+    'deleted_by_system' => 'システム',
     'deleted_count' => ':count_delimited個の削除されたコメント',
     'edited' => ':userが:timeagoに編集済み',
     'pinned' => 'ピン留め',
     'empty' => 'まだコメントがありません。',
+    'empty_other' => '他のコメントはまだありません。',
     'load_replies' => '返信を読み込む',
     'replies_count' => ':count_delimited 返信',
     'title' => 'コメント',
@@ -38,6 +41,10 @@ return [
         'nav_comments' => 'コメント',
         'nav_title' => '一覧',
         'no_comments' => 'コメントは見つかりませんでした。',
+    ],
+
+    'ogp' => [
+        'title' => ':userのコメント',
     ],
 
     'placeholder' => [

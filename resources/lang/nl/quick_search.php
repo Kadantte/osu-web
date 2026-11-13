@@ -5,17 +5,29 @@
 
 return [
     'mode' => [
+        'artist_track' => 'Uitgelichte Artiestnummer',
         'beatmapset' => 'Beatmap',
         'forum_post' => 'Forum',
         'other' => 'Anders',
+        'team' => '',
         'user' => 'Speler',
         'wiki_page' => 'Wiki',
     ],
 
     'result' => [
-        'empty' => 'Geen resultaten',
-        'empty_for' => 'Geen resultaten voor :modes',
         'more' => 'Meer :mode zoekresultaten',
         'title' => ':mode zoekresultaten',
+
+        'no_results' => [
+            '_' => '',
+
+            'artist_track' => '',
+            'beatmapset' => '',
+            'forum_post' => '',
+            'other' => '',
+            'team' => '',
+            'user' => '',
+            'wiki_page' => '',
+        ],
     ],
 ];

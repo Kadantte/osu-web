@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'admin',
     ],
-    'admin_forum' => [
-        '_' => 'admin',
-    ],
-    'admin_store' => [
-        '_' => 'admin',
-    ],
     'error' => [
         'error' => [
             '400' => 'ugyldig forespørsel',
@@ -22,20 +16,19 @@ return [
             '401-verification' => 'kontobekreftelse',
             '405' => 'mangler',
             '422' => 'ugyldig forespørsel',
-            '429' => '',
+            '429' => 'for mange forespørsler',
             '500' => 'noe gikk i stykker',
             '503' => 'vedlikehold',
         ],
     ],
     'forum' => [
         '_' => 'forum',
-        'topic_watches_controller' => [
-            'index' => 'dashbord',
+        'topic_logs_controller' => [
+            'index' => 'emnelogger',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'dashbord',
             'verify_link' => 'kontobekreftelse',
         ],
         'artists_controller' => [
@@ -56,13 +49,11 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'beatmaphistorie',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'dashbord',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'beatmapdiskusjon',
             'index' => 'beatmapliste',
             'show' => 'beatmap info',
+            'versions' => '',
         ],
         'changelog_controller' => [
             '_' => 'endringslogg',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'kommentarer',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'konkurransedømmingsresultater',
+        ],
         'contests_controller' => [
             '_' => 'konkurranser',
+            'judge' => 'konkurransedømming',
         ],
-        'follows_controller' => [
-            'index' => '',
-        ],
-        'friends_controller' => [
-            'index' => 'dashbord',
+        'group_history_controller' => [
+            '_' => '',
         ],
         'groups_controller' => [
             'show' => 'grupper',
@@ -92,14 +84,14 @@ return [
             'support_the_game' => 'støtt spillet',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => '',
+        ],
         'legal_controller' => [
             '_' => 'informasjon',
         ],
         'livestreams_controller' => [
             '_' => 'direktesendinger',
-        ],
-        'matches_controller' => [
-            '_' => 'treff',
         ],
         'news_controller' => [
             '_' => 'nyheter',
@@ -116,31 +108,58 @@ return [
         'scores_controller' => [
             '_' => 'gjennomføring',
         ],
-        'store_controller' => [
-            '_' => 'osu!butikken',
+        'seasons_controller' => [
+            '_' => 'rangeringer',
+        ],
+        'teams_controller' => [
+            '_' => '',
+            'create' => '',
+            'edit' => '',
+            'leaderboard' => '',
+            'show' => '',
         ],
         'tournaments_controller' => [
             '_' => 'turneringer',
         ],
+        'user_cover_presets_controller' => [
+            '_' => '',
+        ],
+        'user_totp_controller' => [
+            '_' => '',
+        ],
         'users_controller' => [
             '_' => 'spillerinfo',
+            'create' => 'opprett konto',
             'disabled' => 'varsel',
         ],
         'wiki_controller' => [
-            '_' => 'kunnskapsbase',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'rangering',
+            'events' => '',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'autoriser app',
         ],
     ],
     'store' => [
-        '_' => 'osu!butikken',
+        '_' => 'butikk',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => '',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'modder info',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'flerspillerlogg',
         ],
     ],
 ];

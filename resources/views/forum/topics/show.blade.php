@@ -5,7 +5,6 @@
 @extends('master', [
     'titlePrepend' => $topic->topic_title,
     'canonicalUrl' => route('forum.topics.show', $topic->topic_id),
-    'pageDescription' => $topic->toMetaDescription(),
 ])
 
 @php
@@ -29,9 +28,13 @@
         'background' => $headerCover,
     ])
 
-    <div class="js-react--forum-post-report hidden"></div>
-    <div class="js-forum__topic-user-can-moderate hidden" data-user-can-moderate="{{ $userCanModerate }}"></div>
-    <div class="js-forum__topic-first-post-id hidden" data-first-post-id="{{ $topic->topic_first_post_id }}"></div>
+    <div class="js-react hidden" data-react="forum-post-report"></div>
+    <div
+        class="hidden js-forum--topic-meta"
+        data-user-can-moderate="{{ $userCanModerate }}"
+        data-first-post-id="{{ $topic->topic_first_post_id }}"
+        data-post-jump-to="{{ $jumpTo }}"
+    ></div>
 
     <div class="js-sticky-header"></div>
 
@@ -57,12 +60,13 @@
                         @endif
                     </div>
                     <div class="forum-topic-title__post-time">
-                        {!! trans("forum.post.posted_at", ["when" => timeago($topic->topic_time)]) !!}
+                        {!! osu_trans("forum.post.posted_at", ["when" => timeago($topic->topic_time)]) !!}
                     </div>
                 </div>
 
                 <div class="forum-topic-title__item forum-topic-title__item--counters">
                     <div class="grid-items">
+                        @include('forum.topics._header_watch_counter')
                         @include('forum.topics._header_total_counter', ['newTopic' => false])
 
                         @if ($userCanModerate)
@@ -80,7 +84,7 @@
                                 type="button"
                                 class="btn-osu-big btn-osu-big--forum-secondary js-forum-topic-title--cancel"
                             >
-                                {{ trans('common.buttons.cancel') }}
+                                {{ osu_trans('common.buttons.cancel') }}
                             </button>
                         </div>
 
@@ -89,7 +93,7 @@
                                 type="button"
                                 class="btn-osu-big btn-osu-big--forum-primary js-forum-topic-title--save"
                             >
-                                {{ trans('common.buttons.save') }}
+                                {{ osu_trans('common.buttons.save') }}
                             </button>
                         </div>
 
@@ -98,7 +102,7 @@
                                 type="button"
                                 class="btn-osu-big btn-osu-big--forum-secondary js-forum-topic-title--edit-start"
                             >
-                                {{ trans('forum.topics.edit_title.start') }}
+                                {{ osu_trans('forum.topics.edit_title.start') }}
                             </button>
                         </div>
                     @endif
@@ -129,8 +133,8 @@
             'arrow' => 'up',
             'attributes' => ['data-mode' => 'previous'],
             'hidden' => $posts->first()->post_id === $topic->topic_first_post_id,
-            'modifiers' => ['forum-topic'],
-            'url' => route('forum.topics.show', ['topic' => $topic, 'end' => ($posts->first()->post_id - 1), 'with_deleted' => $showDeleted ? '1' : '0']),
+            'modifiers' => 'forum-topic',
+            'url' => $navUrls['previous'],
         ])
 
         @include('forum.topics._posts')
@@ -139,8 +143,8 @@
             'additionalClasses' => 'js-forum-posts-show-more js-forum__posts-show-more--next',
             'attributes' => ['data-mode' => 'next'],
             'hidden' => $firstPostPosition + sizeof($posts) - 1 >= $topic->postCount(),
-            'modifiers' => ['forum-topic'],
-            'url' => route('forum.topics.show', ['topic' => $topic, 'start' => $posts->last()->post_id + 1, 'with_deleted' => $showDeleted ? '1' : '0']),
+            'modifiers' => 'forum-topic',
+            'url' => $navUrls['next'],
         ])
     </div>
 
@@ -152,12 +156,4 @@
     @parent
 
     @include('forum.topics._nav')
-@endsection
-
-@section('script')
-    @parent
-
-    <script data-turbolinks-eval="always">
-        window.postJumpTo = {{ $jumpTo }};
-    </script>
 @endsection

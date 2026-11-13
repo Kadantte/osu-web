@@ -10,7 +10,7 @@ return [
     'title' => 'osu!-foorumit',
 
     'covers' => [
-        'edit' => '',
+        'edit' => 'Muokkaa kantta',
 
         'create' => [
             '_' => 'Aseta kansikuva',
@@ -25,10 +25,11 @@ return [
     ],
 
     'forums' => [
-        'latest_post' => '',
+        'forums' => 'Foorumit',
+        'latest_post' => 'Viimeisin viesti',
 
         'index' => [
-            'title' => '',
+            'title' => 'Foorumien listaus',
         ],
 
         'topics' => [
@@ -47,24 +48,24 @@ return [
         'confirm_restore' => 'Haluatko varmasti palauttaa viestin?',
         'edited' => 'Viimeksi muokannut :user :when, muokattu yhteensä :count kertaa.',
         'posted_at' => 'lähetetty :when',
-        'posted_by' => '',
+        'posted_by_in' => 'lähettänyt :username foorumille :forum',
 
         'actions' => [
             'destroy' => 'Poista viesti',
             'edit' => 'Muokkaa viestiä',
-            'report' => '',
+            'report' => 'Ilmoita viesti',
             'restore' => 'Palauta viesti',
         ],
 
         'create' => [
             'title' => [
-                'reply' => '',
+                'reply' => 'Uusi vastaus',
             ],
         ],
 
         'info' => [
             'post_count' => ':count_delimited viesti|:count_delimited viestiä',
-            'topic_starter' => '',
+            'topic_starter' => 'Aiheen Aloittaja',
         ],
     ],
 
@@ -75,12 +76,13 @@ return [
     ],
 
     'topic' => [
-        'confirm_destroy' => '',
-        'confirm_restore' => '',
+        'confirm_destroy' => 'Haluatko varmasti poistaa aiheen?',
+        'confirm_restore' => 'Haluatko varmasti palauttaa aiheen?',
         'deleted' => 'poistettu aihe',
         'go_to_latest' => 'näytä viimeisin viesti',
-        'has_replied' => '',
-        'in_forum' => '',
+        'go_to_unread' => 'näytä ensimmäinen lukematon viesti',
+        'has_replied' => 'Olet vastannut tähän aiheeseen',
+        'in_forum' => ':forum -foorumissa',
         'latest_post' => ':when käyttäjältä :user',
         'latest_reply_by' => 'viimeisimmän vastauksen jätti :user',
         'new_topic' => 'Lähetä uusi aihe',
@@ -92,8 +94,8 @@ return [
         'started_by_verbose' => 'aloittanut :user',
 
         'actions' => [
-            'destroy' => '',
-            'restore' => '',
+            'destroy' => 'Poista aihe',
+            'restore' => 'Palauta aihe',
         ],
 
         'create' => [
@@ -127,6 +129,55 @@ return [
             'previous' => 'mene 10 viestiä takaisin',
         ],
 
+        'logs' => [
+            '_' => 'Aiheen lokit',
+            'button' => 'Selaa aiheen lokeja',
+
+            'columns' => [
+                'action' => 'Toiminto',
+                'date' => 'Päivämäärä',
+                'user' => 'Käyttäjä',
+            ],
+
+            'data' => [
+                'add_tag' => 'lisätty tunniste ":tag"',
+                'announcement' => 'aihe kiinnitetty ja merkitty tiedotteeksi',
+                'edit_topic' => 'otsikoksi :title',
+                'fork' => 'aiheesta :topic',
+                'pin' => 'aihe kiinnitetty',
+                'post_operation' => 'lähettänyt :username',
+                'remove_tag' => 'poistettu tunniste ":tag"',
+                'source_forum_operation' => 'foorumista :forum',
+                'unpin' => 'aihe irrotettu',
+            ],
+
+            'no_results' => 'lokeja ei löytynyt...',
+
+            'operations' => [
+                'delete_post' => 'Poistettu viesti',
+                'delete_topic' => 'Poistettu aihe',
+                'edit_topic' => 'Vaihdettu aiheen otsikkoa',
+                'edit_poll' => 'Muokattu aiheen kyselyä',
+                'fork' => 'Aihe kopioitu',
+                'issue_tag' => 'Tunniste myönnetty',
+                'lock' => 'Lukittu aihe',
+                'merge' => 'Yhdistetty viestejä tähän aiheeseen',
+                'move' => 'Aihe siirretty',
+                'pin' => 'Kiinnitetty aihe',
+                'post_edited' => 'Muokattu viestiä',
+                'restore_post' => 'Viesti palautettu',
+                'restore_topic' => 'Aihe palautettu',
+                'split_destination' => 'Siirretty jaetut viestit',
+                'split_source' => 'Jaettu viestit',
+                'topic_type' => 'Asetettu aiheen tyyppi',
+                'topic_type_changed' => 'Vaihdettu aiheen tyyppiä',
+                'unlock' => 'Avattu aihe',
+                'unpin' => 'Irrotettu aihe',
+                'user_lock' => 'Lukittu oma aihe',
+                'user_unlock' => 'Avattu oma aihe',
+            ],
+        ],
+
         'post_edit' => [
             'cancel' => 'Peruuta',
             'post' => 'Tallenna',
@@ -135,11 +186,11 @@ return [
 
     'topic_watches' => [
         'index' => [
-            'title_compact' => 'foorumilla seuratut',
+            'title_compact' => 'foorumiaiheiden seurantalista',
 
             'box' => [
                 'total' => 'Seurattuja aiheita',
-                'unread' => 'Aiheita joissa uusia vastauksia',
+                'unread' => 'Aiheita, joissa on uusia vastauksia',
             ],
 
             'info' => [
@@ -178,7 +229,7 @@ return [
 
             'poll' => [
                 'hide_results' => 'Piilota äänestyksen tulokset.',
-                'hide_results_info' => '',
+                'hide_results_info' => 'Ne näytetään vasta sen jälkeen, kun keyselyaika on päättynyt.',
                 'length' => 'Pidä äänestystä auki',
                 'length_days_suffix' => 'päivää',
                 'length_info' => 'Jätä tyhjäksi jos haluat kyselyn kestävän ikuisesti',
@@ -202,52 +253,10 @@ return [
             'views' => 'katsomiskertaa',
         ],
 
-        'issue_tag_added' => [
-            'to_0' => 'Poista tunniste "lisätty" ',
-            'to_0_done' => 'Tunniste "lisätty" poistettu',
-            'to_1' => 'Lisää tunniste "lisätty"',
-            'to_1_done' => 'Tunniste "lisätty" lisätty',
-        ],
-
-        'issue_tag_assigned' => [
-            'to_0' => 'Poista tunniste "siirretty"',
-            'to_0_done' => 'Tunniste "siirretty" poistettu',
-            'to_1' => 'Lisää tunniste "siirretty"',
-            'to_1_done' => 'Tunniste "siirretty" lisätty',
-        ],
-
-        'issue_tag_confirmed' => [
-            'to_0' => 'Poista tunniste "vahvistettu"',
-            'to_0_done' => 'Tunniste "vahvistettu" poistettu',
-            'to_1' => 'Lisää tunniste "vahvistettu"',
-            'to_1_done' => 'Tunniste "vahvistettu" lisätty',
-        ],
-
-        'issue_tag_duplicate' => [
-            'to_0' => 'Poista tunniste "duplikaatti"',
-            'to_0_done' => 'Tunniste "duplikaatti" poistettu',
-            'to_1' => 'Lisää tunniste "duplikaatti"',
-            'to_1_done' => 'Tunniste "duplikaatti" lisätty',
-        ],
-
-        'issue_tag_invalid' => [
-            'to_0' => 'Poista tunniste "virheellinen"',
-            'to_0_done' => 'Tunniste "virheellinen" poistettu',
-            'to_1' => 'Lisää tunniste "virheellinen"',
-            'to_1_done' => 'Lisää tunniste "virheellinen"',
-        ],
-
-        'issue_tag_resolved' => [
-            'to_0' => 'Poista tunniste "selvitetty"',
-            'to_0_done' => 'Tunniste "selvitetty" poistettu',
-            'to_1' => 'Lisää tunniste "selvitetty"',
-            'to_1_done' => 'Lisää tunniste "selvitetty"',
-        ],
-
         'lock' => [
             'is_locked' => 'Tämä aihe on lukittu, eikä siihen voida vastata',
             'to_0' => 'Avaa aihe',
-            'to_0_confirm' => '',
+            'to_0_confirm' => 'Poista foorumiaiheen lukitus?',
             'to_0_done' => 'Aihe on avattu',
             'to_1' => 'Lukitse aihe',
             'to_1_confirm' => 'Lukitse aihe?',
@@ -265,9 +274,9 @@ return [
             'to_1' => 'Kiinnitä aihe',
             'to_1_confirm' => 'Kiinnitä aihe?',
             'to_1_done' => 'Aihe kiinnitetty',
-            'to_2' => 'Kiinnitä aihe ja merkkaa ilmoitukseksi',
-            'to_2_confirm' => 'Kiinnitä aihe ja merkkaa ilmoitukseksi?',
-            'to_2_done' => 'Aihe on kiinnitetty ja merkattu ilmoitukseksi',
+            'to_2' => 'Kiinnitä aihe ja merkitse tiedotteeksi',
+            'to_2_confirm' => 'Kiinnitetäänkö aihe ja merkitään tiedotteeksi?',
+            'to_2_done' => 'Aihe on kiinnitetty ja merkitty tiedotteeksi',
         ],
 
         'moderate_toggle_deleted' => [
@@ -278,15 +287,16 @@ return [
         'show' => [
             'deleted-posts' => 'Poistetut viestit',
             'total_posts' => 'Vastauksia',
+            'total_watches' => 'Tilaajia yhteensä',
 
             'feature_vote' => [
                 'current' => 'Tärkeys tällä hetkellä: +:count',
-                'do' => 'Ehdota tätä',
+                'do' => 'Ehdota tätä pyyntöä',
 
                 'info' => [
                     '_' => 'Tämä on :feature_request. :supporters voivat äänestää ominaisuuspyyntöjä.',
                     'feature_request' => 'ominaisuuspyyntö',
-                    'supporters' => 'tukijat',
+                    'supporters' => 'Tukijat',
                 ],
 
                 'user' => [
@@ -297,14 +307,14 @@ return [
             ],
 
             'poll' => [
-                'edit' => '',
-                'edit_warning' => '',
+                'edit' => 'Kyselyn muokkaus',
+                'edit_warning' => 'Kyselyn muokkaaminen poistaa nykyiset tulokset!',
                 'vote' => 'Äänestä',
 
                 'button' => [
-                    'change_vote' => '',
-                    'edit' => '',
-                    'view_results' => '',
+                    'change_vote' => 'Muuta valikoima',
+                    'edit' => 'Muokkaa kyselyä',
+                    'view_results' => 'Siirry tuloksiin',
                     'vote' => 'Äänestä',
                 ],
 
@@ -322,7 +332,7 @@ return [
             'to_watching' => 'Kirjanmerkkeihin',
             'to_watching_mail' => 'Kirjanmerkkeihin ilmoituksella',
             'tooltip_mail_disable' => 'Ilmoitus on päällä. Klikkaa poistaaksesi käytöstä',
-            'tooltip_mail_enable' => 'Ilmoitus on pois käytöstä. Klikkaa laittaaksesi päälle',
+            'tooltip_mail_enable' => 'Ilmoitus on poissa käytöstä. Klikkaa laittaaksesi päälle',
         ],
     ],
 ];

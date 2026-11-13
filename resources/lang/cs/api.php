@@ -13,21 +13,28 @@ return [
     ],
 
     'scopes' => [
-        'bot' => '',
-        'identify' => 'Indentifikovat vás a prohlížet váš veřejný profil.',
+        'bot' => 'Chovat se jako chat bot.',
+        'identify' => 'Identifikovat tě a prohlížet tvůj veřejný profil.',
 
         'chat' => [
-            'write' => '',
+            'read' => 'Číst zprávy tvým jménem.',
+            'write' => 'Posílat zprávy tvým jménem.',
+            'write_manage' => 'Připojovat se a odcházet z kanálů tvým jménem.',
         ],
 
         'forum' => [
-            'write' => '',
+            'write' => 'Vytvářet a upravovat témata fóra a příspěvky tvým jménem.',
+            'write_manage' => 'Spravovat témata fóra a příspěvky tvým jménem.',
         ],
 
         'friends' => [
-            'read' => 'Koukněte se, koho sledujete.',
+            'read' => 'Vidět, koho sledujete.',
         ],
 
-        'public' => 'Číst veřejná data vaším jménem.',
+        'multiplayer' => [
+            'write_manage' => 'Vytvářet a spravovat místnosti her pro více hráčů tvým jménem.',
+        ],
+
+        'public' => 'Číst veřejná data tvým jménem.',
     ],
 ];

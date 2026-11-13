@@ -4,11 +4,14 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'deleted' => 'telah dihapus',
+    'deleted' => 'dihapus',
+    'deleted_by' => 'dihapus :timeago oleh :user',
+    'deleted_by_system' => 'sistem',
     'deleted_count' => ':count_delimited komentar yang dihapus|:count_delimited komentar yang dihapus',
     'edited' => 'disunting :timeago oleh :user',
     'pinned' => 'disematkan',
     'empty' => 'Belum ada komentar.',
+    'empty_other' => 'Belum ada komentar lainnya.',
     'load_replies' => 'muat lebih banyak balasan',
     'replies_count' => ':count_delimited balasan|:count_delimited balasan',
     'title' => 'Komentar',
@@ -17,15 +20,15 @@ return [
         'beatmapset' => 'Beatmap',
         'build' => 'Riwayat Perubahan',
         'news_post' => 'Berita',
-        '_deleted' => 'Item yang dihapus',
+        '_deleted' => 'Item yang Dihapus',
     ],
 
     'editor' => [
         'textarea_hint' => [
-            '_' => 'Tekan enter untuk mengirimkan :action Anda. Gunakan shift+enter untuk memulai baris baru.',
-            'edit' => 'simpan',
-            'new' => 'komentar',
-            'reply' => 'balas',
+            '_' => 'Tekan enter untuk :action. Gunakan shift+enter untuk memulai baris baru.',
+            'edit' => 'menyimpan suntingan',
+            'new' => 'mengirimkan komentar',
+            'reply' => 'membalas',
         ],
     ],
 
@@ -40,10 +43,14 @@ return [
         'no_comments' => 'belum ada komentar...',
     ],
 
+    'ogp' => [
+        'title' => 'komentar oleh :user',
+    ],
+
     'placeholder' => [
         'edit' => 'Sunting komentar di sini',
         'new' => 'Ketik komentar baru di sini',
-        'reply' => 'Ketik balasan Anda di sini',
+        'reply' => 'Ketik balasanmu di sini',
     ],
 
     'show' => [

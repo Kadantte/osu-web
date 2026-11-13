@@ -9,6 +9,17 @@ return [
         'title' => '国別',
     ],
 
+    'daily_challenge' => [
+        'beatmap' => '難易度',
+        'theme' => 'テーマ',
+        'top_10p' => '上位10%スコア',
+        'top_50p' => '上位50%スコア',
+        'unavailable' => [
+            'future' => '指定された日付のデイリーチャレンジはまだありません！',
+            'past' => '指定された日付のデイリーチャレンジはありません！',
+        ],
+    ],
+
     'filter' => [
         'title' => '表示',
 
@@ -17,12 +28,60 @@ return [
         ],
     ],
 
+    'kudosu' => [
+        'total' => '獲得',
+        'available' => '利用可能',
+        'used' => '使用済み',
+    ],
+
+    'matchmaking' => [
+        'plays' => 'プレイ数',
+        'points' => 'ポイント',
+        'provisional' => '試合数が不足しているため、正確なレートを算出できません',
+        'rating' => 'レーティング',
+        'wins' => '勝利数',
+    ],
+
+    'multiplayer' => [
+        'room_name' => 'ルーム名',
+    ],
+
+    'performance' => [
+        'insufficient_history' => 'このユーザーの最近のランキング履歴は30日未満です。',
+    ],
+
+    'top_plays' => [
+        'empty' => 'データを計算中・・・',
+        'last_updated' => '最終更新',
+    ],
+
+    'playlists' => [
+        'charts' => 'スポットライト (旧)',
+        'featured' => '特集',
+        'season_room' => 'シーズンルーム',
+        'seasons' => 'シーズン',
+    ],
+
     'type' => [
-        'charts' => 'スポットライト',
         'country' => '国別',
-        'multiplayer' => 'マルチプレイ',
-        'performance' => 'パフォーマンス',
-        'score' => 'スコア',
+        'daily_challenge' => 'デイリーチャレンジ',
+        'global' => 'グローバル',
+        'kudosu' => 'kudosu',
+        'matchmaking' => 'ランクマッチ',
+        'playlists' => 'プレイリスト',
+        'team' => 'チーム',
+        'top_plays' => 'トッププレイ',
+    ],
+
+    'seasons' => [
+        'empty' => '今シーズンはまだルームがありません。',
+        'ongoing' => '今シーズンはまだ継続中です（プレイリストはさらに追加される予定）。',
+        'room_count' => 'プレイリスト数',
+        'summary' => 'シーズンの概要を表示',
+        'url' => 'そのシーズンに関する詳細情報を表示する。',
+        'validation' => [
+            'not_enough_factors' => '適切に計算するためのスコア要素が不足しています',
+        ],
     ],
 
     'spotlight' => [
@@ -36,6 +95,8 @@ return [
         'accuracy' => '精度',
         'active_users' => 'アクティブユーザー数',
         'country' => '所在国',
+        'division' => '階級',
+        'members' => 'メンバー',
         'play_count' => 'プレイ回数',
         'performance' => 'パフォーマンス',
         'total_score' => '合計スコア',

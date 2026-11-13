@@ -5,7 +5,7 @@
 
 return [
     'audio' => [
-        'autoplay' => 'Chơi bản nhạc tiếp theo tự động',
+        'autoplay' => 'Tự động phát bài tiếp theo',
     ],
 
     'defaults' => [
@@ -18,12 +18,17 @@ return [
             'beatmapset_covers' => 'bìa beatmapset',
             'contest' => 'cuộc thi',
             'contests' => 'các cuộc thi',
-            'root' => '',
-            'store_orders' => '',
+            'root' => 'bảng điều khiển',
         ],
 
         'artists' => [
             'index' => 'danh sách',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'thông tin',
+            'discussions' => 'thảo luận',
+            'versions' => 'lịch sử phiên bản',
         ],
 
         'changelog' => [
@@ -32,7 +37,7 @@ return [
 
         'help' => [
             'index' => 'mục lục',
-            'sitemap' => '',
+            'sitemap' => 'Sơ đồ trang web',
         ],
 
         'store' => [
@@ -47,13 +52,16 @@ return [
 
         'users' => [
             'modding' => 'modding',
+            'playlists' => 'danh sách phát',
+            'ranked-play' => 'chơi xếp hạng',
+            'realtime' => 'nhiều người chơi',
             'show' => 'thông tin',
         ],
     ],
 
     'gallery' => [
         'close' => 'Đóng (Esc)',
-        'fullscreen' => 'Bật/tắt toàn màn hình',
+        'fullscreen' => 'Bật / tắt toàn màn hình',
         'zoom' => 'Thu phóng',
         'previous' => 'Trước (mũi tên trái)',
         'next' => 'Tiếp theo (mũi tên phải)',
@@ -61,74 +69,54 @@ return [
 
     'menu' => [
         'beatmaps' => [
-            '_' => 'beatmaps',
-            'artists' => 'nghệ sĩ tiêu biểu',
-            'index' => 'danh sách',
-            'packs' => 'gói',
+            '_' => 'beatmap',
         ],
         'community' => [
             '_' => 'cộng đồng',
-            'chat' => 'chat',
-            'contests' => 'cuộc thi',
             'dev' => 'phát triển',
-            'forum-forums-index' => 'diễn đàn',
-            'getLive' => 'live stream',
-            'tournaments' => 'giải đấu',
         ],
         'help' => [
             '_' => 'trợ giúp',
             'getAbuse' => 'báo cáo lạm dụng',
-            'getFaq' => 'faq',
+            'getFaq' => 'câu hỏi thường gặp',
             'getRules' => 'quy tắc',
-            'getSupport' => 'không, thật đó, tôi cần giúp đỡ!',
-            'getWiki' => 'wiki',
+            'getSupport' => 'không, thật sự, tôi cần giúp đỡ!',
         ],
         'home' => [
             '_' => 'trang chủ',
-            'changelog-index' => 'changelog',
-            'getDownload' => 'tải xuống',
-            'news-index' => 'tin tức',
-            'search' => 'tìm kiếm',
-            'team' => 'team',
+            'team' => 'đội',
         ],
         'rankings' => [
             '_' => 'xếp hạng',
-            'charts' => 'tiêu điểm',
-            'country' => 'quốc gia',
-            'index' => 'performance',
-            'kudosu' => 'kudosu',
-            'multiplayer' => '',
-            'score' => 'điểm',
         ],
         'store' => [
             '_' => 'cửa hàng',
-            'cart-show' => 'giỏ hàng',
-            'getListing' => 'danh sách',
-            'orders-index' => 'lịch sử đơn hàng',
         ],
     ],
 
     'footer' => [
         'general' => [
-            '_' => 'Tổng quát',
+            '_' => 'Chung',
             'home' => 'Trang Chủ',
             'changelog-index' => 'Changelog',
             'beatmaps' => 'Danh Sách Beatmap',
-            'download' => 'Tải Xuống osu!',
+            'download' => 'Tải xuống osu!',
         ],
         'help' => [
             '_' => 'Giúp Đỡ & Cộng Đồng',
             'faq' => 'Những Câu Hỏi Thường Gặp',
-            'forum' => 'Diễn Đàn',
-            'livestreams' => 'Live Streams',
+            'forum' => 'Diễn Đàn Cộng Đồng',
+            'livestreams' => 'Phát trực tiếp',
             'report' => 'Báo Cáo Một Vấn Đề',
             'wiki' => 'Wiki',
         ],
         'legal' => [
             '_' => 'Pháp Lý & Trạng Thái',
             'copyright' => 'Bản Quyền (DMCA)',
-            'privacy' => 'Quyền Riêng Tư',
-            'server_status' => 'Trạng Thái Server',
+            'jp_sctl' => '',
+            'privacy' => 'Quyền riêng tư',
+            'rules' => 'Quy tắc',
+            'server_status' => 'Trạng thái máy chủ',
             'source_code' => 'Mã Nguồn',
             'terms' => 'Điều Khoản Và Điều Kiện',
         ],
@@ -136,7 +124,7 @@ return [
 
     'errors' => [
         '400' => [
-            'error' => '',
+            'error' => 'Tham số yêu cầu không hợp lệ',
             'description' => '',
         ],
         '404' => [
@@ -156,11 +144,11 @@ return [
             'description' => "Xin lỗi, nhưng trang bạn yêu cầu không có ở đây!",
         ],
         '422' => [
-            'error' => '',
+            'error' => 'Tham số yêu cầu không hợp lệ',
             'description' => '',
         ],
         '429' => [
-            'error' => '',
+            'error' => 'Vượt quá giới hạn truy cập',
             'description' => '',
         ],
         '500' => [
@@ -184,7 +172,7 @@ return [
     ],
 
     'popup_login' => [
-        'button' => '',
+        'button' => 'đăng nhập / đăng kí',
 
         'login' => [
             'forgot' => "Quên mật khẩu",
@@ -200,7 +188,7 @@ return [
 
         'register' => [
             'download' => 'Tải xuống',
-            'info' => 'Bạn cần một tài khoản. Tại sao bạn lại không có chứ?',
+            'info' => 'Hãy tải xuống osu! để tạo tài khoản của riêng bạn!',
             'title' => "Chưa có tài khoản?",
         ],
     ],
@@ -208,10 +196,16 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => 'Cài Đặt',
-            'follows' => '',
+            'create_team' => 'Tạo Đội',
+            'follows' => 'Danh sách theo dõi',
             'friends' => 'Bạn bè',
+            'legacy_score_only_toggle' => 'Chế độ lazer',
+            'legacy_score_only_toggle_tooltip' => 'Chế độ Lazer hiển thị các điểm số được lập từ lazer với thuật toán tính điểm mới',
             'logout' => 'Đăng Xuất',
             'profile' => 'Trang Cá Nhân',
+            'scoring_mode_toggle' => 'Hệ thống điểm cổ điển',
+            'scoring_mode_toggle_tooltip' => 'Thay đổi giá trị điểm để có cảm giác như hệ thống điểm cổ điển không giới hạn',
+            'team' => 'Đội của tôi',
         ],
     ],
 

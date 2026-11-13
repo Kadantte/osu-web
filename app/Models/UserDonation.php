@@ -7,6 +7,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use DB;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Log;
 
 /**
@@ -22,15 +23,16 @@ use Log;
  */
 class UserDonation extends Model
 {
-    protected $table = 'osu_user_donations';
-
-    protected $dates = ['timestamp'];
-
+    public $incrementing = false;
     public $timestamps = false;
 
     protected $casts = [
         'cancel' => 'boolean',
+        'timestamp' => 'datetime',
     ];
+    protected $primaryKey = ':composite';
+    protected $primaryKeys = ['user_id', 'transaction_id'];
+    protected $table = 'osu_user_donations';
 
     public static function totalLength($userId)
     {
@@ -52,6 +54,11 @@ class UserDonation extends Model
         return $totalLength;
     }
 
+    public function donor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
     public function cancel($cancelledTransactionId)
     {
         if ($this->cancel) {
@@ -69,5 +76,15 @@ class UserDonation extends Model
         Log::debug($donation);
 
         $donation->saveOrExplode();
+    }
+
+    public function save(array $options = []): bool
+    {
+        $ret = parent::save($options);
+        if ($ret) {
+            $this->donor?->refreshSupportLength();
+        }
+
+        return $ret;
     }
 }

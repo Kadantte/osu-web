@@ -5,28 +5,21 @@
 
 return [
     'index' => [
-        'description' => 'Colecciones preempaquetadas de mapas basadas en un tema común.',
+        'description' => 'Colecciones preempaquetadas de mapas basados en un tema común.',
+        'empty' => '¡Próximamente!',
         'nav_title' => 'listado',
-        'title' => 'Paquetes de Beatmap',
+        'title' => 'Paquetes de mapas',
 
         'blurb' => [
             'important' => 'LEE ESTO ANTES DE DESCARGAR',
-            'instruction' => [
-                '_' => "Instalación: Una vez que un paquete ha sido descargado, extrae el archivo .rar en la carpeta Songs de osu!.
-                    Todas las canciones siguen siendo archivos .zip y/o .osz dentro del paquete, así que osu! tendrá que extraer los mapas por sí mismo la próxima vez que entres al modo de juego.
-                    :scary extraigas los archivos zip/osz por ti mismo,
-                    o los mapas se mostrarán incorrectamente en osu! y no funcionarán correctamente.",
-                'scary' => 'NUNCA',
-            ],
-            'note' => [
-                '_' => 'También ten en cuenta que es muy recomendable :scary, ya que los mapas más antiguos son de mucha menor calidad que los mapas más recientes.',
-                'scary' => 'descargar los paquetes de los más recientes a los más antiguos',
-            ],
+            'install_instruction' => 'Instalación: Una vez el paquete se haya descargado, extrae su contenido en tu directorio Songs de osu! y osu! hará el resto.',
         ],
     ],
 
     'show' => [
+        'created_by' => 'por :author',
         'download' => 'Descargar',
+        'no_diff_reduction_badge' => 'Difícil',
         'item' => [
             'cleared' => 'completado',
             'not_cleared' => 'no completado',
@@ -40,8 +33,11 @@ return [
     'mode' => [
         'artist' => 'Artista/Álbum',
         'chart' => 'Destacados',
+        'featured' => 'Artista destacado',
+        'loved' => 'Project Loved',
         'standard' => 'Standard',
         'theme' => 'Tema',
+        'tournament' => 'Torneo',
     ],
 
     'require_login' => [

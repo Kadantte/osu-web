@@ -19,9 +19,9 @@ return [
     ],
 
     'buttons' => [
-        'admin' => 'Admin',
         'authorise' => 'Autoriser',
         'authorising' => 'Autoriserer...',
+        'back' => 'Tilbake',
         'back_to_previous' => 'Returner til forrige posisjon',
         'back_to_top' => 'Tilbake til toppen',
         'cancel' => 'Avbryt',
@@ -39,11 +39,13 @@ return [
         'pin' => 'fest',
         'post' => 'Del',
         'read_more' => 'les mer',
+        'refresh' => 'Oppdater',
         'reply' => 'Svar',
         'reply_reopen' => 'Svar og åpne igjen',
         'reply_resolve' => 'Svar og marker som løst',
         'reset' => 'Nullstill',
         'restore' => 'Gjenopprett',
+        'retry' => 'Prøv igjen',
         'save' => 'Lagre',
         'saving' => 'Lagrer...',
         'search' => 'Søk',
@@ -53,6 +55,7 @@ return [
         'show_less' => 'vis færre',
         'show_more' => 'vis mer',
         'show_more_options' => 'vis flere valg',
+        'submit' => 'Send',
         'unpin' => 'løsne',
         'update' => 'Oppdater',
         'upload_image' => 'last opp bilde',
@@ -73,6 +76,7 @@ return [
         'minutes' => '::count_delimited minutt|:count_delimited minutter',
         'months' => '::count_delimited måned|:count_delimited måneder',
         'notifications' => ':count_delimited varsling|:count_delimited varsler',
+        'player' => '',
         'plus_others' => '+ :count_delimited annen!|+ :count_delimited andre!',
         'post' => ':count_delimited innlegg|:count_delimited innlegg',
         'second_short_unit' => 's|s',
@@ -90,6 +94,12 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => '',
+        ],
+        'year' => [
+            'php' => '',
+        ],
         'year_month' => [
             'moment' => 'MMMM YYYY',
             'php' => 'MMMM y',
@@ -133,10 +143,10 @@ return [
         'dd' => '%d d',
         'h' => '%d t',
         'hh' => '%d t',
-        'M' => '%d må',
         'm' => '%d min',
-        'MM' => '%d må',
         'mm' => '%d min',
+        'month' => '%d må',
+        'months' => '%d må',
         'past' => '',
         's' => '%d sek',
         'y' => '%d år',

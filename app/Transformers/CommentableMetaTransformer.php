@@ -5,12 +5,12 @@
 
 namespace App\Transformers;
 
-use App\Libraries\Commentable;
+use App\Interfaces\CommentableInterface;
 use App\Models\Beatmapset;
 
 class CommentableMetaTransformer extends TransformerAbstract
 {
-    public function transform(?Commentable $commentable)
+    public function transform(?CommentableInterface $commentable)
     {
         if (isset($commentable)) {
             if ($commentable instanceof Beatmapset) {
@@ -19,16 +19,20 @@ class CommentableMetaTransformer extends TransformerAbstract
             }
 
             return [
+                'current_user_attributes' => [
+                    'can_new_comment_reason' => priv_check('CommentStore', $commentable)->message(),
+                ],
                 'id' => $commentable->getKey(),
                 'type' => $commentable->getMorphClass(),
                 'title' => $commentable->commentableTitle(),
                 'url' => $commentable->url(),
                 'owner_id' => $ownerId ?? null,
                 'owner_title' => $ownerTitle ?? null,
+                'locked' => $commentable->commentLocked(),
             ];
         } else {
             return [
-                'title' => trans('comments.commentable_name._deleted'),
+                'title' => osu_trans('comments.commentable_name._deleted'),
             ];
         }
     }

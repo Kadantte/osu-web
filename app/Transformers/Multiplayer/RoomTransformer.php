@@ -13,28 +13,65 @@ use Carbon\Carbon;
 
 class RoomTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
+        'current_playlist_item',
         'current_user_score',
+        'difficulty_range',
         'host',
         'playlist',
+        'playlist_item_stats',
         'recent_participants',
-        'scores',
     ];
+
+    public static function createShowResponse(Room $room): array
+    {
+        return json_item(
+            $room->loadMissing([
+                'host',
+                'playlist.beatmap.baseMaxCombo',
+                'playlist.beatmap.beatmapset',
+            ]),
+            new static(),
+            [
+                'current_user_score.playlist_item_attempts',
+                'host.country',
+                'playlist.beatmap.beatmapset',
+                'playlist.beatmap.checksum',
+                'playlist.beatmap.max_combo',
+                'recent_participants',
+            ],
+        );
+    }
 
     public function transform(Room $room)
     {
         return [
             'id' => $room->id,
             'name' => $room->name,
+            'description' => $room->description,
             'category' => $room->category,
+            'status' => $room->status,
+            'type' => $room->type,
             'user_id' => $room->user_id,
-            'starts_at' => json_time($room->starts_at),
-            'ends_at' => json_time($room->ends_at),
+            'starts_at' => $room->getJsonTime('starts_at'),
+            'ends_at' => $room->getJsonTime('ends_at'),
             'max_attempts' => $room->max_attempts,
+            'max_participants' => $room->max_participants,
             'participant_count' => $room->participant_count,
             'channel_id' => $room->channel_id,
-            'active' => Carbon::now()->between($room->starts_at, $room->ends_at),
+            'active' => $room->ends_at === null || Carbon::now()->between($room->starts_at, $room->ends_at),
+            'has_password' => $room->password !== null,
+            'queue_mode' => $room->queue_mode,
+            'auto_skip' => $room->auto_skip,
+            'pinned' => $room->pinned,
         ];
+    }
+
+    public function includeCurrentPlaylistItem(Room $room)
+    {
+        return $room->currentPlaylistItem === null
+            ? $this->null()
+            : $this->item($room->currentPlaylistItem, new PlaylistItemTransformer());
     }
 
     public function includeCurrentUserScore(Room $room)
@@ -50,6 +87,11 @@ class RoomTransformer extends TransformerAbstract
         return $this->item($score, new UserScoreAggregateTransformer());
     }
 
+    public function includeDifficultyRange(Room $room)
+    {
+        return $this->primitive($room->difficultyRange());
+    }
+
     public function includeHost(Room $room)
     {
         return $this->item(
@@ -60,15 +102,7 @@ class RoomTransformer extends TransformerAbstract
 
     public function includeRecentParticipants(Room $room)
     {
-        $users = $room
-            ->userHighScores()
-            ->with('user')
-            ->orderBy('updated_at', 'DESC')
-            ->limit(50)
-            ->get()
-            ->pluck('user');
-
-        return $this->collection($users, new UserCompactTransformer());
+        return $this->collection($room->recentParticipants(), new UserCompactTransformer());
     }
 
     public function includePlaylist(Room $room)
@@ -79,11 +113,8 @@ class RoomTransformer extends TransformerAbstract
         );
     }
 
-    public function includeScores(Room $room)
+    public function includePlaylistItemStats(Room $room)
     {
-        return $this->collection(
-            $room->scores()->completed()->get(),
-            new ScoreTransformer()
-        );
+        return $this->primitive($room->playlistItemStats());
     }
 }

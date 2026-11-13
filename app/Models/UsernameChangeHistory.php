@@ -15,11 +15,16 @@ namespace App\Models;
  */
 class UsernameChangeHistory extends Model
 {
+    public $timestamps = false;
+
+    protected $casts = ['timestamp' => 'datetime'];
     protected $table = 'osu_username_change_history';
     protected $primaryKey = 'change_id';
 
-    protected $dates = ['timestamp'];
-    public $timestamps = false;
+    public function scopePaid($query)
+    {
+        $query->whereIn('type', ['support', 'paid']); // changed by support counts as paid.
+    }
 
     public function scopeVisible($query)
     {

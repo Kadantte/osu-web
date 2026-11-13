@@ -6,6 +6,7 @@
 namespace App\Libraries;
 
 use App\Exceptions\ValidationException;
+use App\Models\Count;
 use App\Models\User;
 use Carbon\Carbon;
 use Datadog;
@@ -24,7 +25,6 @@ class UserRegistration
         $params['group_id'] = $this->group->getKey();
 
         $this->user = new User(array_merge([
-            'user_permissions' => '',
             'user_interests' => '',
             'user_occ' => '',
             'user_sig' => '',
@@ -62,6 +62,7 @@ class UserRegistration
 
                 $this->user->setDefaultGroup($this->group);
 
+                Count::totalUsers()->incrementInstance('count');
                 Datadog::increment('osu.new_account_registrations', 1, ['source' => 'osu-web']);
             });
         } catch (Exception $e) {

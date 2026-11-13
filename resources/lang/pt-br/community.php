@@ -15,12 +15,12 @@ return [
             'title' => 'Por que eu deveria apoiar osu!? Para onde vai o dinheiro?',
 
             'team' => [
-                'title' => 'Apoie a Equipe',
-                'description' => 'Um pequeno time de desenvolvedores desenvolve e mantém o osu! rodando. Seu apoio vai permitir que eles possam, você sabe... viver.',
+                'title' => 'Apoie a equipe',
+                'description' => 'Uma pequena equipe desenvolve e mantém o osu! rodando. Seu apoio vai permitir que eles possam, você sabe... viver.',
             ],
             'infra' => [
                 'title' => 'Infraestrutura do Servidor',
-                'description' => 'Contribuições são diretamente utilizadas para o funcionamento do website, serviços multiplayer, tabelas de classificações, etc.',
+                'description' => 'Contribuições são diretamente utilizadas para o funcionamento do website, serviços multiplayer, placares, etc.',
             ],
             'featured-artists' => [
                 'title' => 'Artistas em Destaque',
@@ -50,12 +50,12 @@ return [
             ],
 
             'friend_ranking' => [
-                'title' => 'Ranking de Amigos',
-                'description' => "Veja como você se sai contra seus amigos nas classificações dos beatmaps, tanto in-game quanto pelo website.",
+                'title' => 'Ranking de amigos',
+                'description' => "Veja como você se sai contra seus amigos em placares de beatmaps, tanto no jogo quanto no site.",
             ],
 
             'country_ranking' => [
-                'title' => 'Ranking Nacional',
+                'title' => 'Ranking nacional',
                 'description' => 'Conquiste seu país antes de conquistar o mundo.',
             ],
 
@@ -120,29 +120,33 @@ return [
             ],
 
             'more_favourites' => [
-                'title' => 'Mais Favoritos',
+                'title' => 'Mais favoritos',
                 'description' => 'O número máximo de beatmaps que você pode favoritar é aumentado de :normally &rarr; :supporter',
             ],
             'more_friends' => [
                 'title' => 'Mais Amigos',
-                'description' => 'O número máximo de amigos que pode ter é aumentado de :normally &rarr; :supporter',
+                'description' => 'O número máximo de amigos que você pode ter é aumentado de :normally &rarr; :supporter',
             ],
             'more_beatmaps' => [
                 'title' => 'Envie Mais Beatmaps',
-                'description' => 'A quantidade máxima de beatmaps não-ranqueados que você pode ter é calculado com base em um valor padrão (normalmente 4) +1 adicional para cada beatmap ranqueado que você possui (max. 2).<br/><br/> Com osu!supporter, esse limite é aumentado para 8 + 1 adicional para cada beatmap ranqueado (max. 12).',
+                'description' => 'O número de beatmaps pendentes que você pode ter ao mesmo tempo é calculado a partir de um valor base, mais um bônus adicional por cada mapa ranqueado que você tenha (até um limite).<br/><br/>Normalmente, este valor é :base mais :bonus por mapa classificado (até :bonus_max). Com osu!supporter, esse valor aumenta para :supporter_base mais :supporter_bonus por mapa ranqueado (até :supporter_bonus_max).',
             ],
             'friend_filtering' => [
-                'title' => 'Classificação de Amigos',
+                'title' => 'Placar de amigos',
                 'description' => 'Dispute com seus amigos e veja como se sai contra eles!* <br/><br/><small>* ainda não disponível no novo site, embreve(tm)</small>',
             ],
 
         ],
         'supporter_status' => [
-            'contribution' => 'Obrigado pelo o seu apoio! Você contribuiu com um total de :dollars em :tags compras de tags!',
-            'gifted' => ":giftedTags de suas compras de tag foram presenteadas (um total de :giftedDollars presenteados), que generoso!",
+            'contribution_with_duration' => 'Obrigado pelo seu apoio! Até agora, você contribuiu um total de :dollars, ganhando a tag de "osu!supporter" por :duration.',
             'not_yet' => "Você ainda não tem uma supporter tag :(",
             'valid_until' => 'Sua supporter tag atual é válida até :date!',
-            'was_valid_until' => 'Sua supporter tag era válida até :date.',
+            'was_valid_until' => 'Sua tag de osu!supporter era válida até :date.',
+
+            'gifted' => [
+                '_' => 'De todas as suas contribuições totais, você presenteou :dollars em tags para :users por :duration. Que generosidade incrível!',
+                'users' => ':count_delimited outro usuário|:count_delimited outros usuários',
+            ],
         ],
     ],
 ];

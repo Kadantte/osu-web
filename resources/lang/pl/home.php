@@ -26,6 +26,9 @@ return [
         'placeholder' => 'wpisz, by rozpocząć wyszukiwanie',
         'title' => 'wyszukiwarka',
 
+        'artist_track' => [
+            'more_simple' => 'Zobacz więcej wyszukanych utworów wyróżnionych artystów',
+        ],
         'beatmapset' => [
             'login_required' => 'Zaloguj się, aby wyszukać beatmapy',
             'more' => 'Zobacz więcej wyszukanych beatmap: :count',
@@ -43,6 +46,7 @@ return [
             'label' => [
                 'forum' => 'przeszukaj fora',
                 'forum_children' => 'uwzględnij podfora',
+                'include_deleted' => 'uwzględnij usunięte posty',
                 'topic_id' => 'wątek #',
                 'username' => 'autor',
             ],
@@ -50,10 +54,17 @@ return [
 
         'mode' => [
             'all' => 'wszystko',
+            'artist_track' => 'utwór wyróżnionego artysty',
             'beatmapset' => 'beatmapa',
             'forum_post' => 'forum',
+            'team' => 'zespół',
             'user' => 'użytkownik',
             'wiki_page' => 'wiki',
+        ],
+
+        'team' => [
+            'login_required' => 'Zaloguj się, aby wyszukać zespołów',
+            'more_simple' => 'Zobacz więcej wyszukanych zespołów',
         ],
 
         'user' => [
@@ -72,12 +83,23 @@ return [
     ],
 
     'download' => [
-        'tagline' => "rozpocznij swoją<br>przygodę z osu!",
-        'action' => 'Pobierz osu!',
+        'action_lazer_info' => 'sprawdź ten artykuł, aby dowiedzieć się więcej',
+        'download' => 'Pobierz',
+        'for_os' => 'dla systemu :os',
+        'macos-fallback' => 'użytkownicy macOS',
+        'mirror' => 'serwer lustrzany',
+        'or' => 'lub',
+        'os_version_or_later' => ':os_version lub nowszych',
+        'other_os' => 'inne platformy',
+        'quick_start_guide' => 'krótki przewodnik',
+        'stable_text' => 'jeżeli szukasz starego klienta gry',
+        'tagline_1' => 'rozpocznij swoją',
+        'tagline_2' => 'przygodę!',
+        'video-guide' => 'poradnik',
 
         'help' => [
             '_' => 'jeżeli masz problem z uruchomieniem gry lub utworzeniem konta, :help_forum_link albo :support_button.',
-            'help_forum_link' => 'sprawdź forum',
+            'help_forum_link' => 'sprawdź forum pomocy',
             'support_button' => 'skontaktuj się z pomocą techniczną',
         ],
 
@@ -86,8 +108,6 @@ return [
             'macos' => 'dla systemu macOS',
             'linux' => 'dla systemu Linux',
         ],
-        'mirror' => 'serwer lustrzany',
-        'macos-fallback' => 'użytkownicy macOS',
         'steps' => [
             'register' => [
                 'title' => 'utwórz konto',
@@ -105,7 +125,6 @@ return [
                 ],
             ],
         ],
-        'video-guide' => 'poradnik',
     ],
 
     'user' => [
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
+            'daily_challenge' => 'Wyzwanie dnia',
             'new' => 'Nowe rankingowe beatmapy',
             'popular' => 'Popularne beatmapy',
             'by_user' => 'autorstwa :user',
+            'resets' => 'zakończy się :ends',
         ],
         'buttons' => [
             'download' => 'Pobierz osu!',
             'support' => 'Wspomóż osu!',
             'store' => 'Sklep osu!',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Wow!',
-        'subtitle' => 'Wygląda na to, że dobrze się bawisz! :D',
-        'body' => [
-            'part-1' => 'Czy wiesz, że osu! nie zawiera reklam i jest utrzymywane dzięki wsparciu graczy?',
-            'part-2' => 'Czy wiesz, że wspierając osu! otrzymasz wiele przydatnych funkcji takich jak <strong>automatyczne pobieranie beatmap</strong> podczas gier wieloosobowych czy oglądania innych graczy?',
+        'livestream' => [
+            'title' => 'Wyróżniona transmisja na żywo',
         ],
-        'find-out-more' => 'Kliknij tutaj, aby dowiedzieć się więcej!',
-        'download-starting' => "A, i nie martw się - pobieranie już się rozpoczęło ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Otwórz konsolę administratora',
+            ],
+        ],
     ],
 ];

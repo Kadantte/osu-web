@@ -9,6 +9,7 @@ use App\Exceptions\ModelNotSavedException;
 use App\Traits\Validatable;
 use Carbon\Carbon;
 use DB;
+use Ds\Set;
 
 /**
  * @property BeatmapDiscussion $beatmapDiscussion
@@ -24,34 +25,32 @@ use DB;
  * @property User $user
  * @property int|null $user_id
  */
-class BeatmapDiscussionPost extends Model
+class BeatmapDiscussionPost extends Model implements Traits\ReportableInterface
 {
-    use Validatable, Reportable;
+    use Traits\Reportable;
+    use Validatable;
 
+    const MESSAGE_LIMIT = 16_000; // column limit for 4 bytes utf8
     const MESSAGE_LIMIT_TIMELINE = 750;
 
     protected $touches = ['beatmapDiscussion'];
 
     protected $casts = [
+        'deleted_at' => 'datetime',
         'system' => 'boolean',
     ];
 
-    protected $dates = ['deleted_at'];
-
-    public static function search($rawParams = [])
+    public static function search($rawParams = [], array $extraParams = [])
     {
-        $pagination = pagination($rawParams);
+        [$query, $params] = static::searchQueryAndParams(cursor_from_params($rawParams) ?? $rawParams);
 
-        $params = [
-            'limit' => $pagination['limit'],
-            'page' => $pagination['page'],
-        ];
-
-        $query = static::limit($params['limit'])->offset($pagination['offset']);
+        $extraParams['current_user_id'] ??= null;
+        $extraParams['is_moderator'] ??= false;
 
         if (isset($rawParams['user'])) {
             $params['user'] = $rawParams['user'];
-            $user = User::lookup($params['user']);
+            $findAll = $extraParams['is_moderator'] || ($extraParams['current_user_id'] === $rawParams['user']);
+            $user = User::lookup($params['user'], null, $findAll);
 
             if ($user === null) {
                 $query->none();
@@ -60,17 +59,15 @@ class BeatmapDiscussionPost extends Model
             }
         }
 
-        // only find replies (i.e. exclude discussion starting-posts)
-        $query->whereExists(function ($postQuery) {
-            $table = (new self())->getTable();
+        $types = (new Set(get_arr($rawParams['types'] ?? null, 'get_string') ?? []))
+            ->intersect(new Set(['first', 'reply', 'system']));
 
-            $postQuery->selectRaw(1)
-                ->from(DB::raw("{$table} d"))
-                ->whereRaw('beatmap_discussion_id = beatmap_discussion_posts.beatmap_discussion_id')
-                ->whereRaw("d.id < {$table}.id");
-        });
+        if ($types->isEmpty()) {
+            $types->add('reply');
+        }
 
-        $query->where('system', 0);
+        $query->byTypes($types);
+        $params['types'] = $types->toArray();
 
         if (isset($rawParams['sort'])) {
             $sort = explode('_', strtolower($rawParams['sort']));
@@ -84,8 +81,8 @@ class BeatmapDiscussionPost extends Model
             }
         }
 
-        $sortField ?? ($sortField = 'id');
-        $sortOrder ?? ($sortOrder = 'desc');
+        $sortField ??= 'id';
+        $sortOrder ??= 'desc';
 
         $params['sort'] = "{$sortField}_{$sortOrder}";
         $query->orderBy($sortField, $sortOrder);
@@ -96,14 +93,16 @@ class BeatmapDiscussionPost extends Model
             $query->where('beatmap_discussion_id', $params['beatmapset_discussion_id']);
         }
 
-        $params['with_deleted'] = get_bool($rawParams['with_deleted'] ?? null) ?? false;
+        $params['with_deleted'] = $extraParams['is_moderator']
+            && (get_bool($rawParams['with_deleted'] ?? null) ?? false);
 
         if (!$params['with_deleted']) {
+            // $query->visible() may be slow for listing; calls visibleBeatmapDiscussion which calls more scopes...
             $query->withoutTrashed();
         }
 
         // TODO: normalize with main beatmapset discussion behaviour (needs React-side fixing)
-        if (!($rawParams['is_moderator'] ?? false)) {
+        if (!isset($params['user']) && !$extraParams['is_moderator']) {
             $query->whereHas('user', function ($userQuery) {
                 $userQuery->default();
             });
@@ -124,7 +123,7 @@ class BeatmapDiscussionPost extends Model
         ]);
     }
 
-    public static function parseTimestamp($message)
+    public static function parseTimestamp(string $message): ?int
     {
         preg_match('/\b(\d{2,}):([0-5]\d)[:.](\d{3})\b/', $message, $matches);
 
@@ -135,6 +134,8 @@ class BeatmapDiscussionPost extends Model
 
             return ($m * 60 + $s) * 1000 + $ms;
         }
+
+        return null;
     }
 
     public function beatmapset()
@@ -225,15 +226,16 @@ class BeatmapDiscussionPost extends Model
                 $this->validationErrors()->add('message', 'required');
             }
 
-            if (optional($this->beatmapDiscussion)->timestamp !== null && mb_strlen($this->message) > static::MESSAGE_LIMIT_TIMELINE) {
-                $this->validationErrors()->add('message', 'too_long', ['limit' => static::MESSAGE_LIMIT_TIMELINE]);
-            }
+            $limit = $this->beatmapDiscussion?->timestamp === null
+                ? static::MESSAGE_LIMIT
+                : static::MESSAGE_LIMIT_TIMELINE;
+            $this->validateDbFieldLength($limit, 'message');
         }
 
         return $this->validationErrors()->isEmpty();
     }
 
-    public function validationErrorsTranslationPrefix()
+    public function validationErrorsTranslationPrefix(): string
     {
         return 'beatmapset_discussion_post';
     }
@@ -243,6 +245,8 @@ class BeatmapDiscussionPost extends Model
         if (!$this->isValid()) {
             return false;
         }
+
+        $origExists = $this->exists;
 
         try {
             return $this->getConnection()->transaction(function () use ($options) {
@@ -259,6 +263,7 @@ class BeatmapDiscussionPost extends Model
                 return true;
             });
         } catch (ModelNotSavedException $_e) {
+            $this->exists = $origExists;
             $this->validationErrors()->merge($this->beatmapDiscussion->validationErrors());
 
             return false;
@@ -357,9 +362,46 @@ class BeatmapDiscussionPost extends Model
         return $this->deleted_at !== null;
     }
 
-    public function timestamp()
+    public function timestamp(): ?int
     {
         return static::parseTimestamp($this->message);
+    }
+
+    public function scopeByTypes($query, Set $types)
+    {
+        $query->where(function ($q) use ($types) {
+            if ($types->contains('system')) {
+                $q->where('system', true);
+            }
+
+            $firstOrReplyCount = $types->intersect(new Set(['first', 'reply']))->count();
+            if ($firstOrReplyCount > 0) {
+                $q->orWhere(function ($replyQuery) use ($firstOrReplyCount, $types) {
+                    $replyQuery->where('system', false);
+
+                    if ($firstOrReplyCount === 1) {
+                        $replyQuery->where(fn ($q) => $q->firstFilter($types->contains('first')));
+                    }
+
+                    return $replyQuery;
+                });
+            }
+
+            return $q;
+        });
+    }
+
+    public function scopeFirstFilter($query, $isFirst = true)
+    {
+        $table = $this->getTable();
+
+        $condition = $isFirst ? 'whereNotExists' : 'whereExists';
+
+        return $query->$condition(fn ($q) => $q
+            ->selectRaw(1)
+            ->from(DB::raw("{$table} d"))
+            ->whereRaw("d.beatmap_discussion_id = {$table}.beatmap_discussion_id")
+            ->whereRaw("d.id < {$table}.id"));
     }
 
     public function scopeWithoutTrashed($query)
@@ -380,7 +422,7 @@ class BeatmapDiscussionPost extends Model
 
     public function url()
     {
-        return $this->beatmapDiscussion->url();
+        return route('beatmapsets.discussions.posts.show', $this->getKey());
     }
 
     protected function newReportableExtraParams(): array

@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Forum;
 
 use App\Exceptions\ModelNotSavedException;
 use App\Models\Forum\Post;
+use App\Transformers\Forum\PostTransformer;
 use Auth;
 use DB;
 use Request;
@@ -25,7 +26,7 @@ class PostsController extends Controller
 
         $this->middleware('require-scopes:forum.write', ['only' => ['update']]);
 
-        return parent::__construct();
+        parent::__construct();
     }
 
     public function destroy($id)
@@ -76,7 +77,7 @@ class PostsController extends Controller
 
         priv_check('ForumPostEdit', $post)->ensureCan();
 
-        return ext_view('forum.topics._post_edit', compact('post'));
+        return ext_view('forum.posts.edit', compact('post'));
     }
 
     /**
@@ -90,7 +91,7 @@ class PostsController extends Controller
      *
      * [ForumPost](#forum-post) with `body` included.
      *
-     * @urlParam post required Id of the post. Example: 1
+     * @urlParam post integer required Id of the post. Example: 1
      *
      * @bodyParam body string required New post content in BBCode format. Example: hello
      */
@@ -129,7 +130,7 @@ class PostsController extends Controller
         $post->refresh();
 
         if (is_api_request()) {
-            return json_item($post, 'Forum\Post', ['body']);
+            return json_item($post, new PostTransformer(), ['body']);
         }
 
         return ext_view('forum.topics._posts', [
@@ -143,12 +144,12 @@ class PostsController extends Controller
     {
         $post = Post::withTrashed()->findOrFail($id);
 
-        if ($post->trashed()) {
-            priv_check('ForumModerate', $post->forum)->ensureCan();
-        }
-
         if ($post->forum === null || $post->topic === null) {
             abort(404);
+        }
+
+        if ($post->trashed() || $post->topic->trashed()) {
+            priv_check('ForumModerate', $post->forum)->ensureCan();
         }
 
         priv_check('ForumView', $post->forum)->ensureCan();
@@ -156,10 +157,10 @@ class PostsController extends Controller
         $text = $post->bodyRaw;
 
         if (Request::input('quote') === '1') {
-            $text = sprintf('[quote="%s"]%s[/quote]', $post->userNormalized()->username, $text);
+            $text = sprintf("[quote=\"%s\"]\n%s\n[/quote]\n", $post->userNormalized()->username, $text);
         }
 
-        return $text;
+        return response($text)->header('Content-Type', 'text/plain');
     }
 
     public function show($id)

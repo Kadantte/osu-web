@@ -5,58 +5,168 @@
 
 namespace Tests\Controllers;
 
-use App\Models\Score\Best\Osu;
+use App\Models\Beatmap;
+use App\Models\OAuth\Client;
+use App\Models\ScoreReplayStats;
+use App\Models\Solo\Score;
 use App\Models\User;
+use App\Models\UserStatistics;
 use Illuminate\Filesystem\Filesystem;
 use Storage;
 use Tests\TestCase;
 
 class ScoresControllerTest extends TestCase
 {
-    private $score;
-    private $user;
+    private Score $score;
+    private User $user;
+    private User $otherUser;
 
-    public function testDownload()
+    public function testDownloadApiSameUser(): void
     {
+        $this->expectCountChange(fn () => $this->getScoreReplayViewCount(), 0);
+        $this->expectCountChange(fn () => $this->getUserReplayPopularity(), 0);
+        $this->expectCountChange(fn () => $this->getUserReplaysWatchedCount(), 0);
+
         $this
-            ->actingAs($this->user)
-            ->withHeaders(['HTTP_REFERER' => config('app.url').'/'])
-            ->json(
-                'GET',
-                route('scores.download', $this->params())
-            )
+            ->actAsPasswordClientUser($this->user)
+            ->get(route('api.scores.download', $this->score))
             ->assertSuccessful();
     }
 
-    public function testDownloadInvalidReferer()
+    public function testDownload(): void
     {
-        $this
-            ->actingAs($this->user)
-            ->json(
-                'GET',
-                route('scores.download', $this->params())
-            )
-            ->assertRedirect(route('scores.show', $this->params()));
+        $this->expectCountChange(fn () => $this->getScoreReplayViewCount(), 0);
+        $this->expectCountChange(fn () => $this->getUserReplayPopularity(), 0);
+        $this->expectCountChange(fn () => $this->getUserReplaysWatchedCount(), 0);
 
         $this
-            ->actingAs($this->user)
-            ->withHeaders(['HTTP_REFERER' => rtrim(config('app.url'), '/').'.example.com'])
-            ->json(
-                'GET',
-                route('scores.download', $this->params())
-            )
-            ->assertRedirect(route('scores.show', $this->params()));
+            ->actingAs($this->otherUser)
+            ->withHeaders(['HTTP_REFERER' => $GLOBALS['cfg']['app']['url'].'/'])
+            ->get(route('scores.download', $this->score))
+            ->assertSuccessful();
     }
 
-    public function testDownloadInvalidMode()
+    public function testDownloadApi(): void
+    {
+        $this->expectCountChange(fn () => $this->getScoreReplayViewCount(), 1);
+        $this->expectCountChange(fn () => $this->getUserReplayPopularity(), 1);
+        $this->expectCountChange(fn () => $this->getUserReplaysWatchedCount(), 1);
+
+        $this
+            ->actAsPasswordClientUser($this->otherUser)
+            ->get(route('api.scores.download', $this->score))
+            ->assertSuccessful();
+    }
+
+    public function testDownloadApiTwiceNoCountChange(): void
+    {
+        $this
+            ->actAsPasswordClientUser($this->otherUser)
+            ->get(route('api.scores.download', $this->score))
+            ->assertSuccessful();
+
+        $this->expectCountChange(fn () => $this->getScoreReplayViewCount(), 0);
+        $this->expectCountChange(fn () => $this->getUserReplayPopularity(), 0);
+        $this->expectCountChange(fn () => $this->getUserReplaysWatchedCount(), 0);
+
+        $this
+            ->actAsPasswordClientUser($this->otherUser)
+            ->get(route('api.scores.download', $this->score))
+            ->assertSuccessful();
+    }
+
+    public function testDownloadDeletedBeatmap(): void
+    {
+        $this->score->beatmap->delete();
+
+        $this
+            ->actingAs($this->user)
+            ->withHeaders(['HTTP_REFERER' => $GLOBALS['cfg']['app']['url'].'/'])
+            ->get(route('scores.download', $this->score))
+            ->assertSuccessful();
+    }
+
+    public function testDownloadInvalidReferer(): void
     {
         $this
             ->actingAs($this->user)
-            ->json(
-                'GET',
-                route('scores.download', ['mode' => 'nope', 'score' => $this->score->getKey()])
-            )
+            ->withHeaders(['HTTP_REFERER' => rtrim($GLOBALS['cfg']['app']['url'], '/').'.example.com'])
+            ->get(route('scores.download', $this->score))
+            ->assertRedirect(route('scores.show', $this->score));
+    }
+
+    public function testDownloadLegacy(): void
+    {
+        $this->createLegacyScore();
+
+        $this->expectCountChange(fn () => $this->getLegacyScoreReplayViewCount(), 0);
+        $this->expectCountChange(fn () => $this->getScoreReplayViewCount(), 0);
+        $this->expectCountChange(fn () => $this->getUserReplayPopularity(), 0);
+        $this->expectCountChange(fn () => $this->getUserReplaysWatchedCount(), 0);
+
+        $this
+            ->actingAs($this->otherUser)
+            ->withHeaders(['HTTP_REFERER' => $GLOBALS['cfg']['app']['url'].'/'])
+            ->get(route('scores.download-legacy', $this->legacyParams()))
+            ->assertSuccessful();
+    }
+
+    public function testDownloadLegacyApi(): void
+    {
+        $this->createLegacyScore();
+
+        $this->expectCountChange(fn () => $this->getLegacyScoreReplayViewCount(), 1);
+        $this->expectCountChange(fn () => $this->getScoreReplayViewCount(), 1);
+        $this->expectCountChange(fn () => $this->getUserReplayPopularity(), 1);
+        $this->expectCountChange(fn () => $this->getUserReplaysWatchedCount(), 1);
+
+        $this
+            ->actAsPasswordClientUser($this->otherUser)
+            ->get(route('api.scores.download-legacy', $this->legacyParams()))
+            ->assertSuccessful();
+    }
+
+    public function testDownloadLegacyInvalidRuleset(): void
+    {
+        $this->createLegacyScore();
+
+        $this
+            ->actingAs($this->otherUser)
+            ->withHeaders(['HTTP_REFERER' => $GLOBALS['cfg']['app']['url'].'/'])
+            ->get(route('scores.download-legacy', [...$this->legacyParams(), 'ruleset' => 'nope']))
             ->assertStatus(404);
+    }
+
+    public function testDownloadLegacyMissingBeatmap(): void
+    {
+        $this->createLegacyScore();
+        $this->score->beatmap->forceDelete();
+
+        $this
+            ->actingAs($this->user)
+            ->withHeaders(['HTTP_REFERER' => $GLOBALS['cfg']['app']['url'].'/'])
+            ->get(route('scores.download-legacy', $this->legacyParams()))
+            ->assertStatus(422);
+    }
+
+    public function testDownloadLegacyMissingUser(): void
+    {
+        $this->createLegacyScore();
+        $this->score->user->delete();
+
+        $this
+            ->actingAs($this->otherUser)
+            ->withHeaders(['HTTP_REFERER' => $GLOBALS['cfg']['app']['url'].'/'])
+            ->get(route('scores.download-legacy', $this->legacyParams()))
+            ->assertStatus(422);
+    }
+
+    public function testDownloadNoReferer(): void
+    {
+        $this
+            ->actingAs($this->user)
+            ->get(route('scores.download', $this->score))
+            ->assertRedirect(route('scores.show', $this->score));
     }
 
     protected function setUp(): void
@@ -64,13 +174,13 @@ class ScoresControllerTest extends TestCase
         parent::setUp();
 
         // fake all the replay disks
-        $disks = [];
-        foreach (array_keys(config('filesystems.disks.replays')) as $key) {
-            foreach (array_keys(config("filesystems.disks.replays.{$key}")) as $type) {
-                $disk = "replays.{$key}.{$type}";
-                $disks[] = $disk;
-                Storage::fake($disk);
-            }
+        $type = $GLOBALS['cfg']['filesystems']['default'];
+        $disks = [
+            "{$type}-replay",
+            ...prefix_strings("{$type}-legacy-replay-", array_keys(Beatmap::MODES)),
+        ];
+        foreach ($disks as $disk) {
+            Storage::fake($disk);
         }
 
         // Laravel doesn't remove the directory created for fakes and
@@ -82,15 +192,54 @@ class ScoresControllerTest extends TestCase
             }
         });
 
-        $this->user = factory(User::class)->create();
-        $this->score = factory(Osu::class)->states('with_replay')->create();
+        $this->score = Score::factory()->withReplay()->create();
+
+        $this->user = $this->score->user;
+        UserStatistics\Model::getClass($this->score->getMode())::factory()->create(['user_id' => $this->user->getKey()]);
+
+        $this->otherUser = User::factory()->create();
     }
 
-    private function params()
+    private function actAsPasswordClientUser(User $user): static
+    {
+        $this->actAsScopedUser($user, ['*'], Client::factory()->passwordClient()->create());
+
+        return $this;
+    }
+
+    private function createLegacyScore(): void
+    {
+        $this->score->update(['legacy_score_id' => time()]);
+        $this->score->replayFile()->put('dummy replay file');
+    }
+
+    private function getLegacyScoreReplayViewCount(): int
+    {
+        return $this->score->legacyReplayViewCount()->first()?->play_count ?? 0;
+    }
+
+    private function getScoreReplayViewCount(): int
+    {
+        return ScoreReplayStats::find($this->score->getKey())?->watch_count ?? 0;
+    }
+
+    private function getUserReplaysWatchedCount(): int
+    {
+        $month = format_month_column(new \DateTime());
+
+        return $this->score->user->replaysWatchedCounts()->firstWhere('year_month', $month)?->count ?? 0;
+    }
+
+    private function getUserReplayPopularity(): int
+    {
+        return $this->score->user->statistics($this->score->getMode(), true)->first()?->replay_popularity ?? 0;
+    }
+
+    private function legacyParams(): array
     {
         return [
-            'mode' => $this->score->getMode(),
-            'score' => $this->score->getKey(),
+            'ruleset' => $this->score->getMode(),
+            'score' => $this->score->legacy_best_id,
         ];
     }
 }

@@ -8,12 +8,23 @@ return [
 
     'all' => 'Tot',
     'friends' => 'Prieteni',
-    'last_visit' => 'Recent activ',
+    'last_visit' => 'Activ recent',
     'new' => 'Recent',
     'old' => 'Vechi',
-    'rank' => 'Rank',
+    'rank' => 'Rang',
     'top' => 'Top',
     'username' => 'Nume de utilizator',
+
+    'artist_tracks' => [
+        'album' => 'Album',
+        'artist' => 'Artist',
+        'bpm' => 'BPM',
+        'genre' => 'Gen',
+        'length' => 'Durată',
+        'relevance' => 'Relevanţă',
+        'title' => 'Titlu',
+        'update' => 'Actualizare',
+    ],
 
     'forum_posts' => [
         'created' => 'Data postării',
@@ -21,12 +32,20 @@ return [
     ],
 
     'forum_topics' => [
+        'created' => 'Creat',
         'feature_votes' => 'Prioritatea stelelor',
         'new' => 'Ultimul răspuns',
     ],
 
+    'teams' => [
+        'created' => '',
+        'relevance' => 'Relevanță',
+        'name' => 'Nume',
+        'short-name' => 'Prescurtare',
+    ],
+
     'users' => [
-        'relevance' => '',
-        'username' => '',
+        'relevance' => 'Relevanţă',
+        'username' => 'Nume',
     ],
 ];

@@ -5,43 +5,39 @@
 
 return [
     'index' => [
-        'description' => 'Valmiiksi kasattuja beatmap kokoelmia, joissa yhdistyy tietty teema.',
+        'description' => 'Valmiiksi pakattuja rytmikarttakokoelmia, joissa yhdistyy tietty teema.',
+        'empty' => 'Tulossa pian!',
         'nav_title' => 'listaus',
-        'title' => 'Beatmap-Kokoelmat',
+        'title' => 'Beatmappipaketit',
 
         'blurb' => [
             'important' => 'LUE TÄMÄ ENNEN LATAAMISTA',
-            'instruction' => [
-                '_' => "Asennus: Kun paketti on ladattu, pura .rar tiedosto osu! Songs kansioon.
-                 Kappaleet ovat vielä .zip ja/tai .osz muodossa paketin sisällä, joten osu! purkaa beatmapit seuraavalla pelikerrallla.
-                 :scary pura .zip/.osz-tiedostoja itse,
-                 tai beatmapit eivät näy oikein pelissä eivätkä toimi kunnolla.",
-                'scary' => 'ÄLÄ',
-            ],
-            'note' => [
-                '_' => 'Huomaa myös, että on erittäin suositeltavaa :scary, koska vanhemmat mapit ovat paljon huonompia kuin uudet.',
-                'scary' => 'ladata uusimpia kokoelmia vanhojen sijaan',
-            ],
+            'install_instruction' => 'Asennus: Kun paketti on latautunut, pura sen sisältö osu!:n "Songs"-tiedostohakemistoon ja osu! hoitaa loput.',
         ],
     ],
 
     'show' => [
+        'created_by' => 'tehnyt :author',
         'download' => 'Lataa',
+        'no_diff_reduction_badge' => 'Haaste',
         'item' => [
             'cleared' => 'läpäisty',
             'not_cleared' => 'läpäisemätön',
         ],
         'no_diff_reduction' => [
-            '_' => '',
-            'link' => '',
+            '_' => ':link ei voi käyttää tämän paketin suorittamiseen.',
+            'link' => 'Vaikeusastetta vähentäviä muunnelmia',
         ],
     ],
 
     'mode' => [
-        'artist' => 'Esittäjä/Albumi',
-        'chart' => 'Valokeilassa',
+        'artist' => 'Artisti/Albumi',
+        'chart' => 'Kohdevaloissa',
+        'featured' => 'Esitelty artisti',
+        'loved' => 'Projekti Rakastettu',
         'standard' => 'Tavallinen',
         'theme' => 'Teema',
+        'tournament' => 'Turnaus',
     ],
 
     'require_login' => [

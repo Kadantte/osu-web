@@ -1,0 +1,106 @@
+// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
+// See the LICENCE file in the repository root for full licence text.
+
+.beatmap-discussion-editor-insertion-menu {
+  --beatmap-discussion-editor-insertion-menu-buttons-opacity: 0;
+  --beatmap-discussion-editor-insertion-menu-max-width: 100px;
+
+  display: none;
+  z-index: @z-index--beatmap-discussion-editor-insertion-menu;
+  position: fixed;
+  width: 100%;
+  justify-content: center;
+  pointer-events: none; // as to not impede text-selection/etc within the editor itself
+
+  &::before {
+    content: "";
+    background: hsl(var(--hsl-b3));
+    position: absolute;
+    top: 9px;
+    height: 3px;
+    width: 100%;
+    .default-box-shadow();
+    .default-border-radius();
+  }
+
+  &__body {
+    align-items: center;
+    background: hsl(var(--hsl-b6));
+    border-radius: 20px;
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+    text-align: center;
+    min-width: 100px;
+    max-width: var(--beatmap-discussion-editor-insertion-menu-max-width);
+    height: 20px;
+    color: hsl(var(--hsl-f1));
+    will-change: width, height, max-width;
+    transition: ease-in-out 100ms;
+    pointer-events: auto;
+    position: relative;
+
+    overflow: hidden;
+    .default-box-shadow();
+
+    &:hover {
+      height: 30px;
+      margin-top: -5px;
+      --beatmap-discussion-editor-insertion-menu-buttons-opacity: 1;
+      --beatmap-discussion-editor-insertion-menu-max-width: 180px; // transition needs a fixed value.
+    }
+
+    @media @mobile {
+      height: 30px;
+      margin-top: -5px;
+      --beatmap-discussion-editor-insertion-menu-buttons-opacity: 1;
+      --beatmap-discussion-editor-insertion-menu-max-width: 180px;
+    }
+  }
+
+  &__buttons {
+    position: relative;
+    background: hsl(var(--hsl-b6));
+    white-space: nowrap;
+    opacity: var(--beatmap-discussion-editor-insertion-menu-buttons-opacity);
+    transition: opacity ease-in-out 100ms;
+    padding: 0 15px;
+  }
+
+  &__menu-button {
+    .reset-input();
+    width: 30px;
+    height: 30px;
+    color: hsl(var(--hsl-f1));
+    filter: grayscale(1);
+
+    &:hover {
+      filter: none;
+    }
+
+    &--mapper_note:hover {
+      color: @beatmap-discussion--color-mapper-note;
+    }
+
+    &--paragraph:hover {
+      color: @osu-colour-c1;
+    }
+
+    &--praise:hover {
+      color: @beatmap-discussion--color-praise;
+    }
+
+    &--problem:hover {
+      color: @beatmap-discussion--color-problem;
+    }
+
+    &--suggestion:hover {
+      color: @beatmap-discussion--color-suggestion;
+    }
+  }
+
+  &__plus {
+    position: absolute;
+    width: 100%;
+  }
+}

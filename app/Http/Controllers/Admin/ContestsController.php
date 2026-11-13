@@ -6,10 +6,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Contest;
+use App\Models\ContestJudgeVote;
+use App\Models\DeletedUser;
 use App\Models\UserContestEntry;
+use App\Transformers\UserContestEntryTransformer;
+use ZipStream\ZipStream;
 
 class ContestsController extends Controller
 {
+    public function calculate($contestId)
+    {
+        Contest::findOrFail($contestId)->calculateScoresStd();
+
+        \Session::flash('popup', 'Standardised scores calculated.');
+
+        return response()->noContent();
+    }
+
     public function index()
     {
         return ext_view('admin.contests.index', [
@@ -19,69 +32,51 @@ class ContestsController extends Controller
 
     public function show($id)
     {
-        $contest = Contest::findOrFail($id);
+        $contest = Contest::with('judges')
+            ->withCount('entries')
+            ->findOrFail($id);
+
         $entries = UserContestEntry::withTrashed()
             ->where('contest_id', $id)
             ->with('user')
             ->get();
 
+        if ($contest->isJudged()) {
+            $judgeVoteCounts = ContestJudgeVote::whereIn('contest_entry_id', $contest->entries()->pluck('id'))
+                ->groupBy('user_id')
+                ->selectRaw('COUNT(*) as judge_vote_count, user_id')
+                ->get()
+                ->keyBy('user_id');
+        }
+
         return ext_view('admin.contests.show', [
             'contest' => $contest,
-            'entries' => json_collection($entries, 'UserContestEntry', ['user']),
+            'entries' => json_collection($entries, new UserContestEntryTransformer(), ['user']),
+            'judgeVoteCounts' => $judgeVoteCounts ?? null,
         ]);
     }
 
     public function gimmeZip($id)
     {
+        // doesn't actually work in octane
         set_time_limit(300);
 
-        $contest = Contest::findOrFail($id);
+        Contest::findOrFail($id);
         $entries = UserContestEntry::where('contest_id', $id)->with('user')->get();
 
-        $tmpBase = sys_get_temp_dir()."/c{$id}-".time();
-        $workingFolder = "$tmpBase/working";
-        $outputFolder = "$tmpBase/out";
+        $zipOutput = "contest-{$id}.zip";
 
-        try {
-            if (!is_dir($workingFolder)) {
-                mkdir($workingFolder, 0755, true);
-            }
-            if (!is_dir($outputFolder)) {
-                mkdir($outputFolder, 0755, true);
-            }
+        return response()->streamDownload(function () use ($entries) {
+            $zip = new ZipStream();
 
-            // fetch 'em
+            $deletedUser = new DeletedUser();
             foreach ($entries as $entry) {
-                $targetDir = "{$workingFolder}/".($entry->user ?? (new \App\Models\DeletedUser()))->username." ({$entry->user_id})/";
-                if (!is_dir($targetDir)) {
-                    mkdir($targetDir, 0755, true);
-                }
-
-                copy($entry->fileUrl(), $targetDir.sanitize_filename($entry->original_filename));
+                $targetDir = ($entry->user ?? $deletedUser)->username." ({$entry->user_id})";
+                $filename = sanitize_filename($entry->original_filename);
+                $zip->addFile("$targetDir/{$filename}", $entry->file()->get());
             }
 
-            // zip 'em
-            $zipOutput = "{$outputFolder}/contest-{$id}.zip";
-
-            $zip = new \ZipArchive();
-            $zip->open($zipOutput, \ZipArchive::CREATE);
-            foreach (glob("{$workingFolder}/**/*.*") as $file) {
-                // we just want the path relative to the working folder root
-                $new_filename = str_replace("$workingFolder/", '', $file);
-                $zip->addFile($file, $new_filename);
-            }
-            $zip->close();
-
-            // send 'em
-            header('Content-Disposition: attachment; filename='.basename($zipOutput));
-            header('Content-Type: application/zip');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: '.filesize($zipOutput));
-            readfile($zipOutput);
-        } finally {
-            deltree($tmpBase);
-        }
+            $zip->finish();
+        }, $zipOutput, ['content-type' => 'application/zip']);
     }
 }

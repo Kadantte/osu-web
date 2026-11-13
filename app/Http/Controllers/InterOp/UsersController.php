@@ -5,13 +5,75 @@
 
 namespace App\Http\Controllers\InterOp;
 
+use App\Exceptions\ModelNotSavedException;
 use App\Exceptions\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Libraries\UserRegistration;
+use App\Models\Beatmap;
+use App\Models\Event;
 use App\Models\User;
+use App\Models\UserAchievement;
+use App\Transformers\CurrentUserTransformer;
 
 class UsersController extends Controller
 {
+    public function achievement($id, $achievementId, $beatmapId = null)
+    {
+        $achievement = app('medals')->byIdOrFail($achievementId);
+
+        abort_if($achievement->client_side, 422, 'achievement cannot be unlocked via interop call');
+
+        $unlocked = UserAchievement::unlock(
+            User::findOrFail($id),
+            $achievement,
+            Beatmap::find($beatmapId),
+        );
+
+        abort_unless($unlocked, 422, 'user already unlocked the specified achievement');
+
+        datadog_increment('user_achievement_unlock', ['id' => $achievementId, 'source' => 'interop']);
+
+        return $achievement->getKey();
+    }
+
+    public function rankAchieved($userId, $beatmapId, $rulesetId)
+    {
+        $params = get_params(
+            request()->all(),
+            null,
+            [
+                'position_after:int',
+                'rank:string',
+                'legacy_score_event:bool',
+            ]
+        );
+
+        abort_unless(isset($params['position_after']), 422, 'missing position_after parameter');
+        abort_unless(isset($params['rank']), 422, 'missing rank parameter');
+        abort_unless(isset($params['legacy_score_event']), 422, 'missing legacy_score_event parameter');
+
+        $params['beatmap'] = Beatmap::findOrFail($beatmapId);
+        $params['ruleset'] = Beatmap::modeStr($rulesetId);
+        $params['user'] = User::findOrFail($userId);
+
+        Event::generate('rank', $params);
+        return response()->noContent();
+    }
+
+    public function firstPlaceLost($userId, $beatmapId, $rulesetId)
+    {
+        $legacyScoreEvent = get_bool(request('legacy_score_event'));
+        abort_unless(isset($legacyScoreEvent), 422, 'missing legacy_score_event parameter');
+
+        Event::generate('rankLost', [
+            'legacy_score_event' => $legacyScoreEvent,
+            'beatmap' => Beatmap::findOrFail($beatmapId),
+            'ruleset' => Beatmap::modeStr($rulesetId),
+            'user' => User::findOrFail($userId),
+        ]);
+        return response()->noContent();
+    }
+
     public function store()
     {
         $request = request()->all();
@@ -40,11 +102,11 @@ class UsersController extends Controller
         try {
             $registration->save();
 
-            return $registration->user()->fresh()->defaultJson();
+            return json_item($registration->user()->fresh(), new CurrentUserTransformer());
         } catch (ValidationException $ex) {
-            return response(['form_error' => [
-                'user' => $registration->user()->validationErrors()->all(),
-            ]], 422);
+            return ModelNotSavedException::makeResponse($ex, [
+                'user' => $registration->user(),
+            ]);
         }
     }
 }

@@ -33,10 +33,14 @@ return [
 
     'blocks' => [
         'banner_text' => 'Hai bloccato questo utente.',
+        'comment_text' => 'Questo commento è nascosto.',
         'blocked_count' => 'utenti bloccati (:count)',
         'hide_profile' => 'Nascondi profilo',
+        'hide_comment' => 'nascondi',
+        'forum_post_text' => 'Questo post è nascosto.',
         'not_blocked' => 'Questo utente non è bloccato.',
         'show_profile' => 'Visualizza profilo',
+        'show_comment' => 'mostra',
         'too_many' => 'Limite blocchi raggiunto.',
         'button' => [
             'block' => 'Blocca',
@@ -45,8 +49,25 @@ return [
     ],
 
     'card' => [
+        'gift_supporter' => 'Regala il tag supporter',
         'loading' => 'Caricamento...',
         'send_message' => 'Invia messaggio',
+    ],
+
+    'create' => [
+        'form' => [
+            'password' => 'password',
+            'password_confirmation' => 'conferma password',
+            'submit' => 'crea account',
+            'user_email' => 'email',
+            'user_email_confirmation' => 'conferma email',
+            'username' => 'nome utente',
+
+            'tos_notice' => [
+                '_' => 'creando un account accetti i :link',
+                'link' => 'termini di servizio',
+            ],
+        ],
     ],
 
     'disabled' => [
@@ -60,7 +81,7 @@ return [
 
         'reasons' => [
             'compromised' => 'Il tuo account sembra essere stato compromesso. Potrebbe essere disattivato temporaneamente mentre la sua identità viene confermata.',
-            'opening' => 'Ci sono una serie di motivi che possono causare la disabilitazione del tuo account:',
+            'opening' => 'Ci sono una serie di motivi che possono causare la disattivazione del tuo account:',
 
             'tos' => [
                 '_' => 'Hai violato una o più delle nostre :community_rules, oppure uno o più :tos.',
@@ -76,6 +97,7 @@ return [
 
     'force_reactivation' => [
         'reason' => [
+            'inactive' => "Il tuo account non viene usato da molto tempo.",
             'inactive_different_country' => "Il tuo account non è stato utilizzato per molto tempo.",
         ],
     ],
@@ -89,16 +111,34 @@ return [
         'forgot' => 'Hai dimenticato la tua password?',
         'info' => 'Accedi per continuare',
         'invalid_captcha' => 'Troppi tentativi di accesso falliti, completa il captcha e riprova. (Ricarica la pagina se il captcha non è visibile)',
-        'locked_ip' => 'il tuo indirizzo IP è bloccato. Aspetta qualche minuto per favore.',
+        'locked_ip' => 'Il tuo indirizzo IP è bloccato. Aspetta qualche minuto per favore.',
         'password' => 'Password',
         'register' => "Non hai un account di osu!? Fanne uno nuovo",
         'remember' => 'Ricorda questo computer',
-        'title' => 'Per favore accedi per procedere',
+        'title' => 'Accedi per poter continuare',
         'username' => 'Nome Utente',
 
         'beta' => [
             'main' => 'L\'accesso alla beta è attualmente limitato ad utenti privilegiati.',
             'small' => '(gli osu!supporter lo avranno a breve)',
+        ],
+    ],
+
+    'multiplayer' => [
+        'index' => [
+            'active' => 'In corso',
+            'ended' => 'Terminate',
+        ],
+    ],
+
+    'ogp' => [
+        'modding_description' => 'Beatmap: :counts',
+        'modding_description_empty' => 'L\'utente non ha beatmap...',
+
+        'description' => [
+            '_' => 'Posizione (:ruleset): :global | :country',
+            'country' => 'Nazionale :rank',
+            'global' => 'Globale :rank',
         ],
     ],
 
@@ -126,18 +166,30 @@ return [
             'cancel' => 'Annulla',
         ],
 
+        'dmca' => [
+            'message_1' => [
+                '_' => 'Segnala le violazioni del copyright attraverso un reclamo DMCA a :mail, come da :policy.',
+                'policy' => 'normativa sulla privacy di osu!',
+            ],
+            'message_2' => 'Questo vale per i casi in cui le tracce audio, il contenuto visivo o il contenuto del livello beatmap vengono utilizzati senza il corretto permesso.',
+        ],
+
         'options' => [
             'cheating' => 'Gioco scorretto / Cheating',
+            'copyright_infringement' => 'Violazione del copyright',
+            'inappropriate_chat' => 'Comportamento inappropriato in chat',
             'insults' => 'Insulti a me / altri',
-            'spam' => 'Spamming',
-            'unwanted_content' => 'Condivisione di contenuti inappropriati',
+            'multiple_accounts' => 'Uso di account multipli',
             'nonsense' => 'Senza senso',
             'other' => 'Altro (scrivi sotto)',
+            'spam' => 'Spamming',
+            'unwanted_content' => 'Contenuto inappropriato',
         ],
     ],
     'restricted_banner' => [
         'title' => 'Il tuo account è stato limitato!',
-        'message' => 'Quando sei limitato, non sarai in grado di interagire con gli altri giocatori e i tuoi punteggi saranno visibili solo a te. Solitamente questo è il risultato di un processo automatico e verrà risolto preferibilmente entro 24 ore. Se desideri fare appello alla tua restrizione, <a href="mailto:accounts@ppy.sh">contatta il supporto</a>.',
+        'message' => 'Quando sei limitato, non sarai in grado di interagire con gli altri giocatori e i tuoi punteggi saranno visibili solo a te. Di solito questo è il risultato di un processo automatico e dovrebbe risolversi entro 24 ore. :link',
+        'message_link' => 'Controlla questa pagina per saperne di più.',
     ],
     'show' => [
         'age' => ':age anni',
@@ -150,24 +202,58 @@ return [
         'lastvisit_online' => 'Attualmente online',
         'missingtext' => 'Potresti aver fatto un errore di battitura! (o l\'utente potrebbe essere stato bannato)',
         'origin_country' => 'da :country',
-        'previous_usernames' => 'precedentemente conosciuto come',
+        'previous_usernames' => 'conosciuto in precedenza come',
         'plays_with' => 'Gioca con :devices',
-        'title' => "Profilo di :username",
+
+        'badge' => [
+            'pin' => [
+                'to_0' => '',
+                'to_1' => '',
+            ],
+        ],
 
         'comments_count' => [
             '_' => 'Ha postato :link',
             'count' => ':count_delimited commento|:count_delimited commenti',
         ],
+        'cover' => [
+            'to_0' => 'Nascondi immagine di copertina',
+            'to_1' => 'Mostra copertina',
+        ],
+        'daily_challenge' => [
+            'daily' => 'Serie Giornaliera',
+            'daily_streak_best' => 'Migliore Serie Giornaliera',
+            'daily_streak_current' => 'Attuale Serie Giornaliera',
+            'playcount' => 'Partecipazione Totale',
+            'title' => 'Sfida\nGiornaliera',
+            'top_10p_placements' => 'Piazzamenti nel primo 10%',
+            'top_50p_placements' => 'Piazzamenti nel primo 50%',
+            'weekly' => 'Serie Settimanale',
+            'weekly_streak_best' => 'Migliore Serie Settimanale',
+            'weekly_streak_current' => 'Attuale Serie Settimanale',
+
+            'unit' => [
+                'day' => ':valueg',
+                'week' => ':valuewk',
+            ],
+        ],
+        'detail_switch' => [
+            'to_v1' => 'Mostra meno dettagli',
+            'to_v2' => 'Mostra più dettagli',
+        ],
         'edit' => [
             'cover' => [
                 'button' => 'Cambia copertina del profilo',
                 'defaults_info' => 'Più opzioni per la copertina saranno disponibili in futuro',
+                'holdover_remove_confirm' => "La copertina precedentemente selezionata non è più disponibile. Non puoi riselezionarla dopo essere passato a una copertina diversa. Procedere?",
+                'title' => 'Immagine di copertina',
+
                 'upload' => [
                     'broken_file' => 'Elaborazione dell\'immagine non riuscita. Controlla l\'immagine caricata e riprova.',
                     'button' => 'Carica immagine',
                     'dropzone' => 'Trascina qui per caricarla',
                     'dropzone_info' => 'Puoi anche trascinare qui l\'immagine per caricarla',
-                    'size_info' => 'L\'immagine di copertina dovrebbe essere 2400x640',
+                    'size_info' => 'L\'immagine di copertina dovrebbe essere 2000x500',
                     'too_large' => 'Il file caricato è troppo grande.',
                     'unsupported_format' => 'Formato non supportato.',
 
@@ -181,6 +267,16 @@ return [
             'default_playmode' => [
                 'is_default_tooltip' => 'modalità predefinita',
                 'set' => 'imposta :mode come modalità predefinita',
+            ],
+
+            'hue' => [
+                'reset_no_supporter' => 'Ripristinare il colore predefinito? Sarà necessario il tag supporter per cambiarlo in un altro colore.',
+                'title' => 'Colore',
+
+                'supporter' => [
+                    '_' => 'Temi con colore personalizzato disponibili solo per gli :link',
+                    'link' => 'osu!supporter',
+                ],
             ],
         ],
 
@@ -203,14 +299,20 @@ return [
                 'graveyard' => [
                     'title' => 'Beatmap Abbandonate',
                 ],
+                'guest' => [
+                    'title' => 'Beatmap Ospitate',
+                ],
                 'loved' => [
                     'title' => 'Beatmap Amate',
                 ],
-                'ranked_and_approved' => [
-                    'title' => 'Beatmap Classificate & Approvate',
+                'nominated' => [
+                    'title' => 'Beatmap Classificate Nominate',
                 ],
-                'unranked' => [
-                    'title' => 'Beatmap in Attesa',
+                'pending' => [
+                    'title' => 'Beatmap In Attesa',
+                ],
+                'ranked' => [
+                    'title' => 'Beatmap Classificate',
                 ],
             ],
             'discussions' => [
@@ -228,11 +330,11 @@ return [
 
                 'monthly_playcounts' => [
                     'title' => 'Cronologia Partite',
-                    'count_label' => 'Giocate',
+                    'count_label' => 'Partite',
                 ],
                 'most_played' => [
                     'count' => 'volte giocata',
-                    'title' => 'Beatmap più Giocate',
+                    'title' => 'Beatmap Più Giocate',
                 ],
                 'recent_plays' => [
                     'accuracy' => 'precisione: :percentage',
@@ -241,6 +343,9 @@ return [
                 'replays_watched_counts' => [
                     'title' => 'Cronologia Replay Guardati',
                     'count_label' => 'Replay guardati',
+                ],
+                'score_replay_stats' => [
+                    'title' => 'Replay Più Guardati',
                 ],
             ],
             'kudosu' => [
@@ -296,30 +401,48 @@ return [
                 'title' => 'io!',
             ],
             'medals' => [
-                'empty' => "Questo utente non ne ha ricevuti ancora. ;_;",
+                'empty' => "Questo utente non ne ha ancora ottenuta una. ;_;",
                 'recent' => 'Più recenti',
                 'title' => 'Medaglie',
+            ],
+            'playlists' => [
+                'title' => 'Partite Playlist',
             ],
             'posts' => [
                 'title' => 'Post',
                 'title_longer' => 'Post Recenti',
                 'show_more' => 'guarda più post',
             ],
+            'ranked-play' => [
+                'title' => 'Partite Ranked Play',
+            ],
             'recent_activity' => [
                 'title' => 'Recenti',
             ],
+            'realtime' => [
+                'title' => 'Partite Multigiocatore',
+            ],
             'top_ranks' => [
-                'download_replay' => 'Scarica Replay',
-                'not_ranked' => 'Solo le mappe classificate danno pp.',
-                'pp_weight' => 'valutata :percentage',
-                'view_details' => 'Visualizza Dettagli',
-                'title' => 'Rank',
+                'download_replay' => 'Scarica replay',
+                'not_ranked' => 'Solo le beatmap classificate conferiscono pp',
+                'pp_weight' => 'valutata al :percentage',
+                'view_details' => 'Visualizza dettagli',
+                'title' => 'Punteggi',
 
                 'best' => [
                     'title' => 'Migliore Performance',
                 ],
                 'first' => [
-                    'title' => 'Rank Primo Posto',
+                    'title' => 'Punteggi in Prima Posizione',
+                ],
+                'pin' => [
+                    'to_0' => 'Rimuovi',
+                    'to_0_done' => 'Punteggio rimosso dai fissati',
+                    'to_1' => 'Fissa',
+                    'to_1_done' => 'Punteggio fissato',
+                ],
+                'pinned' => [
+                    'title' => 'Punteggi Fissati',
                 ],
             ],
             'votes' => [
@@ -339,13 +462,14 @@ return [
                     'date' => 'data',
                     'action' => 'azione',
                     'length' => 'durata',
-                    'length_permanent' => 'Permanente',
+                    'length_indefinite' => 'Indeterminato',
                     'description' => 'descrizione',
                     'actor' => 'da :username',
 
                     'actions' => [
                         'restriction' => 'Ban',
                         'silence' => 'Silenziato',
+                        'tournament_ban' => 'Ban Torneo',
                         'note' => 'Nota',
                     ],
                 ],
@@ -360,6 +484,19 @@ return [
             'twitter' => '',
             'website' => 'Sito',
         ],
+
+        'matchmaking' => [
+            'losses' => 'Sconfitte',
+            'plays' => 'Partite Totali',
+            'rank' => 'Posizione',
+            'rating' => 'Punteggio',
+            'recent_history' => 'Cronologia ultimi scontri',
+            'recent_history_provisional' => 'Dati non sufficienti per visualizzare statistiche accurate. Gioca più partite!',
+            'tier' => 'Grado',
+            'title' => 'Ranked Play',
+            'wins' => 'Vittorie',
+        ],
+
         'not_found' => [
             'reason_1' => 'Potrebbero aver cambiato il loro nome utente.',
             'reason_2' => 'L\'account potrebbe essere temporaneamente non disponibile a causa di problemi di sicurezza o abuso.',
@@ -384,28 +521,47 @@ return [
         ],
         'rank' => [
             'country' => 'Rank del paese per :mode',
-            'country_simple' => 'Classifica del Paese',
-            'global' => 'Rank globale :mode',
-            'global_simple' => 'Classifica globale',
+            'country_simple' => 'Classifica Nazionale',
+            'global' => 'Posto globale per :mode',
+            'global_simple' => 'Classifica Globale',
+            'highest' => 'Posizione più alta: :rank il :date',
+            'kudosu_outside_top_1000' => 'Il grado viene indicato solo dopo essere entrati tra i primi 1.000',
+            'kudosu_simple' => 'Classifica Kudosu',
+        ],
+        'score_processing' => [
+            'title' => 'È :link un nuovo algoritmo di Valutazione in Stelle / PP.',
+            'title_link' => 'in arrivo',
+            'message' => 'I punteggi recenti potrebbero non riflettersi subito sui profili utente.',
+        ],
+        'season_stats' => [
+            'division_top_percentage' => 'Top :value',
+            'label' => 'Spotlight',
+            'total_score' => 'Punteggio totale',
+        ],
+        'solo' => [
+            'title' => 'Giocatore Singolo',
         ],
         'stats' => [
-            'hit_accuracy' => 'Precisione dei colpi',
+            'hit_accuracy' => 'Precisione dei Colpi',
+            'hits_per_play' => 'Colpi Per Partita',
             'level' => 'Livello :level',
             'level_progress' => 'Avanzamento al livello successivo',
             'maximum_combo' => 'Combo Massima',
             'medals' => 'Medaglie',
-            'play_count' => 'Partite giocate',
-            'play_time' => 'Tempo totale di gioco',
-            'ranked_score' => 'Punteggio Rankato',
+            'play_count' => 'Partite Giocate',
+            'play_time' => 'Tempo di Gioco',
+            'ranked_score' => 'Punteggio Classificato',
             'replays_watched_by_others' => 'Replay Guardati da Altri',
             'score_ranks' => 'Rank dei Punteggi',
             'total_hits' => 'Colpi Totali',
             'total_score' => 'Punteggio Totale',
             // modding stats
-            'ranked_and_approved_beatmapset_count' => 'Beatmap Classificate & Approvate',
-            'loved_beatmapset_count' => 'Beatmap Amate',
-            'unranked_beatmapset_count' => 'Beatmap in Attesa',
             'graveyard_beatmapset_count' => 'Beatmap Abbandonate',
+            'guest_beatmapset_count' => 'Beatmap Ospitate',
+            'loved_beatmapset_count' => 'Beatmap Amate',
+            'nominated_beatmapset_count' => 'Beatmap Classificate Nominate',
+            'pending_beatmapset_count' => 'Beatmap In Attesa',
+            'ranked_beatmapset_count' => 'Beatmap Classificate',
         ],
     ],
 
@@ -419,7 +575,15 @@ return [
         'online' => 'Online',
         'offline' => 'Offline',
     ],
+    'relationship' => [
+        'title' => '',
+        'all' => '',
+        'mutual' => '',
+        'non_mutual' => '',
+    ],
     'store' => [
+        'from_client' => 'registrati attraverso il gioco!',
+        'from_web' => 'si prega di completare la registrazione utilizzando il sito osu!',
         'saved' => 'Utente creato',
     ],
     'verify' => [
@@ -429,6 +593,6 @@ return [
     'view_mode' => [
         'brick' => 'Vista a blocchi',
         'card' => 'Vista a schede',
-        'list' => 'Vista ad elenco',
+        'list' => 'Vista a elenco',
     ],
 ];

@@ -7,6 +7,7 @@ namespace Tests\Controllers\OAuth;
 
 use App\Models\OAuth\Client;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class ClientsControllerTest extends TestCase
@@ -37,7 +38,7 @@ class ClientsControllerTest extends TestCase
 
     public function testCannotDeleteOtherUserClient()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this
             ->actingAsVerified($user)
@@ -71,17 +72,13 @@ class ClientsControllerTest extends TestCase
         $this->assertSame($this->owner->getKey(), $client->user_id);
         $this->assertSame('best client', $client->name);
         $this->assertSame('https://nowhere.local', $client->redirect);
-        $this->assertFalse($client->personal_access_client);
-        $this->assertFalse($client->password_client);
+        $this->assertNotContains('personal_access', $client->grant_types);
+        $this->assertFalse($client->isPasswordClient());
         $this->assertFalse($client->revoked);
         $this->assertSame($count + 1, Client::count());
     }
 
-    /**
-     * @dataProvider emptyStringsTestDataProvider
-     *
-     * @return void
-     */
+    #[DataProvider('emptyStringsTestDataProvider')]
     public function testCannotCreateClientWithEmptyStrings($name, $redirect)
     {
         $data = [
@@ -122,7 +119,7 @@ class ClientsControllerTest extends TestCase
         $this->assertSame('https://nowhere.local', $this->client->redirect);
     }
 
-    public function emptyStringsTestDataProvider()
+    public static function emptyStringsTestDataProvider()
     {
         return [
             [null, 'https://nowhere.local'],
@@ -135,7 +132,7 @@ class ClientsControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->owner = factory(User::class)->create();
-        $this->client = factory(Client::class)->create(['user_id' => $this->owner->getKey()]);
+        $this->owner = User::factory()->create();
+        $this->client = Client::factory()->create(['user_id' => $this->owner]);
     }
 }

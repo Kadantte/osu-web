@@ -8,33 +8,34 @@ return [
     'not_negative' => ':attribute เป็นค่าลบไม่ได้',
     'required' => 'ต้องมี :attribute',
     'too_long' => ':attribute เกินความยาวสูงสุด - สามารถใส่ได้ถึงแค่ :limit ตัวอักษร',
+    'url' => 'กรุณาใส่ URL ที่ถูกต้อง',
     'wrong_confirmation' => 'การยืนยันไม่ตรงกัน',
 
     'beatmapset_discussion' => [
         'beatmap_missing' => 'ช่วงเวลาได้ถูกกำหนดไว้แต่ไม่พบ Beatmap',
-        'beatmapset_no_hype' => "Beatmap นี้ไม่สามารถ hype ได้",
-        'hype_requires_null_beatmap' => 'การ Hype ต้องทำในส่วนของ General (all difficulties) เท่านั้น',
+        'beatmapset_no_hype' => "บีทแมพนี้ไม่สามารถ hype ได้",
+        'hype_requires_null_beatmap' => 'การ Hype ต้องทำในส่วนของทั่วไปเท่านั้น (ความยากทั้งหมด)',
         'invalid_beatmap_id' => 'ระดับความยากไม่ได้เลือกอย่างถูกต้อง',
-        'invalid_beatmapset_id' => 'Beatmap ไม่ได้เลือกอย่างถูกต้อง',
+        'invalid_beatmapset_id' => 'บีทแมพไม่ได้เลือกอย่างถูกต้อง',
         'locked' => 'การสนทนาได้ถูกล็อกไว้',
 
         'attributes' => [
             'message_type' => 'ประเภทของข้อความ',
-            'timestamp' => 'ประทับเวลา',
+            'timestamp' => 'เวลาประทับ',
         ],
 
         'hype' => [
             'discussion_locked' => "บีทแมพนี้ถูกจำกัดสิทธิในการสนทนา และ สิทธิในการ Hype",
-            'guest' => 'ต้องเข้าสู่ระบบก่อนถึงจะ hype ได้',
-            'hyped' => 'คุณได้ hype Beatmap นี้ไปแล้ว',
-            'limit_exceeded' => 'คุณใช้จำนวน hype หมดแล้ว',
-            'not_hypeable' => 'Beatmap นี้ไม่สามารถ hype ได้',
-            'owner' => 'ห้าม hype Beatmap ของคุณเอง',
+            'guest' => 'ต้องเข้าสู่ระบบก่อนถึงจะ Hype ได้',
+            'hyped' => 'คุณได้ Hype บีทแมพนี้แล้ว',
+            'limit_exceeded' => 'คุณใช้ Hpye ทั้งหมดของคุณแล้ว',
+            'not_hypeable' => 'บีทแมพนี้ไม่สามารถ Hype ได้',
+            'owner' => 'ห้าม Hype ในบีทแมปของคุณเอง',
         ],
 
         'timestamp' => [
-            'exceeds_beatmapset_length' => 'ช่วงเวลาที่กำหนดไว้เกินเวลาของ Beatmap',
-            'negative' => "ช่วงเวลาไม่สามารถติดลบได้",
+            'exceeds_beatmapset_length' => 'เวลาประทับที่ระบุเกินความยาวของบีทแมพ',
+            'negative' => "เวลาประทับต้องไม่เป็นค่าลบ",
         ],
     ],
 
@@ -73,8 +74,8 @@ return [
         'post' => [
             'beatmapset_post_no_delete' => 'ไม่อนุญาตให้ลบโพสต์ Metadata ของบีทแมพ',
             'beatmapset_post_no_edit' => 'ไม่อนุญาตให้ดัดแปลงโพสต์ Metadata ของบีทแมพ',
-            'first_post_no_delete' => '',
-            'missing_topic' => '',
+            'first_post_no_delete' => 'ไม่สามารถลบโพสต์ที่เริ่มต้นได้',
+            'missing_topic' => 'โพสต์ไม่มีหัวข้อ',
             'only_quote' => 'การตอบกลับของคุณมีแค่คำพูด',
 
             'attributes' => [
@@ -108,6 +109,16 @@ return [
         ],
     ],
 
+    'legacy_api_key' => [
+        'exists' => 'หนึ่งคีย์ API ต่อหนึ่งผู้ใช้เท่านั้นในขณะนี้',
+
+        'attributes' => [
+            'api_key' => 'คีย์ api',
+            'app_name' => 'ชื่อแอปพลิเคชัน',
+            'app_url' => 'ที่อยู่ของแอปพลิเคชัน',
+        ],
+    ],
+
     'oauth' => [
         'client' => [
             'too_many' => 'OAuth applications เกินขีดจำกัดที่ทางเราอนุญาต',
@@ -117,6 +128,20 @@ return [
                 'name' => 'ชื่อแอปพลิเคชัน',
                 'redirect' => 'URL เรียกกลับของแอปพลิเคชั่น',
             ],
+        ],
+    ],
+
+    'team' => [
+        'invalid_characters' => ':attribute นี้มีตัวอักษรไม่ถูกต้อง',
+        'used' => 'ตัวเลือก :attribute นี้ถูกใช้ไปแล้ว',
+        'word_not_allowed' => 'ตัวเลือก :attribute นี้ใช้ไม่ได้',
+
+        'attributes' => [
+            'default_ruleset_id' => 'รูลเซ็ตหลัก',
+            'is_open' => 'การสมัครเข้าร่วมทีม',
+            'name' => 'ชื่อ',
+            'short_name' => 'ชื่อย่อ',
+            'url' => 'ลิ้งค์',
         ],
     ],
 
@@ -148,7 +173,7 @@ return [
 
         'attributes' => [
             'username' => 'ชื่อผู้ใช้',
-            'user_email' => 'อีเมล์',
+            'user_email' => 'ที่อยู่อีเมล',
             'password' => 'รหัสผ่าน',
         ],
 
@@ -156,13 +181,16 @@ return [
             'restricted' => 'คุณไม่สามารถเปลี่ยนผู้ใช้ได้ขณะถูกจำกัดการใช้งาน',
             'supporter_required' => [
                 '_' => 'คุณต้องมี:linkจึงจะเปลี่ยนชื่อได้!',
-                'link_text' => 'สนับสนุน osu!',
+                'link_text' => 'ได้สนับสนุน osu!',
             ],
             'username_is_same' => 'บ้าน่า นี่มันชื่อผู้ใช้คุณตอนนี้นี่',
         ],
     ],
 
     'user_report' => [
+        'no_ranked_beatmapset' => 'ไม่สามารถรายงานบีทแมพที่จัดอันดับแล้วได้',
+        'not_in_channel' => 'คุณไม่ได้อยู่ในช่องนี้',
+        'in_team' => 'คุณเป็นส่วนหนึ่งของทีม',
         'reason_not_valid' => ':reason ไม่สามารถใช้ได้กับการรายงานประเภทนี้',
         'self' => "เดี๋ยว คุณรายงานตัวเองไม่ได้",
     ],

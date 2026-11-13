@@ -20,7 +20,8 @@ use Mail;
 
 class UserNotificationDigest implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     private $fromId;
     private $now;
@@ -38,7 +39,7 @@ class UserNotificationDigest implements ShouldQueue
 
     public function handle()
     {
-        if (!present($this->user->email)) {
+        if (!is_valid_email_format($this->user->user_email)) {
             return;
         }
 
@@ -49,7 +50,9 @@ class UserNotificationDigest implements ShouldQueue
         }
 
         // TODO: catch and log errors?
-        Mail::to($this->user)->sendNow(new UserNotificationDigestMail($notifications, $this->user));
+        Mail::to($this->user)->send(new UserNotificationDigestMail($notifications, $this->user));
+
+        datadog_increment('user_notification_digest.mail');
     }
 
     private function filterNotifications(Collection $notifications)

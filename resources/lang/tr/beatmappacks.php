@@ -6,24 +6,20 @@
 return [
     'index' => [
         'description' => 'Benzer bir tema etrafında toplanmış, önceden paketlenmiş beatmap paketleri.',
-        'nav_title' => 'liste',
+        'empty' => 'Yakında geliyor!',
+        'nav_title' => 'katalog',
         'title' => 'Beatmap Paketleri',
 
         'blurb' => [
             'important' => 'İNDİRMEDEN ÖNCE OKUYUN',
-            'instruction' => [
-                '_' => "Kurulum: Bir paketi indirdikten sonra, .rar dosyasını osu!'nun Songs klasörüne çıkartın.                 Bütün şarkılar hala ya .zip ya da .osz halinde, o yüzden osu! bir sonraki Play moduna girdiğinizde beatmaplerin kendilerini çıkartması gerekecek.                    .zip/.osz dosyalarını kendiniz :scary,                    yoksa beatmapler osu!'da yanlış gözükür ve düzgün çalışmazlar.",
-                'scary' => 'ÇIKARTMAYIN',
-            ],
-            'note' => [
-                '_' => 'Ayrıca :scary tavsiye edilir, zira eski haritalar en yeni haritalara kıyasla çok daha düşük kalitededir.',
-                'scary' => 'paketleri en yeniden en eskiye doğru indirmeniz',
-            ],
+            'install_instruction' => 'Kurulum: Bir paket indirildikten sonra, paketin içeriğini osu! Şarkılar dizinine çıkartın osu! gerisini yapacaktır.',
         ],
     ],
 
     'show' => [
+        'created_by' => ':author tarafından',
         'download' => 'İndir',
+        'no_diff_reduction_badge' => 'Meydan Okuma',
         'item' => [
             'cleared' => 'geçildi',
             'not_cleared' => 'geçilmedi',
@@ -37,8 +33,11 @@ return [
     'mode' => [
         'artist' => 'Sanatçı/Albüm',
         'chart' => 'Öne Çıkanlar',
+        'featured' => 'Featured Artist',
+        'loved' => 'Project Loved',
         'standard' => 'Standart',
         'theme' => 'Tema',
+        'tournament' => 'Turnuva',
     ],
 
     'require_login' => [

@@ -11,15 +11,17 @@ use App\Transformers\UserCompactTransformer;
 
 class ClientTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
         'redirect',
         'secret',
+        'secret_hint',
         'user',
     ];
 
     protected $permissions = [
         'redirect' => 'IsOwnClient',
         'secret' => 'IsOwnClient',
+        'secret_hint' => 'IsOwnClient',
     ];
 
     public function transform(Client $client)
@@ -27,8 +29,6 @@ class ClientTransformer extends TransformerAbstract
         return [
             'id' => $client->id,
             'name' => $client->name,
-            'password_client' => $client->password_client,
-            'personal_access_client' => $client->personal_access_client,
             'scopes' => $client->scopes,
             'user_id' => $client->user_id,
         ];
@@ -46,6 +46,12 @@ class ClientTransformer extends TransformerAbstract
 
     public function includeSecret(Client $client)
     {
-        return $this->primitive($client->secret);
+        return $this->primitive($client->plainSecret);
+    }
+
+    public function includeSecretHint(Client $client)
+    {
+        // The fallback assumes the model hasn't been updated to have hashed secret
+        return $this->primitive($client->secret_hint ?? substr($client->secret, -4));
     }
 }

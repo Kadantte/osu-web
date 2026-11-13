@@ -44,20 +44,11 @@ abstract class BeatmapsetDiscussionPostNotification extends BroadcastNotificatio
         ];
     }
 
-    public function getListeningUserIds(): array
-    {
-        return $this->beatmapsetDiscussionPost->beatmapset->watches()->pluck('user_id')->all();
-    }
+    #[\Override]
+    abstract public function getListeningUserIds(): array;
 
     public function getNotifiable()
     {
         return $this->beatmapsetDiscussionPost->beatmapset;
-    }
-
-    public function handle()
-    {
-        $this->beatmapsetDiscussionPost->beatmapset->watches()->update(['last_notified' => $this->getTimestamp()]);
-
-        return parent::handle();
     }
 }

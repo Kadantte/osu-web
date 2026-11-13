@@ -7,7 +7,7 @@ return [
     'landing' => [
         'download' => 'Tải ngay',
         'online' => '<strong>:players</strong> đang chơi trong <strong>:games</strong> games',
-        'peak' => 'Đỉnh điểm, :count người chơi online',
+        'peak' => 'Đỉnh điểm, :count người chơi trực tuyến',
         'players' => '<strong>:count</strong> người chơi đã đăng kí',
         'title' => 'chào mừng',
         'see_more_news' => 'xem các bản tin khác',
@@ -24,13 +24,16 @@ return [
         'empty_result' => 'Không có kết quả!',
         'keyword_required' => 'Cần ít nhất một từ khóa tìm kiếm',
         'placeholder' => 'nhập để tìm kiếm',
-        'title' => 'Tìm Kiếm',
+        'title' => 'tìm kiếm',
 
+        'artist_track' => [
+            'more_simple' => 'Hiển thị thêm bài của nghệ sĩ nổi bật theo kết quả tìm kiếm',
+        ],
         'beatmapset' => [
             'login_required' => 'Đăng nhập để tìm beatmap',
             'more' => 'còn :count kết quả tìm kiếm beatmap khác',
             'more_simple' => 'Hiển thị thêm kết quả tìm kiếm beatmap',
-            'title' => 'Beatmaps',
+            'title' => 'Beatmap',
         ],
 
         'forum_post' => [
@@ -38,22 +41,30 @@ return [
             'link' => 'Tìm trong diễn đàn',
             'login_required' => 'Đăng nhập để tìm kiếm trong diễn đàn',
             'more_simple' => 'Hiển thị thêm kết quả tìm kiếm trong diễn đàn',
-            'title' => 'Diễn Đàn',
+            'title' => 'Diễn đàn',
 
             'label' => [
                 'forum' => 'tìm trong diễn đần',
                 'forum_children' => 'bao gồm diễn đàn con',
-                'topic_id' => '# chủ đề',
+                'include_deleted' => 'bao gồm các bài đăng bị xoá',
+                'topic_id' => 'chủ đề #',
                 'username' => 'người đăng',
             ],
         ],
 
         'mode' => [
             'all' => 'tất cả',
+            'artist_track' => 'nhạc của nghệ sĩ nổi bật',
             'beatmapset' => 'beatmap',
             'forum_post' => 'diễn đàn',
+            'team' => 'đội',
             'user' => 'người chơi',
             'wiki_page' => 'wiki',
+        ],
+
+        'team' => [
+            'login_required' => 'Đăng nhập để tìm đội',
+            'more_simple' => 'Hiển thị thêm kết quả tìm kiếm đội',
         ],
 
         'user' => [
@@ -72,12 +83,23 @@ return [
     ],
 
     'download' => [
-        'tagline' => "hãy<br>bắt đầu!",
-        'action' => 'Tải xuống osu!',
+        'action_lazer_info' => 'nhấp vào đây để biết thêm thông tin',
+        'download' => 'Tải xuống',
+        'for_os' => 'dành cho :os',
+        'macos-fallback' => 'người dùng macOS',
+        'mirror' => 'liên kết phụ',
+        'or' => 'hoặc',
+        'os_version_or_later' => ':os_version trở lên',
+        'other_os' => 'nền tảng khác',
+        'quick_start_guide' => 'hướng dẫn nhanh',
+        'stable_text' => 'nếu bạn đang tìm cái cũ hơn',
+        'tagline_1' => 'hãy giúp bạn',
+        'tagline_2' => 'bắt đầu!',
+        'video-guide' => 'hướng dẫn bằng video',
 
         'help' => [
             '_' => 'nếu bạn gặp vấn đề khi bắt đầu game hoặc tạo tài khoản, :help_forum_link hoặc :support_button.',
-            'help_forum_link' => '',
+            'help_forum_link' => 'kiểm tra diễn đàng trợ giúp',
             'support_button' => 'liên hệ hỗ trợ',
         ],
 
@@ -86,8 +108,6 @@ return [
             'macos' => 'cho macOS',
             'linux' => 'cho Linux',
         ],
-        'mirror' => 'liên kết phụ',
-        'macos-fallback' => 'người dùng macOS',
         'steps' => [
             'register' => [
                 'title' => 'tạo tài khoản',
@@ -105,7 +125,6 @@ return [
                 ],
             ],
         ],
-        'video-guide' => 'hướng dẫn bằng video',
     ],
 
     'user' => [
@@ -116,31 +135,30 @@ return [
         ],
         'header' => [
             'stats' => [
-                'friends' => 'Bạn Bè Đang Online',
+                'friends' => 'Bạn Bè Đang Trực Tuyến',
                 'games' => 'Phòng',
-                'online' => 'Người Chơi Đang Online',
+                'online' => 'Người Chơi Đang Trực Tuyến',
             ],
         ],
         'beatmaps' => [
+            'daily_challenge' => 'Thử thách beatmap hàng ngày',
             'new' => 'Beatmap Được Xếp Hạng Mới',
             'popular' => 'Beatmaps Phổ Biến',
             'by_user' => 'bởi :user',
+            'resets' => 'đặt lại sau :ends',
         ],
         'buttons' => [
-            'download' => 'Tải Xuống osu!',
+            'download' => 'Tải xuống osu!',
             'support' => 'Ủng Hộ osu!',
             'store' => 'osu!store',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Wow!',
-        'subtitle' => 'Dường như bạn đang có một khoảng thời gian vui vẻ! :D',
-        'body' => [
-            'part-1' => 'Bạn có biết rằng osu! không được vận hành dựa vào lợi nhuận quảng cáo, mà dựa vào sự ủng hộ của người chơi để hỗ trợ sự phát triển và chi phí hoạt động?',
-            'part-2' => 'Bạn có biết rằng bằng cách hỗ trợ osu! bạn sẽ nhận được hàng tá các tính năng hữu ích, chẳng hạn như <strong>tải xuống beatmap ngay trong game</strong> khi bạn theo dõi người chơi khác và trong chế độ multiplayer?',
+        'livestream' => [
+            'title' => 'Livestream nổi bật',
         ],
-        'find-out-more' => 'Nhấp vào đây để tìm hiểu thêm!',
-        'download-starting' => "Ồ, và đừng lo lắng - quá trình tải xuống đã được bắt đầu cho bạn rồi ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Mở bảng điều khiển quản trị viên',
+            ],
+        ],
     ],
 ];

@@ -20,12 +20,12 @@ return [
             ],
             'infra' => [
                 'title' => 'Cơ sở hạ tầng máy chủ',
-                'description' => 'Phần đóng góp sẽ được sử dụng cho các máy chủ để chạy trang web, dịch vụ multiplayer, bảng xếp hạng trực tuyến, v.v.',
+                'description' => 'Các khoản đóng góp sẽ được sử dụng để duy trì máy chủ vận hành trang web, dịch vụ chơi nhiều người, bảng xếp hạng trực tuyến, v.v.',
             ],
             'featured-artists' => [
-                'title' => 'Featured Artists',
+                'title' => 'Nghệ sĩ nổi bật',
                 'description' => 'Với sự hỗ trợ của bạn, chúng tôi có thể tiếp cận thêm nhiều nghệ sĩ tuyệt vời hơn nữa và cấp phép cho âm nhạc tuyệt vời hơn để dùng trong osu!',
-                'link_text' => '',
+                'link_text' => 'Xem danh sách hiện hành &raquo;',
             ],
             'ads' => [
                 'title' => 'Giữ osu! tự duy trì',
@@ -43,7 +43,7 @@ return [
             ],
         ],
         'perks' => [
-            'title' => 'Ồ, Vậy tôi sẽ nhận được gì?!',
+            'title' => 'Ồ, Vậy tôi sẽ nhận được gì?',
             'osu_direct' => [
                 'title' => 'osu!direct',
                 'description' => 'Truy cập nhanh và dễ dàng để tìm beatmap mà không cần thoát trò chơi.',
@@ -51,7 +51,7 @@ return [
 
             'friend_ranking' => [
                 'title' => 'Xếp hạng bạn bè',
-                'description' => "",
+                'description' => "Xem cách bạn so tài với bạn bè của mình trên bảng xếp hạng của beatmap, cả trong trò chơi và trên trang web.",
             ],
 
             'country_ranking' => [
@@ -60,7 +60,7 @@ return [
             ],
 
             'mod_filtering' => [
-                'title' => 'Lọc theo Mods',
+                'title' => 'Lọc theo Mod',
                 'description' => 'Chỉ liên kết với những người chơi HDHR ư? Không vấn đề gì!',
             ],
 
@@ -76,12 +76,12 @@ return [
 
             'early_access' => [
                 'title' => 'Tiếp Cận Sớm',
-                'description' => 'Tiếp cận những bản release sớm mà bạn có thể dùng thử các tính năng mới trước khi nó được ra mắt công khai!',
+                'description' => 'Trải nghiệm sớm các bản phát hành mới với những tính năng mới trước khi ra mắt công khai!<br/><br/>Bao gồm cả quyền truy cập sớm vào các tính năng mới trên trang web nữa!',
             ],
 
             'customisation' => [
                 'title' => 'Tùy Biến',
-                'description' => "Tùy biến trang cá nhân của bạn bằng cách thêm một user page đầy đủ có thể chỉnh sửa.",
+                'description' => "Trở nên nổi bật với ảnh bìa tùy chỉnh, tạo mục \"me!\" theo ý thích, hoặc thậm chí thay đổi màu sắc trang cá nhân thành bất kỳ màu nào bạn muốn.",
             ],
 
             'beatmap_filters' => [
@@ -101,26 +101,26 @@ return [
 
             'change_username' => [
                 'title' => 'Đổi Tên Tài Khoản',
-                'description' => 'Được đổi tên tài khoản miễn phí. (tối đa một lần)',
+                'description' => 'Bạn sẽ được đổi tên miễn phí một lần khi mua gói ủng hộ đầu tiên.',
             ],
 
             'skinnables' => [
                 'title' => 'Thêm Skin',
-                'description' => 'Thêm in-game skin, như là màn hình background ở menu chính.',
+                'description' => 'Thêm skin trong trò chơi, giống như hình nền ở bảng chọn chính.',
             ],
 
             'feature_votes' => [
-                'title' => 'Bầu Chọn Tính Năng',
-                'description' => 'Bầu chọn cho các tính năng theo yêu cầu. (2 lần mỗi tháng)',
+                'title' => 'Bình Chọn Tính Năng',
+                'description' => 'Bình chọn cho các tính năng theo yêu cầu. (2 lần mỗi tháng)',
             ],
 
             'sort_options' => [
                 'title' => 'Tùy Chọn Sắp Xếp',
-                'description' => 'Cho phép xem xếp hạng theo quốc gia / bạn bè / theo-mod của beatmap trong game.',
+                'description' => 'Có thể xem xếp hạng của beatmap theo quốc gia / bạn bè / mod cụ thể trong game.',
             ],
 
             'more_favourites' => [
-                'title' => '',
+                'title' => 'Thêm Yêu thích',
                 'description' => 'Lượng beatmap tối đa bạn có thể yêu thích được tăng từ :normally &rarr; :supporter',
             ],
             'more_friends' => [
@@ -133,16 +133,20 @@ return [
             ],
             'friend_filtering' => [
                 'title' => 'Bảng xếp hạng Bạn bè',
-                'description' => '',
+                'description' => 'Cạnh tranh với bạn bè của bạn và xem cách bạn xếp hạng so với họ!',
             ],
 
         ],
         'supporter_status' => [
-            'contribution' => 'Cảm ơn về sự hỗ trợ của bạn! Bạn đã đóng góp tổng cộng :dollars với :tags tag đã mua!',
-            'gifted' => ":giftedTags tag đã mua của bạn đã được tặng (với tổng cộng :giftedDollars được tặng), thật hào phóng!",
-            'not_yet' => "Bạn chưa có supporter tag nào hết :(",
-            'valid_until' => 'Supporter tag hiện tại của bạn có giá trị đến :date!',
-            'was_valid_until' => 'Supporter tag của bạn đã hết hạn vào :date.',
+            'contribution_with_duration' => 'Cảm ơn vì sự hỗ trợ của bạn! Bạn đã đóng góp tổng cộng :dollars, giúp bạn có được thẻ supporter trong vòng :duration.',
+            'not_yet' => "Bạn chưa từng sở hữu thẻ supporter nào hết :(",
+            'valid_until' => 'Thẻ supporter hiện tại của bạn có giá trị đến :date!',
+            'was_valid_until' => 'Thẻ supporter của bạn đã hết hạn vào :date.',
+
+            'gifted' => [
+                '_' => 'Trong tất cả các đóng góp của bạn, bạn đã cho :dollars cho :users trong khoảng :duration. Bạn thật hào phóng!',
+                'users' => ':count_delimited người dùng khác|:count_delimited người dùng khác',
+            ],
         ],
     ],
 ];

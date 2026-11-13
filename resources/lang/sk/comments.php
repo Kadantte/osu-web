@@ -5,10 +5,13 @@
 
 return [
     'deleted' => 'vymazaný',
-    'deleted_count' => '',
+    'deleted_by' => 'vymazané :timeago používateľom :user',
+    'deleted_by_system' => 'systém',
+    'deleted_count' => ':count_delimited vymazaný komentár|:count_delimited vymazané komentáre',
     'edited' => 'upravené :timeago používateľom :user',
     'pinned' => 'pripnuté',
     'empty' => 'Zatiaľ žiadne komentáre.',
+    'empty_other' => '',
     'load_replies' => '',
     'replies_count' => '',
     'title' => 'Komentáre',
@@ -38,6 +41,10 @@ return [
         'nav_comments' => '',
         'nav_title' => '',
         'no_comments' => '',
+    ],
+
+    'ogp' => [
+        'title' => '',
     ],
 
     'placeholder' => [

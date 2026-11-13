@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited respuesta oculta.|:count_delimited respuestas ocultas.',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Debes iniciar sesión para editar.',
@@ -16,6 +18,16 @@ return [
         'empty' => 'Nada ha sucedido... aún.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'eliminado',
         'none_found' => 'No se encontraron discusiones que coincidieran con ese criterio de búsqueda.',
@@ -24,7 +36,9 @@ return [
         'form' => [
             '_' => 'Buscar',
             'deleted' => 'Incluir discusiones eliminadas',
-            'only_unresolved' => 'Mostrar sólo discusiones no resueltas',
+            'mode' => 'Modo del mapa',
+            'only_unresolved' => 'Mostrar solo discusiones no resueltas',
+            'show_review_embeds' => 'Mostrar publicaciones de revisión',
             'types' => 'Tipos de mensaje',
             'username' => 'Nombre de usuario',
 
@@ -57,6 +71,20 @@ return [
         'unsaved' => ':count en esta revisión',
     ],
 
+    'owner_editor' => [
+        'button' => 'Dueño de la dificultad',
+        'reset_confirm' => '¿Restablecer dueño para esta dificultad?',
+        'user' => 'Dueño',
+        'version' => 'Dificultad',
+    ],
+
+    'refresh' => [
+        'checking' => 'Buscando actualizaciones...',
+        'has_updates' => 'La discusión tiene nuevas actualizaciones, haz clic para actualizar.',
+        'no_updates' => 'No hay actualizaciones.',
+        'updating' => 'Actualizando...',
+    ],
+
     'reply' => [
         'open' => [
             'guest' => 'Inicia sesión para responder',
@@ -69,13 +97,14 @@ return [
         'go_to_parent' => 'Ver publicación de revisión',
         'go_to_child' => 'Ver discusión',
         'validation' => [
-            'block_too_large' => 'cada bloque sólo puede contener hasta :limit caracteres',
+            'block_too_large' => 'cada bloque solo puede contener hasta :limit caracteres',
             'external_references' => 'la revisión contiene referencias a problemas que no pertenecen a esta revisión',
             'invalid_block_type' => 'tipo de bloque no válido',
             'invalid_document' => 'revisión no válida',
+            'invalid_discussion_type' => 'tipo de discusión no válida',
             'minimum_issues' => 'la revisión debe contener un mínimo de :count problema|la revisión debe contener un mínimo de :count problemas',
             'missing_text' => 'le falta texto al bloque',
-            'too_many_blocks' => 'las revisiones sólo pueden contener :count párrafo/problema|las revisiones sólo pueden contener hasta :count párrafos/problemas',
+            'too_many_blocks' => 'las revisiones solo pueden contener :count párrafo/problema|las revisiones solo pueden contener hasta :count párrafos/problemas',
         ],
     ],
 
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'Todos',
         'label' => 'Filtrar por usuario',
+        'multiple' => ':count_delimited usuario seleccionado|:count_delimited usuarios seleccionados',
     ],
 ];

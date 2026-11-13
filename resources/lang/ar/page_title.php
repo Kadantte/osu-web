@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'المشرف',
     ],
-    'admin_forum' => [
-        '_' => 'المشرف',
-    ],
-    'admin_store' => [
-        '_' => 'المشرف',
-    ],
     'error' => [
         'error' => [
             '400' => 'طلب غير صالح',
@@ -22,20 +16,19 @@ return [
             '401-verification' => 'التحقق من الحساب',
             '405' => 'مفقود',
             '422' => 'طلب غير صالح',
-            '429' => '',
+            '429' => 'طلبات كثيرة جداً',
             '500' => 'وقعَ خطأ',
             '503' => 'صيانة',
         ],
     ],
     'forum' => [
         '_' => 'المنتدى',
-        'topic_watches_controller' => [
-            'index' => 'لوحة التحكم',
+        'topic_logs_controller' => [
+            'index' => 'سجلات الموضوع',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'لوحة التحكم',
             'verify_link' => 'التحقق من الحساب',
         ],
         'artists_controller' => [
@@ -56,13 +49,12 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'تاريخ الخريطة',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'لوحة التحكم',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'مناقشة الخريطة',
             'index' => 'قائمة الخرائط',
             'show' => 'معلومات الخريطة',
+            'versions' => 'سجل إصدارات الخريطة
+',
         ],
         'changelog_controller' => [
             '_' => 'سِجل التغييرات',
@@ -73,14 +65,15 @@ return [
         'comments_controller' => [
             '_' => 'التعليقات',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'نتائج تحكيم المسابقة',
+        ],
         'contests_controller' => [
             '_' => 'المسابقات',
+            'judge' => 'تحكيم المسابقة',
         ],
-        'follows_controller' => [
-            'index' => 'لوحة التحكم',
-        ],
-        'friends_controller' => [
-            'index' => 'لوحة التحكم',
+        'group_history_controller' => [
+            '_' => 'سجل الغرفة',
         ],
         'groups_controller' => [
             'show' => 'المجموعات',
@@ -92,14 +85,14 @@ return [
             'support_the_game' => 'أِدعَم اللعبة',
             'testflight' => 'مشروع الأختبار',
         ],
+        'legacy_matches_controller' => [
+            '_' => 'المباريات',
+        ],
         'legal_controller' => [
             '_' => 'المعلومات',
         ],
         'livestreams_controller' => [
             '_' => 'البث المباشر',
-        ],
-        'matches_controller' => [
-            '_' => 'المباريات',
         ],
         'news_controller' => [
             '_' => 'الأخبار',
@@ -111,36 +104,63 @@ return [
             '_' => 'إعادة تعيين كلمة المرور',
         ],
         'ranking_controller' => [
-            '_' => 'التصنيف',
+            '_' => 'الترتيب',
         ],
         'scores_controller' => [
             '_' => 'الأداء',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'الترتيب',
+        ],
+        'teams_controller' => [
+            '_' => 'الفِرق',
+            'create' => 'إنشاء فريق',
+            'edit' => 'إعدادات الفريق',
+            'leaderboard' => 'لوحة صدارة الفريق',
+            'show' => 'معلومات الفريق',
         ],
         'tournaments_controller' => [
             '_' => 'البطولات',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'أغلفة المستخدم المعدَّة',
+        ],
+        'user_totp_controller' => [
+            '_' => 'تطبيق المصادقة',
+        ],
         'users_controller' => [
             '_' => 'معلومات اللاعب',
+            'create' => 'إنشاء حساب',
             'disabled' => 'ملحوظة',
         ],
         'wiki_controller' => [
-            '_' => 'قاعدة المعارف',
+            '_' => 'ويكي',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'التصنيف',
+            'events' => 'سجل الغرفة',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'صادِق التطبيق',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'المتجر',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'أعضاء الفريق',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
-            '_' => 'معلومات المُعَدِل',
+            '_' => 'معلومات المُعدِّل',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'تاريخ المباريات الجماعية ',
         ],
     ],
 ];

@@ -4,6 +4,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => '',
+
+    'change_owner' => [
+        'too_many' => '',
+    ],
+
     'discussion-votes' => [
         'update' => [
             'error' => 'Nastala chyba počas hlasovania',
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'odmietnuť kudosu',
         'edit' => 'upraviť',
         'edited' => 'Naposledy upravené uživateľom :editor :update_time.',
+        'guest' => 'Obtiažnosť hosťa od :user',
         'kudosu_denied' => 'Odopretý od získania kudosu.',
+        'include_replies' => '',
         'message_placeholder_deleted_beatmap' => 'Táto obtiažnosť bola vymazaná, takže už nemôže byť diskutovaná.',
         'message_placeholder_locked' => 'Diskusia o tejto mape boli vypnuté.',
-        'message_placeholder_silenced' => "",
+        'message_placeholder_silenced' => "Není možné zverejniť diskusiu, keď stlmený.",
         'message_type_select' => 'Vybrať typ komentára',
         'reply_notice' => 'Stlačením Enter odpovedaj.',
+        'reply_resolve_notice' => '',
         'reply_placeholder' => 'Sem napíš tvoju odpoveď',
         'require-login' => 'Na písanie príspevkov alebo odpovedanie sa prosím prihlas',
         'resolved' => 'Vyriešený',
         'restore' => 'obnoviť',
         'show_deleted' => 'Zobraziť zmazané',
+        'show_other_replies' => '',
         'title' => 'Diskusie',
+        'unresolved_count' => '',
 
         'collapse' => [
             'all-collapse' => 'Zbaliť všetko',
@@ -61,7 +72,7 @@ return [
         'message_placeholder' => [
             'general' => 'Píšte sem pre odoslanie príspevku do General (:version)',
             'generalAll' => 'Píšte sem pre odoslanie príspevku do General (Všetky obtiažnosti)',
-            'review' => '',
+            'review' => 'Píšte tu k zverejnení posudku ',
             'timeline' => 'Píšte sem pre zaradenie príspevku do časovej osy (:version)',
         ],
 
@@ -72,8 +83,21 @@ return [
             'nomination_reset' => 'Obnoviť Nomináciu',
             'praise' => 'Pochvala',
             'problem' => 'Problém',
+            'problem_warning' => 'Nahlásiť problém',
             'review' => 'Recenzia',
             'suggestion' => 'Návrh',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => '',
+            'hype' => '',
+            'mapper_note' => '',
+            'nomination_reset' => '',
+            'praise' => '',
+            'problem' => '',
+            'problem_warning' => '',
+            'review' => '',
+            'suggestion' => '',
         ],
 
         'mode' => [
@@ -96,22 +120,23 @@ return [
         ],
 
         'review' => [
-            'new' => '',
+            'new' => 'Nový posudok',
             'embed' => [
-                'delete' => '',
-                'missing' => '',
-                'unlink' => '',
-                'unsaved' => '',
+                'delete' => 'Zmazať ',
+                'missing' => '[DISKUSIA ZMAZANA]',
+                'unlink' => 'Zrušiť pripojenie',
+                'unsaved' => 'Neuložené',
                 'timestamp' => [
-                    'all-diff' => '',
-                    'diff' => '',
+                    'all-diff' => 'Príspevky na tému „Všetky obtiažnosti“ nemožno označiť časovou pečiatkou.',
+                    'diff' => 'Pokiaľ tento :type začína časovou značkou, zobrazí sa v časovej ose.',
                 ],
             ],
             'insert-block' => [
-                'paragraph' => '',
-                'praise' => '',
-                'problem' => '',
-                'suggestion' => '',
+                'mapper_note' => '',
+                'paragraph' => 'vložiť paragraf ',
+                'praise' => 'vložiť pochvalu',
+                'problem' => 'vložiť problem ',
+                'suggestion' => 'vložiť návrh',
             ],
         ],
 
@@ -138,7 +163,7 @@ return [
         'status-messages' => [
             'approved' => 'Táto beatmapa bola schválená dňa :date!',
             'graveyard' => "Táto beatmapa nebola aktualizovaná od :date a pravdepodobne bola opustená tvorcom...",
-            'loved' => 'Táto beatmapa bola pridaná do kategórie obľúbených dňa :date!',
+            'loved' => 'Táto beatmapa bola pridaná do kategórie milovaných dňa :date!',
             'ranked' => 'Táto beatmapa sa stala hodnotenou dňa :date!',
             'wip' => 'Táto beatmapa bola označená ako rozpracovaná jeho autorom.',
         ],
@@ -173,6 +198,8 @@ return [
     ],
 
     'nominations' => [
+        'already_nominated' => '',
+        'cannot_nominate' => '',
         'delete' => 'Odstrániť',
         'delete_own_confirm' => 'Ste si istý? Beatmapa bude odstránená a budete presmerovaný späť na svoj profil.',
         'delete_other_confirm' => 'Ste si istý? Beatmapa bude odstránená a budete presmerovaný späť na profil používateľa.',
@@ -182,22 +209,26 @@ return [
         'disqualify' => 'Diskvalifikovať',
         'incorrect_state' => 'Chyba pri vykonávaní akcie, skúste obnoviť stránku.',
         'love' => 'Obľuba',
+        'love_choose' => 'Vybrať obtiažnosť pre milovanie',
         'love_confirm' => 'Obľúbil si si túto beatmapu?',
         'nominate' => 'Nominovať',
         'nominate_confirm' => 'Nominovať túto beatmapu?',
         'nominated_by' => 'nominované od :users',
-        'not_enough_hype' => "",
-        'remove_from_loved' => '',
-        'remove_from_loved_prompt' => '',
+        'not_enough_hype' => "Nedostatok hypu.",
+        'remove_from_loved' => 'Odstrániť z Milovaných',
+        'remove_from_loved_prompt' => 'Dôvod zmazanie z Milovaných:',
         'required_text' => 'Nominácie :current/:required',
         'reset_message_deleted' => 'vymazané',
         'title' => 'Stav Nominácie',
         'unresolved_issues' => 'Sú tu stále nevyriešené problémy, ktoré musia byť riešené ako prvé.',
 
         'rank_estimate' => [
-            '_' => '',
-            'queue' => '',
-            'soon' => '',
+            '_' => 'Táto mapa je predpokladaná k hodnotení :date, pokud sa nenájdu žiadne chyby. Mapa je momentálne v pozícii číslo :position ve fronte :queue.',
+            'unresolved_problems' => '',
+            'problems' => '',
+            'on' => 'dňa :date',
+            'queue' => 'fronta hodnotení ',
+            'soon' => 'neskôr ',
         ],
 
         'reset_at' => [
@@ -206,8 +237,9 @@ return [
         ],
 
         'reset_confirm' => [
-            'nomination_reset' => 'Si si istý? Vytvorením novej pripomienky sa proces nominácie resetne.',
             'disqualify' => 'Ste si istý? Toto odstráni beatmapu z kvalifikácie a resetuje nominačný proces.',
+            'nomination_reset' => 'Si si istý? Vytvorením novej pripomienky sa proces nominácie resetne.',
+            'problem_warning' => 'Iste si istí, že chcete nahlásiť chybu na tejto mape? Touto akciou napomeniete Beatmap Nominátory.',
         ],
     ],
 
@@ -216,6 +248,7 @@ return [
             'prompt' => 'zadaj kľúčové slova...',
             'login_required' => 'Prihláste sa, ak chcete hľadať.',
             'options' => 'Viac možností hladania',
+            'rank_filter_note' => '',
             'supporter_filter' => 'Filtrovanie podľa :filters vyžaduje aktívny osu!supporter tag',
             'not-found' => 'bez výsledkov',
             'not-found-quote' => '... nič sa nenašlo.',
@@ -225,7 +258,7 @@ return [
                 'genre' => 'Žáner',
                 'language' => 'Jazyk',
                 'mode' => 'Mód',
-                'nsfw' => '',
+                'nsfw' => 'Explicitný obsah',
                 'played' => 'Hrané',
                 'rank' => 'Dosiahnuté Hodnotenie',
                 'status' => 'Kategórie',
@@ -246,20 +279,27 @@ return [
                 '_' => 'Filtrovanie podľa :filters vyžaduje aktívny :link',
                 'link_text' => 'osu!supporter tag',
             ],
+            'tag_picker' => [
+                'tooltip' => '',
+                'prompt' => '',
+            ],
         ],
     ],
     'general' => [
         'converts' => 'Zahrnúť konvertované beatmapy',
-        'follows' => '',
+        'featured_artists' => 'Významní skladatelia',
+        'follows' => 'Odoberaní maperi',
         'recommended' => 'Odporúčaná obtiažnosť',
+        'spotlights' => 'Zvýraznené beatmapy',
     ],
     'mode' => [
-        'all' => '',
+        'all' => 'Všetko ',
         'any' => 'Akékoľvek',
         'osu' => '',
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => '',
     ],
     'status' => [
         'any' => 'Akékoľvek',
@@ -267,9 +307,10 @@ return [
         'favourites' => 'Obľúbené',
         'graveyard' => 'Cintorín',
         'leaderboard' => 'Má rebríček',
-        'loved' => 'Obľúbené',
+        'loved' => 'Milované',
         'mine' => 'Moje mapy',
         'pending' => 'Nerozhodnutý & prebiehajúci',
+        'wip' => 'Ve vývoji ',
         'qualified' => 'Kvalifikované',
         'ranked' => 'Hodnotené',
     ],
@@ -284,39 +325,13 @@ return [
         'novelty' => 'Novinky',
         'hip-hop' => 'Hip Hop',
         'electronic' => 'Elektronické',
-        'metal' => '',
-        'classical' => '',
-        'folk' => '',
-        'jazz' => '',
-    ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => '',
+        'metal' => 'Metal ',
+        'classical' => 'Klasika ',
+        'folk' => 'Folk',
+        'jazz' => 'Jazz',
     ],
     'language' => [
-        'any' => '',
+        'any' => 'Akýkoľvek',
         'english' => 'Anglické',
         'chinese' => 'Čínske',
         'french' => 'Francúzske',
@@ -326,16 +341,16 @@ return [
         'korean' => 'Kórejské',
         'spanish' => 'Španielske',
         'swedish' => 'Švédske',
-        'russian' => '',
-        'polish' => '',
+        'russian' => 'Ruština ',
+        'polish' => 'Poľština',
         'instrumental' => 'Inštrumentálne',
         'other' => 'Ostatné',
-        'unspecified' => '',
+        'unspecified' => 'Neupresnené',
     ],
 
     'nsfw' => [
-        'exclude' => '',
-        'include' => '',
+        'exclude' => 'Skryť ',
+        'include' => 'Zobraziť ',
     ],
 
     'played' => [
@@ -364,9 +379,9 @@ return [
     ],
     'variant' => [
         'mania' => [
-            '4k' => '',
-            '7k' => '',
-            'all' => '',
+            '4k' => '4K',
+            '7k' => '7K',
+            'all' => 'Všetko ',
         ],
     ],
 ];

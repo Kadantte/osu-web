@@ -4,12 +4,9 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'admin' => [
-        'warehouse' => 'Raktár',
-    ],
-
     'cart' => [
         'checkout' => 'Fizetés',
+        'empty_cart' => 'Összes elem törlése a kosárból',
         'info' => ':count_delimited elem a kosárban ($:subtotal)|:count_delimited elem a kosárban ($:subtotal)',
         'more_goodies' => 'Még több cuccot szeretnék megnézni mielőtt befejezném a rendelésem',
         'shipping_fees' => 'szállítási költség',
@@ -35,6 +32,7 @@ return [
         'cart_problems_edit' => 'Kattints ide a szerkesztéséhez.',
         'declined' => 'A fizetés meg lett szakítva.',
         'delayed_shipping' => 'Jelenleg túlnyomóan sok rendelésünk van. Szívesen fogadjuk rendelésed, viszont arra számíts, hogy **további 1-2 hét késés** is lehet míg elérünk a jelenlegi rendelésekig.',
+        'hide_from_activity' => 'Rejtse el ezeknek az osu!supporter címkék vásárlását az aktivitásomból',
         'old_cart' => 'A kosarad réginek tűnik és újra lett töltve, kérlek próbáld újra.',
         'pay' => 'Fizetés Paypal használatával',
         'title_compact' => 'fizetés',
@@ -51,12 +49,39 @@ return [
     ],
 
     'discount' => ':percent% megtakaritása',
+    'free' => 'ingyenes!',
 
     'invoice' => [
+        'contact' => 'Kapcsolat:',
+        'date' => 'Dátum:',
         'echeck_delay' => 'Mivel a fizetésed egy eCheck volt, engedj meg neki legalább 10 napot a PayPal-es feldolgozásra!',
+        'echeck_denied' => 'A PayPal elutasította az eCheck-fizetést.',
+        'hide_from_activity' => 'ebben a vásárlásban szereplő osu!supporter címkék nem jelennek meg a legutóbbi aktivitásaid között.',
+        'sent_via' => 'Általa küldve:',
+        'shipping_to' => 'Szállítás ide:',
+        'title' => 'Számla',
         'title_compact' => 'számla',
 
         'status' => [
+            'cancelled' => [
+                'title' => 'A rendelés törölve lett',
+                'line_1' => [
+                    '_' => "Ha nem kérted a lemondást, kérjük, vedd fel a kapcsolatot itt: :link, majd add meg a rendelésed számát (#:order_number).",
+                    'link_text' => 'osu!bolt támogatás',
+                ],
+            ],
+            'delivered' => [
+                'title' => 'A rendelésed megérkezett! Reméljük, hogy tetszik neked!',
+                'line_1' => [
+                    '_' => 'Ha bármilyen problémád akad a vásárlással, kérlek lépj kapcsolatba :link helyen.',
+                    'link_text' => 'osu!bolt támogatás',
+                ],
+            ],
+            'prepared' => [
+                'title' => 'A rendelés feldolgozás alatt!',
+                'line_1' => 'Kérjük, várj még egy kicsit a szállításra. A csomagkövetési információk itt fognak majd megjelenni, amikor a rendelés feldolgozása és elküldése megtörtént. Ez akár 5 napot is igénybe vehet (de általában kevesebbet!) attól függően, hogy mennyire vagyunk elfoglaltak.',
+                'line_2' => 'Minden megrendelést Japánból küldünk, a súlytól és értéktől függően különböző szállítási szolgáltatásokat használva. Ez a szakasz frissülni fog a részletekkel, amikor a megrendelést elküldtük.',
+            ],
             'processing' => [
                 'title' => 'A fizetésed még nem lett megerősítve!',
                 'line_1' => 'Ha már fizettél, előfordulhat hogy még a megerősítést várjuk róla. Kérlek egy-két percen belül frissítsd az oldalt!',
@@ -65,24 +90,50 @@ return [
                     'link_text' => 'kattints ide a fizetés folytatásához',
                 ],
             ],
+            'shipped' => [
+                'title' => 'A rendelés kiszállításra került!',
+                'tracking_details' => 'Csomagkövetés részletei:',
+                'no_tracking_details' => [
+                    '_' => "Nem rendelkezünk csomagkövetési adatokkal, mivel azt az Air Mailen keresztül küldtük el, de 1-3 héten belül várhatóan megkapod a csomagot. Európa esetében a vám néha késleltetheti a rendelést, amit mi nem tudunk befolyásolni. Ha bármilyen aggodalmad van, kérlek válaszolj a megrendelést visszaigazoló emailre, amit kaptál :link.",
+                    'link_text' => 'küldj nekünk egy emailt',
+                ],
+            ],
         ],
     ],
 
     'order' => [
-        'cancel' => 'Megrendelés törlése',
-        'cancel_confirm' => '',
-        'cancel_not_allowed' => '',
-        'invoice' => 'Számla megtekintése',
+        'cancel' => 'Megrendelés Törlése',
+        'cancel_confirm' => 'Ez a megrendelés törlésre kerül, és fizetést nem fogadunk el érte. Előfordulhat, hogy a pénzforgalmi szolgáltató nem enged fel azonnal tartalékot. Biztos vagy ebben?',
+        'cancel_not_allowed' => 'Ez a megrendelés jelenleg nem törölhető.',
+        'invoice' => 'Számla Megtekintése',
         'no_orders' => 'Nincs megtekinthető megrendelés.',
         'paid_on' => 'Megrendelés feladva :date',
         'resume' => 'Fizetés Folytatása',
-        'shopify_expired' => '',
+        'shipping_and_handling' => 'Szállítás és Kezelés',
+        'shopify_expired' => 'A rendelés fizetési linkje lejárt.',
+        'subtotal' => 'Részösszeg',
+        'total' => 'Összesen',
+        'unavailable' => 'Nincs további információ ehhez a rendeléshez.',
+
+        'details' => [
+            'order_number' => 'Rendelési szám',
+            'payment_terms' => 'Fizetési Feltételek',
+            'salesperson' => 'Értékesítő',
+            'shipping_method' => 'Szállítási Mód',
+            'shipping_terms' => 'Szállítási Feltételek',
+            'title' => 'Rendelés Részletei',
+        ],
 
         'item' => [
+            'quantity' => 'mennyiség',
+
             'display_name' => [
                 'supporter_tag' => ':name :username-nek (:duration)',
             ],
-            'quantity' => 'Mennyiség',
+
+            'subtext' => [
+                'supporter_tag' => 'Üzenet: :message',
+            ],
         ],
 
         'not_modifiable_exception' => [
@@ -102,6 +153,15 @@ return [
             'paid' => 'Fizetett',
             'processing' => 'Megerősítés függőben',
             'shipped' => 'Szállítás alatt',
+            'title' => 'Rendelés Állapota',
+        ],
+
+        'thanks' => [
+            'title' => 'Köszönjük a megrendelést!',
+            'line_1' => [
+                '_' => 'Hamarosan kapni fogsz egy megerősítő emailt. Ha bármilyen kérdésed van, kérlek :link!',
+                'link_text' => 'lépj kapcsolatba velünk',
+            ],
         ],
     ],
 
@@ -113,8 +173,9 @@ return [
             'out_with_alternative' => 'Sajnos ez az elem nincs raktáron. A legördülő lista segítségével válassz egy másik fajtát, vagy nézz vissza később!',
         ],
 
-        'add_to_cart' => 'Hozzáadás a kosárhoz',
+        'add_to_cart' => 'Hozzáadás a Kosárhoz',
         'notify' => 'Értesíts amikor elérhető!',
+        'out_of_stock' => 'Elfogyott',
 
         'notification_success' => 'új készlet esetén értesítve leszel. kattints :link a lemondáshoz',
         'notification_remove_text' => 'itt',
@@ -124,6 +185,8 @@ return [
 
     'supporter_tag' => [
         'gift' => 'játékosnak ajándékozás',
+        'gift_message' => 'adj egy üzenetet az ajándékodhoz, amennyiben szeretnél! (legfeljebb :length karakterű)',
+
         'require_login' => [
             '_' => 'Az osu!támogatói cím megszerzéséhez :link kell lenned!',
             'link_text' => 'lépj be',
@@ -133,6 +196,10 @@ return [
     'username_change' => [
         'check' => 'Adj meg egy felhasználónevet az elérhetőség ellenőrzéséhez!',
         'checking' => ':username elérhetőségének ellenőrzése...',
+        'placeholder' => 'Kért Felhasználónév',
+        'label' => 'Új Felhasználónév',
+        'current' => 'A jelenlegi felhasználóneved ":username".',
+
         'require_login' => [
             '_' => ':link kell lenned a neved megváltoztatásához!',
             'link_text' => 'bejelentkezve',

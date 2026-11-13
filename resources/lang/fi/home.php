@@ -6,11 +6,11 @@
 return [
     'landing' => [
         'download' => 'Lataa nyt',
-        'online' => '<strong>:players</strong> online-tilassa <strong>:games</strong> pelaamassa',
+        'online' => '<strong>:players</strong> tällä hetkellä paikalla <strong>:games</strong> pelissä',
         'peak' => 'Huipussaan :count käyttäjää paikalla',
         'players' => '<strong>:count</strong> rekisteröitynyttä pelaajaa',
         'title' => 'tervetuloa',
-        'see_more_news' => '',
+        'see_more_news' => 'näytä lisää uutisia',
 
         'slogan' => [
             'main' => 'parastakin parempi ilmainen rytmipeli',
@@ -19,30 +19,34 @@ return [
     ],
 
     'search' => [
-        'advanced_link' => 'Tarkempi haku',
+        'advanced_link' => 'Edistynyt haku',
         'button' => 'Hae',
         'empty_result' => 'Mitään ei löytynyt!',
-        'keyword_required' => '',
+        'keyword_required' => 'Syötä hakusana',
         'placeholder' => 'kirjoita hakeaksesi',
         'title' => 'Hae',
 
+        'artist_track' => [
+            'more_simple' => 'Näytä lisää esitellyn artistin kappaleita',
+        ],
         'beatmapset' => [
-            'login_required' => '',
+            'login_required' => 'Kirjaudu sisään hakeaksesi rytmikarttoja',
             'more' => ':count lisää hakutulosta',
-            'more_simple' => 'Katso lisää hakutuloksia',
+            'more_simple' => 'Katso lisää rytmikarttojen hakutuloksia',
             'title' => 'Beatmapit',
         ],
 
         'forum_post' => [
             'all' => 'Kaikki foorumit',
             'link' => 'Etsi foorumilta',
-            'login_required' => '',
+            'login_required' => 'Kirjaudu sisään käyttääksesi foorumihakua',
             'more_simple' => 'Katso lisää foorumien hakutuloksia',
             'title' => 'Foorumi',
 
             'label' => [
                 'forum' => 'etsi foorumeista',
                 'forum_children' => 'etsi myös alafoorumeilta',
+                'include_deleted' => 'sisällytä poistetut viestit',
                 'topic_id' => 'aihe #',
                 'username' => 'tekijä',
             ],
@@ -50,14 +54,21 @@ return [
 
         'mode' => [
             'all' => 'kaikki',
+            'artist_track' => 'esittelyartistin kappale',
             'beatmapset' => 'beatmap',
             'forum_post' => 'foorumi',
+            'team' => 'tiimi',
             'user' => 'pelaaja',
             'wiki_page' => 'wiki',
         ],
 
+        'team' => [
+            'login_required' => 'Kirjaudu sisään etsiäksesi tiimejä',
+            'more_simple' => 'Näytä lisää tiimihakujen tuloksia',
+        ],
+
         'user' => [
-            'login_required' => '',
+            'login_required' => 'Kirjaudu sisään käyttääksesi käyttäjähakua',
             'more' => ':count hakutulosta lisää',
             'more_simple' => 'Näytä enemmän pelaajia hakutuloksista',
             'more_hidden' => 'Pelaajien etsintä on rajoitettu :max pelaajalle. Kokeile tarkentaa hakua.',
@@ -72,13 +83,24 @@ return [
     ],
 
     'download' => [
-        'tagline' => "laitetaan sinut<br>liikkeelle!",
-        'action' => 'Lataa osu!',
+        'action_lazer_info' => 'lisätietoja saat täältä',
+        'download' => 'Lataa',
+        'for_os' => 'käyttöjärjestelmälle: :os',
+        'macos-fallback' => 'macOS-käyttäjät',
+        'mirror' => 'vaihtoehtoinen lataus',
+        'or' => 'tai',
+        'os_version_or_later' => ':os_version tai uudempi',
+        'other_os' => 'muut alustat',
+        'quick_start_guide' => 'pikakäyttöohjeet',
+        'stable_text' => 'jos etsit vanhempia',
+        'tagline_1' => 'laitetaan sinut',
+        'tagline_2' => 'alkuun!',
+        'video-guide' => 'video-opas',
 
         'help' => [
-            '_' => '',
-            'help_forum_link' => '',
-            'support_button' => '',
+            '_' => 'jos sinulla on ongelmia pelin käynnistämisessä tai tilin rekisteröinnissä, :help_forum_link tai :support_button.',
+            'help_forum_link' => 'katso apufoorumia',
+            'support_button' => 'ota yhteyttä tukeen',
         ],
 
         'os' => [
@@ -86,8 +108,6 @@ return [
             'macos' => 'macOS:lle',
             'linux' => 'Linuxille',
         ],
-        'mirror' => 'vaihtoehtoinen lataus',
-        'macos-fallback' => 'macOS-käyttäjät',
         'steps' => [
             'register' => [
                 'title' => 'luo tili',
@@ -95,24 +115,23 @@ return [
             ],
             'download' => [
                 'title' => 'lataa peli',
-                'description' => 'klikkaa ylläolevaa painiketta ladataksesi asennusohjelman ja suorita se!',
+                'description' => 'napsauta yllä olevaa painiketta ladataksesi asennusohjelman ja käynnistä se!',
             ],
             'beatmaps' => [
                 'title' => 'hanki beatmappeja',
                 'description' => [
-                    '_' => ':browse käyttäjien luomaa laajaa beatmapkokoelmaa ja ryhdy pelaamaan!',
+                    '_' => ':browse käyttäjien luomaa laajaa rytmikarttakokoelmaa ja ryhdy pelaamaan!',
                     'browse' => 'selaa',
                 ],
             ],
         ],
-        'video-guide' => 'video-opas',
     ],
 
     'user' => [
         'title' => 'yleiskatsaus',
         'news' => [
             'title' => 'Uutiset',
-            'error' => 'Virhe ladattaessa uutisia. Kokeile sivun päivittämistä.',
+            'error' => 'Virhe uutisten lataamisessa, kokeile päivittää sivu?...',
         ],
         'header' => [
             'stats' => [
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
-            'new' => 'Uudet Hyväksytyt Beatmapit',
+            'daily_challenge' => 'Päivän rytmikarttahaaste',
+            'new' => 'Uudet rankatut rytmikartat',
             'popular' => 'Suositut Beatmapit',
             'by_user' => 'tehnyt :user',
+            'resets' => 'nollautuu :ends',
         ],
         'buttons' => [
             'download' => 'Lataa osu!',
-            'support' => 'Tue osua!',
+            'support' => 'Tue osu!a',
             'store' => 'osu!kauppa',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Vau!',
-        'subtitle' => 'Sinulla taitaa olla hauskaa! :D',
-        'body' => [
-            'part-1' => 'Tiesitkö että osu!a pidetään yllä ilman mainoksia ja turvautuu pelaajien tukeen sen kehitys- ja käyttökustannuksissa?',
-            'part-2' => 'Tiesitkö myös että osua! tukemalla saat kasan hyödyllisiä ominaisuuksia, kuten <strong>pelinsisäisen beatmappien lataamisen</strong> joka aktivoituu automaattisesti moninpelissä ja katsojatilassa?',
+        'livestream' => [
+            'title' => 'Suositeltu Livelähetys',
         ],
-        'find-out-more' => 'Klikkaa tästä lisätietoja!',
-        'download-starting' => "Niin, ja älä huoli - latauksesi on jo aloitettu ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Avaa hallintakonsoli',
+            ],
+        ],
     ],
 ];

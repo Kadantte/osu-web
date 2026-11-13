@@ -7,6 +7,7 @@ return [
     'cancel' => 'Mégse',
 
     'authorise' => [
+        'app_owner' => 'egy alkalmazás :owner által',
         'request' => 'engedélyt kér a fiókodhoz.',
         'scopes_title' => 'Ez az alkalmazás képes lesz a:',
         'title' => 'Hitelesítési Kérelem',
@@ -56,6 +57,12 @@ return [
         'revoked' => [
             'false' => 'Törlés',
             'true' => 'Törölve',
+        ],
+
+        'secret' => [
+            'copy' => '',
+            'generate_new' => '',
+            'visible_once' => '',
         ],
     ],
 ];

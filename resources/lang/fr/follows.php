@@ -24,9 +24,9 @@ return [
     ],
 
     'mapping' => [
-        'empty' => 'Pas de mappers suivis.',
-        'followers' => 'mapping des abonnés',
-        'page_title' => 'liste de suivi du mappeur',
+        'empty' => 'Pas de mappeurs suivis.',
+        'followers' => 'abonnés au mapping',
+        'page_title' => 'liste des mappeurs suivis',
         'title' => 'mappeur',
         'to_0' => 'arrêter de me notifier lorsque cet utilisateur met en ligne une nouvelle beatmap',
         'to_1' => 'me notifier lorsque cet utilisateur met en ligne une nouvelle beatmap',
@@ -34,5 +34,9 @@ return [
 
     'modding' => [
         'title' => 'discussion de la beatmap',
+    ],
+
+    'store' => [
+        'too_many' => 'Vous avez atteint la limite de joueurs que vous pouvez suivre !',
     ],
 ];

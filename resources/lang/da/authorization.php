@@ -15,6 +15,7 @@ return [
         'destroy' => [
             'is_hype' => 'Kan ikke fortryde hyping.',
             'has_reply' => 'Kan ikke slette en diskussion med svar',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => 'Du har nået dit maksimale antal nomineringer i dag, prøv igen i morgen!',
@@ -43,22 +44,33 @@ return [
             'not_owner' => 'Du kan kun slette dine egne opslag.',
             'resolved' => 'Du kan ikke slette et opslag fra en løst diskussion.',
             'system_generated' => 'Automatisk genererede oplsag kan ikke slettes.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
             'not_owner' => 'Kun ejeren af dette opslag kan redigere det.',
             'resolved' => 'Du kan ikke redigere et opslag fra en løst diskussion.',
             'system_generated' => 'Automatisk genererede opslag kan ikke redigeres.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => 'Dette beatmap er låst for diskussion.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => 'Dette beatmap er lukket låst for diskussion.',
+
         'metadata' => [
             'nominated' => 'Du kan ikke ændre metadata for et nomineret map. Kontakt et BAT- eller NAT-medlem, hvis du mener, at det er angivet forkert.',
+        ],
+
+        'rate' => [
+            'owner' => '',
+            'status' => '',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => 'Du skal sætte en score på et beatmap for at tilføje et tag.',
         ],
     ],
 
@@ -67,17 +79,23 @@ return [
         'friends_only' => 'Brugeren blokerer beskeder fra folk der ikke er på deres venneliste.',
         'moderated' => 'Denne kanal er i øjeblikket modereret.',
         'no_access' => 'Du har ikke adgang til denne kanal.',
+        'no_announce' => 'Du har ikke tilladelse til indlægge annonceringer.',
+        'receive_friends_only' => 'Brugeren kan muligvis ikke svare, fordi du kun accepterer beskeder fra folk på din venneliste.',
         'restricted' => 'Du kan ikke sende beskeder når du er enten muted, begrænset eller banned.',
         'silenced' => 'Du kan ikke sende beskeder når du er enten muted, begrænset eller banned.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => 'Der er lukket for kommentarer',
+        ],
         'update' => [
             'deleted' => "Kan ikke redigere slettede opslag.",
         ],
     ],
 
     'contest' => [
+        'judging_not_active' => 'Bedømmelse for denne konkurrence er ikke aktiv.',
         'voting_over' => 'Du kan ikke ændre din stemme efter stemmeperioden for denne konkurrence er slut.',
 
         'entry' => [
@@ -103,6 +121,7 @@ return [
                 'deleted' => 'Kan ikke redigere slettede opslag.',
                 'locked' => 'Dette opslag er låst fra at blive redigeret.',
                 'no_forum_access' => 'Adgang til det anmodede forum er nødvendigt.',
+                'no_permission' => 'Ingen tilladelse til at redigere.',
                 'not_owner' => 'Kun ejeren af dette opslag kan redigere det.',
                 'topic_locked' => 'Kan ikke redigere opslag fra låste emner.',
             ],
@@ -166,6 +185,40 @@ return [
         ],
     ],
 
+    'room' => [
+        'destroy' => [
+            'not_owner' => 'Kun ejeren at rummet kan lukke det.',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "Kan ikke fastlåse denne type scoring",
+            'failed' => "Kan ikke fastlåse ikke-bestående score.",
+            'not_owner' => 'Kun score ejer kan pin score.',
+            'too_many' => 'Fastgjort for mange score.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "Du er allerede en del a holdet.",
+                'already_other_member' => "Du er allerede en del af et andet hold.",
+                'currently_applying' => 'Du har en afventende holdtildmeldingsanmodning.',
+                'team_closed' => 'Holdet modtager i øjeblikket ikke tilmeldningsanmodninger.',
+                'team_full' => "Holdet er fuldt og kan ikke acceptere flere medlemmer.",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "Holdlederen kan ikke forlade holdet.",
+            'not_member' => 'Ikke et medlem af holdet.',
+        ],
+        'store' => [
+            'require_supporter_tag' => 'osu!support tag er påkrævet for at oprette et hold.',
+        ],
+    ],
+
     'user' => [
         'page' => [
             'edit' => [
@@ -173,6 +226,9 @@ return [
                 'not_owner' => 'Du kan kun redigere din egen brugerside.',
                 'require_supporter_tag' => 'osu!supporter tag er nødvendigt.',
             ],
+        ],
+        'update_email' => [
+            'locked' => 'email-adresse er låst',
         ],
     ],
 ];

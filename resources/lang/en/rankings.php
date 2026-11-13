@@ -9,6 +9,17 @@ return [
         'title' => 'Country',
     ],
 
+    'daily_challenge' => [
+        'beatmap' => 'Difficulty',
+        'theme' => 'Theme',
+        'top_10p' => 'Top 10% Score',
+        'top_50p' => 'Top 50% Score',
+        'unavailable' => [
+            'future' => 'No daily challenge at the specified date yet!',
+            'past' => 'No daily challenge at the specified date!',
+        ],
+    ],
+
     'filter' => [
         'title' => 'Show',
 
@@ -17,12 +28,60 @@ return [
         ],
     ],
 
+    'kudosu' => [
+        'total' => 'Earned',
+        'available' => 'Available',
+        'used' => 'Spent',
+    ],
+
+    'matchmaking' => [
+        'plays' => 'Plays',
+        'points' => 'Points',
+        'provisional' => 'Provisional rating due to an insufficient number of recent matches',
+        'rating' => 'Rating',
+        'wins' => 'Wins',
+    ],
+
+    'multiplayer' => [
+        'room_name' => 'Room Name',
+    ],
+
+    'performance' => [
+        'insufficient_history' => 'This user has less than 30 days of recent ranking history.',
+    ],
+
+    'top_plays' => [
+        'empty' => 'The data is being calculated...',
+        'last_updated' => 'Last updated',
+    ],
+
+    'playlists' => [
+        'charts' => 'spotlights (old)',
+        'featured' => 'featured',
+        'season_room' => 'season room',
+        'seasons' => 'seasons',
+    ],
+
     'type' => [
-        'charts' => 'spotlights',
         'country' => 'country',
-        'multiplayer' => 'multiplayer',
-        'performance' => 'performance',
-        'score' => 'score',
+        'daily_challenge' => 'daily challenge',
+        'global' => 'global',
+        'kudosu' => 'kudosu',
+        'matchmaking' => 'ranked play',
+        'playlists' => 'playlists',
+        'team' => 'team',
+        'top_plays' => 'top plays',
+    ],
+
+    'seasons' => [
+        'empty' => 'There are no rooms in this season yet.',
+        'ongoing' => 'This season is still ongoing (there will be more playlists added).',
+        'room_count' => 'Playlist count',
+        'summary' => 'View Season Summary',
+        'url' => 'Display more informations on that season.',
+        'validation' => [
+            'not_enough_factors' => 'there is not enough score factors for proper calculation',
+        ],
     ],
 
     'spotlight' => [
@@ -36,6 +95,8 @@ return [
         'accuracy' => 'Accuracy',
         'active_users' => 'Active Users',
         'country' => 'Country',
+        'division' => 'Division',
+        'members' => 'Members',
         'play_count' => 'Play Count',
         'performance' => 'Performance',
         'total_score' => 'Total Score',

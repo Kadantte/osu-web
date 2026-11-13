@@ -8,14 +8,33 @@ return [
         'title_page' => 'osu!hírek',
 
         'nav' => [
-            'newer' => 'Újabb posztok',
-            'older' => 'Régebbi posztok',
+            'newer' => 'Újabb hozzászólások',
+            'older' => 'Régebbi hozzászólások',
         ],
 
         'title' => [
             '_' => 'Hírek :info',
             'info' => 'Címlap',
         ],
+    ],
+
+    'series' => [
+        'beatmap_spotlights' => 'Beatmap Spotlightok',
+        'community_contests' => 'közösségi versenyek',
+        'community_tournaments' => 'közösségi bajnokságok',
+        'fanart_contests' => 'rajz versenyek',
+        'featured_artists' => 'Kiemelt Művész bejelentések',
+        'game_updates' => 'kliens és weboldal frissítések',
+        'mappers_guild' => 'Mappers\' Guild',
+        'monthly_beatmapping_contest' => 'Havi Beatmappelési Verseny',
+        'merch_runs' => 'osu! árucikkek',
+        'miscellaneous' => 'egyéb bejelentések',
+        'official_contests' => 'hivatalos versenyek',
+        'offline_events' => 'offline események',
+        'online_events' => 'online események',
+        'project_loved' => 'Loved Projekt',
+        'ranking_system_updates' => 'rangsorolt rendsuer frissítések',
+        'world_cups' => 'osu! World Cups',
     ],
 
     'show' => [
@@ -33,7 +52,7 @@ return [
     ],
 
     'sidebar' => [
-        'archive' => 'Hír archív',
+        'archive' => 'Hír Archívum',
     ],
 
     'store' => [

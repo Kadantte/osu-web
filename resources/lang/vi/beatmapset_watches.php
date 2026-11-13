@@ -5,17 +5,17 @@
 
 return [
     'index' => [
-        'description' => 'Đây là những cuộc thảo luận beatmap mà bạn đang theo dõi. Bạn sẽ được thông báo khi bài viết mới được đăng hoặc những cập nhật.',
+        'description' => 'Đây là các cuộc thảo luận về beatmap mà bạn đang theo dõi. Bạn sẽ nhận được thông báo khi có bài đăng hoặc cập nhật mới.',
         'title_compact' => 'danh sách theo dõi modding',
 
         'counts' => [
-            'total' => '',
-            'unread' => '',
+            'total' => 'Xem beatmaps',
+            'unread' => 'Beatmaps với hoạt động mới',
         ],
 
         'table' => [
             'empty' => 'Chưa theo dõi cuộc thảo luận nào.',
-            'last_update' => '',
+            'last_update' => 'Cập nhật cuối cùng',
             'open_issues' => 'Vấn đề đang mở',
             'state' => 'Trạng thái',
             'title' => 'Tiêu đề',

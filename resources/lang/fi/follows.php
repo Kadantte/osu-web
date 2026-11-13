@@ -5,34 +5,38 @@
 
 return [
     'comment' => [
-        'empty' => '',
-        'page_title' => '',
-        'title' => '',
+        'empty' => 'Ei yhtään kommentteja seurattu.',
+        'page_title' => 'seuratut kommentit',
+        'title' => 'kommentit',
 
         'table' => [
-            'latest_comment_empty' => '',
-            'latest_comment_value' => '',
+            'latest_comment_empty' => 'ei kommentteja',
+            'latest_comment_value' => ':time käyttäjältä :username',
         ],
     ],
 
     'forum_topic' => [
-        'title' => '',
+        'title' => 'foorumiaiheet',
     ],
 
     'index' => [
-        'title_compact' => '',
+        'title_compact' => 'seurantalistat',
     ],
 
     'mapping' => [
-        'empty' => '',
-        'followers' => '',
-        'page_title' => '',
-        'title' => '',
-        'to_0' => '',
-        'to_1' => '',
+        'empty' => 'Ei yhtään kartoittajaa seurattu.',
+        'followers' => 'kartoittajatilaajat',
+        'page_title' => 'seuratut kartoittajat',
+        'title' => 'kartoittajat',
+        'to_0' => 'lopeta ilmoitusten lähettäminen minulle, kun tämä käyttäjä lataa uuden rytmikartan',
+        'to_1' => 'ilmoita minulle, kun tämä käyttäjä lataa uuden rytmikartan',
     ],
 
     'modding' => [
-        'title' => '',
+        'title' => 'rytmikartan keskustelut',
+    ],
+
+    'store' => [
+        'too_many' => 'Seuraajaraja saavutettu.',
     ],
 ];

@@ -5,6 +5,7 @@
 
 namespace App\Libraries\Payments;
 
+use App\Exceptions\InvalidSignatureException;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
@@ -12,32 +13,30 @@ class PaypalSignature implements PaymentSignature
 {
     const VERIFIED_RESPONSE = 'VERIFIED';
 
-    public function __construct(Request $request)
+    public function __construct(private Request $request)
     {
-        $this->request = $request;
     }
 
-    public function isValid()
+    public function assertValid(): void
     {
         if (empty($this->receivedSignature())) {
-            return false;
+            throw new InvalidSignatureException('missing signature');
         }
 
         $client = new Client();
-        $response = $client->request('POST', config('payments.paypal.url'), [
+        $response = $client->request('POST', $GLOBALS['cfg']['payments']['paypal']['url'], [
             'allow_redirects' => false,
             'form_params' => $this->calculatedSignature(),
         ]);
 
         if ($response->getStatusCode() === 200 && trim($response->getBody()) === static::VERIFIED_RESPONSE) {
-            return true;
+            return;
         }
 
-        $string = substr($response->getBody(), 0, 20);
-        \Log::error("IPN verification returned: status `{$response->getStatusCode()}`: `{$string}`");
-
-        // NB: leave the default as false.
-        return false;
+        throw new InvalidSignatureException(extras: [
+            'ipn_message' => substr($response->getBody(), 0, 20),
+            'ipn_status_code' => $response->getStatusCode(),
+        ]);
     }
 
     private function receivedSignature()

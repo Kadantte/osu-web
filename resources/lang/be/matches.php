@@ -6,28 +6,31 @@
 return [
     'match' => [
         'beatmap-deleted' => 'выдаленая бітмапа',
-        'difference' => 'з розніцай у :difference ачкоў',
         'failed' => 'ПРОЙГРЫШ',
         'header' => 'Шматкарыстальніцкая гульня',
         'in-progress' => '(матч ў працэсе)',
         'in_progress_spinner_label' => 'матч ў працэсе',
         'loading-events' => 'Загрузка падзей...',
         'winner' => ':team перамагла,',
+        'winner_by' => ':winner з розніцай у :difference',
 
         'events' => [
-            'player-left' => ':user пакінуў гульню',
-            'player-joined' => ':user далучыўся да гульні',
-            'player-kicked' => ':user быў выгнаны з гульні',
-            'match-created' => ':user стварыў гульню',
-            'match-disbanded' => 'гульня была распушчана',
-            'host-changed' => ':user стаў хастом',
-
-            'player-left-no-user' => 'гулец пакінуў гульню',
-            'player-joined-no-user' => 'гулец далучыўся да гульні',
-            'player-kicked-no-user' => 'гулец быў выкінуты з гульні',
-            'match-created-no-user' => 'гульня была створана',
-            'match-disbanded-no-user' => 'гульня была распушчана',
-            'host-changed-no-user' => 'хвост быў зменены',
+            'game_aborted' => 'гульня была скасавана',
+            'game_aborted_no_user' => 'гульня была скасавана',
+            'game_completed' => 'гульня скончана',
+            'game_completed_no_user' => 'гульня скончана',
+            'host_changed' => ':user стаў хастом',
+            'host_changed_no_user' => 'хвост быў зменены',
+            'player_joined' => '',
+            'player_joined_no_user' => '',
+            'player_kicked' => '',
+            'player_kicked_no_user' => '',
+            'player_left' => '',
+            'player_left_no_user' => '',
+            'room_created' => '',
+            'room_created_no_user' => 'гульня была створана',
+            'room_disbanded' => 'гульня была распушчана',
+            'room_disbanded_no_user' => 'гульня была распушчана',
         ],
 
         'score' => [
@@ -38,11 +41,11 @@ return [
             ],
         ],
 
-        'team-types' => [
-            'head-to-head' => 'Head-to-head',
-            'tag-coop' => 'Tag Co-op',
-            'team-vs' => 'Team VS',
-            'tag-team-vs' => 'Tag Team VS',
+        'team_types' => [
+            'head_to_head' => '',
+            'tag_coop' => '',
+            'tag_team_versus' => '',
+            'team_versus' => '',
         ],
 
         'teams' => [
@@ -51,6 +54,8 @@ return [
         ],
     ],
     'game' => [
+        'freestyle' => 'Вольны стыль',
+
         'scoring-type' => [
             'score' => 'Найлепшыя ачкі',
             'accuracy' => 'Найлепшая дакладнасць',

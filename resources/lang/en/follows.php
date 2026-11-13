@@ -28,11 +28,15 @@ return [
         'followers' => 'mapping subscribers',
         'page_title' => 'mapper watchlist',
         'title' => 'mapper',
-        'to_0' => 'stop notifying me when this user uploads new beatmap',
-        'to_1' => 'notify me when this user uploads new beatmap',
+        'to_0' => 'stop notifying me when this user uploads a new beatmap',
+        'to_1' => 'notify me when this user uploads a new beatmap',
     ],
 
     'modding' => [
         'title' => 'beatmap discussion',
+    ],
+
+    'store' => [
+        'too_many' => 'Follow limit reached.',
     ],
 ];

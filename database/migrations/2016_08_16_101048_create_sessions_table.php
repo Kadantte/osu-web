@@ -3,6 +3,8 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
 // See the LICENCE file in the repository root for full licence text.
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 
 class CreateSessionsTable extends Migration
@@ -19,9 +21,6 @@ class CreateSessionsTable extends Migration
         }
 
         Schema::create('phpbb_sessions', function ($table) {
-            $table->collation = 'utf8_bin';
-            $table->charset = 'utf8';
-
             $table->string('session_id', 32)->default('');
             $table->mediumInteger('session_user_id')->unsigned()->default(0);
             $table->integer('session_last_visit')->unsigned()->default(0);
@@ -40,8 +39,6 @@ class CreateSessionsTable extends Migration
             $table->index(['session_autologin', 'session_time'], 'autologin_time_purge');
             $table->index(['session_user_id', 'session_time'], 'session_user_id_time');
         });
-
-        DB::statement('ALTER TABLE phpbb_sessions ROW_FORMAT=DYNAMIC');
     }
 
     /**

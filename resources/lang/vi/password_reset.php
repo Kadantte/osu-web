@@ -5,18 +5,21 @@
 
 return [
     'button' => [
-        'cancel' => 'Hủy',
         'resend' => 'Gửi lại email xác thực',
         'set' => 'Đặt mật khẩu',
         'start' => 'Bắt đầu',
     ],
 
     'error' => [
-        'contact_support' => 'Vui lòng liên hệ hỗ trợ để khôi phục tài khoản của bạn.',
+        'contact_support' => 'Vui lòng liên hệ hỗ trợ để khôi phục tài khoản.',
+        'expired' => 'Mã xác nhận đã hết hạn.',
+        'invalid' => 'Lỗi không xác định trong mã xác nhận.',
         'is_privileged' => 'Liên hệ peppy ấy lulz.',
         'missing_key' => 'Bắt buộc.',
+        'too_many_requests' => 'Đã đạt giới hạn số lần yêu cầu đặt lại mật khẩu. Vui lòng liên hệ hỗ trợ để khôi phục tài khoản.',
         'too_many_tries' => 'Quá nhiều lần thử không thành công.',
         'user_not_found' => 'Người dùng này không tồn tại.',
+        'wait_resend' => 'Vui lòng chờ một lát.',
         'wrong_key' => 'Mã không chính xác.',
     ],
 
@@ -35,9 +38,12 @@ return [
     'starting' => [
         'username' => 'Nhập địa chỉ email hoặc tên tài khoản',
 
+        'reason' => [
+            'inactive_different_country' => "Tài khoản của bạn đã không được sử dụng trong một thời gian dài. Để đảm bảo an toàn cho tài khoản của bạn, vui lòng đặt lại mật khẩu.",
+        ],
         'support' => [
-            '_' => '',
-            'button' => '',
+            '_' => 'Cần nhiều sự giúp đỡ hơn? Liên hệ với chúng tôi bằng :button.',
+            'button' => 'hệ thống hỗ trợ',
         ],
     ],
 ];

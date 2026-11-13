@@ -7,8 +7,8 @@ return [
     'support' => [
         'convinced' => [
             'title' => 'Přesvědčili jste mě! :D',
-            'support' => 'podpořit osu! nákupem supporter tagu!',
-            'gift' => 'nebo darujte supporter tag jiným hráčům',
+            'support' => 'podpořit osu!',
+            'gift' => 'nebo darovat supporter tag jiným hráčům',
             'instructions' => 'klikněte na srdíčko pro přesměrování do osu!store',
         ],
         'why-support' => [
@@ -16,52 +16,52 @@ return [
 
             'team' => [
                 'title' => 'Podpořit tým',
-                'description' => '',
+                'description' => 'Malý tým vývojářů vyvýjí a provozuje osu! Tvoje prodpora jim pomáhá... no... žít.',
             ],
             'infra' => [
                 'title' => 'Infrastruktura serveru',
-                'description' => '',
+                'description' => 'Příspěvky jsou použity k zajištění provozu serverů, na kterých běží webové stránky, multiplayer, online žebříčky atd.',
             ],
             'featured-artists' => [
-                'title' => 'Vybraní umělci',
-                'description' => '',
-                'link_text' => '',
+                'title' => 'Oficiální umělci',
+                'description' => 'S tvojí podporou můžeme získat více úžasných tvůrců a licencovat více skvělé hudby pro použití v osu!',
+                'link_text' => 'Zobrazit aktuální seznam &raquo;',
             ],
             'ads' => [
-                'title' => '',
+                'title' => 'Pomoz osu! zůstat soběstačným',
                 'description' => 'Vaše pomoc pomáhá udržet hru nezávislou a zcela bez reklam a externích sponzorů.',
             ],
             'tournaments' => [
                 'title' => 'Oficiální turnaje',
-                'description' => '',
-                'link_text' => '',
+                'description' => 'Pomoz financovat provozování (a zajištění cen) oficiálních osu! World Cup turnajů.',
+                'link_text' => 'Prozkoumej turnaje &raquo;',
             ],
             'bounty-program' => [
-                'title' => '',
-                'description' => '',
-                'link_text' => '',
+                'title' => 'Podpora komunitních vývojářů',
+                'description' => 'Podpoř komunitní vývojáře, kteří věnovali svůj volný čas a úsilí, aby udělali osu! lepší.',
+                'link_text' => 'Zjistit více &raquo;',
             ],
         ],
         'perks' => [
-            'title' => 'Oh? Co dostanu?!',
+            'title' => 'Skvělé! Jaké výhody dostanu?',
             'osu_direct' => [
                 'title' => 'osu!direct',
-                'description' => 'rychlý a snadný přístup k vyhledávání beatmap bez opuštění hry.',
+                'description' => 'Získej rychlý a snadný přístup k vyhledávání a stahování beatmap bez opuštění hry.',
             ],
 
             'friend_ranking' => [
                 'title' => 'Žebříček přátel',
-                'description' => "",
+                'description' => "Podívej se, jak moc dobrý jsi ve srovnání se svými přátely na žebříčku beatmapy, a to jak ve hře, tak i na webu.",
             ],
 
             'country_ranking' => [
                 'title' => 'Státní žebříčky',
-                'description' => '',
+                'description' => 'Dobij svou zemi před dobytím světa.',
             ],
 
             'mod_filtering' => [
                 'title' => 'Filtrovat podle módů',
-                'description' => '',
+                'description' => 'Asociovat pouze s lidmi, kteří hrají HDHR? Žádný problém!',
             ],
 
             'auto_downloads' => [
@@ -71,22 +71,22 @@ return [
 
             'upload_more' => [
                 'title' => 'Nahraj více',
-                'description' => 'Další nevyřízené beatmapové sloty (za každou hodnocenou beatmapu), max 10.',
+                'description' => 'Další sloty pro čekající beatmapy (za každou hodnocenou beatmapu) až do maximálně 10.',
             ],
 
             'early_access' => [
                 'title' => 'Předběžný přístup',
-                'description' => 'Přístup do předběžných vydání, kde si můžeš vyzkoušet novinky ještě než výjdou!',
+                'description' => 'Získej přístup k novým verzím s novými funkcemi před tím, než vyjdou!<br/><br/>To zahrnuje i předběžný přístup k novým funkcím na webu!',
             ],
 
             'customisation' => [
                 'title' => 'Přizpůsobení',
-                'description' => "Přizpůsobte si svůj profil přidáním plně upravitelné uživatelské stránky.",
+                'description' => "Vyčnívej nahráním vlastního obrázku záhlaví, vytvořením plně přizpůsobitelné 'já!' sekce nebo i změnou barvy na libovolnou, která se ti líbí, v rámci svého uživatelského profilu.",
             ],
 
             'beatmap_filters' => [
                 'title' => 'Beatmapové filtry',
-                'description' => 'Filtrujte beatmapové vyhledávání podle zahraných a ještě nehraných a podle umístění (jestli jsou nějaké).',
+                'description' => 'Filtruj vyhledávání beatmap podle odehraných a neodehraných map, nebo podle obdržené známky.',
             ],
 
             'yellow_fellow' => [
@@ -121,28 +121,32 @@ return [
 
             'more_favourites' => [
                 'title' => 'Více oblíbených',
-                'description' => '',
+                'description' => 'Maximální počet beatmap, které můžeš mít v oblíbených, je navýšen z :normally &rarr; :supporter',
             ],
             'more_friends' => [
                 'title' => 'Více přátel',
-                'description' => '',
+                'description' => 'Maximální počet přátel, které si můžeš přidat, je navýšen z :normally &rarr; :supporter',
             ],
             'more_beatmaps' => [
                 'title' => 'Nahrát více Beatmap',
-                'description' => '',
+                'description' => 'Kolik čekajících beatmap můžeš mít najednou je vypočítáno ze základní hodnoty plus dodatečného bonusu za každou hodnocenou beatmapu, kterou máš (do určitého maxima).<br/><br/>Normálně je to :base plus :bonus za honocenou beatmapu (až :bonus_max maximálně). Se supporterem se toto zvýší na :supporter_base plus :supporter_bonus za hodnocenou mapu (až :supporter_bonus_max maximálně).',
             ],
             'friend_filtering' => [
                 'title' => 'Žebříček kamarádů',
-                'description' => '',
+                'description' => 'Soutěž se svými přáteli a uvidíš, jak dobrý jsi v porovnáni s nimi!',
             ],
 
         ],
         'supporter_status' => [
-            'contribution' => 'Díky za tvou podporu! Zatím jsi přispěl/a celkově :dollars napříč :tags nákupy supporter tagů!',
-            'gifted' => ":giftedTags z vašich nákupů tagů bylo darováno (což dělá celkem :giftedDollars), jak štědré!",
+            'contribution_with_duration' => 'Děkujeme za tvoji přetrvávající podporu! Už jsi přispěl celkem :dollars, což ti přineslo "Supporter" tag pro :duration.',
             'not_yet' => "Ještě nemáš supporter tag :(",
             'valid_until' => 'Tvůj supporter tag je platný do :date!',
             'was_valid_until' => 'Tvůj supporter tag byl platný do :date.',
+
+            'gifted' => [
+                '_' => 'Přes všechny tvé příspěvky jsi daroval tagy v hodnotě :dollars :users uživatelům pokrývající :duration. To je neuvěřitelně velkorysé!',
+                'users' => ':count_delimited další uživatel|:count_delimited další uživatelé|:count_delimited dalších uživatelů',
+            ],
         ],
     ],
 ];

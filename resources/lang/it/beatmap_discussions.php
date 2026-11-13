@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited risposta è nascosta.|:count_delimited risposte sono nascoste.',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Devi avere effettuato il login per modificare.',
@@ -16,25 +18,37 @@ return [
         'empty' => 'Non è successo nulla... per ora.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
-        'deleted_beatmap' => 'eliminato',
+        'deleted_beatmap' => 'eliminata',
         'none_found' => 'Nessuna discussione corrispondente ai criteri di ricerca trovata.',
         'title' => 'Discussioni Beatmap',
 
         'form' => [
             '_' => 'Cerca',
             'deleted' => 'Includi discussioni eliminate',
-            'only_unresolved' => 'Mostra solo le discussioni in sospeso',
+            'mode' => 'Modalità beatmap',
+            'only_unresolved' => 'Mostra solo discussioni irrisolte',
+            'show_review_embeds' => 'Mostra post di revisione',
             'types' => 'Tipi di messaggio',
-            'username' => 'Nome Utente',
+            'username' => 'Nome utente',
 
             'beatmapset_status' => [
-                '_' => 'Stato Beatmap',
-                'all' => 'Tutti',
+                '_' => 'Stato beatmap',
+                'all' => 'Qualsiasi',
                 'disqualified' => 'Squalificata',
                 'never_qualified' => 'Mai Qualificata',
                 'qualified' => 'Qualificata',
-                'ranked' => 'Rankata',
+                'ranked' => 'Classificata',
             ],
 
             'user' => [
@@ -57,9 +71,23 @@ return [
         'unsaved' => ':count in questa revisione',
     ],
 
+    'owner_editor' => [
+        'button' => 'Mapper della difficoltà',
+        'reset_confirm' => 'Ripristinare il proprietario per questa difficoltà?',
+        'user' => 'Proprietario',
+        'version' => 'Difficoltà',
+    ],
+
+    'refresh' => [
+        'checking' => 'Ricerca aggiornamenti in corso...',
+        'has_updates' => 'Questa discussione ha degli aggiornamenti, clicca per aggiornare.',
+        'no_updates' => 'Nessun aggiornamento.',
+        'updating' => 'Aggiornamento...',
+    ],
+
     'reply' => [
         'open' => [
-            'guest' => 'Registrati per Rispondere',
+            'guest' => 'Accedi per rispondere',
             'user' => 'Rispondi',
         ],
     ],
@@ -73,6 +101,7 @@ return [
             'external_references' => 'la revisione contiene riferimenti a dei problemi che non appartengono a questa revisione',
             'invalid_block_type' => 'tipo di blocco non valido',
             'invalid_document' => 'revisione non valida',
+            'invalid_discussion_type' => 'tipo di discussione non valido',
             'minimum_issues' => 'la revisione deve contenere almeno :count problema|la revisione deve contenere almeno :count problemi',
             'missing_text' => 'il blocco non ha testo',
             'too_many_blocks' => 'le revisioni possono contenere solo :count paragrafo/problema|le revisioni possono contenere fino a :count paragrafi/problemi',
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'Tutti',
         'label' => 'Filtra per utente',
+        'multiple' => ':count_delimited utente selezionato|:count_delimited utenti selezionati',
     ],
 ];

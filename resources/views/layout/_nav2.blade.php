@@ -2,6 +2,9 @@
     Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
     See the LICENCE file in the repository root for full licence text.
 --}}
+@php
+    $currentUser ??= Auth::user();
+@endphp
 <div class="nav2 js-nav-button">
     <div class="nav2__colgroup nav2__colgroup--menu js-nav-button--container">
         <div class="nav2__col nav2__col--logo">
@@ -11,7 +14,7 @@
             </a>
         </div>
 
-        @foreach (nav_links() as $section => $links)
+        @foreach ($navLinks as $section => $links)
             <div class="nav2__col nav2__col--menu">
                 <a
                     class="nav2__menu-link-main js-menu"
@@ -20,7 +23,7 @@
                     data-menu-show-delay="0"
                 >
                     <span class="u-relative">
-                        {{ trans("layout.menu.{$section}._") }}
+                        {{ osu_trans("layout.menu.{$section}._") }}
 
                         @if ($section === $currentSection && !($isSearchPage ?? false))
                             <span class="nav2__menu-link-bar u-section--bg-normal"></span>
@@ -40,12 +43,12 @@
                         data-menu-id="nav2-menu-popup-{{ $section }}"
                         data-visibility="hidden"
                     >
-                        @foreach ($links as $action => $link)
-                            @if ($action === '_')
+                        @foreach ($links as $transKey => $link)
+                            @if ($transKey === '_')
                                 @continue
                             @endif
                             <a class="simple-menu__item u-section-{{ $section }}--before-bg-normal" href="{{ $link }}">
-                                {{ trans("layout.menu.{$section}.{$action}") }}
+                                {{ osu_trans($transKey) }}
                             </a>
                         @endforeach
                     </div>
@@ -53,7 +56,7 @@
             </div>
         @endforeach
 
-        <div class="nav2__col nav2__col--menu js-react--quick-search-button">
+        <div class="nav2__col nav2__col--menu js-react" data-react="quick-search-button">
             <a
                 href="{{ route('search') }}"
                 class="
@@ -66,12 +69,13 @@
             </a>
         </div>
     </div>
-    <div class="nav2__colgroup js-nav-button--container">
+    <div class="nav2__colgroup nav2__colgroup--icons js-nav-button--container">
         <div class="nav2__col js-nav-button--item">
             <a
                 href="{{ osu_url('social.twitter') }}"
-                class="nav-button nav-button--social"
+                class="nav-button nav-button--twitter"
                 title="Twitter"
+                data-tooltip-position="bottom center"
             >
                 <span class="fab fa-twitter"></span>
             </a>
@@ -81,106 +85,81 @@
             <a
                 href="{{ route('support-the-game') }}"
                 class="nav-button nav-button--support"
-                title="{{ trans('page_title.main.home_controller.support_the_game') }}"
+                title="{{ osu_trans('page_title.main.home_controller.support_the_game') }}"
+                data-tooltip-position="bottom center"
             >
                 <span class="fas fa-heart"></span>
             </a>
         </div>
 
         <div class="nav2__col">
-            <button
-                class="nav-button nav-button--stadium js-click-menu"
-                data-click-menu-target="nav2-locale-popup"
-            >
-                <span class="nav-button__locale-current-flag">
-                    @include('objects._flag_country', [
-                        'countryCode' => locale_flag(App::getLocale()),
-                        'modifiers' => ['flat'],
-                    ])
-                </span>
-            </button>
-
-            <div class="nav-click-popup">
-                <div
-                    class="simple-menu simple-menu--nav2 simple-menu--nav2-locales js-click-menu js-nav2--centered-popup"
-                    data-click-menu-id="nav2-locale-popup"
-                    data-visibility="hidden"
-                >
-                    <div class="simple-menu__content">
-                        @foreach (config('app.available_locales') as $locale)
-                            <button
-                                type="button"
-                                class="
-                                    simple-menu__item
-                                    {{ $locale === App::getLocale() ? 'simple-menu__item--active' : '' }}
-                                "
-                                @if ($locale !== App::getLocale())
-                                    data-url="{{ route('set-locale', ['locale' => $locale]) }}"
-                                    data-remote="1"
-                                    data-method="POST"
-                                @endif
-                            >
-                                <span class="nav2-locale-item">
-                                    <span class="nav2-locale-item__flag">
-                                        @include('objects._flag_country', [
-                                            'countryCode' => locale_flag($locale),
-                                            'modifiers' => ['flat'],
-                                        ])
-                                    </span>
-
-                                    {{ locale_name($locale) }}
-                                </span>
-                            </button>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+            {!! app('layout-cache')->getLocalesDesktop() !!}
         </div>
 
-        @if (Auth::user() !== null)
-            <div class="nav2__col">
-                <button
-                    class="nav-button nav-button--stadium js-click-menu js-react--chat-icon"
-                    data-click-menu-target="nav2-chat-notification-widget"
-                    data-turbolinks-permanent
-                    id="notification-widget-chat-icon"
-                >
-                    <span class="notification-icon">
-                        <i class="fas fa-comment-alt"></i>
-                        <span class="notification-icon__count">...</span>
-                    </span>
-                </button>
-                <div
-                    class="nav-click-popup js-click-menu js-react--notification-widget"
-                    data-click-menu-id="nav2-chat-notification-widget"
-                    data-visibility="hidden"
-                    data-notification-widget="{{ json_encode(['extraClasses' => 'js-nav2--centered-popup', 'only' => 'channel']) }}"
-                    data-turbolinks-permanent
-                    id="notification-widget-chat"
-                ></div>
+        @if ($currentUser !== null)
+            @if ($GLOBALS['cfg']['osu']['user']['wrapped_enabled'])
+                <div class="nav2__col">
+                    <a
+                        href="{{ route('wrapped', $currentUser->getKey()) }}"
+                        class="{{ class_with_modifiers('nav-button', [
+                            'wrapped' => true,
+                            'wrapped-first' => !has_viewed_wrapped(),
+                        ]) }}"
+                        title="View your summary of 2025!"
+                        data-tooltip-position="bottom center"
+                    >
+                        <span class="fas fa-star"></span>
+                    </a>
+                </div>
+            @endif
+            <div class="nav2__col nav2__col--notifications">
+                <div class="nav2__notification-container">
+                    <a
+                        class="nav-button nav-button--notifications js-click-menu js-react"
+                        data-click-menu-target="nav2-chat-notification-widget"
+                        data-react="chat-icon"
+                        data-turbo-permanent
+                        id="notification-widget-chat-icon"
+                        href="{{ route('chat.index') }}"
+                    >
+                        <span class="notification-icon">
+                            <i class="fas fa-comment-alt"></i>
+                            <span class="notification-icon__count">...</span>
+                        </span>
+                    </a>
+                    <div
+                        class="nav-click-popup js-click-menu js-react"
+                        data-click-menu-id="nav2-chat-notification-widget"
+                        data-react="notification-widget"
+                        data-visibility="hidden"
+                        data-notification-widget="{{ json_encode(['extraClasses' => 'js-nav2--centered-popup hidden', 'only' => 'channel']) }}"
+                        data-turbo-permanent
+                        id="notification-widget-chat"
+                    ></div>
 
-            </div>
-
-            <div class="nav2__col">
-                <button
-                    class="nav-button nav-button--stadium js-click-menu js-react--notification-icon"
-                    data-click-menu-target="nav2-notification-widget"
-                    data-turbolinks-permanent
-                    id="notification-widget-icon"
-                >
-                    <span class="notification-icon">
-                        <i class="fas fa-inbox"></i>
-                        <span class="notification-icon__count">...</span>
-                    </span>
-                </button>
-                <div
-                    class="nav-click-popup js-click-menu js-react--notification-widget"
-                    data-click-menu-id="nav2-notification-widget"
-                    data-visibility="hidden"
-                    data-notification-widget="{{ json_encode(['extraClasses' => 'js-nav2--centered-popup', 'excludes' => ['channel']]) }}"
-                    data-turbolinks-permanent
-                    id="notification-widget"
-                ></div>
+                    <a
+                        class="nav-button nav-button--notifications js-click-menu js-react"
+                        data-click-menu-target="nav2-notification-widget"
+                        data-react="main-notification-icon"
+                        data-turbo-permanent
+                        id="notification-widget-icon"
+                        href="{{ route('notifications.index') }}"
+                    >
+                        <span class="notification-icon">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-icon__count">...</span>
+                        </span>
+                    </a>
+                    <div
+                        class="nav-click-popup js-click-menu js-react"
+                        data-click-menu-id="nav2-notification-widget"
+                        data-react="notification-widget"
+                        data-visibility="hidden"
+                        data-notification-widget="{{ json_encode(['extraClasses' => 'js-nav2--centered-popup hidden', 'excludes' => ['channel']]) }}"
+                        data-turbo-permanent
+                        id="notification-widget"
+                    ></div>
+                </div>
             </div>
         @endif
 

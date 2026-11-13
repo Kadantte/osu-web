@@ -13,9 +13,28 @@ return [
         ],
 
         'title' => [
-            '_' => 'Novinky » :info',
-            'info' => 'Hlávní stránka',
+            '_' => 'novinky',
+            'info' => 'hlavní stránka',
         ],
+    ],
+
+    'series' => [
+        'beatmap_spotlights' => 'Zvýraznění beatmap',
+        'community_contests' => 'komunitní soutěže',
+        'community_tournaments' => 'komunitní turnaje',
+        'fanart_contests' => 'umělecké soutěže',
+        'featured_artists' => 'oznámení o oficiálních umělcích',
+        'game_updates' => 'aktualizace klienta a webových stránek',
+        'mappers_guild' => 'Mappers\' Guild',
+        'monthly_beatmapping_contest' => 'Měsíční mapovací soutěž',
+        'merch_runs' => 'osu! merchandise',
+        'miscellaneous' => 'různá oznámení',
+        'official_contests' => 'oficiální soutěže',
+        'offline_events' => 'offline události',
+        'online_events' => 'online události',
+        'project_loved' => 'Projekt oblíbených komunitou',
+        'ranking_system_updates' => 'aktualizace systému hodnocení',
+        'world_cups' => 'Mistrovství světa v osu!',
     ],
 
     'show' => [
@@ -27,13 +46,13 @@ return [
         ],
 
         'title' => [
-            '_' => 'Novinky » :info',
-            'info' => 'Článek',
+            '_' => 'novinky',
+            'info' => 'příspěvek',
         ],
     ],
 
     'sidebar' => [
-        'archive' => '',
+        'archive' => 'Archiv novinek',
     ],
 
     'store' => [

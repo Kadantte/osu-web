@@ -9,8 +9,7 @@ use App\Jobs\UpdateUserFollowerCountCache;
 use App\Models\User;
 use App\Models\UserRelation;
 use App\Transformers\UserCompactTransformer;
-use Auth;
-use Request;
+use App\Transformers\UserRelationTransformer;
 
 class FriendsController extends Controller
 {
@@ -27,92 +26,117 @@ class FriendsController extends Controller
 
         $this->middleware('require-scopes:friends.read', ['only' => ['index']]);
 
-        return parent::__construct();
+        parent::__construct();
     }
 
     public function index()
     {
-        $currentUser = auth()->user();
+        $currentUser = \Auth::user();
         $currentMode = default_mode();
 
-        $friends = $currentUser
-            ->friends()
-            ->with('statistics'.studly_case($currentMode))
-            ->eagerloadForListing()
-            ->orderBy('username', 'asc')
-            ->get();
+        $friends = $currentUser->friendsWithMutual->load(prefix_strings(
+            'target.',
+            UserCompactTransformer::listIncludesPreload($currentMode),
+        ));
 
-        $transformer = new UserCompactTransformer();
-        $transformer->mode = $currentMode;
-        $usersJson = json_collection($friends, $transformer, [
-            'cover',
-            'country',
-            'statistics',
-            'groups',
-            'support_level',
-        ]);
+        $isApi = is_api_request();
 
-        if (is_api_request()) {
-            return $usersJson;
+        if ($isApi && api_version() >= 20241022) {
+            return json_collection($friends, new UserRelationTransformer(), [
+                "target:ruleset({$currentMode})",
+                ...array_map(
+                    fn ($userInclude) => "target.{$userInclude}",
+                    UserCompactTransformer::LIST_INCLUDES,
+                ),
+            ]);
         }
 
-        return ext_view('friends.index', compact('usersJson'));
+        $usersJson = json_collection(
+            $friends->pluck('target'),
+            (new UserCompactTransformer())->setMode($currentMode),
+            UserCompactTransformer::LIST_INCLUDES
+        );
+
+        return $isApi
+            ? $usersJson
+            : ext_view('friends.index', compact('usersJson'));
     }
 
     public function store()
     {
-        $currentUser = Auth::user();
-        $friends = $currentUser->friends(); // don't fetch (avoids potentially instantiating 500+ friend objects)
+        $currentUser = \Auth::user();
 
-        if ($friends->count() >= $currentUser->maxFriends()) {
-            return error_popup(trans('friends.too_many'));
+        if ($currentUser->friends()->count() >= $currentUser->maxFriends()) {
+            return error_popup(osu_trans('friends.too_many'));
         }
 
-        $targetId = get_int(Request::input('target'));
+        $targetId = get_int(request('target'));
         $targetUser = User::lookup($targetId, 'id');
 
-        if (!$targetUser) {
+        if ($targetUser === null) {
             abort(404);
         }
 
-        $alreadyFriends = $friends
-            ->wherePivot('zebra_id', $targetId)
-            ->exists();
+        if ($currentUser->getKey() === $targetId) {
+            abort(422);
+        }
 
-        if (!$alreadyFriends) {
-            UserRelation::create([
-                'user_id' => $currentUser->user_id,
-                'zebra_id' => $targetId,
-                'friend' => true,
-            ]);
+        if ($targetUser->hasBlocked($currentUser)) {
+            return error_popup(osu_trans('friends.blocked'));
+        }
 
+        $relationQuery = $currentUser->relations()->where('zebra_id', $targetId);
+        while (true) {
+            $existingRelation = $relationQuery->first();
+            $updateCount = false;
+
+            if ($existingRelation === null) {
+                try {
+                    UserRelation::create([
+                        'user_id' => $currentUser->getKey(),
+                        'zebra_id' => $targetId,
+                        'friend' => true,
+                    ]);
+                    $updateCount = true;
+                } catch (\Throwable $e) {
+                    if (is_sql_unique_exception($e)) {
+                        // redo the loop with what should be a non-null
+                        // $existingRelation on the next one
+                        continue;
+                    }
+
+                    throw $e;
+                }
+            } elseif (!$existingRelation->friend) {
+                $existingRelation->update([
+                    'friend' => true,
+                    'foe' => false,
+                ]);
+                $updateCount = true;
+            }
+
+            break;
+        }
+
+        if ($updateCount) {
             dispatch(new UpdateUserFollowerCountCache($targetId));
         }
 
-        return json_collection(
-            $currentUser->relations()->friends()->withMutual()->get(),
-            'UserRelation'
-        );
+        return [
+            'user_relation' => json_item(
+                $relationQuery->withMutual()->first(),
+                new UserRelationTransformer(),
+            ),
+        ];
     }
 
     public function destroy($id)
     {
-        $friend = Auth::user()
-            ->friends()
-            ->wherePivot('zebra_id', $id)
-            ->firstOrFail();
+        $relation = \Auth::user()->friends()->where('zebra_id', $id)->firstOrFail();
+        $relation->delete();
 
-        UserRelation::where([
-            'user_id' => Auth::user()->user_id,
-            'zebra_id' => $id,
-            'friend' => 1,
-        ])->delete();
+        dispatch(new UpdateUserFollowerCountCache($relation->zebra_id));
 
-        dispatch(new UpdateUserFollowerCountCache($id));
-
-        return json_collection(
-            Auth::user()->relations()->friends()->withMutual()->get(),
-            'UserRelation'
-        );
+        return response()->noContent();
     }
 }

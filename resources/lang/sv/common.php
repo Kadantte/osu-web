@@ -19,9 +19,9 @@ return [
     ],
 
     'buttons' => [
-        'admin' => 'Admin',
         'authorise' => 'Auktorisera',
         'authorising' => 'Auktoriserar...',
+        'back' => 'Tillbaka',
         'back_to_previous' => 'Återgå till tidigare position',
         'back_to_top' => 'Tillbaka till toppen',
         'cancel' => 'Avbryt',
@@ -39,11 +39,13 @@ return [
         'pin' => 'fäst',
         'post' => 'Lägg upp',
         'read_more' => 'läs mer',
+        'refresh' => 'Ladda om',
         'reply' => 'Svara',
         'reply_reopen' => 'Svara och öppna igen',
-        'reply_resolve' => 'Svara och Lös',
+        'reply_resolve' => 'Svara och lös',
         'reset' => 'Återställ',
         'restore' => 'Återställ',
+        'retry' => 'Försök igen',
         'save' => 'Spara',
         'saving' => 'Sparar...',
         'search' => 'Sök',
@@ -53,7 +55,8 @@ return [
         'show_less' => 'visa mindre',
         'show_more' => 'visa mer',
         'show_more_options' => 'visa fler alternativ',
-        'unpin' => 'ofäst ',
+        'submit' => 'Skicka',
+        'unpin' => 'lossa',
         'update' => 'Uppdatera',
         'upload_image' => 'ladda upp bild',
 
@@ -64,22 +67,23 @@ return [
     ],
 
     'count' => [
-        'badges' => ':count emblem|:count emblem',
-        'days' => ':count dag|:count dagar',
+        'badges' => ':count_delimited emblem|:count_delimited emblem',
+        'days' => ':count_delimited dag|:count_delimited dagar',
         'hour_short_unit' => 't|t',
-        'hours' => ':count timme|:count timmar',
-        'item' => ':count enhet|:count enheter',
+        'hours' => ':count_delimited timme|:count_delimited timmar',
+        'item' => ':count_delimited enhet|:count_delimited enheter',
         'minute_short_unit' => 'm|m',
         'minutes' => ':count_delimited minut|:count_delimited minuter',
-        'months' => ':count månad|:count månader',
+        'months' => ':count_delimited månad|:count_delimited månader',
         'notifications' => ':count_delimited avisering|:count_delimited aviseringar  ',
+        'player' => ':count_delimited spelare|:count_delimited spelare',
         'plus_others' => '+ :count_delimited övrig!|+ :count_delimited övriga!',
         'post' => ':count_delimited inlägg|:count_delimited inlägg',
         'second_short_unit' => 's|s',
         'star_priority' => ':count_delimited stjärnprioritet|:count_delimited stjärnprioriteter',
         'update' => ':count_delimited uppdatering|:count_delimited uppdateringar',
-        'view' => ':count_delimited visa|:count_delimited visningar ',
-        'years' => ':count år|:count år',
+        'view' => ':count_delimited visning|:count_delimited visningar ',
+        'years' => ':count_delimited år|:count_delimited år',
     ],
 
     'countdown' => [
@@ -90,6 +94,12 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => 'm',
+        ],
+        'year' => [
+            'php' => 'å',
+        ],
         'year_month' => [
             'moment' => 'MMMM YYYY',
             'php' => 'MMMM y',
@@ -129,14 +139,14 @@ return [
     ],
 
     'scoreboard_time' => [
-        'd' => '%d d',
-        'dd' => '%d d',
+        'd' => '%dd',
+        'dd' => '%dd',
         'h' => '%d tim',
         'hh' => '%d tim',
-        'M' => '%d mån',
         'm' => '%d min',
-        'MM' => '%d mån',
         'mm' => '%d min',
+        'month' => '%d mån',
+        'months' => '%d mån',
         'past' => '',
         's' => '%d sek',
         'y' => '%d år',
@@ -144,10 +154,10 @@ return [
     ],
 
     'time' => [
-        'days_ago' => ':count dag sedan|:count dagar sedan',
-        'hours_ago' => ':count timme sedan|:count timmar sedan',
+        'days_ago' => ':count_delimited dag sedan|:count_delimited dagar sedan',
+        'hours_ago' => ':count_delimited timme sedan|:count_delimited timmar sedan',
         'now' => 'nu',
-        'remaining' => 'Återstående Tid',
+        'remaining' => 'Återstående tid',
     ],
 
     'title' => [

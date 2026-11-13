@@ -19,9 +19,9 @@ return [
     ],
 
     'buttons' => [
-        'admin' => '管理者',
         'authorise' => '承認',
-        'authorising' => '承認...',
+        'authorising' => '承認中...',
+        'back' => '戻る',
         'back_to_previous' => '直前の状態に戻す',
         'back_to_top' => 'トップに戻る',
         'cancel' => 'キャンセル',
@@ -39,11 +39,13 @@ return [
         'pin' => 'ピン',
         'post' => '投稿',
         'read_more' => '続きを読む',
+        'refresh' => '更新',
         'reply' => '返信',
         'reply_reopen' => '返信して再開',
         'reply_resolve' => '返信して解決',
         'reset' => 'リセット',
         'restore' => '復元',
+        'retry' => 'リトライ',
         'save' => '保存',
         'saving' => '保存中・・・',
         'search' => '検索',
@@ -53,6 +55,7 @@ return [
         'show_less' => '表示を縮小する',
         'show_more' => '展開する',
         'show_more_options' => '詳細オプションを表示する',
+        'submit' => '送信',
         'unpin' => 'ピン解除',
         'update' => 'アップデート',
         'upload_image' => '画像をアップロード',
@@ -73,6 +76,7 @@ return [
         'minutes' => ':count_delimited分',
         'months' => ':count_delimitedヶ月',
         'notifications' => ':count_delimited 件の通知',
+        'player' => ':count_delimited プレイヤー|:count_delimited プレイヤー',
         'plus_others' => '+ :count_delimited',
         'post' => ':count_delimited 投稿',
         'second_short_unit' => '秒',
@@ -90,12 +94,18 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => '月',
+        ],
+        'year' => [
+            'php' => '年',
+        ],
         'year_month' => [
-            'moment' => 'MMMM YYYY',
+            'moment' => 'YYYY年MM月',
             'php' => 'MMMM y',
         ],
         'year_month_short' => [
-            'moment' => 'MMM YYYY',
+            'moment' => 'YYYY年MM月',
         ],
     ],
 
@@ -125,7 +135,7 @@ return [
         'count_50' => '50',
         'count_geki' => '',
         'count_katu' => '200',
-        'count_miss' => 'Miss',
+        'count_miss' => 'ミス',
     ],
 
     'scoreboard_time' => [
@@ -133,10 +143,10 @@ return [
         'dd' => '%d 日',
         'h' => '%d 時間',
         'hh' => '%d 時間',
-        'M' => '%d 月',
         'm' => '%d 分',
-        'MM' => '%d 月',
         'mm' => '%d 分',
+        'month' => '%d 月',
+        'months' => '%d 月',
         'past' => '',
         's' => '%d 秒',
         'y' => '%d 年',

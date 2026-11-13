@@ -33,10 +33,14 @@ return [
 
     'blocks' => [
         'banner_text' => 'Έχετε μπλοκάρει αυτόν τον χρήστη.',
+        'comment_text' => 'Αυτό το σχόλιο είναι κρυμμένο.',
         'blocked_count' => 'μπλοκαρισμένοι χρήστες (:count)',
         'hide_profile' => 'απόκρυψη προφίλ',
+        'hide_comment' => 'απόκρυψη',
+        'forum_post_text' => 'Αυτή η δημοσίευση είναι κρυμμένη.',
         'not_blocked' => 'Αυτός ο χρήστης δεν είναι μπλοκαρισμένος.',
         'show_profile' => 'εμφάνιση προφίλ',
+        'show_comment' => 'εμφάνιση',
         'too_many' => 'Φτάσατε το όριο μπλοκαρισμάτων.',
         'button' => [
             'block' => 'μπλοκάρισμα',
@@ -45,38 +49,56 @@ return [
     ],
 
     'card' => [
+        'gift_supporter' => 'Ετικέτα υποστήριξης δώρου',
         'loading' => 'Φόρτωση...',
         'send_message' => 'αποστολή μηνύματος',
     ],
 
+    'create' => [
+        'form' => [
+            'password' => 'κωδικός',
+            'password_confirmation' => 'επιβεβαίωση κωδικού',
+            'submit' => 'δημιούργησε λογαριασμό',
+            'user_email' => 'email',
+            'user_email_confirmation' => 'επιβεβαίωση email',
+            'username' => 'όνομα χρήστη',
+
+            'tos_notice' => [
+                '_' => 'δημιουργώντας λογαριασμό συμφωνείτε με το :link',
+                'link' => 'όροι υπηρεσίας',
+            ],
+        ],
+    ],
+
     'disabled' => [
-        'title' => '',
-        'warning' => "",
+        'title' => 'Ωχ! Φαίνεται ότι ο λογαριασμός σας έχει απενεργοποιηθεί.',
+        'warning' => "Στην περίπτωση που έχετε σπάσει έναν κανόνα, παρακαλούμε να σημειώσετε ότι υπάρχει γενικά περίοδος επαναφόρτισης ενός μηνός κατά τη διάρκεια της οποίας δεν θα εξετάσουμε κανένα αίτημα αμνηστίας. Μετά από αυτή την περίοδο, είστε ελεύθεροι να επικοινωνήσετε μαζί μας θα πρέπει να το κρίνετε απαραίτητο. Παρακαλείστε να σημειώσετε ότι η δημιουργία νέων λογαριασμών αφού έχετε απενεργοποιήσει ένα θα έχει ως αποτέλεσμα την επέκταση <strong>αυτού του μήνα επαναφόρτισης</strong>. Παρακαλώ σημειώστε επίσης ότι για <strong>κάθε λογαριασμό που δημιουργείτε, παραβιάζετε περαιτέρω τους κανόνες</strong>. Σας προτείνουμε να μην ακολουθήσετε αυτό το μονοπάτι!",
 
         'if_mistake' => [
-            '_' => '',
-            'email' => '',
+            '_' => 'Αν αισθάνεστε ότι αυτό είναι λάθος, είστε ευπρόσδεκτοι να επικοινωνήσετε μαζί μας (μέσω :email ή κάνοντας κλικ στο "? στην κάτω δεξιά γωνία αυτής της σελίδας). Παρακαλώ σημειώστε ότι είμαστε πάντα απόλυτα σίγουροι για τις ενέργειές μας, καθώς βασίζονται σε πολύ γερά δεδομένα. Διατηρούμε το δικαίωμα να αγνοήσουμε το αίτημά σας σε περίπτωση που αισθανθείτε ότι είστε εκ προθέσεως ανέντιμοι.',
+            'email' => 'email',
         ],
 
         'reasons' => [
-            'compromised' => '',
-            'opening' => '',
+            'compromised' => 'Ο λογαριασμός σας θεωρείται ότι έχει παραβιαστεί. Μπορεί να απενεργοποιηθεί προσωρινά όσο επιβεβαιώνεται η ταυτότητά του.',
+            'opening' => 'Υπάρχουν διάφοροι λόγοι που μπορούν να οδηγήσουν στην απενεργοποίηση του λογαριασμού σας:',
 
             'tos' => [
-                '_' => '',
-                'community_rules' => '',
-                'tos' => '',
+                '_' => 'Έχετε σπάσει ένα ή περισσότερα από μας :community_rules ή :tos.',
+                'community_rules' => 'κοινοτικοί κανόνες',
+                'tos' => 'όροι υπηρεσίας',
             ],
         ],
     ],
 
     'filtering' => [
-        'by_game_mode' => '',
+        'by_game_mode' => 'Μέλη ανά λειτουργία παιχνιδιού',
     ],
 
     'force_reactivation' => [
         'reason' => [
-            'inactive_different_country' => "",
+            'inactive' => "Ο λογαριασμός σας δεν έχει χρησιμοποιηθεί εδώ και πολύ καιρό.",
+            'inactive_different_country' => "Ο λογαριασμός σας δεν έχει χρησιμοποιηθεί εδώ και πολύ καιρό.",
         ],
     ],
 
@@ -84,11 +106,11 @@ return [
         '_' => 'Σύνδεση',
         'button' => 'Είσοδος',
         'button_posting' => 'Είσοδος...',
-        'email_login_disabled' => '',
+        'email_login_disabled' => 'Η σύνδεση με email είναι απενεργοποιημένη. Παρακαλούμε χρησιμοποιήστε το όνομα χρήστη αντ \'αυτού.',
         'failed' => 'Λάθος σύνδεση',
         'forgot' => 'Ξεχάσατε τον κωδικό σας;',
-        'info' => '',
-        'invalid_captcha' => '',
+        'info' => 'Παρακαλώ συνδεθείτε για να συνεχίσετε',
+        'invalid_captcha' => 'Πάρα πολλές αποτυχημένες προσπάθειες σύνδεσης, παρακαλώ συμπληρώστε το captcha και προσπαθήστε ξανά. (Ανανέωση σελίδας αν το captcha δεν είναι ορατό)',
         'locked_ip' => 'η διεύθυνση IP σας είναι κλειδωμένη. Παρακαλώ περιμένετε λίγα λεπτά.',
         'password' => 'Κωδικός',
         'register' => "Δεν έχετε λογαριασμό στο osu!; Φτιάξτε ένα νέο",
@@ -99,6 +121,24 @@ return [
         'beta' => [
             'main' => 'Η πρόσβαση στην έκδοση Beta είναι περιορισμένη σε προνομιούχους χρήστες.',
             'small' => '(οι osu!supporters θα έχουν πρόσβαση σύντομα)',
+        ],
+    ],
+
+    'multiplayer' => [
+        'index' => [
+            'active' => 'Ενεργό',
+            'ended' => 'Τελείωσε',
+        ],
+    ],
+
+    'ogp' => [
+        'modding_description' => 'Beatmaps: :counts',
+        'modding_description_empty' => 'Ο χρήστης δεν έχει κανένα beatmap...',
+
+        'description' => [
+            '_' => 'Κατάταξη (:ruleset): :global | :country',
+            'country' => 'Χώρα :rank',
+            'global' => 'Παγκόσμια :rank',
         ],
     ],
 
@@ -126,18 +166,30 @@ return [
             'cancel' => 'Άκυρο',
         ],
 
+        'dmca' => [
+            'message_1' => [
+                '_' => '',
+                'policy' => 'η πολιτική osu! πνευματικών δικαιωμάτων',
+            ],
+            'message_2' => '',
+        ],
+
         'options' => [
             'cheating' => 'Παράτυπος τρόπος παιχνιδιού / Κλέψιμο',
+            'copyright_infringement' => '',
+            'inappropriate_chat' => '',
             'insults' => 'Προσβάλει εμένα / άλλους',
-            'spam' => 'Spamming',
-            'unwanted_content' => 'Δημοσίευση links με ακατάλληλο περιεχόμενο',
+            'multiple_accounts' => 'Χρήση πολλαπλών λογαριασμών',
             'nonsense' => 'Ανοησίες',
             'other' => 'Άλλο (γράψτε παρακάτω)',
+            'spam' => 'Spamming',
+            'unwanted_content' => 'Δημοσίευση links με ακατάλληλο περιεχόμενο',
         ],
     ],
     'restricted_banner' => [
         'title' => 'Ο λογαριασμός σας έχει περιοριστεί!',
         'message' => 'Όσο βρίσκεστε υπό περιορισμό, δεν θα είστε σε θέση να αλληλεπιδράσετε με άλλους χρήστες και τα score σας θα είναι ορατά μόνο σε εσάς. Αυτό είναι αποτέλεσμα μιας αυτόματης διαδικασίας που συνήθως διαρκεί 24 ώρες. Εάν επιθυμείτε την αναίρεση του περιορισμού, παρακαλώ <a href="mailto:accounts@ppy.sh">επικοινωνήστε με την ομάδα υποστήριξης</a>.',
+        'message_link' => 'Επιλέξτε αυτή τη σελίδα για να μάθετε περισσότερα.',
     ],
     'show' => [
         'age' => ':age ετών',
@@ -147,21 +199,55 @@ return [
         'is_supporter' => 'osu!supporter',
         'joined_at' => 'Μέλος από :date',
         'lastvisit' => 'Τελευταία φορά εμφανίστηκε στις :date',
-        'lastvisit_online' => '',
+        'lastvisit_online' => 'Συνδεδεμένος τώρα',
         'missingtext' => 'Ίσως να κάνατε κάποιο ορθογραφικό λάθος! (ή ο χρήστης είναι banned)',
         'origin_country' => 'Από :country',
         'previous_usernames' => 'προηγουμένως γνωστός ως',
         'plays_with' => 'Παίζει με :devices',
-        'title' => "Το προφίλ του :username",
+
+        'badge' => [
+            'pin' => [
+                'to_0' => '',
+                'to_1' => '',
+            ],
+        ],
 
         'comments_count' => [
-            '_' => '',
-            'count' => '',
+            '_' => 'Καταχωρήθηκε :link',
+            'count' => ':count_delimited σχόλια|:count_delimited σχόλια',
+        ],
+        'cover' => [
+            'to_0' => 'Απόκρυψη εξωφύλλου',
+            'to_1' => 'Εμφάνιση εξωφύλλου',
+        ],
+        'daily_challenge' => [
+            'daily' => 'Καθημερινά σερί',
+            'daily_streak_best' => 'Καλύτερο Καθημερινό Σερί',
+            'daily_streak_current' => 'Τρέχουσα Καθημερινό Σερί',
+            'playcount' => '',
+            'title' => '',
+            'top_10p_placements' => '',
+            'top_50p_placements' => '',
+            'weekly' => '',
+            'weekly_streak_best' => '',
+            'weekly_streak_current' => '',
+
+            'unit' => [
+                'day' => '',
+                'week' => '',
+            ],
+        ],
+        'detail_switch' => [
+            'to_v1' => '',
+            'to_v2' => '',
         ],
         'edit' => [
             'cover' => [
                 'button' => 'Αλλάξτε το Εξώφυλλο του Προφίλ σας',
                 'defaults_info' => 'Περισσότερα εξώφυλλα θα είναι διαθέσιμα στο μέλλον',
+                'holdover_remove_confirm' => "",
+                'title' => 'Εξώφυλλο',
+
                 'upload' => [
                     'broken_file' => 'Αποτυχία επεξεργασίας εικόνας. Ελέγξτε την εικόνα και προσπαθήστε ξανά.',
                     'button' => 'Ανεβάστε εικόνα',
@@ -172,8 +258,8 @@ return [
                     'unsupported_format' => 'Μη υποστηριζόμενη μορφή.',
 
                     'restriction_info' => [
-                        '_' => '',
-                        'link' => '',
+                        '_' => 'Φόρτωση διαθέσιμη μόνο για :link',
+                        'link' => 'osu!supporters',
                     ],
                 ],
             ],
@@ -182,10 +268,20 @@ return [
                 'is_default_tooltip' => 'προεπιλεγμένο game mode',
                 'set' => 'όρισε το :mode ως το προεπιλεγμένο game mode',
             ],
+
+            'hue' => [
+                'reset_no_supporter' => 'Επαναφορά χρώματος στην προεπιλογή; Η ετικέτα υποστηρικτή (osu!supporter tag) θα χρειαστεί για να το αλλάξεις σε άλλο χρώμα.',
+                'title' => 'Χρώμα',
+
+                'supporter' => [
+                    '_' => 'Προσαρμοσμένα θέματα χρωμάτων διαθέσιμα μόνο για :link',
+                    'link' => 'osu!supporters',
+                ],
+            ],
         ],
 
         'extra' => [
-            'none' => '',
+            'none' => 'κανένα',
             'unranked' => 'Κανένα πρόσφατο σκορ',
 
             'achievements' => [
@@ -203,25 +299,31 @@ return [
                 'graveyard' => [
                     'title' => 'Παρατημένα Beatmaps',
                 ],
+                'guest' => [
+                    'title' => 'Συμμετοχή επισκεπτών στο Beatmap',
+                ],
                 'loved' => [
                     'title' => 'Loved Beatmaps',
                 ],
-                'ranked_and_approved' => [
-                    'title' => 'Ranked & Approved Beatmaps',
+                'nominated' => [
+                    'title' => 'Υποψήφια Beatmaps Κατάταξης',
                 ],
-                'unranked' => [
+                'pending' => [
                     'title' => 'Εκκρεμή Beatmaps',
+                ],
+                'ranked' => [
+                    'title' => 'Ranked & Approved Beatmaps',
                 ],
             ],
             'discussions' => [
-                'title' => '',
-                'title_longer' => '',
-                'show_more' => '',
+                'title' => 'Συζητήσεις',
+                'title_longer' => 'Πρόσφατες Συζητήσεις',
+                'show_more' => 'δείτε περισσότερες συζητήσεις',
             ],
             'events' => [
-                'title' => '',
-                'title_longer' => '',
-                'show_more' => '',
+                'title' => 'Εκδηλώσεις',
+                'title_longer' => 'Πρόσφατες Εκδηλώσεις',
+                'show_more' => 'δείτε περισσότερες εκδηλώσεις',
             ],
             'historical' => [
                 'title' => 'Ιστορικό',
@@ -241,6 +343,9 @@ return [
                 'replays_watched_counts' => [
                     'title' => 'Ιστορικό Παρακολούθησης Replay',
                     'count_label' => 'Παρακολουθημένες Επαναλήψεις',
+                ],
+                'score_replay_stats' => [
+                    'title' => '',
                 ],
             ],
             'kudosu' => [
@@ -288,8 +393,8 @@ return [
                 ],
 
                 'total_info' => [
-                    '_' => '',
-                    'link' => '',
+                    '_' => 'Με βάση το πόση συνεισφορά έχει κάνει ο χρήστης στη διαμεσολάβηση beatmap. Δείτε το :link για περισσότερες πληροφορίες.',
+                    'link' => 'αυτή η σελίδα',
                 ],
             ],
             'me' => [
@@ -300,19 +405,28 @@ return [
                 'recent' => 'Πρόσφατα',
                 'title' => 'Μετάλλια',
             ],
+            'playlists' => [
+                'title' => 'Λίστα Αναπαραγωγής games',
+            ],
             'posts' => [
+                'title' => 'Αναρτήσεις',
+                'title_longer' => 'Πρόσφατες Αναρτήσεις',
+                'show_more' => 'δείτε περισσότερες δημοσιεύσεις',
+            ],
+            'ranked-play' => [
                 'title' => '',
-                'title_longer' => '',
-                'show_more' => '',
             ],
             'recent_activity' => [
                 'title' => 'Πρόσφατα',
+            ],
+            'realtime' => [
+                'title' => 'Παιχνίδια Πολλών Παικτών',
             ],
             'top_ranks' => [
                 'download_replay' => 'Λήψη Επανάληψης',
                 'not_ranked' => 'Μόνο τα ranked beatmaps δίνουν pp.',
                 'pp_weight' => 'σταθμισμένo :percentage',
-                'view_details' => '',
+                'view_details' => 'Προβολή Λεπτομερειών',
                 'title' => 'Σκορ',
 
                 'best' => [
@@ -321,13 +435,22 @@ return [
                 'first' => [
                     'title' => 'Πρώτες Θέσεις',
                 ],
+                'pin' => [
+                    'to_0' => 'Unpin',
+                    'to_0_done' => 'Ξεκαρφίτσωμα βαθμολογίας',
+                    'to_1' => 'Καρφίτσωμα',
+                    'to_1_done' => 'Καρφιτσωμένη βαθμολογία',
+                ],
+                'pinned' => [
+                    'title' => 'Καρφιτσωμένοι Βαθμοί',
+                ],
             ],
             'votes' => [
-                'given' => '',
-                'received' => '',
-                'title' => '',
-                'title_longer' => '',
-                'vote_count' => '',
+                'given' => 'Οι ψήφοι (τελευταίοι 3 μήνες)',
+                'received' => 'Λήφθηκαν ψήφοι (τελευταίοι 3 μήνες)',
+                'title' => 'Ψηφοφορίες',
+                'title_longer' => 'Πρόσφατες Ψηφοφορίες',
+                'vote_count' => ':count_delimited ψήφοι:count_delimited ψήφοι',
             ],
             'account_standing' => [
                 'title' => 'Κατάσταση λογαριασμού',
@@ -339,13 +462,14 @@ return [
                     'date' => 'ημερομηνία',
                     'action' => 'δράση',
                     'length' => 'μήκος',
-                    'length_permanent' => 'Μόνιμο',
+                    'length_indefinite' => 'Αόριστο',
                     'description' => 'περιγραφή',
                     'actor' => 'από :username',
 
                     'actions' => [
                         'restriction' => 'Αποκλεισμός',
                         'silence' => 'Σίγαση',
+                        'tournament_ban' => 'Απαγόρευση τουρνουά',
                         'note' => 'Σημείωση',
                     ],
                 ],
@@ -360,6 +484,19 @@ return [
             'twitter' => '',
             'website' => 'Ιστοσελίδα',
         ],
+
+        'matchmaking' => [
+            'losses' => '',
+            'plays' => '',
+            'rank' => '',
+            'rating' => '',
+            'recent_history' => '',
+            'recent_history_provisional' => '',
+            'tier' => '',
+            'title' => '',
+            'wins' => '',
+        ],
+
         'not_found' => [
             'reason_1' => 'Μπορεί να έχει αλλάξει όνομα χρήστη.',
             'reason_2' => 'Ο λογαριασμός μπορεί να είναι προσωρινά μη διαθέσιμος λόγω προβλημάτων ασφάλειας η κατάχρησης.',
@@ -374,8 +511,8 @@ return [
             'placeholder' => 'Γράψτε το περιεχόμενο της σελίδας εδώ',
 
             'restriction_info' => [
-                '_' => '',
-                'link' => '',
+                '_' => 'Πρέπει να είστε ένα :link για να ξεκλειδώσετε αυτό το χαρακτηριστικό.',
+                'link' => 'osu!supporter',
             ],
         ],
         'post_count' => [
@@ -387,9 +524,26 @@ return [
             'country_simple' => 'Εθνική Κατάταξη',
             'global' => 'Παγκόσμια κατάταξη για το :mode',
             'global_simple' => 'Παγκόσμια Κατάταξη',
+            'highest' => 'Υψηλότερη κατάταξη: :rank στο :date',
+            'kudosu_outside_top_1000' => '',
+            'kudosu_simple' => '',
+        ],
+        'score_processing' => [
+            'title' => '',
+            'title_link' => '',
+            'message' => '',
+        ],
+        'season_stats' => [
+            'division_top_percentage' => 'Κορυφαίο :value',
+            'label' => '',
+            'total_score' => 'Συνολικό σκορ',
+        ],
+        'solo' => [
+            'title' => '',
         ],
         'stats' => [
             'hit_accuracy' => 'Ακρίβεια Ευστοχίας',
+            'hits_per_play' => 'Χτυπήματα Ανά Αναπαραγωγή',
             'level' => 'Επίπεδο :level',
             'level_progress' => 'Πρόοδος για επόμενο επίπεδο',
             'maximum_combo' => 'Μέγιστο Combo',
@@ -402,24 +556,34 @@ return [
             'total_hits' => 'Συνολικά Hits',
             'total_score' => 'Συνολική Βαθμολογία',
             // modding stats
-            'ranked_and_approved_beatmapset_count' => '',
-            'loved_beatmapset_count' => '',
-            'unranked_beatmapset_count' => '',
-            'graveyard_beatmapset_count' => '',
+            'graveyard_beatmapset_count' => 'Παρατημένα Beatmaps',
+            'guest_beatmapset_count' => '',
+            'loved_beatmapset_count' => 'Αγαπημένα Beatmaps',
+            'nominated_beatmapset_count' => '',
+            'pending_beatmapset_count' => 'Εκκρεμείς Beatmaps',
+            'ranked_beatmapset_count' => 'Κατάταξη Beatmaps',
         ],
     ],
 
     'silenced_banner' => [
-        'title' => '',
-        'message' => '',
+        'title' => 'Αυτήν τη στιγμή είστε silenced.',
+        'message' => 'Ορισμένες ενέργειες ενδέχεται να μην είναι διαθέσιμες.',
     ],
 
     'status' => [
-        'all' => '',
+        'all' => 'Όλα',
         'online' => 'Συνδεδεμένοι',
         'offline' => 'Αποσυνδεδεμένοι',
     ],
+    'relationship' => [
+        'title' => '',
+        'all' => '',
+        'mutual' => '',
+        'non_mutual' => '',
+    ],
     'store' => [
+        'from_client' => 'παρακαλώ εγγραφείτε μέσω του πελάτη του παιχνιδιού!',
+        'from_web' => 'παρακαλώ ολοκληρώστε την εγγραφή μέσω της ιστοσελίδας του osu!',
         'saved' => 'Ο χρήστης δημιουργήθηκε',
     ],
     'verify' => [
@@ -427,8 +591,8 @@ return [
     ],
 
     'view_mode' => [
-        'brick' => '',
-        'card' => '',
-        'list' => '',
+        'brick' => 'Προβολή τούβλου',
+        'card' => 'Προβολή καρτών',
+        'list' => 'Προβολή λίστας',
     ],
 ];

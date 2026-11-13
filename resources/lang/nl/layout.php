@@ -19,11 +19,16 @@ return [
             'contest' => 'competitie',
             'contests' => 'competities',
             'root' => 'console',
-            'store_orders' => 'winkel beheerder',
         ],
 
         'artists' => [
             'index' => 'lijst',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'info',
+            'discussions' => 'discussie',
+            'versions' => 'versie geschiedenis',
         ],
 
         'changelog' => [
@@ -47,6 +52,9 @@ return [
 
         'users' => [
             'modding' => 'modding',
+            'playlists' => 'afspeellijsten',
+            'ranked-play' => 'gerangschikte modus',
+            'realtime' => 'multiplayer',
             'show' => 'info',
         ],
     ],
@@ -62,18 +70,10 @@ return [
     'menu' => [
         'beatmaps' => [
             '_' => 'beatmaps',
-            'artists' => 'aanbevolen artiesten',
-            'index' => 'index',
-            'packs' => 'pakketten',
         ],
         'community' => [
             '_' => 'community',
-            'chat' => 'chat',
-            'contests' => 'wedstrijden',
             'dev' => 'ontwikkeling',
-            'forum-forums-index' => 'forum',
-            'getLive' => 'live',
-            'tournaments' => 'toernooien',
         ],
         'help' => [
             '_' => 'hulp',
@@ -81,30 +81,16 @@ return [
             'getFaq' => 'faq',
             'getRules' => 'regels',
             'getSupport' => 'ondersteuning',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => 'start',
-            'changelog-index' => 'changelog',
-            'getDownload' => 'downloaden',
-            'news-index' => 'nieuws',
-            'search' => 'zoeken',
             'team' => 'team',
         ],
         'rankings' => [
             '_' => 'rankings',
-            'charts' => 'in de schijnwerpers',
-            'country' => 'land',
-            'index' => 'prestatie',
-            'kudosu' => 'kudosu',
-            'multiplayer' => 'multiplayer',
-            'score' => 'score',
         ],
         'store' => [
             '_' => 'winkel',
-            'cart-show' => 'winkelwagen',
-            'getListing' => 'index',
-            'orders-index' => 'bestelgeschiedenis',
         ],
     ],
 
@@ -127,7 +113,9 @@ return [
         'legal' => [
             '_' => 'Juridisch & Status',
             'copyright' => 'Copyright (DMCA)',
+            'jp_sctl' => '',
             'privacy' => 'Privacy',
+            'rules' => 'Regels',
             'server_status' => 'Server Status',
             'source_code' => 'Broncode',
             'terms' => 'Gebruikersvoorwaarden',
@@ -187,7 +175,7 @@ return [
         'button' => 'inloggen / registreren',
 
         'login' => [
-            'forgot' => "Ik ben mij gegevens vergeten",
+            'forgot' => "Ik ben mijn inloggegevens vergeten",
             'password' => 'wachtwoord',
             'title' => 'Log In Om Verder Te Gaan',
             'username' => 'gebruikersnaam',
@@ -200,7 +188,7 @@ return [
 
         'register' => [
             'download' => 'Download',
-            'info' => 'Je hebt een account nodig, meneer. Waarom heeft u er niet al eentje?',
+            'info' => 'Download osu! om een account aan te maken!',
             'title' => "Heb je geen account?",
         ],
     ],
@@ -208,10 +196,16 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => 'Instellingen',
+            'create_team' => '',
             'follows' => 'Volglijsten',
             'friends' => 'Vrienden',
+            'legacy_score_only_toggle' => 'Lazermodus',
+            'legacy_score_only_toggle_tooltip' => 'Lazermodus toont scores gezet op lazer met een nieuw scoringsalgoritme',
             'logout' => 'Log Uit',
             'profile' => 'Mijn Profiel',
+            'scoring_mode_toggle' => 'Klassieke score',
+            'scoring_mode_toggle_tooltip' => 'Pas de score waarden aan om meer te voelen als de klassieke onbegrensde score',
+            'team' => 'Mijn Team',
         ],
     ],
 

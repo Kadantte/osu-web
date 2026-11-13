@@ -4,10 +4,10 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'play_more' => '',
-    'require_login' => 'Prosím, prihláste sa, aby ste mohli pokračovať.',
+    'play_more' => 'Čo si tak namiesto toho zahrať osu!?',
+    'require_login' => 'Prosím, prihláste sa pre pokračovanie.',
     'require_verification' => 'Prosím overte pre pokračovanie.',
-    'restricted' => "Toto nemôžete robiť, kým ste umlčaný.",
+    'restricted' => "Nemôžete to robiť s obmedzeným účtom.",
     'silenced' => "Toto nemôžete robiť, kým ste umlčaný.",
     'unauthorized' => 'Prístup zamietnutý.',
 
@@ -15,6 +15,7 @@ return [
         'destroy' => [
             'is_hype' => 'Hype nejde vziať späť.',
             'has_reply' => 'Nemôžete vymazávať diskusie s odpoveďami',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => 'Dosiahli ste limit nominácii pre tento deň, prosím, skúste to znovu zajtra.',
@@ -27,11 +28,11 @@ return [
         ],
 
         'store' => [
-            'mapper_note_wrong_user' => 'Iba vlastník mapy alebo nominátor/člen skupiny QAT môžu písať poznámky mappera.',
+            'mapper_note_wrong_user' => 'Iba vlastník mapy alebo nominátor/členu tímu zaručujúceho kvalitu môže pridať autorove pripomienky.',
         ],
 
         'vote' => [
-            'bot' => "",
+            'bot' => "Nemožno hlasovať pre diskusiu vytvorenú botom",
             'limit_exceeded' => 'Počkaj chvíľku pred ďalším hlasovaním',
             'owner' => "Nemôžete hlasovať vo vlastnej diskusii.",
             'wrong_beatmapset_state' => 'Hlasovať môžete iba v diskusii očakávaných beatmáp.',
@@ -40,25 +41,36 @@ return [
 
     'beatmap_discussion_post' => [
         'destroy' => [
-            'not_owner' => 'Iba vy môžete odstrániť vaše vlastné príspevky.',
+            'not_owner' => 'Môžete odstrániť iba vaše vlastné príspevky.',
             'resolved' => 'Nemôžete vymazať príspevky vyriešenej diskusie.',
-            'system_generated' => 'Automaticky generovaný príspevok nie je možné upravovať.',
+            'system_generated' => 'Automaticky generovaný príspevok nie je možné odstrániť.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
             'not_owner' => 'Príspevok môže upravovať iba autor.',
             'resolved' => 'Nemôžete upravovať príspevky vyriešenej diskusie.',
             'system_generated' => 'Automaticky generovaný príspevok nie je možné upravovať.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => 'Táto beatmapa má zamknutú diskusiu.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => 'Táto beatmapa je k diskusii zamknutá.',
+
         'metadata' => [
-            'nominated' => '',
+            'nominated' => 'Nemôžete zmeniť metadáta nominovanej mapy. Kontaktujte člena BN alebo NAT, ak si myslíte, že to je nastavené nesprávne.',
+        ],
+
+        'rate' => [
+            'owner' => '',
+            'status' => '',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => '',
         ],
     ],
 
@@ -67,22 +79,28 @@ return [
         'friends_only' => 'Používateľ blokuje správy od ľudí, ktorí nie sú na ich ich liste priateľstva.',
         'moderated' => 'Kanál je momentálne moderovaný.',
         'no_access' => 'Nemáte prístup k tomuto kanálu.',
+        'no_announce' => '',
+        'receive_friends_only' => 'Používateľ nemusí byť schopný odpovedať, keďže prijímate iba správy od ľudí vo Vašom zozname priateľov.',
         'restricted' => 'Nemôžete posielať správy, keď ste umlčaný, obmedzený alebo zabanovaný.',
-        'silenced' => '',
+        'silenced' => 'Nemôžete posielať správy, keď ste umlčaný, obmedzený alebo zabanovaný.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => 'Komentáre sú vypnuté',
+        ],
         'update' => [
             'deleted' => "Nemôžeš upraviť zmazaný príspevok.",
         ],
     ],
 
     'contest' => [
+        'judging_not_active' => 'Hodnotenie tejto súťaže nie je aktívne.',
         'voting_over' => 'Po tom, čo sa hlasovacie obdobie pre túto súťaž ukončilo, svoj hlas nemôžete zmeniť.',
 
         'entry' => [
             'limit_reached' => 'Dosiahol si limit vstupov pre túto súťaž',
-            'over' => 'Díky za vaše vstupy! Podania boli uzavreté a hlasovanie sa čoskoro otvorí.',
+            'over' => 'Ďakujeme za vaše vstupy! Podania pre túto súťaž  boli uzavreté a hlasovanie sa čoskoro otvorí.',
         ],
     ],
 
@@ -101,15 +119,16 @@ return [
 
             'edit' => [
                 'deleted' => 'Nemôžete upraviť odstránený príspevok.',
-                'locked' => 'Príspevok je uzamknutý od upravovania.',
+                'locked' => 'Príspevok je uzamknutý pre upravovanie.',
                 'no_forum_access' => 'Nemáš prístup k danému fóru.',
+                'no_permission' => '',
                 'not_owner' => 'Upravovať môže iba autor príspevku.',
-                'topic_locked' => 'Nie je možné editovať príspevok zamknutej témy.',
+                'topic_locked' => 'Nie je možné upraviť príspevok zamknutej témy.',
             ],
 
             'store' => [
-                'play_more' => 'Prosím skús si zahrať hru pred písaním na fórum! Ak máš problém s hraním, prosím spýtaj sa na Help and Support fóre.',
-                'too_many_help_posts' => "Musíš hrať viac pred ďalšími príspevkami. Ak tvoj problém s hraním hry pretrváva, napíš na support@ppy.sh", // FIXME: unhardcode email address.
+                'play_more' => 'Predtým, ako pridáte príspevok na fórach, skúste si zahrať, prosím! Ak máte problém s hraním, prosím opýtajte sa na fóre Pomoc a Podpora.',
+                'too_many_help_posts' => "Musíš hrať viac, aby si mohol vytvárať ďalšie príspevky. Ak tvoj problém s hraním hry pretrváva, napíš na email support@ppy.sh", // FIXME: unhardcode email address.
             ],
         ],
 
@@ -166,6 +185,40 @@ return [
         ],
     ],
 
+    'room' => [
+        'destroy' => [
+            'not_owner' => '',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "Tento typ skóre sa nedá pripnúť",
+            'failed' => "",
+            'not_owner' => 'Skóre môže pripnúť iba pôvodný hráč.',
+            'too_many' => 'Už bolo pripnuté maximum skóre.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "",
+                'already_other_member' => "",
+                'currently_applying' => '',
+                'team_closed' => '',
+                'team_full' => "",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "",
+            'not_member' => '',
+        ],
+        'store' => [
+            'require_supporter_tag' => '',
+        ],
+    ],
+
     'user' => [
         'page' => [
             'edit' => [
@@ -173,6 +226,9 @@ return [
                 'not_owner' => 'Môžete upravovať iba vlastnú uživateľskú stránku.',
                 'require_supporter_tag' => 'osu!supporter tag je vyžadovaný.',
             ],
+        ],
+        'update_email' => [
+            'locked' => '',
         ],
     ],
 ];

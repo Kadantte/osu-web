@@ -5,16 +5,19 @@
 
 return [
     'deleted' => 'poistettu',
-    'deleted_count' => ':count_delimited poistettu kommentti|:count_delimited poistettuja kommentteja',
-    'edited' => ':user muokkasi :timeago sitten',
-    'pinned' => '',
+    'deleted_by' => ':user poisti :timeago',
+    'deleted_by_system' => 'järjestelmä',
+    'deleted_count' => ':count_delimited poistettu kommentti|:count_delimited poistettua kommenttia',
+    'edited' => ':user muokkasi tätä viestiä :timeago',
+    'pinned' => 'kiinnitetty',
     'empty' => 'Ei vielä kommentteja.',
-    'load_replies' => '',
-    'replies_count' => '',
+    'empty_other' => 'Ei vielä muita kommentteja.',
+    'load_replies' => 'lataa vastauksia',
+    'replies_count' => ':count_delimited vastaus|:count_delimited vastausta',
     'title' => 'Kommentit',
 
     'commentable_name' => [
-        'beatmapset' => 'Beatmap',
+        'beatmapset' => 'Rytmikartta',
         'build' => 'Muutosloki',
         'news_post' => 'Uutiset',
         '_deleted' => 'Poistettu',
@@ -22,31 +25,35 @@ return [
 
     'editor' => [
         'textarea_hint' => [
-            '_' => 'Paina enter-näppäintä tehdäksesi :action. Paina shift- ja enter-näppäimiä tehdäksesi uuden rivin.',
-            'edit' => 'tallenna',
-            'new' => 'lähetä',
-            'reply' => 'vastaa',
+            '_' => 'Paina enter-näppäintä :action. Paina shift- ja enter-näppäimiä tehdäksesi uuden rivin.',
+            'edit' => 'tallentaaksesi',
+            'new' => 'lähettääksesi',
+            'reply' => 'vastataksesi',
         ],
     ],
 
     'guest_button' => [
-        'new' => 'Kirjaudu sisään tehdäksesi kommentti',
+        'new' => 'Kirjaudu sisään kommentoidaksesi',
         'reply' => 'Kirjaudu sisään vastataksesi',
     ],
 
     'index' => [
-        'nav_comments' => '',
-        'nav_title' => '',
-        'no_comments' => '',
+        'nav_comments' => 'kommentteja',
+        'nav_title' => 'listaus',
+        'no_comments' => 'mitään kommentteja ei löytynyt...',
+    ],
+
+    'ogp' => [
+        'title' => 'käyttäjän :user kommentti',
     ],
 
     'placeholder' => [
         'edit' => 'Muokkaa kommenttia tässä',
         'new' => 'Kirjoita kommenttisi tähän',
-        'reply' => 'Kirjoita vastauksesi tänne',
+        'reply' => 'Kirjoita vastauksesi tähän',
     ],
 
     'show' => [
-        'nav_title' => '',
+        'nav_title' => 'kommentteja',
     ],
 ];

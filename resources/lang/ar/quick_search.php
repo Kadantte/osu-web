@@ -5,17 +5,29 @@
 
 return [
     'mode' => [
+        'artist_track' => '',
         'beatmapset' => 'المقطوعة',
         'forum_post' => 'المنتدى',
         'other' => 'أخرى',
+        'team' => 'الفريق',
         'user' => 'اللاعب',
         'wiki_page' => 'ويكي',
     ],
 
     'result' => [
-        'empty' => 'لا نتائج',
-        'empty_for' => 'لا يوجد نتائج لـ:modes',
         'more' => 'المزيد من نتائج بحت :mode',
         'title' => 'نتائج بحث :mode',
+
+        'no_results' => [
+            '_' => '',
+
+            'artist_track' => 'مسارات الفنانين المميزين',
+            'beatmapset' => '',
+            'forum_post' => 'المنتديات',
+            'other' => 'أُخرى',
+            'team' => 'الفِرق',
+            'user' => 'اللاعبين',
+            'wiki_page' => 'ويكي',
+        ],
     ],
 ];

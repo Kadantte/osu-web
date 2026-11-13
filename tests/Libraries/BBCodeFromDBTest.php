@@ -6,13 +6,12 @@
 namespace Tests\Libraries;
 
 use App\Libraries\BBCodeFromDB;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class BBCodeFromDBTest extends TestCase
 {
-    /**
-     * @dataProvider examples
-     */
+    #[DataProvider('examples')]
     public function testGenerateHTML($name, $path)
     {
         $dbFilePath = "{$path}/{$name}.db.txt";
@@ -27,9 +26,7 @@ class BBCodeFromDBTest extends TestCase
         $this->assertSame($referenceOutput, $output);
     }
 
-    /**
-     * @dataProvider removeQuoteExamples
-     */
+    #[DataProvider('removeQuoteExamples')]
     public function testRemoveBlockQuotes($name, $path)
     {
         $dbFilePath = "{$path}/{$name}.db.txt";
@@ -40,20 +37,21 @@ class BBCodeFromDBTest extends TestCase
         $this->assertStringEqualsFile($expectedFilePath, $text);
     }
 
-    public function examples()
+    public static function examples()
     {
-        return $this->fileList(__DIR__.'/bbcode_examples', '.db.txt');
+        return static::fileList(__DIR__.'/bbcode_examples', '.db.txt');
     }
 
-    public function removeQuoteExamples()
+    public static function removeQuoteExamples()
     {
-        return $this->fileList(__DIR__.'/bbcode_examples/remove_quotes', '.db.txt');
+        return static::fileList(__DIR__.'/bbcode_examples/remove_quotes', '.db.txt');
     }
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        config()->set('osu.bbcode.uid', '1');
+        config_set('osu.bbcode.uid', '1');
+        config_set('osu.bbcode.youtube_embed_max', 10);
     }
 }

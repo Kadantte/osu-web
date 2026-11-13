@@ -7,7 +7,7 @@ return [
     'error' => [
         'chat' => [
             'empty' => 'Non puoi inviare messaggi vuoti.',
-            'limit_exceeded' => 'Stai inviando messaggi troppo velocemente, per favore aspetta un po\' prima di riprovare.',
+            'limit_exceeded' => 'Stai inviando messaggi troppo velocemente, aspetta un po\' prima di riprovare.',
             'too_long' => 'Il messaggio che vuoi inviare è troppo lungo.',
         ],
     ],
@@ -17,15 +17,22 @@ return [
         'identify' => 'Identificarti e leggere il tuo profilo pubblico.',
 
         'chat' => [
-            'write' => 'Mandare messaggi per tuo conto.',
+            'read' => 'Leggere messaggi a nome tuo.',
+            'write' => 'Mandare messaggi a nome tuo.',
+            'write_manage' => 'Unirsi e abbandonare canali a nome tuo.',
         ],
 
         'forum' => [
             'write' => 'Creare e modificare i topic e i post del forum a nome tuo.',
+            'write_manage' => 'Gestire post e topic nei forum a nome tuo.',
         ],
 
         'friends' => [
             'read' => 'Vedere chi stai seguendo.',
+        ],
+
+        'multiplayer' => [
+            'write_manage' => 'Creare e gestire stanze multigiocatore a nome tuo.',
         ],
 
         'public' => 'Leggere dati pubblici a nome tuo.',

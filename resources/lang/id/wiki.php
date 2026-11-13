@@ -5,13 +5,14 @@
 
 return [
     'show' => [
-        'fallback_translation' => 'Laman yang diminta belum diterjemahkan ke dalam bahasa yang dipilih (:language). Menampilkan versi Bahasa Inggris.',
-        'incomplete_or_outdated' => 'Informasi yang tertera pada laman ini tidak lengkap atau telah kedaluwarsa. Apabila Anda berkenan, harap bantu kami untuk memperbarui artikel ini!',
-        'missing' => 'Laman ":keyword" yang diminta tidak dapat ditemukan.',
+        'fallback_translation' => 'Halaman yang diminta belum diterjemahkan ke dalam bahasa yang dipilih (:language). Menampilkan versi Bahasa Inggris.',
+        'incomplete_or_outdated' => 'Informasi yang tertera pada halaman ini tidak lengkap atau sudah kedaluwarsa. Apabila kamu berkenan, mohon bantu kami untuk memperbarui artikel ini!',
+        'missing' => 'Halaman ":keyword" yang diminta tidak bisa ditemukan.',
         'missing_title' => 'Tidak Ditemukan',
-        'missing_translation' => 'Laman yang diminta tidak dapat ditemukan untuk bahasa yang dipilih saat ini.',
-        'needs_cleanup_or_rewrite' => 'Laman ini tidak memenuhi standar osu! wiki dan perlu dibersihkan atau ditulis ulang. Apabila Anda berkenan, harap bantu kami untuk memperbarui artikel ini!',
-        'search' => 'Cari laman yang ada untuk :link.',
+        'missing_translation' => 'Halaman yang diminta tidak ditemukan untuk bahasa yang saat ini dipilih.',
+        'needs_cleanup_or_rewrite' => 'Halaman ini tidak memenuhi standar osu! wiki dan perlu dirapikan atau ditulis ulang. Apabila kamu berkenan, mohon bantu kami untuk memperbarui artikel ini!',
+        'search' => 'Cari halaman yang ada untuk :link.',
+        'stub' => 'Artikel ini adalah artikel rintisan yang sedang menunggu untuk dikembangkan lebih lanjut.',
         'toc' => 'Konten',
 
         'edit' => [
@@ -20,8 +21,8 @@ return [
         ],
 
         'translation' => [
-            'legal' => 'Terjemahan ini diberikan semata-mata hanya untuk memudahkan pembaca. :default dari artikel ini merupakan satu-satunya versi yang mengikat secara hukum.',
-            'outdated' => 'Laman ini mengandung terjemahan yang telah kedaluwarsa dari artikel aslinya. Harap periksa :default dari artikel ini untuk mendapatkan informasi yang paling akurat (dan apabila Anda berkenan, harap bantu kami untuk memperbarui artikel ini)!',
+            'legal' => 'Terjemahan ini diberikan semata-mata untuk memudahkan. :default dari artikel ini adalah satu-satunya versi teks ini yang mengikat secara hukum.',
+            'outdated' => 'Halaman ini mengandung terjemahan yang sudah kedaluwarsa dari artikel aslinya. Mohon periksa :default dari artikel ini untuk memperoleh informasi yang paling akurat (dan apabila kamu berkenan, mohon bantu kami untuk memperbarui terjemahan ini)!',
 
             'default' => 'Versi Bahasa Inggris',
         ],

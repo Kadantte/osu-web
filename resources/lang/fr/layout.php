@@ -5,11 +5,11 @@
 
 return [
     'audio' => [
-        'autoplay' => 'Jouer automatiquement le titre suivant',
+        'autoplay' => 'Jouer automatiquement la musique suivante',
     ],
 
     'defaults' => [
-        'page_description' => 'osu! - Le rythme est à un seul *clic* !  Avec Ouendan/EBA, Taiko et les modes originaux de gameplay, avec un éditeur de niveau complet.',
+        'page_description' => 'osu! - Rhythm is just a *click* away! Avec les modes de jeu Ouendan/EBA, Taiko et d\'autres modes de jeu originaux, ainsi qu\'un éditeur de niveaux entièrement fonctionnel.',
     ],
 
     'header' => [
@@ -19,11 +19,16 @@ return [
             'contest' => 'concours',
             'contests' => 'concours',
             'root' => 'console',
-            'store_orders' => 'administration de la boutique',
         ],
 
         'artists' => [
             'index' => 'liste',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'informations',
+            'discussions' => 'discussion',
+            'versions' => 'historique des versions',
         ],
 
         'changelog' => [
@@ -32,13 +37,13 @@ return [
 
         'help' => [
             'index' => 'index',
-            'sitemap' => 'Plan du site',
+            'sitemap' => 'Aide à la navigation',
         ],
 
         'store' => [
             'cart' => 'panier',
             'orders' => 'historique des commandes',
-            'products' => 'produits',
+            'products' => 'articles',
         ],
 
         'tournaments' => [
@@ -47,6 +52,9 @@ return [
 
         'users' => [
             'modding' => 'modding',
+            'playlists' => 'playlists',
+            'ranked-play' => 'partie classée',
+            'realtime' => 'multijoueur',
             'show' => 'infos',
         ],
     ],
@@ -62,18 +70,10 @@ return [
     'menu' => [
         'beatmaps' => [
             '_' => 'beatmaps',
-            'artists' => 'artistes plébiscités',
-            'index' => 'index',
-            'packs' => 'collections',
         ],
         'community' => [
             '_' => 'communauté',
-            'chat' => 'chat',
-            'contests' => 'concours',
             'dev' => 'développement',
-            'forum-forums-index' => 'forums',
-            'getLive' => 'direct',
-            'tournaments' => 'tournois',
         ],
         'help' => [
             '_' => 'aide',
@@ -81,30 +81,16 @@ return [
             'getFaq' => 'faq',
             'getRules' => 'règles',
             'getSupport' => 'non, vraiment, j\'ai besoin d\'aide !',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => 'accueil',
-            'changelog-index' => 'notes de MàJ',
-            'getDownload' => 'télécharger',
-            'news-index' => 'actualités',
-            'search' => 'rechercher',
             'team' => 'équipe',
         ],
         'rankings' => [
-            '_' => 'rankings',
-            'charts' => 'classements',
-            'country' => 'pays',
-            'index' => 'performance',
-            'kudosu' => 'kudosu',
-            'multiplayer' => 'multijoueur',
-            'score' => 'score',
+            '_' => 'classements',
         ],
         'store' => [
             '_' => 'magasin',
-            'cart-show' => 'panier',
-            'getListing' => 'liste',
-            'orders-index' => 'historique des commandes',
         ],
     ],
 
@@ -112,7 +98,7 @@ return [
         'general' => [
             '_' => 'Général',
             'home' => 'Accueil',
-            'changelog-index' => 'Notes de MàJ',
+            'changelog-index' => 'Changelog',
             'beatmaps' => 'Liste des beatmaps',
             'download' => 'Télécharger osu!',
         ],
@@ -121,16 +107,18 @@ return [
             'faq' => 'Foire aux Questions',
             'forum' => 'Forums',
             'livestreams' => 'Streams en direct',
-            'report' => 'Signaler une erreur',
+            'report' => 'Signaler un problème',
             'wiki' => 'Wiki',
         ],
         'legal' => [
             '_' => 'Statut & Légal',
             'copyright' => 'Copyright (DMCA)',
+            'jp_sctl' => '',
             'privacy' => 'Confidentialité',
-            'server_status' => 'Statut du serveur',
+            'rules' => 'Règles',
+            'server_status' => 'État du serveur',
             'source_code' => 'Code source',
-            'terms' => 'Conditions du service',
+            'terms' => 'Conditions d\'utilisation',
         ],
     ],
 
@@ -144,11 +132,11 @@ return [
             'description' => "Désolé, mais la page demandée n'est pas ici !",
         ],
         '403' => [
-            'error' => "Vous ne devriez pas être ici",
+            'error' => "Vous ne devriez pas être ici.",
             'description' => 'Vous pouvez essayer de revenir en arrière.',
         ],
         '401' => [
-            'error' => "Vous ne devriez pas être ici",
+            'error' => "Vous ne devriez pas être ici.",
             'description' => 'Vous pouvez essayer de revenir en arrière. Ou peut-être vous connecter.',
         ],
         '405' => [
@@ -165,22 +153,22 @@ return [
         ],
         '500' => [
             'error' => 'Oh non ! Quelque chose s\'est cassé ! ;_;',
-            'description' => "Nous avons automatiquement été notifié de cette erreur.",
+            'description' => "Nous avons automatiquement été notifiés de cette erreur.",
         ],
         'fatal' => [
             'error' => 'Oh non ! Quelque chose s\'est cassé ! (gravement) ;_;',
-            'description' => "Nous avons été notifié automatiquement de cette erreur.",
+            'description' => "Nous avons automatiquement été notifiés de cette erreur.",
         ],
         '503' => [
-            'error' => 'Maintenance en cours!',
-            'description' => "Les maintenances prennent en général 5 à 10 minutes. Si c'est plus long, regardez :link pour plus d'informations.",
+            'error' => 'Maintenance en cours !',
+            'description' => "Les maintenances prennent en général 5 à 10 minutes. Si elle dure plus longtemps, consultez :link pour plus d'informations.",
             'link' => [
                 'text' => '',
                 'href' => '',
             ],
         ],
         // used by sentry if it returns an error
-        'reference' => "Juste au cas où, voici un code que vous pourrez retourner au support !",
+        'reference' => "Juste au cas où, voici un code que vous pourrez renvoyer au support !",
     ],
 
     'popup_login' => [
@@ -193,14 +181,14 @@ return [
             'username' => 'nom d\'utilisateur',
 
             'error' => [
-                'email' => "Le nom d'utilisateur ou l'e-mail ne correspond pas",
+                'email' => "Le nom d'utilisateur ou l'adresse e-mail n'existe pas",
                 'password' => 'Mot de passe incorrect',
             ],
         ],
 
         'register' => [
             'download' => 'Télécharger',
-            'info' => 'Téléchargez osu! pour créer votre propre compte!',
+            'info' => 'Téléchargez osu! pour créer votre propre compte !',
             'title' => "Vous n'avez pas de compte ?",
         ],
     ],
@@ -208,15 +196,21 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => 'Paramètres',
+            'create_team' => 'Créer une Équipe',
             'follows' => 'Listes de suivi',
             'friends' => 'Amis',
+            'legacy_score_only_toggle' => 'Mode lazer',
+            'legacy_score_only_toggle_tooltip' => 'Le mode lazer permet d\'afficher les scores réalisés sur lazer. Ces scores utilisent un nouvel algorithme de calcul du score.',
             'logout' => 'Se déconnecter',
             'profile' => 'Mon profil',
+            'scoring_mode_toggle' => 'Score classique',
+            'scoring_mode_toggle_tooltip' => 'Le score classique utilise un calcul du score qui n\'a pas de limites fixes, similaire à la version stable d\'osu!.',
+            'team' => 'Mon équipe',
         ],
     ],
 
     'popup_search' => [
-        'initial' => 'Écrivez pour rechercher!',
-        'retry' => 'La recherche a échouée. Cliquez pour réessayer.',
+        'initial' => 'Écrivez pour rechercher !',
+        'retry' => 'La recherche a échoué. Cliquez pour réessayer.',
     ],
 ];

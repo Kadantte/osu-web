@@ -5,25 +5,31 @@
 
 return [
     'show' => [
+        'non_preserved' => '该成绩已被标记为删除，不久后它将消失。',
         'title' => ':username 在 :title [:version] 上的成绩',
 
         'beatmap' => [
-            'by' => '曲师：:artist',
+            'by' => '- :artist',
         ],
 
         'player' => [
             'by' => '玩家',
+            'played_on' => '游玩于',
             'submitted_on' => '达成时间',
+            'watched' => '观看次数',
+            'watched_count' => ':count_delimited 次',
 
             'rank' => [
-                'country' => '国内/区内排名',
+                'country' => '地区排名',
                 'global' => '全球排名',
             ],
         ],
     ],
 
     'status' => [
-        'non_best' => '只有最棒的成绩才奖励 pp',
-        'processing' => '此分数仍在计算中，即将显示',
+        'non_best' => '只有个人最好成绩才能获取到表现分（PP）',
+        'no_pp' => '该分数没有表现分 (PP)',
+        'processing' => '该成绩仍在计算中，即将显示',
+        'no_rank' => '该成绩未获得排名（谱面未上架或成绩已标记为删除）',
     ],
 ];

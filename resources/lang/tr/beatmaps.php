@@ -4,6 +4,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => 'Geçersiz kural seti belirtildi.',
+
+    'change_owner' => [
+        'too_many' => 'Çok fazla misafir mapper var.',
+    ],
+
     'discussion-votes' => [
         'update' => [
             'error' => 'Oy güncelleme başarısız',
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'kudosuyu reddet',
         'edit' => 'düzenle',
         'edited' => 'En son :editor tarafından :update_time tarihinde düzenlendi.',
+        'guest' => ':user kullanıcısının konuk zorluğu',
         'kudosu_denied' => 'Kudosu almaktan mahrum bırakıldı.',
+        'include_replies' => 'Yanıtları dahil et',
         'message_placeholder_deleted_beatmap' => 'Bu zorluk seviyesi silindi o yüzden hakkında daha fazla tartışılamaz.',
         'message_placeholder_locked' => 'Bu beatmap için tartışma devre dışı bırakıldı.',
         'message_placeholder_silenced' => "Susturulduğunuzda tartışma gönderisi gönderemezsiniz.",
         'message_type_select' => 'Yorum Türünü Seçin',
         'reply_notice' => 'Cevaplamak için Enter tuşuna basın.',
+        'reply_resolve_notice' => 'Cevap vermek için Enter\'a bas. CTRL+Enter ile cevap ver ve çöz.',
         'reply_placeholder' => 'Yanıtınızı buraya yazın',
         'require-login' => 'Lütfen yorum yapmak ya da cevaplamak için giriş yapınız',
         'resolved' => 'Çözüldü',
         'restore' => 'restore et',
         'show_deleted' => 'Silineni göster',
+        'show_other_replies' => 'Diğer yanıtları göster',
         'title' => 'Tartışmalar',
+        'unresolved_count' => ':count_delimited çözülmemiş sorunlar',
 
         'collapse' => [
             'all-collapse' => 'Tümünü küçült',
@@ -66,14 +77,27 @@ return [
         ],
 
         'message_type' => [
-            'disqualify' => 'Diskalifiye',
+            'disqualify' => 'Diskalifiye et',
             'hype' => 'Gazla!',
             'mapper_note' => 'Not',
             'nomination_reset' => 'Adaylığı Sıfırla',
             'praise' => 'Övgü',
             'problem' => 'Sorun',
+            'problem_warning' => 'Sorun bildir',
             'review' => 'İnceleme',
             'suggestion' => 'Öneri',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => 'Diskalifiye Gönder',
+            'hype' => 'Hype Gönder!',
+            'mapper_note' => 'Not Paylaş',
+            'nomination_reset' => 'Tüm Adaylıkları Kaldır',
+            'praise' => 'Övgü Gönder',
+            'problem' => 'Sorun Bildir',
+            'problem_warning' => 'Sorun Bildir',
+            'review' => 'Değerlendirme Gönder',
+            'suggestion' => 'Öneri Gönder',
         ],
 
         'mode' => [
@@ -108,6 +132,7 @@ return [
                 ],
             ],
             'insert-block' => [
+                'mapper_note' => 'nota yerleştir',
                 'paragraph' => 'paragraf ekle',
                 'praise' => 'övgü ekle',
                 'problem' => 'sorun ekle',
@@ -158,10 +183,10 @@ return [
     'hype' => [
         'button' => 'Beatmapi Gazla!',
         'button_done' => 'Çoktan Gazlandı!',
-        'confirm' => "Emin misiniz? Bu kalan :n adet gazdan birini kullanacak ve geriye alınamaz.",
+        'confirm' => "Emin misiniz? Bu işlem kalan :n adet gaz hakkından birini kullanacak ve geriye alınamayacak.",
         'explanation' => 'Bu beatmapi aday gösterilmesi ve dereceli olması için daha görünür yapmak için gazla!',
-        'explanation_guest' => 'Giriş yap ve bu beatmapi gazlayarak, aday gösterilmesi ve dereceli olması için daha görünür yap!',
-        'new_time' => "Bir sonraki gaz :new_time tahinde gelecek.",
+        'explanation_guest' => 'Bu beatmapi aday gösterilmesi ve dereceli olması için daha görünür yapmak için gazlamak için giriş yap!',
+        'new_time' => "Bir sonraki gaz :new_time tarihinde gelecek.",
         'remaining' => ':remaining gazınız kaldı.',
         'required_text' => 'Gaz: :current/:required',
         'section_title' => 'Gaz Treni',
@@ -173,15 +198,18 @@ return [
     ],
 
     'nominations' => [
+        'already_nominated' => 'Bu beatmapi zaten aday gösterdiniz.',
+        'cannot_nominate' => 'Bu beatmap oyun modunu aday gösteremezsiniz.',
         'delete' => 'Sil',
         'delete_own_confirm' => 'Emin misin? Beatmap silinecek ve profiline yönlendirileceksin.',
         'delete_other_confirm' => 'Emin misin? Beatmap silinecek ve kullanıcının profiline yönlendirileceksin.',
         'disqualification_prompt' => 'Diskalifiye sebebi nedir?',
         'disqualified_at' => ':time_ago: diskalifiye edildi (:reason).',
         'disqualified_no_reason' => 'bir sebep belirtilmedi',
-        'disqualify' => 'Diskalifiye',
+        'disqualify' => 'Diskalifiye et',
         'incorrect_state' => 'Bu eylemi gerçekleştirirken bir hata oluştu, sayfayı yenilemeyi deneyin.',
         'love' => 'Sevilenlere ekle',
+        'love_choose' => 'Sevilen\'lere eklenecek zorluğu seçin',
         'love_confirm' => 'Bu beatmapi seviyor musun?',
         'nominate' => 'Aday Göster',
         'nominate_confirm' => 'Beatmap aday gösterilsin mi?',
@@ -196,6 +224,9 @@ return [
 
         'rank_estimate' => [
             '_' => 'Herhangi bir sorun bulunmazsa mapin tahminen dereceli olacağı vakit :date. :queue :position. sırada bulunuyor.',
+            'unresolved_problems' => 'Bu map şuanda :problems çözülene kadar nitelikli bölümünden çıkması engellenmiştir.',
+            'problems' => 'bu problemler',
+            'on' => ':date tarihinde',
             'queue' => 'Derecelendirme sırasında',
             'soon' => 'çok yakın',
         ],
@@ -206,8 +237,9 @@ return [
         ],
 
         'reset_confirm' => [
+            'disqualify' => 'Emin misiniz? Bu, beatmapin nitelikli olmasını önleyecek ve aday gösterme sürecini sıfırlayacak.',
             'nomination_reset' => 'Emin misin? Yeni bir sorun bildirmek aday gösterme sürecini sıfırlayacaktır.',
-            'disqualify' => 'Emin misiniz? Bu beatmap\'in niteliğini silecek ve adaylık süresine sıfırlayacak.',
+            'problem_warning' => 'Bu beatmap\'teki sorunu bildireceğinizden emin misiniz? Bu, Beatmap adaylarını uyaracaktır.',
         ],
     ],
 
@@ -216,6 +248,7 @@ return [
             'prompt' => 'anahtar kelimeler yazın...',
             'login_required' => 'Arama yapmak için giriş yap.',
             'options' => 'Diğer Arama Seçenekleri',
+            'rank_filter_note' => 'Bu sayfada gösterilen profildeki en iyi derece sayıları ve sonuçları, beatmap’lerdeki en yüksek “standartlaştırılmış” (yani “lazer”) skorlarına dayanır.',
             'supporter_filter' => ':filters ile filtrelemek için aktif bir osu!supporter etiketi gereklidir',
             'not-found' => 'sonuç bulunamadı',
             'not-found-quote' => '... yok, bir şey bulunamadı.',
@@ -236,8 +269,8 @@ return [
                 'difficulty' => 'Zorluk',
                 'favourites' => 'Favoriler',
                 'updated' => 'Güncellendi',
-                'ranked' => 'Sırada yer aldı',
-                'rating' => 'Derecelendirme',
+                'ranked' => 'Dereceli olma',
+                'rating' => 'Reyting',
                 'plays' => 'Oynamalar',
                 'relevance' => 'Alaka düzeyi',
                 'nominations' => 'Adaylıklar',
@@ -246,12 +279,18 @@ return [
                 '_' => ':filters ile filtrelemek için aktif bir :link gerekli',
                 'link_text' => 'osu!supporter etiketi',
             ],
+            'tag_picker' => [
+                'tooltip' => 'kullanıcı etiketlerine göz at',
+                'prompt' => 'aramak için yaz',
+            ],
         ],
     ],
     'general' => [
         'converts' => 'Dönüştürülmüş beatmapleri dahil et',
+        'featured_artists' => 'Featured artist\'ler',
         'follows' => 'Abone olunan mapperlar',
         'recommended' => 'Önerilen zorluk seviyesi',
+        'spotlights' => 'Öne çıkan beatmapler',
     ],
     'mode' => [
         'all' => 'Hepsi',
@@ -260,6 +299,7 @@ return [
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => 'belirsiz',
     ],
     'status' => [
         'any' => 'Hepsi',
@@ -268,8 +308,9 @@ return [
         'graveyard' => 'Mezarlıkta',
         'leaderboard' => 'Liderlik tablosu olanlar',
         'loved' => 'Sevilen',
-        'mine' => 'Benim haritalarım',
+        'mine' => 'Benim Maplerim',
         'pending' => 'Beklemede & Yapım Aşamasında',
+        'wip' => 'Yapım Aşamasında',
         'qualified' => 'Nitelikli',
         'ranked' => 'Dereceli',
     ],
@@ -288,32 +329,6 @@ return [
         'classical' => 'Klasik',
         'folk' => 'Folk',
         'jazz' => 'Caz',
-    ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => 'Skor V2',
     ],
     'language' => [
         'any' => 'Herhangi biri',

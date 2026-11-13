@@ -4,6 +4,14 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'load_failed' => 'تعذر تحميل البيانات.',
+    'missing_route' => 'رابط غير صالح أو طريقة طلب غير صحيحة.',
+    'no_restricted_access' => 'أنت لست قادراً على تنفيذ هذا الإجراء عندما يكون حسابك في حالة مقيدة.',
+    'param_too_large' => 'يحتوي الوسيط :name على حد أقصى قدره :count_delimited عنصر
+يحتوي الوسيط :name على حد أقصى قدره :count_delimited عناصر',
+    'supporter_only' => 'يجب أن تكون osu!supporter لاستخدام هذه الميزة.',
+    'unknown' => 'حدث خطأ غير معروف.',
+
     'codes' => [
         'http-401' => 'الرجاء تسجيل الدخول للمضي قدما.',
         'http-403' => 'الوصول مرفوض.',
@@ -15,19 +23,18 @@ return [
             'generic' => 'حدث خطأ. حاول تحديث الصفحة.',
         ],
     ],
-    'beatmaps' => [
-        'invalid_mode' => 'معطى خاطئ.',
-        'standard_converts_only' => 'لا توجد نتائج موجودة للوضع المطلوب على هذه الصعوبة.',
-    ],
     'checkout' => [
         'generic' => 'حدث خطأ أثناء اعداد طلبك.',
     ],
+    'scores' => [
+        'invalid_id' => 'معرّف النتيجة غير صالح.',
+    ],
     'search' => [
         'default' => 'لم نمتكن من جلب اي نتائج, حاول مجددا لاحقا.',
+        'invalid_cursor_exception' => 'معلوم المؤشر المحدد غير صالح.',
         'operation_timeout_exception' => 'حاليا البحث مشغول اكثر من العادة, حاول مجددا لاحقا.',
     ],
-
-    'supporter_only' => 'يجب أن تكون osu!supporter لاستخدام هذه الميزة.',
-    'no_restricted_access' => 'أنت لست قادراً على تنفيذ هذا الإجراء عندما يكون حسابك في حالة مقيدة.',
-    'unknown' => 'حدث خطأ غير معروف.',
+    'user_report' => [
+        'recently_reported' => "لقد سبق لك التبليغ عن هذا مؤخراً.",
+    ],
 ];

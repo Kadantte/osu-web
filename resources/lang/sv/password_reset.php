@@ -5,7 +5,6 @@
 
 return [
     'button' => [
-        'cancel' => 'Avbryt',
         'resend' => 'Skicka bekräftelsemail igen',
         'set' => 'Ange lösenord',
         'start' => 'Starta',
@@ -13,10 +12,14 @@ return [
 
     'error' => [
         'contact_support' => 'Vänligen kontakta support för att återhämta konto.',
-        'is_privileged' => 'Kontakta peppy lulz.',
+        'expired' => 'Verifieringskod har löpt ut.',
+        'invalid' => 'Oväntat fel i verifieringskod.',
+        'is_privileged' => 'Kontakta en administratör på hög nivå för att återställa kontot.',
         'missing_key' => 'Krävs.',
+        'too_many_requests' => 'Maxgränsen för lösenordsåterställningsförfrågningar har uppnåtts. Kontakta supporten för hjälp med att återställa ditt konto.',
         'too_many_tries' => 'För många misslyckade försök.',
         'user_not_found' => 'Användaren finns inte.',
+        'wait_resend' => 'Var snäll och vänta en stund.',
         'wrong_key' => 'Felaktig kod.',
     ],
 
@@ -35,9 +38,12 @@ return [
     'starting' => [
         'username' => 'Fyll i din e-postadress eller ditt användarnamn',
 
+        'reason' => [
+            'inactive_different_country' => "Ditt konto har inte använts på länge. För att säkerställa ditt kontos säkerhet vänligen återställ ditt lösenord.",
+        ],
         'support' => [
-            '_' => 'Behöver du mer hjälp? Kontakta oss via våran :button.',
-            'button' => 'support system',
+            '_' => 'Behöver du mer hjälp? Kontakta oss via vår :button.',
+            'button' => 'supportsystem',
         ],
     ],
 ];

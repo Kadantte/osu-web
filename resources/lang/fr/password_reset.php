@@ -5,24 +5,27 @@
 
 return [
     'button' => [
-        'cancel' => 'Annuler',
-        'resend' => 'Renvoyer l\'email de vérification',
+        'resend' => 'Renvoyer l\'e-mail de vérification',
         'set' => 'Définir le mot de passe',
         'start' => 'Démarrer',
     ],
 
     'error' => [
         'contact_support' => 'Veuillez contacter le support pour récupérer votre compte.',
-        'is_privileged' => 'Contacter peppy lulz.',
+        'expired' => 'Le code de vérification a expiré.',
+        'invalid' => 'Erreur inattendue dans le code de vérification.',
+        'is_privileged' => 'Veuillez contacter un administrateur de haut niveau pour récupérer votre compte.',
         'missing_key' => 'Requis.',
-        'too_many_tries' => 'Trop de tentatives ratées.',
+        'too_many_requests' => 'La limite de demande de réinitialisation de mot de passe a été atteinte. Veuillez contacter le support pour récupérer le compte.',
+        'too_many_tries' => 'Trop de tentatives échouées.',
         'user_not_found' => 'L\'utilisateur demandé n\'existe pas.',
+        'wait_resend' => 'Veuillez patienter quelques instants.',
         'wrong_key' => 'Code incorrect.',
     ],
 
     'notice' => [
-        'sent' => 'Vérifiez votre email pour le code de vérification.',
-        'saved' => 'Nouveau mot de passe sauvegardé!',
+        'sent' => 'Vérifiez votre boîte mail pour obtenir le code de vérification.',
+        'saved' => 'Nouveau mot de passe sauvegardé !',
     ],
 
     'started' => [
@@ -33,8 +36,11 @@ return [
     ],
 
     'starting' => [
-        'username' => 'Entrez une adresse email ou un nom d\'utilisateur',
+        'username' => 'Entrez une adresse e-mail ou un nom d\'utilisateur',
 
+        'reason' => [
+            'inactive_different_country' => "Votre compte n'a pas été utilisé depuis longtemps. Pour assurer la sécurité de votre compte, veuillez réinitialiser votre mot de passe.",
+        ],
         'support' => [
             '_' => 'Vous avez besoin d\'aide supplémentaire ? Contactez-nous via notre :button.',
             'button' => 'système de support',

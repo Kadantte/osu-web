@@ -9,102 +9,88 @@ return [
     ],
 
     'defaults' => [
-        'page_description' => 'osu! - Rytmus je len o klikaní! Spolu s Quendan/EBA, Taikem a originálnými hernými módmi a plne funkčným level editorom.',
+        'page_description' => 'osu! - Rytmus je len o klikaní! Spolu s Quendan/EBA, Taikom a originálnými hernými módmi a plne funkčným level editorom.',
     ],
 
     'header' => [
         'admin' => [
             'beatmapset' => '',
             'beatmapset_covers' => '',
-            'contest' => '',
-            'contests' => '',
-            'root' => '',
-            'store_orders' => '',
+            'contest' => 'súťaž',
+            'contests' => 'súťaže',
+            'root' => 'konzola',
         ],
 
         'artists' => [
-            'index' => '',
+            'index' => 'výpis',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'info',
+            'discussions' => 'diskusia',
+            'versions' => 'história verzií',
         ],
 
         'changelog' => [
-            'index' => '',
+            'index' => 'výpis',
         ],
 
         'help' => [
-            'index' => '',
-            'sitemap' => '',
+            'index' => 'index',
+            'sitemap' => 'Mapa webu',
         ],
 
         'store' => [
-            'cart' => '',
-            'orders' => '',
-            'products' => '',
+            'cart' => 'košík',
+            'orders' => 'história objednávok',
+            'products' => 'produkty',
         ],
 
         'tournaments' => [
-            'index' => '',
+            'index' => 'výpis',
         ],
 
         'users' => [
-            'modding' => '',
+            'modding' => 'modovanie',
+            'playlists' => 'playlisty',
+            'ranked-play' => 'hodnotené hranie',
+            'realtime' => 'hra pre viacerých hráčov',
             'show' => 'informácie',
         ],
     ],
 
     'gallery' => [
-        'close' => '',
-        'fullscreen' => '',
-        'zoom' => '',
-        'previous' => '',
-        'next' => '',
+        'close' => 'Zavrieť (Esc)',
+        'fullscreen' => 'Zobraziť na celej obrazovke',
+        'zoom' => 'Priblížiť/Oddialiť',
+        'previous' => 'Predchádzajúce (šípka doľava)',
+        'next' => 'Ďalšie (šípka doprava)',
     ],
 
     'menu' => [
         'beatmaps' => [
             '_' => 'beatmapy',
-            'artists' => 'významní umelci',
-            'index' => 'výpis',
-            'packs' => 'balíčky',
         ],
         'community' => [
             '_' => 'komunita',
-            'chat' => 'konverzácia',
-            'contests' => 'súťaže',
             'dev' => 'vývoj',
-            'forum-forums-index' => 'fórum',
-            'getLive' => 'naživo',
-            'tournaments' => 'turnaje',
         ],
         'help' => [
             '_' => 'pomoc',
-            'getAbuse' => '',
+            'getAbuse' => 'nahlásiť zneužitie',
             'getFaq' => 'faq',
             'getRules' => 'pravidlá',
             'getSupport' => 'nie, vážne, potrebujem pomoc!',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => 'domov',
-            'changelog-index' => 'záznam zmien',
-            'getDownload' => 'stiahnúť',
-            'news-index' => 'novinky',
-            'search' => 'hľadať',
             'team' => 'tím',
         ],
         'rankings' => [
             '_' => 'rebríčky',
-            'charts' => 'výber',
-            'country' => 'krajina',
-            'index' => 'výkon',
-            'kudosu' => 'kudosu',
-            'multiplayer' => '',
-            'score' => 'skóre',
         ],
         'store' => [
             '_' => 'obchod',
-            'cart-show' => 'košík',
-            'getListing' => 'výpis',
-            'orders-index' => 'história objednávok',
         ],
     ],
 
@@ -113,7 +99,7 @@ return [
             '_' => 'Všeobecné',
             'home' => 'Domov',
             'changelog-index' => 'Zoznam zmien',
-            'beatmaps' => 'Zoznam beatmap',
+            'beatmaps' => 'Zoznam beatmáp',
             'download' => 'Stiahnuť osu!',
         ],
         'help' => [
@@ -127,7 +113,9 @@ return [
         'legal' => [
             '_' => 'Právne záležitosti & Stav serveru',
             'copyright' => 'Autorské práva (DMCA)',
+            'jp_sctl' => '',
             'privacy' => 'Súkromie',
+            'rules' => 'Pravidlá',
             'server_status' => 'Stav Serveru',
             'source_code' => 'Zdrojový Kód',
             'terms' => 'Podmienky',
@@ -184,13 +172,13 @@ return [
     ],
 
     'popup_login' => [
-        'button' => '',
+        'button' => 'prihlásiť sa / registrácia',
 
         'login' => [
             'forgot' => "Zabudol som svoje údaje",
             'password' => 'heslo',
             'title' => 'Pre pokračovanie sa prihláste',
-            'username' => '',
+            'username' => 'používateľské meno',
 
             'error' => [
                 'email' => "Užívateľské meno alebo e-mailová adresa neexistuje",
@@ -199,8 +187,8 @@ return [
         ],
 
         'register' => [
-            'download' => '',
-            'info' => 'Potrebujete účet, pane. Prečo teda jeden nemáte?',
+            'download' => 'Stiahnuť',
+            'info' => 'Stiahni osu! na vytvorenie účtu!',
             'title' => "Nemáte účet?",
         ],
     ],
@@ -208,10 +196,16 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => 'Nastavenia',
-            'follows' => '',
+            'create_team' => 'Vytvoriť Tím',
+            'follows' => 'Zoznamy sledovaných',
             'friends' => 'Priatelia',
+            'legacy_score_only_toggle' => 'Režim lazer',
+            'legacy_score_only_toggle_tooltip' => '',
             'logout' => 'Odhlásiť Sa',
             'profile' => 'Môj Profil',
+            'scoring_mode_toggle' => 'Klasické bodovanie',
+            'scoring_mode_toggle_tooltip' => '',
+            'team' => 'Môj Tím',
         ],
     ],
 

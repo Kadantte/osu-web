@@ -9,46 +9,22 @@ use App\Exceptions\InvariantException;
 use App\Libraries\Payments\InvalidOrderStateException;
 use App\Models\Store\Order;
 use DB;
-use Request;
 
 class OrderCheckout
 {
-    /**
-     * @var Order
-     */
-    private $order;
-
-    /**
-     * @var string|null
-     */
-    private $provider;
-
-    /** @var string|null */
-    private $providerReference;
-
-    public function __construct(Order $order, ?string $provider = null, ?string $providerReference = null)
+    public function __construct(private Order $order, private ?string $provider = null, private ?string $providerReference = null)
     {
         if ($provider === Order::PROVIDER_SHOPIFY && $providerReference === null) {
             throw new InvariantException('shopify provider requires a providerReference (checkout id).');
         }
-
-        $this->order = $order;
-        $this->provider = $provider;
-        $this->providerReference = $providerReference;
     }
 
-    /**
-     * @return Order
-     */
-    public function getOrder()
+    public function getOrder(): Order
     {
         return $this->order;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getProvider()
+    public function getProvider(): ?string
     {
         return $this->provider;
     }
@@ -56,7 +32,7 @@ class OrderCheckout
     /**
      * @return string[]
      */
-    public function allowedCheckoutProviders()
+    public function allowedCheckoutProviders(): array
     {
         if ($this->order->isShouldShopify()) {
             return [Order::PROVIDER_SHOPIFY];
@@ -64,9 +40,6 @@ class OrderCheckout
 
         if ($this->order->getTotal() > 0) {
             $allowed = [Order::PROVIDER_PAYPAL];
-            if ($this->allowCentiliPayment()) {
-                $allowed[] = Order::PROVIDER_CENTILLI;
-            }
 
             if ($this->allowXsollaPayment()) {
                 $allowed[] = Order::PROVIDER_XSOLLA;
@@ -78,31 +51,7 @@ class OrderCheckout
         return [Order::PROVIDER_FREE];
     }
 
-    /**
-     * @return string
-     */
-    public function getCentiliPaymentLink()
-    {
-        $params = [
-            'apikey' => config('payments.centili.api_key'),
-            'country' => 'jp',
-            'countrylock' => 'true',
-            'reference' => $this->order->getOrderNumber(),
-            'price' => $this->order->getTotal() * config('payments.centili.conversion_rate'),
-        ];
-
-        return config('payments.centili.widget_url').'?'.http_build_query($params);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isShippingDelayed()
-    {
-        return Order::where('orders.status', 'paid')->count() > config('osu.store.delayed_shipping_order_threshold');
-    }
-
-    public function beginCheckout()
+    public function beginCheckout(): void
     {
         // something that shouldn't happen just happened.
         if (!in_array($this->provider, $this->allowedCheckoutProviders(), true)) {
@@ -117,15 +66,19 @@ class OrderCheckout
                 );
             }
 
-            $order->status = 'processing';
-            $order->transaction_id = $this->newOrderTransactionId();
+            $order->status = Order::STATUS_PAYMENT_REQUESTED;
+            $order->provider = $this->provider;
+            $order->reference = $this->providerReference;
+            // TODO: maybe don't fill transaction_id at the start anymore?
+            $order->transaction_id = $this->providerReference !== null ? "{$this->provider}-{$this->providerReference}" : $this->provider;
+
             $order->reserveItems();
 
             $order->saveorExplode();
         });
     }
 
-    public function completeCheckout()
+    public function completeCheckout(): Order
     {
         return DB::connection('mysql-store')->transaction(function () {
             $order = $this->order->lockSelf();
@@ -134,8 +87,8 @@ class OrderCheckout
             // processing -> if user hits the callback first.
             // paid -> if payment provider hits the callback first.
             // any other state should be considered invalid.
-            if ($order->isProcessing()) {
-                $order->status = 'checkout';
+            if ($order->isPaymentRequested()) {
+                $order->status = Order::STATUS_PAYMENT_APPROVED;
                 $order->saveorExplode();
             } elseif (!$order->isPaidOrDelivered()) {
                 // TODO: use validation errors instead?
@@ -148,11 +101,11 @@ class OrderCheckout
         });
     }
 
-    public function failCheckout()
+    public function failCheckout(): Order
     {
         return DB::connection('mysql-store')->transaction(function () {
             $order = $this->order->lockSelf();
-            if ($order->isProcessing() === false) {
+            if ($order->isPaymentRequested() === false) {
                 throw new InvalidOrderStateException(
                     "`Order {$order->order_id}` failed checkout but is not processing"
                 );
@@ -167,10 +120,7 @@ class OrderCheckout
         });
     }
 
-    /**
-     * @return array
-     */
-    public function validate()
+    public function validate(): array
     {
         $shouldShopify = $this->order->isShouldShopify();
         // TODO: nested indexed ValidationError...somehow.
@@ -182,21 +132,27 @@ class OrderCheckout
                 $messages[] = $item->validationErrors()->allMessages();
             }
 
+            $product = $item->product;
+
             // Checkout process level validations, should not be part of OrderItem validation.
-            if ($item->product === null || !$item->product->isAvailable()) {
-                $messages[] = trans('model_validation/store/product.not_available');
+            if ($product === null || !$product->isAvailable()) {
+                $messages[] = osu_trans('model_validation/store/product.not_available');
             }
 
-            if (!$item->product->inStock($item->quantity)) {
-                $messages[] = trans('model_validation/store/product.insufficient_stock');
+            if (!$product->inStock($item->quantity)) {
+                $messages[] = osu_trans('model_validation/store/product.insufficient_stock');
             }
 
-            if ($item->quantity > $item->product->max_quantity) {
-                $messages[] = trans('model_validation/store/product.too_many', ['count' => $item->product->max_quantity]);
+            if ($item->quantity > $product->max_quantity) {
+                $messages[] = osu_trans('model_validation/store/product.too_many', ['count' => $product->max_quantity]);
             }
 
-            if ($shouldShopify && !$item->product->isShopify()) {
-                $messages[] = trans('model_validation/store/product.must_separate');
+            if ($shouldShopify && !$product->isShopify()) {
+                $messages[] = osu_trans('model_validation/store/product.must_separate');
+            }
+
+            if ($product->requiresShipping() && !$product->isShopify()) {
+                $messages[] = osu_trans('model_validation/store/product.not_available');
             }
 
             $customClass = $item->getCustomClassInstance();
@@ -221,29 +177,8 @@ class OrderCheckout
         return new static(Order::whereOrderNumber($orderNumber)->firstOrFail());
     }
 
-    /**
-     * @return bool
-     */
-    private function allowCentiliPayment()
-    {
-        // Geolocation header from Cloudflare
-        $isJapan = strcasecmp(request_country(), 'JP') === 0;
-
-        return $isJapan
-            && !$this->order->requiresShipping()
-            && Request::input('intl') !== '1';
-    }
-
-    /**
-     * @return bool
-     */
-    private function allowXsollaPayment()
+    private function allowXsollaPayment(): bool
     {
         return !$this->order->requiresShipping();
-    }
-
-    private function newOrderTransactionId()
-    {
-        return $this->provider === Order::PROVIDER_SHOPIFY ? "{$this->provider}-{$this->providerReference}" : $this->provider;
     }
 }

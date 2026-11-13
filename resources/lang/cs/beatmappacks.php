@@ -6,45 +6,42 @@
 return [
     'index' => [
         'description' => 'Kolekce beatmap s podobnou tématikou.',
+        'empty' => 'Již brzy!',
         'nav_title' => 'seznam',
         'title' => 'Balíčky beatmap',
 
         'blurb' => [
             'important' => 'PŘEČTĚTE SI PŘED STAŽENÍM',
-            'instruction' => [
-                '_' => "Instalace: Po stažení balíčku musíš extrahovat soubor s příponou .rar do tvé složky s beatmapami. Všechny písničky v balíčku jsou stále ve formátu .zip a/nebo .osz, takže si je bude muset osu! extrahovat samo po vstupu do Selection menu.
-                    :scary extrahovat soubory typu .zip nebo .osz sami,
-                    nebo se beatmapy nezobrazí správně a nebudou fungovat.",
-                'scary' => 'NESMÍTE',
-            ],
-            'note' => [
-                '_' => 'Dále doporučujeme, abyste si :scary, jelikož starší mapy bývají horší kvality než ty novější.',
-                'scary' => 'stahovali balíčky od nejnovějšího po nejstarší',
-            ],
+            'install_instruction' => 'Instalace: Jakmile bude balíček stažen, rozbal jeho obsah do složky, vyber osz soubory a přesuň je do spuštěné osu! instance.',
         ],
     ],
 
     'show' => [
+        'created_by' => 'od :author',
         'download' => 'Stáhnout',
+        'no_diff_reduction_badge' => 'Výzva',
         'item' => [
             'cleared' => 'splněno',
             'not_cleared' => 'nesplněno',
         ],
         'no_diff_reduction' => [
-            '_' => '',
-            'link' => '',
+            '_' => ':link nelze použít ke splnění tohoto balíčku.',
+            'link' => 'Módy snižování obtížnosti',
         ],
     ],
 
     'mode' => [
         'artist' => 'Interpret/Album',
-        'chart' => 'V záři reflektorů',
+        'chart' => 'Zvýrazněné',
+        'featured' => 'Oficiální umělec',
+        'loved' => 'Projekt oblíbených komunitou',
         'standard' => 'Klasické',
         'theme' => 'Tématické',
+        'tournament' => 'Turnaj',
     ],
 
     'require_login' => [
         '_' => 'Pro stažení musíte být :link',
-        'link_text' => 'příhlášený',
+        'link_text' => 'přihlášený',
     ],
 ];

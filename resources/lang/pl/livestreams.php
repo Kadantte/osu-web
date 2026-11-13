@@ -4,9 +4,14 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'promote' => [
+        'pin' => 'Czy na pewno chcesz przypiąć tę transmisję na żywo na stronie głównej?',
+        'unpin' => "Czy na pewno chcesz odpiąć tę transmisję na żywo ze strony głównej?",
+    ],
+
     'top-headers' => [
         'headline' => 'Transmisje na żywo',
-        'description' => 'Dane z serwisu Twitch są pobierane co 5 minut. Śmiało rozpocznij swoją transmisję i pokaż się innym! Aby dowiedzieć się więcej o wstępnej konfiguracji transmisji, sprawdź :link.',
+        'description' => 'Dane z serwisu Twitch są pobierane co 5 minut. Rozpocznij swoją transmisję, aby pokazać się innym! Sprawdź :link, aby dowiedzieć się więcej o wstępnej konfiguracji transmisji.',
 
         'link' => 'artykuł na wiki',
     ],

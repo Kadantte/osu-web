@@ -4,14 +4,14 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'confirmation' => 'Êtes-vous sûr?',
+    'confirmation' => 'Êtes-vous sûr ?',
     'confirmation_unsaved' => 'Les modifications non enregistrées seront perdues. Êtes-vous sûr ?',
     'saved' => 'Sauvegardé',
 
     'array_and' => [
         'words_connector' => ', ',
         'two_words_connector' => ' et ',
-        'last_word_connector' => ' et ',
+        'last_word_connector' => ', et ',
     ],
 
     'badges' => [
@@ -19,13 +19,13 @@ return [
     ],
 
     'buttons' => [
-        'admin' => 'Admin',
         'authorise' => 'Autoriser',
-        'authorising' => 'Autorisation...',
+        'authorising' => 'Autorisation en cours...',
+        'back' => 'Retour',
         'back_to_previous' => 'Retour à la position précédente',
-        'back_to_top' => 'Retour en haut',
+        'back_to_top' => 'Haut de page',
         'cancel' => 'Annuler',
-        'change' => 'changer',
+        'change' => 'modifier',
         'clear' => 'Effacer',
         'click_to_copy' => 'cliquez pour copier dans le presse-papiers',
         'click_to_copy_copied' => 'copié dans le presse-papiers !',
@@ -38,23 +38,26 @@ return [
         'permalink' => 'permalien',
         'pin' => 'épingler',
         'post' => 'Poster',
-        'read_more' => 'lire la suite',
+        'read_more' => 'lire plus',
+        'refresh' => 'Actualiser',
         'reply' => 'Répondre',
         'reply_reopen' => 'Répondre et rouvrir',
-        'reply_resolve' => 'Répondre et fermer',
+        'reply_resolve' => 'Répondre et résoudre',
         'reset' => 'Réinitialiser',
         'restore' => 'Restaurer',
+        'retry' => 'Réessayer',
         'save' => 'Sauvegarder',
-        'saving' => 'Sauvegarde...',
+        'saving' => 'Sauvegarde en cours...',
         'search' => 'Rechercher',
         'see_more' => 'voir plus',
         'show' => 'afficher',
-        'show_deleted' => 'Afficher supprimé',
+        'show_deleted' => 'Afficher le contenu supprimé',
         'show_less' => 'afficher moins',
-        'show_more' => 'Plus de résultats',
+        'show_more' => 'voir plus',
         'show_more_options' => 'afficher plus d’options',
+        'submit' => 'Envoyer',
         'unpin' => 'désépingler',
-        'update' => 'Modifier',
+        'update' => 'Mettre à jour',
         'upload_image' => 'mettre en ligne une image',
 
         'watch' => [
@@ -64,22 +67,23 @@ return [
     ],
 
     'count' => [
-        'badges' => ':count badge|:count badges',
-        'days' => ':count jour|:count jours',
+        'badges' => ':count_delimited badge|:count_delimited badges',
+        'days' => ':count_delimited jour|:count_delimited jours',
         'hour_short_unit' => 'h|h',
-        'hours' => ':count heure|:count heures',
-        'item' => ':count objet|:count objets',
+        'hours' => ':count_delimited heure|:count_delimited heures',
+        'item' => ':count_delimited objet|:count_delimited objets',
         'minute_short_unit' => 'min|mins',
-        'minutes' => ':count minute|:count minutes',
-        'months' => ':count mois|:count mois',
+        'minutes' => ':count_delimited minute|:count_delimited minutes',
+        'months' => ':count_delimited mois|:count_delimited mois',
         'notifications' => ':count_delimited notification|:count_delimited notifications',
+        'player' => ':count_delimited joueur|:count_delimited joueurs',
         'plus_others' => '+ :count_delimited autre !|+ :count_delimited autres !',
-        'post' => ':count_delimited discussion|:count_delimited discussions',
+        'post' => ':count_delimited post|:count_delimited posts',
         'second_short_unit' => 'sec|secs',
-        'star_priority' => ':count_delimited priorité étoile|:count_delimited priorité étoiles',
+        'star_priority' => ':count_delimited étoile|:count_delimited étoiles',
         'update' => ':count_delimited mise à jour|:count_delimited mises à jour',
         'view' => ':count_delimited vue|:count_delimited vues',
-        'years' => ':count an|:count ans',
+        'years' => ':count_delimited an|:count_delimited ans',
     ],
 
     'countdown' => [
@@ -90,6 +94,12 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => 'm',
+        ],
+        'year' => [
+            'php' => 'a',
+        ],
         'year_month' => [
             'moment' => 'MMMM YYYY',
             'php' => 'MMMM y',
@@ -107,7 +117,7 @@ return [
     ],
 
     'dropzone' => [
-        'target' => 'déplacez ici pour uploader',
+        'target' => 'déplacez ici pour mettre en ligne',
     ],
 
     'input' => [
@@ -125,7 +135,7 @@ return [
         'count_50' => '50',
         'count_geki' => '',
         'count_katu' => '200',
-        'count_miss' => 'Raté',
+        'count_miss' => 'Manqué',
     ],
 
     'scoreboard_time' => [
@@ -133,20 +143,20 @@ return [
         'dd' => '%d j',
         'h' => '%d h',
         'hh' => '%d h',
-        'M' => '%d mois',
-        'm' => '%d min',
-        'MM' => '%d mois',
-        'mm' => '%d min',
+        'm' => 'maintenant',
+        'mm' => 'maintenant',
+        'month' => '%d mois',
+        'months' => '%d mois',
         'past' => '',
-        's' => '%d sec',
-        'y' => '%d a',
-        'yy' => '%d a',
+        's' => 'maintenant',
+        'y' => '%d an',
+        'yy' => '%d ans',
     ],
 
     'time' => [
-        'days_ago' => 'il y a :count jour|il y a :count jours',
-        'hours_ago' => 'il y a :count heure|il y a :count heures',
-        'now' => 'Maintenant',
+        'days_ago' => 'Il y a :count_delimited jour|Il y a :count_delimited jours',
+        'hours_ago' => 'Il y a :count_delimited heure|Il y a :count_delimited heures',
+        'now' => 'maintenant',
         'remaining' => 'Temps restant',
     ],
 
@@ -156,6 +166,6 @@ return [
 
     'wrong_user' => [
         '_' => 'Vous êtes connecté en tant que :user. :logout_link.',
-        'logout_link' => 'Cliquez ici pour vous connecter en tant qu\'utilisateur différent',
+        'logout_link' => 'Cliquez ici pour vous connecter en tant qu\'un autre utilisateur',
     ],
 ];

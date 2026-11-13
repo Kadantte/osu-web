@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited Antwort wird ausgeblendet.|:count_delimited Antworten werden ausgeblendet.',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Zum Bearbeiten bitte einloggen.',
@@ -16,6 +18,16 @@ return [
         'empty' => 'Noch ist nichts passiert.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'gelöscht',
         'none_found' => 'Es wurden keine Diskussionen gefunden, die mit diesen Suchkriterien übereinstimmen.',
@@ -24,7 +36,9 @@ return [
         'form' => [
             '_' => 'Suche',
             'deleted' => 'Gelöschte Diskussionen einbeziehen',
+            'mode' => 'Beatmap-Modus',
             'only_unresolved' => 'Nur ungelöste Diskussionen anzeigen',
+            'show_review_embeds' => 'Bewertungsbeiträge anzeigen',
             'types' => 'Nachrichtentyp',
             'username' => 'Benutzername',
 
@@ -57,6 +71,20 @@ return [
         'unsaved' => ':count in dieser Bewertung',
     ],
 
+    'owner_editor' => [
+        'button' => 'Difficulty-Besitzer',
+        'reset_confirm' => 'Besitzer für diese Difficulty zurücksetzen?',
+        'user' => 'Besitzer',
+        'version' => 'Difficulty',
+    ],
+
+    'refresh' => [
+        'checking' => 'Prüfe auf Updates...',
+        'has_updates' => 'Klicke, um die Aktualisierungen der Diskussion zu laden.',
+        'no_updates' => 'Keine Updates.',
+        'updating' => 'Aktualisiere...',
+    ],
+
     'reply' => [
         'open' => [
             'guest' => 'Zum Antworten einloggen',
@@ -66,16 +94,17 @@ return [
 
     'review' => [
         'block_count' => ':used / :max Blöcke verwendet',
-        'go_to_parent' => 'Rezensionsbeitrag anzeigen',
+        'go_to_parent' => 'Kurzfassungs-Beitrag anzeigen',
         'go_to_child' => 'Diskussion anzeigen',
         'validation' => [
-            'block_too_large' => 'jeder block darf höchstens :limit zeichen enthalten',
-            'external_references' => 'rezension enthält verweise auf probleme, die nicht zu dieser rezension gehören',
+            'block_too_large' => 'jeder Block darf höchstens :limit Zeichen enthalten',
+            'external_references' => 'Kurzfassung enthält Verweise auf Probleme, die nicht zu dieser Kurzfassung gehören',
             'invalid_block_type' => 'ungültiger Block-Typ',
-            'invalid_document' => 'ungültige Rezension',
-            'minimum_issues' => 'Rezension muss ein Minimum von :count Problem beinhalten|Rezensionen müssen ein Minimum von :count Problemen beinhalten',
-            'missing_text' => 'block fehlt Text',
-            'too_many_blocks' => 'Rezensionen dürfen nur :count Paragraph/Problem enthalten|Rezensionen dürfen nur bis zu :count Paragraphen/Probleme enthalten',
+            'invalid_document' => 'ungültige Kurzfassung',
+            'invalid_discussion_type' => 'ungültiger Diskussionstyp',
+            'minimum_issues' => 'Kurzfassung muss ein Minimum von :count Problem beinhalten|Kurzfassungen müssen ein Minimum von :count Problemen beinhalten',
+            'missing_text' => 'Block fehlt Text',
+            'too_many_blocks' => 'Kurzfassungen dürfen nur :count Paragraph/Problem enthalten|Kurzfassungen dürfen nur bis zu :count Paragraphen/Probleme enthalten',
         ],
     ],
 
@@ -87,12 +116,13 @@ return [
     ],
 
     'timestamp_display' => [
-        'general' => 'allgemein',
-        'general_all' => 'allgemein (alle)',
+        'general' => 'Allgemein',
+        'general_all' => 'Allgemein (alle)',
     ],
 
     'user_filter' => [
         'everyone' => 'Jeder',
         'label' => 'Nach Benutzer filtern',
+        'multiple' => ':count_delimited Benutzer ausgewählt|:count_delimited Benutzer ausgewählt',
     ],
 ];

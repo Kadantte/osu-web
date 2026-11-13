@@ -4,6 +4,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => 'Virheellinen pelimuoto valittu.',
+
+    'change_owner' => [
+        'too_many' => 'Liian monta vieraskartoittajaa.',
+    ],
+
     'discussion-votes' => [
         'update' => [
             'error' => 'Äänen päivitys ei onnistunut',
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'hylkää kudosu',
         'edit' => 'muokkaa',
         'edited' => 'Viimeksi muokannut :editor :update_time.',
+        'guest' => 'Vieraileva vaikeustaso - :user',
         'kudosu_denied' => 'Evätty saamasta kudosua.',
+        'include_replies' => 'Sisällytä vastaukset',
         'message_placeholder_deleted_beatmap' => 'Tämä vaikeustaso on poistettu, joten siitä ei voi enää keskustella.',
-        'message_placeholder_locked' => 'Keskustelu tällä beatmapille on poistettu käytöstä.',
-        'message_placeholder_silenced' => "",
+        'message_placeholder_locked' => 'Keskustelu tälle beatmapille on poistettu käytöstä.',
+        'message_placeholder_silenced' => "Keskusteluun ei voi osallistua mykistettynä.",
         'message_type_select' => 'Valitse kommentin tyyppi',
         'reply_notice' => 'Vastaa painamalla enter-näppäintä.',
+        'reply_resolve_notice' => 'Paina enteriä vastataksesi. Paina ctrl+enteriä vastataksesi ja ratkaistaksesi.',
         'reply_placeholder' => 'Kirjoita vastauksesi tähän',
         'require-login' => 'Kirjaudu sisään lähettääksesi viestejä tai vastauksia',
         'resolved' => 'Ratkaistu',
         'restore' => 'palauta',
         'show_deleted' => 'Näytä poistetut',
+        'show_other_replies' => 'Näytä muut vastaukset',
         'title' => 'Keskustelut',
+        'unresolved_count' => ':count_delimited ratkaisematon ongelma|:count_delimited ratkaisematonta ongelmaa',
 
         'collapse' => [
             'all-collapse' => 'Sulje kaikki',
@@ -37,7 +48,7 @@ return [
         ],
 
         'empty' => [
-            'empty' => 'Keskustelut puuttuu!',
+            'empty' => 'Ei vielä keskusteluja!',
             'hidden' => 'Yksikään keskusteluista ei täsmää hakuehtoihisi.',
         ],
 
@@ -54,32 +65,45 @@ return [
         ],
 
         'message_hint' => [
-            'in_general' => 'Tämä viesti menee beatmapin yleiseen keskusteluun. Modataksesi tätä beatmappia, aloita viestisi aikaleimalla (esim. 00:12:345).',
+            'in_general' => 'Tämä viesti menee rytmikarttasetin yleiseen keskusteluun. Modataksesi tätä rytmikarttaa, aloita viestisi aikaleimalla (esim. 00:12:345).',
             'in_timeline' => 'Modataksesi useampia aikaleimoja, lähetä useampi viesti (yksi viesti per aikaleima).',
         ],
 
         'message_placeholder' => [
             'general' => 'Kirjoita tähän lähettääksesi viestin Yleiseen (:version)',
             'generalAll' => 'Kirjoita tähän lähettääksesi viestin Yleiseen (Kaikki vaikeustasot)',
-            'review' => '',
+            'review' => 'Kirjoitä tähän lähettääksesi arvostelun',
             'timeline' => 'Kirjoita tähän lähettääksesi viestin Aikajanalle (:version)',
         ],
 
         'message_type' => [
             'disqualify' => 'Hylkää',
             'hype' => 'Hurraus!',
-            'mapper_note' => 'Huomautus',
-            'nomination_reset' => 'Nollaa Suositus',
+            'mapper_note' => 'Muistiinpano',
+            'nomination_reset' => 'Nollaa ehdollepano',
             'praise' => 'Kehu',
             'problem' => 'Ongelma',
-            'review' => '',
+            'problem_warning' => 'Ilmoita ongelmasta',
+            'review' => 'Arvostelu',
             'suggestion' => 'Ehdotus',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => 'Lähetä hylkäys',
+            'hype' => 'Lähetä hurraus!',
+            'mapper_note' => 'Lähetä merkintä',
+            'nomination_reset' => 'Poista kaikki ehdollepanot',
+            'praise' => 'Lähetä ylistys',
+            'problem' => 'Lähetä ongelma',
+            'problem_warning' => 'Lähetä ongelma',
+            'review' => 'Lähetä arvostelu',
+            'suggestion' => 'Lähetä ehdotus',
         ],
 
         'mode' => [
             'events' => 'Historia',
             'general' => 'Yleinen :scope',
-            'reviews' => '',
+            'reviews' => 'Arvostelut',
             'timeline' => 'Aikajana',
             'scopes' => [
                 'general' => 'Tämä vaikeustaso',
@@ -96,27 +120,28 @@ return [
         ],
 
         'review' => [
-            'new' => '',
+            'new' => 'Uusi arvostelu',
             'embed' => [
-                'delete' => '',
+                'delete' => 'Poista',
                 'missing' => '[KESKUSTELU POISTETTU]',
-                'unlink' => '',
-                'unsaved' => '',
+                'unlink' => 'Irrota',
+                'unsaved' => 'Tallentamaton',
                 'timestamp' => [
-                    'all-diff' => '',
-                    'diff' => '',
+                    'all-diff' => 'Viestit "Kaikki vaikeustasot" -osiossa eivät voi olla aikaleimattuja.',
+                    'diff' => 'Jos tämä viesti alkaa aikaleimalla, se näytetään aikajanalla.',
                 ],
             ],
             'insert-block' => [
-                'paragraph' => '',
-                'praise' => '',
-                'problem' => '',
+                'mapper_note' => 'laita nuotti',
+                'paragraph' => 'lisää kappale',
+                'praise' => 'lisää ylistystä',
+                'problem' => 'lisää ongelma',
                 'suggestion' => 'lisää ehdotus',
             ],
         ],
 
         'show' => [
-            'title' => ':title, luonut :mapper',
+            'title' => ':title, kartoittanut: :mapper',
         ],
 
         'sort' => [
@@ -127,7 +152,7 @@ return [
 
         'stats' => [
             'deleted' => 'Poistettu',
-            'mapper_notes' => 'Huomautukset',
+            'mapper_notes' => 'Muistiinpanot',
             'mine' => 'Omat',
             'pending' => 'Vireillä',
             'praises' => 'Kehut',
@@ -136,31 +161,31 @@ return [
         ],
 
         'status-messages' => [
-            'approved' => 'Tämä beatmappi hyväksyttiiin :date!',
+            'approved' => 'Tämä rytmikartta hyväksyttiiin :date!',
             'graveyard' => "Tätä beatmappia ei ole päivitetty sitten :date ja sen tekijä on todennäköisesti hylännyt sen...",
-            'loved' => 'Tämä beatmap lisättiin Rakastettuihin :date!',
+            'loved' => 'Tämä rytmikartta lisättiin rakastettuihin :date!',
             'ranked' => 'Tämä beatmap hyväksyttiin :date!',
-            'wip' => 'Huomaa: Tämän beatmapin tekijä on merkannut sen keskeneräiseksi.',
+            'wip' => 'Huomaa: Tämän rytmikartan tekijä on merkannut sen keskeneräiseksi.',
         ],
 
         'votes' => [
             'none' => [
-                'down' => '',
-                'up' => '',
+                'down' => 'Ei vielä vastaääniä',
+                'up' => 'Ei vielä ääniä',
             ],
             'latest' => [
-                'down' => '',
-                'up' => '',
+                'down' => 'Viimeisimmät vastaäänet',
+                'up' => 'Viimeisimmät äänet',
             ],
         ],
     ],
 
     'hype' => [
-        'button' => 'Hurraa Beatmappia!',
-        'button_done' => 'Hurrasit Jo!',
+        'button' => 'Hurraa rytmikarttaa!',
+        'button_done' => 'Olet jo hurrannut!',
         'confirm' => "Oletko varma? Tämä toiminto käyttää yhden jäljelläolevista hurrauspisteistä eikä se ole peruutettavissa. Hurrauksia jäljellä :n.",
-        'explanation' => 'Hurraa tätä beatmappia tuodaksesi sille näkyvyyttä suositusta- ja hyväksymistä varten!',
-        'explanation_guest' => 'Kirjaudu sisään ja hurraa tätä beatmappia tuodaksesi sille näkyvyyttä suositusta- ja hyväksymistä varten!',
+        'explanation' => 'Hurraa tätä rytmikarttaa tuodaksesi sille näkyvyyttä ehdollepanoa ja rankkausta varten!',
+        'explanation_guest' => 'Kirjaudu sisään ja hurraa tätä rytmikarttaa tuodaksesi sille näkyvyyttä ehdollepanoa ja rankkausta varten!',
         'new_time' => "Saat uuden hurrauksen :new_time.",
         'remaining' => 'Sinulla on :remaining hurrausta jäljellä.',
         'required_text' => 'Hurraukset: :current/:required',
@@ -169,97 +194,112 @@ return [
     ],
 
     'feedback' => [
-        'button' => 'Jätä Palautetta',
+        'button' => 'Jätä palautetta',
     ],
 
     'nominations' => [
+        'already_nominated' => 'Olet jo asettanut ehdolle tämän rytmikartan.',
+        'cannot_nominate' => 'Et voi asettaa ehdolle tähän pelimuotoon kuuluvia rytmikarttoja.',
         'delete' => 'Poista',
-        'delete_own_confirm' => 'Oletko varma? Tämä beatmap poistetaan ja sinut uudelleenohjataan takaisin profiiliisi.',
-        'delete_other_confirm' => 'Oletko varma? Tämä beatmap poistetaan ja sinut uudelleenohjataan käyttäjän profiiliin.',
+        'delete_own_confirm' => 'Oletko varma? Rytmikartta poistetaan ja sinut uudelleenohjataan takaisin profiiliisi.',
+        'delete_other_confirm' => 'Oletko varma? Rytmikartta poistetaan ja sinut uudelleenohjataan takaisin käyttäjän profiiliin.',
         'disqualification_prompt' => 'Hylkäyksen syy?',
-        'disqualified_at' => 'Hylättiin :time_ago sitten (:reason).',
+        'disqualified_at' => 'Hylätty :time_ago (:reason).',
         'disqualified_no_reason' => 'ei määriteltyä syytä',
         'disqualify' => 'Hylkää',
         'incorrect_state' => 'Virhe toiminnon suorittamisessa, kokeile päivittää sivu.',
         'love' => 'Rakasta',
-        'love_confirm' => 'Rakasta tätä beatmappia?',
-        'nominate' => 'Suosittele',
-        'nominate_confirm' => 'Suosittele tätä beatmappia?',
-        'nominated_by' => 'suositellut :users',
-        'not_enough_hype' => "",
-        'remove_from_loved' => '',
-        'remove_from_loved_prompt' => '',
-        'required_text' => 'Suositukset: :current/:required',
+        'love_choose' => 'Valitse rakastetun vaikeustaso',
+        'love_confirm' => 'Rakasta tätä rytmikarttaa?',
+        'nominate' => 'Aseta ehdolle',
+        'nominate_confirm' => 'Aseta tämä rytmikartta ehdolle?',
+        'nominated_by' => 'ehdollepannut :users',
+        'not_enough_hype' => "Hurrausta ei ole riittävästi.",
+        'remove_from_loved' => 'Poista rakastetuista rytmikartoista',
+        'remove_from_loved_prompt' => 'Rakastetuista rytmikartoista poistamisen syy:',
+        'required_text' => 'Ehdollepanot: :current/:required',
         'reset_message_deleted' => 'poistettu',
-        'title' => 'Suositusten Tila',
-        'unresolved_issues' => 'Vanhat ongelmat on ratkaistava ensin.',
+        'title' => 'Ehdollepanojen tilanne',
+        'unresolved_issues' => 'On edelleen ratkaisemattomia ongelmia, jotka pitää käsitellä ensin.',
 
         'rank_estimate' => [
-            '_' => '',
-            'queue' => '',
-            'soon' => '',
+            '_' => 'Tämä kartta tulee arviolta rankatuksi :date, jos ongelmia ei löydy. Se on :position. :queue.',
+            'unresolved_problems' => 'Tämä kartta on tällä hetkellä estetty poistumasta kelpuutettujen osiosta, kunnes :problems on ratkaistu.',
+            'problems' => 'nämä ongelmat',
+            'on' => ':date',
+            'queue' => 'rankkausjonossa',
+            'soon' => 'pian',
         ],
 
         'reset_at' => [
-            'nomination_reset' => 'Suositteluprosessi nollaantui :time_ago sitten käyttäjän :user uuden ongelman vuoksi :discussion (:message).',
-            'disqualify' => 'Hyväksyminen peruuntui :time_ago sitten käyttäjän :user uuden ongelman vuoksi :discussion (:message).',
+            'nomination_reset' => 'Ehdollepanoprosessi nollattu :time_ago käyttäjän :user uuden ongelman :discussion vuoksi (:message).',
+            'disqualify' => 'Hylätty :time_ago käyttäjän :user uuden ongelman :discussion vuoksi (:message).',
         ],
 
         'reset_confirm' => [
-            'nomination_reset' => 'Oletko varma? Uuden ongelman lähettäminen kumoaa suositusprosessin.',
-            'disqualify' => 'Oletko varma? Tämä poistaa beatmapin esihyväksytyistä ja kumoaa suositusprosessin.',
+            'disqualify' => 'Oletko varma? Tämä poistaa rytmikartan kelpuutetuista ja nollaa ehdollepanoprosessin.',
+            'nomination_reset' => 'Oletko varma? Uuden ongelman lähettäminen nollaa ehdollepanoprosessin.',
+            'problem_warning' => 'Oletko varma, että haluat ilmoittaa ongelmasta tässä rytmikartassa? Tämä aiheuttaa hälytyksen rytmikarttojen ehdollepanijoille.',
         ],
     ],
 
     'listing' => [
         'search' => [
-            'prompt' => 'anna hakusana...',
+            'prompt' => 'kirjoita hakusanoja...',
             'login_required' => 'Kirjaudu sisään hakeaksesi.',
-            'options' => 'Enemmän Hakuasetuksia',
+            'options' => 'Lisää hakuvaihtoehtoja',
+            'rank_filter_note' => 'Profiilin huippusijoitusten määrät ja tällä sivulla näkyvät tulokset perustuvat korkeimpiin ”standardoituihin” (eli ”lazer”) tuloksiisi rytmikartoissa.',
             'supporter_filter' => 'Tunnisteella :filters rajaaminen vaatii aktiivisen osu!supporter-tagin',
             'not-found' => 'ei tuloksia',
             'not-found-quote' => '... mitään ei löytynyt.',
             'filters' => [
-                'extra' => 'extra',
+                'extra' => 'Ekstra',
                 'general' => 'Yleinen',
                 'genre' => 'Tyylilaji',
                 'language' => 'Kieli',
-                'mode' => 'Pelitila',
-                'nsfw' => '',
-                'played' => 'Pelatut',
-                'rank' => 'Luokitus',
+                'mode' => 'Pelimuoto',
+                'nsfw' => 'Sopimaton sisältö',
+                'played' => 'Pelattu',
+                'rank' => 'Saavutettu arvosana',
                 'status' => 'Luokat',
             ],
             'sorting' => [
                 'title' => 'Nimi',
-                'artist' => 'Esittäjä',
+                'artist' => 'Artisti',
                 'difficulty' => 'Vaikeustaso',
                 'favourites' => 'Suosikit',
                 'updated' => 'Päivitetty',
-                'ranked' => 'Hyväksytty',
+                'ranked' => 'Rankattu',
                 'rating' => 'Luokitus',
                 'plays' => 'Pelikerrat',
                 'relevance' => 'Osuvuus',
-                'nominations' => 'Äänestykset',
+                'nominations' => 'Ehdollepanot',
             ],
             'supporter_filter_quote' => [
                 '_' => 'Rajataksesi tunnisteella :filters sinulla on oltava aktiivinen :link',
-                'link_text' => 'osu!supporter-tagi',
+                'link_text' => 'osu!tukijamerkki',
+            ],
+            'tag_picker' => [
+                'tooltip' => 'selaa käyttäjätunnisteita',
+                'prompt' => 'kirjoita hakeaksesi',
             ],
         ],
     ],
     'general' => [
-        'converts' => 'Sisällytä muunnetut beatmapit',
-        'follows' => '',
+        'converts' => 'Sisällytä automaattisesti muunnetut rytmikartat',
+        'featured_artists' => 'Esitellyt artistit',
+        'follows' => 'Tilatut kartoittajat',
         'recommended' => 'Suositeltu vaikeustaso',
+        'spotlights' => 'Rytmikartat kohdevaloissa',
     ],
     'mode' => [
-        'all' => '',
+        'all' => 'Kaikki',
         'any' => 'Kaikki',
         'osu' => '',
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => 'ei määritetty',
     ],
     'status' => [
         'any' => 'Kaikki',
@@ -268,10 +308,11 @@ return [
         'graveyard' => 'Hautausmaa',
         'leaderboard' => 'Tulostaulukollinen',
         'loved' => 'Rakastettu',
-        'mine' => 'Mappini',
-        'pending' => 'Vireillä & WIP',
-        'qualified' => 'Esihyväksytty',
-        'ranked' => '',
+        'mine' => 'Omat kartat',
+        'pending' => 'Vireillä',
+        'wip' => 'Työn alla',
+        'qualified' => 'Kelpuutettu',
+        'ranked' => 'Rankattu',
     ],
     'genre' => [
         'any' => 'Kaikki',
@@ -289,34 +330,8 @@ return [
         'folk' => 'Kansanmusiikki',
         'jazz' => 'Jatsi',
     ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => 'Pisteytys V2',
-    ],
     'language' => [
-        'any' => '',
+        'any' => 'Kaikki',
         'english' => 'englanti',
         'chinese' => 'kiina',
         'french' => 'ranska',
@@ -326,21 +341,21 @@ return [
         'korean' => 'korea',
         'spanish' => 'espanja',
         'swedish' => 'ruotsi',
-        'russian' => 'Venäläinen',
-        'polish' => 'Puolalainen',
+        'russian' => 'venäjä',
+        'polish' => 'puola',
         'instrumental' => 'Instrumentaalinen',
         'other' => 'Muu',
-        'unspecified' => 'Täsmentämätön',
+        'unspecified' => 'Määrittelemätön',
     ],
 
     'nsfw' => [
-        'exclude' => '',
-        'include' => '',
+        'exclude' => 'Piilota',
+        'include' => 'Näytä',
     ],
 
     'played' => [
         'any' => 'Kaikki',
-        'played' => 'Pelatut',
+        'played' => 'Pelattu',
         'unplayed' => 'Pelaamaton',
     ],
     'extra' => [
@@ -349,9 +364,9 @@ return [
     ],
     'rank' => [
         'any' => 'Kaikki',
-        'XH' => 'Hopea SS',
+        'XH' => 'Hopea-SS',
         'X' => '',
-        'SH' => 'Hopea S',
+        'SH' => 'Hopea-S',
         'S' => '',
         'A' => '',
         'B' => '',
@@ -359,8 +374,8 @@ return [
         'D' => '',
     ],
     'panel' => [
-        'playcount' => 'Pelikerrat :count',
-        'favourites' => 'Suosikit :count',
+        'playcount' => ':count Pelikertaa',
+        'favourites' => ':count Suosikkia',
     ],
     'variant' => [
         'mania' => [

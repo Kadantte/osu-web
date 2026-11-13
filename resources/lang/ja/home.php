@@ -26,6 +26,9 @@ return [
         'placeholder' => '検索キーワードを入力',
         'title' => '検索',
 
+        'artist_track' => [
+            'more_simple' => 'もっと注目アーティストの検索結果を見る',
+        ],
         'beatmapset' => [
             'login_required' => 'ログインしてビートマップを検索',
             'more' => '他:count件のビートマップ検索結果',
@@ -43,6 +46,7 @@ return [
             'label' => [
                 'forum' => 'フォーラム内を検索',
                 'forum_children' => 'サブフォーラムを含む',
+                'include_deleted' => '削除された投稿を非表示',
                 'topic_id' => 'トピック #',
                 'username' => '投稿者',
             ],
@@ -50,10 +54,17 @@ return [
 
         'mode' => [
             'all' => '全て',
+            'artist_track' => '注目アーティストトラック',
             'beatmapset' => 'ビートマップ',
             'forum_post' => 'フォーラム',
+            'team' => 'チーム',
             'user' => 'プレイヤー',
             'wiki_page' => 'wiki',
+        ],
+
+        'team' => [
+            'login_required' => 'チームを検索するにはログインしてください',
+            'more_simple' => 'もっとチームの検索結果を見る',
         ],
 
         'user' => [
@@ -72,8 +83,19 @@ return [
     ],
 
     'download' => [
-        'tagline' => "さぁ、<br>始めよう！",
-        'action' => 'osu!をダウンロード',
+        'action_lazer_info' => '詳細はこちらのページをご覧ください',
+        'download' => 'ダウンロード',
+        'for_os' => ':os 版',
+        'macos-fallback' => 'macOSユーザー',
+        'mirror' => 'ミラー',
+        'or' => 'または',
+        'os_version_or_later' => ':os_version 以降',
+        'other_os' => '他のプラットフォーム',
+        'quick_start_guide' => 'クイックスタートガイド',
+        'stable_text' => '古い方をお探しならこちら',
+        'tagline_1' => 'さぁ、あなたも',
+        'tagline_2' => '始めましょう！',
+        'video-guide' => '説明動画',
 
         'help' => [
             '_' => 'ゲームの開始やアカウント登録に問題がある場合は、:help_forum_link または :support_button。',
@@ -86,8 +108,6 @@ return [
             'macos' => 'for macOS',
             'linux' => 'for Linux',
         ],
-        'mirror' => 'ミラー',
-        'macos-fallback' => 'macOSユーザー',
         'steps' => [
             'register' => [
                 'title' => 'アカウントを作る',
@@ -105,7 +125,6 @@ return [
                 ],
             ],
         ],
-        'video-guide' => '説明動画',
     ],
 
     'user' => [
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
+            'daily_challenge' => 'デイリーチャレンジビートマップ',
             'new' => '最新のRankedビートマップ',
             'popular' => '人気のビートマップ',
             'by_user' => 'by :user',
+            'resets' => ':endsにリセット',
         ],
         'buttons' => [
             'download' => 'osu!をダウンロード',
             'support' => 'osu!を支援する',
             'store' => 'osu!ストア',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'ねえねえ、君！',
-        'subtitle' => 'osu!の事、気に入って貰えたかな？',
-        'body' => [
-            'part-1' => 'osu!のサービス維持は広告に頼らず、全てプレイヤーたちの支援によって実現されています。',
-            'part-2' => 'osu! を支援する事によってさまざまな機能が追加で利用できるようになります。<strong>ゲーム内ダウンロード</strong>はそのうちのひとつで、観戦やマルチプレイ中に自動でビートマップをダウンロードできるようになります！',
+        'livestream' => [
+            'title' => '注目のライブ配信',
         ],
-        'find-out-more' => 'もっと知りたい人はクリック！',
-        'download-starting' => "あ、君のダウンロードはもう始まってるよ！",
+        'show' => [
+            'admin' => [
+                'page' => '管理コンソールを開く',
+            ],
+        ],
     ],
 ];

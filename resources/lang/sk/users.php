@@ -33,10 +33,14 @@ return [
 
     'blocks' => [
         'banner_text' => 'Užívateľ bol zablokovaný.',
+        'comment_text' => 'Tento komentár je schovaný.',
         'blocked_count' => 'zablokovaný užívatelia (:count)',
         'hide_profile' => 'skryť profil',
+        'hide_comment' => 'schovať',
+        'forum_post_text' => 'Tento príspevok je schovaný.',
         'not_blocked' => 'Tento užívateľ nie je zablokovaný.',
         'show_profile' => 'zobraziť profil',
+        'show_comment' => 'zobraziť',
         'too_many' => 'Bol dosiahnutý blokovací limit.',
         'button' => [
             'block' => 'blokovať',
@@ -45,25 +49,42 @@ return [
     ],
 
     'card' => [
+        'gift_supporter' => 'Daruj štítok podporovateľa',
         'loading' => 'Načitávanie...',
         'send_message' => 'poslať správu',
     ],
 
+    'create' => [
+        'form' => [
+            'password' => 'heslo',
+            'password_confirmation' => 'potvrdiť heslo',
+            'submit' => 'vytvoriť účet',
+            'user_email' => 'email',
+            'user_email_confirmation' => 'potvrdiť email',
+            'username' => 'používateľské meno',
+
+            'tos_notice' => [
+                '_' => 'vytvorením účtu súhlasíte s :link',
+                'link' => 'podmienky používania',
+            ],
+        ],
+    ],
+
     'disabled' => [
-        'title' => '',
-        'warning' => "",
+        'title' => 'Ups! Vyzerá to tak, že tvoj účet bol zakázaný.',
+        'warning' => "V tom prípade, že ste porušili pravidlo, vezmite si prosím na vedomie, že všeobecne platí jednomesačné obdobie, počas ktorého nebudeme brať do úvahy žiadne žiadosti o amnestiu. Po tomto období nás môžete kontaktovať, ak to budete považovať za potrebné. Upozorňujeme, že vytváranie nových účtov po tom, čo ste mali jeden deaktivovný, bude mať za následok <strong>predĺženie tohto jednomesačného obmedzenia</strong>. Upozorňujeme tiež, že <strong>každým vytvoreným účtom ďalej porušujete pravidlá</strong>. Dôrazne vám odporúčame, aby ste sa nevydali touto cestou!",
 
         'if_mistake' => [
-            '_' => '',
+            '_' => 'Ak si myslíte, že ide o chybu, kontaktujte nás (prostredníctvom :email alebo kliknutím na „?“ v pravom dolnom rohu tejto stránky). Upozorňujeme, že vždy sme si plne istí našimi krokmi, pretože sú založené na veľmi spoľahlivých údajoch. Vyhradzujeme si právo nebrať do úvahy vašu žiadosť, ak budeme mať pocit, že ste úmyselne nečestní.',
             'email' => 'e-mail',
         ],
 
         'reasons' => [
-            'compromised' => '',
-            'opening' => '',
+            'compromised' => 'Váš účet bol považovaný za napadnutý. Môže byť dočasne deaktivovaný, kým sa potvrdí jeho totožnosť.',
+            'opening' => 'Existuje niekoľko dôvodov, ktoré môžu viesť k deaktivácii vášho účtu:',
 
             'tos' => [
-                '_' => '',
+                '_' => 'Porušili ste jedno alebo viacero našich pravidiel :community_rules alebo :tos.',
                 'community_rules' => 'pravidlá komunity',
                 'tos' => 'zmluvné podmienky',
             ],
@@ -76,6 +97,7 @@ return [
 
     'force_reactivation' => [
         'reason' => [
+            'inactive' => "",
             'inactive_different_country' => "",
         ],
     ],
@@ -99,6 +121,24 @@ return [
         'beta' => [
             'main' => 'Beta prístup je momentálne obmedzený pre oprávnených užívateľov.',
             'small' => '(osu!supporters sa dostanú dnu skorej)',
+        ],
+    ],
+
+    'multiplayer' => [
+        'index' => [
+            'active' => '',
+            'ended' => '',
+        ],
+    ],
+
+    'ogp' => [
+        'modding_description' => '',
+        'modding_description_empty' => '',
+
+        'description' => [
+            '_' => '',
+            'country' => '',
+            'global' => '',
         ],
     ],
 
@@ -126,18 +166,30 @@ return [
             'cancel' => 'Zrušiť',
         ],
 
+        'dmca' => [
+            'message_1' => [
+                '_' => '',
+                'policy' => '',
+            ],
+            'message_2' => '',
+        ],
+
         'options' => [
             'cheating' => 'Nečestné hranie / Podvádzanie',
+            'copyright_infringement' => '',
+            'inappropriate_chat' => '',
             'insults' => 'Urážanie mňa / iných',
-            'spam' => 'Spam',
-            'unwanted_content' => 'Posiela nevhodný obsah',
+            'multiple_accounts' => '',
             'nonsense' => 'Nezmysel',
             'other' => 'Iné (uveď nižšie)',
+            'spam' => 'Spam',
+            'unwanted_content' => 'Posiela nevhodný obsah',
         ],
     ],
     'restricted_banner' => [
         'title' => 'Tvoj účet bol zablokovaný!',
         'message' => 'Zatial čo si v zablokovanom režime, nebudeš môcť komunikovať s ostatnými hráčmi a tvoje skóre budu viditeľné iba pre teba. Toto je obvykle výsledkom automatického procesu, ktorý by sa mal vyriešit do 24 hodín. Pokiaľ si praješ odvolať tvoj blokovaný režim, prosím <a href="mailto:accounts@ppy.sh">kontaktuj podporu</a>.',
+        'message_link' => '',
     ],
     'show' => [
         'age' => ':age rokov',
@@ -152,16 +204,50 @@ return [
         'origin_country' => 'Štát :country',
         'previous_usernames' => 'v minulosti známy ako',
         'plays_with' => 'Hrá s :devices',
-        'title' => "profil používateľa :username",
+
+        'badge' => [
+            'pin' => [
+                'to_0' => '',
+                'to_1' => '',
+            ],
+        ],
 
         'comments_count' => [
             '_' => '',
             'count' => '',
         ],
+        'cover' => [
+            'to_0' => '',
+            'to_1' => '',
+        ],
+        'daily_challenge' => [
+            'daily' => '',
+            'daily_streak_best' => '',
+            'daily_streak_current' => '',
+            'playcount' => '',
+            'title' => '',
+            'top_10p_placements' => '',
+            'top_50p_placements' => '',
+            'weekly' => '',
+            'weekly_streak_best' => '',
+            'weekly_streak_current' => '',
+
+            'unit' => [
+                'day' => '',
+                'week' => '',
+            ],
+        ],
+        'detail_switch' => [
+            'to_v1' => '',
+            'to_v2' => '',
+        ],
         'edit' => [
             'cover' => [
                 'button' => 'Zmeniť pozadie profilu',
                 'defaults_info' => 'Viac možností pozadia bude dostupných v budúcnosti',
+                'holdover_remove_confirm' => "",
+                'title' => '',
+
                 'upload' => [
                     'broken_file' => 'Spracovanie obrázku zlyhalo. Skontroluj si obrázok a skús to znova.',
                     'button' => 'Nahrať obrázok',
@@ -181,6 +267,16 @@ return [
             'default_playmode' => [
                 'is_default_tooltip' => 'štandardný herný mód',
                 'set' => 'nastaviť :mode ako predvolený herný mód profilu',
+            ],
+
+            'hue' => [
+                'reset_no_supporter' => '',
+                'title' => '',
+
+                'supporter' => [
+                    '_' => '',
+                    'link' => '',
+                ],
             ],
         ],
 
@@ -203,14 +299,20 @@ return [
                 'graveyard' => [
                     'title' => 'Pochované Beatmapy',
                 ],
+                'guest' => [
+                    'title' => '',
+                ],
                 'loved' => [
                     'title' => 'Obľúbené Beatmapy',
                 ],
-                'ranked_and_approved' => [
-                    'title' => 'Hodnotené & Schválené Beatmapy',
+                'nominated' => [
+                    'title' => '',
                 ],
-                'unranked' => [
+                'pending' => [
                     'title' => 'Čakajúce Beatmapy',
+                ],
+                'ranked' => [
+                    'title' => 'Hodnotené & Schválené Beatmapy',
                 ],
             ],
             'discussions' => [
@@ -241,6 +343,9 @@ return [
                 'replays_watched_counts' => [
                     'title' => 'História Pozretých Replayov',
                     'count_label' => 'Počet zhliadnutích hier',
+                ],
+                'score_replay_stats' => [
+                    'title' => '',
                 ],
             ],
             'kudosu' => [
@@ -300,13 +405,22 @@ return [
                 'recent' => 'Najnovšie',
                 'title' => 'Medaile',
             ],
+            'playlists' => [
+                'title' => '',
+            ],
             'posts' => [
                 'title' => 'Príspevky',
                 'title_longer' => 'Nedávne príspevky',
                 'show_more' => 'pozri ďalšie príspevky',
             ],
+            'ranked-play' => [
+                'title' => '',
+            ],
             'recent_activity' => [
                 'title' => 'Nedávne',
+            ],
+            'realtime' => [
+                'title' => '',
             ],
             'top_ranks' => [
                 'download_replay' => 'Stiahnuť Záznam',
@@ -320,6 +434,15 @@ return [
                 ],
                 'first' => [
                     'title' => 'Umiestnenie na prvom mieste',
+                ],
+                'pin' => [
+                    'to_0' => '',
+                    'to_0_done' => '',
+                    'to_1' => '',
+                    'to_1_done' => '',
+                ],
+                'pinned' => [
+                    'title' => '',
                 ],
             ],
             'votes' => [
@@ -339,13 +462,14 @@ return [
                     'date' => 'dátum',
                     'action' => 'trest',
                     'length' => 'dĺžka',
-                    'length_permanent' => 'Permanentné',
+                    'length_indefinite' => '',
                     'description' => 'popis',
                     'actor' => 'od :username',
 
                     'actions' => [
                         'restriction' => 'Ban',
                         'silence' => 'Stlmenie',
+                        'tournament_ban' => '',
                         'note' => 'Poznámka',
                     ],
                 ],
@@ -360,6 +484,19 @@ return [
             'twitter' => '',
             'website' => 'Web Stránka',
         ],
+
+        'matchmaking' => [
+            'losses' => '',
+            'plays' => '',
+            'rank' => '',
+            'rating' => '',
+            'recent_history' => '',
+            'recent_history_provisional' => '',
+            'tier' => '',
+            'title' => '',
+            'wins' => '',
+        ],
+
         'not_found' => [
             'reason_1' => 'Možno si zmenil užívateľské meno.',
             'reason_2' => 'Účet môže byť dočasne nedostupný z dôvodu problému s bezpečnosťou alebo zneužitím.',
@@ -387,9 +524,26 @@ return [
             'country_simple' => 'Umiestnenie v krajine',
             'global' => 'Globálna pozícia pre :mode',
             'global_simple' => 'Celkové umiestnenie',
+            'highest' => '',
+            'kudosu_outside_top_1000' => '',
+            'kudosu_simple' => '',
+        ],
+        'score_processing' => [
+            'title' => '',
+            'title_link' => '',
+            'message' => '',
+        ],
+        'season_stats' => [
+            'division_top_percentage' => '',
+            'label' => '',
+            'total_score' => '',
+        ],
+        'solo' => [
+            'title' => '',
         ],
         'stats' => [
             'hit_accuracy' => 'Presnosť Zásahov',
+            'hits_per_play' => '',
             'level' => 'Úroveň :level',
             'level_progress' => 'Percentá do ďalšieho levelu',
             'maximum_combo' => 'Maximálne Kombo',
@@ -402,10 +556,12 @@ return [
             'total_hits' => 'Celkových Zásahov',
             'total_score' => 'Celkové Skóre',
             // modding stats
-            'ranked_and_approved_beatmapset_count' => 'Hodnotené a Schválené Beatmapy',
-            'loved_beatmapset_count' => 'Obľúbené beatmapy',
-            'unranked_beatmapset_count' => 'Čakajúce Beatmapy',
             'graveyard_beatmapset_count' => 'Irelevantné beatmapy',
+            'guest_beatmapset_count' => '',
+            'loved_beatmapset_count' => 'Obľúbené beatmapy',
+            'nominated_beatmapset_count' => '',
+            'pending_beatmapset_count' => 'Čakajúce Beatmapy',
+            'ranked_beatmapset_count' => 'Hodnotené a Schválené Beatmapy',
         ],
     ],
 
@@ -419,7 +575,15 @@ return [
         'online' => 'Online',
         'offline' => 'Offline',
     ],
+    'relationship' => [
+        'title' => '',
+        'all' => '',
+        'mutual' => '',
+        'non_mutual' => '',
+    ],
     'store' => [
+        'from_client' => '',
+        'from_web' => '',
         'saved' => 'Vytvorený používateľom',
     ],
     'verify' => [

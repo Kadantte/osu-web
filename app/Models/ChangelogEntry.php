@@ -6,6 +6,7 @@
 namespace App\Models;
 
 use App\Libraries\OsuWiki;
+use App\Traits\Memoizes;
 use Carbon\Carbon;
 use Exception;
 
@@ -29,6 +30,8 @@ use Exception;
  */
 class ChangelogEntry extends Model
 {
+    use Memoizes;
+
     protected $casts = [
         'private' => 'boolean',
         'major' => 'boolean',
@@ -36,14 +39,17 @@ class ChangelogEntry extends Model
 
     public static function convertLegacy($changelog)
     {
-        $message = $changelog->message;
-        $splitMessage = static::splitMessage($message);
-        $title = $splitMessage[0];
+        $splitMessage = static::splitMessage($changelog->message);
+        $title = presence($splitMessage[0]);
+        $message = $splitMessage[1];
 
         if ($title === null) {
             $title = $splitMessage[1];
             $message = null;
         }
+
+        $githubUser = new GithubUser(['user_id' => $changelog->user_id]);
+        $githubUser->setRelation('user', $changelog->user);
 
         return new static([
             'title' => $title,
@@ -54,12 +60,16 @@ class ChangelogEntry extends Model
             'private' => $changelog->private,
             'major' => $changelog->major,
             'created_at' => $changelog->date,
-            'githubUser' => new GithubUser([
-                'user_id' => $changelog->user_id,
-                'user' => $changelog->user,
-            ]),
+            'githubUser' => $githubUser,
             'repository' => null,
         ]);
+    }
+
+    public static function getDisplayMessage(?string $origMessage): string
+    {
+        $split = static::splitMessage($origMessage);
+
+        return $split[1] === null ? '' : $split[0];
     }
 
     public static function guessCategory($data)
@@ -67,13 +77,12 @@ class ChangelogEntry extends Model
         static $ignored = [
             'high priority',
             'resolves issue',
-            'size/xs',
-            'size/s',
-            'size/m',
-            'size/l',
-            'size/xl',
-            'size/xxl',
             'update',
+        ];
+
+        static $ignoredPrefixes = [
+            'priority:',
+            'size/',
         ];
 
         if ($data['repository']['full_name'] === OsuWiki::user().'/'.OsuWiki::repository()) {
@@ -83,7 +92,12 @@ class ChangelogEntry extends Model
         foreach ($data['pull_request']['labels'] as $label) {
             $name = $label['name'];
 
-            if (in_array(strtolower($name), $ignored, true)) {
+            $lowerName = strtolower($name);
+            if (in_array($lowerName, $ignored, true)) {
+                continue;
+            }
+
+            if (starts_with($lowerName, $ignoredPrefixes)) {
                 continue;
             }
 
@@ -118,7 +132,7 @@ class ChangelogEntry extends Model
             'category' => static::guessCategory($data),
             'created_at' => Carbon::parse($data['pull_request']['merged_at']),
             'github_pull_request_id' => $data['pull_request']['number'],
-            'message' => $data['pull_request']['body'],
+            'message' => static::getDisplayMessage($data['pull_request']['body']),
             'private' => static::isPrivate($data),
             'title' => $data['pull_request']['title'],
             'type' => static::guessType($data),
@@ -160,7 +174,7 @@ class ChangelogEntry extends Model
     public static function placeholder()
     {
         return new static([
-            'title' => trans('changelog.generic'),
+            'title' => osu_trans('changelog.generic'),
             'private' => false,
             'major' => false,
             'created_at' => Carbon::createFromTimestamp(0),
@@ -173,25 +187,30 @@ class ChangelogEntry extends Model
         ]);
     }
 
-    public static function splitMessage($message)
+    /**
+     * Returns array of message split by thematic break (`---`)
+     *
+     * The array length is always two.
+     * If the message is empty, both values will be null.
+     * If there's no thematic break, the second value will be null.
+     */
+    public static function splitMessage($message): array
     {
         if (!present($message)) {
             return [null, null];
         }
 
         static $separator = "\n\n---\n";
-        // prepended with \n\n just in case the message starts with ---\n (blank first part).
-        $message = "\n\n".trim(str_replace("\r\n", "\n", $message));
+        // Surround with newlines to handle separator at the start/end.
+        $message = "\n\n".trim(strtr($message, ["\r\n" => "\n"]))."\n";
         $splitPos = strpos($message, $separator);
 
-        if ($splitPos === false) {
-            $splitPos = strlen($message);
-        }
-
-        return [
-            presence(trim(substr($message, 0, $splitPos))),
-            presence(trim(substr($message, $splitPos + strlen($separator)))),
-        ];
+        return $splitPos === false
+            ? [trim($message), null]
+            : [
+                trim(substr($message, 0, $splitPos)),
+                trim(substr($message, $splitPos + strlen($separator))),
+            ];
     }
 
     public function builds()
@@ -250,12 +269,12 @@ class ChangelogEntry extends Model
         }
     }
 
-    public function messageHTML()
+    public function messageHtml(): ?string
     {
-        [$private, $public] = static::splitMessage($this->message);
+        return $this->memoize(__FUNCTION__, function () {
+            $message = $this->message;
 
-        if ($public !== null) {
-            return markdown($public, 'changelog_entry');
-        }
+            return present($message) ? markdown($message, 'changelog_entry') : null;
+        });
     }
 }

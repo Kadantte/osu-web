@@ -5,10 +5,13 @@
 
 return [
     'deleted' => 'törölve',
+    'deleted_by' => ':user által törölve :timeago',
+    'deleted_by_system' => 'rendszer',
     'deleted_count' => ':count_delimited törölt komment|:count_delimited törölt kommentek',
     'edited' => ':user által szerkesztve :timeago',
     'pinned' => 'rögzített',
     'empty' => 'Még nincsenek hozzászólások.',
+    'empty_other' => 'Még nincsenek hozzászólások.',
     'load_replies' => 'válaszok betöltése',
     'replies_count' => ':count_delimited válasz|:count_delimited válaszok',
     'title' => 'Hozzászólások',
@@ -22,7 +25,7 @@ return [
 
     'editor' => [
         'textarea_hint' => [
-            '_' => 'Az :action végrehajtásához nyomj entert. Új sorhoz használj shift+entert.',
+            '_' => 'A(z) :action végrehajtásához nyomj entert. Új sorhoz használj shift+entert.',
             'edit' => 'mentés',
             'new' => 'posztolás',
             'reply' => 'válasz',
@@ -38,6 +41,10 @@ return [
         'nav_comments' => 'hozzászolások',
         'nav_title' => 'lista',
         'no_comments' => 'nem találtunk hozzászólást...',
+    ],
+
+    'ogp' => [
+        'title' => ':user hozzászólása',
     ],
 
     'placeholder' => [

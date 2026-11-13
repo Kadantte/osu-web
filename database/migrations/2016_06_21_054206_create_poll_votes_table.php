@@ -3,6 +3,8 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
 // See the LICENCE file in the repository root for full licence text.
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 
 class CreatePollVotesTable extends Migration
@@ -19,9 +21,6 @@ class CreatePollVotesTable extends Migration
         }
 
         Schema::create('phpbb_poll_votes', function ($table) {
-            $table->collation = 'utf8_bin';
-            $table->charset = 'utf8';
-
             $table->mediumInteger('topic_id')->unsigned()->default(0);
             $table->tinyInteger('poll_option_id')->default(0);
             $table->mediumInteger('vote_user_id')->unsigned()->default(0);
@@ -31,8 +30,6 @@ class CreatePollVotesTable extends Migration
             $table->index('vote_user_id', 'vote_user_id');
             $table->index('vote_user_ip', 'vote_user_ip');
         });
-
-        DB::statement('ALTER TABLE phpbb_poll_votes ROW_FORMAT=DYNAMIC');
     }
 
     /**

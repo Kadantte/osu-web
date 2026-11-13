@@ -5,17 +5,20 @@
 
 return [
     'deleted' => 'выдалена',
+    'deleted_by' => ':user выдаліў :timeago',
+    'deleted_by_system' => 'сістэма',
     'deleted_count' => ':count_delimited каментарый выдалены|:count_delimited каментарыяў выдалена',
     'edited' => ':user адрэагаваў :timeago',
     'pinned' => 'прычэплена',
     'empty' => 'Няма каментарыяў.',
+    'empty_other' => 'Больш каментароў няма.',
     'load_replies' => 'запампаваць адказы',
     'replies_count' => ':count_delimited адказ|:count_delimited адказы',
     'title' => 'Каментарыі',
 
     'commentable_name' => [
         'beatmapset' => 'Бітмапы',
-        'build' => 'Спic змен',
+        'build' => 'Гісторыя змен',
         'news_post' => 'Навіны',
         '_deleted' => 'Выдаленая рэч',
     ],
@@ -35,9 +38,13 @@ return [
     ],
 
     'index' => [
-        'nav_comments' => '',
+        'nav_comments' => 'каментарыі',
         'nav_title' => 'спіс',
-        'no_comments' => '',
+        'no_comments' => 'няма каментарыяў...',
+    ],
+
+    'ogp' => [
+        'title' => 'каментар ад :user',
     ],
 
     'placeholder' => [

@@ -17,17 +17,24 @@ return [
         'identify' => 'Identificarte y leer tu perfil público.',
 
         'chat' => [
-            'write' => 'Enviar mensajes en su nombre.',
+            'read' => 'Leer mensajes en tu nombre.',
+            'write' => 'Enviar mensajes en tu nombre.',
+            'write_manage' => 'Unirse y abandonar canales en tu nombre.',
         ],
 
         'forum' => [
-            'write' => 'Crear y editar temas y publicaciones del foro en su nombre.',
+            'write' => 'Crear y editar temas y publicaciones del foro en tu nombre.',
+            'write_manage' => 'Gestionar los temas y publicaciones del foro en tu nombre.',
         ],
 
         'friends' => [
             'read' => 'Ver a quién sigues.',
         ],
 
-        'public' => 'Leer datos públicos en su nombre.',
+        'multiplayer' => [
+            'write_manage' => 'Crear y gestionar salas multijugador en tu nombre.',
+        ],
+
+        'public' => 'Leer datos públicos en tu nombre.',
     ],
 ];

@@ -4,6 +4,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => '',
+
+    'change_owner' => [
+        'too_many' => '',
+    ],
+
     'discussion-votes' => [
         'update' => [
             'error' => 'فشل تحديث التصويت',
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'رفض كودوسو',
         'edit' => 'تعديل',
         'edited' => 'التعديل الأخير تم بواسطة :editor:update_time.',
+        'guest' => 'صعوبة ضيف من :user',
         'kudosu_denied' => 'ممنوع من جمع كودوسو.',
+        'include_replies' => '',
         'message_placeholder_deleted_beatmap' => 'تم حذف هذه الصعوبة لذا لا يمكن مناقشتها بعد الان.',
         'message_placeholder_locked' => 'المناقشة لحزمة المراحل تم ايقافها.',
         'message_placeholder_silenced' => "لا يمكن نشر مناقشه عندما تكون صامتاََ.",
         'message_type_select' => 'تحديد نوع التعليق',
         'reply_notice' => 'اضغط على ادخال للرد.',
+        'reply_resolve_notice' => '',
         'reply_placeholder' => 'أدخل ردك هنا',
         'require-login' => 'يرجى تسجيل الدخول للرد او النشر',
         'resolved' => 'تم حله',
         'restore' => 'استعادة',
         'show_deleted' => 'عرض المحذوف',
+        'show_other_replies' => '',
         'title' => 'مناقشات',
+        'unresolved_count' => '',
 
         'collapse' => [
             'all-collapse' => 'طوي الكل',
@@ -72,8 +83,21 @@ return [
             'nomination_reset' => 'رفض الترشيح',
             'praise' => 'مدح',
             'problem' => 'مشكلة',
+            'problem_warning' => 'الإبلاغ عن مشكلة',
             'review' => 'مراجعة',
             'suggestion' => 'اقتراح',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => 'نشر إلغاء اهلية',
+            'hype' => 'نشر تشجيع!',
+            'mapper_note' => 'نشر ملاحظة',
+            'nomination_reset' => 'إزالة جميع الترشيحات',
+            'praise' => 'نشر ثناء',
+            'problem' => 'نشر مشكلة',
+            'problem_warning' => 'نشر مشكلة',
+            'review' => 'نشر مراجعة',
+            'suggestion' => 'نشر إقتراح',
         ],
 
         'mode' => [
@@ -108,6 +132,7 @@ return [
                 ],
             ],
             'insert-block' => [
+                'mapper_note' => '',
                 'paragraph' => 'إدراج فقرة',
                 'praise' => 'ادراج تشجيع',
                 'problem' => 'إدراج مشكلة',
@@ -138,8 +163,8 @@ return [
         'status-messages' => [
             'approved' => 'تم قبول هذه الخريطة في :date!',
             'graveyard' => "لم يتم تحديث هذه الخريطة منذ :date وعلى الأغلب تم ايقاف العمل عليها من قبل المنشئ...",
-            'loved' => 'تم اضافة هذه الخريطة الى الخرائط المحبوبة في :date!',
-            'ranked' => 'هذه الخريطة في اصفافها في :date!',
+            'loved' => 'تم اضافة هذه الخريطة الى خرائط Loved في :date!',
+            'ranked' => 'اصبحت هذه الخريطة Ranked في :date!',
             'wip' => 'ملاحظة: هذه الخريطة معلمة كـ قيد العمل بواسطة المنشئ.',
         ],
 
@@ -173,6 +198,8 @@ return [
     ],
 
     'nominations' => [
+        'already_nominated' => 'لقد قمت بالفعل بترشيح هذه الخريطة.',
+        'cannot_nominate' => 'لا يمكنك ترشيح هذا المود من هذه الخريطة.',
         'delete' => 'حذف',
         'delete_own_confirm' => 'هل انت متأكد؟ سوف تمسح الخريطة وسيتم ارجاعك الى ملفك الشخصي.',
         'delete_other_confirm' => 'هل انت متأكد؟ سوف تمسح الخريطة وسيتم ارجاعك الى ملف المستخدم الشخصي.',
@@ -182,20 +209,24 @@ return [
         'disqualify' => 'رفض التأهيل',
         'incorrect_state' => 'خطأ في تنفيذ هذا الإجراء، حاول تحديث الصفحة.',
         'love' => 'حُب',
+        'love_choose' => 'اختر صعوبة لـ Loved',
         'love_confirm' => 'حُب هذه الخريطة؟',
         'nominate' => 'ترشيح',
         'nominate_confirm' => 'ترشيح هذه الخريطة؟',
         'nominated_by' => 'تم ترشيحها بواسطة :users',
         'not_enough_hype' => "لا يوجد تشجيع كافي.",
-        'remove_from_loved' => 'إزالة من خانة "المحبوبة"',
-        'remove_from_loved_prompt' => 'سبب الإزالة من خانة "المحبوبة":',
+        'remove_from_loved' => 'إزالة من خانة "Loved"',
+        'remove_from_loved_prompt' => 'سبب الإزالة من خانة "Loved":',
         'required_text' => 'الترشيحات: :current/:required',
         'reset_message_deleted' => 'حُذفت',
         'title' => 'حالة الترشيح',
         'unresolved_issues' => 'لا تزال هناك اخطاء يجب الاِشارة اليها في البداية.',
 
         'rank_estimate' => [
-            '_' => 'هذه الخريطة مقدرة بأن تصبح مصفوفة في :date إذا لم يتم العثور على أي مشاكل. انها#:position في :queue.',
+            '_' => 'هذه الخريطة مقدرة بأن تصبح Ranked في :date إذا لم يتم العثور على أي مشاكل. انها#:position في :queue.',
+            'unresolved_problems' => 'هذه الخريطة ممنوعة من مغادرة قسم الخرائط المؤهّلة حتى حل :problems.',
+            'problems' => 'هذه المشاكل',
+            'on' => 'في :date',
             'queue' => 'قائمة انتظار الترتيب',
             'soon' => 'قريبًا',
         ],
@@ -206,8 +237,9 @@ return [
         ],
 
         'reset_confirm' => [
-            'nomination_reset' => 'هل انت متأكد؟ نشر مشكلة جديدة سوف يعيد تعيين حالة الترشيح.',
             'disqualify' => 'هل انت متأكد؟ هذا سوف يمسح الخريطة من التأهيل ويعيد تعيين حالة ترشيحها.',
+            'nomination_reset' => 'هل انت متأكد؟ نشر مشكلة جديدة سوف يعيد تعيين حالة الترشيح.',
+            'problem_warning' => 'هل أنت متأكد من الإبلاغ عن مشكلة في هذه الخريطة؟ سيؤدي هذا إلى تنبيه مُرشِحي الخريطة.',
         ],
     ],
 
@@ -216,6 +248,7 @@ return [
             'prompt' => 'اكتب الكلمات المفتاحية...',
             'login_required' => 'سجل الدخول للبحث.',
             'options' => 'خيارات بحث اكثر',
+            'rank_filter_note' => '',
             'supporter_filter' => 'التصفية بحسب :filters تحتاج الى شارة osu!supporter فعالة',
             'not-found' => 'لا نتائج',
             'not-found-quote' => '... لا, لا يوجد شيء.',
@@ -233,10 +266,10 @@ return [
             'sorting' => [
                 'title' => 'العنوان',
                 'artist' => 'الفنان',
-                'difficulty' => 'الصعوبه',
+                'difficulty' => 'الصعوبة',
                 'favourites' => 'المفضلة',
                 'updated' => 'حُدثت',
-                'ranked' => 'مصفوفة',
+                'ranked' => 'Ranked',
                 'rating' => 'التقييم',
                 'plays' => 'مرات اللعب',
                 'relevance' => 'الأهمية',
@@ -246,12 +279,19 @@ return [
                 '_' => 'تصفية بحسب :filters تحتاج الى تفعيل :link',
                 'link_text' => 'شارة osu!supporter',
             ],
+            'tag_picker' => [
+                'tooltip' => '',
+                'prompt' => 'اكتب للبحث',
+            ],
         ],
     ],
     'general' => [
         'converts' => 'ادخال الخرائط المتحولة',
-        'follows' => '',
+        'featured_artists' => 'الفنانين المميزين',
+        'follows' => '
+المنشئين المشتركين',
         'recommended' => 'الصعوبة الموصاة',
+        'spotlights' => 'الخرائط التي تم تسليط الضوء عليها',
     ],
     'mode' => [
         'all' => 'الكل',
@@ -260,6 +300,7 @@ return [
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => 'لم يتم تعيينه',
     ],
     'status' => [
         'any' => 'الكل',
@@ -267,11 +308,12 @@ return [
         'favourites' => 'المفضلات',
         'graveyard' => 'مقبورة',
         'leaderboard' => 'تحتوي قائمة متصدرين',
-        'loved' => 'محبوبة',
+        'loved' => 'Loved',
         'mine' => 'المراحل الخاصة بي',
         'pending' => 'معلقة وتحت العمل',
+        'wip' => 'قيد العمل',
         'qualified' => 'مؤهلة',
-        'ranked' => 'مقيّمة',
+        'ranked' => 'Ranked',
     ],
     'genre' => [
         'any' => 'الكل',
@@ -281,7 +323,7 @@ return [
         'rock' => 'روك',
         'pop' => 'بوب',
         'other' => 'أخرى',
-        'novelty' => 'الابداع',
+        'novelty' => 'فوق الطبيعة',
         'hip-hop' => 'هيب هوب',
         'electronic' => 'إلكتروني',
         'metal' => 'ميتال',
@@ -289,34 +331,8 @@ return [
         'folk' => 'شعبي',
         'jazz' => 'جاز',
     ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => 'نَمَط V2',
-    ],
     'language' => [
-        'any' => '',
+        'any' => 'الكل',
         'english' => 'إنكليزية',
         'chinese' => 'صينية',
         'french' => 'فرنسية',
@@ -328,7 +344,7 @@ return [
         'swedish' => 'سويدية',
         'russian' => 'روسية',
         'polish' => 'بولندي',
-        'instrumental' => 'آلة موسيقية',
+        'instrumental' => 'موسيقى فقط',
         'other' => 'أخرى',
         'unspecified' => 'غير محدد',
     ],
@@ -345,7 +361,7 @@ return [
     ],
     'extra' => [
         'video' => 'تحوي فديو',
-        'storyboard' => 'لوحة لوحة قصصية',
+        'storyboard' => 'تحوي لوحة قصصية',
     ],
     'rank' => [
         'any' => 'الكل',

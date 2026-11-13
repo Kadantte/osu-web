@@ -5,27 +5,45 @@
 
 return [
     'all_read' => 'Lette tutte le notifiche!',
-    'delete' => 'Elimina :type',
-    'loading' => '',
+    'delete' => 'Svuota ":type"',
+    'loading' => 'Caricamento notifiche non lette...',
     'mark_read' => 'Segna :type come letto',
     'none' => 'Nessuna notifica',
     'see_all' => 'vedi tutte le notifiche',
     'see_channel' => 'vai alla chat',
-    'verifying' => '',
+    'verifying' => 'Verifica la sessione per visualizzare le notifiche',
+
+    'action_type' => [
+        '_' => 'tutto',
+        'beatmapset' => 'beatmap',
+        'build' => 'versioni',
+        'channel' => 'chat',
+        'forum_topic' => 'forum',
+        'news_post' => 'notizie',
+        'team' => 'squadra',
+        'user' => 'profilo',
+    ],
 
     'filters' => [
         '_' => 'tutto',
-        'user' => 'profilo',
         'beatmapset' => 'beatmap',
-        'forum_topic' => 'forum',
-        'news_post' => 'notizie',
         'build' => 'versioni',
         'channel' => 'chat',
+        'forum_topic' => 'forum',
+        'news_post' => 'notizie',
+        'team' => 'squadra',
+        'user' => 'profilo',
     ],
 
     'item' => [
         'beatmapset' => [
             '_' => 'Beatmap',
+
+            'beatmap_owner_change' => [
+                '_' => 'Difficoltà ospite',
+                'beatmap_owner_change' => 'Sei diventato il proprietario della difficoltà ":beatmap" nella beatmap ":title"',
+                'beatmap_owner_change_compact' => 'Sei diventato il proprietario della difficoltà ":beatmap"',
+            ],
 
             'beatmapset_discussion' => [
                 '_' => 'Discussione beatmap',
@@ -39,6 +57,12 @@ return [
                 'beatmapset_discussion_review_new_compact' => 'Nuova revisione da :username contenente problemi: :problems, suggerimenti: :suggestions, elogi: :praises',
                 'beatmapset_discussion_unlock' => 'La discussione su ":title" è stata sbloccata',
                 'beatmapset_discussion_unlock_compact' => 'La discussione è stata sbloccata',
+
+                'review_count' => [
+                    'praises' => ':count_delimited elogio|:count_delimited elogi',
+                    'problems' => ':count_delimited problema|:count_delimited problemi',
+                    'suggestions' => ':count_delimited suggerimento|:count_delimited suggerimenti',
+                ],
             ],
 
             'beatmapset_problem' => [
@@ -57,14 +81,14 @@ return [
                 'beatmapset_love_compact' => 'La beatmap è stata promossa tra le amate',
                 'beatmapset_nominate' => '":title" è stata nominata',
                 'beatmapset_nominate_compact' => 'La beatmap è stata nominata',
-                'beatmapset_qualify' => '":title" ha ottenuto abbastanza nomine ed è entrata nella coda di raking',
+                'beatmapset_qualify' => '":title" ha ottenuto abbastanza nomine ed è entrata nella coda di classificazione',
                 'beatmapset_qualify_compact' => 'La beatmap è entrata nella coda di classificazione',
                 'beatmapset_rank' => '":title" è stata classificata',
                 'beatmapset_rank_compact' => 'La beatmap è stata classificata',
                 'beatmapset_remove_from_loved' => '":title" è stato rimossa da Loved',
                 'beatmapset_remove_from_loved_compact' => 'La beatmap è stata rimossa dalle amate',
-                'beatmapset_reset_nominations' => 'La nomina di ":title" è stata reimpostata',
-                'beatmapset_reset_nominations_compact' => 'La nomina è stata reimpostata',
+                'beatmapset_reset_nominations' => 'La nomina di ":title" è stata resettata',
+                'beatmapset_reset_nominations_compact' => 'La nomina è stata resettata',
             ],
 
             'comment' => [
@@ -80,18 +104,49 @@ return [
         'channel' => [
             '_' => 'Chat',
 
+            'announcement' => [
+                '_' => 'Nuovo annuncio',
+
+                'announce' => [
+                    'channel_announcement' => ':username dice ":title"',
+                    'channel_announcement_compact' => ':title',
+                    'channel_announcement_group' => 'Annuncio da :username',
+                ],
+            ],
+
             'channel' => [
                 '_' => 'Nuovo messaggio',
+
                 'pm' => [
                     'channel_message' => ':username ha scritto ":title"',
                     'channel_message_compact' => ':title',
                     'channel_message_group' => 'da :username',
                 ],
             ],
+
+            'channel_mention' => [
+                '_' => 'Menzioni in chat',
+
+                'public' => [
+                    'channel_mention' => ':username ti ha menzionato in :name ":title"',
+                    'channel_mention_compact' => ':username ":title"',
+                    'channel_mention_group' => 'menzionato in :name',
+                ],
+            ],
+
+            'channel_team' => [
+                '_' => 'Nuovo messaggio di squadra',
+
+                'team' => [
+                    'channel_team' => ':username ha scritto ":title"',
+                    'channel_team_compact' => ':username ha scritto ":title"',
+                    'channel_team_group' => ':username ha scritto ":title"',
+                ],
+            ],
         ],
 
         'build' => [
-            '_' => 'Note di rilascio',
+            '_' => 'Changelog',
 
             'comment' => [
                 '_' => 'Nuovo commento',
@@ -114,6 +169,13 @@ return [
                 'comment_reply' => ':username ha risposto ":content" su ":title"',
                 'comment_reply_compact' => ':username ha risposto ":content"',
             ],
+
+            'news_post' => [
+                '_' => 'Notizie (:series)',
+
+                'news_post_new' => ':title',
+                'news_post_new_compact' => ':title',
+            ],
         ],
 
         'forum_topic' => [
@@ -126,12 +188,19 @@ return [
             ],
         ],
 
-        'legacy_pm' => [
-            '_' => 'PM forum legacy',
+        'team' => [
+            'team_application' => [
+                '_' => 'Richiesta di partecipazione squadra',
 
-            'legacy_pm' => [
-                '_' => '',
-                'legacy_pm' => ':count_delimited messaggio non letto|:count_delimited messaggi non letti',
+                'team_application_accept' => "Sei diventato un membro della squadra :title",
+                'team_application_accept_compact' => "Sei diventato un membro della squadra :title",
+
+                'team_application_group' => 'Aggiornamenti di richiesta unione al team',
+
+                'team_application_reject' => 'La tua richiesta di unirsi alla squadra :title è stata rifiutata',
+                'team_application_reject_compact' => 'La tua richiesta di unirsi alla squadra :title è stata rifiutata',
+                'team_application_store' => ':title ha richiesto di unirsi alla tua squadra',
+                'team_application_store_compact' => ':title ha richiesto di unirsi alla tua squadra',
             ],
         ],
 
@@ -142,6 +211,9 @@ return [
                 'user_beatmapset_new' => 'Nuova beatmap ":title" di :username',
                 'user_beatmapset_new_compact' => 'Nuova beatmap ":title"',
                 'user_beatmapset_new_group' => 'Nuove beatmap di :username',
+
+                'user_beatmapset_revive' => 'Beatmap ":title" rianimata da :username',
+                'user_beatmapset_revive_compact' => 'Beatmap ":title" rianimata',
             ],
         ],
 
@@ -158,7 +230,13 @@ return [
     ],
 
     'mail' => [
+        'news' => 'Notizie',
+
         'beatmapset' => [
+            'beatmap_owner_change' => [
+                'beatmap_owner_change' => 'Sei diventato ospite della beatmap ":title"',
+            ],
+
             'beatmapset_discussion' => [
                 'beatmapset_discussion_lock' => 'La discussione su ":title" è stata bloccata',
                 'beatmapset_discussion_post_new' => 'La discussione su ":title" ha nuovi aggiornamenti',
@@ -174,7 +252,7 @@ return [
                 'beatmapset_love' => '":title" è stata promossa tra le amate',
                 'beatmapset_nominate' => '":title" è stata nominata',
                 'beatmapset_qualify' => '":title" ha ottenuto abbastanza nomine ed è entrata nella coda di ranking',
-                'beatmapset_rank' => '":title" è stata rankata',
+                'beatmapset_rank' => '":title" è stata classificata',
                 'beatmapset_remove_from_loved' => '":title" è stata rimossa dalle amate',
                 'beatmapset_reset_nominations' => 'La nomina di ":title" è stata resettata',
             ],
@@ -185,14 +263,24 @@ return [
         ],
 
         'channel' => [
+            'announcement' => [
+                'channel_announcement' => 'C\'è un nuovo annuncio su ":name"',
+            ],
             'channel' => [
-                'pm' => 'Hai ricevuto un nuovo messaggio da :username',
+                'channel_message' => 'Hai ricevuto un nuovo messaggio da :username',
+            ],
+            'channel_mention' => [
+                'channel_mention' => ':username ti ha menzionato in :name ":title"',
+            ],
+
+            'channel_team' => [
+                'channel_team' => 'C\'è un nuovo messaggio sulla squadra ":name"',
             ],
         ],
 
         'build' => [
             'comment' => [
-                'comment_new' => 'La nota di rilascio ":title" ha nuovi commenti',
+                'comment_new' => 'Il changelog ":title" ha nuovi commenti',
             ],
         ],
 
@@ -208,14 +296,18 @@ return [
             ],
         ],
 
-        'user' => [
-            'user_achievement_unlock' => [
-                'user_achievement_unlock' => ':username ha sbloccato una nuova medaglia, ":title"!',
-                'user_achievement_unlock_self' => 'Hai sbloccato una nuova medaglia, ":title"!',
+        'team' => [
+            'team_application' => [
+                'team_application_accept' => "Sei diventato un membro della squadra :title",
+                'team_application_reject' => 'La tua richiesta di unirsi alla squadra :title è stata rifiutata',
+                'team_application_store' => ':title ha richiesto di unirsi alla tua squadra',
             ],
+        ],
 
+        'user' => [
             'user_beatmapset_new' => [
                 'user_beatmapset_new' => ':username ha creato nuove beatmap',
+                'user_beatmapset_revive' => ':username ha resuscitato delle beatmap',
             ],
         ],
     ],

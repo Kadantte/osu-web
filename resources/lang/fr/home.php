@@ -7,14 +7,14 @@ return [
     'landing' => [
         'download' => 'Télécharger maintenant',
         'online' => '<strong>:players</strong> connectés en ce moment dans <strong>:games</strong> parties',
-        'peak' => 'Pic de joueurs connectés: :count ',
+        'peak' => 'Pic de joueurs connectés : :count ',
         'players' => '<strong>:count</strong> joueurs inscrits',
         'title' => 'bienvenue',
-        'see_more_news' => 'voir plus d\'événements',
+        'see_more_news' => 'voir plus de news',
 
         'slogan' => [
             'main' => 'le meilleur jeu de rythme free-to-win',
-            'sub' => 'Le rythme est juste à un seul clic',
+            'sub' => 'rhythm is just a click away',
         ],
     ],
 
@@ -24,25 +24,29 @@ return [
         'empty_result' => 'Aucun résultat !',
         'keyword_required' => 'Un mot clé de recherche est requis',
         'placeholder' => 'tapez pour rechercher',
-        'title' => 'Rechercher',
+        'title' => 'rechercher',
 
+        'artist_track' => [
+            'more_simple' => 'Voir plus de résultats de recherche de pistes de Featured Artists',
+        ],
         'beatmapset' => [
             'login_required' => 'Connectez-vous pour rechercher des beatmaps',
             'more' => ':count résultats de recherche de beatmap en plus',
-            'more_simple' => 'Voir plus de résultats de la recherche de beatmaps',
+            'more_simple' => 'Voir plus de résultats de recherche de beatmaps',
             'title' => 'Beatmaps',
         ],
 
         'forum_post' => [
             'all' => 'Tous les forums',
             'link' => 'Rechercher sur le forum',
-            'login_required' => 'Connectez-vous pour rechercher dans le forum',
-            'more_simple' => 'Voir plus de résultats de la recherche du forum',
+            'login_required' => 'Connectez-vous pour rechercher sur le forum',
+            'more_simple' => 'Voir plus de résultats de recherche sur les forums',
             'title' => 'Forum',
 
             'label' => [
                 'forum' => 'Rechercher dans les forums',
                 'forum_children' => 'inclure les sous-forums',
+                'include_deleted' => 'inclure les posts supprimés',
                 'topic_id' => 'sujet #',
                 'username' => 'auteur',
             ],
@@ -50,35 +54,53 @@ return [
 
         'mode' => [
             'all' => 'tout',
+            'artist_track' => 'piste de Featured Artist',
             'beatmapset' => 'beatmap',
             'forum_post' => 'forum',
+            'team' => 'équipe',
             'user' => 'joueur',
             'wiki_page' => 'wiki',
         ],
 
+        'team' => [
+            'login_required' => 'Connectez-vous pour rechercher des équipes',
+            'more_simple' => 'Voir plus de résultats de recherche d\'équipes',
+        ],
+
         'user' => [
             'login_required' => 'Connectez-vous pour rechercher des utilisateurs',
-            'more' => ':count résultats de la recherche de joueur',
-            'more_simple' => 'Voir plus de résultats de la recherche de joueurs',
-            'more_hidden' => 'La recherche de joueurs est limitée à :max joueurs. Essayez d\'affiner votre recherche.',
+            'more' => ':count résultats de recherche de joueurs',
+            'more_simple' => 'Voir plus de résultats de recherche de joueurs',
+            'more_hidden' => 'La recherche de joueurs est limitée à :max joueurs. Essayez d\'être plus précis.',
             'title' => 'Joueurs',
         ],
 
         'wiki_page' => [
             'link' => 'Rechercher sur le wiki',
-            'more_simple' => 'Voir plus de résultats de la recherche sur le wiki',
+            'more_simple' => 'Voir plus de résultats de recherche sur le wiki',
             'title' => 'Wiki',
         ],
     ],
 
     'download' => [
-        'tagline' => "c'est parti<br>lancez-vous !",
-        'action' => 'Télécharger osu!',
+        'action_lazer_info' => 'consultez cette page pour plus d\'informations',
+        'download' => 'Télécharger',
+        'for_os' => 'pour :os',
+        'macos-fallback' => 'utilisateurs macOS',
+        'mirror' => 'miroir',
+        'or' => 'ou',
+        'os_version_or_later' => ':os_version ou plus',
+        'other_os' => 'autres plateformes',
+        'quick_start_guide' => 'guide de démarrage rapide',
+        'stable_text' => 'si vous cherchez l\'ancienne version ',
+        'tagline_1' => ' commencez à jouer',
+        'tagline_2' => 'dès maintenant !',
+        'video-guide' => 'guide vidéo',
 
         'help' => [
             '_' => 'si vous avez des problèmes pour démarrer le jeu ou pour créer un compte, :help_forum_link ou :support_button.',
-            'help_forum_link' => 'consultez le forum d\'aide',
-            'support_button' => 'contacter l\'assistance',
+            'help_forum_link' => 'consultez le forum Help',
+            'support_button' => 'contactez le support',
         ],
 
         'os' => [
@@ -86,8 +108,6 @@ return [
             'macos' => 'pour macOS',
             'linux' => 'pour Linux',
         ],
-        'mirror' => 'miroir',
-        'macos-fallback' => 'utilisateurs macOS',
         'steps' => [
             'register' => [
                 'title' => 'créer un compte',
@@ -95,24 +115,23 @@ return [
             ],
             'download' => [
                 'title' => 'installer le jeu',
-                'description' => 'cliquez sur le bouton au-dessus pour télécharger l\'installateur, lancez-le ensuite !',
+                'description' => 'cliquez sur le bouton ci-dessus pour télécharger l\'installateur, lancez-le ensuite !',
             ],
             'beatmaps' => [
                 'title' => 'obtenir des beatmaps',
                 'description' => [
-                    '_' => ':browse dans la vaste librairie des beatmaps créées par la communauté et commencez à jouer !',
-                    'browse' => 'Naviguez',
+                    '_' => ':browse la vaste librairie de beatmaps créées par la communauté et commencez à jouer !',
+                    'browse' => 'parcourez',
                 ],
             ],
         ],
-        'video-guide' => 'Guide vidéo',
     ],
 
     'user' => [
         'title' => 'tableau de bord',
         'news' => [
-            'title' => 'Nouvelles',
-            'error' => 'Erreur lors du chargement des nouvelles, essayez de recharger la page ?...',
+            'title' => 'News',
+            'error' => 'Erreur lors du chargement des news, essayez de recharger la page ?...',
         ],
         'header' => [
             'stats' => [
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
-            'new' => 'Nouvelles beatmaps approuvées',
+            'daily_challenge' => 'Beatmap du défi du jour',
+            'new' => 'Nouvelles beatmaps classées',
             'popular' => 'Beatmaps populaires',
             'by_user' => 'par :user',
+            'resets' => 'fin :ends',
         ],
         'buttons' => [
             'download' => 'Télécharger osu!',
-            'support' => 'Supporter osu!',
+            'support' => 'Soutenir osu!',
             'store' => 'osu!store',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Wow !',
-        'subtitle' => 'Vous semblez passer un bon moment ! :D',
-        'body' => [
-            'part-1' => 'Saviez-vous que osu! fonctionne sans publicité et compte sur les joueurs pour supporter son développement et ses coûts ?',
-            'part-2' => 'Saviez-vous aussi que supporter osu! permet d\'obtenir une poignée de fonctions utiles, comme le <strong>téléchargement de beatmaps en jeu</strong> qui est automatique en mode spectateur et dans les parties multijoueur ?',
+        'livestream' => [
+            'title' => 'Livestream en vedette',
         ],
-        'find-out-more' => 'Cliquez ici pour en savoir plus !',
-        'download-starting' => "Oh, et ne vous inquiétez pas - votre téléchargement a déjà commencé pour vous ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Ouvrir la console admin',
+            ],
+        ],
     ],
 ];

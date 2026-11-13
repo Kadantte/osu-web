@@ -7,23 +7,20 @@ namespace Tests;
 
 use App\Models\OAuth\Client;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class OAuthClientCredentialsRequestTest extends TestCase
 {
-    /**
-     * @dataProvider botRequestingScopeDataProvider
-     */
+    #[DataProvider('botRequestingScopeDataProvider')]
     public function testBotRequestingScope($scope, $status)
     {
-        $owner = factory(User::class)->states('bot')->create();
-        $client = factory(Client::class)->create([
-            'redirect' => 'https://localhost',
-            'user_id' => $owner->getKey(),
+        $client = Client::factory()->create([
+            'user_id' => User::factory()->withGroup('bot'),
         ]);
 
         $params = [
             'client_id' => $client->getKey(),
-            'client_secret' => $client->secret,
+            'client_secret' => $client->plainSecret,
             'grant_type' => 'client_credentials',
             'scope' => $scope,
         ];
@@ -32,20 +29,14 @@ class OAuthClientCredentialsRequestTest extends TestCase
             ->assertStatus($status);
     }
 
-    /**
-     * @dataProvider nonBotRequestingScopeDataProvider
-     */
+    #[DataProvider('nonBotRequestingScopeDataProvider')]
     public function testNonBotRequestingScope($scope, $status)
     {
-        $owner = factory(User::class)->create();
-        $client = factory(Client::class)->create([
-            'redirect' => 'https://localhost',
-            'user_id' => $owner->getKey(),
-        ]);
+        $client = Client::factory()->create();
 
         $params = [
             'client_id' => $client->getKey(),
-            'client_secret' => $client->secret,
+            'client_secret' => $client->plainSecret,
             'grant_type' => 'client_credentials',
             'scope' => $scope,
         ];
@@ -54,22 +45,25 @@ class OAuthClientCredentialsRequestTest extends TestCase
             ->assertStatus($status);
     }
 
-    public function botRequestingScopeDataProvider()
+    public static function botRequestingScopeDataProvider()
     {
         return [
+            '* cannot be requested' => ['*', 400],
+            'cannot request empty scope' => ['', 400],
+            'delegate scope allows chat.write' => ['chat.write delegate ', 200],
             'chat.write cannot be requested by itself' => ['chat.write', 400],
-            'bot scope allows chat.write' => ['bot chat.write', 200],
-            'bot can delegate' => ['bot', 200],
-            'bot can use public scope' => ['public', 200],
+            'mixing scope delegation is not allowed' => ['chat.write delegate friends.read', 400],
+            'public scope is allowed' => ['public', 200],
         ];
     }
 
-    public function nonBotRequestingScopeDataProvider()
+    public static function nonBotRequestingScopeDataProvider()
     {
         return [
-            'chat.write is not allowed' => ['chat.write', 400],
-            'bot is not allowed' => ['bot', 400],
-            'public is allowed' => ['public', 200],
+            '* cannot be requested' => ['*', 400],
+            'cannot request empty scope' => ['', 400],
+            'cannot request delegation' => ['chat.write delegate ', 400],
+            'public scope is allowed' => ['public', 200],
         ];
     }
 
@@ -78,6 +72,6 @@ class OAuthClientCredentialsRequestTest extends TestCase
         parent::setUp();
 
         // otherwise exceptions won't render the actual view.
-        config()->set('app.debug', false);
+        config_set('app.debug', false);
     }
 }

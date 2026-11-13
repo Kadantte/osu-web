@@ -5,17 +5,20 @@
 
 return [
     'deleted' => 'eliminato',
+    'deleted_by' => 'eliminato :timeago da :user',
+    'deleted_by_system' => 'sistema',
     'deleted_count' => ':count_delimited commento eliminato|:count_delimited commenti eliminati',
     'edited' => 'modificato :timeago da :user',
     'pinned' => 'fissato',
     'empty' => 'Ancora nessun commento.',
+    'empty_other' => 'Ancora nessun altro commento.',
     'load_replies' => 'carica risposte',
     'replies_count' => ':count_delimited risposta|:count_delimited risposte',
     'title' => 'Commenti',
 
     'commentable_name' => [
         'beatmapset' => 'Beatmap',
-        'build' => 'Note di rilascio',
+        'build' => 'Changelog',
         'news_post' => 'Notizie',
         '_deleted' => 'Elemento Eliminato',
     ],
@@ -31,13 +34,17 @@ return [
 
     'guest_button' => [
         'new' => 'Effettua il login per commentare',
-        'reply' => 'Effettua il login per rispondere',
+        'reply' => 'Accedi per rispondere',
     ],
 
     'index' => [
         'nav_comments' => 'commenti',
         'nav_title' => 'lista',
         'no_comments' => 'nessun commento trovato...',
+    ],
+
+    'ogp' => [
+        'title' => 'commento di :user',
     ],
 
     'placeholder' => [

@@ -5,7 +5,7 @@
 
 return [
     'confirmation' => '確定？',
-    'confirmation_unsaved' => '未被修改的將不會保存。你確定嗎？',
+    'confirmation_unsaved' => '未儲存的變更將會遺失。您確定嗎？',
     'saved' => '已儲存',
 
     'array_and' => [
@@ -15,19 +15,19 @@ return [
     ],
 
     'badges' => [
-        'new' => '全新功能！',
+        'new' => '全新',
     ],
 
     'buttons' => [
-        'admin' => '管理員',
         'authorise' => '授權',
         'authorising' => '授權中',
+        'back' => '返回',
         'back_to_previous' => '返回到上一個位置',
         'back_to_top' => '返回頂部',
         'cancel' => '取消',
         'change' => '變更',
         'clear' => '清空',
-        'click_to_copy' => '點擊以複製到剪貼簿',
+        'click_to_copy' => '按這裡複製到剪貼簿',
         'click_to_copy_copied' => '已複製到剪貼簿！',
         'close' => '關閉',
         'collapse' => '摺疊',
@@ -39,11 +39,13 @@ return [
         'pin' => '置頂',
         'post' => '發表',
         'read_more' => '查看詳情',
+        'refresh' => '重新整理',
         'reply' => '回覆',
-        'reply_reopen' => '回覆並重新打開',
+        'reply_reopen' => '回覆並重新開啟',
         'reply_resolve' => '回覆並標記為已解決',
         'reset' => '重設',
         'restore' => '復原',
+        'retry' => '重試',
         'save' => '儲存',
         'saving' => '儲存中...',
         'search' => '搜尋',
@@ -53,12 +55,13 @@ return [
         'show_less' => '收起',
         'show_more' => '顯示更多',
         'show_more_options' => '顯示更多選項',
+        'submit' => '送出',
         'unpin' => '取消置頂',
         'update' => '更新',
         'upload_image' => '上傳圖片',
 
         'watch' => [
-            'to_0' => '取消關注',
+            'to_0' => '取消追蹤',
             'to_1' => '關注',
         ],
     ],
@@ -73,6 +76,7 @@ return [
         'minutes' => ':count_delimited 分鐘|:count_delimited 分鐘',
         'months' => ':count 個月',
         'notifications' => ':count_delimited 則通知|:count_delimited 則通知',
+        'player' => ':count_delimited 位玩家',
         'plus_others' => '+ :count_delimited 其他!|+ :count_delimited 其他!',
         'post' => ':count_delimited 篇貼文',
         'second_short_unit' => '秒',
@@ -90,6 +94,12 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => '月',
+        ],
+        'year' => [
+            'php' => '年',
+        ],
         'year_month' => [
             'moment' => 'YYYY年 MMMM',
             'php' => 'y年 MMMM',
@@ -107,7 +117,7 @@ return [
     ],
 
     'dropzone' => [
-        'target' => '拉到此處以上傳',
+        'target' => '拖曳至此以上傳',
     ],
 
     'input' => [
@@ -133,10 +143,10 @@ return [
         'dd' => '%d 天',
         'h' => '%d 小時',
         'hh' => '%d 小時',
-        'M' => '%d 月',
         'm' => '%d 分鐘',
-        'MM' => '%d 月',
         'mm' => '%d 分鐘',
+        'month' => '%d 月',
+        'months' => '%d 月',
         'past' => '',
         's' => '%d 秒',
         'y' => '%d 年',
@@ -155,7 +165,7 @@ return [
     ],
 
     'wrong_user' => [
-        '_' => '您已以 :user 的身分登入。 :logout_link',
-        'logout_link' => '點擊此處以不同帳號登入。',
+        '_' => '您已登入為 :user。:logout_link。',
+        'logout_link' => '按這裡以不同帳號登入。',
     ],
 ];

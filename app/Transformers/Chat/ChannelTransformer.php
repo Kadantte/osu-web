@@ -6,15 +6,30 @@
 namespace App\Transformers\Chat;
 
 use App\Models\Chat\Channel;
+use App\Models\Chat\Message;
 use App\Models\User;
 use App\Transformers\TransformerAbstract;
+use League\Fractal\Resource\ResourceInterface;
 
 class ChannelTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
-        'first_message_id',
+    const CONVERSATION_INCLUDES = [
         'last_message_id',
-        'recent_messages',
+        'users',
+    ];
+
+    const LISTING_INCLUDES = [
+        'current_user_attributes',
+        'last_read_id',
+        ...self::CONVERSATION_INCLUDES,
+    ];
+
+    protected array $availableIncludes = [
+        'active_user_count',
+        'current_user_attributes',
+        'last_message_id',
+        'last_read_id', // TODO: deprecated
+        'recent_messages', // TODO: deprecated
         'users',
     ];
 
@@ -34,15 +49,29 @@ class ChannelTransformer extends TransformerAbstract
             'channel_id' => $channel->channel_id,
             'description' => $channel->description,
             'icon' => $channel->displayIconFor($this->user),
+            'message_length_limit' => $channel->messageLengthLimit(),
             'moderated' => $channel->moderated,
             'name' => $channel->displayNameFor($this->user),
             'type' => $channel->type,
+            'uuid' => $channel->uuid,
         ];
     }
 
-    public function includeFirstMessageId(Channel $channel)
+    public function includeActiveUserCount(Channel $channel): ResourceInterface
     {
-        return $this->primitive($channel->messages()->select('message_id')->orderBy('message_id')->first()->message_id ?? null);
+        return $this->primitive($channel->activeUserCount);
+    }
+
+    public function includeCurrentUserAttributes(Channel $channel)
+    {
+        $result = $channel->checkCanMessage($this->user);
+
+        return $this->primitive([
+            'can_list_users' => priv_check_user($this->user, 'ChatChannelListUsers', $channel)->can(),
+            'can_message' => $result->can(),
+            'can_message_error' => $result->message(),
+            'last_read_id' => $channel->lastReadIdFor($this->user),
+        ]);
     }
 
     public function includeLastMessageId(Channel $channel)
@@ -50,17 +79,26 @@ class ChannelTransformer extends TransformerAbstract
         return $this->primitive($channel->last_message_id);
     }
 
+    public function includeLastReadId(Channel $channel)
+    {
+        return $this->primitive($channel->lastReadIdFor($this->user));
+    }
+
     public function includeRecentMessages(Channel $channel)
     {
         if ($channel->exists) {
-            $messages = $channel
-                ->filteredMessages()
-                // assumes sender will be included by the Message transformer
-                ->with('sender')
-                ->orderBy('message_id', 'desc')
-                ->limit(50)
-                ->get()
-                ->reverse();
+            $messages = Message::filter(
+                $channel
+                    ->messages()
+                    // assumes sender will be included by the Message transformer
+                    ->with('sender')
+                    ->orderBy('message_id', 'desc')
+                    ->limit(50)
+                    ->get()
+                    ->reverse(),
+                $channel,
+                $this->user?->getKey(),
+            );
         } else {
             $messages = [];
         }
@@ -70,10 +108,11 @@ class ChannelTransformer extends TransformerAbstract
 
     public function includeUsers(Channel $channel)
     {
-        if ($channel->isPM()) {
-            return $this->primitive($channel->userIds());
-        }
+        return $this->primitive($channel->isPM() ? $channel->userIds() : []);
+    }
 
-        return $this->primitive([]);
+    public function includeUuid(Channel $channel)
+    {
+        return $this->primitive($channel->uuid);
     }
 }

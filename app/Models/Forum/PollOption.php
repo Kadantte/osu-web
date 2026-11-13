@@ -24,6 +24,11 @@ class PollOption extends Model
     public $incrementing = false;
     public $timestamps = false;
 
+    public function getKey(): string
+    {
+        return $this->topic_id.'-'.$this->poll_option_id;
+    }
+
     // For bbcode_uid, the first post (even if the post is deleted).
     public function post()
     {
@@ -48,6 +53,7 @@ class PollOption extends Model
     {
         $summary = [
             'options' => [],
+            'top_votes' => 1,
             'total' => 0,
             'user_votes' => 0,
         ];
@@ -62,14 +68,16 @@ class PollOption extends Model
             foreach ($topic->pollOptions as $poll) {
                 $votedByUser = array_key_exists($poll->poll_option_id, $userVotes);
 
+                $votes = $poll->poll_option_total;
                 $summary['options'][$poll->poll_option_id] = [
                     'textHTML' => $poll->optionTextHTML(),
-                    'total' => $poll->poll_option_total,
+                    'total' => $votes,
                     'voted_by_user' => $votedByUser,
                 ];
 
-                $summary['total'] += $poll->poll_option_total;
+                $summary['total'] += $votes;
                 $summary['user_votes'] += $votedByUser ? 1 : 0;
+                $summary['top_votes'] = max($summary['top_votes'], $votes);
             }
         }
 

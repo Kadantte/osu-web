@@ -5,9 +5,9 @@
 <div class="search-result search-result--{{ $mode }}">
     @if (!auth()->check() && $search->isLoginRequired())
         <div class="search-result__row search-result__row--notice">
-            <button class="textual-button textual-button--inline js-user-link">
-                {{ trans("home.search.{$mode}.login_required") }}
-            </button>
+            <a href="#" class="js-user-link">
+                {{ osu_trans("home.search.{$mode}.login_required") }}
+            </a>
         </div>
     @elseif ($search->getError() !== null)
         <div class="search-result__row search-result__row--notice">
@@ -15,7 +15,7 @@
         </div>
     @elseif ($search->total() === 0)
         <div class="search-result__row search-result__row--notice">
-            {{ trans('home.search.empty_result') }}
+            {{ osu_trans('home.search.empty_result') }}
         </div>
     @else
         <div class="search-result__row search-result__row--entries-container">
@@ -25,7 +25,7 @@
 
             <a
                 class="search-result__more-button {{ $showMore ? '' : 'search-result__more-button--hidden' }}"
-                href="{{ route('search', ['mode' => $mode, 'query' => request('query')]) }}"
+                href="{{ route('search', ['mode' => $mode, 'query' => $allSearch->getRawQuery()]) }}"
             >
                 <span class="fas fa-angle-right"></span>
             </a>
@@ -34,14 +34,14 @@
         @if ($showMore)
             <a
                 class="search-result__row search-result__row--more"
-                href="{{ route('search', ['mode' => $mode, 'query' => request('query')]) }}"
+                href="{{ route('search', ['mode' => $mode, 'query' => $allSearch->getRawQuery()]) }}"
             >
-                {{ trans("home.search.{$mode}.more_simple") }}
+                {{ osu_trans("home.search.{$mode}.more_simple") }}
             </a>
         @else
-            @if (request('mode') === 'user' && $search->overLimit())
+            @if ($allSearch->getMode() === 'user' && $search->overLimit())
                 <div class="search-result__row search-result__row--notice">
-                    {{ trans("home.search.user.more_hidden", ['max' => config("osu.search.max.user")]) }}
+                    {{ osu_trans("home.search.user.more_hidden", ['max' => $GLOBALS['cfg']['osu']['search']['max']['user']]) }}
                 </div>
             @endif
             <div class="search-result__row search-result__row--paginator">

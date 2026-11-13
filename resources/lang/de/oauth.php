@@ -7,16 +7,17 @@ return [
     'cancel' => 'Abbrechen',
 
     'authorise' => [
+        'app_owner' => 'eine App von :owner',
         'request' => 'bittet um Erlaubnis, auf dein Konto zugreifen zu dürfen.',
         'scopes_title' => 'Diese Anwendung wird in der Lage sein:',
         'title' => 'Autorisierungsanfrage',
     ],
 
     'authorized_clients' => [
-        'confirm_revoke' => 'Bist du sicher, dass du die Berechtigungen dieses Gerätes widerrufen möchtest?',
+        'confirm_revoke' => 'Bist du sicher, dass du die Berechtigungen dieser Anwendung widerrufen möchtest?',
         'scopes_title' => 'Diese Anwendung kann:',
         'owned_by' => 'Gehört :user',
-        'none' => 'Keine Geräte',
+        'none' => 'Keine Anwendungen',
 
         'revoked' => [
             'false' => 'Zugriff widerrufen',
@@ -27,7 +28,7 @@ return [
     'client' => [
         'id' => 'Client-ID',
         'name' => 'Anwendungsname',
-        'redirect' => 'Anwendungs-Callback-URL',
+        'redirect' => 'Anwendungs-Callback-URLs',
         'reset' => 'Client-Secret zurücksetzen',
         'reset_failed' => 'Client-Secret konnte nicht zurückgesetzt werden',
         'secret' => 'Client Secret',
@@ -48,14 +49,20 @@ return [
     ],
 
     'own_clients' => [
-        'confirm_delete' => 'Bist du sicher, dass du dieses Gerät löschen willst?',
+        'confirm_delete' => 'Bist du sicher, dass du diese Anwendung entfernen willst?',
         'confirm_reset' => 'Möchtest du das Client-Secret wirklich zurücksetzen? Dadurch werden alle vorhandenen Tokens widerrufen.',
         'new' => 'Neue OAuth-Anwendung',
-        'none' => 'Keine Geräte',
+        'none' => 'Keine Anwendungen',
 
         'revoked' => [
             'false' => 'Löschen',
             'true' => 'Gelöscht',
+        ],
+
+        'secret' => [
+            'copy' => 'Kopiere diesen Wert unbedingt, bevor du dieses Fenster schließt.',
+            'generate_new' => 'Setze das Clientgeheimnis zurück, um ein neues zu generieren.',
+            'visible_once' => 'Das Clientgeheimnis ist nur einmal nach der Erstellung sichtbar.',
         ],
     ],
 ];

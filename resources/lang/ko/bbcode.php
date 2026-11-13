@@ -5,9 +5,11 @@
 
 return [
     'bold' => '굵게',
-    'heading' => '제목',
+    'heading' => '헤더',
+    'help' => '도움말',
     'image' => '이미지',
-    'italic' => '기울임꼴',
+    'imagemap' => '이미지 맵',
+    'italic' => '이탤릭체',
     'link' => '링크',
     'list' => '글머리 기호',
     'list_numbered' => '번호 매기기',
@@ -18,6 +20,6 @@ return [
         'normal' => '보통',
         'large' => '크게',
     ],
-    'spoilerbox' => '숨김 박스',
+    'spoilerbox' => '스포일러 박스',
     'strikethrough' => '취소선',
 ];

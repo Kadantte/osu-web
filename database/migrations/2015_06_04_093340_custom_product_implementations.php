@@ -2,6 +2,9 @@
 
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
 // See the LICENCE file in the repository root for full licence text.
+
+declare(strict_types=1);
+
 use App\Models\Store;
 use Illuminate\Database\Migrations\Migration;
 
@@ -30,8 +33,8 @@ class CustomProductImplementations extends Migration
             'name' => 'Player Name Change',
             'custom_class' => 'username-change',
             'header_description' => "# Player Name Change\nBecause “xxultralaser_1986xx” looks retarded",
-            'image' => 'https://puu.sh/ibWES/3e6dcf7397.png',
-            'header_image' => 'https://puu.sh/ibWES/3e6dcf7397.png',
+            'image' => 'https://assets.ppy.sh/store/pippi%20is%20cute.png',
+            'header_image' => 'https://assets.ppy.sh/store/pippi%20is%20cute.png',
             'cost' => null,
             'weight' => null,
             'max_quantity' => 1,

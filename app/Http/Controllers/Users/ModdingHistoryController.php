@@ -7,45 +7,34 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Libraries\ModdingHistoryEventsBundle;
+use App\Libraries\User\FindForProfilePage;
 use App\Models\BeatmapDiscussionPost;
 use App\Models\BeatmapDiscussionVote;
-use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ModdingHistoryController extends Controller
 {
-    protected $isModerator;
-    protected $isKudosuModerator;
-    protected $searchParams;
+    protected array $extraParams;
+    protected array $searchParams;
     protected $user;
 
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $userId = request()->route('user');
-            $this->isModerator = priv_check('BeatmapDiscussionModerate')->can();
-            $this->isKudosuModerator = priv_check('BeatmapDiscussionAllowOrDenyKudosu')->can();
-            $this->user = User::lookupWithHistory($userId, null, $this->isModerator, true);
+            $this->user = FindForProfilePage::find($request->route('user'));
 
-            if ($this->user === null || $this->user->isBot() || !priv_check('UserShow', $this->user)->can()) {
-                return ext_view('users.show_not_found', null, null, 404);
-            }
-
-            $this->searchParams = array_merge(request()->query(), ['user' => $this->user->user_id]);
-
-            if ((string) $this->user->user_id !== (string) $userId) {
-                return ujs_redirect(route(
-                    $request->route()->getName(),
-                    $this->searchParams
-                ));
-            }
+            $userId = $this->user->getKey();
+            $this->searchParams = [
+                ...\Request::query(),
+                'user' => $userId,
+            ];
 
             // This bit isn't needed when ModdingHistoryEventsBundle is used.
-            $this->searchParams['is_moderator'] = $this->isModerator;
-            $this->searchParams['is_kudosu_moderator'] = $this->isKudosuModerator;
-            if (!$this->isModerator) {
-                $this->searchParams['with_deleted'] = false;
-            }
+            $this->extraParams = [
+                'current_user_id' => $userId,
+                'is_kudosu_moderator' => priv_check('BeatmapDiscussionAllowOrDenyKudosu')->can(),
+                'is_moderator' => priv_check('BeatmapDiscussionModerate')->can(),
+            ];
 
             return $next($request);
         });
@@ -57,7 +46,9 @@ class ModdingHistoryController extends Controller
     {
         $user = $this->user;
 
-        $jsonChunks = ModdingHistoryEventsBundle::forProfile($user, $this->searchParams)->toArray();
+        $jsonChunks = ModdingHistoryEventsBundle::forProfile($user, $this->searchParams, $this->extraParams)->toArray();
+
+        set_opengraph($this->user, 'modding');
 
         return ext_view('users.beatmapset_activities', compact(
             'jsonChunks',
@@ -69,7 +60,7 @@ class ModdingHistoryController extends Controller
     {
         $user = $this->user;
 
-        $search = BeatmapDiscussionPost::search($this->searchParams);
+        $search = BeatmapDiscussionPost::search($this->searchParams, $this->extraParams);
         unset($search['params']['user']);
         $posts = new LengthAwarePaginator(
             $search['query']->with([
@@ -96,13 +87,13 @@ class ModdingHistoryController extends Controller
     {
         $user = $this->user;
 
-        $search = BeatmapDiscussionVote::search($this->searchParams);
+        $search = BeatmapDiscussionVote::search($this->searchParams, $this->extraParams);
         unset($search['params']['user']);
         $votes = new LengthAwarePaginator(
             $search['query']->with([
                 'user',
                 'beatmapDiscussion',
-                'beatmapDiscussion.user',
+                'beatmapDiscussion.user.userGroups',
                 'beatmapDiscussion.beatmapset',
                 'beatmapDiscussion.startingPost',
             ])->get(),
@@ -125,7 +116,7 @@ class ModdingHistoryController extends Controller
         $this->searchParams['receiver'] = $user->getKey();
         unset($this->searchParams['user']);
 
-        $search = BeatmapDiscussionVote::search($this->searchParams);
+        $search = BeatmapDiscussionVote::search($this->searchParams, $this->extraParams);
         unset($search['params']['user']);
         $votes = new LengthAwarePaginator(
             $search['query']->with([

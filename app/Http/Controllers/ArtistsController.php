@@ -8,13 +8,14 @@ namespace App\Http\Controllers;
 use App\Models\Artist;
 use App\Transformers\ArtistAlbumTransformer;
 use App\Transformers\ArtistTrackTransformer;
+use App\Transformers\ArtistTransformer;
 use Auth;
 
 class ArtistsController extends Controller
 {
     public function index()
     {
-        $artists = Artist::with('label')->withCount('tracks')->orderBy('name', 'asc');
+        $artists = Artist::with('label')->withMax('tracks', 'created_at')->withCount('tracks')->orderBy('name', 'asc');
         $user = Auth::user();
 
         if ($user === null || !$user->isAdmin()) {
@@ -38,18 +39,30 @@ class ArtistsController extends Controller
         $albums = $artist->albums()
             ->where('visible', true)
             ->orderBy('id', 'desc')
-            ->with(['tracks' => function ($query) {
-                $query->orderBy('display_order', 'ASC');
-            }])
-            ->with('tracks.artist')
+            ->with(['tracks' => fn ($q) => $q
+                    ->orderBy('display_order', 'asc')
+                    ->orderBy('exclusive', 'desc')
+                    ->orderBy('id', 'asc'),
+            ])
             ->get();
 
         $tracks = $artist
             ->tracks()
             ->whereNull('album_id')
-            ->with('artist')
+            ->orderBy('display_order', 'asc')
+            ->orderBy('exclusive', 'desc')
             ->orderBy('id', 'desc')
             ->get();
+
+        foreach ($albums as $album) {
+            foreach ($album->tracks as $track) {
+                $track->setRelation('album', $album);
+                $track->setRelation('artist', $artist);
+            }
+        }
+        foreach ($tracks as $track) {
+            $track->setRelation('artist', $artist);
+        }
 
         $images = [
             'header_url' => $artist->header_url,
@@ -61,39 +74,54 @@ class ArtistsController extends Controller
 
         if ($artist->user_id) {
             $links[] = [
-                'title' => trans('artist.links.osu'),
+                'title' => osu_trans('artist.links.osu'),
                 'url' => route('users.show', $artist->user_id),
                 'icon' => 'fas fa-user',
                 'class' => 'osu',
             ];
         }
 
+        if ($artist->beatmapsets()->exists()) {
+            $links[] = [
+                'title' => osu_trans('artist.links.beatmaps'),
+                'url' => route('beatmapsets.index', ['q' => "featured_artist={$artist->getKey()}"]),
+                'icon' => 'fas fa-bars',
+                'class' => 'osu',
+            ];
+        }
+
         if ($artist->website) {
             $links[] = [
-                'title' => trans('artist.links.site'),
+                'title' => osu_trans('artist.links.site'),
                 'url' => $artist->website,
                 'icon' => 'fas fa-link',
                 'class' => 'website',
             ];
         }
 
-        foreach (['twitter', 'facebook', 'spotify', 'bandcamp', 'patreon', 'soundcloud', 'youtube'] as $service) {
-            if ($artist->$service) {
+        foreach (['Twitter', 'Facebook', 'Spotify', 'Bandcamp', 'Patreon', 'SoundCloud', 'YouTube'] as $service) {
+            $serviceLowercase = strtolower($service);
+            if ($artist->$serviceLowercase) {
                 $links[] = [
-                    'title' => $service === 'youtube' ? 'YouTube' : ucwords($service),
-                    'url' => $artist->$service,
-                    'icon' => "fab fa-{$service}",
-                    'class' => $service,
+                    'title' => $service,
+                    'url' => $artist->$serviceLowercase,
+                    'icon' => "fab fa-{$serviceLowercase}",
+                    'class' => $serviceLowercase,
                 ];
             }
         }
 
+        set_opengraph($artist);
+
         return ext_view('artists.show', [
             'artist' => $artist,
-            'links' => $links,
-            'albums' => json_collection($albums, new ArtistAlbumTransformer(), ['tracks']),
-            'tracks' => json_collection($tracks, new ArtistTrackTransformer()),
             'images' => $images,
+            'json' => [
+                'albums' => json_collection($albums, new ArtistAlbumTransformer(), ['tracks']),
+                'artist' => json_item($artist, new ArtistTransformer()),
+                'tracks' => json_collection($tracks, new ArtistTrackTransformer()),
+            ],
+            'links' => $links,
         ]);
     }
 }

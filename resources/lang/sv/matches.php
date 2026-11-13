@@ -5,29 +5,32 @@
 
 return [
     'match' => [
-        'beatmap-deleted' => 'raderad beatmap',
-        'difference' => 'med :difference',
+        'beatmap-deleted' => 'borttagen beatmap',
         'failed' => 'MISSLYCKADES',
-        'header' => 'Multiplayer Matcher',
+        'header' => 'Flerspelarmatcher',
         'in-progress' => '(pågående match)',
         'in_progress_spinner_label' => 'matchen är pågående',
         'loading-events' => 'Laddar händelser...',
         'winner' => ':team vann',
+        'winner_by' => ':winner med :difference',
 
         'events' => [
-            'player-left' => ':user lämnade spelet',
-            'player-joined' => ':user gick med i spelet',
-            'player-kicked' => ':user har blivit kickad från spelet',
-            'match-created' => ':user skapade spelet',
-            'match-disbanded' => 'spelet upplöstes',
-            'host-changed' => ':user blev värd',
-
-            'player-left-no-user' => 'en spelare lämnade spelet',
-            'player-joined-no-user' => 'en spelare gick med i spelet',
-            'player-kicked-no-user' => 'en spelare har blivit kickad från spelet',
-            'match-created-no-user' => 'spelet skapades',
-            'match-disbanded-no-user' => 'spelet upplöstes',
-            'host-changed-no-user' => 'värden ändrades',
+            'game_aborted' => 'spelet avbröts',
+            'game_aborted_no_user' => 'spelet avbröts',
+            'game_completed' => 'spelet har avslutats',
+            'game_completed_no_user' => 'spelet har avslutats',
+            'host_changed' => ':user blev värd',
+            'host_changed_no_user' => 'värden ändrades',
+            'player_joined' => ':user gick med i matchen',
+            'player_joined_no_user' => 'en spelare gick med i matchen',
+            'player_kicked' => ':user har sparkats från matchen',
+            'player_kicked_no_user' => 'en spelare har sparkats från matchen',
+            'player_left' => ':user lämnade matchen',
+            'player_left_no_user' => 'en spelare lämnade matchen',
+            'room_created' => ':user skapade matchen',
+            'room_created_no_user' => 'matchen skapades',
+            'room_disbanded' => 'matchen upplöstes',
+            'room_disbanded_no_user' => 'matchen upplöstes',
         ],
 
         'score' => [
@@ -38,24 +41,26 @@ return [
             ],
         ],
 
-        'team-types' => [
-            'head-to-head' => 'Head-to-head',
-            'tag-coop' => 'Tag Co-op',
-            'team-vs' => 'Lag mot lag',
-            'tag-team-vs' => 'Tag Lag VS',
+        'team_types' => [
+            'head_to_head' => 'Huvud-mot-huvud',
+            'tag_coop' => 'Lag samspel',
+            'tag_team_versus' => 'Lag spel VS',
+            'team_versus' => 'Lag VS',
         ],
 
         'teams' => [
-            'blue' => 'Blått Lag',
-            'red' => 'Rött Lag',
+            'blue' => 'Blått lag',
+            'red' => 'Rött lag',
         ],
     ],
     'game' => [
+        'freestyle' => 'Fristil',
+
         'scoring-type' => [
-            'score' => 'Högsta Poäng',
-            'accuracy' => 'Högsta Precision',
-            'combo' => 'Högsta Kombo',
-            'scorev2' => 'Score V2',
+            'score' => 'Högsta poäng',
+            'accuracy' => 'Högsta precision',
+            'combo' => 'Högsta kombo',
+            'scorev2' => 'Poäng V2',
         ],
     ],
 ];

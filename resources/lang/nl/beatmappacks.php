@@ -5,34 +5,27 @@
 
 return [
     'index' => [
-        'description' => 'Voorverpakte collecties van beatmaps gebaseerd rond een gedeeld thema.',
+        'description' => 'Voorverpakte collecties van beatmaps rond een bepaald thema.',
+        'empty' => 'Binnenkort beschikbaar!',
         'nav_title' => 'lijst',
         'title' => 'Beatmap Packs',
 
         'blurb' => [
-            'important' => 'LEES DIT VOOR TE JE DOWNLOAD',
-            'instruction' => [
-                '_' => "Installatie: Eens een pack gedownload is, pak dan de .rar uit in je osu! Songs map.
-                    Alle individuele beatmaps zijn nog in .zip of .osz formaat, dus osu! zal ze zelf uitpakken de volgende keer dat je in de Play mode gaat.
-                    :scary de zip's/osz's zelf uitpakken,
-                    of de beatmaps zullen incorrect in osu! worden weergegeven/niet werken.",
-                'scary' => 'Ga NIET',
-            ],
-            'note' => [
-                '_' => 'Merk ook op dat het is ten zeerste is aangeraden om :scary, omdat de oudste maps van mindere kwaliteit zijn dan de recentere maps.',
-                'scary' => 'eerst de nieuwste packs te downloaden',
-            ],
+            'important' => 'LEES DIT VOORALEER JE PACKS DOWNLOADT',
+            'install_instruction' => 'Hoe installeren: Wanneer het downloaden van een pack voltooid is, pak je de inhoud uit naar je osu! Songs-map. osu! doet de rest.',
         ],
     ],
 
     'show' => [
+        'created_by' => 'door :author',
         'download' => 'Download',
+        'no_diff_reduction_badge' => '',
         'item' => [
             'cleared' => 'uitgespeeld',
             'not_cleared' => 'nog niet uitgespeeld',
         ],
         'no_diff_reduction' => [
-            '_' => ':link kan niet worden gebruikt om dit pakket te wissen.',
+            '_' => 'Om dit pack uit te spelen, mogen :link niet gebruikt worden.',
             'link' => 'Mods voor moeilijkheidsvermindering',
         ],
     ],
@@ -40,8 +33,11 @@ return [
     'mode' => [
         'artist' => 'Artiest/Album',
         'chart' => 'In de schijnwerpers',
+        'featured' => 'Uitgelichte Artiest',
+        'loved' => 'Project Loved',
         'standard' => 'Standaard',
         'theme' => 'Thema',
+        'tournament' => 'Toernooi',
     ],
 
     'require_login' => [

@@ -6,43 +6,46 @@
 return [
     'match' => [
         'beatmap-deleted' => 'удалённая карта',
-        'difference' => 'с разницей в :difference очков',
-        'failed' => 'ПРОИГРЫШ',
+        'failed' => 'НЕ ПРОШЁЛ',
         'header' => 'Многопользовательская игра',
         'in-progress' => '(игра в процессе)',
         'in_progress_spinner_label' => 'игра в процессе',
         'loading-events' => 'Загрузка событий...',
         'winner' => ':team победила',
+        'winner_by' => ':winner с разницей в :difference очков',
 
         'events' => [
-            'player-left' => ':user покинул игру',
-            'player-joined' => ':user зашёл в игру',
-            'player-kicked' => ':user был выгнан из игры',
-            'match-created' => ':user создал игру',
-            'match-disbanded' => 'игра была распущена',
-            'host-changed' => ':user стал хостом',
-
-            'player-left-no-user' => 'игрок покинул игру',
-            'player-joined-no-user' => 'игрок присоединился к игре',
-            'player-kicked-no-user' => 'игрок был кикнут из игры',
-            'match-created-no-user' => 'игра была создана',
-            'match-disbanded-no-user' => 'игра была распущена',
-            'host-changed-no-user' => 'хост игры поменялся',
+            'game_aborted' => 'игра была прервана',
+            'game_aborted_no_user' => 'игра была прервана',
+            'game_completed' => 'игра завершилась',
+            'game_completed_no_user' => 'игра завершилась',
+            'host_changed' => ':user стал хостом',
+            'host_changed_no_user' => 'хост поменялся',
+            'player_joined' => ':user зашёл в комнату',
+            'player_joined_no_user' => 'игрок зашёл в комнату',
+            'player_kicked' => ':user был исключён из комнаты',
+            'player_kicked_no_user' => 'игрок был исключён из комнаты',
+            'player_left' => ':user покинул комнату',
+            'player_left_no_user' => 'игрок покинул комнату',
+            'room_created' => ':user создал комнату',
+            'room_created_no_user' => 'комната была создана',
+            'room_disbanded' => 'комната была распущена',
+            'room_disbanded_no_user' => 'комната была распущена',
         ],
 
         'score' => [
             'stats' => [
-                'accuracy' => 'точность',
-                'combo' => 'комбо',
-                'score' => 'очки',
+                'accuracy' => 'Точность',
+                'combo' => 'Комбо',
+                'score' => 'Очки',
             ],
         ],
 
-        'team-types' => [
-            'head-to-head' => 'Head-to-head',
-            'tag-coop' => 'Tag Co-op',
-            'team-vs' => 'Team VS',
-            'tag-team-vs' => 'Tag Team VS',
+        'team_types' => [
+            'head_to_head' => 'Каждый сам за себя',
+            'tag_coop' => 'Совместное прохождение',
+            'tag_team_versus' => 'Совместное прохождение по командам',
+            'team_versus' => 'Противостояние команд',
         ],
 
         'teams' => [
@@ -51,10 +54,12 @@ return [
         ],
     ],
     'game' => [
+        'freestyle' => 'Фристайл',
+
         'scoring-type' => [
-            'score' => 'Лучшие очки',
-            'accuracy' => 'Лучшая точность',
-            'combo' => 'Лучшее комбо',
+            'score' => 'Наибольшее кол-во очков',
+            'accuracy' => 'Наилучшая точность',
+            'combo' => 'Наивысшее комбо',
             'scorev2' => 'Score V2',
         ],
     ],

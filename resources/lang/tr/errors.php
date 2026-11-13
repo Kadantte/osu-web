@@ -4,6 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'load_failed' => 'Veri yüklenemedi.',
+    'missing_route' => 'Geçersiz URL ya da hatalı istek metodu.',
+    'no_restricted_access' => 'Hesabınız kısıtlanmış durumdayken bu işlemi gerçekleştiremezsiniz.',
+    'param_too_large' => ':name parametresi en fazla :count_delimited item içerebilir.|:name parametresi en fazla :count_delimited item içerebilir',
+    'supporter_only' => 'Bu özelliği kullanabilmeniz için supporter olmanız gerekmektedir.',
+    'unknown' => 'Bilinmeyen bir hata oluştu.',
+
     'codes' => [
         'http-401' => 'Devam etmek için lütfen giriş yapın.',
         'http-403' => 'Erişim engellendi.',
@@ -15,19 +22,18 @@ return [
             'generic' => 'Bir hata oluştu. Sayfayı yenilemeyi deneyin.',
         ],
     ],
-    'beatmaps' => [
-        'invalid_mode' => 'Geçersiz mod seçildi.',
-        'standard_converts_only' => 'Bu beatmap zorluğunda seçilen mod\'da şuanda skor mevcut değil.',
-    ],
     'checkout' => [
         'generic' => 'Checkout\'unuzu hazırlarken bir hata oluştu.',
     ],
+    'scores' => [
+        'invalid_id' => 'Geçersiz skor ID\'si.',
+    ],
     'search' => [
         'default' => 'Hiç bir sonuç bulunamadı, sonra tekrar deneyiniz.',
+        'invalid_cursor_exception' => 'Geçersiz imleç parametresi belirtildi.',
         'operation_timeout_exception' => 'Arama, şu an her zamankinden daha yoğun, lütfen sonra tekrar deneyiniz.',
     ],
-
-    'supporter_only' => 'Bu özelliği kullanabilmeniz için supporter olmanız gerekmektedir.',
-    'no_restricted_access' => 'Hesabınız kısıtlanmış durumdayken bu işlemi gerçekleştiremezsiniz.',
-    'unknown' => 'Bilinmeyen bir hata oluştu.',
+    'user_report' => [
+        'recently_reported' => "Bunu yakın bir zamanda zaten rapor ettin.",
+    ],
 ];

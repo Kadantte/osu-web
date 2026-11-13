@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited адказ схаваны.|:count_delimited адказы схаваныя.',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Вы мусіце ўвайсці для рэдагавання.',
@@ -16,22 +18,34 @@ return [
         'empty' => 'Нічога не адбылося... яшчэ.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'выдалена',
         'none_found' => 'Не знойдзена абмеркаванняў, супадаючых з гэтымі крытэрыямі пошука.',
-        'title' => 'Абмеркаванне бітмап',
+        'title' => 'Абмеркаванне карт',
 
         'form' => [
             '_' => 'Пошук',
             'deleted' => 'Уключаючы выдаленыя абмеркаванні',
+            'mode' => 'Рэжым карт',
             'only_unresolved' => 'Паказаць толькі нявырашаныя абмеркаванні',
+            'show_review_embeds' => 'Паказаць рэцэнзіі публікацыі',
             'types' => 'Тыпы памедамленняў',
             'username' => 'Імя карыстальніка',
 
             'beatmapset_status' => [
-                '_' => 'Статус бітмапы',
+                '_' => 'Статус карты',
                 'all' => 'Усе',
-                'disqualified' => 'Дыскваліфікаваны',
+                'disqualified' => 'Дыскваліфікавана',
                 'never_qualified' => 'Ніколі ні кваліфікавана',
                 'qualified' => 'Кваліфікавана',
                 'ranked' => 'Ранкавана',
@@ -54,7 +68,21 @@ return [
     'nearby_posts' => [
         'confirm' => 'Ні адзін з допісаў не вырашае маю праблему',
         'notice' => 'Існуюць допісы між :timestamp (:existing_timestamps). Праверце іх перш, чым размяшчаць.',
-        'unsaved' => '',
+        'unsaved' => ':count у гэтым аглядзе',
+    ],
+
+    'owner_editor' => [
+        'button' => 'Уладальнік цяжкасті',
+        'reset_confirm' => 'Скінуць уладальніка з-за гэтай складанасці?',
+        'user' => 'Уладальнік',
+        'version' => 'Цяжкасть',
+    ],
+
+    'refresh' => [
+        'checking' => 'Праверка абнаўленняў...',
+        'has_updates' => 'З\'явіліся новыя адказы. Націсніце для абнаўлення.',
+        'no_updates' => 'Няма абнаўленняў.',
+        'updating' => 'Абнаўленне...',
     ],
 
     'reply' => [
@@ -65,14 +93,15 @@ return [
     ],
 
     'review' => [
-        'block_count' => '',
+        'block_count' => ':used / :max блокаў выкарыстоўваецца',
         'go_to_parent' => 'Пабачыць адказ',
         'go_to_child' => 'Пабачыць абмеркаванне',
         'validation' => [
-            'block_too_large' => '',
-            'external_references' => '',
+            'block_too_large' => 'кожны блок можа ўтрымліваць не больш за :limit знакаў',
+            'external_references' => 'агляд змяшчае спасылкі на праблемы, якія не належаць да гэтага агляду',
             'invalid_block_type' => 'недапушчальны тып блоку',
             'invalid_document' => 'недапушчальны адказ',
+            'invalid_discussion_type' => 'няправільны тып абмеркавання',
             'minimum_issues' => 'адказ павінен утрымліваць як мінімум :count праблему|адказ павінен утрымліваць як мінімум :count праблемы|адказ павінен утрымліваць як мінімум :count праблем',
             'missing_text' => 'у блоке адсутнічае тэкст',
             'too_many_blocks' => 'адказы могуць утрымліваць толькі :count параграф/праблему|параграфы могуць утрымліваць толькі да :count параграфаў/праблем',
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'Усе',
         'label' => 'Фільтр па карыстальнікам',
+        'multiple' => '',
     ],
 ];

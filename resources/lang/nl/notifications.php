@@ -13,19 +13,37 @@ return [
     'see_channel' => 'ga naar chat',
     'verifying' => 'Verifieer de sessie om meldingen te bekijken',
 
-    'filters' => [
+    'action_type' => [
         '_' => 'alle',
-        'user' => 'profiel',
         'beatmapset' => 'beatmaps',
+        'build' => 'versies',
+        'channel' => 'chat',
         'forum_topic' => 'forum',
         'news_post' => 'nieuws',
+        'team' => '',
+        'user' => 'profiel',
+    ],
+
+    'filters' => [
+        '_' => 'alle',
+        'beatmapset' => 'beatmaps',
         'build' => 'versie',
         'channel' => 'chat',
+        'forum_topic' => 'forum',
+        'news_post' => 'nieuws',
+        'team' => '',
+        'user' => 'profiel',
     ],
 
     'item' => [
         'beatmapset' => [
             '_' => 'Beatmap',
+
+            'beatmap_owner_change' => [
+                '_' => 'Gast moeilijkheidsgraad',
+                'beatmap_owner_change' => 'Je hebt nu de moeilijkheid ":beatmap" voor beatmap ":title"',
+                'beatmap_owner_change_compact' => 'Je bent nu eigenaar van de moeilijkheidsgraad ":beatmap"',
+            ],
 
             'beatmapset_discussion' => [
                 '_' => 'Beatmap discussies',
@@ -39,6 +57,12 @@ return [
                 'beatmapset_discussion_review_new_compact' => 'Nieuwe beoordeling door :username die problemen bevat: :problems, suggesties: :suggestions, prijzen: :praises',
                 'beatmapset_discussion_unlock' => 'Beatmap ":title" is ontgrendeld voor discussie.',
                 'beatmapset_discussion_unlock_compact' => 'Discussie is ontgrendeld',
+
+                'review_count' => [
+                    'praises' => ':count_delimited lof|:count_delimited lof',
+                    'problems' => ':count_delimited probleem|:count_delimited problemen',
+                    'suggestions' => ':count_delimited suggestie|:count_delimited suggesties',
+                ],
             ],
 
             'beatmapset_problem' => [
@@ -80,12 +104,43 @@ return [
         'channel' => [
             '_' => 'Chat',
 
+            'announcement' => [
+                '_' => 'Nieuwe aankondiging',
+
+                'announce' => [
+                    'channel_announcement' => ':username zegt ":title"',
+                    'channel_announcement_compact' => ':title',
+                    'channel_announcement_group' => 'Aankondiging van :username',
+                ],
+            ],
+
             'channel' => [
                 '_' => 'Nieuw bericht',
+
                 'pm' => [
                     'channel_message' => ':username zegt ":title"',
                     'channel_message_compact' => ':title',
                     'channel_message_group' => 'van :username',
+                ],
+            ],
+
+            'channel_mention' => [
+                '_' => '',
+
+                'public' => [
+                    'channel_mention' => '',
+                    'channel_mention_compact' => '',
+                    'channel_mention_group' => '',
+                ],
+            ],
+
+            'channel_team' => [
+                '_' => '',
+
+                'team' => [
+                    'channel_team' => '',
+                    'channel_team_compact' => '',
+                    'channel_team_group' => '',
                 ],
             ],
         ],
@@ -114,6 +169,13 @@ return [
                 'comment_reply' => ':username antwoordde ":content" op ":title"',
                 'comment_reply_compact' => ':username antwoordde ":content"',
             ],
+
+            'news_post' => [
+                '_' => '',
+
+                'news_post_new' => '',
+                'news_post_new_compact' => '',
+            ],
         ],
 
         'forum_topic' => [
@@ -126,12 +188,19 @@ return [
             ],
         ],
 
-        'legacy_pm' => [
-            '_' => 'Ouder Forum PM',
+        'team' => [
+            'team_application' => [
+                '_' => 'Teamlid worden',
 
-            'legacy_pm' => [
-                '_' => '',
-                'legacy_pm' => ':count_delimited ongelezen bericht.|:count_delimited berichten.',
+                'team_application_accept' => "Je bent nu lid van het team :title",
+                'team_application_accept_compact' => "Je bent nu lid van :title",
+
+                'team_application_group' => '',
+
+                'team_application_reject' => '',
+                'team_application_reject_compact' => '',
+                'team_application_store' => '',
+                'team_application_store_compact' => '',
             ],
         ],
 
@@ -142,6 +211,9 @@ return [
                 'user_beatmapset_new' => 'Nieuwe beatmap ":title" door :username',
                 'user_beatmapset_new_compact' => 'Nieuwe beatmap ":title"',
                 'user_beatmapset_new_group' => 'Nieuwe beatmaps door :username',
+
+                'user_beatmapset_revive' => 'Beatmap ":title" vernieuwd door :username',
+                'user_beatmapset_revive_compact' => 'Beatmap ":title" vernieuwd',
             ],
         ],
 
@@ -158,7 +230,13 @@ return [
     ],
 
     'mail' => [
+        'news' => '',
+
         'beatmapset' => [
+            'beatmap_owner_change' => [
+                'beatmap_owner_change' => 'Je bent nu gast van beatmap ":title"',
+            ],
+
             'beatmapset_discussion' => [
                 'beatmapset_discussion_lock' => 'De discussie op ":title" is vergrendeld',
                 'beatmapset_discussion_post_new' => 'De discussie over ":title" heeft nieuwe updates',
@@ -185,8 +263,18 @@ return [
         ],
 
         'channel' => [
+            'announcement' => [
+                'channel_announcement' => '',
+            ],
             'channel' => [
-                'pm' => 'Je hebt een nieuw bericht ontvangen van :username',
+                'channel_message' => '',
+            ],
+            'channel_mention' => [
+                'channel_mention' => '',
+            ],
+
+            'channel_team' => [
+                'channel_team' => '',
             ],
         ],
 
@@ -208,14 +296,18 @@ return [
             ],
         ],
 
-        'user' => [
-            'user_achievement_unlock' => [
-                'user_achievement_unlock' => ':username heeft een nieuwe medaille ontgrendeld, ":title"!',
-                'user_achievement_unlock_self' => 'Je hebt een nieuwe medaille, ":title"!',
+        'team' => [
+            'team_application' => [
+                'team_application_accept' => "",
+                'team_application_reject' => '',
+                'team_application_store' => '',
             ],
+        ],
 
+        'user' => [
             'user_beatmapset_new' => [
                 'user_beatmapset_new' => ':username heeft nieuwe beatmaps aangemaakt',
+                'user_beatmapset_revive' => ':username heeft beatmaps vernieuwd',
             ],
         ],
     ],

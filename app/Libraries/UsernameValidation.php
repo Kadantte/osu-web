@@ -5,7 +5,11 @@
 
 namespace App\Libraries;
 
+use App\Models\Beatmap;
+use App\Models\Beatmapset;
+use App\Models\RankHighest;
 use App\Models\User;
+use App\Models\UserBadge;
 use App\Models\UsernameChangeHistory;
 use Carbon\Carbon;
 use DB;
@@ -13,6 +17,23 @@ use Illuminate\Support\Collection;
 
 class UsernameValidation
 {
+    // also note that totp key generator forbids `:` in username
+    const ALLOWED_CHARACTERS = 'A-Za-z0-9-\[\]_';
+    const ALLOWED_CHARACTERS_WITH_SPACE = self::ALLOWED_CHARACTERS.' ';
+    const LENGTH_MIN = 3;
+    const LENGTH_MAX = 15;
+
+    public static function allowedName(string $username): bool
+    {
+        foreach (model_pluck(DB::table('phpbb_disallow'), 'disallow_username') as $check) {
+            if (preg_match('#^'.str_replace('%', '.*?', preg_quote($check, '#')).'$#i', $username)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static function validateAvailability(string $username): ValidationErrors
     {
         $errors = new ValidationErrors('user');
@@ -20,21 +41,20 @@ class UsernameValidation
         if (($availableDate = User::checkWhenUsernameAvailable($username)) > Carbon::now()) {
             $remaining = Carbon::now()->diff($availableDate, false);
 
-            // the times are +1 to round up the interval; e.g. 5 days, 2 hours will show 6 days
-            if ($remaining->days + 1 >= User::INACTIVE_DAYS) {
+            if ($remaining->totalDays >= User::INACTIVE_DAYS) {
                 //no need to mention the inactivity period of the account is actively in use.
                 $errors->add('username', '.username_in_use');
-            } elseif ($remaining->days > 0) {
+            } elseif ($remaining->totalDays > 0) {
                 $errors->add(
                     'username',
                     '.username_available_in',
-                    ['duration' => trans_choice('common.count.days', $remaining->days + 1)]
+                    ['duration' => osu_trans_choice('common.count.days', ((int) $remaining->totalDays) + 1)]
                 );
             } elseif ($remaining->h > 0) {
                 $errors->add(
                     'username',
                     '.username_available_in',
-                    ['duration' => trans_choice('common.count.hours', $remaining->h + 1)]
+                    ['duration' => osu_trans_choice('common.count.hours', $remaining->h + 1)]
                 );
             } else {
                 $errors->add('username', '.username_available_soon');
@@ -52,15 +72,16 @@ class UsernameValidation
             $errors->add('username', '.username_no_spaces');
         }
 
-        if (strlen($username) < 3) {
+        if (strlen($username) < static::LENGTH_MIN) {
             $errors->add('username', '.username_too_short');
         }
 
-        if (strlen($username) > 15) {
+        if (strlen($username) > static::LENGTH_MAX) {
             $errors->add('username', '.username_too_long');
         }
 
-        if (strpos($username, '  ') !== false || !preg_match('#^[A-Za-z0-9-\[\]_ ]+$#u', $username)) {
+        // also note that totp key generator forbids `:` in username
+        if (strpos($username, '  ') !== false || !preg_match('#^['.static::ALLOWED_CHARACTERS_WITH_SPACE.']+$#u', $username)) {
             $errors->add('username', '.username_invalid_characters');
         }
 
@@ -68,11 +89,8 @@ class UsernameValidation
             $errors->add('username', '.username_no_space_userscore_mix');
         }
 
-        foreach (model_pluck(DB::table('phpbb_disallow'), 'disallow_username') as $check) {
-            if (preg_match('#^'.str_replace('%', '.*?', preg_quote($check, '#')).'$#i', $username)) {
-                $errors->add('username', '.username_not_allowed');
-                break;
-            }
+        if (!static::allowedName($username)) {
+            $errors->add('username', '.username_not_allowed');
         }
 
         return $errors;
@@ -81,24 +99,32 @@ class UsernameValidation
     public static function validateUsersOfUsername(string $username): ValidationErrors
     {
         $errors = new ValidationErrors('user');
+        $userIds = static::usersOfUsername($username)->pluck('user_id');
 
-        $users = static::usersOfUsername($username);
-        foreach ($users as $user) {
-            // has badges
-            if ($user->badges()->exists()) {
-                return $errors->add('username', '.username_locked');
-            }
+        // Check if any of the users have been ranked in the top 100
+        $highestRank = RankHighest::whereIn('user_id', $userIds)->min('rank');
+        if ($highestRank !== null && $highestRank <= 100) {
+            return $errors->add('username', '.username_locked');
+        }
 
-            // ranked beatmaps
-            if ($user->beatmapsets()->rankedOrApproved()->exists()) {
-                return $errors->add('username', '.username_locked');
-            }
+        // Check if any of the users have badges
+        if (UserBadge::whereIn('user_id', $userIds)->exists()) {
+            return $errors->add('username', '.username_locked');
+        }
+
+        // Check if any of the users have beatmaps or beatmapsets with
+        // leaderboards enabled
+        if (
+            Beatmap::scoreable()->whereIn('user_id', $userIds)->exists() ||
+            Beatmapset::scoreable()->whereIn('user_id', $userIds)->exists()
+        ) {
+            return $errors->add('username', '.username_locked');
         }
 
         return $errors;
     }
 
-    public static function usersOfUsername(string $username): Collection
+    private static function usersOfUsername(string $username): Collection
     {
         $userIds = UsernameChangeHistory::where('username_last', $username)->pluck('user_id');
         $users = User::whereIn('user_id', $userIds)->get();

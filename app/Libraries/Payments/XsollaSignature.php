@@ -5,33 +5,38 @@
 
 namespace App\Libraries\Payments;
 
+use App\Exceptions\InvalidSignatureException;
 use Illuminate\Http\Request;
 
 class XsollaSignature implements PaymentSignature
 {
-    public function __construct(Request $request)
+    public function __construct(private Request $request)
     {
-        $this->request = $request;
     }
 
-    public function isValid()
+    public function assertValid(): void
     {
         $received = $this->receivedSignature();
-        \Log::debug("XsollaSignature::isValidSignature calc: {$this->calculatedSignature()}, signed: {$received}");
 
-        return $received === null
-            ? false
-            : hash_equals($this->calculatedSignature(), $received);
+        if ($received === null) {
+            throw new InvalidSignatureException('missing signature');
+        }
+
+        $calculated = $this->calculatedSignature();
+
+        if (!hash_equals($calculated, $received)) {
+            throw new InvalidSignatureException('hash mismatch', compact('calculated', 'received'));
+        }
     }
 
     public static function calculateSignature(string $content)
     {
-        return sha1($content.config('payments.xsolla.secret_key'));
+        return sha1($content.$GLOBALS['cfg']['payments']['xsolla']['secret_key']);
     }
 
     private function receivedSignature()
     {
-        preg_match('~^Signature (?<signature>[0-9a-f]{40})$~', $this->request->header('Authorization'), $matches);
+        preg_match('~^Signature (?<signature>[0-9a-f]{40})$~', $this->request->header('Authorization') ?? '', $matches);
 
         return $matches['signature'] ?? null;
     }

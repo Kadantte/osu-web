@@ -8,29 +8,27 @@ namespace Tests\Models\Score;
 use App\Exceptions\ClassNotFoundException;
 use App\Models\Beatmap;
 use App\Models\Score\Model;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class ModelTest extends TestCase
 {
-    public function testGetClassByString()
+    public function testGetClass(): void
     {
-        $modes = array_keys(Beatmap::MODES);
-        foreach ($modes as $mode) {
-            $class = Model::getClassByString($mode);
+        foreach (Beatmap::MODES as $ruleset => $_rulesetId) {
+            $class = Model::getClass($ruleset);
             $this->assertInstanceOf(Model::class, new $class());
         }
     }
 
-    /**
-     * @dataProvider modes
-     */
-    public function testGetClassByStringThrowsExceptionIfModeDoesNotExist($mode)
+    #[DataProvider('dataProviderForTestGetClassInvalidRuleset')]
+    public function testGetClassInvalidRuleset(string $ruleset)
     {
         $this->expectException(ClassNotFoundException::class);
-        Model::getClassByString($mode);
+        Model::getClass($ruleset);
     }
 
-    public function modes()
+    public static function dataProviderForTestGetClassInvalidRuleset(): array
     {
         return [
             ['does'],

@@ -18,7 +18,7 @@ use App\Models\Forum\Topic;
  * @property string $notifiable_type
  * @property int $notifiable_id
  * @property int $priority
- * @property User $source
+ * @property User|null $source
  * @property int|null $source_user_id
  * @property string $name
  * @property \Carbon\Carbon|null $updated_at
@@ -26,6 +26,7 @@ use App\Models\Forum\Topic;
  */
 class Notification extends Model
 {
+    const BEATMAP_OWNER_CHANGE = 'beatmap_owner_change';
     const BEATMAPSET_DISCUSSION_LOCK = 'beatmapset_discussion_lock';
     const BEATMAPSET_DISCUSSION_POST_NEW = 'beatmapset_discussion_post_new';
     const BEATMAPSET_DISCUSSION_QUALIFIED_PROBLEM = 'beatmapset_discussion_qualified_problem';
@@ -38,13 +39,23 @@ class Notification extends Model
     const BEATMAPSET_RANK = 'beatmapset_rank';
     const BEATMAPSET_REMOVE_FROM_LOVED = 'beatmapset_remove_from_loved';
     const BEATMAPSET_RESET_NOMINATIONS = 'beatmapset_reset_nominations';
+    const CHANNEL_ANNOUNCEMENT = 'channel_announcement';
+    const CHANNEL_MENTION = 'channel_mention';
     const CHANNEL_MESSAGE = 'channel_message';
+    const CHANNEL_TEAM = 'channel_team';
     const COMMENT_NEW = 'comment_new';
     const FORUM_TOPIC_REPLY = 'forum_topic_reply';
+    const NEWS_POST_NEW = 'news_post_new';
+    const TEAM_APPLICATION_ACCEPT = 'team_application_accept';
+    const TEAM_APPLICATION_REJECT = 'team_application_reject';
+    const TEAM_APPLICATION_STORE = 'team_application_store';
     const USER_ACHIEVEMENT_UNLOCK = 'user_achievement_unlock';
     const USER_BEATMAPSET_NEW = 'user_beatmapset_new';
+    const USER_BEATMAPSET_REVIVE = 'user_beatmapset_revive';
 
+    // sync with resources/js/notification-maps/category.ts
     const NAME_TO_CATEGORY = [
+        self::BEATMAP_OWNER_CHANGE => 'beatmap_owner_change',
         self::BEATMAPSET_DISCUSSION_LOCK => 'beatmapset_discussion',
         self::BEATMAPSET_DISCUSSION_POST_NEW => 'beatmapset_discussion',
         self::BEATMAPSET_DISCUSSION_QUALIFIED_PROBLEM => 'beatmapset_problem',
@@ -57,17 +68,26 @@ class Notification extends Model
         self::BEATMAPSET_RANK => 'beatmapset_state',
         self::BEATMAPSET_REMOVE_FROM_LOVED => 'beatmapset_state',
         self::BEATMAPSET_RESET_NOMINATIONS => 'beatmapset_state',
+        self::CHANNEL_ANNOUNCEMENT => 'announcement',
         self::CHANNEL_MESSAGE => 'channel',
+        self::CHANNEL_MENTION => 'channel_mention',
+        self::CHANNEL_TEAM => 'channel_team',
         self::COMMENT_NEW => 'comment',
         self::FORUM_TOPIC_REPLY => 'forum_topic_reply',
+        self::NEWS_POST_NEW => 'news_post',
+        self::TEAM_APPLICATION_ACCEPT => 'team_application',
+        self::TEAM_APPLICATION_REJECT => 'team_application',
+        self::TEAM_APPLICATION_STORE => 'team_application',
         self::USER_ACHIEVEMENT_UNLOCK => 'user_achievement_unlock',
         self::USER_BEATMAPSET_NEW => 'user_beatmapset_new',
+        self::USER_BEATMAPSET_REVIVE => 'user_beatmapset_new',
     ];
 
     const NOTIFIABLE_CLASSES = [
         Beatmapset::class,
         Build::class,
         Channel::class,
+        Team::class,
         Topic::class,
         NewsPost::class,
         User::class,
@@ -123,11 +143,6 @@ class Notification extends Model
         return $query;
     }
 
-    public function getCategoryAttribute()
-    {
-        return static::NAME_TO_CATEGORY[$this->name] ?? $this->name;
-    }
-
     public function notifiable()
     {
         return $this->morphTo();
@@ -151,5 +166,34 @@ class Notification extends Model
     public function userNotifications()
     {
         return $this->hasMany(UserNotification::class);
+    }
+
+    public function getAttribute($key)
+    {
+        return match ($key) {
+            'id',
+            'name',
+            'notifiable_id',
+            'notifiable_type',
+            'priority',
+            'source_user_id' => $this->getRawAttribute($key),
+
+            'details' => $this->getArray($key),
+
+            'created_at',
+            'updated_at' => $this->getTimeFast($key),
+
+            'category' => $this->getCategory(),
+
+            'notifiable',
+            'source' => $this->getRelationValue($key),
+        };
+    }
+
+    private function getCategory()
+    {
+        $name = $this->name;
+
+        return static::NAME_TO_CATEGORY[$name] ?? $name;
     }
 }

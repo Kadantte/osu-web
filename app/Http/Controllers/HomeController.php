@@ -7,16 +7,27 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Libraries\CurrentStats;
+use App\Libraries\MenuContent;
 use App\Libraries\Search\AllSearch;
 use App\Libraries\Search\QuickSearch;
 use App\Models\BeatmapDownload;
 use App\Models\Beatmapset;
+use App\Models\Build;
 use App\Models\Forum\Post;
+use App\Models\LivestreamCollection;
+use App\Models\Multiplayer\Room;
 use App\Models\NewsPost;
 use App\Models\UserDonation;
+use App\Transformers\MenuImageTransformer;
+use App\Transformers\NewsPostTransformer;
 use Auth;
+use Carbon\CarbonImmutable;
+use DeviceDetector\DeviceDetector;
 use Request;
 
+/**
+ * @group Home
+ */
 class HomeController extends Controller
 {
     public function __construct()
@@ -30,7 +41,7 @@ class HomeController extends Controller
 
         $this->middleware('require-scopes:public', ['only' => 'search']);
 
-        return parent::__construct();
+        parent::__construct();
     }
 
     public function bbcodePreview()
@@ -40,6 +51,9 @@ class HomeController extends Controller
         return $post->bodyHTML();
     }
 
+    /**
+     * @group Undocumented
+     */
     public function downloadQuotaCheck()
     {
         return [
@@ -49,7 +63,57 @@ class HomeController extends Controller
 
     public function getDownload()
     {
-        return ext_view('home.download');
+        $lazerPlatformNames = [
+            'android' => osu_trans('home.download.os_version_or_later', ['os_version' => 'Android 5']),
+            'ios' => osu_trans('home.download.os_version_or_later', ['os_version' => 'iOS 13.4']),
+            'linux_x64' => 'Linux (x64)',
+            'macos_as' => osu_trans('home.download.os_version_or_later', ['os_version' => 'macOS 12']).' (Apple Silicon)',
+            'macos_intel' => osu_trans('home.download.os_version_or_later', ['os_version' => 'macOS 12']).' (Intel)',
+            'windows_x64' => osu_trans('home.download.os_version_or_later', ['os_version' => 'Windows 10']).' (x64)',
+        ];
+
+        $platform = get_string(request('platform'));
+        if ($platform === null || !array_key_exists($platform, $lazerPlatformNames)) {
+            $deviceDetector = new DeviceDetector(\Request::header('User-Agent') ?? '');
+            $deviceDetector->parse();
+            $family = $deviceDetector->getOs('family');
+
+            $platform = match ($family) {
+                // Try matching most likely platform first
+                'Windows' => 'windows_x64',
+                // current iPadOS declares itself as a desktop browser.
+                'iOS' => 'ios',
+                // FIXME: Figure out a way to differentiate Intel and Apple Silicon.
+                'Mac' => 'macos_as',
+                'Android' => 'android',
+                'GNU/Linux' => 'linux_x64',
+                default => 'windows_x64',
+            };
+        }
+
+        $version = Build::where(['stream_id' => $GLOBALS['cfg']['osu']['client']['download_stream'], 'test_build' => false])
+            ->orderBy('build_id', 'desc')
+            ->first()
+            ?->version;
+
+        $items = [];
+        foreach ($lazerPlatformNames as $key => $value) {
+            $items[] = ['id' => $key, 'text' => $value];
+        }
+
+        $selectOptions = [
+            'currentItem' => ['id' => $platform, 'text' => osu_trans('home.download.other_os')],
+            'items' => $items,
+            'modifiers' => 'download',
+            'type' => 'download',
+        ];
+
+        return ext_view('home.download', [
+            'lazerUrl' => osu_url("lazer_dl.{$platform}"),
+            'lazerPlatformName' => $lazerPlatformNames[$platform],
+            'selectOptions' => $selectOptions,
+            'version' => $version,
+        ]);
     }
 
     public function index()
@@ -65,16 +129,25 @@ class HomeController extends Controller
         $news = NewsPost::default()->limit($newsLimit)->get();
 
         if (Auth::check()) {
-            $newBeatmapsets = Beatmapset::latestRankedOrApproved();
-            $popularBeatmapsets = Beatmapset::popular()->get();
+            $menuImages = json_collection(MenuContent::activeImages(), new MenuImageTransformer());
+            $newBeatmapsets = Beatmapset::latestRanked();
+            $popularBeatmapsetsByRuleset = Beatmapset::popularByRuleset();
+
+            $dailyChallenge = Room::dailyChallengeFor(CarbonImmutable::now());
+
+            $livestream = new LivestreamCollection();
+            $featuredStream = $livestream->featured();
 
             return ext_view('home.user', compact(
+                'menuImages',
                 'newBeatmapsets',
                 'news',
-                'popularBeatmapsets'
+                'popularBeatmapsetsByRuleset',
+                'dailyChallenge',
+                'featuredStream',
             ));
         } else {
-            $news = json_collection($news, 'NewsPost');
+            $news = json_collection($news, new NewsPostTransformer());
 
             return ext_view('home.landing', ['stats' => new CurrentStats(), 'news' => $news]);
         }
@@ -85,14 +158,14 @@ class HomeController extends Controller
         return ujs_redirect(route('chat.index', ['sendto' => $user]));
     }
 
-    public function osuSupportPopup()
+    public function opensearch()
     {
-        return ext_view('objects._popup_support_osu');
+        return ext_view('home.opensearch', null, 'opensearch')->header('Cache-Control', 'max-age=86400');
     }
 
     public function quickSearch()
     {
-        $quickSearch = new QuickSearch(request(), ['user' => auth()->user()]);
+        $quickSearch = new QuickSearch(Request::all(), ['user' => auth()->user()]);
         $searches = $quickSearch->searches();
 
         $result = [];
@@ -103,15 +176,15 @@ class HomeController extends Controller
                     continue;
                 }
                 $result[$mode]['total'] = $search->count();
+                if (QuickSearch::MODES[$mode]['size'] !== 0) {
+                    $transformer = QuickSearch::MODES[$mode]['transformer'];
+                    $result[$mode]['items'] = json_collection(
+                        $search->data(),
+                        new $transformer['class'](),
+                        $transformer['includes'],
+                    );
+                }
             }
-
-            $result['user']['users'] = json_collection($searches['user']->data(), 'UserCompact', [
-                'country',
-                'cover',
-                'groups',
-                'support_level',
-            ]);
-            $result['beatmapset']['beatmapsets'] = json_collection($searches['beatmapset']->data(), 'Beatmapset', ['beatmaps']);
         }
 
         return $result;
@@ -126,43 +199,48 @@ class HomeController extends Controller
      *
      * ### Response Format
      *
-     * Field     | Type                          | Description
-     * --------- | ----------------------------- | -----------
-     * user      | SearchResult&lt;UserCompact>? | For `all` or `user` mode. Only first 100 results are accessible
-     * wiki_page | SearchResult&lt;WikiPage>?    | For `all` or `wiki_page` mode
+     * Field     | Type                       | Description
+     * --------- | -------------------------- | -----------
+     * user      | SearchResult&lt;User>?     | For `all` or `user` mode. Only first 100 results are accessible
+     * wiki_page | SearchResult&lt;WikiPage>? | For `all` or `wiki_page` mode
      *
      * #### SearchResult&lt;T>
      *
-     * Field | Type   | Description
-     * ----- | ------ | -----------
-     * data  | T[]    | |
-     * total | number | |
+     * Field | Type    | Description
+     * ----- | ------- | -----------
+     * data  | T[]     | |
+     * total | integer | |
      *
-     * @queryParam mode Either `all`, `user`, or `wiki_page`. Default is `all`. Example: all
+     * @queryParam mode string Either `all`, `user`, or `wiki_page`. Default is `all`. Example: all
      * @queryParam query Search keyword. Example: hello
      * @queryParam page Search result page. Ignored for mode `all`. Example: 1
-     *
-     * @group Home
      */
     public function search()
     {
-        if (request('mode') === 'beatmapset') {
-            return ujs_redirect(route('beatmapsets.index', ['q' => request('query')]));
+        $currentUser = Auth::user();
+        $allSearch = new AllSearch(Request::all(), ['user' => $currentUser]);
+
+        switch ($allSearch->getMode()) {
+            case 'artist_track':
+                return ujs_redirect(route('artists.tracks.index', ['query' => $allSearch->getRawQuery()]));
+            case 'beatmapset':
+                return ujs_redirect(route('beatmapsets.index', ['q' => $allSearch->getRawQuery()]));
         }
 
-        $allSearch = new AllSearch(request(), ['user' => Auth::user()]);
         $isSearchPage = true;
 
         if (is_api_request()) {
             return response()->json($allSearch->toJson());
         }
 
-        return ext_view('home.search', compact('allSearch', 'isSearchPage'));
+        $fields = $currentUser?->isModerator() ?? false ? [] : ['includeDeleted' => null];
+
+        return ext_view('home.search', compact('allSearch', 'fields', 'isSearchPage'));
     }
 
     public function setLocale()
     {
-        $newLocale = get_valid_locale(Request::input('locale')) ?? config('app.fallback_locale');
+        $newLocale = get_valid_locale(Request::input('locale')) ?? $GLOBALS['cfg']['app']['fallback_locale'];
         App::setLocale($newLocale);
 
         if (Auth::check()) {
@@ -171,30 +249,37 @@ class HomeController extends Controller
             ]);
         }
 
-        return ext_view('layout.ujs-reload', [], 'js')
+        return ext_view('layout.ujs_full_reload', [], 'js')
             ->withCookie(cookie()->forever('locale', $newLocale));
     }
 
     public function supportTheGame()
     {
-        if (Auth::check()) {
-            $user = Auth::user();
+        $user = auth()->user();
 
+        if ($user !== null) {
             // current status
-            $expiration = optional($user->osu_subscriptionexpiry)->addDays(1);
-            $current = $expiration !== null ? $expiration->isFuture() : false;
+            $expiration = $user->osu_subscriptionexpiry?->addDays(1);
+            $current = $expiration?->isFuture() ?? false;
 
+            static $lengthSumFn = fn ($p) => $p['length'] * ($p['cancel'] ? -1 : 1);
             // purchased
             $tagPurchases = $user->supporterTagPurchases;
             $dollars = $tagPurchases->sum('amount');
-            $cancelledTags = $tagPurchases->where('cancel', true)->count() * 2; // 1 for purchase transaction and 1 for cancel transaction
-            $tags = $tagPurchases->count() - $cancelledTags;
+            $duration = $tagPurchases->sum($lengthSumFn);
 
             // gifted
             $gifted = $tagPurchases->where('target_user_id', '<>', $user->user_id);
             $giftedDollars = $gifted->sum('amount');
-            $canceledGifts = $gifted->where('cancel', true)->count() * 2; // 1 for purchase transaction and 1 for cancel transaction
-            $giftedTags = $gifted->count() - $canceledGifts;
+            $giftedDuration = $gifted->sum($lengthSumFn);
+
+            $giftedUsers = [];
+            foreach ($gifted as $gift) {
+                $giftedUsers[$gift->target_user_id] =
+                    ($giftedUsers[$gift->target_user_id] ?? 0)
+                    + ($gift->cancel ? -1 : 1);
+            }
+            $giftedUsers = count(array_filter($giftedUsers, fn ($count) => $count > 0));
 
             $supporterStatus = [
                 // current status
@@ -202,10 +287,11 @@ class HomeController extends Controller
                 'expiration' => $expiration,
                 // purchased
                 'dollars' => currency($dollars, 2, false),
-                'tags' => i18n_number_format($tags),
+                'duration' => $duration,
                 // gifted
                 'giftedDollars' => currency($giftedDollars, 2, false),
-                'giftedTags' => i18n_number_format($giftedTags),
+                'giftedDuration' => $giftedDuration,
+                'giftedUsers' => $giftedUsers,
             ];
 
             if ($current) {
@@ -214,14 +300,12 @@ class HomeController extends Controller
                     ->pluck('timestamp')
                     ->first();
 
-                if ($lastTagPurchaseDate === null) {
-                    $lastTagPurchaseDate = $expiration->copy()->subMonths(1);
-                }
+                $lastTagPurchaseDate ??= $expiration->copy()->subMonths(1);
 
-                $total = $expiration->diffInDays($lastTagPurchaseDate);
-                $used = $lastTagPurchaseDate->diffInDays();
+                $total = max(1, $lastTagPurchaseDate->diffInDays($expiration));
+                $used = max(1, $lastTagPurchaseDate->diffInDays());
 
-                $supporterStatus['remainingRatio'] = 100 - round($used / $total * 100, 2);
+                $supporterStatus['remainingPercent'] = 100 - round($used / $total * 100, 2);
             }
         }
 
@@ -294,12 +378,12 @@ class HomeController extends Controller
                         'more_beatmaps' => [
                             'icons' => ['fas fa-file-upload'],
                             'translation_options' => [
-                                'base' => config('osu.beatmapset.upload_allowed'),
-                                'bonus' => config('osu.beatmapset.upload_bonus_per_ranked'),
-                                'bonus_max' => config('osu.beatmapset.upload_bonus_per_ranked_max'),
-                                'supporter_base' => config('osu.beatmapset.upload_allowed_supporter'),
-                                'supporter_bonus' => config('osu.beatmapset.upload_bonus_per_ranked_supporter'),
-                                'supporter_bonus_max' => config('osu.beatmapset.upload_bonus_per_ranked_max_supporter'),
+                                'base' => $GLOBALS['cfg']['osu']['beatmapset']['upload_allowed'],
+                                'bonus' => $GLOBALS['cfg']['osu']['beatmapset']['upload_bonus_per_ranked'],
+                                'bonus_max' => $GLOBALS['cfg']['osu']['beatmapset']['upload_bonus_per_ranked_max'],
+                                'supporter_base' => $GLOBALS['cfg']['osu']['beatmapset']['upload_allowed_supporter'],
+                                'supporter_bonus' => $GLOBALS['cfg']['osu']['beatmapset']['upload_bonus_per_ranked_supporter'],
+                                'supporter_bonus_max' => $GLOBALS['cfg']['osu']['beatmapset']['upload_bonus_per_ranked_max_supporter'],
                             ],
                         ],
                         'early_access' => [
@@ -318,15 +402,15 @@ class HomeController extends Controller
                         'more_favourites' => [
                             'icons' => ['fas fa-star'],
                             'translation_options' => [
-                                'normally' => config('osu.beatmapset.favourite_limit'),
-                                'supporter' => config('osu.beatmapset.favourite_limit_supporter'),
+                                'normally' => $GLOBALS['cfg']['osu']['beatmapset']['favourite_limit'],
+                                'supporter' => $GLOBALS['cfg']['osu']['beatmapset']['favourite_limit_supporter'],
                             ],
                         ],
                         'more_friends' => [
                             'icons' => ['fas fa-user-friends'],
                             'translation_options' => [
-                                'normally' => config('osu.user.max_friends'),
-                                'supporter' => config('osu.user.max_friends_supporter'),
+                                'normally' => $GLOBALS['cfg']['osu']['user']['max_friends'],
+                                'supporter' => $GLOBALS['cfg']['osu']['user']['max_friends_supporter'],
                             ],
                         ],
                         'friend_filtering' => [
@@ -337,7 +421,7 @@ class HomeController extends Controller
                 [
                     'type' => 'image_group',
                     'items' => [
-                        'yellow_fellow' => [
+                        'colour_galore' => [
                             'icons' => ['fas fa-fire'],
                         ],
                         'speedy_downloads' => [

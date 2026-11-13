@@ -5,8 +5,9 @@
 
 namespace App\Models;
 
-use App\Libraries\ModsHelper;
-use Exception;
+use App\Libraries\Search\BeatmapsPassedSearch;
+use App\Models\Traits\WithDbCursorHelper;
+use Ds\Set;
 
 /**
  * @property string $author
@@ -21,32 +22,46 @@ use Exception;
  */
 class BeatmapPack extends Model
 {
+    use WithDbCursorHelper;
+
+    protected const DEFAULT_SORT = 'id_desc';
+    protected const SORTS = [
+        'id_desc' => [
+            ['column' => 'pack_id', 'order' => 'DESC'],
+        ],
+    ];
+
     const DEFAULT_TYPE = 'standard';
-    private static $tagMappings = [
+
+    // also display order for listing page
+    const TAG_MAPPINGS = [
         'standard' => 'S',
+        'featured' => 'F',
+        'tournament' => 'P', // since 'T' is taken and 'P' goes for 'pool'
+        'loved' => 'L',
+        'chart' => 'R',
         'theme' => 'T',
         'artist' => 'A',
-        'chart' => 'R',
     ];
 
     protected $table = 'osu_beatmappacks';
     protected $primaryKey = 'pack_id';
 
     protected $casts = [
+        'date' => 'datetime',
         'hidden' => 'boolean',
         'no_diff_reduction' => 'boolean',
     ];
 
-    protected $dates = ['date'];
     public $timestamps = false;
 
     public static function getPacks($type)
     {
-        if (!in_array($type, array_keys(static::$tagMappings), true)) {
-            return;
-        }
+        $tag = static::TAG_MAPPINGS[$type] ?? null;
 
-        $tag = static::$tagMappings[$type];
+        if ($tag === null) {
+            return null;
+        }
 
         return static::default()->where('tag', 'like', "{$tag}%")->orderBy('pack_id', 'desc');
     }
@@ -63,77 +78,49 @@ class BeatmapPack extends Model
 
     public function beatmapsets()
     {
-        $setsTable = (new Beatmapset())->getTable();
-        $itemsTable = (new BeatmapPackItem())->getTable();
-
-        return Beatmapset::query()
-            ->join($itemsTable, "{$itemsTable}.beatmapset_id", '=', "{$setsTable}.beatmapset_id")
-            ->where("{$itemsTable}.pack_id", '=', $this->pack_id);
+        return $this->hasManyThrough(
+            Beatmapset::class,
+            BeatmapPackItem::class,
+            'pack_id',
+            'beatmapset_id',
+            null,
+            'beatmapset_id',
+        );
     }
 
-    public function userCompletionData($user)
+    public function getRouteKeyName(): string
+    {
+        return 'tag';
+    }
+
+    public function userCompletionData($user, ?bool $isLegacy)
     {
         if ($user !== null) {
             $userId = $user->getKey();
-            $beatmapsetIds = $this->items()->pluck('beatmapset_id')->all();
-            $query = Beatmap::select('beatmapset_id')->distinct()->whereIn('beatmapset_id', $beatmapsetIds);
 
-            if ($this->playmode === null) {
-                static $scoreRelations;
-
-                // generate list of beatmap->score relation names for each modes
-                // store int mode as well as it'll be used for filtering the scores
-                if (!isset($scoreRelations)) {
-                    $scoreRelations = [];
-                    foreach (Beatmap::MODES as $modeStr => $modeInt) {
-                        $scoreRelations[] = [
-                            'playmode' => $modeInt,
-                            'relation' => camel_case("scores_best_{$modeStr}"),
-                        ];
-                    }
-                }
-
-                // outer where function
-                // The idea is SELECT ... WHERE ... AND (<has osu scores> OR <has taiko scores> OR ...).
-                $query->where(function ($q) use ($scoreRelations, $userId) {
-                    foreach ($scoreRelations as $scoreRelation) {
-                        // The <has <mode> scores> mentioned above is generated here.
-                        // As it's "playmode = <mode> AND EXISTS (<<mode> score for user>)",
-                        // wrap them so it's not flat "playmode = <mode> AND EXISTS ... OR playmode = <mode> AND EXISTS ...".
-                        $q->orWhere(function ($qq) use ($scoreRelation, $userId) {
-                            $qq
-                                // this playmode filter ensures the scores are limited to non-convert maps
-                                ->where('playmode', '=', $scoreRelation['playmode'])
-                                ->whereHas($scoreRelation['relation'], function ($scoreQuery) use ($userId) {
-                                    $scoreQuery->where('user_id', '=', $userId);
-
-                                    if ($this->no_diff_reduction) {
-                                        $scoreQuery->withoutMods(ModsHelper::DIFFICULTY_REDUCTION_MODS);
-                                    }
-                                });
-                        });
-                    }
-                });
-            } else {
-                $modeStr = Beatmap::modeStr($this->playmode);
-
-                if ($modeStr === null) {
-                    throw new Exception("beatmapset pack {$this->getKey()} has invalid playmode: {$this->playmode}");
-                }
-
-                $scoreRelation = camel_case("scores_best_{$modeStr}");
-
-                $query->whereHas($scoreRelation, function ($query) use ($userId) {
-                    $query->where('user_id', '=', $userId);
-
-                    if ($this->no_diff_reduction) {
-                        $query->withoutMods(ModsHelper::DIFFICULTY_REDUCTION_MODS);
-                    }
-                });
+            $beatmaps = Beatmap
+                ::whereIn('beatmapset_id', $this->items()->select('beatmapset_id'))
+                ->select(['beatmap_id', 'beatmapset_id', 'playmode'])
+                ->get();
+            $beatmapsetIdsByBeatmapId = [];
+            foreach ($beatmaps as $beatmap) {
+                $beatmapsetIdsByBeatmapId[$beatmap->beatmap_id] = $beatmap->beatmapset_id;
             }
 
-            $completedBeatmapsetIds = $query->pluck('beatmapset_id')->all();
-            $completed = count($completedBeatmapsetIds) === count($beatmapsetIds);
+            $completedBeatmapIds = BeatmapsPassedSearch::completedIds(
+                $userId,
+                array_keys($beatmapsetIdsByBeatmapId),
+                $this->no_diff_reduction,
+                $this->playmode,
+                $isLegacy,
+                $this->playmode === null,
+            );
+
+            $completedBeatmapsetIds = (new Set(array_map(
+                fn (int $beatmapId): int => $beatmapsetIdsByBeatmapId[$beatmapId],
+                $completedBeatmapIds,
+            )))->toArray();
+            $completed = count($completedBeatmapsetIds) === count(array_unique($beatmapsetIdsByBeatmapId));
         }
 
         return [

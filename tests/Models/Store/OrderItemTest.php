@@ -6,92 +6,77 @@
 namespace Tests\Models\Store;
 
 use App\Exceptions\InsufficientStockException;
+use App\Exceptions\InvariantException;
 use App\Models\Store\OrderItem;
 use App\Models\Store\Product;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class OrderItemTest extends TestCase
 {
+    #[DataProvider('deleteDataProvider')]
+    public function testDelete(string $status, ?string $expectedException)
+    {
+        [, $orderItem] = $this->createProductAndOrderItem(5, false);
+
+        $orderItem->order->update(['status' => $status]);
+
+        if ($expectedException === null) {
+            $this->expectNotToPerformAssertions();
+        } else {
+            $this->expectException($expectedException);
+        }
+
+        $orderItem->delete();
+    }
+
     public function testReserveUnreservedProduct()
     {
-        $product = factory(Product::class)->create(['stock' => 5, 'max_quantity' => 5]);
-        $orderItem = factory(OrderItem::class)->create([
-            'product_id' => $product->product_id,
-            'quantity' => 2,
-            'reserved' => false,
-        ]);
+        [$product, $orderItem] = $this->createProductAndOrderItem(5, false);
+
+        $this->expectCountChange(fn () => $product->fresh()->stock, -2);
 
         $orderItem->reserveProduct();
 
-        $orderItem->refresh();
-        $product->refresh();
-
-        $this->assertTrue($orderItem->reserved);
-        $this->assertSame($product->stock, 3);
+        $this->assertTrue($orderItem->fresh()->reserved);
     }
 
     public function testReserveReservedProduct()
     {
-        $product = factory(Product::class)->create(['stock' => 5, 'max_quantity' => 5]);
-        $orderItem = factory(OrderItem::class)->create([
-            'product_id' => $product->product_id,
-            'quantity' => 2,
-            'reserved' => true,
-        ]);
+        [$product, $orderItem] = $this->createProductAndOrderItem(5, true);
+
+        $this->expectCountChange(fn () => $product->fresh()->stock, 0);
 
         $orderItem->reserveProduct();
 
-        $orderItem->refresh();
-        $product->refresh();
-
-        $this->assertTrue($orderItem->reserved);
-        $this->assertSame($product->stock, 5);
+        $this->assertTrue($orderItem->fresh()->reserved);
     }
 
     public function testReleaseUnreservedProduct()
     {
-        $product = factory(Product::class)->create(['stock' => 5, 'max_quantity' => 5]);
-        $orderItem = factory(OrderItem::class)->create([
-            'product_id' => $product->product_id,
-            'quantity' => 2,
-            'reserved' => false,
-        ]);
+        [$product, $orderItem] = $this->createProductAndOrderItem(5, false);
+
+        $this->expectCountChange(fn () => $product->fresh()->stock, 0);
 
         $orderItem->releaseProduct();
 
-        $orderItem->refresh();
-        $product->refresh();
-
-        $this->assertFalse($orderItem->reserved);
-        $this->assertSame($product->stock, 5);
+        $this->assertFalse($orderItem->fresh()->reserved);
     }
 
     public function testReleaseReservedProduct()
     {
-        $product = factory(Product::class)->create(['stock' => 5, 'max_quantity' => 5]);
-        $orderItem = factory(OrderItem::class)->create([
-            'product_id' => $product->product_id,
-            'quantity' => 2,
-            'reserved' => true,
-        ]);
+        [$product, $orderItem] = $this->createProductAndOrderItem(5, true);
+
+        $this->expectCountChange(fn () => $product->fresh()->stock, 2);
 
         $orderItem->releaseProduct();
 
-        $orderItem->refresh();
-        $product->refresh();
-
-        $this->assertFalse($orderItem->reserved);
-        $this->assertSame($product->stock, 7);
+        $this->assertFalse($orderItem->fresh()->reserved);
     }
 
     public function testReserveInsufficientStock()
     {
-        $product = factory(Product::class)->create(['stock' => 1, 'max_quantity' => 5]);
-        $orderItem = factory(OrderItem::class)->create([
-            'product_id' => $product->product_id,
-            'quantity' => 2,
-            'reserved' => false,
-        ]);
+        [, $orderItem] = $this->createProductAndOrderItem(1, false);
 
         $this->expectException(InsufficientStockException::class);
         $orderItem->reserveProduct();
@@ -99,19 +84,33 @@ class OrderItemTest extends TestCase
 
     public function testReleaseWhenStockIsZero()
     {
-        $product = factory(Product::class)->create(['stock' => 0, 'max_quantity' => 5]);
-        $orderItem = factory(OrderItem::class)->create([
-            'product_id' => $product->product_id,
-            'quantity' => 2,
-            'reserved' => true,
-        ]);
+        [$product, $orderItem] = $this->createProductAndOrderItem(0, true);
+
+        $this->expectCountChange(fn () => $product->fresh()->stock, 0);
 
         $orderItem->releaseProduct();
 
-        $orderItem->refresh();
-        $product->refresh();
+        $this->assertFalse($orderItem->fresh()->reserved);
+    }
 
-        $this->assertFalse($orderItem->reserved);
-        $this->assertSame($product->stock, 0);
+    public static function deleteDataProvider()
+    {
+        return [
+            ['checkout', InvariantException::class],
+            ['incart', null],
+            ['processing', InvariantException::class],
+        ];
+    }
+
+    private function createProductAndOrderItem(int $stock, bool $reserved)
+    {
+        $product = Product::factory()->create(['stock' => $stock, 'max_quantity' => 5]);
+        $orderItem = OrderItem::factory()->create([
+            'product_id' => $product,
+            'quantity' => 2,
+            'reserved' => $reserved,
+        ]);
+
+        return [$product, $orderItem];
     }
 }

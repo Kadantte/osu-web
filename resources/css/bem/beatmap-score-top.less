@@ -1,0 +1,173 @@
+// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
+// See the LICENCE file in the repository root for full licence text.
+
+.beatmap-score-top {
+  @_top: beatmap-score-top;
+
+  background-color: hsl(var(--hsl-b3));
+  .default-border-radius();
+  .default-box-shadow();
+
+  align-items: center;
+  justify-content: space-between;
+
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 10px 20px;
+  pointer-events: none;
+
+  @media @desktop {
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+  }
+
+  &__achieved {
+    font-size: @font-size--small;
+  }
+
+  &__avatar {
+    flex: none;
+  }
+
+  &__flags {
+    display: flex;
+    gap: 5px;
+    font-size: @flag-size-medium; // icon size
+  }
+
+  &__link-container {
+    .full-size();
+    pointer-events: auto;
+  }
+
+  &__position {
+    display: grid;
+    justify-items: end;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  &__position-number {
+    .link-white();
+    .link-plain();
+    display: block;
+    padding-bottom: 5px;
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__stat-header {
+    font-size: 10px;
+    font-weight: 700;
+    color: @osu-colour-f1;
+
+    padding-bottom: 2px;
+
+    border-bottom: 2px solid hsl(var(--hsl-b2));
+    text-transform: uppercase;
+
+    min-width: 50px;
+    white-space: nowrap;
+
+    &--wider {
+      min-width: 80px;
+      width: 100%;
+    }
+
+    &--mods {
+      width: 100%;
+      min-width: 30px;
+    }
+
+    .hit-stat-colours({
+      color: hsl(@value);
+    });
+  }
+
+  &__stat-value {
+    font-size: 22px;
+    font-weight: 300;
+    color: white;
+    margin-top: 4px;
+
+    line-height: 0.9;
+
+    &--mods {
+      display: flex;
+      --mod-height: @mod-height-small;
+    }
+
+    &--perfect {
+      color: hsl(@beatmap-score--hsl-perfect);
+    }
+
+    &--smaller {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .hit-stat-colours({
+      color: hsl(@value);
+    });
+  }
+
+  &__stats {
+    display: flex;
+    flex-shrink: 1;
+    justify-content: space-around;
+    gap: 10px;
+
+    @media @desktop {
+      justify-content: flex-end;
+    }
+
+    &--wrappable {
+      flex-wrap: wrap;
+    }
+  }
+
+  &__user-box {
+    display: grid;
+    gap: 4px;
+    width: max-content;
+  }
+
+  &__username {
+    font-size: 18px;
+    font-weight: 700;
+    display: block;
+    line-height: 1;
+    .link-inverted();
+  }
+
+  &__wrapping-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+
+    &--left {
+      @media @desktop {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-column: 1 / 4;
+      }
+    }
+
+    &--right {
+      flex-wrap: wrap;
+      align-items: flex-start;
+
+      @media @desktop {
+        justify-content: flex-end;
+      }
+    }
+  }
+}

@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited 댓글은 숨겨져 있어요.|:count_delimited 댓글들은 숨겨져 있어요.',
+
     'authorizations' => [
         'update' => [
             'null_user' => '로그인하셔야 수정하실 수 있습니다.',
@@ -16,6 +18,16 @@ return [
         'empty' => '아무 일도 일어나지 않았네요... 아직은요.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => '삭제됨',
         'none_found' => '해당 검색 기준과 일치하는 토론을 찾을 수 없습니다.',
@@ -24,9 +36,11 @@ return [
         'form' => [
             '_' => '검색',
             'deleted' => '삭제된 토론 포함',
+            'mode' => '비트맵 모드',
             'only_unresolved' => '미해결 토론만 보기',
+            'show_review_embeds' => '리뷰 글 표시',
             'types' => '메시지 종류',
-            'username' => '사용자 이름',
+            'username' => '아이디',
 
             'beatmapset_status' => [
                 '_' => '비트맵 상태',
@@ -53,8 +67,22 @@ return [
 
     'nearby_posts' => [
         'confirm' => '지금 작성하는 토론과 연관된 토론이 없습니다',
-        'notice' => ':timestamp (:existing_timestamps)주위에 달린 답글이 있습니다. 포스팅하기 전에 한 번 확인해보세요.',
+        'notice' => '대략 :timestamp (:existing_timestamps)에 게시한 게시글이 있어요. 게시하기 전에 한 번 확인 해보세요.',
         'unsaved' => '이 리뷰에서 :count개',
+    ],
+
+    'owner_editor' => [
+        'button' => '난이도 주인',
+        'reset_confirm' => '이 난이도의 주인을 재설정할까요?',
+        'user' => '주인',
+        'version' => '난이도',
+    ],
+
+    'refresh' => [
+        'checking' => '업데이트 확인 중...',
+        'has_updates' => '토론에 새로운 소식이 있으니, 여기를 눌러 새로고침해 주세요.',
+        'no_updates' => '업데이트가 없어요.',
+        'updating' => '업데이트 중...',
     ],
 
     'reply' => [
@@ -66,13 +94,14 @@ return [
 
     'review' => [
         'block_count' => ':used / :max 블록 사용됨',
-        'go_to_parent' => '평가 글 보기',
+        'go_to_parent' => '리뷰 글 보기',
         'go_to_child' => '토론 글 보기',
         'validation' => [
             'block_too_large' => '각 문단은 최대 :limit자까지 입력할 수 있습니다.',
             'external_references' => '이 리뷰는 관련 없는 이슈 참조를 포함하고 있습니다.',
             'invalid_block_type' => '잘못된 블록 종류',
             'invalid_document' => '잘못된 리뷰',
+            'invalid_discussion_type' => '잘못된 토론 종류',
             'minimum_issues' => '리뷰는 최소한 :count개의 이슈를 포함해야 합니다',
             'missing_text' => '블록이 텍스트를 포함하고 있지 않음',
             'too_many_blocks' => '리뷰는 최대 :count개의 문단 및 이슈를 포함할 수 있습니다.',
@@ -81,7 +110,7 @@ return [
 
     'system' => [
         'resolved' => [
-            'true' => ':user 님이 해결함으로 표시함.',
+            'true' => ':user님이 토론을 끝마쳤습니다',
             'false' => ':user님이 토론을 재개했습니다',
         ],
     ],
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => '모두',
         'label' => '사용자순 필터링',
+        'multiple' => ':count_delimited개의 유저 선택 됨|:count_delimited개의 유저 선택 됨',
     ],
 ];

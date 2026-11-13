@@ -6,34 +6,33 @@
 namespace Tests\Transformers;
 
 use App\Models\Beatmapset;
+use App\Models\User;
+use App\Transformers\BeatmapsetTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class BeatmapsetTransformerTest extends TestCase
 {
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testDeletedBeatmapsetGroupPermissionsWithOAuth($groupIdentifier)
+    #[DataProvider('groupsDataProvider')]
+    public function testDeletedBeatmapsetGroupPermissionsWithOAuth(?string $groupIdentifier, bool $_visible)
     {
-        $viewer = $this->createUserWithGroup($groupIdentifier);
-        $beatmapset = factory(Beatmapset::class)->states('deleted')->create();
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
+        $beatmapset = Beatmapset::factory()->deleted()->create();
         $this->actAsScopedUser($viewer);
 
-        $json = json_item($beatmapset, 'Beatmapset');
+        $json = json_item($beatmapset, new BeatmapsetTransformer());
 
         $this->assertEmpty($json);
     }
 
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testDeletedBeatmapsetGroupPermissionsWithoutOAuth($groupIdentifier, $visible)
+    #[DataProvider('groupsDataProvider')]
+    public function testDeletedBeatmapsetGroupPermissionsWithoutOAuth(?string $groupIdentifier, bool $visible)
     {
-        $viewer = $this->createUserWithGroup($groupIdentifier);
-        $beatmapset = factory(Beatmapset::class)->states('deleted')->create();
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
+        $beatmapset = Beatmapset::factory()->deleted()->create();
         $this->actAsUser($viewer);
 
-        $json = json_item($beatmapset, 'Beatmapset');
+        $json = json_item($beatmapset, new BeatmapsetTransformer());
 
         if ($visible) {
             $this->assertNotEmpty($json);
@@ -42,14 +41,15 @@ class BeatmapsetTransformerTest extends TestCase
         }
     }
 
-    public function groupsDataProvider()
+    public static function groupsDataProvider()
     {
+        // The second argument is only for testDeletedBeatmapsetGroupPermissionsWithoutOAuth
         return [
             ['admin', true],
             ['bng', true],
             ['gmt', true],
             ['nat', true],
-            [[], false],
+            [null, false],
         ];
     }
 }

@@ -18,8 +18,27 @@ return [
         ],
     ],
 
+    'series' => [
+        'beatmap_spotlights' => 'Rytmikartta Valokeilat',
+        'community_contests' => 'yhteisön kilpailut',
+        'community_tournaments' => 'yhteisön turnaukset',
+        'fanart_contests' => 'taidekilpailut',
+        'featured_artists' => 'Esiteltävien Artistien ilmoitukset',
+        'game_updates' => '',
+        'mappers_guild' => 'Kartoittajien Kilta',
+        'monthly_beatmapping_contest' => 'Kuukausittainen Kartoituskilpailu',
+        'merch_runs' => 'osu! kauppatavarat',
+        'miscellaneous' => 'sekalaiset ilmoitukset',
+        'official_contests' => 'viralliset kilpailut',
+        'offline_events' => 'offline kilpailut',
+        'online_events' => 'online kilpailut',
+        'project_loved' => 'Projekti Rakastettu',
+        'ranking_system_updates' => 'ranking järjestelmän päivitykset',
+        'world_cups' => 'osu! Maailmanmestaruuskilpailut',
+    ],
+
     'show' => [
-        'by' => ':user\'lta',
+        'by' => 'kirjoittanut :user',
 
         'nav' => [
             'newer' => 'Uudempi viesti',

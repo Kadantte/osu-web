@@ -6,9 +6,14 @@
 namespace App\Transformers;
 
 use App\Libraries\MorphMap;
+use App\Libraries\SessionVerification;
+use App\Libraries\User\SeasonStats;
 use App\Models\Beatmap;
 use App\Models\User;
 use App\Models\UserProfileCustomization;
+use Illuminate\Support\Arr;
+use League\Fractal\Resource\Primitive;
+use League\Fractal\Resource\ResourceInterface;
 
 class UserCompactTransformer extends TransformerAbstract
 {
@@ -16,30 +21,73 @@ class UserCompactTransformer extends TransformerAbstract
         'country',
         'cover',
         'groups',
+        'team',
     ];
 
     const CARD_INCLUDES_PRELOAD = [
-        'country',
+        'team',
         'userGroups',
-        'userProfileCustomization',
     ];
 
-    public $mode;
+    // Minimum list of table fields required for the transformer with no includes.
+    const DEFAULT_SELECT_FIELDS = [
+        'country_acronym',
+        'group_id',
+        'osu_subscriber',
+        'user_allow_pm',
+        'user_allow_viewonline',
+        'user_avatar',
+        'user_colour',
+        'user_id',
+        'user_lastvisit',
+        'user_style',
+        'username',
+    ];
 
-    protected $availableIncludes = [
-        'account_history',
+    // Paired with static::listIncludesPreload
+    const LIST_INCLUDES = [
+        ...self::CARD_INCLUDES,
+        'statistics',
+        'support_level',
+    ];
+
+    const PROFILE_HEADER_INCLUDES = [
         'active_tournament_banner',
+        'active_tournament_banners',
+        'badges',
+        'comments_count',
+        'follower_count',
+        'groups',
+        'mapping_follower_count',
+        'previous_usernames',
+        'support_level',
+    ];
+
+    protected string $mode;
+
+    protected array $availableIncludes = [
+        'account_history',
+        'active_tournament_banner', // deprecated
+        'active_tournament_banners',
         'badges',
         'beatmap_playcounts_count',
+        'beatmaps_modded_count',
+        'beatmapset_status_counts',
         'blocks',
+        'comments_count',
         'country',
         'cover',
+        'current_season_stats',
+        'current_user_attributes',
+        'daily_challenge_user_stats',
         'favourite_beatmapset_count',
         'follow_user_mapping',
         'follower_count',
         'friends',
+        'global_rank',
         'graveyard_beatmapset_count',
         'groups',
+        'guest_beatmapset_count',
         'is_admin',
         'is_bng',
         'is_full_bn',
@@ -49,26 +97,35 @@ class UserCompactTransformer extends TransformerAbstract
         'is_nat',
         'is_restricted',
         'is_silenced',
+        'issues_resolved_count',
+        'kudosu',
         'loved_beatmapset_count',
         'mapping_follower_count',
+        'matchmaking_stats',
         'monthly_playcounts',
+        'nominated_beatmapset_count',
         'page',
+        'pending_beatmapset_count',
         'previous_usernames',
-        'ranked_and_approved_beatmapset_count',
+        'rank_highest',
+        'ranked_beatmapset_count',
         'replays_watched_counts',
+        'score_processing_notice_url',
         'scores_best_count',
         'scores_first_count',
+        'scores_pinned_count',
         'scores_recent_count',
+        'session_verification_method',
+        'session_verified',
         'statistics',
         'statistics_rulesets',
         'support_level',
-        'unranked_beatmapset_count',
+        'team',
         'unread_pm_count',
         'user_achievements',
         'user_preferences',
-        // TODO: should be changed to rank_history
-        // TODO: should be alphabetically ordered but lazer relies on being after statistics. can revert to alphabetical after 2020-05-01
-        'rankHistory',
+
+        // TODO: should be alphabetically ordered but lazer relies on being after statistics.
         'rank_history',
     ];
 
@@ -81,11 +138,17 @@ class UserCompactTransformer extends TransformerAbstract
         'is_limited_bn' => 'IsNotOAuth',
         'is_moderator' => 'IsNotOAuth',
         'is_nat' => 'IsNotOAuth',
-        'is_restricted' => 'IsNotOAuth',
+        'is_restricted' => 'UserShowRestrictedStatus',
         'is_silenced' => 'IsNotOAuth',
     ];
 
-    protected $userProfileCustomization = [];
+    public static function listIncludesPreload(string $rulesetName): array
+    {
+        return [
+            ...static::CARD_INCLUDES_PRELOAD,
+            User::statisticsRelationName($rulesetName),
+        ];
+    }
 
     public function transform(User $user)
     {
@@ -96,12 +159,13 @@ class UserCompactTransformer extends TransformerAbstract
             'id' => $user->user_id,
             'is_active' => $user->isActive(),
             'is_bot' => $user->isBot(),
-            'is_deleted' => $user->isDeleted(),
+            'is_deleted' => $user->trashed(),
             'is_online' => $user->isOnline(),
             'is_supporter' => $user->isSupporter(),
-            'last_visit' => json_time($user->displayed_last_visit),
+            'last_visit' => $user->getDisplayedLastVisit(),
             'pm_friends_only' => $user->pm_friends_only,
             'profile_colour' => $user->user_colour,
+            'profile_hue' => $user->user_style,
             'username' => $user->username,
         ];
     }
@@ -124,7 +188,19 @@ class UserCompactTransformer extends TransformerAbstract
 
     public function includeActiveTournamentBanner(User $user)
     {
-        return $this->item($user->profileBanners()->active(), new ProfileBannerTransformer());
+        $banner = $user->profileBannersActive->last();
+
+        return $banner === null
+            ? $this->primitive(null)
+            : $this->item($banner, new ProfileBannerTransformer());
+    }
+
+    public function includeActiveTournamentBanners(User $user)
+    {
+        return $this->collection(
+            $user->profileBannersActive,
+            new ProfileBannerTransformer(),
+        );
     }
 
     public function includeBadges(User $user)
@@ -137,46 +213,77 @@ class UserCompactTransformer extends TransformerAbstract
 
     public function includeBeatmapPlaycountsCount(User $user)
     {
-        return $this->primitive($user->beatmapPlaycounts()->count());
+        return $this->primitive($user->profileCount()->get('beatmapPlaycounts'));
+    }
+
+    public function includeBeatmapsModdedCount(User $user)
+    {
+        return $this->primitive($user->profileCount()->get('beatmapsModded'));
+    }
+
+    public function includeBeatmapsetStatusCounts(User $user)
+    {
+        return $this->primitive($user->profileCount()->beatmapsetStatusCounts());
     }
 
     public function includeBlocks(User $user)
     {
-        return $this->collection(
-            $user->relations()->blocks()->get(),
-            new UserRelationTransformer()
-        );
+        return $this->collection($user->blocks, new UserRelationTransformer());
+    }
+
+    public function includeCommentsCount(User $user)
+    {
+        return $this->primitive($user->comments()->withoutTrashed()->count());
     }
 
     public function includeCountry(User $user)
     {
-        return $user->country === null
+        $countryAcronym = $user->country_acronym;
+        $country = $countryAcronym === null
+            ? null
+            : app('countries')->byCode($countryAcronym);
+
+        return $country === null
             ? $this->primitive(null)
-            : $this->item($user->country, new CountryTransformer());
+            : $this->item($country, new CountryTransformer());
     }
 
     public function includeCover(User $user)
     {
-        $profileCustomization = $this->userProfileCustomization($user);
+        $cover = $user->cover();
 
         return $this->primitive([
-            'custom_url' => $profileCustomization->cover()->fileUrl(),
-            'url' => $profileCustomization->cover()->url(),
-            'id' => $profileCustomization->cover()->id(),
+            'custom_url' => $cover->customUrl(),
+            'url' => $cover->url(),
+            // cast to string for backward compatibility
+            'id' => get_string($user->cover_preset_id),
         ]);
+    }
+
+    public function includeCurrentSeasonStats(User $user): Primitive
+    {
+        return $this->primitive(SeasonStats::currentFor($user, $this->mode));
+    }
+
+    public function includeCurrentUserAttributes(User $user): Primitive
+    {
+        $currentUser = \Auth::user();
+        return $this->primitive($currentUser === null ? null : [
+            'has_blocked' => $user->hasBlocked($currentUser),
+        ]);
+    }
+
+    public function includeDailyChallengeUserStats(User $user)
+    {
+        return $this->item(
+            $user->dailyChallengeUserStats ?? $user->dailyChallengeUserStats()->make(),
+            new DailyChallengeUserStatsTransformer(),
+        );
     }
 
     public function includeFavouriteBeatmapsetCount(User $user)
     {
-        return $this->primitive($user->profileBeatmapsetsFavourite()->count());
-    }
-
-    public function includeFriends(User $user)
-    {
-        return $this->collection(
-            $user->relations()->friends()->withMutual()->get(),
-            new UserRelationTransformer()
-        );
+        return $this->primitive($user->profileCount()->get('favouriteBeatmapsets'));
     }
 
     public function includeFollowUserMapping(User $user)
@@ -194,14 +301,35 @@ class UserCompactTransformer extends TransformerAbstract
         return $this->primitive($user->followerCount());
     }
 
+    public function includeFriends(User $user)
+    {
+        return $this->collection(
+            $user->friendsWithMutual,
+            new UserRelationTransformer()
+        );
+    }
+
+    public function includeGlobalRank(User $user)
+    {
+        return $this->primitive([
+            'rank' => $user->statistics($this->mode)?->globalRank(),
+            'ruleset_id' => Beatmap::MODES[$this->mode],
+        ]);
+    }
+
     public function includeGraveyardBeatmapsetCount(User $user)
     {
-        return $this->primitive($user->profileBeatmapsetsGraveyard()->count());
+        return $this->primitive($user->profileCount()->get('graveyardBeatmapsets'));
     }
 
     public function includeGroups(User $user)
     {
-        return $this->collection($user->visibleGroups(), new UserGroupTransformer());
+        return $this->collection($user->userGroupsForBadges(), new UserGroupTransformer());
+    }
+
+    public function includeGuestBeatmapsetCount(User $user)
+    {
+        return $this->primitive($user->profileCount()->get('guestBeatmapsets'));
     }
 
     public function includeIsAdmin(User $user)
@@ -249,14 +377,39 @@ class UserCompactTransformer extends TransformerAbstract
         return $this->primitive($user->isSilenced());
     }
 
+    public function includeIssuesResolvedCount(User $user)
+    {
+        return $this->primitive($user->profileCount()->get('issuesResolved'));
+    }
+
+    public function includeKudosu(User $user): ResourceInterface
+    {
+        return $this->item($user, new UserKudosuTransformer());
+    }
+
     public function includeLovedBeatmapsetCount(User $user)
     {
-        return $this->primitive($user->profileBeatmapsetsLoved()->count());
+        return $this->primitive($user->profileCount()->get('lovedBeatmapsets'));
     }
 
     public function includeMappingFollowerCount(User $user)
     {
         return $this->primitive($user->mappingFollowerCount());
+    }
+
+    public function includeMatchmakingStats(User $user): ResourceInterface
+    {
+        $allStats = $user
+            ->matchmakingStats()
+            ->default()
+            ->whereHas('pool', fn ($q) => $q->where([
+                'ruleset_id' => Beatmap::MODES[$this->mode],
+                'type' => 'ranked_play',
+            ]))->withRank()
+            ->with('pool')
+            ->get();
+
+        return $this->collection($allStats, new MatchmakingUserStatsTransformer());
     }
 
     public function includeMonthlyPlaycounts(User $user)
@@ -267,18 +420,26 @@ class UserCompactTransformer extends TransformerAbstract
         );
     }
 
+    public function includeNominatedBeatmapsetCount(User $user)
+    {
+        return $this->primitive($user->profileCount()->get('nominatedBeatmapsets'));
+    }
+
     public function includePage(User $user)
     {
-        return $this->item($user, function ($user) {
-            if ($user->userPage !== null) {
-                return [
-                    'html' => $user->userPage->bodyHTML(['withoutImageDimensions' => true, 'modifiers' => ['profile-page']]),
+        return $this->primitive(
+            $user->userPage === null
+                ? ['html' => '', 'raw' => '']
+                : [
+                    'html' => $user->userPage->bodyHTML(['modifiers' => ['profile-page']]),
                     'raw' => $user->userPage->bodyRaw,
-                ];
-            } else {
-                return ['html' => '', 'raw' => ''];
-            }
-        });
+                ]
+        );
+    }
+
+    public function includePendingBeatmapsetCount(User $user)
+    {
+        return $this->primitive($user->profileCount()->get('pendingBeatmapsets'));
     }
 
     public function includePreviousUsernames(User $user)
@@ -286,20 +447,32 @@ class UserCompactTransformer extends TransformerAbstract
         return $this->primitive($user->previousUsernames()->unique()->values()->toArray());
     }
 
-    public function includeRankedAndApprovedBeatmapsetCount(User $user)
+    public function includeRankHighest(User $user): ResourceInterface
     {
-        return $this->primitive($user->profileBeatmapsetsRankedAndApproved()->count());
+        $rankHighest = $user->rankHighests()
+            ->where('mode', Beatmap::modeInt($this->mode))
+            ->first();
+
+        return $rankHighest === null
+            ? $this->null()
+            : $this->item($rankHighest, new RankHighestTransformer());
     }
 
     public function includeRankHistory(User $user)
     {
         $rankHistoryData = $user->rankHistories()
             ->where('mode', Beatmap::modeInt($this->mode))
-            ->first();
+            ->first()
+            ?->setRelation('user', $user);
 
         return $rankHistoryData === null
             ? $this->primitive(null)
             : $this->item($rankHistoryData, new RankHistoryTransformer());
+    }
+
+    public function includeRankedBeatmapsetCount(User $user)
+    {
+        return $this->primitive($user->profileCount()->get('rankedBeatmapsets'));
     }
 
     public function includeReplaysWatchedCounts(User $user)
@@ -310,19 +483,43 @@ class UserCompactTransformer extends TransformerAbstract
         );
     }
 
+    public function includeScoreProcessingNoticeUrl()
+    {
+        return $this->primitive($GLOBALS['cfg']['osu']['score']['processing_notice_url']);
+    }
+
     public function includeScoresBestCount(User $user)
     {
-        return $this->primitive(count($user->beatmapBestScoreIds($this->mode)));
+        return $this->primitive($user->profileCount()->get('scoresBest', $this->mode));
     }
 
     public function includeScoresFirstCount(User $user)
     {
-        return $this->primitive($user->scoresFirst($this->mode, true)->visibleUsers()->count());
+        return $this->primitive($user->profileCount()->get('scoresFirsts', $this->mode));
+    }
+
+    public function includeScoresPinnedCount(User $user)
+    {
+        return $this->primitive($user->profileCount()->get('scoresPinned', $this->mode));
     }
 
     public function includeScoresRecentCount(User $user)
     {
-        return $this->primitive($user->scores($this->mode, true)->includeFails(false)->count());
+        return $this->primitive($user->profileCount()->get('scoresRecent', $this->mode));
+    }
+
+    public function includeSessionVerified(User $user)
+    {
+        return $this->primitive($user->token()?->isVerified() ?? false);
+    }
+
+    public function includeSessionVerificationMethod(User $user)
+    {
+        $session = $user->token();
+
+        return $this->primitive($session === null || $session->isVerified()
+            ? null
+            : (new SessionVerification\State($session, $user))->getMethod());
     }
 
     public function includeStatistics(User $user)
@@ -342,14 +539,17 @@ class UserCompactTransformer extends TransformerAbstract
         return $this->primitive($user->supportLevel());
     }
 
-    public function includeUnrankedBeatmapsetCount(User $user)
+    public function includeTeam(User $user)
     {
-        return $this->primitive($user->profileBeatmapsetsUnranked()->count());
+        return ($team = $user->team) === null
+            ? $this->null()
+            : $this->item($team, new TeamTransformer());
     }
 
     public function includeUnreadPmCount(User $user)
     {
-        return $this->primitive($user->notificationCount());
+        // legacy pm has been turned off
+        return $this->primitive(0);
     }
 
     public function includeUserAchievements(User $user)
@@ -362,30 +562,22 @@ class UserCompactTransformer extends TransformerAbstract
 
     public function includeUserPreferences(User $user)
     {
-        $customization = $this->userProfileCustomization($user);
-
-        return $this->primitive($customization->only([
-            'audio_autoplay',
-            'audio_muted',
-            'audio_volume',
-            'beatmapset_download',
-            'beatmapset_show_nsfw',
-            'beatmapset_title_show_original',
-            'comments_show_deleted',
-            'forum_posts_show_deleted',
-            'ranking_expanded',
-            'user_list_filter',
-            'user_list_sort',
-            'user_list_view',
+        static $fields = array_values(array_diff(array_keys(UserProfileCustomization::DEFAULTS), [
+            'comments_sort',
+            'extras_order',
         ]));
+
+        $customization = $user->userProfileCustomization;
+
+        return $this->primitive($customization === null
+            ? Arr::only(UserProfileCustomization::DEFAULTS, $fields)
+            : $customization->only($fields));
     }
 
-    protected function userProfileCustomization(User $user): UserProfileCustomization
+    public function setMode(string $mode)
     {
-        if (!isset($this->userProfileCustomization[$user->getKey()])) {
-            $this->userProfileCustomization[$user->getKey()] = $user->userProfileCustomization ?? $user->userProfileCustomization()->make();
-        }
+        $this->mode = $mode;
 
-        return $this->userProfileCustomization[$user->getKey()];
+        return $this;
     }
 }

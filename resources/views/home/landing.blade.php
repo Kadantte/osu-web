@@ -2,72 +2,35 @@
     Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
     See the LICENCE file in the repository root for full licence text.
 --}}
+@php
+    $currentLocaleMeta = current_locale_meta();
+    $navLinks = nav_links();
+@endphp
+
 @extends('master', [
-    'titleOverride' => trans('home.landing.title'),
+    'titleOverride' => osu_trans('home.landing.title'),
     'blank' => 'true',
     'bodyAdditionalClasses' => 'osu-layout--body-landing'
 ])
 
 @section('content')
-    <nav class="osu-layout__row">
+    <nav class="osu-page">
         <!-- Mobile Navigation -->
-        @include('layout._header_mobile')
+        @include('layout._header_mobile', ['titleOverride' => ''])
 
         <!-- Desktop Navigation -->
         <div class="landing-nav hidden-xs">
             <div class="landing-nav__section">
-                @foreach (nav_links() as $section => $links)
+                @foreach ($navLinks as $section => $links)
                     <a
-                        href="{{ $links['_'] ?? array_values($links)[0] }}"
+                        href="{{ array_first($links) }}"
                         class="landing-nav__link {{ ($section == "home") ? "landing-nav__link--bold" : "" }}"
                     >
-                        {{ trans("layout.menu.$section._") }}
+                        {{ osu_trans("layout.menu.$section._") }}
                     </a>
                 @endforeach
 
-                <div class="landing-nav__locale-menu-link">
-                    <span class="landing-nav__link js-menu" data-menu-target="landing--locale">
-                        <span class="landing-nav__locale-flag">
-                            @include('objects._flag_country', [
-                                'countryCode' => locale_flag(App::getLocale()),
-                            ])
-                        </span>
-
-                        {{ locale_name(App::getLocale()) }}
-                    </span>
-
-                    <div
-                        class="js-menu landing-nav__locale-menu"
-                        data-menu-id="landing--locale"
-                        data-visibility="hidden"
-                    >
-                        @foreach (config('app.available_locales') as $locale)
-                            <button
-                                type="button"
-                                class="landing-nav__locale-button"
-                                @if ($locale !== App::getLocale())
-                                    data-url="{{ route('set-locale', ['locale' => $locale]) }}"
-                                    data-remote="1"
-                                    data-method="POST"
-                                @endif
-                            >
-                                <span class="landing-nav__link landing-nav__link--locale">
-                                    <span class="landing-nav__locale-link-pointer">
-                                        <span class="fas fa-chevron-right"></span>
-                                    </span>
-
-                                    <span class="landing-nav__locale-flag">
-                                        @include('objects._flag_country', [
-                                            'countryCode' => locale_flag($locale),
-                                        ])
-                                    </span>
-
-                                    {{ locale_name($locale) }}
-                                </span>
-                            </button>
-                        @endforeach
-                    </div>
-                </div>
+                {!! app('layout-cache')->getLocalesLanding() !!}
             </div>
 
             <div class="landing-nav__section">
@@ -76,33 +39,31 @@
                     class="landing-nav__link js-nav-toggle js-click-menu js-user-login--menu"
                     data-click-menu-target="nav2-login-box"
                 >
-                    {{ trans("users.login._") }}
+                    {{ osu_trans("users.login._") }}
                 </a>
             </div>
         </div>
 
     </nav>
 
-    <div class="js-nav-data" id="nav-data-landing" data-turbolinks-permanent></div>
+    <div class="js-nav-data" id="nav-data-landing" data-turbo-permanent></div>
     @include('layout._popup_login', ['modifiers' => ['landing']])
 
     <div class="osu-page">
         <div class="landing-hero">
             <div class="landing-hero__bg-container">
-                <div class="landing-hero__bg-inner-container js-scale" data-scale="ws">
-                    {{--
-                        playsinline is for iphone autoplay
-                        reference: https://webkit.org/blog/6784/new-video-policies-for-ios/
-                    --}}
-                    <video
-                        class="landing-hero__bg js-autoplay"
-                        autoplay
-                        loop
-                        muted
-                        playsinline
-                        src="{{ config('osu.landing.video_url') }}"
-                    ></video>
-                </div>
+                {{--
+                    playsinline is for iphone autoplay
+                    reference: https://webkit.org/blog/6784/new-video-policies-for-ios/
+                --}}
+                <video
+                    class="landing-hero__bg"
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    src="{{ $GLOBALS['cfg']['osu']['landing']['video_url'] }}"
+                ></video>
             </div>
 
             <div class="landing-hero__pippi">
@@ -110,8 +71,8 @@
             </div>
 
             <div class="landing-hero__info">
-                {!! trans("home.landing.players", ['count' => i18n_number_format($stats->totalUsers)]) !!},
-                {!! trans("home.landing.online", [
+                {!! osu_trans("home.landing.players", ['count' => i18n_number_format($stats->totalUsers)]) !!},
+                {!! osu_trans("home.landing.online", [
                     'players' => i18n_number_format($stats->currentOnline),
                     'games' => i18n_number_format($stats->currentGames)]
                 ) !!}
@@ -126,11 +87,11 @@
 
                 <div class="landing-hero__slogan">
                     <h1 class="landing-hero__slogan-main">
-                        {{ trans('home.landing.slogan.main') }}
+                        {{ osu_trans('home.landing.slogan.main') }}
                     </h1>
 
                     <h2 class="landing-hero__slogan-sub">
-                        {{ trans('home.landing.slogan.sub') }}
+                        {{ osu_trans('home.landing.slogan.sub') }}
                     </h2>
                 </div>
 
@@ -140,7 +101,7 @@
                             <span class="btn-osu-big__content">
                                 <span class="btn-osu-big__left">
                                     <span class="btn-osu-big__text-top">
-                                        {{ trans("home.landing.download") }}
+                                        {{ osu_trans("home.landing.download") }}
                                     </span>
                                 </span>
 
@@ -161,23 +122,21 @@
         </div>
     </div>
 
-    <div class="osu-page js-react--landing-news">
+    <div class="osu-page js-react" data-react="landing-news">
     </div>
 
     <footer class="osu-layout__section osu-layout__section--landing-footer">
-        <div class="osu-layout__row osu-layout__row--landing-sitemap landing-sitemap">
-            <div class="osu-layout__col-container osu-layout__col-container--landing-sitemap">
+        <div class="osu-page">
+            <div class="landing-sitemap">
                 @foreach (footer_landing_links() as $section => $links)
-                    <div class="osu-layout__col osu-layout__col--sm-4">
-                        <ul class="landing-sitemap__list">
-                            <li class="landing-sitemap__item">
-                                <div class="landing-sitemap__header">{{ trans("layout.footer.$section._") }}</div>
-                            </li>
-                            @foreach ($links as $action => $link)
-                                <li class="landing-sitemap__item"><a href="{{ $link }}" class="landing-sitemap__link">{{ trans("layout.footer.$section.$action") }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
+                    <ul class="landing-sitemap__list">
+                        <li class="landing-sitemap__item">
+                            <div class="landing-sitemap__header">{{ osu_trans("layout.footer.$section._") }}</div>
+                        </li>
+                        @foreach ($links as $action => $link)
+                            <li class="landing-sitemap__item"><a href="{{ $link }}" class="landing-sitemap__link">{{ osu_trans("layout.footer.$section.$action") }}</a></li>
+                        @endforeach
+                    </ul>
                 @endforeach
             </div>
         </div>
@@ -186,15 +145,13 @@
             <a href="{{ route('support-the-game') }}" class="landing-footer-social__icon landing-footer-social__icon--support">
                 <span class="fas fa-heart"></span>
             </a>
-            <a href="{{ osu_url("social.twitter") }}" class="landing-footer-social__icon landing-footer-social__icon--twitter">
+            <a href="{{ osu_url('social.twitter') }}" class="landing-footer-social__icon landing-footer-social__icon--twitter">
                 <span class="fab fa-twitter"></span>
             </a>
         </div>
 
         @include('layout.footer', ['modifiers' => ['landing'], 'withLinks' => false])
     </footer>
-
-    @include('layout.popup-container')
 @endsection
 
 @section ("script")
@@ -202,5 +159,35 @@
 
     <script id="json-posts" type="application/json">
         {!! json_encode($news) !!}
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "osu!",
+      "url": "https://osu.ppy.sh/",
+      "image": "https://assets.ppy.sh/logo-with-background.png",
+      "description": "rhythm is just a click away",
+      "author": {
+        "@type": "Organization",
+        "name": "ppy"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ppy"
+      },
+      "producer": {
+        "@type": "Organization",
+        "name": "ppy"
+      },
+      "applicationCategory": "Game",
+      "gamePlatform": ["Windows", "macOS", "Linux", "Android", "iOS"],
+      "playMode": ["SinglePlayer","MultiPlayer"],
+      "genre": "Rhythm",
+      "inLanguage": ["en", "be", "bg", "ca", "cs", "da", "de", "el", "es", "fi", "fr", "hr-hr", "hu", "id", "it", "ja", "ko", "lt", "lv-lv", "ms-my", "nl", "no", "pl", "pt", "pt-br", "ro", "ru", "sk", "sl", "sr", "sv", "th", "tr", "uk", "vi", "zh", "zh_hant"],
+      "sameAs": "https://github.com/ppy/osu",
+      "datePublished": "2007-09-16"
+    }
     </script>
 @endsection

@@ -5,17 +5,29 @@
 
 return [
     'mode' => [
+        'artist_track' => 'Faixa de Artista em Destaque',
         'beatmapset' => 'Beatmap',
         'forum_post' => 'Fórum',
         'other' => 'Outros',
+        'team' => 'Equipe',
         'user' => 'Jogador',
         'wiki_page' => 'Wiki',
     ],
 
     'result' => [
-        'empty' => 'Sem resultados',
-        'empty_for' => 'Sem resultados para :modes',
         'more' => 'Mais Resultados de Pesquisa de :mode',
         'title' => 'Resultados de Pesquisa de :mode',
+
+        'no_results' => [
+            '_' => 'Nenhum resultado para :mode',
+
+            'artist_track' => 'Faixas de Artistas em Destaque',
+            'beatmapset' => 'Beatmaps',
+            'forum_post' => 'Fóruns',
+            'other' => 'Outros',
+            'team' => 'Equipes',
+            'user' => 'Jogadores',
+            'wiki_page' => 'Wiki',
+        ],
     ],
 ];

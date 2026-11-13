@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'admin',
     ],
-    'admin_forum' => [
-        '_' => 'admin',
-    ],
-    'admin_store' => [
-        '_' => 'admin',
-    ],
     'error' => [
         'error' => [
             '400' => 'ugyldig anmodning',
@@ -22,20 +16,19 @@ return [
             '401-verification' => 'kontobekræftelse',
             '405' => 'mangler',
             '422' => 'ugyldig anmodning',
-            '429' => '',
+            '429' => 'for mange anmodninger',
             '500' => 'mm, noget gik galt',
             '503' => 'vedligeholdelse',
         ],
     ],
     'forum' => [
         '_' => 'forum',
-        'topic_watches_controller' => [
-            'index' => 'instrumentbræt',
+        'topic_logs_controller' => [
+            'index' => 'emne logs',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'instrumentbræt',
             'verify_link' => 'kontobekræftelse',
         ],
         'artists_controller' => [
@@ -56,13 +49,11 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'beatmap historie',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'instrumentbræt',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'beatmap diskussion',
             'index' => 'beatmap katalog',
             'show' => 'beatmap info',
+            'versions' => 'beatmap versionshistorik',
         ],
         'changelog_controller' => [
             '_' => 'ændringsoversigt',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'kommentarer',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'konkurrence bedømmelsesresultater',
+        ],
         'contests_controller' => [
             '_' => 'konkurrencer',
+            'judge' => 'konkurrence bedømmelse',
         ],
-        'follows_controller' => [
-            'index' => '',
-        ],
-        'friends_controller' => [
-            'index' => 'instrumentbræt',
+        'group_history_controller' => [
+            '_' => 'gruppe historik',
         ],
         'groups_controller' => [
             'show' => 'grupper',
@@ -92,14 +84,14 @@ return [
             'support_the_game' => 'støt spillet',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => 'kampe',
+        ],
         'legal_controller' => [
             '_' => 'information',
         ],
         'livestreams_controller' => [
             '_' => 'livestreams',
-        ],
-        'matches_controller' => [
-            '_' => 'resultater',
         ],
         'news_controller' => [
             '_' => 'nyheder',
@@ -111,36 +103,63 @@ return [
             '_' => 'nulstil adgangskode',
         ],
         'ranking_controller' => [
-            '_' => 'rang',
+            '_' => 'rangering',
         ],
         'scores_controller' => [
-            '_' => '',
+            '_' => 'præstation',
         ],
-        'store_controller' => [
-            '_' => 'osu!butik',
+        'seasons_controller' => [
+            '_' => 'rangeringer',
+        ],
+        'teams_controller' => [
+            '_' => 'hold',
+            'create' => 'opret hold',
+            'edit' => 'holdindstillinger',
+            'leaderboard' => 'hold rangliste',
+            'show' => 'hold info',
         ],
         'tournaments_controller' => [
             '_' => 'turneringer',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'brugerens cover forudindstillinger',
+        ],
+        'user_totp_controller' => [
+            '_' => 'godkendelses-app',
+        ],
         'users_controller' => [
             '_' => 'spiller info',
+            'create' => 'opret konto',
             'disabled' => 'notits',
         ],
         'wiki_controller' => [
-            '_' => 'vidensbase',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => '',
+            'events' => 'rum historik',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'godkend app',
         ],
     ],
     'store' => [
-        '_' => 'osu!butik',
+        '_' => 'butik',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'holdmedlemmer',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'modder info',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'multiplayer historik',
         ],
     ],
 ];

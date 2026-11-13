@@ -20,7 +20,10 @@ use Illuminate\Queue\SerializesModels;
 
 class BeatmapsetDelete implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /** @var Beatmapset */
     private $beatmapset;
@@ -72,7 +75,9 @@ class BeatmapsetDelete implements ShouldQueue
                 'deleted_at' => $this->beatmapset->deleted_at,
             ]);
 
-            $this->beatmapset->removeCovers();
+            if ($this->beatmapset->topic !== null) {
+                $this->beatmapset->topic->delete();
+            }
         });
     }
 }

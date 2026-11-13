@@ -5,10 +5,13 @@
 
 return [
     'deleted' => 'deleted',
+    'deleted_by' => 'deleted :timeago by :user',
+    'deleted_by_system' => 'system',
     'deleted_count' => ':count_delimited deleted comment|:count_delimited deleted comments',
     'edited' => 'edited :timeago by :user',
     'pinned' => 'pinned',
     'empty' => 'No comments yet.',
+    'empty_other' => 'No other comments yet.',
     'load_replies' => 'load replies',
     'replies_count' => ':count_delimited reply|:count_delimited replies',
     'title' => 'Comments',
@@ -38,6 +41,10 @@ return [
         'nav_comments' => 'comments',
         'nav_title' => 'listing',
         'no_comments' => 'no comments found...',
+    ],
+
+    'ogp' => [
+        'title' => 'comment by :user',
     ],
 
     'placeholder' => [

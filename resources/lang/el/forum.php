@@ -10,7 +10,7 @@ return [
     'title' => 'osu! φόρουμ',
 
     'covers' => [
-        'edit' => '',
+        'edit' => 'Επεξεργασία εξωφύλλου',
 
         'create' => [
             '_' => 'Επιλογή εικόνας εξωφύλλου',
@@ -25,10 +25,11 @@ return [
     ],
 
     'forums' => [
-        'latest_post' => '',
+        'forums' => 'Φόρουμ',
+        'latest_post' => 'Τελευταία Δημοσίευση',
 
         'index' => [
-            'title' => '',
+            'title' => 'Ευρετήριο Φόρουμ',
         ],
 
         'topics' => [
@@ -47,18 +48,18 @@ return [
         'confirm_restore' => 'Σίγουρα επαναφορά της δημοσίευσης;',
         'edited' => 'Τελευταία τροποποίηση από τον χρήστη :user :when, τροποποιήθηκε :count φορές συνολικά.',
         'posted_at' => 'δημοσιεύτηκε :when',
-        'posted_by' => '',
+        'posted_by_in' => 'δημοσιεύτηκε από :username στο :forum',
 
         'actions' => [
             'destroy' => 'Διαγραφή δημοσίευσης',
             'edit' => 'Επεξεργασία δημοσίευσης',
-            'report' => '',
+            'report' => 'Αναφορά δημοσίευσης',
             'restore' => 'Επαναφορά δημοσίευσης',
         ],
 
         'create' => [
             'title' => [
-                'reply' => '',
+                'reply' => 'Νέα απάντηση',
             ],
         ],
 
@@ -75,12 +76,13 @@ return [
     ],
 
     'topic' => [
-        'confirm_destroy' => '',
-        'confirm_restore' => '',
+        'confirm_destroy' => 'Πραγματικά διαγραφή θέματος;',
+        'confirm_restore' => 'Πραγματικά επαναφορά θέματος;',
         'deleted' => 'διαγραμμένο θέμα',
         'go_to_latest' => 'δείτε την πιο πρόσφατη δημοσίευση',
-        'has_replied' => '',
-        'in_forum' => '',
+        'go_to_unread' => 'προβολή πρώτης μη αναγνωσμένης δημοσίευσης',
+        'has_replied' => 'Έχετε απαντήσει σε αυτό το θέμα',
+        'in_forum' => 'στο :forum',
         'latest_post' => ':when από τον :user',
         'latest_reply_by' => 'τελευταία απάντηση από τον :user',
         'new_topic' => 'Δημοσιεύστε νέο θέμα',
@@ -92,12 +94,12 @@ return [
         'started_by_verbose' => 'ξεκίνησε από :user',
 
         'actions' => [
-            'destroy' => '',
-            'restore' => '',
+            'destroy' => 'Διαγραφή θέματος',
+            'restore' => 'Επαναφορά θέματος',
         ],
 
         'create' => [
-            'close' => '',
+            'close' => 'Κλείσιμο',
             'preview' => 'Προεπισκόπηση',
             // TL note: this is used in the topic reply preview, when
             // the user goes back from previewing to editing the reply
@@ -125,6 +127,55 @@ return [
             'last' => 'μεταβείτε στην τελευταία δημοσίευση',
             'next' => 'παράλειψη των 10 επόμενων δημοσιεύσεων',
             'previous' => 'μετάβαση σε 10 δημοσιεύσεις πίσω',
+        ],
+
+        'logs' => [
+            '_' => 'Αρχεία καταγραφής θεμάτων',
+            'button' => 'Περιήγηση στα αρχεία καταγραφής θεμάτων',
+
+            'columns' => [
+                'action' => 'Ενέργεια',
+                'date' => 'Ημερομηνία',
+                'user' => 'Χρήστης',
+            ],
+
+            'data' => [
+                'add_tag' => 'προστέθηκε ετικέτα ":tag"',
+                'announcement' => 'καρφιτσωμένο θέμα και σημειωμένο ως ανακοίνωση',
+                'edit_topic' => 'στο :title',
+                'fork' => 'από :topic',
+                'pin' => 'καρφιτσωμένο θέμα',
+                'post_operation' => 'δημοσιεύτηκε από :username',
+                'remove_tag' => 'αφαιρέθηκε ετικέτα ":tag"',
+                'source_forum_operation' => 'από :forum',
+                'unpin' => 'μη καρφιτσωμένο θέμα',
+            ],
+
+            'no_results' => 'δεν βρέθηκαν αρχεία καταγραφής...',
+
+            'operations' => [
+                'delete_post' => 'Διαγραμμένη δημοσίευση',
+                'delete_topic' => 'Διαγραμμένο θέμα',
+                'edit_topic' => 'Αλλαγή τίτλου θέματος',
+                'edit_poll' => 'Επεξεργασία δημοσκόπησης θέματος',
+                'fork' => 'Αντιγραφή θέματος',
+                'issue_tag' => 'Ετικέτα έκδοσης',
+                'lock' => 'Κλειδωμένο θέμα',
+                'merge' => 'Συγχωνευμένες δημοσιεύσεις σε αυτό το θέμα',
+                'move' => 'Μετακινήθηκε θέμα',
+                'pin' => 'Καρφιτσωμένο θέμα',
+                'post_edited' => 'Επεξεργασία δημοσίευσης',
+                'restore_post' => 'Επαναφορά δημοσίευσης',
+                'restore_topic' => 'Θέμα επαναφοράς',
+                'split_destination' => 'Μετακινήθηκε διαχωρισμός άρθρων',
+                'split_source' => 'Διαχωρισμός δημοσιεύσεων',
+                'topic_type' => 'Ορισμός τύπου θέματος',
+                'topic_type_changed' => 'Αλλαγμένος τύπος θέματος',
+                'unlock' => 'Ξεκλείδωτο θέμα',
+                'unpin' => 'Ξεκαρφιτσωμένο θέμα',
+                'user_lock' => 'Κλειδωμένο δικό θέμα',
+                'user_unlock' => 'Ξεκλείδωτο δικό του θέμα',
+            ],
         ],
 
         'post_edit' => [
@@ -202,55 +253,13 @@ return [
             'views' => 'προβολές',
         ],
 
-        'issue_tag_added' => [
-            'to_0' => 'Αφαίρεση του tag \'\'added\'\'',
-            'to_0_done' => 'Το tag \'\'added\'\' αφαιρέθηκε',
-            'to_1' => 'Πρόσθεση του tag \'\'added\'\'',
-            'to_1_done' => 'To tag \'\'added\'\' προστέθηκε',
-        ],
-
-        'issue_tag_assigned' => [
-            'to_0' => 'Αφαίρεση του tag \'\'assigned"',
-            'to_0_done' => 'Το tag "assigned" αφαιρέθηκε',
-            'to_1' => 'Πρόσθεση του tag "assigned"',
-            'to_1_done' => 'To tag "assigned" προστέθηκε',
-        ],
-
-        'issue_tag_confirmed' => [
-            'to_0' => 'Αφαίρεση του tag "confirmed"',
-            'to_0_done' => 'Το tag "confirmed" αφαιρέθηκε',
-            'to_1' => 'Πρόσθεση του tag "confirmed"',
-            'to_1_done' => 'Το tag "confirmed" προστέθηκε',
-        ],
-
-        'issue_tag_duplicate' => [
-            'to_0' => 'Αφαίρεση του tag "duplicate"',
-            'to_0_done' => 'To tag "duplicate" αφαιρέθηκε',
-            'to_1' => 'Πρόσθεση του tag "duplicate"',
-            'to_1_done' => 'To tag "duplicate" προστέθηκε',
-        ],
-
-        'issue_tag_invalid' => [
-            'to_0' => 'Αφαίρεση του tag "invalid"',
-            'to_0_done' => 'To tag "invalid" αφαιρέθηκε',
-            'to_1' => 'Πρόσθεση του tag "invalid"',
-            'to_1_done' => 'To tag "invalid" προστέθηκε',
-        ],
-
-        'issue_tag_resolved' => [
-            'to_0' => 'Αφαίρεση του tag "resolved"',
-            'to_0_done' => 'To tag "resolved" αφαιρέθηκε',
-            'to_1' => 'Πρόσθεση του tag "resolved"',
-            'to_1_done' => 'Το tag "resolved" προστέθηκε',
-        ],
-
         'lock' => [
             'is_locked' => 'Η συζήτηση κλειδώθηκε και δεν δέχεται άλλες απαντήσεις',
             'to_0' => 'Ξεκλειδώστε το θέμα',
-            'to_0_confirm' => '',
+            'to_0_confirm' => 'Ξεκλείδωμα θέματος;',
             'to_0_done' => 'Το θέμα ξεκλειδώθηκε',
             'to_1' => 'Κλειδώστε το θέμα',
-            'to_1_confirm' => '',
+            'to_1_confirm' => 'Κλείδωμα θέματος;',
             'to_1_done' => 'Το θέμα κλειδώθηκε',
         ],
 
@@ -260,24 +269,25 @@ return [
 
         'moderate_pin' => [
             'to_0' => 'Ξεκαρφίτσωμα θέματος',
-            'to_0_confirm' => '',
+            'to_0_confirm' => 'Ξεκαρφιτσώστε το θέμα;',
             'to_0_done' => 'Το θέμα ξεκαρφιτσώθηκε',
             'to_1' => 'Καρφίτσωμα θέματος',
-            'to_1_confirm' => '',
+            'to_1_confirm' => 'Καρφίτσωμα θέματος;',
             'to_1_done' => 'Το θέμα καρφιτσώθηκε',
             'to_2' => 'Καρφίτσωμα θέματος και σήμανση ως ανακοίνωση',
-            'to_2_confirm' => '',
+            'to_2_confirm' => 'Καρφίτσωμα θέματος και σήμα ως ανακοίνωση;',
             'to_2_done' => 'Το θέμα καρφιτσώθηκε και σημάνθηκε ως ανακοίνωση',
         ],
 
         'moderate_toggle_deleted' => [
-            'show' => '',
-            'hide' => '',
+            'show' => 'Εμφάνιση διαγραμμένων άρθρων',
+            'hide' => 'Απόκρυψη διαγραμμένων άρθρων',
         ],
 
         'show' => [
             'deleted-posts' => 'Διαγραμμένες Δημοσιεύσεις',
             'total_posts' => 'Σύνολο Δημοσιεύσεων',
+            'total_watches' => '',
 
             'feature_vote' => [
                 'current' => 'Τρέχουσα Προτεραιότητα +:count',
@@ -297,15 +307,15 @@ return [
             ],
 
             'poll' => [
-                'edit' => '',
-                'edit_warning' => '',
+                'edit' => 'Επεξεργασία Δημοσκόπησης',
+                'edit_warning' => 'Η επεξεργασία μιας δημοσκόπησης θα καταργήσει τα τρέχοντα αποτελέσματα!',
                 'vote' => 'Ψηφίστε',
 
                 'button' => [
-                    'change_vote' => '',
-                    'edit' => '',
-                    'view_results' => '',
-                    'vote' => '',
+                    'change_vote' => 'Αλλαγή ψήφου',
+                    'edit' => 'Επεξεργασία δημοσκόπησης',
+                    'view_results' => 'Μετάβαση στα αποτελέσματα',
+                    'vote' => 'Ψηφοφορίες',
                 ],
 
                 'detail' => [

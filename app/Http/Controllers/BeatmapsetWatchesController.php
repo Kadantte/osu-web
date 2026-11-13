@@ -20,7 +20,7 @@ class BeatmapsetWatchesController extends Controller
 
     public function update($beatmapsetId)
     {
-        $beatmapset = Beatmapset::where('discussion_enabled', '=', true)->findOrFail($beatmapsetId);
+        $beatmapset = Beatmapset::findOrFail($beatmapsetId);
 
         try {
             $beatmapset->watches()->create(['user_id' => Auth::user()->getKey()]);
@@ -30,7 +30,7 @@ class BeatmapsetWatchesController extends Controller
             }
         }
 
-        return response([], 204);
+        return response()->noContent();
     }
 
     public function destroy($beatmapsetId)
@@ -39,6 +39,6 @@ class BeatmapsetWatchesController extends Controller
 
         $beatmapset->watches()->where('user_id', '=', Auth::user()->getKey())->delete();
 
-        return response([], 204);
+        return response()->noContent();
     }
 }

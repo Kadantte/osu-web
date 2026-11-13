@@ -19,9 +19,9 @@ return [
     ],
 
     'buttons' => [
-        'admin' => 'Admin',
         'authorise' => 'Authorise',
         'authorising' => 'Authorising...',
+        'back' => 'Back',
         'back_to_previous' => 'Return to previous position',
         'back_to_top' => 'Back to top',
         'cancel' => 'Cancel',
@@ -39,11 +39,13 @@ return [
         'pin' => 'pin',
         'post' => 'Post',
         'read_more' => 'read more',
+        'refresh' => 'Refresh',
         'reply' => 'Reply',
         'reply_reopen' => 'Reply and Reopen',
         'reply_resolve' => 'Reply and Resolve',
         'reset' => 'Reset',
         'restore' => 'Restore',
+        'retry' => 'Retry',
         'save' => 'Save',
         'saving' => 'Saving...',
         'search' => 'Search',
@@ -53,6 +55,7 @@ return [
         'show_less' => 'show less',
         'show_more' => 'show more',
         'show_more_options' => 'show more options',
+        'submit' => 'Submit',
         'unpin' => 'unpin',
         'update' => 'Update',
         'upload_image' => 'upload image',
@@ -73,6 +76,7 @@ return [
         'minutes' => ':count_delimited minute|:count_delimited minutes',
         'months' => ':count_delimited month|:count_delimited months',
         'notifications' => ':count_delimited notification|:count_delimited notifications',
+        'player' => ':count_delimited player|:count_delimited players',
         'plus_others' => '+ :count_delimited other!|+ :count_delimited others!',
         'post' => ':count_delimited post|:count_delimited posts',
         'second_short_unit' => 'sec|secs',
@@ -90,6 +94,12 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => 'm',
+        ],
+        'year' => [
+            'php' => 'y',
+        ],
         'year_month' => [
             'moment' => 'MMMM YYYY',
             'php' => 'MMMM y',
@@ -133,10 +143,10 @@ return [
         'dd' => '%dd',
         'h' => '%dh',
         'hh' => '%dh',
-        'M' => '%dm',
         'm' => 'now',
-        'MM' => '%dm',
         'mm' => 'now',
+        'month' => '%dmo',
+        'months' => '%dmo',
         'past' => '%s',
         's' => 'now',
         'y' => '%dy',

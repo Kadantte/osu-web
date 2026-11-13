@@ -18,6 +18,25 @@ return [
         ],
     ],
 
+    'series' => [
+        'beatmap_spotlights' => '',
+        'community_contests' => 'конкурсы супольнасці',
+        'community_tournaments' => 'турніры супольнасці',
+        'fanart_contests' => '',
+        'featured_artists' => '',
+        'game_updates' => '',
+        'mappers_guild' => '',
+        'monthly_beatmapping_contest' => '',
+        'merch_runs' => '',
+        'miscellaneous' => '',
+        'official_contests' => 'афіцыйныя турніры',
+        'offline_events' => '',
+        'online_events' => '',
+        'project_loved' => 'Праект "Любімы"',
+        'ranking_system_updates' => '',
+        'world_cups' => '',
+    ],
+
     'show' => [
         'by' => 'ад :user',
 

@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'admin',
     ],
-    'admin_forum' => [
-        '_' => 'admin',
-    ],
-    'admin_store' => [
-        '_' => 'admin',
-    ],
     'error' => [
         'error' => [
             '400' => 'solicitação inválida',
@@ -29,26 +23,25 @@ return [
     ],
     'forum' => [
         '_' => 'fórum',
-        'topic_watches_controller' => [
-            'index' => 'painel de controle',
+        'topic_logs_controller' => [
+            'index' => 'logs do tópico',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'painel de controle',
             'verify_link' => 'verificação de conta',
         ],
         'artists_controller' => [
             '_' => 'artistas em destaque',
         ],
         'beatmap_discussion_posts_controller' => [
-            '_' => 'votos de discussão do beatmap',
+            '_' => 'publicações de discussão do beatmap',
         ],
         'beatmap_discussions_controller' => [
             '_' => 'discussões de beatmaps',
         ],
         'beatmap_packs_controller' => [
-            '_' => 'pacotes de beatmaps',
+            '_' => 'pacotes de beatmap',
         ],
         'beatmapset_discussion_votes_controller' => [
             '_' => 'votos de discussão do beatmap',
@@ -56,13 +49,11 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'histórico do beatmap',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'painel de controle',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'discussão do beatmap',
             'index' => 'lista de beatmaps',
             'show' => 'informação do beatmap',
+            'versions' => 'histórico de versões do beatmap',
         ],
         'changelog_controller' => [
             '_' => 'registro de alterações',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'comentários',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'resultados do julgamento do concurso',
+        ],
         'contests_controller' => [
             '_' => 'concursos',
+            'judge' => 'julgamento do concurso',
         ],
-        'follows_controller' => [
-            'index' => 'painel',
-        ],
-        'friends_controller' => [
-            'index' => 'painel de controle',
+        'group_history_controller' => [
+            '_' => 'histórico do grupo',
         ],
         'groups_controller' => [
             'show' => 'grupos',
@@ -92,14 +84,14 @@ return [
             'support_the_game' => 'apoie o jogo',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => 'partidas',
+        ],
         'legal_controller' => [
             '_' => 'informação',
         ],
         'livestreams_controller' => [
             '_' => 'transmissões ao vivo',
-        ],
-        'matches_controller' => [
-            '_' => 'partidas',
         ],
         'news_controller' => [
             '_' => 'notícias',
@@ -111,36 +103,63 @@ return [
             '_' => 'redefinição de senha',
         ],
         'ranking_controller' => [
-            '_' => 'ranking',
+            '_' => 'colocações',
         ],
         'scores_controller' => [
-            '_' => 'desempenho',
+            '_' => 'performance',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'colocações',
+        ],
+        'teams_controller' => [
+            '_' => 'equipes',
+            'create' => 'criar equipe',
+            'edit' => 'configurações de equipe',
+            'leaderboard' => 'placar da equipe',
+            'show' => 'informações da equipe',
         ],
         'tournaments_controller' => [
             '_' => 'torneios',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'predefinições da capa do usuário',
+        ],
+        'user_totp_controller' => [
+            '_' => 'app de autenticação',
+        ],
         'users_controller' => [
             '_' => 'informações do jogador',
+            'create' => 'criar conta',
             'disabled' => 'aviso',
         ],
         'wiki_controller' => [
-            '_' => 'base de conhecimento',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'classificação',
+            'events' => 'histórico do quarto',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'autorizar aplicativo',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'loja',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'membros da equipe',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'informação do modder',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'histórico multijogador',
         ],
     ],
 ];

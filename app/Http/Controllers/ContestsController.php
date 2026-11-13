@@ -5,7 +5,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\InvariantException;
 use App\Models\Contest;
+use App\Transformers\ContestTransformer;
 use Auth;
 
 class ContestsController extends Controller
@@ -19,7 +21,32 @@ class ContestsController extends Controller
         }
 
         return ext_view('contests.index', [
-            'contests' => $contests->get(),
+            'contests' => $contests->paginate(),
+        ]);
+    }
+
+    public function judge($id)
+    {
+        $contest = Contest::with('entries.judgeVotes.scores')
+            ->with('scoringCategories')
+            ->findOrFail($id);
+
+        abort_if(!$contest->isJudged(), 404);
+
+        priv_check('ContestJudgeShow', $contest)->ensureCan();
+
+        foreach ($contest->entries as $entry) {
+            $entry->setRelation('contest', $contest);
+        }
+
+        $contestJson = json_item($contest, new ContestTransformer(), [
+            'current_user_attributes',
+            'entries.current_user_judge_vote.scores',
+            'scoring_categories',
+        ]);
+
+        return ext_view('contests.judge', [
+            'contestJson' => $contestJson,
         ]);
     }
 
@@ -32,8 +59,8 @@ class ContestsController extends Controller
             abort(404);
         }
 
-        if ($contest->isVotingStarted() && isset($contest->extra_options['children'])) {
-            $contestIds = $contest->extra_options['children'];
+        if ($contest->isVotingStarted() && isset($contest->getExtraOptions()['children'])) {
+            $contestIds = $contest->getExtraOptions()['children'];
             $contests = Contest::whereIn('id', $contestIds)
                 ->orderByField('id', $contestIds)
                 ->get();
@@ -41,10 +68,24 @@ class ContestsController extends Controller
             $contests = collect([$contest]);
         }
 
+        set_opengraph($contest);
+
         if ($contest->isVotingStarted()) {
+            if ($contest->isVotingOpen()) {
+                // TODO: add support for $contests requirement instead of at parent
+                try {
+                    $contest->assertVoteRequirement($user);
+                } catch (InvariantException $e) {
+                    $noVoteReason = $e->getMessage();
+                }
+            } elseif ($contest->isVotingEnded() && !$contest->show_votes) {
+                $noVoteReason = osu_trans('contest.voting.over');
+            }
+
             return ext_view('contests.voting', [
                 'contestMeta' => $contest,
                 'contests' => $contests,
+                'noVoteReason' => $noVoteReason ?? null,
             ]);
         } else {
             return ext_view('contests.enter', [

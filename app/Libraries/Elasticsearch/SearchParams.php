@@ -10,6 +10,10 @@ abstract class SearchParams
     /** @var int */
     public $from = 0;
 
+    public ?string $queryString = null;
+
+    // FIXME: some of the assignments to these variables have have the wrong type.
+
     /** @var int */
     public $size = 50;
 
@@ -31,7 +35,23 @@ abstract class SearchParams
      *
      * @return string the cache key.
      */
-    abstract public function getCacheKey(): string;
+    public function getCacheKey(): string
+    {
+        return 'search:'.static::class.':'.json_encode($this->getCacheKeyVars());
+    }
+
+    /**
+     * Generate default array to be used as part of cache key.
+     *
+     * @return array the cache key vars.
+     */
+    public function getCacheKeyVars(): array
+    {
+        $vars = get_object_vars($this);
+        ksort($vars);
+
+        return $vars;
+    }
 
     /**
      * Checks if the current set of parameters is eligible for caching.
@@ -42,14 +62,12 @@ abstract class SearchParams
 
     public function blockedUserIds()
     {
-        $user = auth()->user();
-
-        return $user !== null ? $user->blockedUserIds()->toArray() : [];
+        return \Auth::user()?->blockedUserIds()->toArray() ?? [];
     }
 
     public function isQueryStringTooShort()
     {
-        return mb_strlen($this->queryString) < config('osu.search.minimum_length');
+        return mb_strlen($this->queryString) < $GLOBALS['cfg']['osu']['search']['minimum_length'];
     }
 
     public function isLoginRequired(): bool

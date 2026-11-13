@@ -15,15 +15,20 @@ return [
     'header' => [
         'admin' => [
             'beatmapset' => 'beatmapset',
-            'beatmapset_covers' => 'beatmapset események',
+            'beatmapset_covers' => 'beatmapset coverek',
             'contest' => 'verseny',
             'contests' => 'versenyek',
             'root' => 'konzol',
-            'store_orders' => 'admin bolt',
         ],
 
         'artists' => [
             'index' => 'listázás',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'információ',
+            'discussions' => 'beszélgetés',
+            'versions' => 'verzió előzmény',
         ],
 
         'changelog' => [
@@ -47,6 +52,9 @@ return [
 
         'users' => [
             'modding' => 'modolás',
+            'playlists' => 'játéklisták',
+            'ranked-play' => 'ranked',
+            'realtime' => 'többjátékos',
             'show' => 'információ',
         ],
     ],
@@ -62,18 +70,10 @@ return [
     'menu' => [
         'beatmaps' => [
             '_' => 'beatmap-ek',
-            'artists' => 'kiemelt előadók',
-            'index' => 'lista',
-            'packs' => 'csomagok',
         ],
         'community' => [
             '_' => 'közösség',
-            'chat' => 'chat',
-            'contests' => 'versenyek',
             'dev' => 'fejlesztés',
-            'forum-forums-index' => 'fórumok',
-            'getLive' => 'élő',
-            'tournaments' => 'versenyek',
         ],
         'help' => [
             '_' => 'segítség',
@@ -81,30 +81,16 @@ return [
             'getFaq' => 'gyik',
             'getRules' => 'szabályok',
             'getSupport' => 'nem, tényleg segítség kell!',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => 'főoldal',
-            'changelog-index' => 'változtatások',
-            'getDownload' => 'letöltés',
-            'news-index' => 'újdonságok',
-            'search' => 'keresés',
             'team' => 'csapat',
         ],
         'rankings' => [
             '_' => 'rangsor',
-            'charts' => 'kiemeltek',
-            'country' => 'ország',
-            'index' => 'teljesítmény',
-            'kudosu' => 'kudosu',
-            'multiplayer' => 'többjátékos',
-            'score' => 'pontszám',
         ],
         'store' => [
             '_' => 'áruház',
-            'cart-show' => 'kosár',
-            'getListing' => 'lista',
-            'orders-index' => 'rendelési előzmények',
         ],
     ],
 
@@ -113,7 +99,7 @@ return [
             '_' => 'Általános',
             'home' => 'Főoldal',
             'changelog-index' => 'Változtatások',
-            'beatmaps' => 'Beatmap Lista',
+            'beatmaps' => 'Beatmap lista',
             'download' => 'osu! letöltése',
         ],
         'help' => [
@@ -127,7 +113,9 @@ return [
         'legal' => [
             '_' => 'Jogok és Állapot',
             'copyright' => 'Szerzői jog (DMCA)',
+            'jp_sctl' => '',
             'privacy' => 'Adatvédelem',
+            'rules' => 'Szabályok',
             'server_status' => 'Szerver Állapot',
             'source_code' => 'Forráskód',
             'terms' => 'Felhasználási Feltételek',
@@ -160,7 +148,7 @@ return [
             'description' => '',
         ],
         '429' => [
-            'error' => 'Ráta korlát túllépve',
+            'error' => 'Kéréskorlát túllépve',
             'description' => '',
         ],
         '500' => [
@@ -200,7 +188,7 @@ return [
 
         'register' => [
             'download' => 'Letöltés',
-            'info' => 'Önnek szüksége van egy fiókra uram. Miért nem rendelkezik még egyel?',
+            'info' => 'Töltsd le az osu!-t, hogy csinálj egy fiókot!',
             'title' => "Nincs még fiókod?",
         ],
     ],
@@ -208,15 +196,21 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => 'Beállítások',
+            'create_team' => 'Csapat Létrehozása',
             'follows' => 'Figyelőlisták',
             'friends' => 'Barátok',
+            'legacy_score_only_toggle' => 'Lazer mód',
+            'legacy_score_only_toggle_tooltip' => 'A Lazer mód a Lazer kliensen elért eredményeket mutatja, egy új pontozási algoritmussal',
             'logout' => 'Kijelentkezés',
             'profile' => 'Profilom',
+            'scoring_mode_toggle' => 'Klasszikus pontozás',
+            'scoring_mode_toggle_tooltip' => 'Módosítja a pontszámértékeket úgy, hogy közelebb álljon a klasszikus korlátlan pontozáshoz',
+            'team' => 'Csapatom',
         ],
     ],
 
     'popup_search' => [
-        'initial' => 'Keresendő szöveg!',
-        'retry' => 'A keresés eredménytelen. Kattintson az ismételt próbálkozáshoz.',
+        'initial' => 'Írj a kereséshez!',
+        'retry' => 'A keresés eredménytelen. Kattints az újrapróbáláshoz.',
     ],
 ];

@@ -13,19 +13,26 @@ return [
     ],
 
     'scopes' => [
-        'bot' => '',
+        'bot' => 'Fungere som en chattbot.',
         'identify' => 'Identifiser deg selv og les din offentlige profil.',
 
         'chat' => [
-            'write' => '',
+            'read' => 'Les meldinger på dine vegne.',
+            'write' => 'Send meldinger på dine vegne.',
+            'write_manage' => 'Bli med og forlat kanaler på dine vegne.',
         ],
 
         'forum' => [
-            'write' => '',
+            'write' => 'Opprett og rediger forumemner og innlegg på dine vegne.',
+            'write_manage' => '',
         ],
 
         'friends' => [
             'read' => 'Se hvem du følger.',
+        ],
+
+        'multiplayer' => [
+            'write_manage' => '',
         ],
 
         'public' => 'Les offentlige data på dine vegne.',

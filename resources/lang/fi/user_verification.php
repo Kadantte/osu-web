@@ -6,7 +6,7 @@
 return [
     'box' => [
         'sent' => 'Osoitteeseen :mail on lähetetty vahvistuskoodi. Syötä koodi.',
-        'title' => 'Tilin Vahvistaminen',
+        'title' => 'Tilin vahvistaminen',
         'verifying' => 'Varmistetaan...',
         'issuing' => 'Annetaan uutta koodia...',
 
@@ -20,11 +20,28 @@ return [
         ],
     ],
 
+    'box_totp' => [
+        'heading' => 'Anna koodi todennussovelluksesta.',
+
+        'info' => [
+            'logout' => [
+                '_' => 'Voit myös :link.',
+                'link' => 'kirjaudu ulos',
+            ],
+            'mail_fallback' => [
+                '_' => 'Jos et pääse sovellukseesi, :link.',
+                'link' => 'voit vahvistaa sähköpostilla sen sijaan',
+            ],
+        ],
+    ],
+
     'errors' => [
         'expired' => 'Vahvistuskoodi erääntyi, uusi vahvistussähköposti lähetetty.',
         'incorrect_key' => 'Virheellinen vahvistuskoodi.',
         'retries_exceeded' => 'Virheellinen vahvistuskoodi. Uudelleenyritysraja ylitetty, uusi vahvistussähköposti lähetetty.',
         'reissued' => 'Vahvistuskoodi uusittu, uusi vahvistussähköposti lähetetty.',
+        'totp_used_key' => 'Vahvistuskoodi on jo käyetty. Odota ja käytä uutta koodia.',
+        'totp_gone' => 'Todennustunnus on poistettu, vaihdetaan sähköpostivahvistukseen. Vahvistussähköposti on lähetetty.',
         'unknown' => 'Tuntematon virhe tapahtui, uusi vahvistussähköposti lähetetty.',
     ],
 ];

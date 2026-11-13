@@ -23,12 +23,11 @@ class BeatmapsetDiscussionVotesBundle extends BeatmapsetDiscussionsBundleBase
 
     public function toArray()
     {
-        return [
-            'cursor' => $this->getCursor(),
+        return array_merge([
             'discussions' => json_collection($this->getDiscussions(), new BeatmapDiscussionTransformer()),
             'users' => json_collection($this->getUsers(), new UserCompactTransformer(), ['groups']),
             'votes' => json_collection($this->getVotes(), new BeatmapDiscussionVoteTransformer()),
-        ];
+        ], cursor_for_response($this->getCursor()));
     }
 
     private function getDiscussions()
@@ -63,7 +62,7 @@ class BeatmapsetDiscussionVotesBundle extends BeatmapsetDiscussionsBundleBase
     private function getVotes()
     {
         return $this->memoize(__FUNCTION__, function () {
-            ['query' => $query, 'params' => $params] = BeatmapDiscussionVote::search($this->params);
+            ['query' => $query, 'params' => $params] = BeatmapDiscussionVote::search($this->params, $this->extraParams);
 
             $votes = $query->with([
                 'user.userGroups',

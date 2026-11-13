@@ -5,47 +5,43 @@
 
 return [
     'index' => [
-        'description' => 'Paket beatmap yang telah disusun atas satu tema tertentu.',
+        'description' => 'Paket beatmap yang tersusun atas satu tema tertentu.',
+        'empty' => 'Segera hadir!',
         'nav_title' => 'daftar',
         'title' => 'Paket Beatmap',
 
         'blurb' => [
             'important' => 'BACA INI SEBELUM MENGUNDUH',
-            'instruction' => [
-                '_' => "Petunjuk Pemasangan: Setelah paket beatmap selesai diunduh, ekstrak file .rar yang tersedia ke dalam folder Songs pada direktori osu! Anda.
-                    Seluruh beatmap yang terkandung di dalam paket yang Anda unduh telah disediakan dalam bentuk .zip dan/atau .osz, di mana osu! akan kemudian memproses berkas-berkas yang terkait dengan sendirinya ketika Anda masuk ke dalam mode Play.
-                    :scary ekstrak .zip/.osz yang ada secara manual,
-                    karena ada kemungkinan berkas-berkas beatmap yang bersangkutan nantinya tidak akan dapat dimuat oleh osu! dan dimainkan sebagaimana semestinya.",
-                'scary' => 'JANGAN',
-            ],
-            'note' => [
-                '_' => 'Di samping itu, Anda juga sangat disarankan untuk :scary mengingat pada umumnya map-map keluaran terdahulu memiliki kualitas yang jauh lebih rendah dibanding map-map keluaran terbaru.',
-                'scary' => 'mengunduh paket dari yang terbaru ke yang paling lama',
-            ],
+            'install_instruction' => 'Petunjuk Pemasangan: Setelah paket beatmap selesai diunduh, ekstrak konten paket ini ke folder Songs kamu dan osu! akan melakukan sisanya untukmu.',
         ],
     ],
 
     'show' => [
+        'created_by' => 'oleh :author',
         'download' => 'Unduh',
+        'no_diff_reduction_badge' => 'Tantangan',
         'item' => [
-            'cleared' => 'telah dimainkan',
-            'not_cleared' => 'belum dimainkan',
+            'cleared' => 'sudah dituntaskan',
+            'not_cleared' => 'belum dituntaskan',
         ],
         'no_diff_reduction' => [
-            '_' => 'Anda tidak boleh menggunakan :link untuk dapat membuka medali yang terhubung dengan paket beatmap ini.',
-            'link' => 'mod-mod yang mempermudah permainan (EZ, NF, atau HT)',
+            '_' => ':link tidak bisa digunakan untuk menuntaskan paket ini.',
+            'link' => 'Mod pengurang kesulitan',
         ],
     ],
 
     'mode' => [
         'artist' => 'Artis/Album',
         'chart' => 'Spotlights',
-        'standard' => 'Standar',
+        'featured' => 'Featured Artist',
+        'loved' => 'Project Loved',
+        'standard' => 'Reguler',
         'theme' => 'Tematik',
+        'tournament' => 'Turnamen',
     ],
 
     'require_login' => [
-        '_' => 'Anda harus :link untuk mengunduh',
+        '_' => 'Kamu harus :link untuk mengunduh',
         'link_text' => 'masuk',
     ],
 ];

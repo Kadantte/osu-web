@@ -26,6 +26,9 @@ return [
         'placeholder' => 'klik for at søge',
         'title' => 'Søg',
 
+        'artist_track' => [
+            'more_simple' => 'Se flere søgeresultater for sange af fremhævede kunstnere',
+        ],
         'beatmapset' => [
             'login_required' => 'Log ind for at søge efter brugere
 ',
@@ -44,6 +47,7 @@ return [
             'label' => [
                 'forum' => 'søg i forummerne',
                 'forum_children' => 'inkluder subforummer',
+                'include_deleted' => 'inkluder slettede opslag',
                 'topic_id' => 'emne #',
                 'username' => 'forfatter',
             ],
@@ -51,10 +55,17 @@ return [
 
         'mode' => [
             'all' => 'alt',
+            'artist_track' => 'fremhævet kunster spor',
             'beatmapset' => 'beatmap',
             'forum_post' => 'forum',
+            'team' => 'hold',
             'user' => 'bruger',
             'wiki_page' => 'wiki',
+        ],
+
+        'team' => [
+            'login_required' => 'Log ind for at søge efter hold',
+            'more_simple' => 'Vis flere hold søgeresultater',
         ],
 
         'user' => [
@@ -74,8 +85,19 @@ return [
     ],
 
     'download' => [
-        'tagline' => "lad os få<br>dig i gang!",
-        'action' => 'Download osu!',
+        'action_lazer_info' => 'tjek denne side for mere information',
+        'download' => 'Hent',
+        'for_os' => 'for :os',
+        'macos-fallback' => 'macOS brugere',
+        'mirror' => 'mirror',
+        'or' => 'eller',
+        'os_version_or_later' => ':os_version eller nyere',
+        'other_os' => 'andre platforme',
+        'quick_start_guide' => 'opstartsvejledning',
+        'stable_text' => 'hvis du leder efter den ældre udgave',
+        'tagline_1' => 'lad os få dig',
+        'tagline_2' => 'i gang!',
+        'video-guide' => 'video-guide',
 
         'help' => [
             '_' => 'hvis du har problemer med at starte spillet eller registrere dig for konto, :help_forum_link eller :support_button.',
@@ -88,8 +110,6 @@ return [
             'macos' => 'til macOS',
             'linux' => 'til Linux',
         ],
-        'mirror' => 'mirror',
-        'macos-fallback' => 'macOS brugere',
         'steps' => [
             'register' => [
                 'title' => 'opret en bruger',
@@ -107,7 +127,6 @@ return [
                 ],
             ],
         ],
-        'video-guide' => 'video-guide',
     ],
 
     'user' => [
@@ -124,25 +143,24 @@ return [
             ],
         ],
         'beatmaps' => [
+            'daily_challenge' => 'Daglige Udfordring Beatmap',
             'new' => 'Nye Rangerede Beatmaps',
             'popular' => 'Populære Beatmaps',
             'by_user' => 'af :user',
+            'resets' => 'nulstiller :ends',
         ],
         'buttons' => [
             'download' => 'Hent osu!',
             'support' => 'Støt osu!',
             'store' => 'osu!store',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Wow!',
-        'subtitle' => 'Du ser ud til at have det sjovt! :D',
-        'body' => [
-            'part-1' => 'Vidste du, at osu! kører helt uden reklamer og er stærkt afhængigt af, at spillerne støtter spillets udvikling og omkostninger?',
-            'part-2' => 'Vidste du også, at du ved at støtte osu! får en stor håndfuld ekstra funktioner, såsom <strong>in-game downloading</strong> som kan udnyttes i multiplayer- og spectator-tilstand?',
+        'livestream' => [
+            'title' => 'Fremhævet Livestream',
         ],
-        'find-out-more' => 'Klik her for at læse mere!',
-        'download-starting' => "Oh, og bare rolig - din download er allerede blevet startet for dig ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Åbn administratorkonsol',
+            ],
+        ],
     ],
 ];

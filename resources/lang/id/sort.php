@@ -15,14 +15,33 @@ return [
     'top' => 'Komentar Terbaik',
     'username' => 'Nama Pengguna',
 
+    'artist_tracks' => [
+        'album' => 'Album',
+        'artist' => 'Artis',
+        'bpm' => 'BPM',
+        'genre' => 'Aliran',
+        'length' => 'Durasi',
+        'relevance' => 'Relevansi',
+        'title' => 'Judul',
+        'update' => 'Tanggal Pembaruan',
+    ],
+
     'forum_posts' => [
         'created' => 'Waktu posting',
         'relevance' => 'Relevansi',
     ],
 
     'forum_topics' => [
+        'created' => 'Dibuat',
         'feature_votes' => 'Prioritas',
         'new' => 'Balasan Terakhir',
+    ],
+
+    'teams' => [
+        'created' => 'Tanggal Didirikan',
+        'relevance' => 'Relevansi',
+        'name' => 'Nama',
+        'short-name' => 'Nama Pendek',
     ],
 
     'users' => [

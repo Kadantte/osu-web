@@ -5,17 +5,29 @@
 
 return [
     'mode' => [
+        'artist_track' => '',
         'beatmapset' => 'Beatmap',
         'forum_post' => 'Forum',
         'other' => 'Annet',
+        'team' => '',
         'user' => 'Spiller',
         'wiki_page' => 'Wiki',
     ],
 
     'result' => [
-        'empty' => 'Ingen resultater',
-        'empty_for' => 'Ingen resultater for :modes',
         'more' => 'Flere :mode søkeresultater',
         'title' => ':mode Søkeresultat',
+
+        'no_results' => [
+            '_' => '',
+
+            'artist_track' => '',
+            'beatmapset' => '',
+            'forum_post' => '',
+            'other' => '',
+            'team' => '',
+            'user' => '',
+            'wiki_page' => '',
+        ],
     ],
 ];

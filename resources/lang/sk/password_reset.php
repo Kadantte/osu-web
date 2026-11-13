@@ -5,7 +5,6 @@
 
 return [
     'button' => [
-        'cancel' => 'Zrušiť',
         'resend' => 'Znovu odoslať overovací e-mail',
         'set' => 'Nastaviť heslo',
         'start' => 'Začať',
@@ -13,10 +12,14 @@ return [
 
     'error' => [
         'contact_support' => 'Prosím kontaktujte podporu pre obnovenie účtu.',
+        'expired' => '',
+        'invalid' => '',
         'is_privileged' => 'Kontaktujte peppyho lulz.',
         'missing_key' => 'Požadovaný.',
+        'too_many_requests' => '',
         'too_many_tries' => 'Príliš veľa nepodarených pokusov.',
         'user_not_found' => 'Zadaný užívateľ neexistuje.',
+        'wait_resend' => '',
         'wrong_key' => 'Neplatný kód.',
     ],
 
@@ -35,6 +38,9 @@ return [
     'starting' => [
         'username' => 'Zadajte e-mailovú adresu alebo užívateľské meno',
 
+        'reason' => [
+            'inactive_different_country' => "",
+        ],
         'support' => [
             '_' => '',
             'button' => '',

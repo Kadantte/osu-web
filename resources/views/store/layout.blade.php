@@ -5,6 +5,14 @@
 @extends('master')
 
 @section('script')
+    <script id="json-shopify-storefront-options" type="application/json">
+        {!! json_encode([
+            'storeDomain' => $GLOBALS['cfg']['store']['shopify']['domain'],
+            'apiVersion' => \Shopify\ApiVersion::JANUARY_2026,
+            'publicAccessToken' => $GLOBALS['cfg']['store']['shopify']['storefront_token'],
+        ]) !!}
+    </script>
+
     @parent
-    @include('layout._extra_js', ['src' => 'js/react/store-bootstrap.js'])
+    @include('layout._extra_js', ['src' => 'js/store-bootstrap.js'])
 @endsection

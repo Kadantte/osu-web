@@ -11,16 +11,39 @@ use App\Models\BeatmapDiscussion;
 use App\Models\BeatmapDiscussionPost;
 use App\Models\Beatmapset;
 use App\Models\User;
+use Ds\Set;
 use Exception;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class BeatmapDiscussionPostTest extends TestCase
 {
+    public static function dataProviderForParseTimestamp()
+    {
+        return [
+            ['00:00.00', null],
+            ['00.00.000', null],
+            ['00:00.000', 0],
+            ['00:01.000', 1_000],
+            ['01:00.000', 60_000],
+            ['01:01.001', 61_001],
+            ['12:34.567', 754_567],
+            ['12:34:567', 754_567],
+            ['12:34.567aa', null], // TODO: make behaviour consistent with js side decorators.
+            ['12:34.567猫', 754_567], // non-alphanemeric is considered a word boundary.
+            ['12:34.567aa, 00:00.001 (2|3,4)', 1],
+            ['12:34.567 (1,2,3|4)', 754_567],
+            ['01:00.000, 12:34.567', 60_000],
+            ['01:00.000. abc 12:34.567', 60_000],
+            ['abc01:00.000. abc 12:34.567', 754_567],
+        ];
+    }
+
     public function testMessageCharacterLimitGeneralAll()
     {
-        $beatmapset = factory(Beatmapset::class)->create(['discussion_enabled' => true]);
-        $beatmap = $beatmapset->beatmaps()->save(factory(Beatmap::class)->make());
-        $user = factory(User::class)->create();
+        $beatmapset = Beatmapset::factory()->create();
+        $beatmap = $beatmapset->beatmaps()->save(Beatmap::factory()->make());
+        $user = User::factory()->create();
         $discussion = BeatmapDiscussion::create([
             'beatmapset_id' => $beatmapset->getKey(),
             'user_id' => $user->getKey(),
@@ -37,9 +60,9 @@ class BeatmapDiscussionPostTest extends TestCase
 
     public function testMessageCharacterLimitGeneral()
     {
-        $beatmapset = factory(Beatmapset::class)->create(['discussion_enabled' => true]);
-        $beatmap = $beatmapset->beatmaps()->save(factory(Beatmap::class)->make());
-        $user = factory(User::class)->create();
+        $beatmapset = Beatmapset::factory()->create();
+        $beatmap = $beatmapset->beatmaps()->save(Beatmap::factory()->make());
+        $user = User::factory()->create();
         $discussion = BeatmapDiscussion::create([
             'beatmapset_id' => $beatmapset->getKey(),
             'beatmap_id' => $beatmap->getKey(),
@@ -57,9 +80,9 @@ class BeatmapDiscussionPostTest extends TestCase
 
     public function testMessageCharacterLimitTimeline()
     {
-        $beatmapset = factory(Beatmapset::class)->create(['discussion_enabled' => true]);
-        $beatmap = $beatmapset->beatmaps()->save(factory(Beatmap::class)->make());
-        $user = factory(User::class)->create();
+        $beatmapset = Beatmapset::factory()->create();
+        $beatmap = $beatmapset->beatmaps()->save(Beatmap::factory()->make());
+        $user = User::factory()->create();
         $discussion = BeatmapDiscussion::create([
             'beatmapset_id' => $beatmapset->getKey(),
             'beatmap_id' => $beatmap->getKey(),
@@ -80,11 +103,17 @@ class BeatmapDiscussionPostTest extends TestCase
         $this->assertTrue($post->isValid());
     }
 
+    #[DataProvider('dataProviderForParseTimestamp')]
+    public function testParseTimestamp(string $timestamp, ?int $expectedMilliseconds)
+    {
+        $this->assertSame($expectedMilliseconds, BeatmapDiscussionPost::parseTimestamp($timestamp));
+    }
+
     public function testScopeOpenProblems()
     {
-        $beatmapset = factory(Beatmapset::class)->create(['discussion_enabled' => true]);
-        $beatmap = $beatmapset->beatmaps()->save(factory(Beatmap::class)->make());
-        $user = factory(User::class)->create();
+        $beatmapset = Beatmapset::factory()->create();
+        $beatmap = $beatmapset->beatmaps()->save(Beatmap::factory()->make());
+        $user = User::factory()->create();
         $discussion = BeatmapDiscussion::create([
             'beatmapset_id' => $beatmapset->getKey(),
             'beatmap_id' => $beatmap->getKey(),
@@ -103,11 +132,55 @@ class BeatmapDiscussionPostTest extends TestCase
         $this->assertSame(0, $beatmapset->beatmapDiscussions()->openProblems()->count());
     }
 
+    public function testScopeByTypes()
+    {
+        $beatmapset = Beatmapset::factory()->create();
+        $beatmap = $beatmapset->beatmaps()->save(Beatmap::factory()->make());
+        $user = User::factory()->create();
+        $discussion = BeatmapDiscussion::create([
+            'beatmapset_id' => $beatmapset->getKey(),
+            'beatmap_id' => $beatmap->getKey(),
+            'user_id' => $user->getKey(),
+            'message_type' => 'problem',
+        ]);
+        $posts = [
+            'first' => $discussion->beatmapDiscussionPosts()->create([
+                'user_id' => $user->getKey(),
+                'message' => 'This is a problem',
+            ]),
+            'reply' => $discussion->beatmapDiscussionPosts()->create([
+                'user_id' => $user->getKey(),
+                'message' => 'This is a reply',
+            ]),
+            'system' => BeatmapDiscussionPost::generateLogResolveChange($user, true),
+        ];
+        $posts['system']->fill(['beatmap_discussion_id' => $discussion->getKey()])->save();
+
+        $combinations = [];
+
+        foreach (array_keys($posts) as $key) {
+            $newCombinations = array_merge($combinations, [[$key]]);
+            foreach ($combinations as $combination) {
+                $newCombinations[] = array_merge($combination, [$key]);
+            }
+            $combinations = $newCombinations;
+        }
+
+        foreach ($combinations as $combination) {
+            $combinationString = implode(', ', $combination);
+            $queryResult = BeatmapDiscussionPost::byTypes(new Set($combination))->get();
+            $this->assertSame(count($combination), $queryResult->count(), 'count for '.$combinationString);
+            foreach ($combination as $type) {
+                $this->assertNotNull($queryResult->find($posts[$type]->getKey()), 'has '.$type.' for '.$combinationString);
+            }
+        }
+    }
+
     public function testSoftDeleteOrExplode()
     {
-        $beatmapset = factory(Beatmapset::class)->create(['discussion_enabled' => true]);
-        $beatmap = $beatmapset->beatmaps()->save(factory(Beatmap::class)->make());
-        $user = factory(User::class)->create();
+        $beatmapset = Beatmapset::factory()->create();
+        $beatmap = $beatmapset->beatmaps()->save(Beatmap::factory()->make());
+        $user = User::factory()->create();
         $discussion = BeatmapDiscussion::create([
             'beatmapset_id' => $beatmapset->getKey(),
             'beatmap_id' => $beatmap->getKey(),

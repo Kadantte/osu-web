@@ -7,38 +7,33 @@ namespace Tests\Transformers;
 
 use App\Models\Beatmapset;
 use App\Models\User;
+use App\Transformers\BeatmapsetDescriptionTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class BeatmapsetDescriptionTransformerTest extends TestCase
 {
-    /** @var Beatmapset */
-    protected $beatmapset;
+    protected Beatmapset $beatmapset;
+    protected User $mapper;
 
-    /** @var User */
-    protected $mapper;
-
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testWithOAuth($groupIdentifier)
+    #[DataProvider('groupsDataProvider')]
+    public function testWithOAuth(?string $groupIdentifier, bool $_visibleWithoutOAuth)
     {
-        $viewer = $this->createUserWithGroup($groupIdentifier);
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
         $this->actAsScopedUser($viewer);
 
-        $json = json_item($this->beatmapset, 'BeatmapsetDescription');
+        $json = json_item($this->beatmapset, new BeatmapsetDescriptionTransformer());
 
         $this->assertArrayNotHasKey('bbcode', $json);
     }
 
-    /**
-     * @dataProvider groupsDataProvider
-     */
-    public function testWithoutOAuth($groupIdentifier, $visible)
+    #[DataProvider('groupsDataProvider')]
+    public function testWithoutOAuth(?string $groupIdentifier, bool $visible)
     {
-        $viewer = $this->createUserWithGroup($groupIdentifier);
+        $viewer = User::factory()->withGroup($groupIdentifier)->create();
         $this->actAsUser($viewer);
 
-        $json = json_item($this->beatmapset, 'BeatmapsetDescription');
+        $json = json_item($this->beatmapset, new BeatmapsetDescriptionTransformer());
 
         if ($visible) {
             $this->assertArrayHasKey('bbcode', $json);
@@ -49,7 +44,7 @@ class BeatmapsetDescriptionTransformerTest extends TestCase
 
     public function testUserIsGuest()
     {
-        $json = json_item($this->beatmapset, 'BeatmapsetDescription');
+        $json = json_item($this->beatmapset, new BeatmapsetDescriptionTransformer());
 
         $this->assertArrayHasKey('description', $json);
         $this->assertArrayNotHasKey('bbcode', $json);
@@ -59,7 +54,7 @@ class BeatmapsetDescriptionTransformerTest extends TestCase
     {
         $this->actAsUser($this->mapper);
 
-        $json = json_item($this->beatmapset, 'BeatmapsetDescription');
+        $json = json_item($this->beatmapset, new BeatmapsetDescriptionTransformer());
 
         $this->assertArrayHasKey('description', $json);
         $this->assertArrayHasKey('bbcode', $json);
@@ -67,22 +62,23 @@ class BeatmapsetDescriptionTransformerTest extends TestCase
 
     public function testUserIsNotMapper()
     {
-        $this->actAsUser(factory(User::class)->create());
+        $this->actAsUser(User::factory()->create());
 
-        $json = json_item($this->beatmapset, 'BeatmapsetDescription');
+        $json = json_item($this->beatmapset, new BeatmapsetDescriptionTransformer());
 
         $this->assertArrayHasKey('description', $json);
         $this->assertArrayNotHasKey('bbcode', $json);
     }
 
-    public function groupsDataProvider()
+    public static function groupsDataProvider()
     {
+        // The second argument is only for testWithoutOAuth
         return [
             ['admin', true],
             ['bng', false],
             ['gmt', true],
             ['nat', true],
-            [[], false],
+            [null, false],
         ];
     }
 
@@ -90,9 +86,9 @@ class BeatmapsetDescriptionTransformerTest extends TestCase
     {
         parent::setUp();
 
-        $this->mapper = factory(User::class)->create();
-        $this->beatmapset = factory(Beatmapset::class)->create([
-            'user_id' => $this->mapper->getKey(),
+        $this->mapper = User::factory()->create();
+        $this->beatmapset = Beatmapset::factory()->create([
+            'user_id' => $this->mapper,
         ]);
     }
 }

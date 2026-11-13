@@ -4,13 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'confirmation' => '확실합니까?',
+    'confirmation' => '확실한가요?',
     'confirmation_unsaved' => '저장되지 않은 정보는 사라집니다. 계속하시겠어요?',
     'saved' => '저장됨',
 
     'array_and' => [
         'words_connector' => ', ',
-        'two_words_connector' => ' 와(과) ',
+        'two_words_connector' => ' 그리고 ',
         'last_word_connector' => ', 그리고 ',
     ],
 
@@ -19,9 +19,9 @@ return [
     ],
 
     'buttons' => [
-        'admin' => '관리',
         'authorise' => '권한 부여',
         'authorising' => '인증하기...',
+        'back' => '돌아가기',
         'back_to_previous' => '이전 위치로 돌아가기',
         'back_to_top' => '맨 위로',
         'cancel' => '취소',
@@ -39,11 +39,13 @@ return [
         'pin' => '고정',
         'post' => '게시하기',
         'read_more' => '자세히 보기',
+        'refresh' => '새로고침',
         'reply' => '답변하기',
         'reply_reopen' => '답변하고 토론 재개하기',
         'reply_resolve' => '답변하고 토론 마무리하기',
         'reset' => '초기화',
         'restore' => '되돌리기',
+        'retry' => '다시 시도',
         'save' => '저장',
         'saving' => '저장 중...',
         'search' => '검색',
@@ -53,6 +55,7 @@ return [
         'show_less' => '간략히 보기',
         'show_more' => '더 보기',
         'show_more_options' => '더 많은 옵션 보기',
+        'submit' => '제출',
         'unpin' => '고정 해제',
         'update' => '업데이트',
         'upload_image' => '이미지 올리기',
@@ -64,21 +67,22 @@ return [
     ],
 
     'count' => [
-        'badges' => ':count개의 배지|:count개의 배지',
+        'badges' => ':count개의 배지',
         'days' => ':count일',
         'hour_short_unit' => '시간',
         'hours' => ':count시간',
-        'item' => ':count unit|:count units',
+        'item' => ':count개',
         'minute_short_unit' => '분',
         'minutes' => ':count분',
         'months' => ':count달',
         'notifications' => '알림 :count_delimited개',
+        'player' => ':count_delimited명의 플레이어',
         'plus_others' => '+ :count_delimited 기타!',
-        'post' => ':count_delimited 게시글',
+        'post' => ':count_delimited개의 게시글',
         'second_short_unit' => '초',
-        'star_priority' => ':count_delimited 별 우선 순위',
-        'update' => ':count_delimited 업데이트',
-        'view' => ':count_delimited 조회',
+        'star_priority' => '별 우선 순위 :count_delimited',
+        'update' => ':count_delimited회 업데이트',
+        'view' => ':count_delimited회 조회',
         'years' => ':count년',
     ],
 
@@ -90,6 +94,12 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => '월',
+        ],
+        'year' => [
+            'php' => '년',
+        ],
         'year_month' => [
             'moment' => 'YYYY년 MMMM',
             'php' => 'y년 MMMM',
@@ -102,7 +112,7 @@ return [
     'device' => [
         'keyboard' => '키보드',
         'mouse' => '마우스',
-        'tablet' => '태블릿',
+        'tablet' => '타블렛',
         'touch' => '터치스크린',
     ],
 
@@ -133,10 +143,10 @@ return [
         'dd' => '%d일',
         'h' => '%d시간',
         'hh' => '%d시간',
-        'M' => '%d달',
         'm' => '%d분',
-        'MM' => '%d달',
         'mm' => '%d분',
+        'month' => '%d개월',
+        'months' => '%d개월',
         'past' => '',
         's' => '%d초',
         'y' => '%d년',
@@ -145,7 +155,7 @@ return [
 
     'time' => [
         'days_ago' => ':count일 전',
-        'hours_ago' => ':count시간 전|:count시간 전',
+        'hours_ago' => ':count시간 전',
         'now' => '지금',
         'remaining' => '남은 시간',
     ],
@@ -156,6 +166,6 @@ return [
 
     'wrong_user' => [
         '_' => ':user로 로그인되어있습니다. :logout_link.',
-        'logout_link' => '다른 사용자로 로그인하려면 이곳을 클릭하세요',
+        'logout_link' => '다른 유저로 로그인하려면 이곳을 클릭하세요',
     ],
 ];

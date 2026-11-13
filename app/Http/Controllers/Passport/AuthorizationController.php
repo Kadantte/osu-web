@@ -6,11 +6,14 @@
 namespace App\Http\Controllers\Passport;
 
 use Illuminate\Http\Request;
-use Laravel\Passport\ClientRepository;
+use Laravel\Passport\Contracts\AuthorizationViewResponse;
+use Laravel\Passport\Exceptions\AuthenticationException;
 use Laravel\Passport\Http\Controllers\AuthorizationController as PassportAuthorizationController;
+use Laravel\Passport\Http\Responses\SimpleViewResponse;
 use Laravel\Passport\Passport;
-use Laravel\Passport\TokenRepository;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Extension of Laravel\Passport\Http\Controllers\AuthorizationController
@@ -22,34 +25,27 @@ class AuthorizationController extends PassportAuthorizationController
      * Authorize a client to access the user's account.
      * This overrides the default implementation to normalize scope requests
      * and sort the scopes by key order.
-     *
-     * @param  \Psr\Http\Message\ServerRequestInterface $psrRequest
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Laravel\Passport\ClientRepository $clients
-     * @param  \Laravel\Passport\TokenRepository $tokens
-     * @return \Illuminate\Http\Response
      */
     public function authorize(
         ServerRequestInterface $psrRequest,
         Request $request,
-        ClientRepository $clients,
-        TokenRepository $tokens
-    ) {
-        $redirectUri = presence(trim($request['redirect_uri']));
+        ResponseInterface $psrResponse,
+        AuthorizationViewResponse $viewResponse,
+    ): Response|AuthorizationViewResponse {
+        try {
+            if (\Auth::user() === null) {
+                throw new AuthenticationException();
+            }
+            return parent::authorize($this->normalizeRequestScopes($psrRequest), $request, $psrResponse, $viewResponse);
+        } catch (AuthenticationException $_e) {
+            $cancelUrl = $request->fullUrl();
+            $cancelUrl .= strpos($cancelUrl, '?') === false ? '?' : '&';
+            $cancelUrl .= 'prompt=none';
 
-        abort_if($redirectUri === null, 400, trans('model_validation.required', ['attribute' => 'redirect_uri']));
-
-        if (!auth()->check()) {
-            // Breaks when url contains hash ("#").
-            $separator = strpos($redirectUri, '?') === false ? '?' : '&';
-            $cancelUrl = "{$redirectUri}{$separator}error=access_denied";
-
-            return ext_view('sessions.create', [
+            return new SimpleViewResponse('sessions.create')->withParameters([
                 'cancelUrl' => $cancelUrl,
             ]);
         }
-
-        return parent::authorize($this->normalizeRequestScopes($psrRequest), $request, $clients, $tokens);
     }
 
     /**
@@ -62,7 +58,7 @@ class AuthorizationController extends PassportAuthorizationController
     {
         $params = $request->getQueryParams();
         $scopes = $this->normalizeScopes(
-            explode(' ', $params['scope'] ?? null)
+            explode(' ', $params['scope'] ?? '')
         );
 
         // temporary non-persisted token to validate with.

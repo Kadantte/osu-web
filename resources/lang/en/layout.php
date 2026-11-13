@@ -19,11 +19,16 @@ return [
             'contest' => 'contest',
             'contests' => 'contests',
             'root' => 'console',
-            'store_orders' => 'store admin',
         ],
 
         'artists' => [
             'index' => 'listing',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'info',
+            'discussions' => 'discussion',
+            'versions' => 'version history',
         ],
 
         'changelog' => [
@@ -47,6 +52,9 @@ return [
 
         'users' => [
             'modding' => 'modding',
+            'playlists' => 'playlists',
+            'ranked-play' => 'ranked play',
+            'realtime' => 'multiplayer',
             'show' => 'info',
         ],
     ],
@@ -62,18 +70,10 @@ return [
     'menu' => [
         'beatmaps' => [
             '_' => 'beatmaps',
-            'artists' => 'featured artists',
-            'index' => 'listing',
-            'packs' => 'packs',
         ],
         'community' => [
             '_' => 'community',
-            'chat' => 'chat',
-            'contests' => 'contests',
             'dev' => 'development',
-            'forum-forums-index' => 'forums',
-            'getLive' => 'live',
-            'tournaments' => 'tournaments',
         ],
         'help' => [
             '_' => 'help',
@@ -81,30 +81,16 @@ return [
             'getFaq' => 'faq',
             'getRules' => 'rules',
             'getSupport' => 'no, really, i need help!',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => 'home',
-            'changelog-index' => 'changelog',
-            'getDownload' => 'download',
-            'news-index' => 'news',
-            'search' => 'search',
             'team' => 'team',
         ],
         'rankings' => [
             '_' => 'rankings',
-            'charts' => 'spotlights',
-            'country' => 'country',
-            'index' => 'performance',
-            'kudosu' => 'kudosu',
-            'multiplayer' => 'multiplayer',
-            'score' => 'score',
         ],
         'store' => [
             '_' => 'store',
-            'cart-show' => 'cart',
-            'getListing' => 'listing',
-            'orders-index' => 'order history',
         ],
     ],
 
@@ -127,7 +113,9 @@ return [
         'legal' => [
             '_' => 'Legal & Status',
             'copyright' => 'Copyright (DMCA)',
+            'jp_sctl' => '特定商取引法',
             'privacy' => 'Privacy',
+            'rules' => 'Rules',
             'server_status' => 'Server Status',
             'source_code' => 'Source Code',
             'terms' => 'Terms',
@@ -208,10 +196,16 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => 'Settings',
+            'create_team' => 'Create Team',
             'follows' => 'Watchlists',
             'friends' => 'Friends',
+            'legacy_score_only_toggle' => 'Lazer mode',
+            'legacy_score_only_toggle_tooltip' => 'Lazer mode shows scores set from lazer with a new scoring algorithm',
             'logout' => 'Sign Out',
             'profile' => 'My Profile',
+            'scoring_mode_toggle' => 'Classic scoring',
+            'scoring_mode_toggle_tooltip' => 'Adjust score values to feel more like classic uncapped scoring',
+            'team' => 'My Team',
         ],
     ],
 

@@ -2,15 +2,12 @@
     Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
     See the LICENCE file in the repository root for full licence text.
 --}}
-@php
-    $canAdvancedSearch = priv_check('BeatmapsetAdvancedSearch')->can();
-@endphp
 @extends('master', [
-  'pageDescription' => trans('beatmapsets.index.title'),
+  'pageDescription' => osu_trans('beatmapsets.index.title'),
 ])
 
 @section('content')
-  <div class="js-react--beatmaps" data-advanced-search="{{ (int) $canAdvancedSearch }}"></div>
+  <div class="js-react" data-react="beatmaps" data-advanced-search="{{ (int) $canAdvancedSearch }}"></div>
   {{--
     this should content a server side react.js render which doesn't exist in hhvm
     because the only library for it, which is experimental, requires PHP extension
@@ -31,13 +28,11 @@
 @section("script")
   @parent
 
-  <script id="json-filters" type="application/json">
-    {!! json_encode($filters) !!}
-  </script>
+  {!! app('layout-cache')->getBeatmapsetFilters() !!}
 
   <script id="json-beatmaps" type="application/json">
-    {!! json_encode($beatmaps) !!}
+    {!! $beatmapsetsJsonString !!}
   </script>
 
-  @include('layout._extra_js', ['src' => 'js/react/beatmaps.js'])
+  @include('layout._react_js', ['src' => 'js/beatmaps.js'])
 @stop

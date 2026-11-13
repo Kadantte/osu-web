@@ -7,22 +7,136 @@ namespace App\Models\OAuth;
 
 use App\Events\UserSessionEvent;
 use App\Exceptions\InvalidScopeException;
+use App\Interfaces\SessionVerificationInterface;
+use App\Models\Traits\FasterAttributes;
+use App\Models\Traits\IncrementInstance;
 use App\Models\User;
+use Ds\Set;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Laravel\Passport\Contracts\ScopeAuthorizable;
 use Laravel\Passport\RefreshToken;
 use Laravel\Passport\Token as PassportToken;
 
-class Token extends PassportToken
+class Token extends PassportToken implements ScopeAuthorizable, SessionVerificationInterface
 {
-    public $timestamps = true;
+    // PassportToken doesn't have factory
+    use HasFactory;
+    use FasterAttributes;
+    use IncrementInstance;
+
+    const SCOPES_CLIENT_CREDENTIALS_ONLY = ['delegate', 'forum.write_manage', 'group_permissions'];
+    const SCOPES_EXCLUDE_FROM_ALL = ['delegate', 'group_permissions'];
+    const SCOPES_OWN_CLIENT = ['chat.read', 'chat.write', 'chat.write_manage', 'multiplayer.write_manage'];
+    const SCOPES_REQUIRE_DELEGATION = ['chat.write', 'chat.write_manage', 'delegate', 'forum.write', 'forum.write_manage', 'group_permissions', 'multiplayer.write_manage'];
+
+    protected $casts = [
+        'expires_at' => 'datetime',
+        'revoked' => 'boolean',
+        'scopes' => 'array',
+        'verified' => 'boolean',
+    ];
+
+    private ?Set $scopeSet;
+
+    public static function findActiveOrFail(?string $id): static
+    {
+        if ($id === null) {
+            throw new AuthenticationException('invalid, expired, or missing auth header');
+        }
+
+        $token = static::find($id);
+
+        if ($token === null) {
+            throw new AuthenticationException('invalid token (not found)');
+        }
+        if ($token->revoked) {
+            throw new AuthenticationException('invalid token (revoked)');
+        }
+        if ($token->expires_at->isPast()) {
+            throw new AuthenticationException('invalid token (expired)');
+        }
+        if ($token->client->revoked) {
+            throw new AuthenticationException('invalid token (revoked client)');
+        }
+        if (!$token->isClientCredentials() && $token->user === null) {
+            throw new AuthenticationException('invalid token (missing user)');
+        }
+
+        $token->validate();
+
+        return $token;
+    }
+
+    public static function findForVerification(string $id): ?static
+    {
+        return static::find($id);
+    }
+
+    public function refreshToken(): HasOne
+    {
+        return $this->hasOne(RefreshToken::class, 'access_token_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    #[\Override]
+    public function can(string $scope): bool
+    {
+        static $excludeSet = new Set(static::SCOPES_EXCLUDE_FROM_ALL);
+
+        $scopes = $this->scopeSet();
+        if ($excludeSet->contains($scope)) {
+            return $scopes->contains($scope);
+        }
+
+        // We don't support Passport's inherited scopes for now.
+        return $scopes->contains('*') || $scopes->contains($scope);
+    }
 
     /**
-     * Whether the token allows resource owner delegation.
+     * Whether the resource owner is delegated to the client's owner.
      *
      * @return bool
      */
-    public function canDelegate(): bool
+    public function delegatesOwner(): bool
     {
-        return in_array('bot', $this->scopes, true);
+        return $this->scopeSet()->contains('delegate');
+    }
+
+    public function getAttribute($key)
+    {
+        return match ($key) {
+            'client_id',
+            'hit_count',
+            'id',
+            'name',
+            'user_id',
+            'verification_method' => $this->getRawAttribute($key),
+
+            'revoked',
+            'verified' => $this->getNullableBool($key),
+
+            'scopes' => json_decode($this->getRawAttribute($key) ?? 'null', true),
+
+            'created_at',
+            'expires_at',
+            'updated_at' => $this->getTimeFast($key),
+
+            'client',
+            'refreshToken',
+            'user' => $this->getRelationValue($key),
+        };
+    }
+
+    public function getKeyForEvent(): string
+    {
+        return "oauth:{$this->getKey()}";
     }
 
     /**
@@ -33,11 +147,16 @@ class Token extends PassportToken
      */
     public function getResourceOwner(): ?User
     {
-        if ($this->isClientCredentials() && $this->canDelegate()) {
+        if ($this->isClientCredentials() && $this->delegatesOwner()) {
             return $this->client->user;
         }
 
         return $this->user;
+    }
+
+    public function getVerificationMethod(): ?string
+    {
+        return $this->verification_method;
     }
 
     public function isClientCredentials()
@@ -46,25 +165,37 @@ class Token extends PassportToken
         return $this->user_id === null;
     }
 
-    public function refreshToken()
+    public function isOwnToken(): bool
     {
-        return $this->hasOne(RefreshToken::class, 'access_token_id');
+        $clientUserId = $this->client->user_id;
+
+        return $clientUserId !== null && $clientUserId === $this->user_id;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->verified;
+    }
+
+    public function markVerified(): void
+    {
+        $this->update(['verified' => true]);
     }
 
     public function revokeRecursive()
     {
         $result = $this->revoke();
-        optional($this->refreshToken)->revoke();
+        $this->refreshToken?->revoke();
 
         return $result;
     }
 
-    public function revoke()
+    public function revoke(): bool
     {
         $saved = parent::revoke();
 
         if ($saved && $this->user_id !== null) {
-            event(UserSessionEvent::newLogout($this->user_id, ["oauth:{$this->getKey()}"]));
+            UserSessionEvent::newLogout($this->user_id, [$this->getKeyForEvent()])->broadcast();
         }
 
         return $saved;
@@ -75,57 +206,118 @@ class Token extends PassportToken
         return $query->where('revoked', false)->where('expires_at', '>', $time);
     }
 
-    public function validate()
+    public function setScopesAttribute(?array $value)
     {
-        if (empty($this->scopes)) {
-            throw new InvalidScopeException('Tokens without scopes are not valid.');
+        if ($value !== null) {
+            sort($value);
         }
 
-        if ($this->client === null) {
-            throw new InvalidScopeException('The client is not authorized.', 'unauthorized_client');
+        $this->scopeSet = null;
+        $this->attributes['scopes'] = $this->castAttributeAsJson('scopes', $value);
+    }
+
+    public function setUserIdAttribute(mixed $value): void
+    {
+        // passed as string by passport
+        $this->attributes['user_id'] = get_int($value);
+    }
+
+    public function setVerificationMethod(string $method): void
+    {
+        $this->verification_method = $method;
+        $this->save();
+    }
+
+    /**
+     * Get token user id
+     *
+     * Note that this is different from getResourceOwner().
+     */
+    public function userId(): ?int
+    {
+        return $this->user_id;
+    }
+
+    public function validate(): void
+    {
+        static $clientCredentialsRequireDelegateScopes = new Set(static::SCOPES_REQUIRE_DELEGATION);
+        // only clients owned by bots are allowed to act on behalf of another user.
+        // the user's own client can send messages as themselves for authorization code flows.
+        static $ownClientScopes = new Set(static::SCOPES_OWN_CLIENT);
+        static $clientCredentialsOnlyScopes = new Set(static::SCOPES_CLIENT_CREDENTIALS_ONLY);
+
+        $scopes = $this->scopeSet();
+        if ($scopes->isEmpty()) {
+            throw new InvalidScopeException('empty');
         }
 
-        if ($this->isClientCredentials() && in_array('*', $this->scopes, true)) {
-            throw new InvalidScopeException('* is not allowed with Client Credentials');
+        $client = $this->client;
+        if ($client === null) {
+            throw new InvalidScopeException('client_unauthorized', 'unauthorized_client');
         }
 
-        if (in_array('chat.write', $this->scopes, true)) {
-            // only clients owned by bots can request this scope.
-            if (!$this->client->user->isBot()) {
-                throw new InvalidScopeException('This scope is only available for chat bots.');
+        // no silly scopes.
+        if ($scopes->contains('*')) {
+            if ($scopes->count() > 1) {
+                throw new InvalidScopeException('all_scope_no_mix');
+            }
+        } elseif ($client->user === null) {
+            // Only "*" scope is allowed for clients with no user
+            throw new InvalidScopeException('client_missing_owner');
+        }
+
+        if ($this->isClientCredentials()) {
+            if ($scopes->contains('*')) {
+                throw new InvalidScopeException('all_scope_no_client_credentials');
             }
 
-            // in the case of client credentials, delegation must be enabled on the token.
-            if ($this->isClientCredentials() && !$this->canDelegate()) {
-                throw new InvalidScopeException('bot scope required.');
+            if ($this->delegatesOwner() && !$client->user->isBot()) {
+                throw new InvalidScopeException('delegate_bot_only');
+            }
+
+            if (!$scopes->intersect($clientCredentialsRequireDelegateScopes)->isEmpty()) {
+                if (!$this->delegatesOwner()) {
+                    throw new InvalidScopeException('delegate_required');
+                }
+
+                // delegation is only allowed if scopes given allow delegation.
+                if (!$scopes->diff($clientCredentialsRequireDelegateScopes)->isEmpty()) {
+                    throw new InvalidScopeException('delegate_invalid_combination');
+                }
+            }
+        } else {
+            if (!$scopes->intersect($clientCredentialsOnlyScopes)->isEmpty()) {
+                throw new InvalidScopeException('client_credentials_only');
+            }
+
+            if (!$scopes->intersect($ownClientScopes)->isEmpty() && !($this->isOwnToken() || $client->user->isBot())) {
+                throw new InvalidScopeException('bot_only');
             }
         }
-
-        if ($this->canDelegate()) {
-            if (!$this->client->user->isBot()) {
-                throw new InvalidScopeException('This scope is only available for chat bots.');
-            }
-
-            if (!$this->isClientCredentials()) {
-                throw new InvalidScopeException('bot scope is only valid for client_credentials tokens.');
-            }
-        }
-
-        return true;
     }
 
     public function save(array $options = [])
     {
         // Forces error if passport tries to issue an invalid client_credentials token.
         $this->validate();
+        if (!$this->exists) {
+            $this->setVerifiedState();
+        }
 
         return parent::save($options);
     }
 
-    public function user()
+    private function scopeSet(): Set
     {
-        $provider = config('auth.guards.api.provider');
+        return $this->scopeSet ??= new Set($this->scopes ?? []);
+    }
 
-        return $this->belongsTo(config('auth.providers.'.$provider.'.model'), 'user_id');
+    private function setVerifiedState(): void
+    {
+        // client credential doesn't have user attached and auth code is
+        // already verified during grant process
+        $this->verified ??= $GLOBALS['cfg']['osu']['user']['bypass_verification']
+            || $this->user === null
+            || !$this->client->isPasswordClient();
     }
 }

@@ -4,6 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'load_failed' => 'Error al cargar los datos.',
+    'missing_route' => 'URL no válida o método de solicitud incorrecto.',
+    'no_restricted_access' => 'No puedes realizar esta acción mientras tu cuenta esté en un estado restringido.',
+    'param_too_large' => 'El parámetro :name tiene un máximo de :count_delimited ítem|El parámetro :name tiene un máximo de :count_delimited ítems',
+    'supporter_only' => 'Debes ser un osu!supporter para usar esta característica.',
+    'unknown' => 'Se produjo un error desconocido.',
+
     'codes' => [
         'http-401' => 'Por favor, inicia sesión para continuar.',
         'http-403' => 'Acceso denegado.',
@@ -15,19 +22,18 @@ return [
             'generic' => 'Ocurrió un error. Intente actualizar la página.',
         ],
     ],
-    'beatmaps' => [
-        'invalid_mode' => 'Se ha especificado un modo no válido.',
-        'standard_converts_only' => 'No hay puntuaciones disponibles para el modo solicitado en esta dificultad del mapa.',
-    ],
     'checkout' => [
         'generic' => 'Se produjo un error mientras se preparaba su compra.',
     ],
+    'scores' => [
+        'invalid_id' => 'ID de la puntuación no válido.',
+    ],
     'search' => [
         'default' => 'No se obtuvo ningún resultado, inténtalo de nuevo más tarde.',
+        'invalid_cursor_exception' => 'Parámetro de cursor especificado no válido.',
         'operation_timeout_exception' => 'La búsqueda está más ocupada de lo habitual, inténtalo de nuevo más tarde.',
     ],
-
-    'supporter_only' => 'Debes ser un osu!supporter para usar esta característica.',
-    'no_restricted_access' => 'No puede realizar esta acción mientras su cuenta esté en un estado restringido.',
-    'unknown' => 'Se produjo un error desconocido.',
+    'user_report' => [
+        'recently_reported' => "Ya has reportado esto recientemente.",
+    ],
 ];

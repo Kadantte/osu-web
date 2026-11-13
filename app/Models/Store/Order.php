@@ -6,12 +6,13 @@
 namespace App\Models\Store;
 
 use App\Exceptions\InvariantException;
+use App\Exceptions\ModelNotSavedException;
 use App\Exceptions\OrderNotModifiableException;
 use App\Models\Country;
-use App\Models\SupporterTag;
 use App\Models\User;
 use Carbon\Carbon;
-use DB;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -28,21 +29,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property Address $address
  * @property int|null $address_id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon|null $deleted_at
- * @property \Illuminate\Database\Eloquent\Collection $items OrderItem
+ * @property Carbon $created_at
+ * @property Carbon|null $deleted_at
+ * @property Collection<OrderItem> $items
  * @property string|null $last_tracking_state
  * @property int $order_id
  * @property string|null $provider
- * @property \Carbon\Carbon|null $paid_at
- * @property \Illuminate\Database\Eloquent\Collection $payments Payment
- * @property string|null $reference
- * @property \Carbon\Carbon|null $shipped_at
+ * @property Carbon|null $paid_at
+ * @property Collection<Payment> $payments
+ * @property string|null $reference For paypal transactions, this is the resource Id of the paypal order; otherwise, it is the same as the transaction_id without the prefix.
+ * @property Carbon|null $shipped_at
  * @property float|null $shipping
+ * @property string|null $shopify_url
  * @property mixed $status
  * @property string|null $tracking_code
- * @property string|null $transaction_id
- * @property \Carbon\Carbon|null $updated_at
+ * @property string|null $transaction_id For paypal transactions, this value is based on the IPN or captured payment Id, not the order resource id.
+ * @property Carbon|null $updated_at
  * @property User $user
  * @property int $user_id
  */
@@ -51,29 +53,55 @@ class Order extends Model
     use SoftDeletes;
 
     const ECHECK_CLEARED = 'ECHECK CLEARED';
+    const ECHECK_DENIED = 'ECHECK DENIED';
     const ORDER_NUMBER_REGEX = '/^(?<prefix>[A-Za-z]+)-(?<userId>\d+)-(?<orderId>\d+)$/';
     const PENDING_ECHECK = 'PENDING ECHECK';
 
-    const PROVIDER_CENTILLI = 'centili';
     const PROVIDER_FREE = 'free';
     const PROVIDER_PAYPAL = 'paypal';
     const PROVIDER_SHOPIFY = 'shopify';
     const PROVIDER_XSOLLA = 'xsolla';
 
-    const STATUS_HAS_INVOICE = ['processing', 'checkout', 'paid', 'shipped', 'cancelled', 'delivered'];
+    const STATUS_CANCELLED = 'cancelled';
+    const STATUS_DELIVERED = 'delivered';
+    const STATUS_INCART = 'incart';
+    const STATUS_PAID = 'paid';
+    const STATUS_PAYMENT_APPROVED = 'checkout';
+    const STATUS_PAYMENT_REQUESTED = 'processing';
+    const STATUS_SHIPPED = 'shipped';
+
+    const STATUS_CAN_CHECKOUT = [self::STATUS_INCART, self::STATUS_PAYMENT_REQUESTED];
+
+    const STATUS_HAS_INVOICE = [
+        self::STATUS_CANCELLED,
+        self::STATUS_DELIVERED,
+        self::STATUS_PAID,
+        self::STATUS_PAYMENT_APPROVED,
+        self::STATUS_PAYMENT_REQUESTED,
+        self::STATUS_SHIPPED,
+    ];
 
     protected $primaryKey = 'order_id';
 
     protected $casts = [
+        'deleted_at' => 'datetime',
+        'paid_at' => 'datetime',
+        'shipped_at' => 'datetime',
         'shipping' => 'float',
     ];
-
-    protected $dates = ['deleted_at', 'shipped_at', 'paid_at'];
-    protected $macros = ['itemsQuantities'];
 
     protected static function splitTransactionId($value)
     {
         return explode('-', $value, 2);
+    }
+
+    public static function pendingForUser(?User $user): ?Builder
+    {
+        if ($user === null) {
+            return null;
+        }
+
+        return static::where('user_id', $user->getKey())->paymentRequested();
     }
 
     public function items()
@@ -96,19 +124,24 @@ class Order extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function scopeInCart($query)
+    public function scopeWhereCanCheckout($query)
     {
-        return $query->where('status', 'incart');
+        return $query->whereIn('status', [static::STATUS_INCART, static::STATUS_PAYMENT_REQUESTED]);
     }
 
-    public function scopeProcessing($query)
+    public function scopeInCart($query)
     {
-        return $query->where('status', 'processing');
+        return $query->where('status', static::STATUS_INCART);
+    }
+
+    public function scopePaymentRequested($query)
+    {
+        return $query->where('status', static::STATUS_PAYMENT_REQUESTED);
     }
 
     public function scopeStale($query)
     {
-        return $query->where('updated_at', '<', Carbon::now()->subDays(config('store.order.stale_days')));
+        return $query->where('updated_at', '<', Carbon::now()->subDays($GLOBALS['cfg']['store']['order']['stale_days']));
     }
 
     public function scopeWhereHasInvoice($query)
@@ -116,19 +149,14 @@ class Order extends Model
         return $query->whereIn('status', static::STATUS_HAS_INVOICE);
     }
 
-    public function scopeWithPayments($query)
-    {
-        return $query->with('payments');
-    }
-
-    public function scopeWhereOrderNumber($query, $orderNumber)
+    public function scopeWhereOrderNumber($query, ?string $orderNumber)
     {
         if (
-            !preg_match(static::ORDER_NUMBER_REGEX, $orderNumber, $matches)
-            || config('store.order.prefix') !== $matches['prefix']
+            $orderNumber === null
+            || !preg_match(static::ORDER_NUMBER_REGEX, $orderNumber, $matches)
+            || $GLOBALS['cfg']['store']['order']['prefix'] !== $matches['prefix']
         ) {
-            // hope there's no order_id 0 :D
-            return $query->where('order_id', '=', 0);
+            return $query->none();
         }
 
         $userId = (int) $matches['userId'];
@@ -147,6 +175,16 @@ class Order extends Model
                 ->where('provider', $provider)
                 ->where('transaction_id', $transactionId)
                 ->where('cancelled', false));
+    }
+
+    public function scopeWithPayments($query)
+    {
+        return $query->with('payments');
+    }
+
+    public function setShopifyOrderNumberAttribute(string $value)
+    {
+        $this->transaction_id = static::PROVIDER_SHOPIFY.'-'.$value;
     }
 
     public function trackingCodes()
@@ -174,7 +212,7 @@ class Order extends Model
 
     public function getOrderNumber()
     {
-        return config('store.order.prefix')."-{$this->user_id}-{$this->order_id}";
+        return $GLOBALS['cfg']['store']['order']['prefix']."-{$this->user_id}-{$this->order_id}";
     }
 
     public function getPaymentProvider()
@@ -194,16 +232,16 @@ class Order extends Model
     public function getPaymentStatusText()
     {
         switch ($this->status) {
-            case 'cancelled':
+            case static::STATUS_CANCELLED:
                 return 'Cancelled';
-            case 'checkout':
-            case 'processing':
-                return 'Awaiting Payment';
-            case 'incart':
+            case static::STATUS_PAYMENT_REQUESTED:
+            case static::STATUS_PAYMENT_APPROVED:
+                return 'Confirmation Pending';
+            case static::STATUS_INCART:
                 return '';
-            case 'paid':
-            case 'shipped':
-            case 'delivered':
+            case static::STATUS_PAID:
+            case static::STATUS_SHIPPED:
+            case static::STATUS_DELIVERED:
                 return 'Paid';
             default:
                 return 'Unknown';
@@ -211,11 +249,16 @@ class Order extends Model
     }
 
     /**
-     * Returns the reference id for the provider associated with this Order.
+     * Returns the 'final' id for the provider associated with this Order.
      *
-     * @return string|null
+     * For Paypal, is the IPN txn_id or captured Id of the payment item in the payment transaction.
+     *  (not the payment itself).
+     * For Xsolla, it is the Xsolla transaction id and should be the same as reference.
+     * For Shopify, it is the Shopify order number.
+     *
+     * TODO: remove the splitting and remove the provider prefix? (was for legacy purposes).
      */
-    public function getProviderReference(): ?string
+    public function getTransactionId(): ?string
     {
         if (!present($this->transaction_id)) {
             return null;
@@ -224,33 +267,14 @@ class Order extends Model
         return static::splitTransactionId($this->transaction_id)[1] ?? null;
     }
 
-    public function getSubtotal($forShipping = false)
+    public function getSubtotal()
     {
         $total = 0;
         foreach ($this->items as $i) {
-            if ($forShipping && !$i->product->requiresShipping()) {
-                continue;
-            }
-
             $total += $i->subtotal();
         }
 
         return (float) $total;
-    }
-
-    public function setTransactionIdAttribute($value)
-    {
-        // TODO: migrate to always using provider and reference instead of transaction_id.
-        $this->attributes['transaction_id'] = $value;
-
-        $split = static::splitTransactionId($value);
-        $this->provider = $split[0] ?? null;
-
-        $reference = $split[1] ?? null;
-        // For Paypal we're going to use the PAYID number for reference instead of the IPN txn_id
-        if ($this->provider !== static::PROVIDER_PAYPAL && $reference !== 'failed') {
-            $this->reference = $reference;
-        }
     }
 
     public function requiresShipping()
@@ -319,50 +343,89 @@ class Order extends Model
         });
     }
 
-    public function canCheckout()
+    public function canCheckout(): bool
     {
-        return in_array($this->status, ['incart', 'processing'], true);
+        return in_array($this->status, static::STATUS_CAN_CHECKOUT, true);
     }
 
-    public function canUserCancel()
+    public function canUserCancel(): bool
     {
-        return $this->status === 'processing';
+        return $this->status === static::STATUS_PAYMENT_REQUESTED;
     }
 
-    public function hasInvoice()
+    public function containsSupporterTag(): bool
+    {
+        return $this->items->contains(fn (OrderItem $item) => $item->product->custom_class === Product::SUPPORTER_TAG_NAME);
+    }
+
+    public function hasInvoice(): bool
     {
         return in_array($this->status, static::STATUS_HAS_INVOICE, true);
     }
 
-    public function isEmpty()
+    public function isCancelled(): bool
+    {
+        return $this->status === static::STATUS_CANCELLED;
+    }
+
+    public function isCart(): bool
+    {
+        return $this->status === static::STATUS_INCART;
+    }
+
+    public function isDelivered(): bool
+    {
+        return $this->status === static::STATUS_DELIVERED;
+    }
+
+    public function isEmpty(): bool
     {
         return !$this->items()->exists();
     }
 
-    public function isAwaitingPayment()
+    public function isHideSupporterFromActivity(): bool
     {
-        return in_array($this->status, ['processing', 'checkout'], true);
+        // Consider all supporter tags should be hidden from activity if any one of them is marked to be hidden.
+        // This also skips needing to perform a product lookup.
+        foreach ($this->items as $item) {
+            $extraData = $item->extra_data;
+            if ($extraData instanceof ExtraDataSupporterTag && $extraData->hidden) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public function isModifiable()
+    public function isModifiable(): bool
     {
         // new cart is status = null
-        return in_array($this->status, ['incart', null], true);
+        return in_array($this->status, [static::STATUS_INCART, null], true);
     }
 
-    public function isProcessing()
+    public function isPendingPaymentCapture(): bool
     {
-        return $this->status === 'processing';
+        return in_array($this->status, [static::STATUS_PAYMENT_REQUESTED, static::STATUS_PAYMENT_APPROVED], true);
     }
 
-    public function isPaidOrDelivered()
+    public function isPaymentRequested(): bool
     {
-        return in_array($this->status, ['paid', 'delivered'], true);
+        return $this->status === static::STATUS_PAYMENT_REQUESTED;
     }
 
-    public function isPendingEcheck()
+    public function isPaid(): bool
     {
-        return $this->tracking_code === static::PENDING_ECHECK;
+        return $this->status === static::STATUS_PAID;
+    }
+
+    public function isPaidOrDelivered(): bool
+    {
+        return in_array($this->status, [static::STATUS_PAID, static::STATUS_DELIVERED], true);
+    }
+
+    public function isShipped(): bool
+    {
+        return $this->status === static::STATUS_SHIPPED;
     }
 
     public function isShopify(): bool
@@ -404,19 +467,41 @@ class Order extends Model
         $this->saveOrExplode();
     }
 
+    public function setGiftsHidden(bool $hide = true)
+    {
+        // batch update query not used as it will override extra_data contents.
+        $this->getConnection()->transaction(function () use ($hide) {
+            foreach ($this->items as $item) {
+                $extraData = $item->extra_data;
+                if ($extraData instanceof ExtraDataSupporterTag) {
+                    $extraData->hidden = $hide;
+                    $item->saveOrExplode();
+                }
+            }
+        });
+    }
+
+    #region public functions for updating cart state
+
+    /**
+     * Marks the Order as cancelled. Does not do anything if already cancelled.
+     *
+     * @param User|null $user The User requesting to cancel the order, null for system.
+     * @return void
+     */
     public function cancel(?User $user = null)
     {
-        if ($this->status === 'cancelled') {
+        if ($this->isCancelled()) {
             return;
         }
 
         // TODO: Payment processors should set a context variable flagging the user check to be skipped.
         // This is currently only fine because the Orders controller requires auth.
         if ($user !== null && $this->user_id === $user->getKey() && !$this->canUserCancel()) {
-            throw new InvariantException(trans('store.order.cancel_not_allowed'));
+            throw new InvariantException(osu_trans('store.order.cancel_not_allowed'));
         }
 
-        $this->status = 'cancelled';
+        $this->status = Order::STATUS_CANCELLED;
         $this->saveOrExplode();
     }
 
@@ -427,21 +512,36 @@ class Order extends Model
         });
     }
 
-    public function paid(Payment $payment = null)
+    public function paid(?Payment $payment)
     {
+        if ($this->tracking_code === Order::PENDING_ECHECK) {
+            $this->tracking_code = Order::ECHECK_CLEARED;
+        }
+
         // TODO: use a no payment object instead?
-        if ($payment) {
+        if ($payment !== null) {
+            if (!$this->payments()->save($payment)) {
+                throw new ModelNotSavedException('failed saving model');
+            }
+
             // Duplicate to existing fields.
-            // TODO: remove/migrate duplicated fields.
+            // Useful for checking store-related issues with a single table.
             $this->transaction_id = $payment->getOrderTransactionId();
             $this->paid_at = $payment->paid_at;
         } else {
             $this->paid_at = Carbon::now();
         }
 
-        $this->status = $this->requiresShipping() ? 'paid' : 'delivered';
+        if (!in_array($this->status, [static::STATUS_DELIVERED, static::STATUS_PAID, static::STATUS_SHIPPED], true)) {
+            $this->status = $this->requiresShipping() ? static::STATUS_PAID : static::STATUS_DELIVERED;
+        }
+
         $this->saveOrExplode();
     }
+
+    #endregion
+
+    #region public functions for updating cart quantities
 
     /**
      * Updates the Order with form parameters.
@@ -456,7 +556,7 @@ class Order extends Model
     public function updateItem(array $itemForm, $addToExisting = false)
     {
         return $this->guardNotModifiable(function () use ($itemForm, $addToExisting) {
-            $params = static::orderItemParams($itemForm);
+            [$params, $product] = static::orderItemParams($itemForm);
 
             // done first to allow removing of disabled products from cart.
             if ($params['quantity'] <= 0) {
@@ -464,16 +564,16 @@ class Order extends Model
             }
 
             // TODO: better validation handling.
-            if ($params['product'] === null) {
-                return trans('model_validation/store/product.not_available');
+            if ($product === null) {
+                return osu_trans('model_validation/store/product.not_available');
             }
 
             $this->saveOrExplode();
 
-            if ($params['product']->allow_multiple) {
-                $item = $this->newOrderItem($params);
+            if ($product->allow_multiple) {
+                $item = $this->newOrderItem($params, $product);
             } else {
-                $item = $this->updateOrderItem($params, $addToExisting);
+                $item = $this->updateOrderItem($params, $product, $addToExisting);
             }
 
             $item->saveOrExplode();
@@ -484,7 +584,7 @@ class Order extends Model
     {
         // locking bottleneck
         $this->getConnection()->transaction(function () {
-            [$items, $products] = $this->lockForReserve();
+            $items = $this->lockForReserve();
 
             $items->each->releaseProduct();
         });
@@ -494,7 +594,7 @@ class Order extends Model
     {
         // locking bottleneck
         $this->getConnection()->transaction(function () {
-            [$items, $products] = $this->lockForReserve();
+            $items = $this->lockForReserve();
             $items->each->reserveProduct();
         });
     }
@@ -513,6 +613,8 @@ class Order extends Model
         });
     }
 
+    #endregion
+
     public static function cart($user)
     {
         return static::query()
@@ -522,42 +624,7 @@ class Order extends Model
             ->first();
     }
 
-    public function macroItemsQuantities()
-    {
-        return function ($query) {
-            $query = clone $query;
-
-            $order = new self();
-            $orderItem = new OrderItem();
-            $product = new Product();
-
-            $query
-                ->join(
-                    $orderItem->getTable(),
-                    $order->qualifyColumn('order_id'),
-                    '=',
-                    $orderItem->qualifyColumn('order_id')
-                )
-                ->join(
-                    $product->getTable(),
-                    $orderItem->qualifyColumn('product_id'),
-                    '=',
-                    $product->qualifyColumn('product_id')
-                )
-                ->whereNotNull($product->qualifyColumn('weight'))
-                ->groupBy($orderItem->qualifyColumn('product_id'))
-                ->groupBy($product->qualifyColumn('name'))
-                ->select(
-                    DB::raw("SUM({$orderItem->qualifyColumn('quantity')}) AS quantity"),
-                    $product->qualifyColumn('name'),
-                    $orderItem->qualifyColumn('product_id')
-                );
-
-            return $query->get();
-        };
-    }
-
-    private function lockForReserve(array $productIds = null)
+    private function lockForReserve(?array $productIds = null)
     {
         $query = $this->items()->with('product')->lockForUpdate();
         if ($productIds) {
@@ -566,9 +633,9 @@ class Order extends Model
 
         $items = $query->get();
         $productIds = array_pluck($items, 'product_id');
-        $products = Product::lockForUpdate()->whereIn('product_id', $productIds)->get();
+        Product::lockForUpdate()->whereIn('product_id', $productIds)->get();
 
-        return [$items, $products];
+        return $items;
     }
 
     private function removeOrderItem(array $params)
@@ -576,28 +643,16 @@ class Order extends Model
         optional($this->items()->find($params['id']))->delete();
     }
 
-    private function newOrderItem(array $params)
+    private function newOrderItem(array $params, Product $product)
     {
-        if ($params['cost'] < 0) {
-            $params['cost'] = 0;
-        }
-
-        $product = $params['product'];
-
         // FIXME: custom class stuff should probably not go in Order...
         switch ($product->custom_class) {
-            case 'supporter-tag':
-                $targetId = (int) $params['extraData']['target_id'];
-                if ($targetId === $this->user_id) {
-                    $params['extraData']['username'] = $this->user->username;
-                } else {
-                    $user = User::default()->where('user_id', $targetId)->firstOrFail();
-                    $params['extraData']['username'] = $user->username;
-                }
-
-                $params['extraData']['duration'] = SupporterTag::getDuration($params['cost']);
+            case Product::SUPPORTER_TAG_NAME:
+                $params['cost'] ??= 0;
+                $params['extra_data'] = ExtraDataSupporterTag::fromOrderItemParams($params, $this->user);
                 break;
-            case 'username-change':
+            // TODO: look at migrating to extra_data
+            case Product::USERNAME_CHANGE:
                 // ignore received cost
                 $params['cost'] = $this->user->usernameChangeCost();
                 break;
@@ -606,31 +661,33 @@ class Order extends Model
             case 'mwc7-supporter':
             case 'owc-supporter':
             case 'twc-supporter':
-                // much dodgy. wow.
-                $matches = [];
-                preg_match('/.+\((?<country>.+)\)$/', $product->name, $matches);
-                $params['extraData']['cc'] = Country::where('name', $matches['country'])->first()->acronym;
+                $params['extra_data'] = $this->extraDataTournamentBanner($params, $product);
                 $params['cost'] = $product->cost ?? 0;
                 break;
+            case Product::REDIRECT_PLACEHOLDER:
+                throw new InvariantException("Product can't be ordered");
             default:
                 $params['cost'] = $product->cost ?? 0;
         }
 
-        return $this->items()->make([
+        $item = $this->items()->make([
             'quantity' => $params['quantity'],
-            'extra_info' => $params['extraInfo'],
-            'extra_data' => $params['extraData'],
+            'extra_info' => $params['extra_info'],
+            'extra_data' => $params['extra_data'],
             'cost' => $params['cost'],
-            'product_id' => $product->product_id,
+            'product_id' => $product->getKey(),
         ]);
+
+        $item->setRelation('product', $product);
+
+        return $item;
     }
 
-    private function updateOrderItem(array $params, $addToExisting = false)
+    private function updateOrderItem(array $params, Product $product, $addToExisting = false)
     {
-        $product = $params['product'];
         $item = $this->items()->where('product_id', $product->product_id)->get()->first();
         if ($item === null) {
-            return $this->newOrderItem($params);
+            return $this->newOrderItem($params, $product);
         }
 
         if ($addToExisting) {
@@ -642,15 +699,36 @@ class Order extends Model
         return $item;
     }
 
+    // TODO: maybe move to class later?
+    private function extraDataTournamentBanner(array $orderItemParams, Product $product)
+    {
+        $params = get_params($orderItemParams, 'extra_data', [
+            'tournament_id:int',
+        ]);
+
+        // much dodgy. wow.
+        $matches = [];
+        preg_match('/.+\((?<country>.+)\)$/', $product->name, $matches);
+        $params['cc'] = Country::where('name', $matches['country'])->first()->acronym;
+
+        return new ExtraDataTournamentBanner($params);
+    }
+
     private static function orderItemParams(array $form)
     {
-        return [
-            'id' => array_get($form, 'id'),
-            'quantity' => array_get($form, 'quantity'),
-            'product' => Product::enabled()->find(array_get($form, 'product_id')),
-            'cost' => intval(array_get($form, 'cost')),
-            'extraInfo' => array_get($form, 'extra_info'),
-            'extraData' => array_get($form, 'extra_data'),
-        ];
+        $params = get_params($form, null, [
+            'id:int',
+            'cost:int',
+            'extra_data:array',
+            'extra_info',
+            'product_id:int',
+            'quantity:int',
+        ], ['null_missing' => true]);
+
+        $product = Product::enabled()->find($params['product_id']);
+
+        unset($params['product_id']);
+
+        return [$params, $product];
     }
 }

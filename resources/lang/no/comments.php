@@ -5,10 +5,13 @@
 
 return [
     'deleted' => 'slettet',
+    'deleted_by' => 'slettet :timeago av :user',
+    'deleted_by_system' => 'system',
     'deleted_count' => ':count_delimited slettet kommentar|:count_delimited slettede kommentarer',
     'edited' => 'redigert for :timeago av :user',
     'pinned' => 'festet',
     'empty' => 'Ingen kommentarer ennå.',
+    'empty_other' => 'Ingen andre kommentarer ennå.',
     'load_replies' => 'last inn svar',
     'replies_count' => ':count_delimited reply|:count_delimited kommentarer',
     'title' => 'Kommentarer',
@@ -35,9 +38,13 @@ return [
     ],
 
     'index' => [
-        'nav_comments' => '',
+        'nav_comments' => 'kommentarer',
         'nav_title' => 'liste',
-        'no_comments' => '',
+        'no_comments' => 'ingen kommentar funnet...',
+    ],
+
+    'ogp' => [
+        'title' => 'kommentar av :user',
     ],
 
     'placeholder' => [

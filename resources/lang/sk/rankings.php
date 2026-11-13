@@ -9,6 +9,17 @@ return [
         'title' => '',
     ],
 
+    'daily_challenge' => [
+        'beatmap' => '',
+        'theme' => '',
+        'top_10p' => '',
+        'top_50p' => '',
+        'unavailable' => [
+            'future' => '',
+            'past' => '',
+        ],
+    ],
+
     'filter' => [
         'title' => '',
 
@@ -17,12 +28,60 @@ return [
         ],
     ],
 
+    'kudosu' => [
+        'total' => '',
+        'available' => '',
+        'used' => '',
+    ],
+
+    'matchmaking' => [
+        'plays' => '',
+        'points' => '',
+        'provisional' => '',
+        'rating' => '',
+        'wins' => '',
+    ],
+
+    'multiplayer' => [
+        'room_name' => '',
+    ],
+
+    'performance' => [
+        'insufficient_history' => '',
+    ],
+
+    'top_plays' => [
+        'empty' => '',
+        'last_updated' => '',
+    ],
+
+    'playlists' => [
+        'charts' => '',
+        'featured' => '',
+        'season_room' => '',
+        'seasons' => '',
+    ],
+
     'type' => [
-        'charts' => 'Výbery',
-        'country' => 'Krajina',
-        'multiplayer' => '',
-        'performance' => 'Výkon',
-        'score' => 'Skóre',
+        'country' => 'krajina',
+        'daily_challenge' => '',
+        'global' => '',
+        'kudosu' => '',
+        'matchmaking' => '',
+        'playlists' => '',
+        'team' => '',
+        'top_plays' => '',
+    ],
+
+    'seasons' => [
+        'empty' => '',
+        'ongoing' => '',
+        'room_count' => '',
+        'summary' => '',
+        'url' => '',
+        'validation' => [
+            'not_enough_factors' => '',
+        ],
     ],
 
     'spotlight' => [
@@ -36,6 +95,8 @@ return [
         'accuracy' => 'Presnosť',
         'active_users' => 'Aktívni Užívatelia',
         'country' => 'Krajina',
+        'division' => '',
+        'members' => '',
         'play_count' => 'Počet Zahraní',
         'performance' => 'Výkon',
         'total_score' => 'Celkové Skóre',

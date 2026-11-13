@@ -4,6 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'load_failed' => 'Data kunne ikke indlæses.',
+    'missing_route' => 'Ugyldig URL eller forkert anmodningsmetode.',
+    'no_restricted_access' => 'Du kan ikke udføre denne handling mens din konto er begrænset.',
+    'param_too_large' => ':name parameter har et maksimum på :count_delimited ting|:name parameter har et maksimum på :count_delimited ting',
+    'supporter_only' => 'Du skal være osu!supporter for at kunne anvende denne funktion.',
+    'unknown' => 'En ukendt fejl er opstået.',
+
     'codes' => [
         'http-401' => 'Log venligst ind for at fortsætte.',
         'http-403' => 'Adgang nægtet.',
@@ -15,19 +22,18 @@ return [
             'generic' => 'Der opstod en fejl. Prøv at genindlæse siden.',
         ],
     ],
-    'beatmaps' => [
-        'invalid_mode' => 'Ugyldig mode specificeret.',
-        'standard_converts_only' => 'Ingen scores er tilgængelige for den anmodede mode på denne sværhedsgrad.',
-    ],
     'checkout' => [
         'generic' => 'Der opstod en fejl under forberedelsen af ​​dit køb.',
     ],
+    'scores' => [
+        'invalid_id' => 'Ugyldig score id.',
+    ],
     'search' => [
         'default' => 'Kunne ikke få resultater, prøv igen senere.',
+        'invalid_cursor_exception' => 'Ugyldig markørparameter angivet.',
         'operation_timeout_exception' => 'Søgemaskinen er i øjeblikket travlere end ellers, prøv igen senere.',
     ],
-
-    'supporter_only' => 'Du skal være osu!supporter for at kunne anvende denne funktion.',
-    'no_restricted_access' => 'Du kan ikke udføre denne handling mens din konto er begrænset.',
-    'unknown' => 'En ukendt fejl er opstået.',
+    'user_report' => [
+        'recently_reported' => "Du har allerede rapporteret dette for nyligt.",
+    ],
 ];

@@ -5,17 +5,29 @@
 
 return [
     'mode' => [
-        'beatmapset' => '',
-        'forum_post' => '',
-        'other' => '',
-        'user' => '',
-        'wiki_page' => '',
+        'artist_track' => 'Προτεινόμενο Κομμάτι Καλλιτέχνη',
+        'beatmapset' => 'Beatmap',
+        'forum_post' => 'Φόρουμ',
+        'other' => 'Άλλο',
+        'team' => 'Ομάδα',
+        'user' => 'Παίκτης',
+        'wiki_page' => 'Wiki',
     ],
 
     'result' => [
-        'empty' => '',
-        'empty_for' => '',
-        'more' => '',
-        'title' => '',
+        'more' => 'Περισσότερα Αποτελέσματα Αναζήτησης :mode',
+        'title' => 'Αποτελέσματα Αναζήτησης:mode',
+
+        'no_results' => [
+            '_' => '',
+
+            'artist_track' => '',
+            'beatmapset' => '',
+            'forum_post' => '',
+            'other' => '',
+            'team' => '',
+            'user' => '',
+            'wiki_page' => '',
+        ],
     ],
 ];

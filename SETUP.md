@@ -6,25 +6,27 @@ There are a few different options to get started:
 
 ### Install prerequisites
 
-- MySQL 8.0+
-- PHP 7.2+ (with curl, gd, intl, json, mbstring, mcrypt, mysql, xml and zip extensions)
+- PHP (with curl, gd, intl, json, mbstring, mcrypt, mysql, xml and zip extensions)
+- Node.js
 - nginx (or other webserver)
-- Node.js 8 or 9 (and a modern version of npm)
-- elasticsearch 5+
-- redis (not required, but you may want to use for caching and laravel's job-queue)
+- MySQL 8.4+
+- Elasticsearch 7+
+- Redis
+
+Current targeted PHP and Node.js versions can be found in [`.php-version`](.php-version) and [`.node-version`](.node-version).
 
 ### Clone the git repository
 
 ```
-$ git clone https://github.com/ppy/osu-web.git
+git clone https://github.com/ppy/osu-web.git
 ```
 
 ### Configure .env file
 
 ```bash
 # copy the example file and edit the settings, the important ones are APP_* and DB_*
-$ cp .env.example .env
-$ vi .env
+cp .env.example .env
+vi .env
 ```
 
 ### URL rewriting
@@ -36,20 +38,19 @@ location / {
 }
 ```
 
-Consult the [laravel documentation](https://laravel.com/docs/6.x/installation#web-server-configuration) for non-nginx
+Consult the [laravel documentation](https://laravel.com/docs/11.x/deployment) for non-nginx
 
 ### Initialize database
 
 ```bash
-# this script assumes you can connect passwordless as root
-$ ./bin/db_setup.sh
+php artisan db:create
 ```
 
 ### Install packages and build assets
 
 ```bash
 # will also install composer and yarn
-$ ./build.sh
+./build.sh
 ```
 
 At this point you should be able to access the site via whatever webserver you configured.
@@ -58,19 +59,57 @@ At this point you should be able to access the site via whatever webserver you c
 
 - First, install [Docker](https://www.docker.com/community-edition) and [Docker Compose](https://docs.docker.com/compose/install/) (on Windows, it's already part of Docker install).
 - Install [git](https://git-scm.com).
+- Obtain a [GitHub token](https://github.com/settings/tokens/new?scopes=public_repo&description=osu-web) as it's required for several parts of the website.
 - If using Windows, make sure it's running at least build 2004 and install Ubuntu (or another Linux distro of choice) from Windows Store. Additionally:
   - Make sure it's running WSL2 (convert it if it's still using WSL1).
   - Open Docker settings, go to Resources → WSL Integration → Enable integration with additional distros (enable for the installed distro).
 - Open terminal (or Linux console on Windows).
 - Clone this repository.
-- Run `bin/docker_dev.sh`. Make sure the repository folder is owned by the user executing this command (must be non-root).
+- Set `GITHUB_TOKEN` environment variable (usually by `export GITHUB_TOKEN=ghs_...`).
+  - It'll be recorded to composer and app config so it doesn't need to be set again next time.
+- Run `bin/docker_dev.sh`. Make sure the repository folder is owned by the user executing this command (must be non-root). The site will be hosted at http://localhost:8080/.
 - Due to the nature of Docker (a container is killed when the command running in it finishes), the Yarn container will be run in watch mode.
 - Do note that the supplied Elasticsearch container uses a high (1+ GB) amount of RAM. Ensure that your system (or virtual machine, if running on Windows/macOS) has a necessary amount of memory allocated (at least 2 GB). If you can't (or don't want to), you can comment out the relevant elasticsearch lines in `docker-compose.yml`.
-- To run any of the below commands, make sure you are using the docker container: `docker-compose run --rm php`.
-  - To run artisan commands, run using `docker-compose run --rm php artisan`.
+- To run any of the below commands, make sure you are using the docker container: `docker compose run --rm php`.
+  - To run artisan commands, run using `docker compose run --rm php artisan`.
 
 ---
-**Note**
+**Notes**
+
+The `elasticsearch` and `db` containers store their data to volumes, the containers will use data on these volumes if they already exist.
+
+### Elasticsearch
+
+Existing Elasticsearch indices will be upgraded to new versions on start. Indices from a newer version cannot be used by older versions and downgrades are not supported.
+
+If you need to use a previous version of elasticsearch, e.g. to run `osu-elastic-indexer`, you can specify a previous version in a `docker-compose.override.yml` file (`volumes` and `environment` must be specified, as well, not just `image`):
+
+    services:
+      elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.23
+        volumes:
+          - elasticsearch:/usr/share/elasticsearch/data
+        environment:
+          action.auto_create_index: "false"
+          discovery.type: single-node
+          ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+
+Note that older versions of Elasticsearch do not work on ARM-based CPUs.
+
+`osu-elastic-indexer` currently cannot update indices using Elasticsearch 7; existing records can still be queried normally.
+
+### MySQL
+
+The MySQL images provided by Docker and MySQL have different uids for the `mysql` user, if you are getting permission errors when starting the `db` container like
+
+    mysqld: File './binlog.index' not found (OS errno 13 - Permission denied)
+
+update the ownership of the mysql data files:
+
+    docker compose run --rm db sh -c 'chown -R mysql:mysql /var/lib/mysql'
+
+
+### Windows
 
 On Windows, the files inside Linux system can be found in Explorer from `\\wsl$` location.
 
@@ -83,8 +122,6 @@ git config core.eol lf
 git config core.filemode false
 ```
 
----
-
 ### Docker hints
 
 #### Services
@@ -94,14 +131,16 @@ There are multiple services involved:
 - php: main service for php server. Also serves as entry point for doing other stuff like testing etc
 - assets: builds assets. It sometimes behaves weirdly in which case try restarting it
 - job: runs queued job
-- schedule: runs scheduled job every 5 minutes
 - migrator: prepare database and elasticsearch (service should exit with status 0 after finishing its task)
+- beatmap-difficulty-lookup-cache: for computing beatmap difficulty attributes
 - notification-server: main service for notification websocket server
 - notification-server-dusk: notification server to be used by browser test
 - db: database server. Can be skipped by commenting it out and setting a different database instance
 - redis: cache and session server. Can be skipped just like db service
 - elasticsearch: search database. Can be skipped just like db service
 - nginx: proxies php and notification-server(-dusk) so they can be accessed under same host
+- score-indexer: `Solo\Score` indexer.
+- score-indexer-test: `Solo\Score` indexer used by tests.
 
 #### Modifying environment (`.env`, `.env.dusk.local`) files
 
@@ -112,27 +151,25 @@ Sometimes a restart of notification-server and notification-server-dusk will be 
 See if anything has stopped:
 
 ```
-docker-compose ps
+docker compose ps
 ```
 
 Start docker in background:
 
 ```
 bin/docker_dev.sh -d
-# alternatively
-# docker-compose up -d
 ```
 
 Start single docker service:
 
 ```
-docker-compose start <servicename>
+docker compose start <servicename>
 ```
 
 Restart single docker service:
 
 ```
-docker-compose restart <servicename>
+docker compose restart <servicename>
 ```
 
 #### Direct database access
@@ -142,45 +179,71 @@ Using own mysql client, connect to port 3306 or `MYSQL_EXTERNAL_PORT` if set whe
 Alternatively, there's mysql client installed in php service:
 
 ```
-docker-compose run --rm php mysql
+docker compose run --rm php mysql
 ```
 
+#### Updating image
+
+Docker images need to be occasionally updated to make sure they're running latest version of the packages.
+
+```
+docker compose pull
+docker compose build --no-cache
+```
+
+#### Faster php commands
+
+When frequently running commands, doing `docker compose run` may feel a little bit slow. An alternative is by running the command in existing instance instead. For example to run `artisan tinker`:
+
+```
+docker compose exec php /app/docker/development/entrypoint.sh artisan tinker
+```
+
+Add an alias for the docker compose command so it doesn't need to be specified every time:
+
+```
+alias p='docker compose exec php /app/docker/development/entrypoint.sh'
+p artisan tinker
+```
+
+(add the `alias` line to shell startup file; usually `~/.profile`, `~/.zshrc`, etc)
+
 # Development
+
+## Reset the database + seeding sample data
+
+```
+php artisan migrate:fresh --seed
+```
+
+Run the above command to rebuild the database and populate it with sample data. In order for the seeder to seed beatmaps, you must enter a valid osu! API key as the value of the `OSU_API_KEY` property in the `.env` configuration file, as the seeder obtains beatmap data from the osu! API. The key can be obtained from [the "Legacy API" section of your account settings page](https://osu.ppy.sh/home/account/edit#legacy-api).
 
 ## Creating your initial user
 
 In the repository directory:
 
 ```php
-$ php artisan tinker
+php artisan tinker
 >>> (new App\Libraries\UserRegistration(["username" => "yourusername", "user_email" => "your@email.com", "password" => "yourpassword"]))->save();
 ```
 
-## Generating assets
+Note that seeding sample data (the step above this) is required for user registration to work, otherwise the command above will fail due to missing user groups or otherwise.
 
-Using Laravel's [Mix](https://laravel.com/docs/6.x/mix).
+## Generating assets
 
 ```bash
 # build assets (should be done automatically if using docker)
-$ yarn run development
+yarn run development
 ```
 
-Note that if you use the bundled docker-compose setup, yarn/webpack will be already run in watch mode.
-
-## Reset the database + seeding sample data
-
-```
-$ php artisan migrate:fresh --seed
-```
-
-Run the above command to rebuild the database and seed with sample data. In order for the seeder to seed beatmaps, you must enter a valid osu! API key as the value of the `OSU_API_KEY` property in the `.env` configuration file, as the seeder obtains beatmap data from the osu! API. The key can be obtained at [the "osu! API Access" page](https://old.ppy.sh/p/api), which is currently only available on the old site.
+Note that if you use the bundled docker compose setup, yarn/webpack will be already run in watch mode.
 
 ## Continuous asset generation while developing
 
 To continuously generate assets as you make changes to files (less, coffeescript) you can run `webpack` in `watch` mode.
 
 ```
-$ yarn run watch
+yarn run watch
 ```
 
 ## Email
@@ -207,13 +270,13 @@ Once the env files are set, database for testing will need to be setup:
 Tests should be run against an empty database, to initialize an empty database:
 
 ```
-APP_ENV=testing php artisan migrate:fresh --yes
+APP_ENV=testing php artisan migrate:fresh --no-interaction
 ```
 
 or if using docker:
 
 ```
-docker-compose run --rm -e APP_ENV=testing php artisan migrate:fresh --yes
+docker compose run --rm -e APP_ENV=testing php artisan migrate:fresh --no-interaction
 ```
 
 ---
@@ -234,7 +297,7 @@ bin/phpunit.sh
 or if using Docker:
 
 ```
-docker-compose run --rm php test phpunit
+docker compose run --rm php test phpunit
 ```
 
 Regular PHPUnit arguments are accepted, e.g.:
@@ -242,6 +305,22 @@ Regular PHPUnit arguments are accepted, e.g.:
 ```
 bin/phpunit.sh --filter=Route --stop-on-failure
 ```
+
+## Test groups
+
+Some tests are marked with the `Group` attribute when they require a specific service to be available.
+These groups can be used to exclude tests:
+
+    bin/phpunit.sh --exclude-group=RequiresScoreIndexer --exclude-group=RequiresBeatmapDifficultyLookupCache
+
+or run only those tests:
+
+    bin/phpunit.sh --group=RequiresScoreIndexer --group=RequiresBeatmapDifficultyLookupCache
+
+- `RequiresBeatmapDifficultyLookupCache`: Requires `beatmap-difficulty-lookup-cache` to be running
+- `RequiresScoreIndexer`: Requires a score indexing schema to be set and `score-indexer-test` service to be running
+
+Most tests require `elasticsearch` and `redis` to be available, so these are not optional.
 
 ## Browser tests
 
@@ -254,7 +333,7 @@ bin/run_dusk.sh
 or if using Docker:
 
 ```
-docker-compose run --rm php test browser
+docker compose run --rm php test browser
 ```
 
 ---
@@ -268,7 +347,7 @@ The Dusk tests currently do not clean up completely, leaving behind test data in
 
 Javascript tests are run with Karma.
 
-Karma is currently configured to to use Headless Chrome by default; this will require Chrome or a standalone Headless Chrome to be already installed. If you are using Docker, Headless Chrome will already be installed in the container.
+Karma is currently configured to use Headless Chrome by default; this will require Chrome or a standalone Headless Chrome to be already installed. If you are using Docker, Headless Chrome will already be installed in the container.
 
 ```
 yarn karma start --single-run
@@ -277,13 +356,13 @@ yarn karma start --single-run
 or if using Docker:
 
 ```
-docker-compose run --rm php test js
+docker compose run --rm testjs
 ```
 
 # Documentation
 
 ```bash
-$ php artisan apidoc:generate
+php artisan scribe:generate
 ```
 
 Documentation will be generated in the `docs` folder in both html and markdown formats.

@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'ผู้ดูแล',
     ],
-    'admin_forum' => [
-        '_' => 'ผู้ดูแล',
-    ],
-    'admin_store' => [
-        '_' => 'ผู้ดูแล',
-    ],
     'error' => [
         'error' => [
             '400' => 'คำร้องขอไม่ถูกต้อง',
@@ -22,20 +16,19 @@ return [
             '401-verification' => 'ยืนยันตัวตนบัญชี',
             '405' => 'สิ่งที่ท่านร้องขอไม่มีอยู่',
             '422' => 'คำร้องขอไม่ถูกต้อง',
-            '429' => '',
+            '429' => 'มีคำขอมากเกินไป',
             '500' => 'อะไรบางอย่างพัง',
             '503' => 'การบำรุงรักษาระบบ',
         ],
     ],
     'forum' => [
         '_' => 'ฟอรัม',
-        'topic_watches_controller' => [
-            'index' => 'หน้าหลัก',
+        'topic_logs_controller' => [
+            'index' => 'บันทึกหัวข้อ',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'หน้าหลัก',
             'verify_link' => 'การยืนยันบัญชี',
         ],
         'artists_controller' => [
@@ -48,21 +41,19 @@ return [
             '_' => 'การสนทนาเกี่ยวกับ Beatmap',
         ],
         'beatmap_packs_controller' => [
-            '_' => 'บีทแมพแพ็ค',
+            '_' => 'แพ็คบีทแมพ',
         ],
         'beatmapset_discussion_votes_controller' => [
-            '_' => 'โหวตการสนทนา Beatmap',
+            '_' => 'โหวตการสนทนาบีทแมพ',
         ],
         'beatmapset_events_controller' => [
-            '_' => 'ประวัติ Beatmap',
-        ],
-        'beatmapset_watches_controller' => [
-            'index' => 'หน้าหลัก',
+            '_' => 'ประวัติบีทแมพ',
         ],
         'beatmapsets_controller' => [
-            'discussion' => 'การสนทนาเกี่ยวกับ Beatmap',
-            'index' => 'รายการ Beatmap',
+            'discussion' => 'การสนทนาเกี่ยวกับบีทแมพ',
+            'index' => 'รายการบีทแมพ',
             'show' => 'ข้อมูลบีทแมพ',
+            'versions' => 'ประวัติเวอร์ชั่นบีทแมพ',
         ],
         'changelog_controller' => [
             '_' => 'การเปลี่ยนแปลง',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'ความคิดเห็น',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'ผลการตัดสินคอนเทสต์',
+        ],
         'contests_controller' => [
-            '_' => 'การแข่งขัน',
+            '_' => 'คอนเทสต์',
+            'judge' => 'การตัดสินคอนเทสต์',
         ],
-        'follows_controller' => [
-            'index' => '',
-        ],
-        'friends_controller' => [
-            'index' => 'หน้าหลัก',
+        'group_history_controller' => [
+            '_' => 'ประวัติกลุ่ม',
         ],
         'groups_controller' => [
             'show' => 'กลุ่ม',
@@ -90,16 +82,16 @@ return [
             'index' => 'หน้าหลัก',
             'search' => 'ค้นหา',
             'support_the_game' => 'สนับสนุนเกมนี้',
-            'testflight' => 'TestFlight',
+            'testflight' => 'บินเที่ยว',
+        ],
+        'legacy_matches_controller' => [
+            '_' => 'แมตซ์',
         ],
         'legal_controller' => [
             '_' => 'ข้อมูล',
         ],
         'livestreams_controller' => [
             '_' => 'การถ่ายทอดสด',
-        ],
-        'matches_controller' => [
-            '_' => 'แมตซ์',
         ],
         'news_controller' => [
             '_' => 'ข่าวสาร',
@@ -116,32 +108,59 @@ return [
         'scores_controller' => [
             '_' => 'ค่าศักยภาพ',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'การจัดอันดับ',
+        ],
+        'teams_controller' => [
+            '_' => 'ทีม',
+            'create' => 'สร้างทีม',
+            'edit' => 'การตั้งค่าทีม',
+            'leaderboard' => 'กระดานผู้นำของทีม',
+            'show' => 'ข้อมูลทีม',
         ],
         'tournaments_controller' => [
             '_' => '
 ทัวร์นาเมนต์',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'พรีเซ็ตปกของผู้ใช้',
+        ],
+        'user_totp_controller' => [
+            '_' => 'แอป Authenticator',
+        ],
         'users_controller' => [
             '_' => 'ข้อมูลผู้เล่น',
+            'create' => 'สร้างบัญชี',
             'disabled' => 'การแจ้งเตือน',
         ],
         'wiki_controller' => [
-            '_' => 'ฐานความรู้',
+            '_' => 'วิกิ',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'การจัดอันดับ',
+            'events' => 'ประวัติห้อง',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'อนุญาตแอป',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'ร้านค้า',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'สมาชิกทีม',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'ข้อมูลผู้ให้คำวิจารณ์',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'ประวัติโหมดการเล่นหลายคน',
         ],
     ],
 ];

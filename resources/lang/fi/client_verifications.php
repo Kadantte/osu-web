@@ -5,14 +5,14 @@
 
 return [
     'completed' => [
-        'home' => '',
+        'home' => 'Siirry yleiskatsaukseen',
         'logout' => 'Kirjaudu ulos',
         'text' => 'Voit nyt sulkea tämän välilehden/ikkunan',
-        'title' => '',
+        'title' => 'osu!-asiakasohjelman vahvistaminen on valmis',
     ],
 
     'create' => [
-        'confirm' => '',
-        'title' => '',
+        'confirm' => 'Napsauta allaolevaa valtuutuspainiketta viimeistelläksesi asiakasohjelman vahvistamisen.',
+        'title' => 'osu!-asiakasohjelman vahvistaminen',
     ],
 ];

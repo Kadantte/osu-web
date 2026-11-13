@@ -19,11 +19,16 @@ return [
             'contest' => 'konkurrence',
             'contests' => 'konkurrencer',
             'root' => 'konsol',
-            'store_orders' => 'butik admin',
         ],
 
         'artists' => [
             'index' => 'katalog',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'info',
+            'discussions' => 'diskussion',
+            'versions' => 'versionshistorik',
         ],
 
         'changelog' => [
@@ -47,6 +52,9 @@ return [
 
         'users' => [
             'modding' => 'modding',
+            'playlists' => 'playlister',
+            'ranked-play' => 'rangeret spil',
+            'realtime' => 'multiplayer',
             'show' => 'info',
         ],
     ],
@@ -62,18 +70,10 @@ return [
     'menu' => [
         'beatmaps' => [
             '_' => 'beatmaps',
-            'artists' => 'udvalgte kunstnere',
-            'index' => 'liste',
-            'packs' => 'pakker',
         ],
         'community' => [
             '_' => 'fællesskab',
-            'chat' => 'chat',
-            'contests' => 'konkurrencer',
             'dev' => 'udvikling',
-            'forum-forums-index' => 'forummer',
-            'getLive' => 'live',
-            'tournaments' => 'turneringer',
         ],
         'help' => [
             '_' => 'hjælp',
@@ -81,30 +81,16 @@ return [
             'getFaq' => 'faq',
             'getRules' => 'regler',
             'getSupport' => 'nej, jeg behøver virkelig noget hjælp!',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => 'hjem',
-            'changelog-index' => 'ændringsoversigt',
-            'getDownload' => 'download',
-            'news-index' => 'nyheder',
-            'search' => 'søg',
             'team' => 'team',
         ],
         'rankings' => [
             '_' => 'rangering',
-            'charts' => 'spotlights',
-            'country' => 'land',
-            'index' => 'præstation',
-            'kudosu' => 'kudosu',
-            'multiplayer' => 'multiplayer',
-            'score' => 'score',
         ],
         'store' => [
             '_' => 'butik',
-            'cart-show' => 'indkøbskurv',
-            'getListing' => 'katalog',
-            'orders-index' => 'ordrehistorik',
         ],
     ],
 
@@ -127,7 +113,9 @@ return [
         'legal' => [
             '_' => 'Legal & Status',
             'copyright' => 'Copyright (DMCA)',
+            'jp_sctl' => '',
             'privacy' => 'Privatliv',
+            'rules' => 'Regler',
             'server_status' => 'Server Status',
             'source_code' => 'Kildekode',
             'terms' => 'Betingelser for Brug',
@@ -160,7 +148,7 @@ return [
             'description' => '',
         ],
         '429' => [
-            'error' => '',
+            'error' => 'Grænsen er overskredet',
             'description' => '',
         ],
         '500' => [
@@ -208,10 +196,16 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => 'Indstillinger',
+            'create_team' => '',
             'follows' => 'Overvågningsliste',
             'friends' => 'Venner',
+            'legacy_score_only_toggle' => 'Lazer tilstand',
+            'legacy_score_only_toggle_tooltip' => 'Lazer tilstand viser scores sat fra lazer med en ny scoringsalgoritme',
             'logout' => 'Log ud',
             'profile' => 'Min Profil',
+            'scoring_mode_toggle' => 'Klassisk scoring',
+            'scoring_mode_toggle_tooltip' => 'Justér scoreværdier til at føles mere som klassisk scoring med uden begrænsning',
+            'team' => 'Mit Hold',
         ],
     ],
 

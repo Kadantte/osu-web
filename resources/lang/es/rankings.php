@@ -9,6 +9,17 @@ return [
         'title' => 'País',
     ],
 
+    'daily_challenge' => [
+        'beatmap' => 'Dificultad',
+        'theme' => 'Tema',
+        'top_10p' => 'Puntuación del top 10 %',
+        'top_50p' => 'Puntuación del top 50 %',
+        'unavailable' => [
+            'future' => '¡Todavía no hay un desafío diario para la fecha especificada!',
+            'past' => '¡No hay un desafío diario en la fecha especificada!',
+        ],
+    ],
+
     'filter' => [
         'title' => 'Mostrar',
 
@@ -17,17 +28,65 @@ return [
         ],
     ],
 
+    'kudosu' => [
+        'total' => 'Obtenido',
+        'available' => 'Disponible',
+        'used' => 'Gastado',
+    ],
+
+    'matchmaking' => [
+        'plays' => 'Jugadas',
+        'points' => 'Puntos',
+        'provisional' => 'No se han jugado suficientes partidas para determinar con precisión la clasificación',
+        'rating' => 'Clasificación',
+        'wins' => 'Victorias',
+    ],
+
+    'multiplayer' => [
+        'room_name' => 'Nombre de la sala',
+    ],
+
+    'performance' => [
+        'insufficient_history' => 'Este usuario tiene menos de 30 días en su historial de clasificación reciente.',
+    ],
+
+    'top_plays' => [
+        'empty' => 'Los datos todavía están siendo calculados...',
+        'last_updated' => 'Actualizado por última vez',
+    ],
+
+    'playlists' => [
+        'charts' => 'spotlights (antiguo)',
+        'featured' => 'mapas destacados',
+        'season_room' => 'sala de la temporada',
+        'seasons' => 'temporadas',
+    ],
+
     'type' => [
-        'charts' => 'destacados',
-        'country' => 'país',
-        'multiplayer' => 'multijugador',
-        'performance' => 'rendimiento',
-        'score' => 'puntuación',
+        'country' => 'países',
+        'daily_challenge' => 'desafío diario',
+        'global' => 'global',
+        'kudosu' => 'kudosu',
+        'matchmaking' => 'partidas clasificatorias',
+        'playlists' => 'listas de juego',
+        'team' => 'equipos',
+        'top_plays' => 'mejores jugadas',
+    ],
+
+    'seasons' => [
+        'empty' => 'Todavía no hay salas en esta temporada.',
+        'ongoing' => 'Esta temporada aún está en curso (se agregarán más listas de juego).',
+        'room_count' => 'Número de listas de juego',
+        'summary' => 'Ver resumen de la temporada',
+        'url' => 'Mostrar más información sobre esa temporada.',
+        'validation' => [
+            'not_enough_factors' => 'no hay suficientes factores de puntuación para un cálculo adecuado',
+        ],
     ],
 
     'spotlight' => [
         'end_date' => 'Fecha de finalización',
-        'map_count' => 'Recuento de mapas',
+        'map_count' => 'Número de mapas',
         'participants' => 'Participantes',
         'start_date' => 'Fecha de inicio',
     ],
@@ -36,7 +95,9 @@ return [
         'accuracy' => 'Precisión',
         'active_users' => 'Usuarios activos',
         'country' => 'País',
-        'play_count' => 'Conteo de jugadas',
+        'division' => 'División',
+        'members' => 'Miembros',
+        'play_count' => 'Número de jugadas',
         'performance' => 'Rendimiento',
         'total_score' => 'Puntuación total',
         'ranked_score' => 'Puntuación clasificada',

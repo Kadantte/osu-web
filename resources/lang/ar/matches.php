@@ -6,43 +6,46 @@
 return [
     'match' => [
         'beatmap-deleted' => 'خريطة محذوفة',
-        'difference' => 'بواسطة :difference',
         'failed' => 'فشل',
         'header' => 'الغرف الجماعية',
         'in-progress' => '(مباراة في التقدم)',
         'in_progress_spinner_label' => 'مباراة في التقدم',
         'loading-events' => 'جارِ تحميل الأحداث...',
         'winner' => ':team فاز',
+        'winner_by' => ':winner فاز بفارق :difference',
 
         'events' => [
-            'player-left' => ':user غادر الغرفة',
-            'player-joined' => ':user انضم للغرفة',
-            'player-kicked' => ':user تم طرده من الغرفة',
-            'match-created' => ':user انشأ الغرفة',
-            'match-disbanded' => 'تم مسح الغرفة',
-            'host-changed' => ':user اصبح المضيف',
-
-            'player-left-no-user' => 'غادر لاعب الغرفة',
-            'player-joined-no-user' => 'انضم لاعب للغرفة',
-            'player-kicked-no-user' => 'طُرِد لاعب من الغرفة',
-            'match-created-no-user' => 'تم انشاء الغرفة',
-            'match-disbanded-no-user' => 'تم مسح الغرفة',
-            'host-changed-no-user' => 'تم تغيير المضيف',
+            'game_aborted' => 'تم إلغاء اللعبة',
+            'game_aborted_no_user' => 'تم إلغاء اللعبة',
+            'game_completed' => 'انتهت اللعبة',
+            'game_completed_no_user' => 'انتهت اللعبة',
+            'host_changed' => 'أصبح :user المضيف',
+            'host_changed_no_user' => 'تم تغيير المضيف',
+            'player_joined' => ':user انضم للغرفة',
+            'player_joined_no_user' => 'انضم لاعب للغرفة',
+            'player_kicked' => ':user تم طرده من الغرفة',
+            'player_kicked_no_user' => 'تم طرد لاعب من الغرفة',
+            'player_left' => ':user غادر الغرفة',
+            'player_left_no_user' => '',
+            'room_created' => '',
+            'room_created_no_user' => 'تم إنشاء الغرفة',
+            'room_disbanded' => 'تم إنهاء الغرفة',
+            'room_disbanded_no_user' => 'تم إنهاء الغرفة',
         ],
 
         'score' => [
             'stats' => [
                 'accuracy' => 'الدقة',
-                'combo' => 'السرد',
+                'combo' => 'كومبو',
                 'score' => 'المجموع',
             ],
         ],
 
-        'team-types' => [
-            'head-to-head' => 'رأس-الى-رأس',
-            'tag-coop' => 'فريق co-op',
-            'team-vs' => 'فريق ضد',
-            'tag-team-vs' => 'فريق من شخصين ضد',
+        'team_types' => [
+            'head_to_head' => 'مواجهة مباشرة',
+            'tag_coop' => '',
+            'tag_team_versus' => '',
+            'team_versus' => '',
         ],
 
         'teams' => [
@@ -51,11 +54,13 @@ return [
         ],
     ],
     'game' => [
+        'freestyle' => '',
+
         'scoring-type' => [
             'score' => 'أعلى نتيجة',
             'accuracy' => 'اعلى دقة',
-            'combo' => 'اعلى سرد',
-            'scorev2' => 'المجموع نسخة 2',
+            'combo' => 'اعلى كومبو',
+            'scorev2' => 'نظام النقاط V2',
         ],
     ],
 ];

@@ -5,6 +5,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 /**
  * @property string $acronym
  * @property int $display
@@ -18,17 +21,14 @@ namespace App\Models;
  */
 class Country extends Model
 {
+    const UNKNOWN = 'XX';
+
     protected $table = 'osu_countries';
     protected $primaryKey = 'acronym';
     protected $keyType = 'string';
     public $incrementing = false;
 
     public $timestamps = false;
-
-    public function profileBanners()
-    {
-        return $this->hasMany(ProfileBanner::class, 'country_acronym');
-    }
 
     public function scopeForStore($query)
     {
@@ -38,23 +38,40 @@ class Country extends Model
             ->orderBy('name');
     }
 
-    public function statisticsFruits()
+    public function scopeWhereHasRuleset(Builder $query, string $ruleset): Builder
     {
-        return $this->hasOne(CountryStatistics::class, 'country_code')->where('mode', Beatmap::MODES['fruits']);
+        return $query->whereHas(
+            'statistics',
+            fn ($q) => $q
+                ->where('display', true)
+                ->where('mode', Beatmap::MODES[$ruleset]),
+        );
     }
 
-    public function statisticsMania()
+    public function profileBanners()
     {
-        return $this->hasOne(CountryStatistics::class, 'country_code')->where('mode', Beatmap::MODES['mania']);
+        return $this->hasMany(ProfileBanner::class, 'country_acronym');
     }
 
-    public function statisticsOsu()
+    public function statistics(): HasMany
     {
-        return $this->hasOne(CountryStatistics::class, 'country_code')->where('mode', Beatmap::MODES['osu']);
+        return $this->hasMany(CountryStatistics::class, 'country_code');
     }
 
-    public function statisticsTaiko()
+    public function getAttribute($key)
     {
-        return $this->hasOne(CountryStatistics::class, 'country_code')->where('mode', Beatmap::MODES['taiko']);
+        return match ($key) {
+            'acronym',
+            'display',
+            'name',
+            'playcount',
+            'pp',
+            'rankedscore',
+            'shipping_rate',
+            'usercount' => $this->getRawAttribute($key),
+
+            'profileBanners',
+            'statistics' => $this->getRelationValue($key),
+        };
     }
 }

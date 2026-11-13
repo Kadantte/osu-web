@@ -12,7 +12,7 @@
         <div class="navbar-mobile__header-section">
             <a class="navbar-mobile__logo" href="{{ route('home') }}"></a>
             <span class="navbar-mobile__brand u-ellipsis-overflow">
-                {{ page_title() }}
+                {{ $titleOverride ?? page_title() }}
             </span>
         </div>
 
@@ -53,6 +53,18 @@
                             {{ $user->username }}
                         </span>
                     </a>
+                    @if ($GLOBALS['cfg']['osu']['user']['wrapped_enabled'])
+                        <a
+                            class="{{ class_with_modifiers('mobile-menu-tab', [
+                                'link-button' => true,
+                                'wrapped-first' => !has_viewed_wrapped(),
+                            ]) }}"
+                            href="{{ route('wrapped', $currentUser->getKey()) }}"
+                            title="View your summary of 2025!"
+                        >
+                            <span class="fas fa-star"></span>
+                        </a>
+                    @endif
                 @else
                     <button
                         class="mobile-menu-tab mobile-menu-tab--user js-user-link"
@@ -62,7 +74,7 @@
                         </span>
 
                         <span class="u-ellipsis-overflow">
-                            {{ trans('layout.popup_login.button') }}
+                            {{ osu_trans('layout.popup_login.button') }}
                         </span>
                     </button>
                 @endif
@@ -76,30 +88,35 @@
                         <span class="fas fa-search"></span>
                     </button>
 
-                    <button
-                        class="mobile-menu-tab js-click-menu js-react--chat-icon"
+                    <a
+                        class="mobile-menu-tab js-click-menu js-react"
                         data-click-menu-target="mobile-chat-notification"
-                        data-chat-icon="{{ json_encode(['type' => 'mobile']) }}"
-                        data-turbolinks-permanent
+                        data-react="chat-icon"
+                        data-turbo-permanent
+                        data-type='mobile'
                         id="notification-widget-chat-icon-mobile"
+                        href="{{ route('chat.index') }}"
                     >
                         <span class="notification-icon notification-icon--mobile">
                             <i class="fas fa-comment-alt"></i>
                             <span class="notification-icon__count">...</span>
                         </span>
-                    </button>
+                    </a>
 
-                    <button class="mobile-menu-tab js-click-menu js-react--notification-icon"
+                    <a
+                        class="mobile-menu-tab js-click-menu js-react"
                         data-click-menu-target="mobile-notification"
-                        data-notification-icon="{{ json_encode(['type' => 'mobile']) }}"
-                        data-turbolinks-permanent
+                        data-react="main-notification-icon"
+                        data-turbo-permanent
+                        data-type='mobile'
                         id="notification-widget-icon-mobile"
+                        href="{{ route('notifications.index') }}"
                     >
                         <span class="notification-icon notification-icon--mobile">
                             <i class="fas fa-inbox"></i>
                             <span class="notification-icon__count">...</span>
                         </span>
-                    </button>
+                    </a>
                 @endif
             </div>
 
@@ -112,24 +129,29 @@
             </div>
 
             @if (isset($user))
-                <div class="mobile-menu__item mobile-menu__item--search js-click-menu js-react--quick-search" data-click-menu-id="mobile-search">
-                </div>
+                <div
+                    class="mobile-menu__item mobile-menu__item--search js-click-menu js-react"
+                    data-click-menu-id="mobile-search"
+                    data-react="quick-search"
+                ></div>
 
                 <div
-                    class="mobile-menu__item js-click-menu js-react--notification-widget"
+                    class="mobile-menu__item js-click-menu js-react"
                     data-click-menu-id="mobile-chat-notification"
                     data-notification-widget="{{ json_encode(['only' => 'channel']) }}"
+                    data-react="notification-widget"
                     data-visibility="hidden"
-                    data-turbolinks-permanent
+                    data-turbo-permanent
                     id="notification-widget-chat-mobile"
                 ></div>
 
                 <div
-                    class="mobile-menu__item js-click-menu js-react--notification-widget"
+                    class="mobile-menu__item js-click-menu js-react"
                     data-click-menu-id="mobile-notification"
                     data-notification-widget="{{ json_encode(['excludes' => ['channel']]) }}"
+                    data-react="notification-widget"
                     data-visibility="hidden"
-                    data-turbolinks-permanent
+                    data-turbo-permanent
                     id="notification-widget-mobile"
                 ></div>
             @endif

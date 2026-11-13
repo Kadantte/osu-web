@@ -4,6 +4,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => 'Invalid ruleset specified.',
+
+    'change_owner' => [
+        'too_many' => 'Too many guest mappers.',
+    ],
+
     'discussion-votes' => [
         'update' => [
             'error' => 'Failed updating vote',
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'deny kudosu',
         'edit' => 'edit',
         'edited' => 'Last edited by :editor :update_time.',
+        'guest' => 'Guest difficulty by :user',
         'kudosu_denied' => 'Denied from obtaining kudosu.',
+        'include_replies' => 'Include replies',
         'message_placeholder_deleted_beatmap' => 'This difficulty has been deleted so it may no longer be discussed.',
         'message_placeholder_locked' => 'Discussion for this beatmap has been disabled.',
         'message_placeholder_silenced' => "Can't post discussion while silenced.",
         'message_type_select' => 'Select Comment Type',
         'reply_notice' => 'Press enter to reply.',
+        'reply_resolve_notice' => 'Press enter to reply. Press ctrl+enter to reply and resolve.',
         'reply_placeholder' => 'Type your response here',
         'require-login' => 'Please sign in to post or reply',
         'resolved' => 'Resolved',
         'restore' => 'restore',
         'show_deleted' => 'Show deleted',
+        'show_other_replies' => 'Show other replies',
         'title' => 'Discussions',
+        'unresolved_count' => ':count_delimited unresolved issue|:count_delimited unresolved issues',
 
         'collapse' => [
             'all-collapse' => 'Collapse all',
@@ -54,7 +65,7 @@ return [
         ],
 
         'message_hint' => [
-            'in_general' => 'This post will go to general beatmapset discussion. To mod this beatmap, start message with timestamp (e.g. 00:12:345).',
+            'in_general' => 'This post will go to general beatmap discussion. To mod this difficulty, start message with timestamp (e.g. 00:12:345).',
             'in_timeline' => 'To mod multiple timestamps, post multiple times (one post per timestamp).',
         ],
 
@@ -72,8 +83,21 @@ return [
             'nomination_reset' => 'Reset Nomination',
             'praise' => 'Praise',
             'problem' => 'Problem',
+            'problem_warning' => 'Report Problem',
             'review' => 'Review',
             'suggestion' => 'Suggestion',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => 'Post Disqualification',
+            'hype' => 'Post Hype!',
+            'mapper_note' => 'Post Note',
+            'nomination_reset' => 'Remove all Nominations',
+            'praise' => 'Post Praise',
+            'problem' => 'Post Problem',
+            'problem_warning' => 'Post Problem',
+            'review' => 'Post Review',
+            'suggestion' => 'Post Suggestion',
         ],
 
         'mode' => [
@@ -104,10 +128,11 @@ return [
                 'unsaved' => 'Unsaved',
                 'timestamp' => [
                     'all-diff' => 'Posts on "All difficulties" can\'t be timestamped.',
-                    'diff' => 'If this :type starts with a timestamp, it will be shown under Timeline.',
+                    'diff' => 'If this post starts with a timestamp, it will be shown under Timeline.',
                 ],
             ],
             'insert-block' => [
+                'mapper_note' => 'insert note',
                 'paragraph' => 'insert paragraph',
                 'praise' => 'insert praise',
                 'problem' => 'insert problem',
@@ -173,6 +198,8 @@ return [
     ],
 
     'nominations' => [
+        'already_nominated' => 'You\'ve already nominated this beatmap.',
+        'cannot_nominate' => 'You cannot nominate this beatmap game mode.',
         'delete' => 'Delete',
         'delete_own_confirm' => 'Are you sure? The beatmap will be deleted and you will be redirected back to your profile.',
         'delete_other_confirm' => 'Are you sure? The beatmap will be deleted and you will be redirected back to the user\'s profile.',
@@ -182,6 +209,7 @@ return [
         'disqualify' => 'Disqualify',
         'incorrect_state' => 'Error performing that action, try refreshing the page.',
         'love' => 'Love',
+        'love_choose' => 'Choose difficulty for loved',
         'love_confirm' => 'Love this beatmap?',
         'nominate' => 'Nominate',
         'nominate_confirm' => 'Nominate this beatmap?',
@@ -196,6 +224,9 @@ return [
 
         'rank_estimate' => [
             '_' => 'This map is estimated to be ranked :date if no issues are found. It is #:position in the :queue.',
+            'unresolved_problems' => 'This map is currently blocked from leaving the Qualified section until :problems are resolved.',
+            'problems' => 'these problems',
+            'on' => 'on :date',
             'queue' => 'ranking queue',
             'soon' => 'soon',
         ],
@@ -206,8 +237,9 @@ return [
         ],
 
         'reset_confirm' => [
-            'nomination_reset' => 'Are you sure? Posting a new problem will reset the nomination process.',
             'disqualify' => 'Are you sure? This will remove the beatmap from qualifying and reset the nomination process.',
+            'nomination_reset' => 'Are you sure? Posting a new problem will reset the nomination process.',
+            'problem_warning' => 'Are you sure to report issue on this beatmap? This will alert Beatmap Nominators.',
         ],
     ],
 
@@ -216,6 +248,7 @@ return [
             'prompt' => 'type in keywords...',
             'login_required' => 'Sign in to search.',
             'options' => 'More Search Options',
+            'rank_filter_note' => 'Profile top rank counts and results shown on this page are based on your highest "standardised" (aka "lazer") scores on beatmaps.',
             'supporter_filter' => 'Filtering by :filters requires an active osu!supporter tag',
             'not-found' => 'no results',
             'not-found-quote' => '... nope, nothing found.',
@@ -246,12 +279,18 @@ return [
                 '_' => 'Filtering by :filters requires an active :link',
                 'link_text' => 'osu!supporter tag',
             ],
+            'tag_picker' => [
+                'tooltip' => 'browse user tags',
+                'prompt' => 'type to search',
+            ],
         ],
     ],
     'general' => [
         'converts' => 'Include converted beatmaps',
+        'featured_artists' => 'Featured Artists',
         'follows' => 'Subscribed mappers',
         'recommended' => 'Recommended difficulty',
+        'spotlights' => 'Spotlighted beatmaps',
     ],
     'mode' => [
         'all' => 'All',
@@ -260,6 +299,7 @@ return [
         'taiko' => 'osu!taiko',
         'fruits' => 'osu!catch',
         'mania' => 'osu!mania',
+        'undefined' => 'not set',
     ],
     'status' => [
         'any' => 'Any',
@@ -269,7 +309,8 @@ return [
         'leaderboard' => 'Has Leaderboard',
         'loved' => 'Loved',
         'mine' => 'My Maps',
-        'pending' => 'Pending & WIP',
+        'pending' => 'Pending',
+        'wip' => 'WIP',
         'qualified' => 'Qualified',
         'ranked' => 'Ranked',
     ],
@@ -288,32 +329,6 @@ return [
         'classical' => 'Classical',
         'folk' => 'Folk',
         'jazz' => 'Jazz',
-    ],
-    'mods' => [
-        '4K' => '4K',
-        '5K' => '5K',
-        '6K' => '6K',
-        '7K' => '7K',
-        '8K' => '8K',
-        '9K' => '9K',
-        'AP' => 'Auto Pilot',
-        'DT' => 'Double Time',
-        'EZ' => 'Easy Mode',
-        'FI' => 'Fade In',
-        'FL' => 'Flashlight',
-        'HD' => 'Hidden',
-        'HR' => 'Hard Rock',
-        'HT' => 'Half Time',
-        'MR' => 'Mirror',
-        'NC' => 'Nightcore',
-        'NF' => 'No Fail',
-        'NM' => 'No mods',
-        'PF' => 'Perfect',
-        'Relax' => 'Relax',
-        'SD' => 'Sudden Death',
-        'SO' => 'Spun Out',
-        'TD' => 'Touch Device',
-        'V2' => 'Score V2',
     ],
     'language' => [
         'any' => 'Any',

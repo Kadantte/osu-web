@@ -7,7 +7,7 @@ return [
     'pinned_topics' => 'Topic Fissati',
     'slogan' => "è pericoloso giocare da soli.",
     'subforums' => 'Subforum',
-    'title' => 'forum osu!',
+    'title' => 'Forum',
 
     'covers' => [
         'edit' => 'Modifica la copertina',
@@ -15,7 +15,7 @@ return [
         'create' => [
             '_' => 'Imposta immagine di copertina',
             'button' => 'Carica immagine',
-            'info' => 'L\'immagine di copertina dovrebbe essere :dimensions. Puoi anche trascinare la tua immagine qui per caricarla.',
+            'info' => 'La dimensione della copertina dovrebbe essere di :dimensions. È possibile anche trascinare qui l\'immagine per caricarla.',
         ],
 
         'destroy' => [
@@ -25,10 +25,11 @@ return [
     ],
 
     'forums' => [
-        'latest_post' => 'Post più recente',
+        'forums' => 'Forum',
+        'latest_post' => 'Ultimo post',
 
         'index' => [
-            'title' => 'Indice Forum',
+            'title' => 'Indice forum',
         ],
 
         'topics' => [
@@ -43,11 +44,11 @@ return [
     ],
 
     'post' => [
-        'confirm_destroy' => 'Vuoi veramente eliminare il post?',
-        'confirm_restore' => 'Vuoi veramente ripristinare il post?',
+        'confirm_destroy' => 'Sei sicuro di voler eliminare il post?',
+        'confirm_restore' => 'Sei sicuro di voler ripristinare il post?',
         'edited' => 'Ultima modifica di :user :when, modificato :count_delimited volta in totale.|Ultima modifica di :user :when, modificato :count_delimited volte in totale.',
         'posted_at' => 'postato :when',
-        'posted_by' => 'postato da :username',
+        'posted_by_in' => 'inviato da :username in :forum',
 
         'actions' => [
             'destroy' => 'Elimina post',
@@ -75,16 +76,17 @@ return [
     ],
 
     'topic' => [
-        'confirm_destroy' => '',
-        'confirm_restore' => '',
+        'confirm_destroy' => 'Sei sicuro di voler eliminare il topic?',
+        'confirm_restore' => 'Sei sicuro di voler ripristinare il topic?',
         'deleted' => 'discussione eliminata',
         'go_to_latest' => 'guarda l\'ultimo post',
+        'go_to_unread' => 'vedi ultimo post non letto',
         'has_replied' => 'Hai risposto a questo topic',
         'in_forum' => 'in :forum',
         'latest_post' => ':when da :user',
         'latest_reply_by' => 'ultima risposta di :user',
         'new_topic' => 'Nuovo topic',
-        'new_topic_login' => 'Effettua l\'accesso per postare un nuovo topic',
+        'new_topic_login' => 'Accedi per postare un nuovo topic',
         'post_reply' => 'Posta',
         'reply_box_placeholder' => 'Scrivi qui per rispondere',
         'reply_title_prefix' => 'Re',
@@ -92,8 +94,8 @@ return [
         'started_by_verbose' => 'postato da :user',
 
         'actions' => [
-            'destroy' => '',
-            'restore' => '',
+            'destroy' => 'Elimina topic',
+            'restore' => 'Ripristina topic',
         ],
 
         'create' => [
@@ -108,8 +110,8 @@ return [
                 'default' => 'Questa discussione è inattiva da un bel po\' di tempo. Posta solo se hai una motivazione in particolare.',
 
                 'new_topic' => [
-                    '_' => "Questa discussione è inattiva da un bel po' di tempo. Se non hai un motivo in particolare per postare qui, per favore :create.",
-                    'create' => 'crea una nuova discussione',
+                    '_' => "Questa discussione è inattiva da un bel po' di tempo. Se non hai un motivo particolare per postare qui, puoi :create.",
+                    'create' => 'creare un nuovo topic',
                 ],
             ],
 
@@ -127,8 +129,57 @@ return [
             'previous' => 'vai indietro di 10 post',
         ],
 
+        'logs' => [
+            '_' => 'Log del topic',
+            'button' => 'Sfoglia log dei topic',
+
+            'columns' => [
+                'action' => 'Azione',
+                'date' => 'Data',
+                'user' => 'Utente',
+            ],
+
+            'data' => [
+                'add_tag' => 'aggiunta l\'etichetta ":tag"',
+                'announcement' => 'argomento fissato e segnato come annuncio',
+                'edit_topic' => 'a :title',
+                'fork' => 'da :topic',
+                'pin' => 'argomento fissato',
+                'post_operation' => 'postato da :username',
+                'remove_tag' => 'rimossa l\'etichetta ":tag"',
+                'source_forum_operation' => 'da :forum',
+                'unpin' => 'topic non fissato',
+            ],
+
+            'no_results' => 'nessun log trovato...',
+
+            'operations' => [
+                'delete_post' => 'Post cancellato',
+                'delete_topic' => 'Topic eliminato',
+                'edit_topic' => 'Titolo dell\'argomento modificato',
+                'edit_poll' => 'Sondaggio del topic modificato',
+                'fork' => 'Argomento copiato',
+                'issue_tag' => 'Tag del ticket',
+                'lock' => 'Topic bloccato',
+                'merge' => 'Post uniti in questo topic',
+                'move' => 'Argomento spostato',
+                'pin' => 'Argomento fissato ',
+                'post_edited' => 'Post modificato',
+                'restore_post' => 'Post ripristinato',
+                'restore_topic' => 'Argomento ripristinato',
+                'split_destination' => 'Post divisi spostati',
+                'split_source' => 'Dividi i post',
+                'topic_type' => 'Tipo di topic impostato',
+                'topic_type_changed' => 'Tipo del topic modificato',
+                'unlock' => 'Argomento sbloccato',
+                'unpin' => 'Argomento fissato rimosso',
+                'user_lock' => 'Argomento personale chiuso',
+                'user_unlock' => 'Topic proprio sbloccato',
+            ],
+        ],
+
         'post_edit' => [
-            'cancel' => 'Cancella',
+            'cancel' => 'Annulla',
             'post' => 'Salva',
         ],
     ],
@@ -202,48 +253,6 @@ return [
             'views' => 'visualizzazioni',
         ],
 
-        'issue_tag_added' => [
-            'to_0' => 'Rimuovi tag "aggiunto"',
-            'to_0_done' => 'Rimosso tag "aggiunto"',
-            'to_1' => 'Aggiungi tag "aggiunto"',
-            'to_1_done' => 'Aggiunto tag "aggiunto"',
-        ],
-
-        'issue_tag_assigned' => [
-            'to_0' => 'Rimuovi tag "assegnato"',
-            'to_0_done' => 'Rimosso tag "assegnato"',
-            'to_1' => 'Aggiungi tag "assegnato"',
-            'to_1_done' => 'Aggiunto tag "assegnato"',
-        ],
-
-        'issue_tag_confirmed' => [
-            'to_0' => 'Rimuovi tag "confermato"',
-            'to_0_done' => 'Rimosso tag "confermato"',
-            'to_1' => 'Aggiungi tag "confermato"',
-            'to_1_done' => 'Aggiunto tag "confermato"',
-        ],
-
-        'issue_tag_duplicate' => [
-            'to_0' => 'Rimuovi tag "duplicato"',
-            'to_0_done' => 'Rimosso tag "duplicato"',
-            'to_1' => 'Aggiungi tag "duplicato"',
-            'to_1_done' => 'Aggiunto tag "duplicato"',
-        ],
-
-        'issue_tag_invalid' => [
-            'to_0' => 'Rimuovi tag "invalido"',
-            'to_0_done' => 'Rimosso tag "invalido"',
-            'to_1' => 'Aggiungi tag "invalido"',
-            'to_1_done' => 'Aggiunto tag "invalido"',
-        ],
-
-        'issue_tag_resolved' => [
-            'to_0' => 'Rimuovi tag "risolto"',
-            'to_0_done' => 'Rimosso tag "risolto"',
-            'to_1' => 'Aggiungi tag "risolto"',
-            'to_1_done' => 'Aggiunto tag "risolto"',
-        ],
-
         'lock' => [
             'is_locked' => 'Questo topic è bloccato e non si può più rispondere',
             'to_0' => 'Sblocca topic',
@@ -255,7 +264,7 @@ return [
         ],
 
         'moderate_move' => [
-            'title' => 'Muovi in un altro forum',
+            'title' => 'Sposta in un altro forum',
         ],
 
         'moderate_pin' => [
@@ -278,6 +287,7 @@ return [
         'show' => [
             'deleted-posts' => 'Post cancellati',
             'total_posts' => 'Post totali',
+            'total_watches' => 'Iscritti totali',
 
             'feature_vote' => [
                 'current' => 'Priorità Attuale: +:count',
@@ -310,7 +320,7 @@ return [
 
                 'detail' => [
                     'end_time' => 'Il sondaggio scade tra :time',
-                    'ended' => 'Il sondaggio è finito :time',
+                    'ended' => 'Il sondaggio è finito il giorno :time',
                     'results_hidden' => 'I risultati saranno mostrati dopo il termine della votazione.',
                     'total' => 'Voti totali: :count',
                 ],
@@ -321,8 +331,8 @@ return [
             'to_not_watching' => 'Non preferito',
             'to_watching' => 'Preferito',
             'to_watching_mail' => 'Preferito con notifica',
-            'tooltip_mail_disable' => 'Le notifiche sono abilitate. Premi per disabilitarle',
-            'tooltip_mail_enable' => 'Le notifiche sono disabilitate. Premi per abilitarle',
+            'tooltip_mail_disable' => 'Notifica abilitata. Clicca per disattivarla',
+            'tooltip_mail_enable' => 'Notifica disabilitata. Clicca per attivarla',
         ],
     ],
 ];

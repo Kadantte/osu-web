@@ -8,13 +8,12 @@ namespace Tests\Libraries\Search;
 use App\Exceptions\InvariantException;
 use App\Libraries\Search\BeatmapsetSearchRequestParams;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class BeatmapsetSearchRequestParamsTest extends TestCase
 {
-    /**
-     * @dataProvider cursorsDataProvider
-     */
+    #[DataProvider('cursorsDataProvider')]
     public function testCursors(?string $sort, ?array $cursor, bool $throws, ?array $expected)
     {
         $requestParams = [];
@@ -30,15 +29,13 @@ class BeatmapsetSearchRequestParamsTest extends TestCase
             $this->expectException(InvariantException::class);
         }
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $searchAfter = (new BeatmapsetSearchRequestParams($requestParams, $user))->searchAfter;
 
         $this->assertSame($expected, $searchAfter);
     }
 
-    /**
-     * @dataProvider cursorsGuestDataProvider
-     */
+    #[DataProvider('cursorsGuestDataProvider')]
     public function testCursorsGuest(?string $sort, ?array $cursor, bool $throws, ?array $expected)
     {
         $requestParams = [];
@@ -59,7 +56,7 @@ class BeatmapsetSearchRequestParamsTest extends TestCase
         $this->assertSame($expected, $searchAfter);
     }
 
-    public function cursorsDataProvider()
+    public static function cursorsDataProvider()
     {
         return [
             [null, null, false, null],
@@ -68,13 +65,13 @@ class BeatmapsetSearchRequestParamsTest extends TestCase
             ['', [], true, null],
             ['title_desc', null, false, null],
             ['title_desc', ['title.raw' => 'a'], true, null],
-            ['title_desc', ['title.raw' => 'a', '_id' => 1], false, ['a', 1]],
-            ['title_desc', ['_id' => 1, 'title.raw' => 'a'], false, ['a', 1]],
-            ['title_desc', ['ignored' => 'hi', 'title.raw' => 'a', '_id' => 1], false, ['a', 1]],
+            ['title_desc', ['title.raw' => 'a', 'id' => 1], false, ['a', 1]],
+            ['title_desc', ['id' => 1, 'title.raw' => 'a'], false, ['a', 1]],
+            ['title_desc', ['ignored' => 'hi', 'title.raw' => 'a', 'id' => 1], false, ['a', 1]],
         ];
     }
 
-    public function cursorsGuestDataProvider()
+    public static function cursorsGuestDataProvider()
     {
         return [
             [null, null, false, null],
@@ -83,9 +80,9 @@ class BeatmapsetSearchRequestParamsTest extends TestCase
             ['', [], true, null],
             ['title_desc', null, false, null],
             ['title_desc', ['title.raw' => 'a'], true, null],
-            ['title_desc', ['title.raw' => 'a', '_id' => 1], true, null],
-            ['title_desc', ['_id' => 1, 'title.raw' => 'a'], true, null],
-            ['title_desc', ['ignored' => 'hi', 'title.raw' => 'a', '_id' => 1], true, null],
+            ['title_desc', ['title.raw' => 'a', 'id' => 1], true, null],
+            ['title_desc', ['id' => 1, 'title.raw' => 'a'], true, null],
+            ['title_desc', ['ignored' => 'hi', 'title.raw' => 'a', 'id' => 1], true, null],
         ];
     }
 }

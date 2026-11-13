@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'administración',
     ],
-    'admin_forum' => [
-        '_' => 'administración',
-    ],
-    'admin_store' => [
-        '_' => 'administración',
-    ],
     'error' => [
         'error' => [
             '400' => 'solicitud no válida',
@@ -29,13 +23,12 @@ return [
     ],
     'forum' => [
         '_' => 'foro',
-        'topic_watches_controller' => [
-            'index' => 'panel',
+        'topic_logs_controller' => [
+            'index' => 'registros de temas',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'panel',
             'verify_link' => 'verificación de la cuenta',
         ],
         'artists_controller' => [
@@ -54,15 +47,13 @@ return [
             '_' => 'votos de discusión del mapa',
         ],
         'beatmapset_events_controller' => [
-            '_' => 'historial del mapa',
-        ],
-        'beatmapset_watches_controller' => [
-            'index' => 'panel',
+            '_' => 'historial de mapas',
         ],
         'beatmapsets_controller' => [
             'discussion' => 'discusión del mapa',
             'index' => 'lista de mapas',
             'show' => 'información del mapa',
+            'versions' => 'historial de las versiones del mapa',
         ],
         'changelog_controller' => [
             '_' => 'registro de cambios',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'comentarios',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'resultados de la evaluación del concurso',
+        ],
         'contests_controller' => [
             '_' => 'concursos',
+            'judge' => 'evaluación del concurso',
         ],
-        'follows_controller' => [
-            'index' => 'tablero',
-        ],
-        'friends_controller' => [
-            'index' => 'panel',
+        'group_history_controller' => [
+            '_' => 'historial de grupos',
         ],
         'groups_controller' => [
             'show' => 'grupos',
@@ -92,14 +84,14 @@ return [
             'support_the_game' => 'apoya el juego',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => 'partidos',
+        ],
         'legal_controller' => [
             '_' => 'información',
         ],
         'livestreams_controller' => [
             '_' => 'transmisiones en vivo',
-        ],
-        'matches_controller' => [
-            '_' => 'partidas',
         ],
         'news_controller' => [
             '_' => 'novedades',
@@ -111,36 +103,63 @@ return [
             '_' => 'restablecimiento de contraseña',
         ],
         'ranking_controller' => [
-            '_' => 'clasificación',
+            '_' => 'clasificaciones',
         ],
         'scores_controller' => [
             '_' => 'rendimiento',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'clasificaciones',
+        ],
+        'teams_controller' => [
+            '_' => 'equipos',
+            'create' => 'crear equipo',
+            'edit' => 'configuración del equipo',
+            'leaderboard' => 'tabla de clasificación del equipo',
+            'show' => 'información del equipo',
         ],
         'tournaments_controller' => [
             '_' => 'torneos',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'portadas preestablecidas',
+        ],
+        'user_totp_controller' => [
+            '_' => 'aplicación de autenticación',
+        ],
         'users_controller' => [
             '_' => 'información del jugador',
+            'create' => 'crear una cuenta',
             'disabled' => 'aviso',
         ],
         'wiki_controller' => [
-            '_' => 'base de conocimientos',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'clasificación',
+            'events' => 'historial de la sala',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'autorizar aplicación',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'tienda',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'miembros del equipo',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'información del modder',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'historial de multijugador',
         ],
     ],
 ];

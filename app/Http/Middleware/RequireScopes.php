@@ -18,6 +18,7 @@ class RequireScopes
         'api/v2/comments/',
         'api/v2/news/',
         'api/v2/seasonal-backgrounds/',
+        'api/v2/suggestions/wiki/',
         'api/v2/wiki/',
     ];
 
@@ -47,8 +48,7 @@ class RequireScopes
         }
 
         if (!$this->requestHasScopedMiddleware(request())) {
-            // use a non-existent scope; only '*' should pass.
-            if (!$token->can('invalid')) {
+            if (!$token->can('*')) {
                 throw new MissingScopeException();
             }
         } else {
@@ -69,13 +69,10 @@ class RequireScopes
      */
     private function requestHasScopedMiddleware(Request $request): bool
     {
-        $value = $request->attributes->get('requestHasScopedMiddleware');
-        if ($value === null) {
-            $value = $this->containsScoped($request);
-            $request->attributes->set('requestHasScopedMiddleware', $value);
-        }
-
-        return $value;
+        return request_attribute_remember(
+            'requestHasScopedMiddleware',
+            fn (): bool => $this->containsScoped($request),
+        );
     }
 
     private function containsScoped(Request $request)

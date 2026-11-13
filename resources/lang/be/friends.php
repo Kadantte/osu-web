@@ -4,12 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'blocked' => '',
     'title_compact' => 'сябры',
     'too_many' => 'Дасягнуты ліміт на сяброў',
 
     'buttons' => [
         'add' => 'дадаць сябра',
-        'disabled' => 'сябры',
+        'disabled' => 'падпісчыкі',
         'remove' => 'выдаліць сябра',
     ],
 ];

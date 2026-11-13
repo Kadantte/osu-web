@@ -5,7 +5,18 @@
 
 namespace App\Models\Chat;
 
+use App\Jobs\Notifications\ChannelAnnouncement;
+use App\Jobs\Notifications\ChannelMention;
+use App\Jobs\Notifications\ChannelMessage;
+use App\Jobs\Notifications\ChannelTeam;
+use App\Libraries\UsernameValidation;
+use App\Models\Multiplayer\Room;
+use App\Models\Traits\Reportable;
+use App\Models\Traits\ReportableInterface;
 use App\Models\User;
+use App\Models\UserReport;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 /**
  * @property Channel $channel
@@ -17,16 +28,73 @@ use App\Models\User;
  * @property \Carbon\Carbon $timestamp
  * @property int $user_id
  */
-class Message extends Model
+class Message extends Model implements ReportableInterface
 {
+    use Reportable;
+
+    public ?string $uuid = null;
+
     protected $primaryKey = 'message_id';
     protected $casts = [
         'is_action' => 'boolean',
+        'timestamp' => 'datetime',
     ];
-    protected $dates = [
-        'timestamp',
-    ];
-    protected $guarded = [];
+
+    public static function filter(iterable $messages, Channel $channel, ?int $userId): iterable
+    {
+        return static::filterUserCommands(static::filterBacklogs($messages, $channel), $userId);
+    }
+
+    public static function recentUserMessagesForReport(int $userId, ?int $maxId = null): string
+    {
+        $query = static::query();
+
+        if ($maxId !== null) {
+            $query->where('message_id', '<=', $maxId);
+        }
+
+        return $query
+            ->whereHas('channel', fn ($ch) => $ch->where('type', '<>', Channel::TYPES['pm']))
+            ->where('user_id', $userId)
+            ->where('timestamp', '>', CarbonImmutable::now()->subDays(1))
+            ->orderBy('timestamp', 'DESC')
+            ->with('channel')
+            ->limit(5)
+            ->get()
+            ->map(fn ($m) => "**<t:{$m->timestamp->timestamp}:R> {$m->channel->name}:**\n{$m->content}\n")
+            ->reverse()
+            ->join("\n");
+    }
+
+    private static function filterBacklogs(iterable $messages, Channel $channel): iterable
+    {
+        if (!$channel->isPublic()) {
+            return $messages;
+        }
+
+        $minTimestamp = json_time(Carbon::now()->subHours($GLOBALS['cfg']['osu']['chat']['public_backlog_limit']));
+        $ret = [];
+
+        foreach ($messages as $message) {
+            if ($message->getJsonTime('timestamp') > $minTimestamp) {
+                $ret[] = $message;
+            }
+        }
+
+        return $ret;
+    }
+
+    private static function filterUserCommands(iterable $messages, ?int $userId): iterable
+    {
+        $ret = [];
+        foreach ($messages as $message) {
+            if ($message->user_id === $userId || !$message->isUserCommand()) {
+                $ret[] = $message;
+            }
+        }
+
+        return $ret;
+    }
 
     public function channel()
     {
@@ -38,19 +106,115 @@ class Message extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function scopeForUser($query, User $user)
-    {
-        $channelIds = UserChannel::where([
-            'user_id' => $user->user_id,
-            'hidden' => false,
-        ])->pluck('channel_id');
-
-        return $query->whereIn('channel_id', $channelIds)
-            ->orderBy('message_id', 'desc');
-    }
-
     public function scopeSince($query, $messageId)
     {
         return $query->where('message_id', '>', $messageId);
+    }
+
+    public function getAttribute($key)
+    {
+        return match ($key) {
+            'channel_id',
+            'content',
+            'message_id',
+            'user_id' => $this->getRawAttribute($key),
+
+            'is_action' => (bool) $this->getRawAttribute($key),
+
+            'timestamp' => $this->getTimeFast($key),
+
+            'channel',
+            'reportedIn',
+            'sender' => $this->getRelationValue($key),
+        };
+    }
+
+    public function dispatchNotification(): void
+    {
+        if ($this->isUserCommand()) {
+            return;
+        }
+
+        $channelType = $this->channel->type;
+        $class = match ($channelType) {
+            Channel::TYPES['announce'] => ChannelAnnouncement::class,
+            Channel::TYPES['pm'] => ChannelMessage::class,
+            Channel::TYPES['team'] => ChannelTeam::class,
+            default => null,
+        };
+
+        if ($class !== null) {
+            new $class($this, $this->sender)->dispatch();
+        }
+
+        if ($channelType === Channel::TYPES['public'] && $this->mayContainMention()) {
+            new ChannelMention($this, $this->sender)->dispatch();
+        }
+    }
+
+    public function isUserCommand(): bool
+    {
+        return preg_match('/^![^ !]/', $this->content ?? '') === 1;
+    }
+
+    public function mayContainMention(): bool
+    {
+        return strpos($this->content, '@') !== false;
+    }
+
+    public function mention(): ?string
+    {
+        static $chars = UsernameValidation::ALLOWED_CHARACTERS;
+
+        preg_match("/(?<=^|\s|'|\"|,|\.|\/)(?:@([{$chars}]+))/", $this->content, $match);
+
+        if (isset($match[1])) {
+            $length = strlen($match[1]);
+
+            if ($length >= UsernameValidation::LENGTH_MIN && $length <= UsernameValidation::LENGTH_MAX) {
+                return $match[1];
+            }
+        }
+
+        return null;
+    }
+
+    public function reportableAdditionalInfo(UserReport $report): ?string
+    {
+        $history = static::recentUserMessagesForReport($this->user_id, $this->getKey());
+
+        $channel = $this->channel;
+        $room = $channel->room_id === null ? null : Room::find($channel->room_id);
+        $header = 'Reported in: ';
+
+        if ($channel->isPM()) {
+            $header .= 'pm';
+        // Matchmaking and daily challenge room names are predictable and contain information
+        // that is already communicated somewhere else in the embed (including but not limited
+        // to the room type handled below this if-else block), therefore we're not including them.
+        } elseif ($room !== null && !$room->isMatchmaking() && $room->category !== Room::DAILY_CHALLENGE_CATEGORY) {
+            $header .= $room->name.' [**'.$channel->name.'**]';
+        } else {
+            $header .= '**'.$channel->name.'**';
+        }
+
+        if (!$channel->isPM()) {
+            $header .= ' ('.($room !== null ? $room->getTypePretty() : strtolower($channel->type)).')';
+        }
+
+        return "{$header}\n\n{$history}";
+    }
+
+    public function trashed(): bool
+    {
+        return false;
+    }
+
+    protected function newReportableExtraParams(): array
+    {
+        return [
+            'reason' => 'Spam',
+            'user_id' => $this->user_id,
+        ];
     }
 }

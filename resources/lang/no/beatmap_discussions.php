@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => '',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Du må være logget inn for å redigere.',
@@ -16,6 +18,16 @@ return [
         'empty' => 'Ingenting har skjedd... enda.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'slettet',
         'none_found' => 'Det er ingen tråd som sammensvarer dine søke kriterier.',
@@ -24,7 +36,9 @@ return [
         'form' => [
             '_' => 'Søk',
             'deleted' => 'Inkluder slettede diskusjoner',
+            'mode' => 'Beatmap modus',
             'only_unresolved' => 'Vis bare uløste tråder',
+            'show_review_embeds' => 'Vis anmeldelsesinnlegg',
             'types' => 'Meldingstyper',
             'username' => 'Brukernavn',
 
@@ -54,7 +68,21 @@ return [
     'nearby_posts' => [
         'confirm' => 'Ingen av innleggene gjelder mine bekymringer',
         'notice' => 'Det er innlegg rundt :timestamp (:existing_timestamps). Vennligst gjennomgå dem før publisering.',
-        'unsaved' => '',
+        'unsaved' => ':count i denne anmeldelsen',
+    ],
+
+    'owner_editor' => [
+        'button' => 'Vanskelighetsgrad Eier',
+        'reset_confirm' => 'Tilbakestille eieren for denne vanskeligheten?',
+        'user' => 'Eier',
+        'version' => 'Vanskelighetsgrad',
+    ],
+
+    'refresh' => [
+        'checking' => 'Ser etter oppdateringer...',
+        'has_updates' => '',
+        'no_updates' => 'Ingen oppdateringer.',
+        'updating' => 'Oppdaterer…',
     ],
 
     'reply' => [
@@ -65,7 +93,7 @@ return [
     ],
 
     'review' => [
-        'block_count' => '',
+        'block_count' => ':used / :max blokker brukt',
         'go_to_parent' => 'Vis Tilbakemeldingsinnlegg',
         'go_to_child' => 'Vis diskusjon',
         'validation' => [
@@ -73,6 +101,7 @@ return [
             'external_references' => 'gjennomgangen inneholder referanser til saker som ikke tilhører denne gjennomgangen',
             'invalid_block_type' => 'ugyldig blokktype',
             'invalid_document' => 'ugyldig anmeldelse',
+            'invalid_discussion_type' => 'ugyldig diskusjonstype',
             'minimum_issues' => 'anmeldelsen må minst inneholde et minimum av :count saker|anmeldelsen må minst inneholde et minimum av :count saker',
             'missing_text' => 'blokken mangler tekst',
             'too_many_blocks' => 'anmeldelser kan bare inneholde :count paragrafer/saker|anmeldelser kan bare inneholde opptill :count paragrafer/saker',
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'Alle',
         'label' => 'Filtrer etter bruker',
+        'multiple' => '',
     ],
 ];

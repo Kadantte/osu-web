@@ -9,12 +9,12 @@ use App\Models\BeatmapsetEvent;
 
 class BeatmapsetEventTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
         'beatmapset',
         'discussion',
     ];
 
-    protected $defaultIncludes = [
+    protected array $defaultIncludes = [
         'user_id',
     ];
 
@@ -22,13 +22,13 @@ class BeatmapsetEventTransformer extends TransformerAbstract
         'user_id' => 'BeatmapsetEventViewUserId',
     ];
 
-    public function transform(BeatmapsetEvent $event = null)
+    public function transform(?BeatmapsetEvent $event = null)
     {
         return [
             'id' => $event->id,
             'type' => $event->type,
             'comment' => $event->comment,
-            'created_at' => json_time($event->created_at),
+            'created_at' => $event->getJsonTime('created_at'),
         ];
     }
 

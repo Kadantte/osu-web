@@ -7,11 +7,12 @@ namespace Tests\Controllers\Payments;
 
 use App\Libraries\Payments\XsollaSignature;
 use App\Models\Store\Order;
-use Config;
 use Tests\TestCase;
 
 class XsollaControllerTest extends TestCase
 {
+    private Order $order;
+
     public function testWhenEverythingIsFine()
     {
         $data = $this->getPostData();
@@ -65,8 +66,8 @@ class XsollaControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Config::set('payments.xsolla.secret_key', 'magic');
-        $this->order = factory(Order::class)->states('checkout')->create();
+        config_set('payments.xsolla.secret_key', 'magic');
+        $this->order = Order::factory()->paymentApproved()->create();
     }
 
     private function getPostData(array $overrides = [])

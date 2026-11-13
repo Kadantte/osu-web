@@ -1,10 +1,15 @@
 <?php
 
+$configOsu = include __DIR__.'/osu.php';
+
 return [
     'dsn' => env('APP_SENTRY'),
 
     // capture release as git sha
-    'release' => config('osu.git-sha'),
+    'release' => $configOsu['git-sha'],
+
+    // When left empty or `null` the Laravel environment will be used
+    'environment' => env('APP_SENTRY_ENVIRONMENT'),
 
     // Copied from [1] to prevent E_NOTICE and E_WARNING (and maybe others)
     // from either being reported twice or incorrectly reported after caught.
@@ -16,6 +21,5 @@ return [
         | E_CORE_ERROR
         | E_CORE_WARNING
         | E_COMPILE_ERROR
-        | E_COMPILE_WARNING
-        | E_STRICT,
+        | E_COMPILE_WARNING,
 ];

@@ -4,8 +4,15 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'load_failed' => 'Impossibile caricare i dati.',
+    'missing_route' => 'Url non valido o metodo di richiesta non corretto.',
+    'no_restricted_access' => 'Non puoi fare questa azione mentre il tuo account è limitato.',
+    'param_too_large' => 'il parametro :name ha un massimo di :count_delimited oggetti|il parametro :name ha un massimo di :count_delimited oggetti',
+    'supporter_only' => 'Devi essere un supporter per poter usare questa funzionalità.',
+    'unknown' => 'Si è verificato un errore sconosciuto.',
+
     'codes' => [
-        'http-401' => 'Per favore effettua il login per poter continuare.',
+        'http-401' => 'Effettua il login per poter continuare.',
         'http-403' => 'Accesso Negato.',
         'http-404' => 'Non trovato.',
         'http-429' => 'Troppi tentativi. Riprova più tardi.',
@@ -15,19 +22,18 @@ return [
             'generic' => 'Si è verificato un errore. Prova a ricaricare la pagina.',
         ],
     ],
-    'beatmaps' => [
-        'invalid_mode' => 'Modalità specificata non valida.',
-        'standard_converts_only' => 'Nessuno score disponibile per la modalità richiesta in questa difficoltà della beatmap.',
-    ],
     'checkout' => [
         'generic' => 'Si è verificato un errore durante la preparazione del tuo checkout.',
     ],
+    'scores' => [
+        'invalid_id' => 'ID punteggio non valido.',
+    ],
     'search' => [
         'default' => 'Impossibile ottenere alcun risultato, riprova più tardi.',
+        'invalid_cursor_exception' => 'Parametro del cursore specificato non valido.',
         'operation_timeout_exception' => 'Attualmente la ricerca è più occupata del solito, riprova più tardi.',
     ],
-
-    'supporter_only' => 'Devi essere un supporter per poter usare questa funzionalità.',
-    'no_restricted_access' => 'Non puoi fare questa azione mentre il tuo account è limitato.',
-    'unknown' => 'Si è verificato un errore sconosciuto.',
+    'user_report' => [
+        'recently_reported' => "L'hai già segnalato di recente.",
+    ],
 ];

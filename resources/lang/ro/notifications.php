@@ -5,27 +5,45 @@
 
 return [
     'all_read' => 'Toate notificările citite!',
-    'delete' => '',
-    'loading' => '',
+    'delete' => 'Șterge :type',
+    'loading' => 'Se încarcă notificările necitite...',
     'mark_read' => 'Curăță :type',
     'none' => 'Nicio notificare',
     'see_all' => 'vedeți toate notificările',
-    'see_channel' => '',
-    'verifying' => '',
+    'see_channel' => 'accesați chat-ul',
+    'verifying' => 'Verificați sesiunea pentru a vizualiza notificările',
+
+    'action_type' => [
+        '_' => 'tot',
+        'beatmapset' => 'beatmap-uri',
+        'build' => 'versiuni',
+        'channel' => 'chat',
+        'forum_topic' => 'forum',
+        'news_post' => 'știri',
+        'team' => 'echipă',
+        'user' => 'profil',
+    ],
 
     'filters' => [
         '_' => 'tot',
-        'user' => 'profil',
-        'beatmapset' => 'beatmaps',
-        'forum_topic' => 'forum',
-        'news_post' => 'ştiri',
-        'build' => 'construcții',
+        'beatmapset' => 'beatmap-uri',
+        'build' => 'versiuni',
         'channel' => 'chat',
+        'forum_topic' => 'forum',
+        'news_post' => 'noutăți',
+        'team' => 'echipă',
+        'user' => 'profil',
     ],
 
     'item' => [
         'beatmapset' => [
             '_' => 'Beatmap',
+
+            'beatmap_owner_change' => [
+                '_' => 'Dificultate cu participare ca oaspete',
+                'beatmap_owner_change' => 'Acum ești proprietarul dificultății ":beatmap" pentru beatmap-ul ":title"',
+                'beatmap_owner_change_compact' => 'Acum ești proprietarul dificultății ":beatmap"',
+            ],
 
             'beatmapset_discussion' => [
                 '_' => 'Discuții beatmap',
@@ -39,6 +57,12 @@ return [
                 'beatmapset_discussion_review_new_compact' => 'Noua recenzie de :username care conține probleme: :problems, sugestii: :suggestions, laude: :praises',
                 'beatmapset_discussion_unlock' => 'Discuția pe ":title" a fost redeschisă',
                 'beatmapset_discussion_unlock_compact' => 'Discuția a fost redeschisă',
+
+                'review_count' => [
+                    'praises' => 'o laudă|:count_delimited laude|:count_delimited de laude',
+                    'problems' => 'o problemă|:count_delimited probleme|:count_delimited de probleme',
+                    'suggestions' => 'o sugestie|:count_delimited sugestii|:count_delimited de sugestii',
+                ],
             ],
 
             'beatmapset_problem' => [
@@ -53,16 +77,16 @@ return [
                 '_' => 'Starea Beatmap-ului s-a schimbat',
                 'beatmapset_disqualify' => ':title a fost descalificat',
                 'beatmapset_disqualify_compact' => 'Beatmap-ul a fost descalificat',
-                'beatmapset_love' => ':title a fost promovat la loved',
-                'beatmapset_love_compact' => 'Beatmap-ul a fost promovat la loved',
+                'beatmapset_love' => ':title a fost promovat la Iubit',
+                'beatmapset_love_compact' => 'Beatmap-ul a fost promovat la Iubit',
                 'beatmapset_nominate' => ':title a fost nominat',
                 'beatmapset_nominate_compact' => 'Beatmap-ul a fost nominat',
-                'beatmapset_qualify' => ':title a starns destule nominații si a intrat în ranking queue',
-                'beatmapset_qualify_compact' => 'Beatmap-ul a intrat în ranking queue',
-                'beatmapset_rank' => ':title a fost premiat',
-                'beatmapset_rank_compact' => 'Beatmap-ul a fost premiat',
-                'beatmapset_remove_from_loved' => '',
-                'beatmapset_remove_from_loved_compact' => 'Beatmap a fost eliminat din iubit',
+                'beatmapset_qualify' => '„:title" a stârns destule nominalizări și a intrat în lista de așteptare pentru clasament',
+                'beatmapset_qualify_compact' => 'Beatmap-ul a intrat în lista de așteptare pentru clasament',
+                'beatmapset_rank' => '„:title" a fost clasat',
+                'beatmapset_rank_compact' => 'Beatmap-ul a fost clasat',
+                'beatmapset_remove_from_loved' => '":title" a fost eliminat din Iubit',
+                'beatmapset_remove_from_loved_compact' => 'Beatmap-ul a fost eliminat din Iubit',
                 'beatmapset_reset_nominations' => 'Nominația ":title" a fost resetată',
                 'beatmapset_reset_nominations_compact' => 'Nominația a fost resetată',
             ],
@@ -80,12 +104,43 @@ return [
         'channel' => [
             '_' => 'Conversație',
 
+            'announcement' => [
+                '_' => 'Anunț nou',
+
+                'announce' => [
+                    'channel_announcement' => ':username spune ":title"',
+                    'channel_announcement_compact' => ':title',
+                    'channel_announcement_group' => 'Anunţ de la :username',
+                ],
+            ],
+
             'channel' => [
                 '_' => 'Mesaj nou',
+
                 'pm' => [
                     'channel_message' => ':username spune ":title"',
                     'channel_message_compact' => ':title',
                     'channel_message_group' => 'de la :username',
+                ],
+            ],
+
+            'channel_mention' => [
+                '_' => '',
+
+                'public' => [
+                    'channel_mention' => '',
+                    'channel_mention_compact' => '',
+                    'channel_mention_group' => '',
+                ],
+            ],
+
+            'channel_team' => [
+                '_' => 'Mesaj de echipă nou',
+
+                'team' => [
+                    'channel_team' => ':username spune ":title"',
+                    'channel_team_compact' => ':username spune ":title"',
+                    'channel_team_group' => ':username spune ":title"',
                 ],
             ],
         ],
@@ -114,6 +169,13 @@ return [
                 'comment_reply' => ':username a răspuns ”:content” pe ”:title”',
                 'comment_reply_compact' => ':username a răspuns ”:content”',
             ],
+
+            'news_post' => [
+                '_' => '',
+
+                'news_post_new' => '',
+                'news_post_new_compact' => '',
+            ],
         ],
 
         'forum_topic' => [
@@ -126,12 +188,19 @@ return [
             ],
         ],
 
-        'legacy_pm' => [
-            '_' => 'PM vechi forum',
+        'team' => [
+            'team_application' => [
+                '_' => 'Cerere de înscriere în echipă',
 
-            'legacy_pm' => [
-                '_' => '',
-                'legacy_pm' => ':count_delimited mesaj necitit|:count_delimited mesaje necitite',
+                'team_application_accept' => "Acum ești membru al echipei :title",
+                'team_application_accept_compact' => "Acum ești membru al echipei :title",
+
+                'team_application_group' => 'Actualizări la cererile de înscriere în echipă',
+
+                'team_application_reject' => 'Cererea ta de înscriere în echipa :title a fost refuzată',
+                'team_application_reject_compact' => 'Cererea ta de înscriere în echipa :title a fost refuzată',
+                'team_application_store' => ':title a solicitat să se înscrie echipei tale',
+                'team_application_store_compact' => ':title a solicitat să se înscrie echipei tale',
             ],
         ],
 
@@ -139,9 +208,12 @@ return [
             'user_beatmapset_new' => [
                 '_' => 'Beatmap nou',
 
-                'user_beatmapset_new' => '',
-                'user_beatmapset_new_compact' => '',
-                'user_beatmapset_new_group' => '',
+                'user_beatmapset_new' => 'Beatmap nou ":title" de către :username',
+                'user_beatmapset_new_compact' => 'Beatmap nou ":title"',
+                'user_beatmapset_new_group' => 'Beatmap-uri noi de către :username',
+
+                'user_beatmapset_revive' => 'Beatmap-ul ":title" reînviat de către :username',
+                'user_beatmapset_revive_compact' => 'Beatmap-ul ":title" reînviat',
             ],
         ],
 
@@ -158,7 +230,13 @@ return [
     ],
 
     'mail' => [
+        'news' => '',
+
         'beatmapset' => [
+            'beatmap_owner_change' => [
+                'beatmap_owner_change' => 'Ești acum un oaspete al beatmap-ului ":title"',
+            ],
+
             'beatmapset_discussion' => [
                 'beatmapset_discussion_lock' => 'Discuția pe ”:title” a fost încuiată',
                 'beatmapset_discussion_post_new' => 'Discuția pe ”:title” are update-uri noi',
@@ -171,11 +249,11 @@ return [
 
             'beatmapset_state' => [
                 'beatmapset_disqualify' => '”:title” a fost descalificat',
-                'beatmapset_love' => '”:title” a fost promovată la iubită',
+                'beatmapset_love' => '”:title” a fost promovată la Iubit',
                 'beatmapset_nominate' => '”:title” a fost nominat',
-                'beatmapset_qualify' => '”:title” a primit suficiente nominații și a intrat în lista de așteptare pentru clasament',
-                'beatmapset_rank' => '”:title” a fost clasat',
-                'beatmapset_remove_from_loved' => '',
+                'beatmapset_qualify' => '„:title" a primit suficiente nominalizări și a intrat în lista de așteptare pentru clasament',
+                'beatmapset_rank' => '„:title" a fost clasat',
+                'beatmapset_remove_from_loved' => '":title" a fost eliminat din Iubit',
                 'beatmapset_reset_nominations' => 'Nominația ”:title” a fost resetată',
             ],
 
@@ -185,20 +263,30 @@ return [
         ],
 
         'channel' => [
+            'announcement' => [
+                'channel_announcement' => 'Există un anunț nou în „:name”',
+            ],
             'channel' => [
-                'pm' => 'Ai primit un mesaj nou de la :username',
+                'channel_message' => 'Ai primit un mesaj nou de la :username',
+            ],
+            'channel_mention' => [
+                'channel_mention' => '',
+            ],
+
+            'channel_team' => [
+                'channel_team' => 'Există un mesaj nou în echipa ":name"',
             ],
         ],
 
         'build' => [
             'comment' => [
-                'comment_new' => 'Changelog-ul ":title" are comentarii noi',
+                'comment_new' => 'Istoricul schimbărilor ":title" are comentarii noi',
             ],
         ],
 
         'news_post' => [
             'comment' => [
-                'comment_new' => 'Știrile ”:title” au noi comentarii',
+                'comment_new' => 'Noutățile ”:title” au noi comentarii',
             ],
         ],
 
@@ -208,14 +296,18 @@ return [
             ],
         ],
 
-        'user' => [
-            'user_achievement_unlock' => [
-                'user_achievement_unlock' => ':username a deblocat o nouă medalie, ":title"!',
-                'user_achievement_unlock_self' => 'Ați deblocat o nouă medalie, ":title"!',
+        'team' => [
+            'team_application' => [
+                'team_application_accept' => "Acum ești membru al echipei :title",
+                'team_application_reject' => 'Cererea ta de înscriere în echipa :title a fost refuzată',
+                'team_application_store' => ':title a solicitat să se înscrie echipei tale',
             ],
+        ],
 
+        'user' => [
             'user_beatmapset_new' => [
-                'user_beatmapset_new' => '',
+                'user_beatmapset_new' => ':username a creat beatmap-uri noi',
+                'user_beatmapset_revive' => ':username a reînviat beatmap-uri',
             ],
         ],
     ],

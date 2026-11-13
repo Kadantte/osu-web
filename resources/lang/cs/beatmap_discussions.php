@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited odpověď je skrytá.|:count_delimited odpovědi jsou skryté.|:count_delimited odpovědí je skrytých.',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'K upravování musíte být přihlášeni.',
@@ -16,6 +18,16 @@ return [
         'empty' => 'Nic se nestalo... zatím.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'odstraněno',
         'none_found' => 'Nenalezeny žádné diskuze, odpovídající zadaným požadavkům.',
@@ -24,7 +36,9 @@ return [
         'form' => [
             '_' => 'Hledat',
             'deleted' => 'Zahrnout smazané diskuze',
+            'mode' => 'Režim beatmapy',
             'only_unresolved' => 'Ukaž pouze nerozluštěné diskuze',
+            'show_review_embeds' => 'Zobrazit rencenze',
             'types' => 'Typy zpráv',
             'username' => 'Uživatelské jméno',
 
@@ -57,6 +71,20 @@ return [
         'unsaved' => ':count v této recenzi',
     ],
 
+    'owner_editor' => [
+        'button' => 'Vlastník obtížnosti',
+        'reset_confirm' => 'Resetovat vlastníka pro tuto obtížnost?',
+        'user' => 'Vlastník',
+        'version' => 'Obtížnost',
+    ],
+
+    'refresh' => [
+        'checking' => 'Hledání aktualizací...',
+        'has_updates' => 'Diskuze byla aktualizována, klikni pro obnovení.',
+        'no_updates' => 'Žádné aktualizace.',
+        'updating' => 'Aktualizování...',
+    ],
+
     'reply' => [
         'open' => [
             'guest' => 'Pro přidání odpovědi se musíš přihlásit',
@@ -73,6 +101,7 @@ return [
             'external_references' => 'recenze obsahuje odkazy na problémy, které nepatří do této recenze',
             'invalid_block_type' => 'neplatný typ bloku',
             'invalid_document' => 'neplatná recenze',
+            'invalid_discussion_type' => 'neplatný typ diskuze',
             'minimum_issues' => 'recenze musí obsahovat minimálně :count problém|recenze musí obsahovat minimálně :count problémů',
             'missing_text' => 'bloku chybí text',
             'too_many_blocks' => 'recenze mohou obsahovat pouze :count odstavec/problém|recenze mohou obsahovat pouze :count odstavců/problémů',
@@ -93,6 +122,7 @@ return [
 
     'user_filter' => [
         'everyone' => 'Všichni',
-        'label' => 'Filtrovat podle uživatele',
+        'label' => 'Filtrovat dle uživatele',
+        'multiple' => ':count_delimited uživatel vybrán|:count_delimited uživatelé vybráni|:count_delimited uživatelů vybráno',
     ],
 ];

@@ -17,6 +17,7 @@ use Exception;
  * @property \Illuminate\Database\Eloquent\Collection $beatmapDiscussionVotes BeatmapDiscussionVote
  * @property int|null $beatmap_id
  * @property int $beatmapset_id
+ * @property Beatmapset $beatmapset
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $deleted_at
  * @property int|null $deleted_by_id
@@ -39,12 +40,16 @@ class BeatmapDiscussion extends Model
 {
     use Validatable;
 
-    protected $casts = [
-        'kudosu_denied' => 'boolean',
-        'resolved' => 'boolean',
+    protected $attributes = [
+        'resolved' => false,
     ];
 
-    protected $dates = ['deleted_at', 'last_post_at'];
+    protected $casts = [
+        'deleted_at' => 'datetime',
+        'kudosu_denied' => 'boolean',
+        'last_post_at' => 'datetime',
+        'resolved' => 'boolean',
+    ];
 
     const KUDOSU_STEPS = [1, 2, 5];
 
@@ -64,20 +69,17 @@ class BeatmapDiscussion extends Model
     const VOTES_TO_SHOW = 50;
 
     // FIXME: This and other static search functions should be extracted out.
-    public static function search($rawParams = [])
+    public static function search($rawParams = [], array $extraParams = [])
     {
-        $pagination = pagination($rawParams);
+        $extraParams['current_user_id'] ??= null;
+        $extraParams['is_moderator'] ??= false;
 
-        $params = [
-            'limit' => $pagination['limit'],
-            'page' => $pagination['page'],
-        ];
-
-        $query = static::limit($params['limit'])->offset($pagination['offset']);
+        [$query, $params] = static::searchQueryAndParams(cursor_from_params($rawParams) ?? $rawParams);
 
         if (present($rawParams['user'] ?? null)) {
             $params['user'] = $rawParams['user'];
-            $user = User::lookup($params['user']);
+            $findAll = $extraParams['is_moderator'] || ($extraParams['current_user_id'] === $rawParams['user']);
+            $user = User::lookup($params['user'], null, $findAll);
 
             if ($user === null) {
                 $query->none();
@@ -143,10 +145,16 @@ class BeatmapDiscussion extends Model
             $query->openIssues();
         }
 
-        $params['with_deleted'] = get_bool($rawParams['with_deleted'] ?? null) ?? false;
+        $params['with_deleted'] = $extraParams['is_moderator']
+            && (get_bool($rawParams['with_deleted'] ?? null) ?? false);
 
         if (!$params['with_deleted']) {
             $query->withoutTrashed();
+        }
+
+        $params['show_review_embeds'] = get_bool($rawParams['show_review_embeds'] ?? null) ?? false;
+        if (!$params['show_review_embeds']) {
+            $query->whereNull('parent_id');
         }
 
         return ['query' => $query, 'params' => $params];
@@ -189,10 +197,9 @@ class BeatmapDiscussion extends Model
         return $this->hasOne(BeatmapDiscussionPost::class)->whereNotExists(function ($query) {
             $table = (new BeatmapDiscussionPost())->getTable();
 
-            $query->selectRaw(1)
-                ->from(DB::raw("{$table} d"))
-                ->where('beatmap_discussion_id', $this->beatmap_discussion_id)
-                ->whereRaw("d.id < {$table}.id");
+            $query->from($table, 'd')
+                ->whereColumn('d.beatmap_discussion_id', "{$table}.beatmap_discussion_id")
+                ->whereColumn('d.id', '<', "{$table}.id");
         });
     }
 
@@ -243,9 +250,32 @@ class BeatmapDiscussion extends Model
     public function canGrantKudosu()
     {
         return in_array($this->attributes['message_type'] ?? null, static::KUDOSUABLE_TYPES, true) &&
+            $this->beatmapset !== null &&
             $this->user_id !== $this->beatmapset->user_id &&
             !$this->trashed() &&
             !$this->kudosu_denied;
+    }
+
+    public function isProblem()
+    {
+        return $this->message_type === 'problem';
+    }
+
+    public function isResetDiscussion(): bool
+    {
+        if (!$this->isProblem()) {
+            return false;
+        }
+
+        $beatmapset = $this->beatmapset;
+        if ($beatmapset->relationLoaded('events')) {
+            return $beatmapset->resetDiscussionIds()->contains($this->getKey());
+        }
+
+        return $beatmapset->events()
+            ->disqualificationAndNominationResetEvents()
+            ->where('comment->beatmap_discussion_id', $this->getKey())
+            ->exists();
     }
 
     public function refreshKudosu($event, $eventExtraData = [])
@@ -257,7 +287,7 @@ class BeatmapDiscussion extends Model
 
         // inb4 timing problem
         $currentVotes = $this->canGrantKudosu() ?
-            (int) $this->beatmapDiscussionVotes()->sum('score') :
+            (int) $this->beatmapDiscussionVotes()->where('score', '>', 0)->sum('score') :
             0;
         // remove kudosu by bots here instead of in canGrantKudosu due to
         // the function is also called by transformer without user preloaded
@@ -285,7 +315,7 @@ class BeatmapDiscussion extends Model
                     ->select('id')
             )->sum('amount');
 
-        $availableKudosu = config('osu.beatmapset.discussion_kudosu_per_user') - $beatmapsetKudosuGranted;
+        $availableKudosu = $GLOBALS['cfg']['osu']['beatmapset']['discussion_kudosu_per_user'] - $beatmapsetKudosuGranted;
         $maxChange = $targetKudosu - $kudosuGranted;
         $change = min($availableKudosu, $maxChange);
 
@@ -371,7 +401,7 @@ class BeatmapDiscussion extends Model
         }
 
         return $this->fill([
-            'timestamp' => $this->startingPost->timestamp() ?? null,
+            'timestamp' => $this->startingPost->timestamp(),
         ])->saveOrExplode();
     }
 
@@ -485,7 +515,7 @@ class BeatmapDiscussion extends Model
         return $this->validationErrors()->isEmpty();
     }
 
-    public function validationErrorsTranslationPrefix()
+    public function validationErrorsTranslationPrefix(): string
     {
         return 'beatmapset_discussion';
     }
@@ -619,6 +649,12 @@ class BeatmapDiscussion extends Model
         });
     }
 
+    public function managedBy(User $user): bool
+    {
+        return $this->beatmapset->user_id === $user->getKey()
+            || ($this->beatmap !== null && $this->beatmap->isOwner($user));
+    }
+
     public function userRecentVotesCount($user, $increment = false)
     {
         $key = "beatmapDiscussion:{$this->getKey()}:votes:{$user->getKey()}";
@@ -639,6 +675,7 @@ class BeatmapDiscussion extends Model
                 BeatmapsetEvent::log(BeatmapsetEvent::DISCUSSION_RESTORE, $restoredBy, $this)->saveOrExplode();
             }
 
+            $this->beatmapDiscussionPosts()->where('deleted_at', $this->deleted_at)->update(['deleted_at' => null]);
             $this->update(['deleted_at' => null]);
             $this->refreshKudosu('restore');
         });
@@ -653,7 +690,9 @@ class BeatmapDiscussion extends Model
         }
 
         $ret = parent::save($options);
-        $this->beatmapset->refreshCache();
+        $this->beatmapset->update([
+            'hype' => $this->beatmapset->freshHype(),
+        ]);
 
         return $ret;
     }
@@ -665,10 +704,12 @@ class BeatmapDiscussion extends Model
                 BeatmapsetEvent::log(BeatmapsetEvent::DISCUSSION_DELETE, $deletedBy, $this)->saveOrExplode();
             }
 
-            $this->fill([
+            $deleteAttributes = [
                 'deleted_by_id' => $deletedBy->user_id ?? null,
                 'deleted_at' => Carbon::now(),
-            ])->saveOrExplode();
+            ];
+            $this->fill($deleteAttributes)->saveOrExplode();
+            $this->beatmapDiscussionPosts()->whereNull('deleted_at')->update($deleteAttributes);
             $this->refreshKudosu('delete');
         });
     }

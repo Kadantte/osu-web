@@ -4,12 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'blocked' => 'Du har blockerats av denna användaren.',
     'title_compact' => 'vänner',
-    'too_many' => 'Vän gräns uppnådd.',
+    'too_many' => 'Maximalt antal vänner nått',
 
     'buttons' => [
         'add' => 'lägg till vän',
-        'disabled' => 'vänner',
+        'disabled' => 'följare',
         'remove' => 'ta bort vän',
     ],
 ];

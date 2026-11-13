@@ -5,6 +5,7 @@
 
 return [
     'show' => [
+        'non_preserved' => 'Ten wynik został oznaczony jako usunięty i wkrótce zniknie.',
         'title' => 'wynik gracza :username na :title [:version]',
 
         'beatmap' => [
@@ -13,7 +14,10 @@ return [
 
         'player' => [
             'by' => 'Gracz',
+            'played_on' => 'Zagrane na',
             'submitted_on' => 'Data przesłania',
+            'watched' => 'Obejrzano',
+            'watched_count' => ':count_delimited raz|:count_delimited razy|:count_delimited razy',
 
             'rank' => [
                 'country' => 'Pozycja w rankingu krajowym',
@@ -24,6 +28,8 @@ return [
 
     'status' => [
         'non_best' => 'Tylko twoje najlepsze wyniki przyznają pp',
-        'processing' => '',
+        'no_pp' => 'pp nie zostanie przyznane za ten wynik',
+        'processing' => 'Ten wynik jest nadal obliczany i zostanie wyświetlony wkrótce.',
+        'no_rank' => 'Ten wynik nie jest pozycjonowany w rankingu, ponieważ jest nierankingowy lub został oznaczony jako usunięty',
     ],
 ];

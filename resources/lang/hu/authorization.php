@@ -4,7 +4,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'play_more' => 'Mit szólsz ahhoz, hogy ha egy kis osu!-t játszanál inkább?',
+    'play_more' => 'Mit szólnál ahhoz, ha játszanál egy kis osu!-t inkább?',
     'require_login' => 'Kérlek jelentkezz be a folytatáshoz.',
     'require_verification' => 'Kérlek, hagyd jóvá a folytatáshoz.',
     'restricted' => "Felfüggesztett állapotban erre nem vagy képes.",
@@ -15,15 +15,16 @@ return [
         'destroy' => [
             'is_hype' => 'A hype-olást nem lehet visszavonni.',
             'has_reply' => 'Nem lehet hozzászólásokkal rendelkező beszélgetést törölni',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => 'Elérted a napi ajánlási limited, próbáld újra holnap.',
             'incorrect_state' => 'Hiba történt a művelet végrehajtása közben, próbáld frissíteni az oldalt.',
             'owner' => "Saját beatmap-et nem lehet ajánlani.",
-            'set_metadata' => 'Mielőtt kijelölné, a műfajt és a nyelvet meg kell adnod',
+            'set_metadata' => 'Meg kell adnod a műfajt és a nyelvet nominálás előtt.',
         ],
         'resolve' => [
-            'not_owner' => 'Csak a poszt szerzője és a beatmap készítője tudja megoldottnak jelölni az adott problémát.',
+            'not_owner' => 'Csak a gondolatmenet indítója és a beatmap tulajdonosa tudja megoldottnak jelölni az adott problémát.',
         ],
 
         'store' => [
@@ -31,7 +32,7 @@ return [
         ],
 
         'vote' => [
-            'bot' => "A bot által létrehozott megbszélésre nem szavazhatsz",
+            'bot' => "Bot által létrehozott beszélgetésre nem szavazhatsz",
             'limit_exceeded' => 'Kérlek várj egy keveset újabb szavazat leadása előtt',
             'owner' => "Nem szavazhatsz a saját posztodra.",
             'wrong_beatmapset_state' => 'Csak függő beatmap beszélgetéseken lehet szavazni.',
@@ -40,25 +41,36 @@ return [
 
     'beatmap_discussion_post' => [
         'destroy' => [
-            'not_owner' => 'Csak a saját posztjaidat tudod törölni.',
+            'not_owner' => 'Csak a saját hozzászólásaidat tudod törölni.',
             'resolved' => 'Nem törölhetsz bejegyzést egy megbeszélt témában.',
-            'system_generated' => 'Az automatikusan generált posztok nem törölhetőek.',
+            'system_generated' => 'Az automatikusan létrehozott hozzászólások nem törölhetőek.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
             'not_owner' => 'Csak a posztoló tudja szerkeszteni a posztot.',
             'resolved' => 'Nem szerkeszthetsz bejegyzést egy megbeszélt témában.',
             'system_generated' => 'Automatikusan generált posztot nem lehet szerkeszteni.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => 'Ez a beatmap megbeszélés miatt zárolva.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => 'Ez a beatmap megbeszélés miatt zárolva van.',
+
         'metadata' => [
-            'nominated' => 'Nem változtathatod meg egy map metaadatait. Ha úgy gondolod valami nincs rendben, lépj kapcsolatba egy BN vagy egy NAT taggal.',
+            'nominated' => 'Nem változtathatod meg egy nominált map metaadatait. Ha úgy gondolod valami nincs rendben, lépj kapcsolatba egy BN vagy egy NAT taggal.',
+        ],
+
+        'rate' => [
+            'owner' => '',
+            'status' => '',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => 'Ahhoz, hogy címkét adhass hozzá, le kell játszanod a beatmap-et.',
         ],
     ],
 
@@ -67,17 +79,23 @@ return [
         'friends_only' => 'A felhasználó letiltotta a baráti listáján nem szereplő emberek üzeneteinek fogadását.',
         'moderated' => 'A csatorna jelenleg moderálva van.',
         'no_access' => 'Nincs hozzáférésed a csatornához.',
+        'no_announce' => 'Nincs jogosultságod bejelentés megosztásához.',
+        'receive_friends_only' => 'user lehet nem fog tudni visszaírni, mert csak a barátlistádon lévő emberektől fogadsz üzeneteket.',
         'restricted' => 'Nem küldhetsz üzeneteket némított, felfüggesztett vagy kitiltott állapotban.',
-        'silenced' => 'Némítva, felfüggesztve vagy kitiltva nem küldhetsz üzeneteket.',
+        'silenced' => 'Nem küldhetsz üzeneteket némított, felfüggesztett vagy kitiltott állapotban.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => 'A hozzászólások le vannak tiltva',
+        ],
         'update' => [
             'deleted' => "Törölt posztot nem lehet szerkeszteni.",
         ],
     ],
 
     'contest' => [
+        'judging_not_active' => 'A verseny zsűrizése nem aktív.',
         'voting_over' => 'Nem változtathatod meg a szavazatod, mert ennek a versenynek a szavazási ideje lejárt.',
 
         'entry' => [
@@ -103,6 +121,7 @@ return [
                 'deleted' => 'Törölt posztot nem lehet szerkeszteni.',
                 'locked' => 'A posztot nem lehet szerkeszteni.',
                 'no_forum_access' => 'A kért fórumhoz hozzáférési jog szükséges.',
+                'no_permission' => 'Nincs szerkesztési jogosultságod.',
                 'not_owner' => 'Csak a szerző szerkesztheti a posztot.',
                 'topic_locked' => 'Lezárt téma posztját nem lehet szerkeszteni.',
             ],
@@ -166,6 +185,40 @@ return [
         ],
     ],
 
+    'room' => [
+        'destroy' => [
+            'not_owner' => 'Csak a szoba tulajdonosa tudja lezárni.',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "Nem lehet ilyen típusú pontszámot kitűzni",
+            'failed' => "Nem végigjátszott eredmény nem rögzíthető.",
+            'not_owner' => 'Csak eredménnyel rendelkezők tűzhetnek ki eredményeket.',
+            'too_many' => 'Túl sok kitűzött eredmény.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "Már a csapat tagja vagy.",
+                'already_other_member' => "Már egy másik csapat tagja vagy.",
+                'currently_applying' => 'Van egy függőben lévő csapatba való jelentkezésed.',
+                'team_closed' => 'A csapat jelenleg nem fogad új jelentkezőket.',
+                'team_full' => "A csapat tele van és nem fogad új jelentkezőket.",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "A csapatvezető nem léphet ki a csapatból.",
+            'not_member' => 'Nem tagja a csapatnak.',
+        ],
+        'store' => [
+            'require_supporter_tag' => 'A csapat létrehozásához „osu!supporter” címke szükséges.',
+        ],
+    ],
+
     'user' => [
         'page' => [
             'edit' => [
@@ -173,6 +226,9 @@ return [
                 'not_owner' => 'Csak a saját felhasználói oldaladat szerkesztheted.',
                 'require_supporter_tag' => 'osu!támogatói cím szükséges.',
             ],
+        ],
+        'update_email' => [
+            'locked' => 'email cím zárva',
         ],
     ],
 ];

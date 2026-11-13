@@ -26,6 +26,9 @@ return [
         'placeholder' => 'type to search',
         'title' => 'search',
 
+        'artist_track' => [
+            'more_simple' => 'See more featured artist track search results',
+        ],
         'beatmapset' => [
             'login_required' => 'Sign in to search beatmaps',
             'more' => ':count more beatmap search results',
@@ -43,6 +46,7 @@ return [
             'label' => [
                 'forum' => 'search in forums',
                 'forum_children' => 'include subforums',
+                'include_deleted' => 'include deleted posts',
                 'topic_id' => 'topic #',
                 'username' => 'author',
             ],
@@ -50,10 +54,17 @@ return [
 
         'mode' => [
             'all' => 'all',
+            'artist_track' => 'featured artist track',
             'beatmapset' => 'beatmap',
             'forum_post' => 'forum',
+            'team' => 'team',
             'user' => 'player',
             'wiki_page' => 'wiki',
+        ],
+
+        'team' => [
+            'login_required' => 'Sign in to search teams',
+            'more_simple' => 'See more team search results',
         ],
 
         'user' => [
@@ -72,12 +83,23 @@ return [
     ],
 
     'download' => [
-        'tagline' => "let's get<br>you started!",
-        'action' => 'Download osu!',
+        'action_lazer_info' => 'check this page for more information',
+        'download' => 'Download',
+        'for_os' => 'for :os',
+        'macos-fallback' => 'macOS users',
+        'mirror' => 'mirror',
+        'or' => 'or',
+        'os_version_or_later' => ':os_version or later',
+        'other_os' => 'other platforms',
+        'quick_start_guide' => 'quick start guide',
+        'stable_text' => 'if you\'re looking for the older one',
+        'tagline_1' => 'let\'s get you',
+        'tagline_2' => 'started!',
+        'video-guide' => 'video guide',
 
         'help' => [
-            '_' => 'if you have problem starting the game or registering for account, :help_forum_link or :support_button.',
-            'help_forum_link' => 'check help forum',
+            '_' => 'if you have a problem starting the game or registering for an account, :help_forum_link or :support_button.',
+            'help_forum_link' => 'check the help forum',
             'support_button' => 'contact support',
         ],
 
@@ -86,8 +108,6 @@ return [
             'macos' => 'for macOS',
             'linux' => 'for Linux',
         ],
-        'mirror' => 'mirror',
-        'macos-fallback' => 'macOS users',
         'steps' => [
             'register' => [
                 'title' => 'get an account',
@@ -105,7 +125,6 @@ return [
                 ],
             ],
         ],
-        'video-guide' => 'video guide',
     ],
 
     'user' => [
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
+            'daily_challenge' => 'Daily Challenge Beatmap',
             'new' => 'New Ranked Beatmaps',
             'popular' => 'Popular Beatmaps',
             'by_user' => 'by :user',
+            'resets' => 'resets :ends',
         ],
         'buttons' => [
             'download' => 'Download osu!',
             'support' => 'Support osu!',
             'store' => 'osu!store',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Wow!',
-        'subtitle' => 'You seem to be having a good time! :D',
-        'body' => [
-            'part-1' => 'Did you know that osu! runs with no advertising, and relies on players to support its development and running costs?',
-            'part-2' => 'Did you also know that by supporting osu! you get a heap of useful features, such as <strong>in-game downloading</strong> which automatically triggers in spectator and multiplayer games?',
+        'livestream' => [
+            'title' => 'Featured Livestream',
         ],
-        'find-out-more' => 'Click here to find out more!',
-        'download-starting' => "Oh, and don't worry - your download has already been started for you already ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Open admin console',
+            ],
+        ],
     ],
 ];

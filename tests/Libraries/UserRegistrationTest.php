@@ -7,7 +7,10 @@ namespace Tests\Libraries;
 
 use App\Exceptions\ValidationException;
 use App\Libraries\UserRegistration;
+use App\Models\Count;
 use App\Models\User;
+use App\Models\UserCoverPreset;
+use App\Models\UserGroupEvent;
 use Tests\TestCase;
 
 class UserRegistrationTest extends TestCase
@@ -15,16 +18,19 @@ class UserRegistrationTest extends TestCase
     public function testBasicFunctionality()
     {
         $attrs = $this->basicAttributes();
+        UserCoverPreset::create(['active' => true, 'filename' => 'test']);
+        app('user-cover-presets')->resetMemoized();
 
-        $origCount = User::count();
+        $this->expectCountChange(fn () => User::count(), 1);
+        $this->expectCountChange(fn () => Count::totalUsers()->count, 1);
+        $this->expectCountChange(fn () => UserGroupEvent::count(), 0);
         $reg = new UserRegistration($attrs);
         $thrown = $this->runSubject($reg);
 
         $this->assertFalse($thrown);
-        $this->assertSame($origCount + 1, User::count());
-        $this->assertTrue($reg->user()->userGroups->every(function ($userGroup) {
-            return $userGroup->user_pending === false;
-        }));
+
+        $user = $reg->user()->fresh();
+        $this->assertNotNull($user->cover()->presetId());
     }
 
     public function testRequiresUsername()
@@ -37,13 +43,11 @@ class UserRegistrationTest extends TestCase
         $thrown = $this->runSubject($reg);
 
         $this->assertTrue($thrown);
-        $this->assertArraySubset(
-            $reg->user()->validationErrors()->all(),
-            [
-                'username' => [trans('model_validation.required', [
-                    'attribute' => trans('model_validation.user.attributes.username'),
-                ])],
-            ]
+        $this->assertContains(
+            osu_trans('model_validation.required', [
+                'attribute' => osu_trans('model_validation.user.attributes.username'),
+            ]),
+            $reg->user()->validationErrors()->all()['username'],
         );
         $this->assertSame($origCount, User::count());
     }
@@ -58,13 +62,11 @@ class UserRegistrationTest extends TestCase
         $thrown = $this->runSubject($reg);
 
         $this->assertTrue($thrown);
-        $this->assertArraySubset(
-            $reg->user()->validationErrors()->all(),
-            [
-                'user_email' => [trans('model_validation.required', [
-                    'attribute' => trans('model_validation.user.attributes.user_email'),
-                ])],
-            ]
+        $this->assertContains(
+            osu_trans('model_validation.required', [
+                'attribute' => osu_trans('model_validation.user.attributes.user_email'),
+            ]),
+            $reg->user()->validationErrors()->all()['user_email'],
         );
         $this->assertSame($origCount, User::count());
     }
@@ -79,13 +81,11 @@ class UserRegistrationTest extends TestCase
         $thrown = $this->runSubject($reg);
 
         $this->assertTrue($thrown);
-        $this->assertArraySubset(
-            $reg->user()->validationErrors()->all(),
-            [
-                'password' => [trans('model_validation.required', [
-                    'attribute' => trans('model_validation.user.attributes.password'),
-                ])],
-            ]
+        $this->assertContains(
+            osu_trans('model_validation.required', [
+                'attribute' => osu_trans('model_validation.user.attributes.password'),
+            ]),
+            $reg->user()->validationErrors()->all()['password'],
         );
         $this->assertSame($origCount, User::count());
     }

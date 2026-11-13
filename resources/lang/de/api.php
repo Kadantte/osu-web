@@ -17,15 +17,22 @@ return [
         'identify' => 'Dich identifizieren und dein öffentliches Profil lesen.',
 
         'chat' => [
+            'read' => 'Nachrichten in deinem Namen lesen.',
             'write' => 'Nachrichten unter deinem Namen versenden.',
+            'write_manage' => 'Betrete und verlasse Channel in deinem Namen.',
         ],
 
         'forum' => [
-            'write' => 'Forrenthreads und -beiträge in deinem Namen erstellen und bearbeiten.',
+            'write' => 'Forenposts und Beiträge in deinem Namen erstellen und bearbeiten.',
+            'write_manage' => 'Verwalte Forenbeiträge in deinem Namen.',
         ],
 
         'friends' => [
             'read' => 'Sehen, wem du folgst.',
+        ],
+
+        'multiplayer' => [
+            'write_manage' => 'Erstelle und verwalte selbst Mehrspielerräume.',
         ],
 
         'public' => 'In deinem Namen öffentliche Daten auslesen.',

@@ -4,6 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'load_failed' => 'Nu s-au putut încărca datele.',
+    'missing_route' => 'URL sau metoda de solicitare incorectă.',
+    'no_restricted_access' => 'Nu ești capabil să efectuezi această acțiune în timp ce contul tău se află într-un statut restricționat.',
+    'param_too_large' => '',
+    'supporter_only' => 'Trebuie să fii un suporter pentru a folosi această funcție.',
+    'unknown' => 'A avut loc o eroare necunoscută.',
+
     'codes' => [
         'http-401' => 'Te rugăm să te autentifici pentru a continua.',
         'http-403' => 'Acces respins.',
@@ -15,19 +22,18 @@ return [
             'generic' => 'A apărut o eroare. Încearcă să reîmprospătezi pagina.',
         ],
     ],
-    'beatmaps' => [
-        'invalid_mode' => 'Mod specificat invalid.',
-        'standard_converts_only' => 'Niciun scor avabil pentru modul solicitat pe această dificultate beatmap.',
-    ],
     'checkout' => [
         'generic' => 'A apărut o eroare în timpul preparării comenzii tale.',
     ],
+    'scores' => [
+        'invalid_id' => 'ID scor invalid.',
+    ],
     'search' => [
         'default' => 'Nu s-au putut obține rezultate, încearcă mai târziu.',
+        'invalid_cursor_exception' => 'Parametru cursor specificat nevalid.',
         'operation_timeout_exception' => 'Căutarea este mai ocupată decât de obicei, încearcă mai târziu.',
     ],
-
-    'supporter_only' => 'Trebuie să fii un suporter pentru a folosi această funcție.',
-    'no_restricted_access' => 'Nu ești capabil să efectuezi această acțiune în timp ce contul tău se află într-un statut restricționat.',
-    'unknown' => 'A avut loc o eroare necunoscută.',
+    'user_report' => [
+        'recently_reported' => "Ați raportat deja acest lucru recent.",
+    ],
 ];

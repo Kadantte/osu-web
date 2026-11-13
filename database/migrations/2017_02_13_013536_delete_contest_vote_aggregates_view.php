@@ -3,6 +3,8 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
 // See the LICENCE file in the repository root for full licence text.
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 
 class DeleteContestVoteAggregatesView extends Migration
@@ -14,7 +16,7 @@ class DeleteContestVoteAggregatesView extends Migration
      */
     public function up()
     {
-        (new CreateContestVoteAggregatesView())->down();
+        migration('2016_08_25_055700_create_contest_vote_aggregates_view')->down();
     }
 
     /**
@@ -24,6 +26,6 @@ class DeleteContestVoteAggregatesView extends Migration
      */
     public function down()
     {
-        (new CreateContestVoteAggregatesView())->up();
+        migration('2016_08_25_055700_create_contest_vote_aggregates_view')->up();
     }
 }

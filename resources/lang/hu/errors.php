@@ -4,6 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'load_failed' => 'Nem sikerült betölteni az adatokat.',
+    'missing_route' => 'Helytelen url vagy lekérési mód.',
+    'no_restricted_access' => 'Felfüggesztett állapotban nem vagy alkalmas erre.',
+    'param_too_large' => ':name paraméter legfeljebb :count_delimited elemet tartalmazhat|:name paraméter legfeljebb :count_delimited elemet tartalmazhat',
+    'supporter_only' => 'Támogatónak kell lenned a funkció használatához.',
+    'unknown' => 'Ismeretlen hiba történt.',
+
     'codes' => [
         'http-401' => 'Kérlek jelentkezz be a folytatáshoz.',
         'http-403' => 'Hozzáférés megtagadva.',
@@ -15,19 +22,18 @@ return [
             'generic' => 'Hiba történt. Próbáld frissiteni az oldalt.',
         ],
     ],
-    'beatmaps' => [
-        'invalid_mode' => 'Érvénytelen mód lett megadva.',
-        'standard_converts_only' => 'Nincs elérhető eredmény a kért módra ezen a beatmap nehézségen.',
-    ],
     'checkout' => [
         'generic' => 'Hiba történt a fizetés előkészítése közben.',
     ],
+    'scores' => [
+        'invalid_id' => 'Érvénytelen eredmény azonosító.',
+    ],
     'search' => [
         'default' => 'Nem sikerült bármi eredményt kapni, kérlek próbáld meg később.',
+        'invalid_cursor_exception' => 'Érvénytelen kurzorparaméter van megadva.',
         'operation_timeout_exception' => 'A keresés a szokásosnál jobban leterhelt, kérlek próbáld meg később.',
     ],
-
-    'supporter_only' => 'Támogatónak kell lenned a funkció használatához.',
-    'no_restricted_access' => 'Felfüggesztett állapot erre nem vagy alkalmas.',
-    'unknown' => 'Ismeretlen hiba történt.',
+    'user_report' => [
+        'recently_reported' => "Már bejelentetted nemrég.",
+    ],
 ];

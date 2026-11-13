@@ -5,10 +5,13 @@
 
 namespace App\Libraries;
 
+use App\Exceptions\GitHubInvalidDataException;
 use App\Exceptions\GitHubNotFoundException;
 use App\Exceptions\GitHubTooLargeException;
+use App\Exceptions\SilencedException;
 use App\Jobs\UpdateWiki;
 use GitHub;
+use Github\Exception\ApiLimitExceedException;
 use Github\Exception\RuntimeException as GithubException;
 use Illuminate\Support\Collection;
 
@@ -16,8 +19,12 @@ class OsuWiki
 {
     const CACHE_DURATION = 60;
 
-    public $path;
-    public $data;
+    public array $data;
+
+    public function __construct(public string $path)
+    {
+        $this->data = $this->fetch();
+    }
 
     public static function cleanPath($path)
     {
@@ -35,28 +42,9 @@ class OsuWiki
             ->pluck('path');
     }
 
-    public static function getTree()
+    public static function getTree(?string $sha = null, bool $recursive = true): array
     {
-        return Github::gitData()->trees()->show(static::user(), static::repository(), config('osu.wiki.branch'), true);
-    }
-
-    public static function fetch($path)
-    {
-        try {
-            return GitHub::repo()
-                ->contents()
-                ->show(static::user(), static::repository(), $path, config('osu.wiki.branch'));
-        } catch (GithubException $e) {
-            $message = $e->getMessage();
-
-            if ($message === 'Not Found') {
-                throw new GitHubNotFoundException($message);
-            } elseif (starts_with($message, 'This API returns blobs up to 1 MB in size.')) {
-                throw new GitHubTooLargeException($message);
-            }
-
-            throw $e;
-        }
+        return GitHub::gitData()->trees()->show(static::user(), static::repository(), $sha ?? static::branch(), $recursive);
     }
 
     public static function fetchContent($path)
@@ -67,11 +55,8 @@ class OsuWiki
     /**
      * Parses a github repository path of a wiki file,
      * and returns informations such as type, wiki path and locale.
-     *
-     * @param string $path
-     * @return array[]
      */
-    public static function parseGithubPath($path)
+    public static function parseGithubPath(string $path): ?array
     {
         $matches = [];
 
@@ -80,28 +65,34 @@ class OsuWiki
                 return ['type' => 'redirect'];
             }
 
-            preg_match('/^(?:wiki\/)(.*)\/(.*)\.(.{2,})$/', $path, $matches);
+            $found = preg_match('/^(?:wiki\/)(.*)\/(.*)\.(.{2,})$/', $path, $matches);
 
-            if (static::isImage($path)) {
-                return [
-                    'type' => 'image',
-                    'path' => $matches[1].'/'.$matches[2].'.'.$matches[3],
-                ];
-            } else {
-                return [
-                    'type' => 'page',
-                    'locale' => $matches[2],
-                    'path' => $matches[1],
-                ];
+            if ($found > 0) {
+                if (static::isImage($path)) {
+                    return [
+                        'type' => 'image',
+                        'path' => $matches[1].'/'.$matches[2].'.'.$matches[3],
+                    ];
+                } else {
+                    return [
+                        'type' => 'page',
+                        'locale' => $matches[2],
+                        'path' => $matches[1],
+                    ];
+                }
             }
         } elseif (starts_with($path, 'news/')) {
-            preg_match('/^(?:news\/)(.*)\.(.{2,})$/', $path, $matches);
+            $found = preg_match('/^(?:news\/)(?:\d{4}\/)?(.*)\.md$/', $path, $matches);
 
-            return [
-                'type' => 'news_post',
-                'slug' => $matches[1],
-            ];
+            if ($found > 0) {
+                return [
+                    'type' => 'news_post',
+                    'slug' => $matches[1],
+                ];
+            }
         }
+
+        return null;
     }
 
     public static function updateFromGithub($data)
@@ -123,24 +114,53 @@ class OsuWiki
         return preg_match('/\.(?:jpe?g|gif|png)$/i', $path) === 1;
     }
 
+    public static function branch()
+    {
+        return $GLOBALS['cfg']['osu']['wiki']['branch'];
+    }
+
     public static function repository()
     {
-        return config('osu.wiki.repository');
+        return $GLOBALS['cfg']['osu']['wiki']['repository'];
     }
 
     public static function user()
     {
-        return config('osu.wiki.user');
-    }
-
-    public function __construct($path)
-    {
-        $this->path = $path;
-        $this->data = static::fetch($this->path);
+        return $GLOBALS['cfg']['osu']['wiki']['user'];
     }
 
     public function content()
     {
         return base64_decode($this->data['content'], true);
+    }
+
+    private function fetch(): array
+    {
+        try {
+            $ret = GitHub::repo()
+                ->contents()
+                ->show(static::user(), static::repository(), $this->path, static::branch());
+
+            if (!is_array($ret) || !isset($ret['content'])) {
+                $json = json_encode($ret);
+                throw new GitHubInvalidDataException("Received object for '{$this->path}' is missing content field: {$json}");
+            }
+
+            return $ret;
+        } catch (GithubException $e) {
+            $message = $e->getMessage();
+
+            if ($e instanceof ApiLimitExceedException) {
+                if (rand(0, 100) !== 0) {
+                    throw new SilencedException(previous: $e);
+                }
+            } elseif ($e->getCode() === 404) {
+                throw new GitHubNotFoundException($message);
+            } elseif (starts_with($message, 'This API returns blobs up to 1 MB in size.')) {
+                throw new GitHubTooLargeException($message);
+            }
+
+            throw $e;
+        }
     }
 }

@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'admin',
     ],
-    'admin_forum' => [
-        '_' => 'admin',
-    ],
-    'admin_store' => [
-        '_' => 'admin',
-    ],
     'error' => [
         'error' => [
             '400' => 'invalid request',
@@ -29,13 +23,12 @@ return [
     ],
     'forum' => [
         '_' => 'forum',
-        'topic_watches_controller' => [
-            'index' => 'dashboard',
+        'topic_logs_controller' => [
+            'index' => 'topic logs',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'dashboard',
             'verify_link' => 'account verification',
         ],
         'artists_controller' => [
@@ -56,13 +49,11 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'beatmap history',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'dashboard',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'beatmap discussion',
             'index' => 'beatmap listing',
             'show' => 'beatmap info',
+            'versions' => 'beatmap version history',
         ],
         'changelog_controller' => [
             '_' => 'changelog',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'comments',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'contest judging results',
+        ],
         'contests_controller' => [
             '_' => 'contests',
+            'judge' => 'contest judging',
         ],
-        'follows_controller' => [
-            'index' => 'dashboard',
-        ],
-        'friends_controller' => [
-            'index' => 'dashboard',
+        'group_history_controller' => [
+            '_' => 'group history',
         ],
         'groups_controller' => [
             'show' => 'groups',
@@ -92,14 +84,14 @@ return [
             'support_the_game' => 'support the game',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => 'matches',
+        ],
         'legal_controller' => [
             '_' => 'information',
         ],
         'livestreams_controller' => [
             '_' => 'live streams',
-        ],
-        'matches_controller' => [
-            '_' => 'matches',
         ],
         'news_controller' => [
             '_' => 'news',
@@ -111,36 +103,63 @@ return [
             '_' => 'password reset',
         ],
         'ranking_controller' => [
-            '_' => 'ranking',
+            '_' => 'rankings',
         ],
         'scores_controller' => [
             '_' => 'performance',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'rankings',
+        ],
+        'teams_controller' => [
+            '_' => 'teams',
+            'create' => 'create team',
+            'edit' => 'team settings',
+            'leaderboard' => 'team leaderboard',
+            'show' => 'team info',
         ],
         'tournaments_controller' => [
             '_' => 'tournaments',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'user cover presets',
+        ],
+        'user_totp_controller' => [
+            '_' => 'authenticator app',
+        ],
         'users_controller' => [
             '_' => 'player info',
+            'create' => 'create account',
             'disabled' => 'notice',
         ],
         'wiki_controller' => [
-            '_' => 'knowledge base',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'ranking',
+            'events' => 'room history',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'authorize app',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'store',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'team members',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'modder info',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'multiplayer history',
         ],
     ],
 ];

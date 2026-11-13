@@ -15,7 +15,9 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class EsIndexDocumentBulk implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
 
     protected $className;
     protected $ids;
@@ -42,7 +44,6 @@ class EsIndexDocumentBulk implements ShouldQueue
                 // TODO: handling response would be nice =)
                 Es::getClient()->bulk([
                     'index' => $this->className::esIndexName(),
-                    'type' => '_doc',
                     'body' => $actions,
                     'client' => ['timeout' => 0],
                 ]);

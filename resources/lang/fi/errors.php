@@ -4,6 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'load_failed' => 'Tietojen lataus epäonnistui.',
+    'missing_route' => 'Virheellinen URL-osoite tai virheellinen pyyntötapa.',
+    'no_restricted_access' => 'Et voi suorittaa tätä toimintoa tilisi ollessa rajoitetussa tilassa.',
+    'param_too_large' => '',
+    'supporter_only' => 'Sinun täytyy olla Tukija käyttääksesi tätä ominaisuutta.',
+    'unknown' => 'Tuntematon virhe.',
+
     'codes' => [
         'http-401' => 'Kirjaudu sisään jatkaaksesi.',
         'http-403' => 'Pääsy evätty.',
@@ -15,19 +22,18 @@ return [
             'generic' => 'Virhe. Yritä päivittää sivu.',
         ],
     ],
-    'beatmaps' => [
-        'invalid_mode' => 'Virheellinen pelimoodi annettu.',
-        'standard_converts_only' => 'Tuloksia valitulle pelimuodolle ei löydy tässä vaikeustasossa.',
-    ],
     'checkout' => [
         'generic' => 'Ostoksesi valmistelussa tapahtui virhe.',
     ],
+    'scores' => [
+        'invalid_id' => 'Virheellinen tulostunnus.',
+    ],
     'search' => [
         'default' => 'Tuloksia ei saatu, yritä myöhemmin uudelleen.',
-        'operation_timeout_exception' => '',
+        'invalid_cursor_exception' => 'Virheellinen kohdistimen parametri määritetty.',
+        'operation_timeout_exception' => 'Haku on tavallista ruuhkaisempi, yritä myöhemmin uudelleen.',
     ],
-
-    'supporter_only' => 'Sinun täytyy olla Tukija käyttääksesi tätä ominaisuutta.',
-    'no_restricted_access' => 'Et voi suorittaa tätä toimintoa tilisi ollessa rajoitetussa tilassa.',
-    'unknown' => 'Tuntematon virhe.',
+    'user_report' => [
+        'recently_reported' => "Olet jo ilmiantanut tämän äskettäin.",
+    ],
 ];

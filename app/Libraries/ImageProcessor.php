@@ -3,17 +3,20 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
 // See the LICENCE file in the repository root for full licence text.
 
+declare(strict_types=1);
+
 namespace App\Libraries;
 
 use App\Exceptions\ImageProcessorException;
 
 class ImageProcessor
 {
+    const ALLOWED_TYPES = [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG];
+
     public $errors = [];
 
     public $hardMaxDim = [5000, 5000];
     public $hardMaxFileSize = 10000000;
-    public $allowedTypes = [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG];
 
     public $inputDim = null;
     public $inputFileSize = null;
@@ -33,15 +36,15 @@ class ImageProcessor
     public function basicCheck()
     {
         if ($this->inputFileSize > $this->hardMaxFileSize) {
-            throw new ImageProcessorException(trans('users.show.edit.cover.upload.too_large'));
+            throw new ImageProcessorException(osu_trans('users.show.edit.cover.upload.too_large'));
         }
 
-        if ($this->inputDim === null || !in_array($this->inputDim[2], $this->allowedTypes, true)) {
-            throw new ImageProcessorException(trans('users.show.edit.cover.upload.unsupported_format'));
+        if ($this->inputDim === null || !in_array($this->inputDim[2], static::ALLOWED_TYPES, true)) {
+            throw new ImageProcessorException(osu_trans('users.show.edit.cover.upload.unsupported_format'));
         }
 
         if ($this->inputDim[0] > $this->hardMaxDim[0] || $this->inputDim[1] > $this->hardMaxDim[1]) {
-            throw new ImageProcessorException(trans('users.show.edit.cover.upload.too_large'));
+            throw new ImageProcessorException(osu_trans('users.show.edit.cover.upload.too_large'));
         }
     }
 
@@ -62,7 +65,23 @@ class ImageProcessor
             return;
         }
 
-        exec('jhead -autorot -purejpg -q '.escapeshellarg($this->inputPath));
+        try {
+            $exifRotation = exif_read_data($this->inputPath)['Orientation'] ?? null;
+        } catch (\ErrorException) {
+            // ignore errors
+        }
+        $args = match ($exifRotation ?? null) {
+            2 => '-flip horizontal',
+            3 => '-rotate 180',
+            4 => '-flip vertical',
+            5 => '-transpose',
+            6 => '-rotate 90',
+            7 => '-transverse',
+            8 => '-rotate 270',
+            default => '',
+        };
+
+        exec('jpegtran '.$args.' -trim -copy none -outfile '.escapeshellarg($this->inputPath).' '.escapeshellarg($this->inputPath));
         $this->parseInput();
     }
 
@@ -74,43 +93,66 @@ class ImageProcessor
 
         $inputImage = open_image($this->inputPath, $this->inputDim);
 
-        if ($inputImage === null) {
-            throw new ImageProcessorException(trans('users.show.edit.cover.upload.broken_file'));
+        if ($inputImage === null || $this->inputDim[0] === 0 || $this->inputDim[1] === 0) {
+            throw new ImageProcessorException(osu_trans('users.show.edit.cover.upload.broken_file'));
         }
 
         if (
             $this->inputDim[0] <= $this->targetDim[0] &&
             $this->inputDim[1] <= $this->targetDim[1]
         ) {
-            if ($this->inputFileSize < $this->targetFileSize) {
+            if (
+                $this->inputFileSize < $this->targetFileSize &&
+                $this->inputDim[0] / $this->inputDim[1] === $this->targetDim[0] / $this->targetDim[1]
+            ) {
                 return;
             }
 
-            $image = $inputImage;
-        } else {
-            $start = [0, 0];
-            $inDim = [$this->inputDim[0], $this->inputDim[1]];
-            $outDim = [$this->targetDim[0], $this->targetDim[1]];
-
-            // figure out how to crop.
-            if ($this->inputDim[0] / $this->inputDim[1] >= $this->targetDim[0] / $this->targetDim[1]) {
-                $inDim[0] = $this->targetDim[0] / $this->targetDim[1] * $this->inputDim[1];
-                $start[0] = ($this->inputDim[0] - $inDim[0]) / 2;
-            } else {
-                $inDim[1] = $this->targetDim[1] / $this->targetDim[0] * $this->inputDim[0];
-                $start[1] = ($this->inputDim[1] - $inDim[1]) / 2;
-            }
-
-            // don't scale if input image is smaller.
-            if ($inDim[0] < $outDim[0] || $inDim[1] < $outDim[1]) {
-                $outDim = $inDim;
-            }
-
-            $image = imagecreatetruecolor($outDim[0], $outDim[1]);
-            imagesavealpha($image, true);
-            imagefill($image, 0, 0, imagecolorallocatealpha($image, 0, 0, 0, 127));
-            imagecopyresampled($image, $inputImage, 0, 0, $start[0], $start[1], $outDim[0], $outDim[1], $inDim[0], $inDim[1]);
+            $newHeight = $this->inputDim[0] * $this->targetDim[1] / $this->targetDim[0];
+            $targetDim = $newHeight <= $this->inputDim[1]
+                ? [
+                    $this->inputDim[0],
+                    $newHeight,
+                ] : [
+                    $this->inputDim[1] * $this->targetDim[0] / $this->targetDim[1],
+                    $this->inputDim[1],
+                ];
+            $this->targetDim = array_map(fn ($d) => max(1, $d), $targetDim);
         }
+
+        $start = [0, 0];
+        $inDim = [$this->inputDim[0], $this->inputDim[1]];
+        $outDim = [$this->targetDim[0], $this->targetDim[1]];
+
+        // figure out how to crop.
+        if ($this->inputDim[0] / $this->inputDim[1] >= $this->targetDim[0] / $this->targetDim[1]) {
+            $inDim[0] = $this->targetDim[0] / $this->targetDim[1] * $this->inputDim[1];
+            $start[0] = ($this->inputDim[0] - $inDim[0]) / 2;
+        } else {
+            $inDim[1] = $this->targetDim[1] / $this->targetDim[0] * $this->inputDim[0];
+            $start[1] = ($this->inputDim[1] - $inDim[1]) / 2;
+        }
+
+        // don't scale if input image is smaller.
+        if ($inDim[0] < $outDim[0] || $inDim[1] < $outDim[1]) {
+            $outDim = $inDim;
+        }
+
+        $image = imagecreatetruecolor((int) $outDim[0], (int) $outDim[1]);
+        imagesavealpha($image, true);
+        imagefill($image, 0, 0, imagecolorallocatealpha($image, 0, 0, 0, 127));
+        imagecopyresampled(
+            $image,
+            $inputImage,
+            0,
+            0,
+            (int) $start[0],
+            (int) $start[1],
+            (int) $outDim[0],
+            (int) $outDim[1],
+            (int) $inDim[0],
+            (int) $inDim[1],
+        );
 
         $toJpeg = true;
 

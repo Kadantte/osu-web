@@ -5,34 +5,39 @@
 
 return [
     'comment' => [
-        'empty' => '',
-        'page_title' => '',
-        'title' => '',
+        'empty' => 'Жоден коментар не відстежується.',
+        'page_title' => 'список відстеження коментарів',
+        'title' => 'коментарі',
 
         'table' => [
-            'latest_comment_empty' => '',
-            'latest_comment_value' => '',
+            'latest_comment_empty' => 'без коментарів',
+            'latest_comment_value' => ':time від :username',
         ],
     ],
 
     'forum_topic' => [
-        'title' => '',
+        'title' => 'теми форуму',
     ],
 
     'index' => [
-        'title_compact' => '',
+        'title_compact' => 'перелік підписок',
     ],
 
     'mapping' => [
-        'empty' => '',
-        'followers' => '',
-        'page_title' => '',
-        'title' => '',
-        'to_0' => '',
-        'to_1' => '',
+        'empty' => 'Жоден маппер не відстежується.',
+        'followers' => 'підписники на мапи',
+        'page_title' => 'перелік підписок на мапперів',
+        'title' => 'маппери
+',
+        'to_0' => 'не сповіщати мене, коли цей користувач завантажує нову мапу',
+        'to_1' => 'сповіщати мене, коли цей користувач завантажує нову мапу',
     ],
 
     'modding' => [
-        'title' => '',
+        'title' => 'обговорення мап',
+    ],
+
+    'store' => [
+        'too_many' => 'Досягнуто ліміт підписок.',
     ],
 ];

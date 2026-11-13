@@ -7,8 +7,7 @@ namespace App\Models;
 
 use App\Exceptions\ValidationException;
 use App\Libraries\MorphMap;
-use App\Models\Score\Best;
-use App\Models\Score\Best\Model as BestModel;
+use App\Models\Chat\Message;
 use App\Traits\Validatable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\RoutesNotifications;
@@ -23,38 +22,41 @@ use Illuminate\Notifications\RoutesNotifications;
  * @property mixed|null $reportable_type
  * @property User $reporter
  * @property int $reporter_id
- * @property mixed $score
  * @property int $score_id
- * @property mixed $score_type
  * @property \Carbon\Carbon $timestamp
  * @property User $user
  * @property int $user_id
  */
 class UserReport extends Model
 {
-    use RoutesNotifications, Validatable;
+    use RoutesNotifications;
+    use Validatable;
 
+    const BEATMAPSET_TYPE_REASONS = ['UnwantedContent', 'Other'];
+    const MAX_FIELD_LENGTHS = [
+        'comments' => 2000,
+    ];
     const POST_TYPE_REASONS = ['Insults', 'Spam', 'UnwantedContent', 'Nonsense', 'Other'];
-    const SCORE_TYPE_REASONS = ['Cheating', 'Other'];
+    const SCORE_TYPE_REASONS = ['Cheating', 'MultipleAccounts', 'Other'];
 
     const ALLOWED_REASONS = [
         MorphMap::MAP[BeatmapDiscussionPost::class] => self::POST_TYPE_REASONS,
-        MorphMap::MAP[Best\Fruits::class] => self::SCORE_TYPE_REASONS,
-        MorphMap::MAP[Best\Mania::class] => self::SCORE_TYPE_REASONS,
-        MorphMap::MAP[Best\Osu::class] => self::SCORE_TYPE_REASONS,
-        MorphMap::MAP[Best\Taiko::class] => self::SCORE_TYPE_REASONS,
+        MorphMap::MAP[Beatmapset::class] => self::BEATMAPSET_TYPE_REASONS,
+        MorphMap::MAP[Chat\Message::class] => self::POST_TYPE_REASONS,
         MorphMap::MAP[Comment::class] => self::POST_TYPE_REASONS,
         MorphMap::MAP[Forum\Post::class] => self::POST_TYPE_REASONS,
+        MorphMap::MAP[Solo\Score::class] => self::SCORE_TYPE_REASONS,
+        MorphMap::MAP[Team::class] => ['UnwantedContent', 'Other'],
+        MorphMap::MAP[User::class] => ['Cheating', 'MultipleAccounts', 'InappropriateChat', 'UnwantedContent', 'Other'],
     ];
 
     const CREATED_AT = 'timestamp';
 
-    protected $table = 'osu_user_reports';
-    protected $primaryKey = 'report_id';
-
-    protected $dates = ['timestamp'];
-
     public $timestamps = false;
+
+    protected $casts = ['timestamp' => 'datetime'];
+    protected $primaryKey = 'report_id';
+    protected $table = 'osu_user_reports';
 
     public function reportable()
     {
@@ -68,16 +70,29 @@ class UserReport extends Model
 
     public function routeNotificationForSlack(?Notification $_notification): ?string
     {
-        if ($this->reason === 'Cheating') {
-            return config('osu.user_report_notification.endpoint_cheating');
-        } else {
-            return config('osu.user_report_notification.endpoint_moderation');
-        }
-    }
+        $reason = $this->reason;
+        $reportableModel = $this->reportable()->getModel();
 
-    public function score()
-    {
-        return $this->morphTo();
+        if (
+            $reason === 'Cheating'
+            || $reason === 'MultipleAccounts'
+            || $reportableModel instanceof Solo\Score
+        ) {
+            return $GLOBALS['cfg']['osu']['user_report_notification']['endpoint_cheating'];
+        } else {
+            $type = match ($reportableModel::class) {
+                BeatmapDiscussionPost::class => 'beatmapset_discussion',
+                Beatmapset::class => 'beatmapset',
+                Chat\Message::class => 'chat',
+                Comment::class => 'comment',
+                Forum\Post::class => 'forum',
+                User::class => $this->reason === 'InappropriateChat' ? 'chat' : 'user',
+                Team::class => 'team',
+            };
+
+            return $GLOBALS['cfg']['osu']['user_report_notification']['endpoint'][$type]
+                ?? $GLOBALS['cfg']['osu']['user_report_notification']['endpoint_moderation'];
+        }
     }
 
     public function user()
@@ -85,14 +100,29 @@ class UserReport extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function getScoreTypeAttribute()
+    public function isCommentOptional(): bool
     {
-        return BestModel::getClass($this->mode);
+        static $optionalTypes = [
+            MorphMap::MAP[Chat\Message::class],
+            MorphMap::MAP[Comment::class],
+        ];
+
+        return $this->reason !== 'Other'
+            && in_array($this->reportable_type, $optionalTypes, true);
+    }
+
+    public function isRecent(): bool
+    {
+        return $this->timestamp->addDays(1)->isFuture();
     }
 
     public function isValid()
     {
         $this->validationErrors()->reset();
+
+        if (!present(trim($this->comments)) && !$this->isCommentOptional()) {
+            $this->validationErrors()->add('comments', 'required');
+        }
 
         if ($this->user_id === $this->reporter_id) {
             $this->validationErrors()->add(
@@ -101,16 +131,50 @@ class UserReport extends Model
             );
         }
 
-        $allowedReasons = static::ALLOWED_REASONS[$this->reportable_type] ?? null;
-        if ($allowedReasons !== null) {
-            if (!in_array($this->reason, $allowedReasons, true)) {
-                $this->validationErrors()->add(
-                    'reason',
-                    '.reason_not_valid',
-                    ['reason' => $this->reason]
-                );
-            }
+        $allowedReasons = static::ALLOWED_REASONS[$this->reportable_type] ?? [
+            ...static::BEATMAPSET_TYPE_REASONS,
+            ...static::POST_TYPE_REASONS,
+            ...static::SCORE_TYPE_REASONS,
+        ];
+
+        if (!in_array($this->reason, $allowedReasons, true)) {
+            $this->validationErrors()->add(
+                'reason',
+                '.reason_not_valid',
+                ['reason' => $this->reason]
+            );
         }
+
+        if ($this->reportable instanceof Beatmapset && $this->reportable->isScoreable()) {
+            $this->validationErrors()->add(
+                'reason',
+                '.no_ranked_beatmapset'
+            );
+        }
+
+        if (
+            $this->reportable instanceof Message
+            && $this->reportable->channel->isHideable()
+            && !$this->reportable->channel->hasUser($this->reporter)
+        ) {
+            $this->validationErrors()->add(
+                'reportable',
+                '.not_in_channel'
+            );
+        }
+
+        if (
+            $this->reportable instanceof Team
+            && $this->reportable->members()->where('user_id', $this->reporter_id)->exists()
+        ) {
+            $this->validationErrors()->add(
+                'reportable',
+                '.in_team'
+            );
+        }
+
+
+        $this->validateDbFieldLengths();
 
         return $this->validationErrors()->isEmpty();
     }
@@ -124,7 +188,7 @@ class UserReport extends Model
         return parent::save();
     }
 
-    public function validationErrorsTranslationPrefix()
+    public function validationErrorsTranslationPrefix(): string
     {
         return 'user_report';
     }

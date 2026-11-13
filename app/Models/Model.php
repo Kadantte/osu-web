@@ -6,21 +6,51 @@
 namespace App\Models;
 
 use App\Exceptions\ModelNotSavedException;
+use App\Libraries\MorphMap;
 use App\Libraries\Transactions\AfterCommit;
 use App\Libraries\Transactions\AfterRollback;
 use App\Libraries\TransactionStateManager;
-use App\Traits\MacroableModel;
+use App\Scopes\MacroableModelScope;
+use App\Traits\Validatable;
+use Exception;
+use Illuminate\Database\ClassMorphViolationException;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 
 abstract class Model extends BaseModel
 {
-    use MacroableModel;
+    use HasFactory;
+    use Traits\FasterAttributes;
+    use Traits\IncrementInstance;
+    use Validatable;
+
+    const MAX_FIELD_LENGTHS = [];
+    const int PER_PAGE = 50;
 
     protected $connection = 'mysql';
     protected $guarded = [];
-    protected $macros;
+    protected array $macros = [];
+    protected $perPage = self::PER_PAGE;
     protected $primaryKeys;
+
+    public static function booted()
+    {
+        static::addGlobalScope(new MacroableModelScope());
+    }
+
+    protected static function searchQueryAndParams(array $params)
+    {
+        $limit = \Number::clamp(get_int($params['limit'] ?? null) ?? static::PER_PAGE, 5, 50);
+        $page = max(get_int($params['page'] ?? null), 1);
+
+        $offset = max_offset($page, $limit);
+        $page = 1 + $offset / $limit;
+
+        $query = static::limit($limit)->offset($offset);
+
+        return [$query, compact('limit', 'page')];
+    }
 
     public function getForeignKey()
     {
@@ -31,13 +61,33 @@ abstract class Model extends BaseModel
         return $this->primaryKey;
     }
 
-    public function getMacros()
+    public function getKey()
     {
-        $macros = $this->macros ?? [];
-        $macros[] = 'realCount';
-        $macros[] = 'last';
+        return $this->getRawAttribute($this->primaryKey);
+    }
 
-        return $macros;
+    public function getMacros(): array
+    {
+        return [
+            ...$this->macros,
+            'countLimit',
+            'getWithHasMore',
+            'last',
+            'realCount',
+        ];
+    }
+
+    public function getMorphClass()
+    {
+        $className = static::class;
+
+        $ret = MorphMap::getType($className);
+
+        if ($ret !== null) {
+            return $ret;
+        }
+
+        throw new ClassMorphViolationException($this);
     }
 
     /**
@@ -50,25 +100,47 @@ abstract class Model extends BaseModel
         return $this->lockForUpdate()->find($this->getKey());
     }
 
-    public function macroLast()
+    public function macroCountLimit(Builder $query, int $limit)
     {
-        return function ($baseQuery, $column = null) {
-            $query = clone $baseQuery;
+        $query = clone $query;
+        $subQuery = $query->limit($limit)->toRawSql();
 
-            return $query->orderBy($column ?? $this->getKeyName(), 'DESC')->first();
-        };
+        return $query->getConnection()->selectOne("SELECT COUNT(*) as c FROM ({$subQuery}) as s")->c;
     }
 
-    public function macroRealCount()
+    public function macroGetWithHasMore($query)
     {
-        return function ($baseQuery) {
-            $query = clone $baseQuery;
-            $query->getQuery()->orders = null;
-            $query->getQuery()->offset = null;
-            $query->limit(null);
+        $limit = $query->getQuery()->limit;
+        if ($limit === null) {
+            throw new Exception('"getWithHasMore" was called on query without "limit" specified');
+        }
+        $moreLimit = $limit + 1;
+        $result = $query->limit($moreLimit)->get();
 
-            return min($query->count(), config('osu.pagination.max_count'));
-        };
+        $hasMore = $result->count() === $moreLimit;
+
+        if ($hasMore) {
+            $result->pop();
+        }
+
+        return [$result, $hasMore];
+    }
+
+    public function macroLast($baseQuery, $column = null)
+    {
+        $query = clone $baseQuery;
+
+        return $query->orderBy($column ?? $this->getKeyName(), 'DESC')->first();
+    }
+
+    public function macroRealCount($baseQuery)
+    {
+        $query = clone $baseQuery;
+        $query->unorder();
+        $query->getQuery()->offset = null;
+        $query->limit(null);
+
+        return $query->countLimit($GLOBALS['cfg']['osu']['pagination']['max_count']);
     }
 
     public function refresh()
@@ -82,9 +154,7 @@ abstract class Model extends BaseModel
 
     public function scopeReorderBy($query, $field, $order)
     {
-        $query->getQuery()->orders = null;
-
-        return $query->orderBy($field, $order);
+        return $query->unorder()->orderBy($field, $order);
     }
 
     public function scopeOrderByField($query, $field, $ids)
@@ -107,9 +177,28 @@ abstract class Model extends BaseModel
         $query->whereRaw('false');
     }
 
+    public function scopeUnorder($query)
+    {
+        $query->getQuery()->orders = null;
+
+        return $query;
+    }
+
     public function scopeWithPresent($query, $column)
     {
         $query->whereNotNull($column)->where($column, '<>', '');
+    }
+
+    /**
+     * Just like decrement but only works on saved instance instead of falling back to entire model
+     */
+    public function decrementInstance()
+    {
+        if (!$this->exists) {
+            return false;
+        }
+
+        return $this->decrement(...func_get_args());
     }
 
     public function delete()
@@ -132,9 +221,8 @@ abstract class Model extends BaseModel
             $result = $this->save($options);
 
             if ($result === false) {
-                $message = method_exists($this, 'validationErrors') ?
-                    $this->validationErrors()->toSentence() :
-                    'failed saving model';
+                $errors = $this->validationErrors();
+                $message = $errors->isEmpty() ? 'failed saving model' : $errors->toSentence();
 
                 throw new ModelNotSavedException($message);
             }
@@ -145,9 +233,9 @@ abstract class Model extends BaseModel
 
     public function dbName()
     {
-        $connection = $this->connection ?? config('database.default');
+        $connection = $this->connection ?? $GLOBALS['cfg']['database']['default'];
 
-        return config("database.connections.{$connection}.database");
+        return $GLOBALS['cfg']['database']['connections'][$connection]['database'];
     }
 
     public function tableName(bool $includeDbPrefix = false)
@@ -158,7 +246,7 @@ abstract class Model extends BaseModel
     // Allows save/update/delete to work with composite primary keys.
     // Note this doesn't fix 'find' method and a bunch of other laravel things
     // which rely on getKeyName and getKey (and they themselves are broken as well).
-    protected function setKeysForSaveQuery(Builder $query)
+    protected function setKeysForSaveQuery($query)
     {
         if (isset($this->primaryKeys)) {
             foreach ($this->primaryKeys as $key) {
@@ -166,9 +254,34 @@ abstract class Model extends BaseModel
             }
 
             return $query;
-        } else {
-            return parent::setKeysForSaveQuery($query);
         }
+
+        return parent::setKeysForSaveQuery($query);
+    }
+
+    // same deal with setKeysForSaveQuery but for select query
+    protected function setKeysForSelectQuery($query)
+    {
+        return $this->setKeysForSaveQuery($query);
+    }
+
+    protected function validateDbFieldLength(int $limit, string $dbField, ?string $checkField = null): void
+    {
+        if ($this->isDirty($dbField)) {
+            $this->validateFieldLength($limit, $dbField, $checkField);
+        }
+    }
+
+    protected function validateDbFieldLengths(): void
+    {
+        foreach (static::MAX_FIELD_LENGTHS as $field => $limit) {
+            $this->validateDbFieldLength($limit, $field, $field);
+        }
+    }
+
+    protected function validationErrorsTranslationPrefix(): string
+    {
+        return '';
     }
 
     private function enlistCallbacks($model, $connection)

@@ -1,0 +1,76 @@
+<?php
+
+// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
+// See the LICENCE file in the repository root for full licence text.
+
+declare(strict_types=1);
+
+namespace App\Jobs;
+
+use App\Exceptions\BeatmapProcessorException;
+use App\Exceptions\SilencedException;
+use App\Models\Beatmapset;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
+class RegenerateBeatmapsetMedia implements ShouldQueue
+{
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+
+    // Handle transient errors on remote server
+    private const MAX_TRIES = 3;
+
+    /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 300;
+
+    public function __construct(protected Beatmapset $beatmapset)
+    {
+    }
+
+    public function displayName()
+    {
+        return static::class." (Beatmapset {$this->beatmapset->getKey()})";
+    }
+
+    public function handle()
+    {
+        $this->runTask(
+            'regenerate_beatmapset_cover',
+            fn () => $this->beatmapset->regenerateCovers(),
+        );
+        $this->runTask(
+            'regenerate_beatmapset_preview',
+            fn () => $this->beatmapset->regenerateAudioPreview(),
+        );
+    }
+
+    private function runTask(string $task, callable $taskFn, int $tries = 0): void
+    {
+        try {
+            $taskFn();
+            datadog_increment("{$task}.ok");
+        } catch (\Throwable $e) {
+            // TODO: create and throw specific network error exception
+            if ($e instanceof BeatmapProcessorException && $tries < static::MAX_TRIES) {
+                sleep(5);
+                $this->runTask($task, $taskFn, $tries + 1);
+                return;
+            }
+
+            datadog_increment("{$task}.error");
+            log_error(new BeatmapProcessorException(previous: $e), [
+                'task' => $task,
+                'id' => $this->beatmapset->getKey(),
+            ]);
+            throw new SilencedException(previous: $e);
+        }
+    }
+}

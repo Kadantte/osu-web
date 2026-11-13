@@ -4,9 +4,14 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'promote' => [
+        'pin' => 'Opravdu chceš propagovat toto živé vysílání na domovské stránce?',
+        'unpin' => "Opravdu chceš odebrat propagaci tohoto živého vysílání z domovské stránky?",
+    ],
+
     'top-headers' => [
         'headline' => 'Živá vysílání',
-        'description' => 'Data o vysílajích jsou načítáná každých pět minut z osu! kategorie stránky twitch.tv. Neboj se začít vysílat. Může tu být i tvůj stream! Pro více informací jak na to se prosím podívej na :link.',
+        'description' => 'Data jsou načítána každých pět minut z osu! kategorie stránky twitch.tv. Neboj se začít vysílat. Může tu být i tvůj stream! Pro více informací jak na to se prosím podívej na :link.',
 
         'link' => 'wiki stránku o živém vysílání',
     ],

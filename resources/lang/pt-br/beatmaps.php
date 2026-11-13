@@ -4,6 +4,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => 'Modalidade especificada inválida.',
+
+    'change_owner' => [
+        'too_many' => 'Muitos mappers convidados.',
+    ],
+
     'discussion-votes' => [
         'update' => [
             'error' => 'Falha ao atualizar votos',
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'negar kudosu',
         'edit' => 'editar',
         'edited' => 'Última vez editado por :editor :update_time.',
+        'guest' => 'Dificuldade de convidado feita por :user',
         'kudosu_denied' => 'Impossibilitado de receber kudosu.',
+        'include_replies' => 'Incluir respostas',
         'message_placeholder_deleted_beatmap' => 'Esta dificuldade foi deletada e uma dicussão não poderá ser aberta.',
         'message_placeholder_locked' => 'A discussão para este beatmap foi desabilitada.',
         'message_placeholder_silenced' => "Não é possível postar na discussão enquanto silenciado.",
         'message_type_select' => 'Selecione o Tipo de Comentário',
         'reply_notice' => 'Pressione enter para responder.',
+        'reply_resolve_notice' => 'Pressione Enter para responder. Pressione ctrl+enter para responder e resolver.',
         'reply_placeholder' => 'Digite sua resposta aqui',
         'require-login' => 'Por favor, conecte-se para postar ou responder',
         'resolved' => 'Resolvido',
         'restore' => 'restaurar',
         'show_deleted' => 'Mostrar excluídos',
+        'show_other_replies' => 'Mostrar outras respostas',
         'title' => 'Discussões',
+        'unresolved_count' => ':count_delimited problemas não resolvidos',
 
         'collapse' => [
             'all-collapse' => 'Juntar',
@@ -61,7 +72,7 @@ return [
         'message_placeholder' => [
             'general' => 'Digite aqui para publicar em Geral (:version)',
             'generalAll' => 'Digite aqui para publicar em Geral (Todas as dificuldades)',
-            'review' => 'Digite aqui para postar uma revisão',
+            'review' => 'Digite aqui para postar uma análise',
             'timeline' => 'Digite aqui para publicar em Linha do Tempo (:version)',
         ],
 
@@ -72,14 +83,27 @@ return [
             'nomination_reset' => 'Reiniciar nomeação',
             'praise' => 'Elogio',
             'problem' => 'Problema',
+            'problem_warning' => 'Relatar problema',
             'review' => 'Revisão',
             'suggestion' => 'Sugestão',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => 'Enviar desqualificação',
+            'hype' => 'Enviar Hype!',
+            'mapper_note' => 'Enviar nota',
+            'nomination_reset' => 'Remover todas as Nomeações',
+            'praise' => 'Enviar elogio',
+            'problem' => 'Enviar problema',
+            'problem_warning' => 'Enviar problema',
+            'review' => 'Enviar análise',
+            'suggestion' => 'Enviar sugestão',
         ],
 
         'mode' => [
             'events' => 'Histórico',
             'general' => 'Geral :scope',
-            'reviews' => 'Revisões',
+            'reviews' => 'Análises',
             'timeline' => 'Linha do tempo',
             'scopes' => [
                 'general' => 'Esta dificuldade',
@@ -96,18 +120,19 @@ return [
         ],
 
         'review' => [
-            'new' => 'Nova Revisão',
+            'new' => 'Nova análise',
             'embed' => [
                 'delete' => 'Excluir',
                 'missing' => '[DISCUSSÃO EXCLUÍDA]',
                 'unlink' => 'Desvincular',
                 'unsaved' => 'Não salvo',
                 'timestamp' => [
-                    'all-diff' => 'As postagens em "Todas as dificuldades" não podem ser temporizadas.',
+                    'all-diff' => 'As publicações em "Todas as dificuldades" não podem ser temporizadas.',
                     'diff' => 'Se este :type começa com marcação de tempo, será mostrado na Linha do Tempo.',
                 ],
             ],
             'insert-block' => [
+                'mapper_note' => 'inserir nota',
                 'paragraph' => 'inserir parágrafo',
                 'praise' => 'inserir elogio',
                 'problem' => 'inserir problema',
@@ -173,6 +198,8 @@ return [
     ],
 
     'nominations' => [
+        'already_nominated' => 'Você já nomeou esse beatmap.',
+        'cannot_nominate' => 'Você não pode nomear esse modo de jogo do beatmap.',
         'delete' => 'Excluir',
         'delete_own_confirm' => 'Você tem certeza? Esse beatmap será deletado e você será redirecionado de volta para seu perfil.',
         'delete_other_confirm' => 'Você tem certeza? Esse beatmap será deletado e você será redirecionado de volta para seu perfil de usuário.',
@@ -182,6 +209,7 @@ return [
         'disqualify' => 'Desqualificar',
         'incorrect_state' => 'Erro ao realizar essa ação, tente atualizar a página.',
         'love' => 'Amar',
+        'love_choose' => 'Escolher dificuldade para os mapas loved',
         'love_confirm' => 'Amar esse beatmap?',
         'nominate' => 'Nomear',
         'nominate_confirm' => 'Nomear este beatmap?',
@@ -196,6 +224,9 @@ return [
 
         'rank_estimate' => [
             '_' => 'Este mapa é estimado a ser ranqueado em :date se nenhum problema for encontrado. É o #:position na :queue.',
+            'unresolved_problems' => 'Este beatmap está bloqueado de sair da seção de Qualificados até que :problems sejam resolvidos.',
+            'problems' => 'estes problemas',
+            'on' => 'em :date',
             'queue' => 'fila de ranqueamento',
             'soon' => 'em breve',
         ],
@@ -206,17 +237,19 @@ return [
         ],
 
         'reset_confirm' => [
-            'nomination_reset' => 'Você tem certeza? Postar um novo problema reiniciará as nomeações.',
             'disqualify' => 'Você tem certeza? Isso irá remover este beatmap da qualificação e reiniciará o processo de nomeação.',
+            'nomination_reset' => 'Você tem certeza? Postar um novo problema reiniciará as nomeações.',
+            'problem_warning' => 'Você tem certeza que deseja relatar um problema neste beatmap? Isso irá alertar os Nominadores do Beatmap.',
         ],
     ],
 
     'listing' => [
         'search' => [
             'prompt' => 'digite em palavras-chave...',
-            'login_required' => 'Conecte-se para pesquisar.',
+            'login_required' => 'Entre para pesquisar.',
             'options' => 'Mais opções de busca',
-            'supporter_filter' => 'Filtrar por :filters requer uma osu!supporter tag ativa',
+            'rank_filter_note' => 'A classificação do perfil e os resultados exibidos nesta página são baseados nas suas notas mais altas "padronizadas" (também conhecido como "lazer") em beatmaps.',
+            'supporter_filter' => 'Filtrar por :filters requer uma tag de osu!supporter ativa',
             'not-found' => 'nenhum resultado',
             'not-found-quote' => '... não, nada encontrado.',
             'filters' => [
@@ -244,14 +277,20 @@ return [
             ],
             'supporter_filter_quote' => [
                 '_' => 'Filtrar por :filters requer uma :link',
-                'link_text' => 'osu!supporter tag',
+                'link_text' => 'tag de osu!supporter',
+            ],
+            'tag_picker' => [
+                'tooltip' => 'procurar por tags de usuário',
+                'prompt' => 'digite para pesquisar',
             ],
         ],
     ],
     'general' => [
         'converts' => 'Incluir beatmaps convertidos',
+        'featured_artists' => 'Artistas em destaque',
         'follows' => 'Mappers inscritos',
         'recommended' => 'Dificuldade recomendada',
+        'spotlights' => 'Beatmaps destacados',
     ],
     'mode' => [
         'all' => 'Todos',
@@ -260,16 +299,18 @@ return [
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => 'Não definido',
     ],
     'status' => [
         'any' => 'Todos',
         'approved' => 'Aprovado',
         'favourites' => 'Favoritos',
         'graveyard' => 'Cemitério',
-        'leaderboard' => 'Possuem Classificações',
+        'leaderboard' => 'Tem placar',
         'loved' => 'Loved',
-        'mine' => 'Meus Maps',
+        'mine' => 'Meus Mapas',
         'pending' => 'Pendentes & Em Progresso',
+        'wip' => 'Trabalho em progresso',
         'qualified' => 'Qualificados',
         'ranked' => 'Ranqueados',
     ],
@@ -288,32 +329,6 @@ return [
         'classical' => 'Clássica',
         'folk' => 'Música popular',
         'jazz' => 'Jazz',
-    ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => 'Pontuação V2',
     ],
     'language' => [
         'any' => 'Todos',

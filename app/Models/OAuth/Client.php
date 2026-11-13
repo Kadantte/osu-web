@@ -8,13 +8,35 @@ namespace App\Models\OAuth;
 use App\Exceptions\InvariantException;
 use App\Models\User;
 use App\Traits\Validatable;
+use Carbon\Carbon;
+use Database\Factories\OAuth\ClientFactory;
 use DB;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Passport\Client as PassportClient;
 use Laravel\Passport\RefreshToken;
 
+/**
+ * @property Carbon|null $created_at
+ * @property string[] $grant_types
+ * @property int $id
+ * @property string $name
+ * @property string $provider
+ * @property string $redirect
+ * @property-read Collection<RefreshToken> $refreshTokens
+ * @property bool $revoked
+ * @property string $secret
+ * @property-read Collection<Token> $tokens
+ * @property Carbon|null $updated_at
+ * @property-read User|null $user
+ * @property int|null $user_id
+ */
 class Client extends PassportClient
 {
     use Validatable;
+
+    public ?array $scopes = null;
 
     public static function forUser(User $user)
     {
@@ -40,6 +62,11 @@ class Client extends PassportClient
         return $clients;
     }
 
+    public static function newFactory(): Factory
+    {
+        return ClientFactory::new();
+    }
+
     public function refreshTokens()
     {
         return $this->hasManyThrough(
@@ -50,25 +77,39 @@ class Client extends PassportClient
         );
     }
 
+    public function setRedirectAttribute(string $value)
+    {
+        $this->attributes['redirect'] = implode(',', array_unique(preg_split('/[\s,]+/', $value, 0, PREG_SPLIT_NO_EMPTY)));
+    }
+
+    public function isPasswordClient(): bool
+    {
+        // skips the entire laravel and json stack
+        return strpos($this->attributes['grant_types'] ?? '', '"password"') !== false;
+    }
+
     public function isValid()
     {
         $this->validationErrors()->reset();
 
         if (!$this->exists && $this->user !== null) {
-            $max = config('osu.oauth.max_user_clients');
-            if ($this->user->oauthClients()->thirdParty()->where('revoked', false)->count() >= $max) {
+            $max = $GLOBALS['cfg']['osu']['oauth']['max_user_clients'];
+            if ($this->user->clients()->thirdParty()->where('revoked', false)->count() >= $max) {
                 $this->validationErrors()->add('user.oauthClients.count', '.too_many');
             }
         }
 
-        if (mb_strlen(trim($this->name)) === 0) {
+        if (mb_strlen(trim($this->name ?? '')) === 0) {
             $this->validationErrors()->add('name', 'required');
         }
 
-        $redirect = trim($this->redirect);
-        // TODO: this url validation is not very good.
-        if (present($redirect) && !filter_var($redirect, FILTER_VALIDATE_URL)) {
-            $this->validationErrors()->add('redirect', '.url');
+        $redirects = explode(',', $this->redirect ?? '');
+        foreach ($redirects as $redirect) {
+            // TODO: this url validation is not very good.
+            if (present($redirect) && !filter_var($redirect, FILTER_VALIDATE_URL)) {
+                $this->validationErrors()->add('redirect', '.url');
+                break;
+            }
         }
 
         return $this->validationErrors()->isEmpty();
@@ -125,20 +166,24 @@ class Client extends PassportClient
             return false;
         }
 
+        if (isset($this->plainSecret)) {
+            $this->secret_hint = substr($this->plainSecret, -4);
+        }
+
         return parent::save($options);
     }
 
     public function scopeThirdParty($query)
     {
-        return $query->where('personal_access_client', false)->where('password_client', false);
+        return $query->whereNotNull('user_id');
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function validationErrorsTranslationPrefix()
+    public function validationErrorsTranslationPrefix(): string
     {
         return 'oauth.client';
     }

@@ -13,27 +13,46 @@ return [
         ],
 
         'title' => [
-            '_' => 'Nouvelles :info',
-            'info' => 'FrontPage',
+            '_' => 'news',
+            'info' => 'page d\'accueil',
         ],
+    ],
+
+    'series' => [
+        'beatmap_spotlights' => 'Beatmap Spotlights',
+        'community_contests' => 'concours communautaires',
+        'community_tournaments' => 'tournois communautaires',
+        'fanart_contests' => 'concours d\'art',
+        'featured_artists' => 'annonces de Featured Artists',
+        'game_updates' => 'mises à jour du client et du site web',
+        'mappers_guild' => 'Mappers\' Guild',
+        'monthly_beatmapping_contest' => 'Monthly Beatmapping Contest',
+        'merch_runs' => 'produits dérivés d\'osu!',
+        'miscellaneous' => 'annonces diverses',
+        'official_contests' => 'concours officiels',
+        'offline_events' => 'événements hors ligne',
+        'online_events' => 'événements en ligne',
+        'project_loved' => 'Project Loved',
+        'ranking_system_updates' => 'mises à jour du système de classement',
+        'world_cups' => 'osu! World Cups',
     ],
 
     'show' => [
         'by' => 'par :user',
 
         'nav' => [
-            'newer' => 'Article le plus récent',
-            'older' => 'Article le plus ancien',
+            'newer' => 'Article suivant',
+            'older' => 'Article précédent',
         ],
 
         'title' => [
-            '_' => 'Nouvelles :info',
+            '_' => 'news',
             'info' => 'Article',
         ],
     ],
 
     'sidebar' => [
-        'archive' => 'Archives des actualités',
+        'archive' => 'Archives des news',
     ],
 
     'store' => [
@@ -43,6 +62,6 @@ return [
 
     'update' => [
         'button' => 'Mettre à jour',
-        'ok' => 'Post modifié.',
+        'ok' => 'Post mis à jour.',
     ],
 ];

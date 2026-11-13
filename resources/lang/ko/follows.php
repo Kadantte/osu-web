@@ -11,7 +11,7 @@ return [
 
         'table' => [
             'latest_comment_empty' => '댓글 없음',
-            'latest_comment_value' => ':username 님이 :time 에 작성함',
+            'latest_comment_value' => ':username님이 :time에 작성함',
         ],
     ],
 
@@ -34,5 +34,9 @@ return [
 
     'modding' => [
         'title' => '비트맵 토론',
+    ],
+
+    'store' => [
+        'too_many' => '등록 가능한 최대 팔로우 수에 도달했습니다.',
     ],
 ];

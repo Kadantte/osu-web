@@ -14,6 +14,30 @@ use Illuminate\Http\Request;
 
 class SetLocale
 {
+    public static function setLocaleWeb(Request $request): void
+    {
+        $locale = Auth::user()?->user_lang ?? presence($request->cookie('locale'));
+        static::setLocale($locale, $request);
+    }
+
+    protected static function setLocale(?string $locale, Request $request): void
+    {
+        if ($locale !== null) {
+            $locale = get_valid_locale($locale);
+        }
+        $locale ??= static::localeFromHeader($request);
+
+        App::setLocale($locale);
+        // Carbon setLocale normalizes the locale
+        Carbon::setLocale(locale_meta($locale)->carbon());
+    }
+
+    private static function localeFromHeader(Request $request): string
+    {
+        return (new Parser())->languageRegionCompatibleFor($request->server('HTTP_ACCEPT_LANGUAGE'))
+            ?? $GLOBALS['cfg']['app']['fallback_locale'];
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -24,23 +48,7 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check()) {
-            $locale = Auth::user()->user_lang;
-        } else {
-            $locale = presence($request->cookie('locale'));
-        }
-
-        $locale = get_valid_locale($locale);
-
-        if ($locale === null) {
-            $accept = $request->server('HTTP_ACCEPT_LANGUAGE');
-            $parser = new Parser($accept);
-            $locale = $parser->languageRegionCompatibleFrom(config('app.available_locales')) ?? config('app.fallback_locale');
-        }
-
-        App::setLocale($locale);
-        // Carbon setLocale normalizes the locale
-        Carbon::setLocale($locale);
+        static::setLocaleWeb($request);
 
         return $next($request);
     }

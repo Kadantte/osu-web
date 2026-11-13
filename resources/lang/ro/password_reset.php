@@ -5,7 +5,6 @@
 
 return [
     'button' => [
-        'cancel' => 'Anulează',
         'resend' => 'Retrimite e-mailul de verificare',
         'set' => 'Setează parola',
         'start' => 'Începe',
@@ -13,10 +12,14 @@ return [
 
     'error' => [
         'contact_support' => 'Te rugăm să contactezi asistența pentru a îți recupera contul.',
+        'expired' => 'Codul de verificare a expirat.',
+        'invalid' => 'Eroare neașteptată în codul de verificare.',
         'is_privileged' => 'Contactați-l pe peppy lulz.',
         'missing_key' => 'Necesar.',
+        'too_many_requests' => '',
         'too_many_tries' => 'Prea multe încercări eșuate.',
         'user_not_found' => 'Utilizatorul nu există.',
+        'wait_resend' => '',
         'wrong_key' => 'Cod incorect.',
     ],
 
@@ -35,6 +38,9 @@ return [
     'starting' => [
         'username' => 'Introduceți adresa de e-mail sau numele de utilizator',
 
+        'reason' => [
+            'inactive_different_country' => "Contul tău nu a fost folosit de mult timp. Pentru a vă asigura securitatea contului, vă rugăm să vă resetați parola.",
+        ],
         'support' => [
             '_' => 'Aveți nevoie de asistență suplimentară? Contactați-ne prin intermediul :button.',
             'button' => 'sistem de ajutor',

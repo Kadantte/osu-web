@@ -14,7 +14,7 @@ return [
 
         'slogan' => [
             'main' => 'el mejor juego de ritmo gratis',
-            'sub' => 'el ritmo está solo a un clic de distancia',
+            'sub' => 'el ritmo está a un solo clic de distancia',
         ],
     ],
 
@@ -23,11 +23,14 @@ return [
         'button' => 'Buscar',
         'empty_result' => '¡No se ha encontrado nada!',
         'keyword_required' => 'Se requiere una palabra clave de búsqueda',
-        'placeholder' => 'escriba para buscar',
+        'placeholder' => 'escribe para buscar',
         'title' => 'buscar',
 
+        'artist_track' => [
+            'more_simple' => 'Ver más resultados de las canciones de los artistas destacados',
+        ],
         'beatmapset' => [
-            'login_required' => 'Inicie sesión para buscar mapas',
+            'login_required' => 'Inicia sesión para buscar mapas',
             'more' => 'Hay :count mapas más en los resultados',
             'more_simple' => 'Ver más resultados de mapas',
             'title' => 'Mapas',
@@ -36,13 +39,14 @@ return [
         'forum_post' => [
             'all' => 'Todos los foros',
             'link' => 'Busca en el foro',
-            'login_required' => 'Inicie sesión para buscar en el foro',
+            'login_required' => 'Inicia sesión para buscar en el foro',
             'more_simple' => 'Ver más resultados de los foros',
             'title' => 'Foro',
 
             'label' => [
                 'forum' => 'buscar en los foros',
                 'forum_children' => 'incluir subforos',
+                'include_deleted' => 'incluir publicaciones eliminadas',
                 'topic_id' => 'tema #',
                 'username' => 'autor',
             ],
@@ -50,17 +54,24 @@ return [
 
         'mode' => [
             'all' => 'todos',
+            'artist_track' => 'artistas destacados',
             'beatmapset' => 'mapa',
             'forum_post' => 'foro',
+            'team' => 'equipos',
             'user' => 'jugador',
             'wiki_page' => 'wiki',
         ],
 
+        'team' => [
+            'login_required' => 'Inicia sesión para buscar equipos',
+            'more_simple' => 'Ver más resultados de equipos',
+        ],
+
         'user' => [
-            'login_required' => 'Inicie sesión para buscar usuarios',
+            'login_required' => 'Inicia sesión para buscar usuarios',
             'more' => ':count jugadores más coinciden con la búsqueda',
             'more_simple' => 'Ver más resultados de jugadores',
-            'more_hidden' => 'La búsqueda de jugadores está limitada a :max jugadores. Intenta refinando tus términos de búsqueda.',
+            'more_hidden' => 'La búsqueda de jugadores está limitada a :max jugadores. Intenta refinar tus términos de búsqueda.',
             'title' => 'Jugadores',
         ],
 
@@ -72,13 +83,24 @@ return [
     ],
 
     'download' => [
-        'tagline' => "¡vamos a<br>empezar!",
-        'action' => 'Descargar osu!',
+        'action_lazer_info' => 'revisa esta página para más información',
+        'download' => 'Descargar',
+        'for_os' => 'para :os',
+        'macos-fallback' => 'usuarios de macOS',
+        'mirror' => 'enlace alternativo',
+        'or' => 'o',
+        'os_version_or_later' => ':os_version o posterior',
+        'other_os' => 'otras plataformas',
+        'quick_start_guide' => 'guía de inicio rápido',
+        'stable_text' => 'por si estás buscando el antiguo',
+        'tagline_1' => '¡Vamos a',
+        'tagline_2' => 'empezar!',
+        'video-guide' => 'guía en vídeo',
 
         'help' => [
-            '_' => 'si tiene problemas para iniciar el juego o para obtener una cuenta, :help_forum_link o :support_button.',
-            'help_forum_link' => 'consulte el foro de ayuda',
-            'support_button' => 'contacte al soporte técnico',
+            '_' => 'si tienes problemas para iniciar el juego o para obtener una cuenta, :help_forum_link o :support_button.',
+            'help_forum_link' => 'consulta el foro de ayuda',
+            'support_button' => 'contacta al soporte',
         ],
 
         'os' => [
@@ -86,15 +108,13 @@ return [
             'macos' => 'para macOS',
             'linux' => 'para Linux',
         ],
-        'mirror' => 'link alternativo',
-        'macos-fallback' => 'usuarios de macOS',
         'steps' => [
             'register' => [
                 'title' => 'obtener una cuenta',
                 'description' => 'sigue las instrucciones cuando inicies el juego para iniciar sesión o crear una nueva cuenta',
             ],
             'download' => [
-                'title' => 'descargar el juego',
+                'title' => 'instalar el juego',
                 'description' => 'haz clic en el botón de arriba para descargar el instalador, luego ¡ejecútalo!',
             ],
             'beatmaps' => [
@@ -105,14 +125,13 @@ return [
                 ],
             ],
         ],
-        'video-guide' => 'guía en vídeo',
     ],
 
     'user' => [
         'title' => 'panel',
         'news' => [
             'title' => 'Novedades',
-            'error' => 'Error al cargar las novedades, ¿intente actualizar la página?...',
+            'error' => 'Error al cargar las novedades, ¿prueba a actualizar la página?...',
         ],
         'header' => [
             'stats' => [
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
-            'new' => 'Nuevos Mapas Clasificados',
-            'popular' => 'Mapas Populares',
+            'daily_challenge' => 'Mapa del desafío diario',
+            'new' => 'Nuevos mapas clasificados',
+            'popular' => 'Mapas populares',
             'by_user' => 'por :user',
+            'resets' => 'nuevo mapa :ends',
         ],
         'buttons' => [
             'download' => 'Descargar osu!',
             'support' => 'Apoyar a osu!',
             'store' => 'osu!store',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => '¡Wow!',
-        'subtitle' => '¡Pareces estar pasando un buen rato! :D',
-        'body' => [
-            'part-1' => '¿Sabías que osu! se mantiene sin publicidad y confía en sus jugadores para apoyar su desarrollo y costos de mantenimiento?',
-            'part-2' => '¿También sabías que apoyando a osu! obtienes un montón de características útiles, como <strong>la descarga en el juego</strong> que se activa automáticamente en partidas de espectador y multijugador?',
+        'livestream' => [
+            'title' => 'Transmisión en vivo destacada',
         ],
-        'find-out-more' => '¡Haz clic aquí para obtener más información!',
-        'download-starting' => "Ah, y no te preocupes - tu descarga ya se ha iniciado para ti ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Abrir la consola de administración',
+            ],
+        ],
     ],
 ];

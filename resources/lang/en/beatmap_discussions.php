@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited reply is hidden.|:count_delimited replies are hidden.',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Must be signed in to edit.',
@@ -16,6 +18,16 @@ return [
         'empty' => 'Nothing has happened... yet.',
     ],
 
+    'formatting' => [
+        'blockquote' => 'Quote',
+        'bold' => 'Bold',
+        'code_block' => 'Code block',
+        'code_inline' => 'Inline code',
+        'image' => 'Image',
+        'italic' => 'Italic',
+        'link' => 'Link',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'deleted',
         'none_found' => 'No discussions matching that search criteria were found.',
@@ -26,6 +38,7 @@ return [
             'deleted' => 'Include deleted discussions',
             'mode' => 'Beatmap mode',
             'only_unresolved' => 'Show only unresolved discussions',
+            'show_review_embeds' => 'Show review posts',
             'types' => 'Message types',
             'username' => 'Username',
 
@@ -58,6 +71,20 @@ return [
         'unsaved' => ':count in this review',
     ],
 
+    'owner_editor' => [
+        'button' => 'Difficulty Owner',
+        'reset_confirm' => 'Reset owner for this difficulty?',
+        'user' => 'Owner',
+        'version' => 'Difficulty',
+    ],
+
+    'refresh' => [
+        'checking' => 'Checking for updates...',
+        'has_updates' => 'The discussion has updates, click to refresh.',
+        'no_updates' => 'No updates.',
+        'updating' => 'Updating...',
+    ],
+
     'reply' => [
         'open' => [
             'guest' => 'Sign in to Respond',
@@ -74,6 +101,7 @@ return [
             'external_references' => 'review contains references to issues that don\'t belong to this review',
             'invalid_block_type' => 'invalid block type',
             'invalid_document' => 'invalid review',
+            'invalid_discussion_type' => 'invalid discussion type',
             'minimum_issues' => 'review must contain a minimum of :count issue|review must contain a minimum of :count issues',
             'missing_text' => 'block is missing text',
             'too_many_blocks' => 'reviews may only contain :count paragraph/issue|reviews may only contain up to :count paragraphs/issues',
@@ -95,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'Everyone',
         'label' => 'Filter by user',
+        'multiple' => ':count_delimited user selected|:count_delimited users selected',
     ],
 ];

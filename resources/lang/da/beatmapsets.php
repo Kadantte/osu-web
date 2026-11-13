@@ -8,16 +8,30 @@ return [
         'disabled' => 'Dette beatmap er i øjeblikket ikke tilgængeligt for download.',
         'parts-removed' => 'Dele af dette beatmap er blevet fjernet efter anmodning fra skaberen eller en tredjeparts-rettighedsholder.',
         'more-info' => 'Klik her for mere information.',
-        'rule_violation' => '',
+        'rule_violation' => 'Nogle aktiver på dette kort er blevet fjernet efter at være blevet bedømt som ikke egnet til brug i osu!.',
+    ],
+
+    'cover' => [
+        'deleted' => 'Slettet beatmap',
     ],
 
     'download' => [
-        'limit_exceeded' => '',
+        'limit_exceeded' => 'Sæt farten ned, spil mere.',
+        'no_mirrors' => 'Ingen downloadservere tilgængelige.',
+    ],
+
+    'featured_artist_badge' => [
+        'label' => 'Udvalgte kunstner',
     ],
 
     'index' => [
         'title' => 'Beatmap-Liste',
         'guest_title' => 'Beatmaps',
+    ],
+
+    'ogp' => [
+        'favourites' => '',
+        'playcount' => '',
     ],
 
     'panel' => [
@@ -28,40 +42,65 @@ return [
             'video' => 'download med video',
             'no_video' => 'download uden video',
             'direct' => 'open med osu!direct',
+            'lazer' => '',
         ],
     ],
 
     'nominate' => [
-        'hybrid_requires_modes' => '',
-        'incorrect_mode' => '',
-        'full_bn_required' => 'Du skal være en fuld nominator for at kunne udføre denne kvalificerende nominering.',
+        'bng_limited_too_many_rulesets' => 'Nye nominatorer kanikke nominere adskillige regelsæt.',
+        'full_nomination_required' => 'Du skal være en fuld nominator for at udføre en rulesets sidste nomination.',
+        'hybrid_requires_modes' => 'Et hybrid beatmap kræver at du vælger mindst en spilletilstand at nominere til.',
+        'incorrect_mode' => 'Du har ikke tilladelse til at nominere for tilstand: :mode',
+        'invalid_limited_nomination' => 'Dette beatmap har ugyldige nominationer og kan ikke kvalificeres i denne tilstand.',
+        'invalid_ruleset' => 'Denne nominering har invalide regesæt.',
         'too_many' => 'Nomineringskravet er allerede opfyldt.',
+        'too_many_non_main_ruleset' => 'Nomineringskrav for ikke-primære regelsæt allerede opfyldt.',
 
         'dialog' => [
             'confirmation' => 'Er du sikker på du vil nominere dette Beatmap?',
+            'different_nominator_warning' => 'Kvalificering af dette beatmap med forskellige nominatorer vil nulstille dets kvalificeringsposition i køen.',
             'header' => 'Nominér Beatmap',
             'hybrid_warning' => 'bemærk: du kan kun nominere én gang, så sørg for at du nominerer til alle spiltilstande, du har til hensigt til',
+            'current_main_ruleset' => 'Det hovedreglsættet er lige nu: :ruleset',
             'which_modes' => 'Nominér for hvilke tilstande?',
         ],
     ],
 
     'nsfw_badge' => [
-        'label' => '',
+        'label' => 'Eksplicit',
+    ],
+
+    'rate' => [
+        'invalid' => '',
     ],
 
     'show' => [
         'discussion' => 'Diskussion',
 
+        'admin' => [
+            'full_size_cover' => 'Vis coverbillede i fuld størrelse',
+            'page' => 'Vis admin side',
+        ],
+
+        'deleted_banner' => [
+            'title' => 'Dette beatmap er blevet slettet.',
+            'message' => '(kun moderatorer kan se dette)',
+        ],
+
         'details' => [
+            'by_artist' => 'af :artist',
             'favourite' => 'Markér dette beatmapset som favorit',
+            'favourite_login' => 'Log ind for at favorisere dette beatmap',
             'logged-out' => 'Du skal være logget ind for at kunne downloade beatmaps!',
             'mapped_by' => 'mappet af :mapper',
+            'mapped_by_guest' => 'gæstesværhedsgrad af :mapper',
             'unfavourite' => 'Fjern dette beatmapset fra dine favoritter',
             'updated_timeago' => 'sidst opdateret :timeago',
 
             'download' => [
                 '_' => 'Download',
                 'direct' => '',
+                'lazer' => '',
                 'no-video' => 'uden video',
                 'video' => 'med video',
             ],
@@ -113,33 +152,51 @@ return [
             'description' => 'Beskrivelse',
             'genre' => 'Genre',
             'language' => 'Sprog',
+            'mapper_tags' => 'Mapper Tags',
             'no_scores' => 'Data er stadig ved at blive beregnet...',
-            'nsfw' => '',
+            'nominators' => 'Nominatorer',
+            'nsfw' => 'Eksplicit indhold',
+            'offset' => 'Online forskydning',
+            'pack_tags' => 'Beatmap Pakker',
             'points-of-failure' => 'Fejl-steder',
             'source' => 'Kilde',
             'storyboard' => 'Dette beatmap indeholder storyboard',
             'success-rate' => 'Succesrate',
-            'tags' => 'Tags',
+            'success_rate_plays' => ':passes af :count_delimited spil|:passes af :count_delimited spil',
+            'user_tags' => 'Bruger Tags',
+            'video' => 'Dette beatmap indeholder video',
+        ],
+
+        'lazer_only' => [
+            'title' => '',
+            'description' => '',
+
+            'scoreboard_switch_mode' => [
+                '_' => '',
+                'enable_link' => '',
+            ],
         ],
 
         'nsfw_warning' => [
-            'details' => '',
-            'title' => '',
+            'details' => 'Dette beatmap indeholder eksplicit, offensivt eller forstyrrende indhold. Vil du se det alligevel?',
+            'title' => 'Eksplicit Indhold',
 
             'buttons' => [
-                'disable' => '',
-                'listing' => '',
-                'show' => '',
+                'disable' => 'Slå advarsler fra',
+                'listing' => 'Beatmap katalog',
+                'show' => 'Vis',
             ],
         ],
 
         'scoreboard' => [
             'achieved' => 'opnået :when',
             'country' => 'Lande Rang',
+            'error' => 'Kunne ikke indlæse rangering',
             'friend' => 'Rang blandt Venner',
             'global' => 'Global Rang',
             'supporter-link' => 'Klik <a href=":link">here</a> for at se alle de fede fordele du kan få!',
             'supporter-only' => 'Du skal være supporter for at få adgang til venne- og landerangering!',
+            'team' => 'Hold Rangering',
             'title' => 'Scoreboard',
 
             'headers' => [
@@ -147,11 +204,12 @@ return [
                 'combo' => 'Maks Combo',
                 'miss' => 'Miss',
                 'mods' => 'Mods',
+                'pin' => 'Fastgør',
                 'player' => 'Spiller',
                 'pp' => '',
                 'rank' => 'Rang',
-                'score_total' => 'Total Score',
                 'score' => 'Score',
+                'score_total' => 'Total Score',
                 'time' => 'Tid',
             ],
 
@@ -160,11 +218,16 @@ return [
                 'friend' => 'Ingen af dine venner har sat en score på dette map endnu!',
                 'global' => 'Ingen scores endnu. Måske skulle du prøve at sætte en?',
                 'loading' => 'Indlæser scores...',
+                'team' => 'Ingen fra dit hold har sat en score på dette map endnu!',
                 'unranked' => 'Ikke-ranked beatmap.',
             ],
             'score' => [
                 'first' => 'I Førerpositionen',
                 'own' => 'Dit Bedste',
+            ],
+            'supporter_link' => [
+                '_' => 'Kilk :here for at se alle de fede funktioner du kan få!',
+                'here' => 'her',
             ],
         ],
 
@@ -179,10 +242,13 @@ return [
             'bpm' => 'BPM',
             'count_circles' => 'Antal Cirkler',
             'count_sliders' => 'Antal Sliders',
+            'offset' => 'Online forskydning: :offset',
             'user-rating' => 'Brugerbedømmelse',
             'rating-spread' => 'Ratings-distribution',
             'nominations' => 'Nomineringer',
             'playcount' => 'Playcount',
+            'favourites' => 'Favoritter',
+            'no_favourites' => 'Ingen favoritter endnu',
         ],
 
         'status' => [
@@ -194,5 +260,9 @@ return [
             'pending' => 'Afventende',
             'graveyard' => 'Kirkegården',
         ],
+    ],
+
+    'spotlight_badge' => [
+        'label' => 'Spotlight',
     ],
 ];

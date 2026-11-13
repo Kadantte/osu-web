@@ -24,7 +24,7 @@ class OrdersController extends Controller
         $order = auth()->user()->orders()->findOrFail($id);
         $order->cancel(auth()->user());
 
-        return response(null, 204);
+        return response()->noContent();
     }
 
     public function index()
@@ -40,7 +40,7 @@ class OrdersController extends Controller
             $orders->where('status', '<>', 'incart');
         }
 
-        $orders = $orders->paginate(20);
+        $orders = $orders->paginate();
 
         return ext_view('store.orders.index', compact('orders'));
     }

@@ -7,39 +7,32 @@ return [
     'admin' => [
         '_' => 'админ',
     ],
-    'admin_forum' => [
-        '_' => 'админ',
-    ],
-    'admin_store' => [
-        '_' => 'админ',
-    ],
     'error' => [
         'error' => [
             '400' => 'невалидна заявка',
             '404' => 'липсва',
             '403' => 'забранен',
-            '401' => 'неоторизиран',
-            '401-verification' => 'потвърждение на акаунта',
+            '401' => 'неупълномощен',
+            '401-verification' => 'потвърждаване на профил',
             '405' => 'липсва',
             '422' => 'невалидна заявка',
-            '429' => '',
+            '429' => 'твърде много заявки',
             '500' => 'нещо се счупи',
             '503' => 'профилактика',
         ],
     ],
     'forum' => [
         '_' => 'форум',
-        'topic_watches_controller' => [
-            'index' => 'главно табло',
+        'topic_logs_controller' => [
+            'index' => 'дневници',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'главно табло',
-            'verify_link' => 'потвърждение на акаунта',
+            'verify_link' => 'потвърждаване на профил',
         ],
         'artists_controller' => [
-            '_' => 'препоръчани изпълнители',
+            '_' => 'представени автори',
         ],
         'beatmap_discussion_posts_controller' => [
             '_' => 'бийтмап дискусии',
@@ -56,16 +49,14 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'бийтмап история',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'главно табло',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'бийтмап дискусия',
             'index' => 'списък с бийтмапове',
             'show' => 'бийтмап инфо',
+            'versions' => '',
         ],
         'changelog_controller' => [
-            '_' => 'списък на промените',
+            '_' => 'списък с промени',
         ],
         'chat_controller' => [
             '_' => 'чат',
@@ -73,33 +64,34 @@ return [
         'comments_controller' => [
             '_' => 'коментари',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'резултати от журито на конкурса',
+        ],
         'contests_controller' => [
             '_' => 'конкурси',
+            'judge' => 'жури на конкурса',
         ],
-        'follows_controller' => [
-            'index' => '',
-        ],
-        'friends_controller' => [
-            'index' => 'главно табло',
+        'group_history_controller' => [
+            '_' => '',
         ],
         'groups_controller' => [
             'show' => 'групи',
         ],
         'home_controller' => [
-            'get_download' => 'изтегли',
+            'get_download' => 'изтегляне',
             'index' => 'главно табло',
             'search' => 'търсене',
             'support_the_game' => 'подкрепи играта',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => 'мачове',
+        ],
         'legal_controller' => [
             '_' => 'информация',
         ],
         'livestreams_controller' => [
-            '_' => 'живи потоци',
-        ],
-        'matches_controller' => [
-            '_' => 'мачове',
+            '_' => 'игри на живо',
         ],
         'news_controller' => [
             '_' => 'новини',
@@ -108,39 +100,66 @@ return [
             '_' => 'история на известията',
         ],
         'password_reset_controller' => [
-            '_' => 'въстановяване на парола',
+            '_' => 'възстановяване на парола',
         ],
         'ranking_controller' => [
-            '_' => 'класиране',
+            '_' => 'класации',
         ],
         'scores_controller' => [
-            '_' => 'изпълнение',
+            '_' => 'представяне',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'класации',
+        ],
+        'teams_controller' => [
+            '_' => 'отбори',
+            'create' => 'създаване на отбор',
+            'edit' => 'настройки на отбора',
+            'leaderboard' => 'класации на отбора',
+            'show' => 'инфо за отбор',
         ],
         'tournaments_controller' => [
             '_' => 'турнири',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'предстройки на корицата',
+        ],
+        'user_totp_controller' => [
+            '_' => '',
+        ],
         'users_controller' => [
-            '_' => 'инфо на играча',
+            '_' => 'инфо за играч',
+            'create' => 'създаване на профил',
             'disabled' => 'известие',
         ],
         'wiki_controller' => [
-            '_' => 'база с познания',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'класиране',
+            'events' => 'история на стаите',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'упълномощаване на приложение',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'магазин',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'членове на отбора',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
-            '_' => 'modder инфо',
+            '_' => 'инфо за редакции',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'мултиплейър история',
         ],
     ],
 ];

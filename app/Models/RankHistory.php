@@ -5,8 +5,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 /**
- * @property mixed $data
+ * @property-read string $current_start_name
+ * @property-read \App\Models\Count|null $currentStart
+ * @property-read int[] $data
  * @property int $mode
  * @property int $r0
  * @property int $r1
@@ -98,7 +102,8 @@ namespace App\Models;
  * @property int $r88
  * @property int $r89
  * @property int $r9
- * @property User $user
+ * @property-read string $ruleset
+ * @property-read \App\Models\User $user
  * @property int $user_id
  */
 class RankHistory extends Model
@@ -107,48 +112,61 @@ class RankHistory extends Model
 
     public $timestamps = false;
 
-    public function getDataAttribute()
+    public function currentStart(): BelongsTo
     {
-        $data = [];
-
-        $startOffset = Count::currentRankStart();
-        $end = $startOffset + 90;
-
-        for ($i = $startOffset; $i < $end; $i++) {
-            $column = 'r'.strval($i % 90);
-
-            $data[] = intval($this->$column);
-        }
-
-        $diffHead = $data[0] - $data[1];
-        $diffTail = $data[0] - array_last($data);
-
-        $shiftData = abs($diffTail) < abs($diffHead);
-
-        if (!$shiftData) {
-            $userStatistics = $this->user->statistics($this->mode);
-
-            if ($userStatistics !== null) {
-                $currentRank = $userStatistics->globalRank();
-                $shiftData = $currentRank === $data[0];
-            }
-        }
-
-        if ($shiftData) {
-            $lastRank = array_shift($data);
-            $data[] = $lastRank;
-        }
-
-        return $data;
-    }
-
-    public function getModeAttribute($value)
-    {
-        return Beatmap::modeStr($value);
+        return $this->belongsTo(Count::class, 'current_start_name', 'name');
     }
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getCurrentStartNameAttribute(): string
+    {
+        return Count::currentRankStartName($this->ruleset);
+    }
+
+    public function getDataAttribute()
+    {
+        $data = [];
+
+        // The r$(count) may actually contain today's rank when the update
+        // process is running so it should just be ignored and use the rank
+        // from user statistics for the current rank value.
+        $startOffset = ($this->currentStart?->count ?? 0) + 1;
+        $endOffset = $startOffset + 88;
+
+        $attributes = $this->attributes;
+        for ($i = $startOffset; $i <= $endOffset; $i++) {
+            $data[] = $attributes['r'.($i % 90)] ?? 0;
+        }
+
+        $userStatistics = $this->user->statistics($this->ruleset);
+        $data[] = $userStatistics?->globalRank() ?? 0;
+
+        return $data;
+    }
+
+    public function getRulesetAttribute()
+    {
+        return Beatmap::modeStr($this->getRawAttribute('mode'));
+    }
+
+    /**
+     * Get the difference between the user's current performance rank and their
+     * performance rank as of 30 days ago.
+     *
+     * @return int|null `null` if rank history is not available at 30 days ago.
+     */
+    public function rankChangeSince30Days(): ?int
+    {
+        $data = $this->data;
+        $currentRank = $data[89];
+        $previousRank = $data[59];
+
+        return $currentRank > 0 && $previousRank > 0
+            ? $currentRank - $previousRank
+            : null;
     }
 }

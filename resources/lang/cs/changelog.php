@@ -4,14 +4,14 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'generic' => 'Opravy chyb a drobná vylepšení.',
+    'generic' => 'Opravy chyb a drobná vylepšení',
 
     'build' => [
         'title' => 'změny v :version',
     ],
 
     'builds' => [
-        'users_online' => ':count_delimited uživatelé online|:count_delimited uživatelé online',
+        'users_online' => ':count_delimited uživatel online|:count_delimited uživatelé online|:count_delimited uživatelů online',
     ],
 
     'entry' => [

@@ -3,13 +3,13 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
 // See the LICENCE file in the repository root for full licence text.
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use App\Libraries\ProfileCover;
-use App\Traits\Memoizes;
+use App\Models\Solo\Score;
 
 /**
- * @property array|null $cover_json
  * @property \Carbon\Carbon $created_at
  * @property string|null $extras_order
  * @property int $id
@@ -18,12 +18,34 @@ use App\Traits\Memoizes;
  */
 class UserProfileCustomization extends Model
 {
-    use Memoizes;
+    const array DEFAULTS = [
+        'audio_autoplay' => false,
+        'audio_muted' => false,
+        'audio_volume' => 0.45,
+        'beatmapset_card_size' => self::BEATMAPSET_CARD_SIZES[0],
+        'beatmapset_download' => self::BEATMAPSET_DOWNLOAD[0],
+        'beatmapset_show_anime_cover' => true,
+        'beatmapset_show_nsfw' => false,
+        'beatmapset_title_show_original' => false,
+        'comments_show_deleted' => false,
+        'comments_sort' => Comment::DEFAULT_SORT,
+        'extras_order' => self::SECTIONS,
+        'forum_posts_show_deleted' => true,
+        'legacy_score_only' => false,
+        'profile_cover_expanded' => true,
+        'profile_detail_v2' => false,
+        'profile_pinned_badge' => null,
+        'scoring_mode' => self::SCORING_MODES[0],
+        'user_list_filter' => self::USER_LIST['filters']['status']['default'],
+        'user_list_relationship_filter' => self::USER_LIST['filters']['relationship']['default'],
+        'user_list_sort' => self::USER_LIST['sorts']['default'],
+        'user_list_view' => self::USER_LIST['views']['default'],
+    ];
 
     /**
      * An array of all possible profile sections, also in their default order.
      */
-    const SECTIONS = [
+    const array SECTIONS = [
         'me',
         'recent_activity',
         'top_ranks',
@@ -33,22 +55,47 @@ class UserProfileCustomization extends Model
         'kudosu',
     ];
 
-    const BEATMAPSET_DOWNLOAD = ['all', 'no_video', 'direct'];
+    const array BEATMAPSET_CARD_SIZES = ['normal', 'extra'];
 
-    const USER_LIST = [
-        'filters' => ['all' => ['all', 'online', 'offline'], 'default' => 'all'],
+    const array BEATMAPSET_DOWNLOAD = ['all', 'no_video', 'direct'];
+
+    const array SCORING_MODES = ['standardised', 'classic'];
+
+    const array USER_LIST = [
+        'filters' => [
+            'status' => ['all' => ['all', 'online', 'offline'], 'default' => 'all'],
+            'relationship' => ['all' => ['all', 'mutual', 'non_mutual'], 'default' => 'all'],
+        ],
         'sorts' => ['all' => ['last_visit', 'rank', 'username'], 'default' => 'last_visit'],
         'views' => ['all' => ['card', 'list', 'brick'], 'default' => 'card'],
     ];
 
+    public $incrementing = false;
+
     protected $casts = [
-        'cover_json' => 'array',
         'options' => 'array',
     ];
+    protected $primaryKey = 'user_id';
 
-    private $cover;
+    private ?array $cachedOptions;
 
-    public static function repairExtrasOrder($value)
+    public static function forUser(?User $user): array|static
+    {
+        if ($user === null) {
+            return static::DEFAULTS;
+        }
+
+        $ret = $user->userProfileCustomization;
+
+        if ($ret === null) {
+            $ret = new static(['user_id' => $user->getKey()]);
+            $user->setRelation('userProfileCustomization', $ret);
+        }
+
+        return $ret;
+    }
+
+    public static function repairExtrasOrder(array $value): array
     {
         // read from inside out
         return array_values(
@@ -64,67 +111,70 @@ class UserProfileCustomization extends Model
         );
     }
 
-    public function cover()
+    public function getAttribute($key)
     {
-        if ($this->cover === null) {
-            $this->cover = new ProfileCover($this->user_id, $this->cover_json);
-        }
+        return match ($key) {
+            'user_id' => $this->getRawAttribute($key),
+            'options' => json_decode($this->getRawAttribute($key) ?? '[]', true),
 
-        return $this->cover;
+            'extras_order' => $this->getExtrasOrderAttribute(),
+            'legacy_score_only' => $this->getLegacyScoreOnlyAttribute(),
+
+            'created_at',
+            'updated_at' => $this->getTimeFast($key),
+
+            'audio_autoplay',
+            'audio_muted',
+            'audio_volume',
+            'beatmapset_card_size',
+            'beatmapset_download',
+            'beatmapset_show_anime_cover',
+            'beatmapset_show_nsfw',
+            'beatmapset_title_show_original',
+            'comments_show_deleted',
+            'comments_sort',
+            'forum_posts_show_deleted',
+            'profile_cover_expanded',
+            'profile_detail_v2',
+            'profile_pinned_badge',
+            'scoring_mode',
+            'user_list_filter',
+            'user_list_relationship_filter',
+            'user_list_sort',
+            'user_list_view' => $this->getOption($key) ?? static::DEFAULTS[$key],
+        };
     }
 
-    public function setCover($id, $file)
+    #[\Override]
+    public function refresh(): void
     {
-        $this->cover_json = $this->cover()->set($id, $file);
+        $this->cachedOptions = null;
 
-        $this->save();
-    }
-
-    public function getAudioAutoplayAttribute()
-    {
-        return $this->getOptions()['audio_autoplay'] ?? false;
+        parent::refresh();
     }
 
     public function setAudioAutoplayAttribute($value)
     {
-        if (!is_bool($value)) {
-            $value = null;
-        }
-
-        $this->setOption('audio_autoplay', $value);
-    }
-
-    public function getAudioMutedAttribute()
-    {
-        return $this->getOptions()['audio_muted'] ?? false;
+        $this->setOption('audio_autoplay', get_bool($value));
     }
 
     public function setAudioMutedAttribute($value)
     {
-        if (!is_bool($value)) {
-            $value = null;
-        }
-
-        $this->setOption('audio_muted', $value);
-    }
-
-    public function getAudioVolumeAttribute()
-    {
-        return $this->getOptions()['audio_volume'] ?? null;
+        $this->setOption('audio_muted', get_bool($value));
     }
 
     public function setAudioVolumeAttribute($value)
     {
-        if (!is_float($value) && !is_int($value)) {
+        $this->setOption('audio_volume', get_float($value));
+    }
+
+    public function setBeatmapsetCardSizeAttribute($value)
+    {
+        if ($value !== null && !in_array($value, static::BEATMAPSET_CARD_SIZES, true)) {
             $value = null;
         }
 
-        $this->setOption('audio_volume', $value);
-    }
-
-    public function getBeatmapsetDownloadAttribute()
-    {
-        return $this->getOptions()['beatmapset_download'] ?? static::BEATMAPSET_DOWNLOAD[0];
+        $this->setOption('beatmapset_card_size', $value);
     }
 
     public function setBeatmapsetDownloadAttribute($value)
@@ -136,89 +186,85 @@ class UserProfileCustomization extends Model
         $this->setOption('beatmapset_download', $value);
     }
 
-    public function getBeatmapsetShowNsfwAttribute()
+    public function setBeatmapsetShowAnimeCoverAttribute($value)
     {
-        return $this->getOptions()['beatmapset_show_nsfw'] ?? false;
+        $this->setOption('beatmapset_show_anime_cover', get_bool($value));
     }
 
     public function setBeatmapsetShowNsfwAttribute($value)
     {
-        if (!is_bool($value)) {
-            $value = null;
-        }
-
-        $this->setOption('beatmapset_show_nsfw', $value);
-    }
-
-    public function getBeatmapsetTitleShowOriginalAttribute()
-    {
-        return $this->getOptions()['beatmapset_title_show_original'] ?? false;
+        $this->setOption('beatmapset_show_nsfw', get_bool($value));
     }
 
     public function setBeatmapsetTitleShowOriginalAttribute($value)
     {
-        if (!is_bool($value)) {
-            $value = null;
-        }
-
-        $this->setOption('beatmapset_title_show_original', $value);
+        $this->setOption('beatmapset_title_show_original', get_bool($value));
     }
 
     public function setCommentsShowDeletedAttribute($value)
     {
-        if (!is_bool($value)) {
-            $value = null;
-        }
-
-        $this->setOption('comments_show_deleted', $value);
-    }
-
-    public function getCommentsShowDeletedAttribute()
-    {
-        return $this->getOptions()['comments_show_deleted'] ?? false;
-    }
-
-    public function getCommentsSortAttribute()
-    {
-        return $this->getOptions()['comments_sort'] ?? Comment::DEFAULT_SORT;
+        $this->setOption('comments_show_deleted', get_bool($value));
     }
 
     public function setCommentsSortAttribute($value)
     {
-        if ($value !== null && !array_key_exists($value, Comment::SORTS)) {
+        if (!is_string($value) || !array_key_exists($value, Comment::SORTS)) {
             $value = null;
         }
 
         $this->setOption('comments_sort', $value);
     }
 
-    public function getForumPostsShowDeletedAttribute()
+    public function setExtrasOrderAttribute($value)
     {
-        return $this->getOptions()['forum_posts_show_deleted'] ?? true;
+        $value = is_array($value)
+            ? static::repairExtrasOrder(array_filter($value, is_string(...)))
+            : null;
+
+        $this->setOption('extras_order', $value);
     }
 
     public function setForumPostsShowDeletedAttribute($value)
     {
-        $this->setOption('forum_posts_show_deleted', $value);
+        $this->setOption('forum_posts_show_deleted', get_bool($value));
     }
 
-    public function getUserListFilterAttribute()
+    public function setLegacyScoreOnlyAttribute($value): void
     {
-        return $this->getOptions()['user_list_filter'] ?? static::USER_LIST['filters']['default'];
+        $this->setOption('legacy_score_only', get_bool($value));
+    }
+
+    public function setProfileCoverExpandedAttribute($value)
+    {
+        $this->setOption('profile_cover_expanded', get_bool($value));
+    }
+
+    public function setProfileDetailV2Attribute($value)
+    {
+        $this->setOption('profile_detail_v2', get_bool($value));
+    }
+
+    public function setProfilePinnedBadgeAttribute(mixed $value): void
+    {
+        $this->setOption('profile_pinned_badge', presence(substr(get_string($value) ?? '', 0, 255)));
+    }
+
+    public function setScoringModeAttribute($value): void
+    {
+        if ($value !== null && !in_array($value, static::SCORING_MODES, true)) {
+            $value = null;
+        }
+
+        $this->setOption('scoring_mode', $value);
     }
 
     public function setUserListFilterAttribute($value)
     {
-        if ($value !== null && !in_array($value, static::USER_LIST['filters']['all'], true)) {
+        if ($value !== null && !in_array($value, static::USER_LIST['filters']['status']['all'], true)) {
             $value = null;
         }
 
         $this->setOption('user_list_filter', $value);
-    }
-
-    public function getUserListSortAttribute()
-    {
-        return $this->getOptions()['user_list_sort'] ?? static::USER_LIST['sorts']['default'];
     }
 
     public function setUserListSortAttribute($value)
@@ -230,9 +276,13 @@ class UserProfileCustomization extends Model
         $this->setOption('user_list_sort', $value);
     }
 
-    public function getUserListViewAttribute()
+    public function setUserListRelationshipFilterAttribute($value)
     {
-        return $this->getOptions()['user_list_view'] ?? static::USER_LIST['views']['default'];
+        if ($value !== null && !in_array($value, static::USER_LIST['filters']['relationship']['all'], true)) {
+            $value = null;
+        }
+
+        $this->setOption('user_list_relationship_filter', $value);
     }
 
     public function setUserListViewAttribute($value)
@@ -244,47 +294,54 @@ class UserProfileCustomization extends Model
         $this->setOption('user_list_view', $value);
     }
 
-    public function getExtrasOrderAttribute($value)
+    private function getExtrasOrderAttribute(): array
     {
-        if ($value !== null) {
-            $value = json_decode($value, true);
+        $value = $this->getOption('extras_order');
+
+        return $value === null
+            ? static::DEFAULTS['extras_order']
+            : static::repairExtrasOrder($value);
+    }
+
+    private function getLegacyScoreOnlyAttribute(): bool
+    {
+        $option = $this->getOption('legacy_score_only') ?? null;
+        if ($option === null) {
+            $lastScore = Score::where('user_id', $this->getKey())->last();
+            if ($lastScore === null) {
+                $option = static::DEFAULTS['legacy_score_only'];
+            } else {
+                $option = $lastScore->isLegacy();
+                $this->setOption('legacy_score_only', $option);
+
+                try {
+                    $this->save();
+                } catch (\Throwable $e) {
+                    if (!is_sql_unique_exception($e)) {
+                        throw $e;
+                    }
+                }
+            }
         }
 
-        $value = $this->getOptions()['extras_order'] ?? $value;
+        return $option;
+    }
 
+    private function getOption(string $key): mixed
+    {
+        $this->cachedOptions ??= $this->options ?? [];
+
+        return $this->cachedOptions[$key] ?? null;
+    }
+
+    private function setOption(string $key, mixed $value): void
+    {
+        $this->cachedOptions ??= $this->options ?? [];
         if ($value === null) {
-            return static::SECTIONS;
+            unset($this->cachedOptions[$key]);
+        } else {
+            $this->cachedOptions[$key] = $value;
         }
-
-        return static::repairExtrasOrder($value, true);
-    }
-
-    public function setExtrasOrderAttribute($value)
-    {
-        $this->attributes['extras_order'] = null;
-        $this->setOption('extras_order', static::repairExtrasOrder($value));
-    }
-
-    public function getRankingExpandedAttribute()
-    {
-        return $this->getOptions()['ranking_expanded'] ?? true;
-    }
-
-    public function setRankingExpandedAttribute($value)
-    {
-        $this->setOption('ranking_expanded', $value);
-    }
-
-    public function setOption($key, $value)
-    {
-        $this->options = array_merge($this->options ?? [], [$key => $value]);
-        $this->resetMemoized();
-    }
-
-    public function getOptions()
-    {
-        return $this->memoize(__FUNCTION__, function () {
-            return $this->options;
-        });
+        $this->options = $this->cachedOptions;
     }
 }

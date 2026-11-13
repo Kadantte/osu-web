@@ -10,7 +10,6 @@
     hidden-xs
     no-print
     nav2-header
-    {{ optional(Auth::user())->isRestricted() ? 'nav2-header--restricted' : '' }}
 ">
     <div class="nav2-header__body">
         <div class="nav2-header__menu-bg js-nav2--menu-bg" data-visibility="hidden"></div>
@@ -27,7 +26,3 @@
 @if (Auth::user() === null)
     @include('layout._popup_login')
 @endif
-
-
-<div class="js-user-verification--reference"></div>
-@include('layout._user_verification_popup')

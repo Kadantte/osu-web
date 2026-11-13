@@ -1,0 +1,114 @@
+<?php
+
+// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
+// See the LICENCE file in the repository root for full licence text.
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+/**
+ * @property \Carbon\Carbon|null $created_at
+ * @property array $elo_data
+ * @property int $first_placements
+ * @property int $pool_id
+ * @property int $rating
+ * @property float $sigma
+ * @property int $total_points
+ * @property \Carbon\Carbon|null $updated_at
+ * @property User $user
+ * @property int $user_id
+ */
+class MatchmakingUserStats extends Model
+{
+    const MIN_SIGMA_PROVISIONAL = 100;
+
+    public $incrementing = false;
+
+    protected $casts = [
+        'elo_data' => 'array',
+    ];
+    protected $primaryKey = ':composite';
+    protected $primaryKeys = ['user_id', 'pool_id'];
+
+    public function pool(): BelongsTo
+    {
+        return $this->belongsTo(MatchmakingPool::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function scopeDefault(Builder $query): void
+    {
+        $query->where('plays', '>', 0);
+    }
+
+    public function scopeNonProvisional(Builder $query): void
+    {
+        $query->where('sigma', '<', static::MIN_SIGMA_PROVISIONAL);
+    }
+
+    public function scopeWithRank(Builder $query): void
+    {
+        $rankQuery = new static()
+            ->newQuery()
+            ->from($this->tableName(true), 'mus')
+            ->selectRaw('COUNT(*) + 1')
+            ->default()
+            ->nonProvisional()
+            ->whereColumn('rating', '>', $query->qualifyColumn('rating'))
+            ->whereColumn('pool_id', '=', $query->qualifyColumn('pool_id'));
+
+        $query->addSelect(['rank' => $rankQuery]);
+    }
+
+    public function scopeWhereRulesetId(Builder $query, int $rulesetId): Builder
+    {
+        return $query->whereHas('pool', fn ($q) => $q->where('ruleset_id', $rulesetId));
+    }
+
+    public function history(): Builder
+    {
+        return MatchmakingUserEloHistory::where([
+            'pool_id' => $this->pool_id,
+            'user_id' => $this->user_id,
+        ]);
+    }
+
+    public function isRatingProvisional(): bool
+    {
+        return $this->sigma >= static::MIN_SIGMA_PROVISIONAL;
+    }
+
+    public function getRank(): int
+    {
+        return $this->attributes['rank'] ?? 1 + static::default()
+            ->nonProvisional()
+            ->where('rating', '>', $this->rating)
+            ->where('pool_id', $this->pool_id)
+            ->count();
+    }
+
+    public function getRankPercent(?int $rank = null): float
+    {
+        $rank ??= $this->getRank();
+
+        $count = cache_remember_mutexed(
+            "matchmaking_user_count:{$this->pool_id}",
+            600,
+            1,
+            fn () => static
+                ::where('pool_id', $this->pool_id)
+                ->default()
+                ->count(),
+        );
+
+        return min(1, $rank / max(1, $count ?? 1));
+    }
+}

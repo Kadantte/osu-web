@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => '',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Pre úpravu musíte byť prihlásený.',
@@ -16,6 +18,16 @@ return [
         'empty' => 'Nič sa nestalo... zatiaľ.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'odstránené',
         'none_found' => 'Nenašli sa žiadne diskusie, zodpovedajúci zadaným požiadavkám.',
@@ -24,7 +36,9 @@ return [
         'form' => [
             '_' => 'Hľadať',
             'deleted' => 'Zahrnúť odstránené diskusie',
+            'mode' => 'Režim beatmapy',
             'only_unresolved' => 'Ukázať iba nevyriešené diskusie',
+            'show_review_embeds' => '',
             'types' => 'Typy správ',
             'username' => 'Meno Uživateľa',
 
@@ -54,7 +68,21 @@ return [
     'nearby_posts' => [
         'confirm' => 'Žiadny z príspevkov nerieši môj problém',
         'notice' => 'Príspevky okolo času :timestamp (:existing_timestamps) už existujú. Prosím, skontrolujte ich pred prispievaním.',
-        'unsaved' => '',
+        'unsaved' => ':count v tomto posudku',
+    ],
+
+    'owner_editor' => [
+        'button' => 'Majiteľ obtiažnosti ',
+        'reset_confirm' => 'Resetovať majiteľa pro tuto obtiažnosť?',
+        'user' => 'Majiteľ ',
+        'version' => 'Obtiažnosť ',
+    ],
+
+    'refresh' => [
+        'checking' => '',
+        'has_updates' => '',
+        'no_updates' => '',
+        'updating' => '',
     ],
 
     'reply' => [
@@ -65,14 +93,15 @@ return [
     ],
 
     'review' => [
-        'block_count' => '',
+        'block_count' => ':used / :max blokov použito ',
         'go_to_parent' => 'Zobraziť recenziu',
         'go_to_child' => 'Nová diskusia',
         'validation' => [
-            'block_too_large' => '',
-            'external_references' => '',
+            'block_too_large' => 'každý blok môže obsahovať iba :limit znakov maximálne',
+            'external_references' => 'posudok obsahuje referencie k problémom, ktoré nepatrí k tomuto posudku',
             'invalid_block_type' => 'neplatný typ bloku',
             'invalid_document' => 'neplatná recenzia',
+            'invalid_discussion_type' => 'neplatný typ diskusie ',
             'minimum_issues' => 'kontrola musí obsahovať minimálne :count problémov|kontrola musí obsahovať minimálne :count problémov',
             'missing_text' => 'v bloku nie je žiadny text',
             'too_many_blocks' => 'recenzie môžu obsahovať iba :count odsekov/vydaní|recenzie môžu obsahovať iba :count odsekov/čísel',
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'Ktokoľvek',
         'label' => 'Filtrovať podľa užívateľa',
+        'multiple' => '',
     ],
 ];

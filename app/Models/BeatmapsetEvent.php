@@ -47,10 +47,20 @@ class BeatmapsetEvent extends Model
     const DISCUSSION_POST_RESTORE = 'discussion_post_restore';
 
     const NOMINATION_RESET = 'nomination_reset';
+    const NOMINATION_RESET_RECEIVED = 'nomination_reset_received';
 
     const GENRE_EDIT = 'genre_edit';
     const LANGUAGE_EDIT = 'language_edit';
     const NSFW_TOGGLE = 'nsfw_toggle';
+    const OFFSET_EDIT = 'offset_edit';
+    const TAGS_EDIT = 'tags_edit';
+
+    const BEATMAP_OWNER_CHANGE = 'beatmap_owner_change';
+
+    const QUALIFICATION_RESET_EVENTS = [
+        self::DISQUALIFY,
+        self::NOMINATION_RESET,
+    ];
 
     public static function log($type, $user, $object, $extraData = [])
     {
@@ -76,21 +86,20 @@ class BeatmapsetEvent extends Model
         ]);
     }
 
-    public static function search($rawParams = [])
+    public static function search($rawParams = [], array $extraParams = [])
     {
-        $pagination = pagination($rawParams);
+        [$query, $params] = static::searchQueryAndParams($rawParams);
 
-        $params = [
-            'limit' => $pagination['limit'],
-            'page' => $pagination['page'],
-        ];
-
-        $query = static::limit($params['limit'])->offset($pagination['offset']);
         $searchByUser = present($rawParams['user'] ?? null);
+
+        $extraParams['current_user_id'] ??= null;
+        $extraParams['is_kudosu_moderator'] ??= false;
+        $extraParams['is_moderator'] ??= false;
 
         if ($searchByUser) {
             $params['user'] = $rawParams['user'];
-            $user = User::lookup($params['user']);
+            $findAll = $extraParams['is_moderator'] || ($extraParams['current_user_id'] === $rawParams['user']);
+            $user = User::lookup($params['user'], null, $findAll);
 
             if ($user === null) {
                 $query->none();
@@ -99,8 +108,14 @@ class BeatmapsetEvent extends Model
             }
         }
 
-        if (isset($rawParams['sort'])) {
-            $sort = explode('_', strtolower($rawParams['sort']));
+        if (present($rawParams['beatmapset_id'] ?? null)) {
+            $params['beatmapset_id'] = $rawParams['beatmapset_id'];
+            $query->where('beatmapset_id', '=', $params['beatmapset_id']);
+        }
+
+        $sortParam = presence(get_string($rawParams['sort'] ?? null));
+        if (isset($sortParam)) {
+            $sort = explode('_', strtolower($sortParam));
 
             if (in_array($sort[0] ?? null, ['id'], true)) {
                 $sortField = $sort[0];
@@ -111,8 +126,8 @@ class BeatmapsetEvent extends Model
             }
         }
 
-        $sortField ?? ($sortField = 'id');
-        $sortOrder ?? ($sortOrder = 'desc');
+        $sortField ??= 'id';
+        $sortOrder ??= 'desc';
 
         if ($sortField !== 'id' && $sortOrder !== 'desc') {
             $params['sort'] = "{$sortField}_{$sortOrder}";
@@ -122,7 +137,7 @@ class BeatmapsetEvent extends Model
 
         $params['types'] = [];
 
-        if (isset($rawParams['type'])) {
+        if (get_string($rawParams['type'] ?? null) !== null) {
             $params['types'][] = $rawParams['type'];
         }
 
@@ -132,10 +147,10 @@ class BeatmapsetEvent extends Model
 
         if ($searchByUser) {
             $allowedTypes = static::types('public');
-            if ($rawParams['is_moderator'] ?? false) {
+            if ($extraParams['is_moderator']) {
                 $allowedTypes = array_merge($allowedTypes, static::types('moderation'));
             }
-            if ($rawParams['is_kudosu_moderator'] ?? false) {
+            if ($extraParams['is_kudosu_moderator']) {
                 $allowedTypes = array_merge($allowedTypes, static::types('kudosuModeration'));
             }
         } else {
@@ -194,6 +209,7 @@ class BeatmapsetEvent extends Model
                     static::RANK,
                     static::LOVE,
                     static::NOMINATION_RESET,
+                    static::NOMINATION_RESET_RECEIVED,
                     static::DISQUALIFY,
                     static::REMOVE_FROM_LOVED,
 
@@ -203,9 +219,13 @@ class BeatmapsetEvent extends Model
                     static::GENRE_EDIT,
                     static::LANGUAGE_EDIT,
                     static::NSFW_TOGGLE,
+                    static::OFFSET_EDIT,
+                    static::TAGS_EDIT,
 
                     static::ISSUE_RESOLVE,
                     static::ISSUE_REOPEN,
+
+                    static::BEATMAP_OWNER_CHANGE,
                 ],
                 'kudosuModeration' => [
                     static::KUDOSU_ALLOW,
@@ -215,6 +235,9 @@ class BeatmapsetEvent extends Model
                     static::APPROVE, // not actually used
 
                     static::KUDOSU_RECALCULATE,
+
+                    static::DISCUSSION_LOCK,
+                    static::DISCUSSION_UNLOCK,
 
                     static::DISCUSSION_DELETE,
                     static::DISCUSSION_RESTORE,
@@ -273,6 +296,11 @@ class BeatmapsetEvent extends Model
         return $query->where('type', self::NOMINATE);
     }
 
+    public function scopeNominationResetReceiveds($query)
+    {
+        return $query->where('type', self::NOMINATION_RESET_RECEIVED);
+    }
+
     public function scopeNominationResets($query)
     {
         return $query->where('type', self::NOMINATION_RESET);
@@ -290,7 +318,7 @@ class BeatmapsetEvent extends Model
 
     public function getCommentAttribute($value)
     {
-        return json_decode($value, true) ?? $value;
+        return json_decode($value ?? '', true) ?? $value;
     }
 
     public function setCommentAttribute($value)

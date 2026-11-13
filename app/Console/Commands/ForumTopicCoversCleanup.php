@@ -15,7 +15,7 @@ class ForumTopicCoversCleanup extends Command
      *
      * @var string
      */
-    protected $signature = 'forum:topic-cover-cleanup {--maxdays=} {--yes}';
+    protected $signature = 'forum:topic-cover-cleanup {--maxdays=}';
 
     /**
      * The console command description.
@@ -34,8 +34,9 @@ class ForumTopicCoversCleanup extends Command
         $createdBefore = now()->subDays(get_int($this->option('maxdays')) ?? 30);
         $this->line("This will delete unused topic covers before {$createdBefore}.");
 
-        if (!$this->option('yes') && !$this->confirm('Proceed?')) {
-            return $this->error('Aborted.');
+        if (!$this->option('no-interaction') && !$this->confirm('Proceed?', true)) {
+            $this->error('Aborted.');
+            return;
         }
 
         $progress = $this->output->createProgressBar();
@@ -50,10 +51,11 @@ class ForumTopicCoversCleanup extends Command
 
                 $deleted++;
                 $progress->advance();
-                $cover->deleteWithFile();
+                $cover->delete();
             }
         });
 
+        $progress->finish();
         $this->line('');
         $this->info("Done. Deleted {$deleted} cover(s).");
     }

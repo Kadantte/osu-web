@@ -7,6 +7,7 @@ return [
     'cancel' => 'Anuluj',
 
     'authorise' => [
+        'app_owner' => 'aplikacja użytkownika :owner',
         'request' => 'żąda pozwolenia na dostęp do twojego konta.',
         'scopes_title' => 'Ta aplikacja będzie mogła:',
         'title' => 'Prośba o autoryzację',
@@ -27,7 +28,7 @@ return [
     'client' => [
         'id' => 'Numer ID klienta',
         'name' => 'Nazwa aplikacji',
-        'redirect' => 'Adres URL wywołań zwrotnych aplikacji',
+        'redirect' => 'Adresy URL wywołań zwrotnych aplikacji',
         'reset' => 'Zresetuj klucz klienta',
         'reset_failed' => 'Nie udało się zresetować klucza klienta',
         'secret' => 'Klucz klienta',
@@ -56,6 +57,12 @@ return [
         'revoked' => [
             'false' => 'Usuń',
             'true' => 'Usunięto',
+        ],
+
+        'secret' => [
+            'copy' => 'Miej pewność, by skopiować wartość, zanim opuścisz okno.',
+            'generate_new' => 'Zrestartuj sekret klienta, aby wygenerować nowy.',
+            'visible_once' => 'Sekret klienta jest tylko widoczny po pierwotnym stworzeniu.',
         ],
     ],
 ];

@@ -5,20 +5,19 @@
 
 namespace App\Models\Forum;
 
+use App\Casts\TimestampOrZero;
 use App\Exceptions\ModelNotSavedException;
-use App\Jobs\EsIndexDocument;
+use App\Jobs\EsDocument;
 use App\Jobs\MarkNotificationsRead;
 use App\Libraries\BBCodeForDB;
 use App\Libraries\BBCodeFromDB;
+use App\Libraries\Beatmapset\Description as BeatmapsetDescription;
 use App\Libraries\Elasticsearch\Indexable;
 use App\Libraries\Transactions\AfterCommit;
-use App\Models\Beatmapset;
 use App\Models\DeletedUser;
-use App\Models\Elasticsearch;
-use App\Models\Reportable;
+use App\Models\Traits;
 use App\Models\User;
 use App\Traits\Validatable;
-use App\Traits\WithDbCursorHelper;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,7 +49,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $post_reported
  * @property string $post_subject
  * @property mixed $post_text
- * @property int $post_time
+ * @property \Carbon\Carbon|null $post_time
  * @property string $post_username
  * @property int $poster_id
  * @property string $poster_ip
@@ -59,9 +58,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $topic_id
  * @property User $user
  */
-class Post extends Model implements AfterCommit, Indexable
+class Post extends Model implements AfterCommit, Indexable, Traits\ReportableInterface
 {
-    use Elasticsearch\PostTrait, Reportable, Validatable, WithDbCursorHelper;
+    use Traits\Es\ForumPostSearch;
+    use Traits\Reportable;
+    use Traits\WithDbCursorHelper;
+    use Validatable;
     use SoftDeletes {
         restore as private origRestore;
     }
@@ -83,8 +85,10 @@ class Post extends Model implements AfterCommit, Indexable
     public $timestamps = false;
 
     protected $casts = [
-        'post_edit_locked' => 'boolean',
         'post_approved' => 'boolean',
+        'post_edit_locked' => 'boolean',
+        'post_edit_time' => TimestampOrZero::class,
+        'post_time' => TimestampOrZero::class,
     ];
 
     private $normalizedUsers = [];
@@ -145,7 +149,7 @@ class Post extends Model implements AfterCommit, Indexable
             return;
         }
 
-        $bbcode = new BBCodeForDB($value);
+        $bbcode = new BBCodeForDB(app('chat-filters')->filter($value));
         $this->attributes['post_text'] = $bbcode->generate();
         $this->attributes['bbcode_uid'] = $bbcode->uid;
         $this->attributes['bbcode_bitfield'] = $bbcode->bitfield;
@@ -156,26 +160,6 @@ class Post extends Model implements AfterCommit, Indexable
         if ($value !== 0) {
             return $value;
         }
-    }
-
-    public function setPostTimeAttribute($value)
-    {
-        $this->attributes['post_time'] = get_timestamp_or_zero($value);
-    }
-
-    public function getPostTimeAttribute($value)
-    {
-        return get_time_or_null($value);
-    }
-
-    public function setPostEditTimeAttribute($value)
-    {
-        $this->attributes['post_edit_time'] = get_timestamp_or_zero($value);
-    }
-
-    public function getPostEditTimeAttribute($value)
-    {
-        return get_time_or_null($value);
     }
 
     /**
@@ -191,7 +175,7 @@ class Post extends Model implements AfterCommit, Indexable
         // unescape html entities
         // strip remaining bbcode
         // strip any html tags left
-        $text = Beatmapset::removeMetadataText($this->post_text);
+        $text = BeatmapsetDescription::removeMetadataText($this->post_text);
         $text = BBCodeFromDB::removeBlockQuotes($text);
         $text = html_entity_decode_better($text);
         $text = BBCodeFromDB::removeBBCodeTags($text);
@@ -357,9 +341,7 @@ class Post extends Model implements AfterCommit, Indexable
             }
         }
 
-        if ($this->isDirty('post_text') && mb_strlen($this->body_raw) > config('osu.forum.max_post_length')) {
-            $this->validationErrors()->add('post_text', 'too_long', ['limit' => config('osu.forum.max_post_length')]);
-        }
+        $this->validateDbFieldLength($GLOBALS['cfg']['osu']['forum']['max_post_length'], 'post_text', 'body_raw');
 
         if (!$this->skipBeatmapPostRestrictions) {
             // don't forget to sync with views.forum.topics._posts
@@ -381,10 +363,10 @@ class Post extends Model implements AfterCommit, Indexable
 
         // record edit history
         if ($this->exists && $this->isDirty('post_text')) {
-            $this->fill([
-                'post_edit_time' => Carbon::now(),
-                'post_edit_count' => DB::raw('post_edit_count + 1'),
-            ]);
+            $this->post_edit_time = Carbon::now();
+            if ($this->post_edit_count < 64000) {
+                $this->post_edit_count = DB::raw('post_edit_count + 1');
+            }
         }
 
         return parent::save($options);
@@ -399,7 +381,7 @@ class Post extends Model implements AfterCommit, Indexable
         }
     }
 
-    public function validationErrorsTranslationPrefix()
+    public function validationErrorsTranslationPrefix(): string
     {
         return 'forum.post';
     }
@@ -419,7 +401,7 @@ class Post extends Model implements AfterCommit, Indexable
     public function afterCommit()
     {
         if ($this->exists) {
-            dispatch(new EsIndexDocument($this));
+            dispatch(new EsDocument($this));
         }
     }
 

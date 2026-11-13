@@ -8,8 +8,7 @@ namespace App\Http\Controllers;
 use App\Jobs\UpdateUserFollowerCountCache;
 use App\Models\User;
 use App\Models\UserRelation;
-use Auth;
-use Request;
+use App\Transformers\UserRelationTransformer;
 
 class BlocksController extends Controller
 {
@@ -24,68 +23,79 @@ class BlocksController extends Controller
             ],
         ]);
 
-        return parent::__construct();
+        parent::__construct();
+    }
+
+    public function index()
+    {
+        return json_collection(\Auth::user()->blocks, new UserRelationTransformer());
     }
 
     public function store()
     {
-        $currentUser = Auth::user();
+        $currentUser = \Auth::user();
 
         if ($currentUser->blocks()->count() >= $currentUser->maxBlocks()) {
-            return error_popup(trans('users.blocks.too_many'));
+            return error_popup(osu_trans('users.blocks.too_many'));
         }
 
-        $targetId = get_int(Request::input('target'));
+        $targetId = get_int(\Request::input('target'));
         $targetUser = User::lookup($targetId, 'id');
 
         if (!$targetUser) {
             abort(404);
         }
 
-        $existingRelation = $currentUser
-            ->relations()
-            ->where('zebra_id', $targetId)
-            ->first();
+        $currentUserId = $currentUser->getKey();
+        $relationQuery = $currentUser->relations()->where('zebra_id', $targetId);
+        \DB::transaction(function () use ($currentUserId, $relationQuery, $targetId) {
+            $deleted = UserRelation::where([
+                'friend' => true,
+                'user_id' => $targetId,
+                'zebra_id' => $currentUserId,
+            ])->delete();
+            if ($deleted > 0) {
+                dispatch(new UpdateUserFollowerCountCache($currentUserId))->afterCommit();
+            }
 
-        if ($existingRelation) {
-            $existingRelation->update([
-                'foe' => true,
-                'friend' => false,
-            ]);
+            $existingRelation = $relationQuery->first();
+            if ($existingRelation !== null) {
+                $existingRelation->update([
+                    'foe' => true,
+                    'friend' => false,
+                ]);
 
-            // users get unfollowed when blocked, so update follower count
-            dispatch(new UpdateUserFollowerCountCache($targetId));
-        } else {
-            UserRelation::create([
-                'user_id' => $currentUser->user_id,
-                'zebra_id' => $targetId,
-                'foe' => true,
-            ]);
-        }
+                // users get unfollowed when blocked, so update follower count
+                dispatch(new UpdateUserFollowerCountCache($targetId))->afterCommit();
+            } else {
+                UserRelation::create([
+                    'user_id' => $currentUserId,
+                    'zebra_id' => $targetId,
+                    'foe' => true,
+                ]);
+            }
+        });
 
-        return json_collection(
-            $currentUser->relations()->visible()->get(),
-            'UserRelation'
-        );
+        return [
+            'user_relation' => json_item(
+                $relationQuery->first(),
+                new UserRelationTransformer(),
+            ),
+        ];
     }
 
     public function destroy($id)
     {
-        $user = Auth::user();
+        $user = \Auth::user();
 
-        $block = $user->blocks()
-            ->where('zebra_id', $id)
-            ->first();
+        $block = $user->blocks()->where('zebra_id', $id)->first();
 
-        if (!$block) {
-            abort(404, trans('users.blocks.not_blocked'));
+        if ($block === null) {
+            abort(404, osu_trans('users.blocks.not_blocked'));
         }
 
-        $user->blocks()->detach($block);
+        $block->delete();
 
-        return json_collection(
-            $user->relations()->visible()->get(),
-            'UserRelation'
-        );
+        return response()->noContent();
     }
 }

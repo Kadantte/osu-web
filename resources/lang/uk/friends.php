@@ -4,12 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'blocked' => 'Ви були заблоковані цим користувачем.',
     'title_compact' => 'друзі',
     'too_many' => 'Досягнуто ліміт друзів',
 
     'buttons' => [
         'add' => 'додати друга',
-        'disabled' => 'друзі',
+        'disabled' => 'підписники',
         'remove' => 'видалити з друзів',
     ],
 ];

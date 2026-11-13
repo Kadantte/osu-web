@@ -33,10 +33,14 @@ return [
 
     'blocks' => [
         'banner_text' => 'このユーザーをブロックしています',
+        'comment_text' => 'このコメントは非表示になっています。',
         'blocked_count' => 'ブロックしたユーザー(:count)',
         'hide_profile' => 'プロフィールを隠す',
+        'hide_comment' => '隠す',
+        'forum_post_text' => 'この投稿を隠す。',
         'not_blocked' => 'このユーザーはブロックされていません。',
         'show_profile' => 'プロフィールを表示',
+        'show_comment' => '表示',
         'too_many' => 'ブロックできる上限に達しました。',
         'button' => [
             'block' => 'ブロック',
@@ -45,8 +49,25 @@ return [
     ],
 
     'card' => [
+        'gift_supporter' => 'サポータータグを贈る',
         'loading' => '読み込み中・・・',
         'send_message' => 'メッセージの送信',
+    ],
+
+    'create' => [
+        'form' => [
+            'password' => 'パスワード',
+            'password_confirmation' => 'パスワードの確認',
+            'submit' => 'アカウント作成',
+            'user_email' => 'メールアドレス',
+            'user_email_confirmation' => 'メールアドレスの確認',
+            'username' => 'ユーザー名',
+
+            'tos_notice' => [
+                '_' => 'アカウントを作成することにより、:link に同意したことになります',
+                'link' => '利用規約',
+            ],
+        ],
     ],
 
     'disabled' => [
@@ -76,6 +97,7 @@ return [
 
     'force_reactivation' => [
         'reason' => [
+            'inactive' => "あなたのアカウントは長い間使用されていません。",
             'inactive_different_country' => "あなたのアカウントは長期間使用されていません。",
         ],
     ],
@@ -88,8 +110,10 @@ return [
         'failed' => 'ログインに失敗しました',
         'forgot' => 'パスワードを忘れましたか？',
         'info' => 'ログインして続行してください',
-        'invalid_captcha' => 'Captcha が無効です。ページを更新して再度お試し下さい。',
-        'locked_ip' => 'あなたのIPアドレスはロックされています。数分後もう一度お試しください。',
+        'invalid_captcha' => 'ログイン試行回数の上限に到達しました。
+CAPTCHA認証を成功させてから再試行してください。
+(表示されない場合はページを更新してください)',
+        'locked_ip' => 'あなたのIPアドレスは規制されています。数分後もう一度お試しください。',
         'password' => 'パスワード',
         'register' => "osu!アカウントを持っていませんか？新しいアカウントを作るにはこちらから",
         'remember' => 'ログイン状態を保持する',
@@ -99,6 +123,24 @@ return [
         'beta' => [
             'main' => 'ベータアクセスは権限があるユーザーのみに付与されます。',
             'small' => '(osu!サポーターはすぐ手に入ります)',
+        ],
+    ],
+
+    'multiplayer' => [
+        'index' => [
+            'active' => 'アクティブ',
+            'ended' => '終了済み',
+        ],
+    ],
+
+    'ogp' => [
+        'modding_description' => 'ビートマップ: :counts',
+        'modding_description_empty' => 'このユーザーにはビートマップがありません...',
+
+        'description' => [
+            '_' => 'ランク (:ruleset): :global | :country',
+            'country' => '国 :rank',
+            'global' => '世界 :rank',
         ],
     ],
 
@@ -126,18 +168,31 @@ return [
             'cancel' => 'キャンセル',
         ],
 
+        'dmca' => [
+            'message_1' => [
+                '_' => '著作権侵害については、 :policy に従い、DMCA申請を通じて :mail までご報告ください。',
+                'policy' => 'osu!の著作権ポリシー',
+            ],
+            'message_2' => 'これは、オーディオトラック、ビジュアルコンテンツ、または譜面データが適切な許可なく使用されている場合に適用されます。',
+        ],
+
         'options' => [
-            'cheating' => '不正行為/チート',
+            'cheating' => 'チート',
+            'copyright_infringement' => '著作権侵害',
+            'inappropriate_chat' => '不適切なチャット行為',
             'insults' => 'あなた/他の人への侮辱',
-            'spam' => 'スパム',
-            'unwanted_content' => '不適切なコンテンツへのリンク',
+            'multiple_accounts' => '複数のアカウントを管理している',
             'nonsense' => 'ナンセンスな行為',
             'other' => 'その他（下記に入力）',
+            'spam' => 'スパム',
+            'unwanted_content' => '不適切なコンテンツ',
         ],
     ],
     'restricted_banner' => [
         'title' => 'アカウントが制限されました！',
-        'message' => '制限中は他のプレイヤーと交流ができなくなり、スコアが他人には表示されなくなります。ほとんどの場合、自動的に行われた処理で通常２４時間以内に解除されます。この制限に異議を申し立てたい場合は<a href="mailto:accounts@ppy.sh">サポート</a>に問い合わせて下さい。',
+        'message' => '制限中はプレイヤーとの交流が禁止され、スコアは自分以外に表示されなくなります。この制限は機械的な処理によるものですので、通常 24 時間以内に解除されます。
+この対応に異議の申し立てを行いたい場合は、こちらのリンクまでお問い合せください。:link',
+        'message_link' => '詳細については、こちらのページをご覧ください。',
     ],
     'show' => [
         'age' => ':age歳',
@@ -152,22 +207,56 @@ return [
         'origin_country' => '所在国 :country',
         'previous_usernames' => '以前の名前',
         'plays_with' => '使用デバイス :devices',
-        'title' => ":usernameのプロフィール",
+
+        'badge' => [
+            'pin' => [
+                'to_0' => '',
+                'to_1' => '',
+            ],
+        ],
 
         'comments_count' => [
             '_' => '投稿 :link',
             'count' => ':count_delimited コメント',
         ],
+        'cover' => [
+            'to_0' => 'カバー画像を隠す',
+            'to_1' => 'カバー画像を表示',
+        ],
+        'daily_challenge' => [
+            'daily' => '連続記録',
+            'daily_streak_best' => '最高連続記録',
+            'daily_streak_current' => '現在の連続記録',
+            'playcount' => '参加合計',
+            'title' => 'デイリー\nチャレンジ',
+            'top_10p_placements' => '上位10%',
+            'top_50p_placements' => '上位50%',
+            'weekly' => '週間連続記録',
+            'weekly_streak_best' => '最高週間連続記録',
+            'weekly_streak_current' => '現在の週間連続記録',
+
+            'unit' => [
+                'day' => ':valued',
+                'week' => ':valuew',
+            ],
+        ],
+        'detail_switch' => [
+            'to_v1' => '詳細を非表示',
+            'to_v2' => '詳細を表示',
+        ],
         'edit' => [
             'cover' => [
                 'button' => 'カバー画像の変更',
                 'defaults_info' => 'カバー画像の選択肢は増える予定です',
+                'holdover_remove_confirm' => "以前に選択したカバーは選択できなくなります。別のカバーに切り替えた後、再び選択することはできません。続行しますか？",
+                'title' => 'カバー画像',
+
                 'upload' => [
                     'broken_file' => '画像の処理に失敗しました。アップロードした画像を確認してもう一度やり直して下さい。',
                     'button' => '画像のアップロード',
                     'dropzone' => 'ここにドロップしてアップロード',
                     'dropzone_info' => 'ここにドラッグ＆ドロップでアップロードが可能です。',
-                    'size_info' => '推奨の画像サイズは2400x620です',
+                    'size_info' => '推奨の画像サイズは2000x500です',
                     'too_large' => 'アップロードファイルが大きすぎます。',
                     'unsupported_format' => 'サポートされていないフォーマットです。',
 
@@ -181,6 +270,16 @@ return [
             'default_playmode' => [
                 'is_default_tooltip' => 'メインのゲームモード',
                 'set' => ':modeをメインのゲームモードに設定する',
+            ],
+
+            'hue' => [
+                'reset_no_supporter' => 'カラーをデフォルトに戻しますか？別の色に変更するにはサポータータグが必要です。',
+                'title' => 'カラー',
+
+                'supporter' => [
+                    '_' => 'カラーテーマをカスタムできるのは :link のみです',
+                    'link' => 'osu!supporters',
+                ],
             ],
         ],
 
@@ -203,14 +302,20 @@ return [
                 'graveyard' => [
                     'title' => 'Graveyardのビートマップ',
                 ],
+                'guest' => [
+                    'title' => 'ゲスト難易度のビートマップ',
+                ],
                 'loved' => [
                     'title' => 'Lovedされたビートマップ',
                 ],
-                'ranked_and_approved' => [
-                    'title' => 'Ranked & Approvedのビートマップ',
+                'nominated' => [
+                    'title' => 'ノミネートしたRankedビートマップ',
                 ],
-                'unranked' => [
-                    'title' => '保留中のビートマップ',
+                'pending' => [
+                    'title' => 'Pendingのビートマップ',
+                ],
+                'ranked' => [
+                    'title' => 'Rankedされたビートマップ',
                 ],
             ],
             'discussions' => [
@@ -241,6 +346,9 @@ return [
                 'replays_watched_counts' => [
                     'title' => 'リプレイの再生回数',
                     'count_label' => 'リプレイ再生回数',
+                ],
+                'score_replay_stats' => [
+                    'title' => '最も視聴されたリプレイ',
                 ],
             ],
             'kudosu' => [
@@ -300,26 +408,44 @@ return [
                 'recent' => '最新',
                 'title' => 'メダル',
             ],
+            'playlists' => [
+                'title' => 'プレイリスト',
+            ],
             'posts' => [
                 'title' => '投稿',
                 'title_longer' => '最近の投稿',
                 'show_more' => '他の投稿を見る',
             ],
+            'ranked-play' => [
+                'title' => 'ランクマッチ',
+            ],
             'recent_activity' => [
                 'title' => '最近のアクティビティ',
+            ],
+            'realtime' => [
+                'title' => 'マルチプレイ',
             ],
             'top_ranks' => [
                 'download_replay' => 'リプレイをダウンロード',
                 'not_ranked' => 'Rankedビートマップのみがppを与えます。',
                 'pp_weight' => '割合 :percentage',
-                'view_details' => '詳細の表示',
-                'title' => 'ランク',
+                'view_details' => '詳細を表示',
+                'title' => 'スコア',
 
                 'best' => [
                     'title' => 'ベストパフォーマンス',
                 ],
                 'first' => [
                     'title' => '1位の記録',
+                ],
+                'pin' => [
+                    'to_0' => 'ピン留め解除',
+                    'to_0_done' => 'スコアのピン留めを解除しました',
+                    'to_1' => 'ピン留め',
+                    'to_1_done' => 'スコアをピン留めしました',
+                ],
+                'pinned' => [
+                    'title' => 'ピン留めされたスコア',
                 ],
             ],
             'votes' => [
@@ -339,13 +465,14 @@ return [
                     'date' => '発生日',
                     'action' => 'アクション',
                     'length' => '期間',
-                    'length_permanent' => '永久',
+                    'length_indefinite' => '無期限',
                     'description' => '詳細',
                     'actor' => 'by :username',
 
                     'actions' => [
                         'restriction' => 'BAN',
                         'silence' => 'サイレンス',
+                        'tournament_ban' => 'トーナメントBAN',
                         'note' => 'メモ',
                     ],
                 ],
@@ -360,6 +487,19 @@ return [
             'twitter' => '',
             'website' => 'ウェブサイト',
         ],
+
+        'matchmaking' => [
+            'losses' => '敗北数',
+            'plays' => '総試合数',
+            'rank' => 'ランク',
+            'rating' => 'レーティング',
+            'recent_history' => '最新の対戦履歴',
+            'recent_history_provisional' => '',
+            'tier' => 'ティア',
+            'title' => 'ランクマッチ',
+            'wins' => '勝利数',
+        ],
+
         'not_found' => [
             'reason_1' => 'ユーザー名を変更した可能性があります。',
             'reason_2' => 'セキュリティの問題や不正利用の可能性によりアカウントが一時的に利用できなくなる可能性があります。',
@@ -387,9 +527,26 @@ return [
             'country_simple' => '国別ランキング',
             'global' => ':modeの世界ランク',
             'global_simple' => '世界ランキング',
+            'highest' => '最高ランク: :rank (:dateに取得)',
+            'kudosu_outside_top_1000' => '',
+            'kudosu_simple' => 'Kudosuランキング',
+        ],
+        'score_processing' => [
+            'title' => 'スターレーティングとPPの新しい計算アルゴリズムが、:link。',
+            'title_link' => '順次導入されます',
+            'message' => '最新のスコアがユーザープロフィールに反映されるまで、時間がかかる場合があります。',
+        ],
+        'season_stats' => [
+            'division_top_percentage' => 'トップ :value',
+            'label' => 'スポットライト',
+            'total_score' => '合計スコア',
+        ],
+        'solo' => [
+            'title' => 'ソロプレイ',
         ],
         'stats' => [
             'hit_accuracy' => '精度',
+            'hits_per_play' => '1回プレイの平均ヒット数',
             'level' => 'レベル :level',
             'level_progress' => '次のレベルまで',
             'maximum_combo' => '最大コンボ',
@@ -402,16 +559,18 @@ return [
             'total_hits' => '合計ヒット数',
             'total_score' => '合計スコア',
             // modding stats
-            'ranked_and_approved_beatmapset_count' => 'Ranked & Approvedのビートマップ',
-            'loved_beatmapset_count' => 'Lovedされたビートマップ',
-            'unranked_beatmapset_count' => '保留中のビートマップ',
             'graveyard_beatmapset_count' => 'Graveyardのビートマップ',
+            'guest_beatmapset_count' => 'ゲスト難易度のビートマップ',
+            'loved_beatmapset_count' => 'Lovedされたビートマップ',
+            'nominated_beatmapset_count' => 'ノミネートしたRankedビートマップ',
+            'pending_beatmapset_count' => 'Pendingのビートマップ',
+            'ranked_beatmapset_count' => 'Rankedされたビートマップ',
         ],
     ],
 
     'silenced_banner' => [
         'title' => 'あなたは現在サイレンス中です。',
-        'message' => 'いくつかのアクションが利用できない可能性があります。',
+        'message' => 'いくつかの機能が利用できない可能性があります。',
     ],
 
     'status' => [
@@ -419,7 +578,15 @@ return [
         'online' => 'オンライン',
         'offline' => 'オフライン',
     ],
+    'relationship' => [
+        'title' => '',
+        'all' => '',
+        'mutual' => '',
+        'non_mutual' => '',
+    ],
     'store' => [
+        'from_client' => '代わりにゲームクライアントから登録してください！',
+        'from_web' => 'osu!のウェブサイトで登録を完了してください',
         'saved' => 'ユーザーが作成されました',
     ],
     'verify' => [
@@ -427,7 +594,7 @@ return [
     ],
 
     'view_mode' => [
-        'brick' => 'ブリックビュー',
+        'brick' => '簡易表示',
         'card' => 'カードビュー',
         'list' => '一覧表示',
     ],

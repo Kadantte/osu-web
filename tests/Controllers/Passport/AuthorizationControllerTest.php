@@ -7,9 +7,12 @@ namespace Tests\Controllers\Passport;
 
 use App\Http\Controllers\Passport\AuthorizationController;
 use App\Models\OAuth\Client;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Laravel\Passport\ClientRepository;
+use League\OAuth2\Server\AuthorizationServer;
 use Mockery;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use Tests\TestCase;
-use Zend\Diactoros\ServerRequest;
 
 class AuthorizationControllerTest extends TestCase
 {
@@ -17,22 +20,11 @@ class AuthorizationControllerTest extends TestCase
 
     public function testAuthorizeNormalizes()
     {
-        $client = factory(Client::class)->create();
+        $client = Client::factory()->create();
 
-        // phpcs:disable
-        $request = new ServerRequest(
-            /* $serverParams */ [],
-            /* $uploadedFiles */ [],
-            /* $uri */ config('app.url').'/oauth/authorize',
-            /* $method */ 'GET',
-            /* $body */ 'php://input',
-            /* $headers */  [],
-            /* $cookies */  [],
-            /* $queryParams */ ['client_id' => $client->getKey(), 'scope' => 'one two three'],
-            /* $parsedBody */ null,
-            /* $protocol*/ '1.1'
-        );
-        // phpcs:enable
+        $request = (new Psr17Factory())
+            ->createServerRequest('GET', $GLOBALS['cfg']['app']['url'].'/oauth/authorize')
+            ->withQueryParams(['client_id' => $client->getKey(), 'scope' => 'one two three']);
 
         $actual = $this->invokeMethod($this->controller, 'normalizeRequestScopes', [$request])->getQueryParams()['scope'];
 
@@ -76,8 +68,9 @@ class AuthorizationControllerTest extends TestCase
         parent::setUp();
 
         $this->controller = new AuthorizationController(
-            Mockery::mock('\League\OAuth2\Server\AuthorizationServer'),
-            Mockery::mock('\Illuminate\Contracts\Routing\ResponseFactory')
+            Mockery::mock(AuthorizationServer::class),
+            Mockery::mock(StatefulGuard::class),
+            Mockery::mock(ClientRepository::class),
         );
     }
 

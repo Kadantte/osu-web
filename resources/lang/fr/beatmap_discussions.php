@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited réponse est cachée.|:count_delimited réponses sont cachées.',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Vous devez être connecté pour éditer.',
@@ -16,15 +18,27 @@ return [
         'empty' => 'Il ne s\'est rien passé... pour le moment.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'supprimé',
         'none_found' => 'Aucune discussion ne correspond à ce critère de recherche.',
-        'title' => 'Discussions de Beatmap',
+        'title' => 'Discussions de beatmaps',
 
         'form' => [
             '_' => 'Rechercher',
             'deleted' => 'Inclure les discussions supprimées',
+            'mode' => 'Mode de jeu',
             'only_unresolved' => 'Afficher uniquement les discussions non résolues',
+            'show_review_embeds' => 'Afficher les posts d\'avis',
             'types' => 'Types de message',
             'username' => 'Nom d’utilisateur',
 
@@ -39,7 +53,7 @@ return [
 
             'user' => [
                 'label' => 'Utilisateur',
-                'overview' => 'Activités',
+                'overview' => 'Aperçu des actions',
             ],
         ],
     ],
@@ -54,7 +68,21 @@ return [
     'nearby_posts' => [
         'confirm' => 'Aucun des posts ne parle de mon problème',
         'notice' => 'Il y a des posts pour :timestamp (:existing_timestamps). Merci de les vérifier avant de poster.',
-        'unsaved' => ':count dans cette revue',
+        'unsaved' => ':count dans cet avis',
+    ],
+
+    'owner_editor' => [
+        'button' => 'Propriétaire de la difficulté',
+        'reset_confirm' => 'Réinitialiser le propriétaire pour cette difficulté ?',
+        'user' => 'Propriétaire',
+        'version' => 'Difficulté',
+    ],
+
+    'refresh' => [
+        'checking' => 'Vérification des mises à jour...',
+        'has_updates' => 'De nouveaux éléments ont été ajoutés à cette discussion. Cliquez pour rafraîchir.',
+        'no_updates' => 'Aucune mise à jour.',
+        'updating' => 'Mise à jour...',
     ],
 
     'reply' => [
@@ -66,16 +94,17 @@ return [
 
     'review' => [
         'block_count' => ':used / :max blocs utilisés',
-        'go_to_parent' => 'Voir l\'avis',
+        'go_to_parent' => 'Afficher l\'avis',
         'go_to_child' => 'Voir la discussion',
         'validation' => [
             'block_too_large' => 'chaque bloc peut contenir jusqu\'à :limit caractères',
             'external_references' => 'l\'avis contient des références à des problèmes qui n\'appartiennent pas à cet avis',
             'invalid_block_type' => 'type de bloc invalide',
             'invalid_document' => 'avis invalide',
-            'minimum_issues' => 'l\'avis doit contenir un minimum de :count problèmes|l\'avis doit contenir un minimum de :count problèmes',
-            'missing_text' => 'le bloc manque du texte',
-            'too_many_blocks' => 'les avis ne doivent contenir que :count paragraphes/problème|les revues doivent contenir jusqu\'à :count paragraphes/problèmes',
+            'invalid_discussion_type' => 'type de discussion invalide',
+            'minimum_issues' => 'l\'avis doit contenir un minimum de :count problème|l\'avis doit contenir un minimum de :count problèmes',
+            'missing_text' => 'le bloc n\'a pas de texte',
+            'too_many_blocks' => 'les avis ne doivent contenir que :count paragraphe/problème|les revues doivent contenir jusqu\'à :count paragraphes/problèmes',
         ],
     ],
 
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'Tout le monde',
         'label' => 'Filtrer par utilisateur',
+        'multiple' => ':count_delimited utilisateur sélectionné|:count_delimited utilisateurs sélectionnés',
     ],
 ];

@@ -25,6 +25,7 @@ return [
     ],
 
     'forums' => [
+        'forums' => 'Forum',
         'latest_post' => 'Siste Innlegg',
 
         'index' => [
@@ -47,12 +48,12 @@ return [
         'confirm_restore' => 'Vil du virkelig gjenopprette innlegget?',
         'edited' => 'Sist endret av :user :when, redigert :count ganger totalt.',
         'posted_at' => 'lagt ut :when',
-        'posted_by' => '',
+        'posted_by_in' => 'lagt ut av :username i :forum',
 
         'actions' => [
             'destroy' => 'Slett innlegg',
             'edit' => 'Rediger innlegget',
-            'report' => '',
+            'report' => 'Rapporter innlegg',
             'restore' => 'Gjenopprett innlegg',
         ],
 
@@ -75,12 +76,13 @@ return [
     ],
 
     'topic' => [
-        'confirm_destroy' => '',
-        'confirm_restore' => '',
+        'confirm_destroy' => 'Vil du virkelig slette emnet?',
+        'confirm_restore' => 'Vil du virkelig gjenopprette emnet?',
         'deleted' => 'slettet emne',
         'go_to_latest' => 'vis nyeste innlegg',
-        'has_replied' => '',
-        'in_forum' => '',
+        'go_to_unread' => '',
+        'has_replied' => 'Du har svart på dette emnet',
+        'in_forum' => 'i :forum',
         'latest_post' => ':when av :user',
         'latest_reply_by' => 'siste svar av :user',
         'new_topic' => 'Nytt emne',
@@ -92,8 +94,8 @@ return [
         'started_by_verbose' => 'startet av :user',
 
         'actions' => [
-            'destroy' => '',
-            'restore' => '',
+            'destroy' => 'Slett emne',
+            'restore' => 'Gjenopprett emne',
         ],
 
         'create' => [
@@ -125,6 +127,55 @@ return [
             'last' => 'gå til siste innlegg',
             'next' => 'hopp over neste 10 innlegg',
             'previous' => 'gå tilbake 10 innlegg',
+        ],
+
+        'logs' => [
+            '_' => 'Emnelogger',
+            'button' => 'Bla gjennom emnelogger',
+
+            'columns' => [
+                'action' => 'Handling',
+                'date' => 'Dato',
+                'user' => 'Bruker',
+            ],
+
+            'data' => [
+                'add_tag' => 'la til ":tag" taggen',
+                'announcement' => 'festet emne og markert som kunngjøring',
+                'edit_topic' => 'til :title',
+                'fork' => 'fra :topic',
+                'pin' => 'festet innlegg',
+                'post_operation' => 'lagt ut av :username',
+                'remove_tag' => 'fjernet ":tag" taggen',
+                'source_forum_operation' => 'fra :forum',
+                'unpin' => 'løsnet emne',
+            ],
+
+            'no_results' => 'ingen loggføringer ble funnet...',
+
+            'operations' => [
+                'delete_post' => 'Slettet innlegg',
+                'delete_topic' => 'Slettet emne',
+                'edit_topic' => 'Endret emnetittel',
+                'edit_poll' => 'Redigerte emneavstemming',
+                'fork' => 'Kopierte emne',
+                'issue_tag' => 'Annga tag',
+                'lock' => 'Låst emne',
+                'merge' => 'Flyttet innlegg til dette emnet',
+                'move' => 'Flyttet emne',
+                'pin' => 'Festet emne',
+                'post_edited' => 'Redigerte innlegget',
+                'restore_post' => 'Gjenopprettet innlegg',
+                'restore_topic' => 'Gjenopprettet emne',
+                'split_destination' => 'Flyttet delte innlegg',
+                'split_source' => 'Delte innlegg',
+                'topic_type' => 'Angi emne type',
+                'topic_type_changed' => 'Endret emne type',
+                'unlock' => 'Låste opp emnet',
+                'unpin' => 'Løsnet emnet',
+                'user_lock' => 'Låste eget emne',
+                'user_unlock' => 'Låste opp eget emne',
+            ],
         ],
 
         'post_edit' => [
@@ -202,48 +253,6 @@ return [
             'views' => 'visninger',
         ],
 
-        'issue_tag_added' => [
-            'to_0' => 'Fjern "lagt til" merknaden',
-            'to_0_done' => 'Fjernet "lagt til" merknaden',
-            'to_1' => 'Legg til "lagt til" merknad',
-            'to_1_done' => 'Lagt til "lagt til" merknad',
-        ],
-
-        'issue_tag_assigned' => [
-            'to_0' => 'Fjern "tilordnet" merknad',
-            'to_0_done' => 'Fjernet "tilordnet" merknaden',
-            'to_1' => 'Legg til "tilordnet" merknad',
-            'to_1_done' => 'Lagt til "tilordnet" merknad',
-        ],
-
-        'issue_tag_confirmed' => [
-            'to_0' => 'Fjern "bekreftet" merknad',
-            'to_0_done' => 'Fjernet "bekreftet" merknaden',
-            'to_1' => 'Legg til "bekreftet" merknad',
-            'to_1_done' => 'Lagt til "bekreftet" merknad',
-        ],
-
-        'issue_tag_duplicate' => [
-            'to_0' => 'Fjern "kopi" merknad',
-            'to_0_done' => 'Fjernet "kopi" merknaden',
-            'to_1' => 'Legg til "kopi" merknad',
-            'to_1_done' => 'Lagt til "kopi" merknad',
-        ],
-
-        'issue_tag_invalid' => [
-            'to_0' => 'Fjern "ugyldig" merknad',
-            'to_0_done' => 'Fjernet "ugyldig" merknaden',
-            'to_1' => 'Legg til "ugyldig" merknad',
-            'to_1_done' => 'Lagt til "ugyldig" merknad',
-        ],
-
-        'issue_tag_resolved' => [
-            'to_0' => 'Fjern "løst" merknaden',
-            'to_0_done' => 'Fjernet "løst" merknaden',
-            'to_1' => 'Legg til "løst" merknad',
-            'to_1_done' => 'Lagt til "løst" merknad',
-        ],
-
         'lock' => [
             'is_locked' => 'Dette emne er låst og kan ikke besvares',
             'to_0' => 'Lås opp emne',
@@ -278,6 +287,7 @@ return [
         'show' => [
             'deleted-posts' => 'Slettede innlegg',
             'total_posts' => 'Totalt antall innlegg',
+            'total_watches' => '',
 
             'feature_vote' => [
                 'current' => 'Prioritering: +:count',

@@ -5,23 +5,26 @@
 
 namespace App\Transformers;
 
+use App\Models\DeletedUser;
 use App\Models\UserContestEntry;
 
 class UserContestEntryTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
         'user',
     ];
 
     public function transform(UserContestEntry $entry)
     {
+        $url = $entry->file()->url();
+
         return [
             'id' => $entry->id,
             'filename' => $entry->original_filename,
             'filesize' => $entry->filesize,
-            'url' => $entry->fileUrl(),
-            'thumb' => mini_asset($entry->fileUrl()),
-            'created_at' => json_time($entry->created_at),
+            'url' => $url,
+            'thumb' => mini_asset($url),
+            'created_at' => $entry->getJsonTime('created_at'),
             'deleted' => $entry->deleted_at !== null,
         ];
     }
@@ -29,7 +32,7 @@ class UserContestEntryTransformer extends TransformerAbstract
     public function includeUser(UserContestEntry $entry)
     {
         return $this->item(
-            $entry->user ?? (new DeletedUser()),
+            $entry->user ?? new DeletedUser(),
             new UserCompactTransformer()
         );
     }

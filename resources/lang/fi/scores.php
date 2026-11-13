@@ -5,25 +5,31 @@
 
 return [
     'show' => [
-        'title' => '',
+        'non_preserved' => 'Tämä suoritus on merkitty poistettavaksi ja se katoaa pian.',
+        'title' => ':username\'n tulos: :title [:version]',
 
         'beatmap' => [
-            'by' => '',
+            'by' => 'artisti: :artist',
         ],
 
         'player' => [
-            'by' => '',
-            'submitted_on' => '',
+            'by' => 'Pelaaja',
+            'played_on' => 'Pelattu',
+            'submitted_on' => 'Tulos lähetetty',
+            'watched' => 'Katsottu',
+            'watched_count' => ':count_delimited kerran|:count_delimited kertaa',
 
             'rank' => [
-                'country' => '',
-                'global' => '',
+                'country' => 'Maakohtainen sijoitus',
+                'global' => 'Maailmanlaajuinen sijoitus',
             ],
         ],
     ],
 
     'status' => [
-        'non_best' => '',
-        'processing' => '',
+        'non_best' => 'Vain parhaat henkilökohtaiset tulokset myöntävät pp:tä',
+        'no_pp' => 'pp:tä ei myönnetä tälle suoritukselle',
+        'processing' => 'Pisteitä lasketaan ja ne näytetään pian',
+        'no_rank' => 'Tällä tuloksella ei ole sijoitusta, koska se ei ole rankattu tai on merkitty poistettavaksi',
     ],
 ];

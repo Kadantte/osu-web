@@ -10,46 +10,41 @@ use App\Models\User;
 
 class UserGroupsController extends Controller
 {
-    public function store()
+    public function update($userId, $groupId)
     {
-        [$user, $group] = $this->getUserAndGroupModels();
+        User::findOrFail($userId)->addToGroup(
+            app('groups')->byIdOrFail($groupId),
+            get_arr(request()->input('playmodes'), 'get_string'),
+            $this->getActor(),
+        );
 
-        $user->addToGroup($group);
-
-        return response(null, 204);
+        return response()->noContent();
     }
 
-    public function destroy()
+    public function destroy($userId, $groupId)
     {
-        [$user, $group] = $this->getUserAndGroupModels();
+        User::findOrFail($userId)->removeFromGroup(
+            app('groups')->byIdOrFail($groupId),
+            $this->getActor(),
+        );
 
-        $user->removeFromGroup($group);
-
-        return response(null, 204);
+        return response()->noContent();
     }
 
-    public function setDefault()
+    public function setDefault($userId, $groupId)
     {
-        [$user, $group] = $this->getUserAndGroupModels();
+        User::findOrFail($userId)->setDefaultGroup(
+            app('groups')->byIdOrFail($groupId),
+            $this->getActor(),
+        );
 
-        $user->setDefaultGroup($group);
-
-        return response(null, 204);
+        return response()->noContent();
     }
 
-    private function getUserAndGroupModels()
+    private function getActor(): ?User
     {
-        $params = get_params(request()->all(), null, [
-            'group_id:int',
-            'user_id:int',
-        ]);
+        $actorId = request()->input('actor_id');
 
-        $group = app('groups')->byId($params['group_id'] ?? null);
-        abort_if($group === null, 404, 'Group not found');
-
-        return [
-            User::findOrFail($params['user_id'] ?? null),
-            $group,
-        ];
+        return present($actorId) ? User::findOrFail($actorId) : null;
     }
 }

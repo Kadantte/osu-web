@@ -4,6 +4,8 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'hidden_replies' => ':count_delimited reactie is verborgen.|:count_delimited antwoorden zijn verborgen.',
+
     'authorizations' => [
         'update' => [
             'null_user' => 'Je moet ingelogd zijn om te bewerken.',
@@ -16,6 +18,16 @@ return [
         'empty' => 'Er is nog niets gebeurt... nog niet.',
     ],
 
+    'formatting' => [
+        'blockquote' => '',
+        'bold' => '',
+        'code_block' => '',
+        'code_inline' => '',
+        'image' => '',
+        'italic' => '',
+        'link' => '',
+    ],
+
     'index' => [
         'deleted_beatmap' => 'verwijderd',
         'none_found' => 'Er zijn geen discussies gevonden die overeenkomen met de zoekcriteria.',
@@ -24,7 +36,9 @@ return [
         'form' => [
             '_' => 'Zoeken',
             'deleted' => 'Verwijderde discussies toevoegen',
+            'mode' => 'Beatmap modus',
             'only_unresolved' => 'Alleen niet-afgehandelde discussies weergeven',
+            'show_review_embeds' => 'Toon beoordelingsberichten',
             'types' => 'Berichttypen',
             'username' => 'Gebruikersnaam',
 
@@ -54,7 +68,21 @@ return [
     'nearby_posts' => [
         'confirm' => 'Geen van deze posts pakken mijn punten van zorg aan',
         'notice' => 'Dit zijn de posts rond :timestamp (:existing_timestamp). Controleer ze voor te posten.',
-        'unsaved' => ':count in deze review',
+        'unsaved' => ':count in deze recensie',
+    ],
+
+    'owner_editor' => [
+        'button' => 'Moeilijkheidsgraad Eigenaar',
+        'reset_confirm' => 'Reset eigenaar voor deze moeilijkheid?',
+        'user' => 'Eigenaar',
+        'version' => 'Moeilijkheidsgraad',
+    ],
+
+    'refresh' => [
+        'checking' => 'Controleren op updates...',
+        'has_updates' => 'De discussie heeft updates, klik om te vernieuwen.',
+        'no_updates' => 'Geen updates.',
+        'updating' => 'Updaten...',
     ],
 
     'reply' => [
@@ -73,9 +101,10 @@ return [
             'external_references' => 'review bevat verwijzingen naar kwesties die niet tot deze beoordeling behoren',
             'invalid_block_type' => 'ongeldige bloktype',
             'invalid_document' => 'ongeldige beoordeling',
-            'minimum_issues' => 'beoordeling moet een minimum van :count issue|review moeten een minimum :count issues bevatten',
+            'invalid_discussion_type' => 'ongeldige discussie type',
+            'minimum_issues' => 'recensie moet minstens :count probleem bevatten|recensie moet minstens :count problemen bevatten',
             'missing_text' => 'blok mist tekst',
-            'too_many_blocks' => 'beoordelingen kunnen alleen :count alinea/issuemaybe beoordelingen bevatten max. :count alinea/issues',
+            'too_many_blocks' => 'recensies mogen slechts :count alinea/probleem bevatten|recensies mogen maximaal :count alinea\'s/problemen bevatten',
         ],
     ],
 
@@ -94,5 +123,6 @@ return [
     'user_filter' => [
         'everyone' => 'Iedereen',
         'label' => 'Filter op gebruiker',
+        'multiple' => '',
     ],
 ];

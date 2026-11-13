@@ -6,27 +6,23 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\Handler as ExceptionHandler;
-use App\Jobs\EsIndexDocument;
+use App\Jobs\EsDocument;
 use App\Jobs\Notifications\ForumTopicReply;
-use App\Jobs\Notifications\UserAchievementUnlock;
-use App\Jobs\RegenerateBeatmapsetCover;
+use App\Jobs\RegenerateBeatmapsetMedia;
 use App\Libraries\Chat;
-use App\Libraries\Session\Store as SessionStore;
-use App\Libraries\UserBestScoresCheck;
-use App\Models\Achievement;
 use App\Models\Beatmap;
 use App\Models\Beatmapset;
+use App\Models\Chat\Channel;
 use App\Models\Chat\Message;
 use App\Models\Chat\UserChannel;
-use App\Models\Event;
 use App\Models\Forum;
 use App\Models\NewsPost;
 use App\Models\Notification;
-use App\Models\OAuth;
-use App\Models\Score\Best;
 use App\Models\User;
 use App\Models\UserStatistics;
-use Datadog;
+use App\Transformers\Chat\MessageTransformer;
+use Artisan;
+use Ds\Set;
 use Exception;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use stdClass;
@@ -53,7 +49,7 @@ class LegacyInterOpController extends Controller
 
             (new ForumTopicReply($post, $user))->dispatch();
 
-            return response(null, 204);
+            return response()->noContent();
         }
     }
 
@@ -62,13 +58,13 @@ class LegacyInterOpController extends Controller
         $beatmapset = Beatmapset::withTrashed()->findOrFail($id);
 
         if (!$beatmapset->trashed()) {
-            $job = (new RegenerateBeatmapsetCover($beatmapset))->onQueue('beatmap_default');
+            $job = (new RegenerateBeatmapsetMedia($beatmapset))->onQueue('beatmap_default');
             $this->dispatch($job);
         }
 
-        dispatch(new EsIndexDocument($beatmapset));
+        dispatch(new EsDocument($beatmapset));
 
-        return response(null, 204);
+        return response()->noContent();
     }
 
     public function news()
@@ -90,34 +86,9 @@ class LegacyInterOpController extends Controller
 
     public function refreshBeatmapsetCache($id)
     {
-        Beatmapset::findOrFail($id)->refreshCache();
+        Beatmapset::findOrFail($id)->refreshCache(true);
 
         return ['success' => true];
-    }
-
-    public function userAchievement($id, $achievementId, $beatmapId = null)
-    {
-        $user = User::findOrFail($id);
-        $achievement = Achievement::findOrFail($achievementId);
-
-        try {
-            $userAchievement = $user->userAchievements()->create([
-                'achievement_id' => $achievement->getKey(),
-                'beatmap_id' => $beatmapId,
-            ]);
-        } catch (Exception $e) {
-            if (is_sql_unique_exception($e)) {
-                return error_popup('user already unlocked the specified achievement');
-            }
-
-            throw $e;
-        }
-
-        Event::generate('achievement', compact('achievement', 'user'));
-
-        (new UserAchievementUnlock($achievement, $user))->dispatch();
-
-        return $achievement->getKey();
     }
 
     /**
@@ -195,7 +166,8 @@ class LegacyInterOpController extends Controller
      *   - too many messages has been sent by the sender
      *
      * @bodyParam messages[<id>][sender_id] integer required id of user sending the message
-     * @bodyParam messages[<id>][target_id] integer required id of user receiving the message. Must not be restricted
+     * @bodyParam messages[<id>][target_id] integer required id of user receiving the message if `type` is `pm`; channel, otherwise. Must not be restricted
+     * @bodyParam messages[<id>][type] string required type of the target of the message. See [ChatChannel](#chatchannel)
      * @bodyParam messages[<id>][message] string required message to send. Empty string is not allowed
      * @bodyParam messages[<id>][is_action] boolean required set to true (`1`/`on`/`true`) for `/me` message. Default false
      */
@@ -213,7 +185,8 @@ class LegacyInterOpController extends Controller
             abort(422, '"messages" parameter must be a list');
         }
 
-        $userIds = [];
+        $channelIds = new Set();
+        $userIds = new Set();
 
         foreach ($params as $key => $messageParams) {
             if (!is_array($messageParams)) {
@@ -223,27 +196,40 @@ class LegacyInterOpController extends Controller
             $messageParams = get_params($messageParams, null, [
                 'sender_id:int',
                 'target_id:int',
+                'type:string',
                 'message:string',
                 'is_action:bool',
             ]);
 
+            // TODO: default to null later
+            $messageParams['type'] ??= Channel::TYPES['pm'];
+            $messageParams['type'] = strtoupper($messageParams['type']);
+            // TODO: also ignore if type missing (and return error?)
             if (isset($messageParams['sender_id'])) {
-                $userIds[$messageParams['sender_id']] = true;
+                $userIds->add($messageParams['sender_id']);
             }
+
             if (isset($messageParams['target_id'])) {
-                $userIds[$messageParams['target_id']] = true;
+                if ($messageParams['type'] === Channel::TYPES['pm']) {
+                    $userIds->add([$messageParams['target_id']]);
+                } else {
+                    $channelIds->add([$messageParams['target_id']]);
+                }
             }
 
             $params[$key] = $messageParams;
         }
 
-        $userIds = array_keys($userIds);
-
         $users = User
-            ::whereIn('user_id', $userIds)
+            ::whereIn('user_id', $userIds->toArray())
             ->with(['userGroups', 'blocks'])
             ->get()
             ->keyBy('user_id');
+
+        $channels = Channel
+            ::whereIn('channel_id', $channelIds->toArray())
+            ->get()
+            ->keyBy('channel_id');
 
         foreach ($params as $id => $messageParams) {
             try {
@@ -251,7 +237,7 @@ class LegacyInterOpController extends Controller
                     abort(422);
                 }
 
-                if (!isset($messageParams['sender_id']) || !isset($messageParams['target_id'])) {
+                if (!isset($messageParams['type']) || !isset($messageParams['sender_id']) || !isset($messageParams['target_id'])) {
                     abort(422);
                 }
 
@@ -260,17 +246,33 @@ class LegacyInterOpController extends Controller
                     abort(422, 'sender not found');
                 }
 
-                $target = $users[$messageParams['target_id']] ?? null;
-                if ($target === null) {
-                    abort(422, 'target user not found');
-                }
+                if ($messageParams['type'] === Channel::TYPES['pm']) {
+                    $pmTarget = $users[$messageParams['target_id']] ?? null;
+                    if ($pmTarget === null) {
+                        abort(422, 'target user not found');
+                    }
 
-                $message = Chat::sendPrivateMessage(
-                    $sender,
-                    $target,
-                    presence($messageParams['message'] ?? null),
-                    $messageParams['is_action'] ?? null
-                );
+                    $message = Chat::sendPrivateMessage(
+                        $sender,
+                        $pmTarget,
+                        presence($messageParams['message'] ?? null),
+                        $messageParams['is_action'] ?? null,
+                        false,
+                    );
+                } else {
+                    $channel = $channels[$messageParams['target_id']] ?? null;
+                    if ($channel === null) {
+                        abort(422, 'channel not found');
+                    }
+
+                    $message = Chat::sendMessage(
+                        $sender,
+                        $channel,
+                        presence($messageParams['message'] ?? null),
+                        $messageParams['is_action'] ?? false,
+                        false,
+                    );
+                }
 
                 $result = [
                     'status' => 200,
@@ -285,7 +287,7 @@ class LegacyInterOpController extends Controller
                 ];
             }
 
-            Datadog::increment(config('datadog-helper.prefix_web').'.chat.batch', 1, [
+            datadog_increment('chat.batch', [
                 'status' => $result['status'],
             ]);
 
@@ -295,29 +297,19 @@ class LegacyInterOpController extends Controller
         return response()->json($results);
     }
 
-    public function userBestScoresCheck($id)
-    {
-        $user = User::findOrFail($id);
-
-        foreach (Beatmap::MODES as $mode => $_v) {
-            (new UserBestScoresCheck($user))->run($mode);
-        }
-
-        return ['success' => true];
-    }
-
     public function userIndex($id)
     {
         $user = User::findOrFail($id);
 
-        dispatch(new EsIndexDocument($user));
+        dispatch(new EsDocument($user));
 
-        foreach (Beatmap::MODES as $modeStr => $modeId) {
-            $class = Best\Model::getClassByString($modeStr);
-            $class::queueIndexingForUser($user);
-        }
+        Artisan::queue('es:index-scores:queue', [
+            '--all' => true,
+            '--no-interaction' => true,
+            '--user' => $user->getKey(),
+        ]);
 
-        return response(null, 204);
+        return response()->noContent();
     }
 
     public function userRecalculateRankedScores($id)
@@ -329,7 +321,7 @@ class LegacyInterOpController extends Controller
             $class::recalculateRankedScoreForUser($user);
         }
 
-        return response(null, 204);
+        return response()->noContent();
     }
 
     /**
@@ -378,18 +370,12 @@ class LegacyInterOpController extends Controller
             get_bool($params['is_action'] ?? null)
         );
 
-        return json_item($message, 'Chat\Message', ['sender']);
+        return json_item($message, new MessageTransformer(), ['sender']);
     }
 
     public function userSessionsDestroy($userId)
     {
-        SessionStore::destroy($userId);
-        OAuth\Token
-            ::where('user_id', $userId)
-            ->with('refreshToken')
-            ->get()
-            ->each
-            ->revokeRecursive();
+        User::find($userId)?->resetSessions();
 
         return ['success' => true];
     }

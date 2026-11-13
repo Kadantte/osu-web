@@ -6,10 +6,11 @@
 namespace App\Transformers;
 
 use App\Models\User;
+use App\Models\UserProfileCustomization;
 
 class UserTransformer extends UserCompactTransformer
 {
-    protected $defaultIncludes = [
+    protected array $defaultIncludes = [
         'country',
         'cover',
         'is_admin',
@@ -21,25 +22,20 @@ class UserTransformer extends UserCompactTransformer
         'is_nat',
         'is_restricted',
         'is_silenced',
+        'kudosu',
     ];
 
-    public function transform(User $user)
+    public function transform(User $user): array
     {
-        $result = parent::transform($user);
+        $options = UserProfileCustomization::forUser($user);
 
-        $profileCustomization = $this->userProfileCustomization($user);
-
-        return array_merge($result, [
-            'comments_count' => $user->comments()->withoutTrashed()->count(),
-            'cover_url' => $profileCustomization->cover()->url(),
+        return [
+            ...parent::transform($user),
+            'cover_url' => $user->cover()->url(), // TODO: deprecated.
             'discord' => $user->user_discord,
             'has_supported' => $user->hasSupported(),
             'interests' => $user->user_interests,
-            'join_date' => json_time($user->user_regdate),
-            'kudosu' => [
-                'total' => $user->osu_kudostotal,
-                'available' => $user->osu_kudosavailable,
-            ],
+            'join_date' => $user->getJsonTime('user_regdate'),
             'location' => $user->user_from,
             'max_blocks' => $user->maxBlocks(),
             'max_friends' => $user->maxFriends(),
@@ -47,11 +43,12 @@ class UserTransformer extends UserCompactTransformer
             'playmode' => $user->playmode,
             'playstyle' => $user->osu_playstyle,
             'post_count' => $user->user_posts,
-            'profile_order' => $profileCustomization->extras_order,
+            'profile_order' => $options['extras_order'],
+            'profile_pinned_badge' => $options['profile_pinned_badge'],
             'title' => $user->title(),
             'title_url' => $user->titleUrl(),
             'twitter' => $user->user_twitter,
             'website' => $user->user_website,
-        ]);
+        ];
     }
 }

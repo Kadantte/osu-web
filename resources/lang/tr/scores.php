@@ -5,6 +5,7 @@
 
 return [
     'show' => [
+        'non_preserved' => 'Bu skor silinmek üzere olarak işaretlendi ve yakında silinecek.',
         'title' => ':title\'da :username [:version]',
 
         'beatmap' => [
@@ -13,7 +14,10 @@ return [
 
         'player' => [
             'by' => 'Oynayan:',
+            'played_on' => 'Şurada oynandı',
             'submitted_on' => 'Gönderilme:',
+            'watched' => 'İzlendi',
+            'watched_count' => ':count_delimited görüntülenme|:count_delimited görüntülenme',
 
             'rank' => [
                 'country' => 'Ülke Sıralaması',
@@ -24,6 +28,8 @@ return [
 
     'status' => [
         'non_best' => 'Yalnızca en iyi bireysel skorlar pp kazandırır',
+        'no_pp' => 'bu skor için herhangi bir pp kazanılmadı',
         'processing' => 'Bu skor halen daha hesaplanıyor ve çok yakında gösterilecek',
+        'no_rank' => 'Bu skor, derecesiz olduğu veya silme talebinde bulunulduğu için herhangi bir dereceye sahip değil',
     ],
 ];

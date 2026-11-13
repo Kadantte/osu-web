@@ -7,16 +7,20 @@ namespace App\Console\Commands;
 
 use App\Libraries\Elasticsearch\Es;
 use App\Libraries\Elasticsearch\Indexing;
+use App\Models\ArtistTrack;
 use App\Models\Beatmapset;
 use App\Models\Forum\Post;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Console\Command;
 
 class EsIndexDocuments extends Command
 {
     const ALLOWED_TYPES = [
+        'artist_tracks' => [ArtistTrack::class],
         'beatmapsets' => [Beatmapset::class],
         'posts' => [Post::class],
+        'teams' => [Team::class],
         'users' => [User::class],
     ];
 
@@ -25,7 +29,7 @@ class EsIndexDocuments extends Command
      *
      * @var string
      */
-    protected $signature = 'es:index-documents {--types=} {--inplace} {--cleanup} {--yes}';
+    protected $signature = 'es:index-documents {--types=} {--inplace} {--cleanup}';
 
     /**
      * The console command description.
@@ -37,8 +41,6 @@ class EsIndexDocuments extends Command
     protected $cleanup;
     protected $inplace;
     protected $groups;
-    protected $suffix;
-    protected $yes;
 
     /**
      * Execute the console command.
@@ -48,7 +50,6 @@ class EsIndexDocuments extends Command
     public function handle()
     {
         $this->readOptions();
-        $this->suffix = !$this->inplace ? '_'.time() : '';
 
         $oldIndices = [];
         foreach ($this->groups as $name) {
@@ -60,7 +61,8 @@ class EsIndexDocuments extends Command
 
         $continue = $this->starterMessage($oldIndices);
         if (!$continue) {
-            return $this->error('User aborted!');
+            $this->error('User aborted!');
+            return;
         }
 
         $start = time();
@@ -85,8 +87,6 @@ class EsIndexDocuments extends Command
 
     private function indexGroup($name)
     {
-        $indices = [];
-        $newIndices = [];
         $types = collect(static::ALLOWED_TYPES[$name]);
 
         $allSame = $types->every(function ($type) use ($types) {
@@ -101,26 +101,26 @@ class EsIndexDocuments extends Command
 
         $first = $types->first();
         $alias = $first::esIndexName();
-        $indexName = "{$first::esIndexName()}{$this->suffix}";
+        $indexName = $this->inplace ? $alias : $first::esTimestampedIndexName();
         $pretext = $this->inplace ? 'In-place indexing' : 'Indexing';
 
         foreach ($types as $type) {
-            $count = $type::esIndexingQuery()->count();
-            $bar = $this->output->createProgressBar($count);
+            $bar = $this->output->createProgressBar();
+            $bar->setFormat(' %current% [%bar%] %message%');
 
             $this->info("{$pretext} {$type} into {$indexName}");
 
+            $progressCallback = function ($progress, $message) use ($bar) {
+                $bar->setMessage($message);
+                $bar->setProgress($progress);
+            };
             if (!$this->inplace && $type === $first) {
                 // create new index if the first type for this index, otherwise
                 // index in place.
-                $type::esIndexIntoNew(Es::CHUNK_SIZE, $indexName, function ($progress) use ($bar) {
-                    $bar->setProgress($progress);
-                });
+                $type::esIndexIntoNew(Es::CHUNK_SIZE, $indexName, $progressCallback);
             } else {
                 $options = ['index' => $indexName];
-                $type::esReindexAll(Es::CHUNK_SIZE, 0, $options, function ($progress) use ($bar) {
-                    $bar->setProgress($progress);
-                });
+                $type::esReindexAll(Es::CHUNK_SIZE, 0, $options, $progressCallback);
             }
 
             $bar->finish();
@@ -138,7 +138,6 @@ class EsIndexDocuments extends Command
     {
         $this->inplace = $this->option('inplace');
         $this->cleanup = $this->option('cleanup');
-        $this->yes = $this->option('yes');
 
         if ($this->option('types')) {
             $types = explode(',', $this->option('types'));
@@ -171,6 +170,6 @@ class EsIndexDocuments extends Command
             $confirmMessage = 'This will create new indices';
         }
 
-        return $this->yes || $this->confirm("{$confirmMessage}, begin indexing?");
+        return $this->option('no-interaction') || $this->confirm("{$confirmMessage}, begin indexing?", true);
     }
 }

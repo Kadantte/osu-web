@@ -6,7 +6,18 @@
 return [
     'countries' => [
         'all' => 'Усе',
-        'title' => '',
+        'title' => 'Краіна',
+    ],
+
+    'daily_challenge' => [
+        'beatmap' => 'Складанасць',
+        'theme' => '',
+        'top_10p' => 'Мінімальнае значэнне ачкоў у топ 10%',
+        'top_50p' => 'Мінімальнае значэнне ачкоў у топ 50%',
+        'unavailable' => [
+            'future' => '',
+            'past' => '',
+        ],
     ],
 
     'filter' => [
@@ -17,12 +28,60 @@ return [
         ],
     ],
 
+    'kudosu' => [
+        'total' => 'Атрымана',
+        'available' => 'Даступна',
+        'used' => 'Зрасходавана',
+    ],
+
+    'matchmaking' => [
+        'plays' => '',
+        'points' => 'Балы',
+        'provisional' => '',
+        'rating' => 'Рэйтынг',
+        'wins' => 'Перамогі',
+    ],
+
+    'multiplayer' => [
+        'room_name' => 'Назва пакоя',
+    ],
+
+    'performance' => [
+        'insufficient_history' => 'Гэты карыстальнік пачаў гуляць рэйтынгавыя карты менш за 30 дзён таму.',
+    ],
+
+    'top_plays' => [
+        'empty' => 'Усё яшчэ ідзе падлік даных...',
+        'last_updated' => 'Апошняе абнаўленне',
+    ],
+
+    'playlists' => [
+        'charts' => '',
+        'featured' => '',
+        'season_room' => '',
+        'seasons' => 'сезоны',
+    ],
+
     'type' => [
-        'charts' => 'Чартам',
-        'country' => 'Краіна',
-        'multiplayer' => '',
-        'performance' => 'Прадукцыйнасць',
-        'score' => 'Ачкі',
+        'country' => 'па краінам',
+        'daily_challenge' => 'па картах дня',
+        'global' => 'глабальны',
+        'kudosu' => 'кудосу',
+        'matchmaking' => 'ранкавана гульня',
+        'playlists' => 'плэйлісты',
+        'team' => 'па камандах',
+        'top_plays' => '',
+    ],
+
+    'seasons' => [
+        'empty' => 'У гэтым сезоне яшчэ няма месц.',
+        'ongoing' => 'Гэты сезон яшчэ працягваецца (будуць дададзены яшчэ плэйлісты).',
+        'room_count' => 'Колькасць плэйлістоў',
+        'summary' => '',
+        'url' => 'Паказаць больш даведак пра гэты сезон.',
+        'validation' => [
+            'not_enough_factors' => 'не набрана дастаткова крытэрыяў для карэктнага падліку ачкоў',
+        ],
     ],
 
     'spotlight' => [
@@ -36,6 +95,8 @@ return [
         'accuracy' => 'Дакладнасць',
         'active_users' => 'Актыўныя карыстальнікі',
         'country' => 'Краіна',
+        'division' => 'Ранг',
+        'members' => 'Удзельнікі',
         'play_count' => 'Колькасць гульняў',
         'performance' => 'Прадукцыйнасць',
         'total_score' => 'Агульны вынік',

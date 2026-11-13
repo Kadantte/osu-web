@@ -5,7 +5,7 @@
 
 return [
     'index' => [
-        'title_page' => 'ştiri osu!',
+        'title_page' => 'noutăți osu!',
 
         'nav' => [
             'newer' => 'Postări mai noi',
@@ -13,9 +13,28 @@ return [
         ],
 
         'title' => [
-            '_' => 'Ştiri :info',
+            '_' => 'noutăți',
             'info' => 'Pagina de pornire',
         ],
+    ],
+
+    'series' => [
+        'beatmap_spotlights' => '',
+        'community_contests' => '',
+        'community_tournaments' => '',
+        'fanart_contests' => '',
+        'featured_artists' => '',
+        'game_updates' => '',
+        'mappers_guild' => '',
+        'monthly_beatmapping_contest' => '',
+        'merch_runs' => '',
+        'miscellaneous' => '',
+        'official_contests' => '',
+        'offline_events' => '',
+        'online_events' => '',
+        'project_loved' => '',
+        'ranking_system_updates' => '',
+        'world_cups' => '',
     ],
 
     'show' => [
@@ -27,18 +46,18 @@ return [
         ],
 
         'title' => [
-            '_' => 'Ştiri :info',
+            '_' => 'noutăți',
             'info' => 'Postare',
         ],
     ],
 
     'sidebar' => [
-        'archive' => 'Arhiva de știri',
+        'archive' => 'Arhiva de Noutăți',
     ],
 
     'store' => [
         'button' => 'Actualizare',
-        'ok' => 'Listă modifictă.',
+        'ok' => 'Listă modificată.',
     ],
 
     'update' => [

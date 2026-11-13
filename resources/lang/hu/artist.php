@@ -22,6 +22,7 @@ return [
     ],
 
     'links' => [
+        'beatmaps' => 'osu! beatmapek',
         'osu' => 'osu! profil',
         'site' => 'Hivatalos Weboldal',
     ],
@@ -29,7 +30,8 @@ return [
     'songs' => [
         '_' => 'Zenék',
         'count' => ':count szám|:count szám',
-        'exclusive' => 'osu! exkluzív',
+        'original' => 'osu! eredeti',
+        'original_badge' => 'EREDETI',
     ],
 
     'tracklist' => [
@@ -37,5 +39,30 @@ return [
         'length' => 'hossz',
         'bpm' => 'bpm',
         'genre' => 'műfaj',
+    ],
+
+    'tracks' => [
+        'index' => [
+            '_' => 'zeneszám keresés',
+
+            'exclusive_only' => [
+                'all' => 'Összes',
+                'exclusive_only' => 'osu! eredeti',
+            ],
+
+            'form' => [
+                'advanced' => 'Részletes keresés',
+                'album' => 'Album',
+                'artist' => 'Előadó',
+                'bpm_gte' => 'Minimum BPM',
+                'bpm_lte' => 'Maximum BPM',
+                'empty' => 'Nem található a keresési feltételeknek megfelelő zeneszám.',
+                'exclusive_only' => 'Típus',
+                'genre' => 'Műfaj',
+                'genre_all' => 'Mind',
+                'length_gte' => 'Minimum hossz',
+                'length_lte' => 'Maximum hossz',
+            ],
+        ],
     ],
 ];

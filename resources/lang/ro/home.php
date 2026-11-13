@@ -7,13 +7,13 @@ return [
     'landing' => [
         'download' => 'Descarcă acum',
         'online' => '<strong>:players</strong> momentan online în <strong>:games</strong> jocuri',
-        'peak' => 'Maxim, :count utilizatori online',
-        'players' => '<strong>:count</strong> jucători înregistrați',
+        'peak' => 'Maxim, :count de utilizatori online',
+        'players' => '<strong>:count</strong> de jucători înregistrați',
         'title' => 'bine ai venit',
         'see_more_news' => 'vezi mai multe noutăți',
 
         'slogan' => [
-            'main' => 'cel mai bun joc de ritm free-to-win',
+            'main' => 'cel mai cel joc de ritm free-to-win',
             'sub' => 'ritmul este doar la un clic distanță',
         ],
     ],
@@ -26,23 +26,27 @@ return [
         'placeholder' => 'tastează pentru a căuta',
         'title' => 'Caută',
 
+        'artist_track' => [
+            'more_simple' => 'Vezi mai multe rezultate de căutare pentru artiști oficiali',
+        ],
         'beatmapset' => [
-            'login_required' => 'Conectați-vă pentru a căuta beatmaps',
-            'more' => ':count mai multe rezultate de căutare pentru acest beatmap',
+            'login_required' => 'Conectați-vă pentru a căuta beatmap-uri',
+            'more' => 'Încă :count beatmap-uri rezultate pentru această căutare',
             'more_simple' => 'Vezi mai multe rezultate de căutare pentru acest beatmap',
-            'title' => 'Beatmaps',
+            'title' => 'Beatmap-uri',
         ],
 
         'forum_post' => [
-            'all' => 'Toate forumurile',
+            'all' => 'Toate forum-urile',
             'link' => 'Caută pe forum',
-            'login_required' => 'Conectați-vă pentru a căuta forumul',
+            'login_required' => 'Conectați-vă pentru a căuta forum-ul',
             'more_simple' => 'Vezi mai multe rezultate de căutare pe forum',
             'title' => 'Forum',
 
             'label' => [
-                'forum' => 'căutare în forumuri',
-                'forum_children' => 'include subforumuri',
+                'forum' => 'căutare în forum-uri',
+                'forum_children' => 'include subforum-uri',
+                'include_deleted' => 'include postările șterse',
                 'topic_id' => 'subiect #',
                 'username' => 'autor',
             ],
@@ -50,15 +54,22 @@ return [
 
         'mode' => [
             'all' => 'tot',
+            'artist_track' => 'melodie artist oficial',
             'beatmapset' => 'beatmap',
             'forum_post' => 'forum',
+            'team' => 'echipă',
             'user' => 'jucător',
             'wiki_page' => 'wiki',
         ],
 
+        'team' => [
+            'login_required' => '',
+            'more_simple' => 'Vezi mai multe rezultate de căutare pentru echipe',
+        ],
+
         'user' => [
             'login_required' => 'Conectați-vă pentru a căuta utilizatori',
-            'more' => ':count mai multe rezultate de căutare pentru acest jucător',
+            'more' => 'Încă :count jucători rezultați pentru această căutare',
             'more_simple' => 'Vezi mai multe rezultate de căutare pentru acest jucător',
             'more_hidden' => 'Căutarea jucătorului este limitată la :max jucători. Încearcă să îți redefinești căutarea.',
             'title' => 'Jucători',
@@ -72,13 +83,24 @@ return [
     ],
 
     'download' => [
-        'tagline' => "să<br>începem!",
-        'action' => 'Descarcă osu!',
+        'action_lazer_info' => 'verificați această pagină pentru mai multe informații',
+        'download' => '',
+        'for_os' => 'pentru :os',
+        'macos-fallback' => 'utilizatori macOS',
+        'mirror' => 'sursă alternativă',
+        'or' => 'sau',
+        'os_version_or_later' => ':os_version sau mai nou',
+        'other_os' => 'alte platforme',
+        'quick_start_guide' => 'ghid de pornire rapidă',
+        'stable_text' => '',
+        'tagline_1' => '',
+        'tagline_2' => '',
+        'video-guide' => 'ghid video',
 
         'help' => [
-            '_' => 'dacă ai o problemă la pornirea jocului pentru înregistrarea contului, :help_forum_link sau :support_button.',
-            'help_forum_link' => 'verifică forumul de ajutor',
-            'support_button' => 'contactează asistență',
+            '_' => 'dacă ai o problemă la pornirea jocului sau la înregistrarea contului, :help_forum_link sau :support_button.',
+            'help_forum_link' => 'verifică forum-ul de ajutor',
+            'support_button' => 'contactează suportul tehnic',
         ],
 
         'os' => [
@@ -86,61 +108,57 @@ return [
             'macos' => 'pentru macOS',
             'linux' => 'pentru Linux',
         ],
-        'mirror' => 'mirror',
-        'macos-fallback' => 'utilizatori macOS',
         'steps' => [
             'register' => [
-                'title' => 'obține un cont',
-                'description' => 'urmează instrucțiunile când începi jocul pentru a te conecta sau pentru a-ți crea un cont nou',
+                'title' => 'creează un cont',
+                'description' => 'urmează instrucțiunile când deschizi jocul pentru a te conecta sau pentru a-ți crea un cont nou',
             ],
             'download' => [
                 'title' => 'descarcă jocul',
-                'description' => 'dă clic pe butonul de mai sus pentru a descărca programul de instalare, apoi rulează-l!',
+                'description' => 'dă clic pe butonul de mai sus pentru a descărca installer-ul, apoi rulează-l!',
             ],
             'beatmaps' => [
-                'title' => 'obține beatmaps',
+                'title' => 'obține beatmap-uri',
                 'description' => [
-                    '_' => ':browse vasta bibliotecă de beatmaps create de utilizatori și începe să joci!',
-                    'browse' => 'răsfoiește',
+                    '_' => ':browse vasta colecție de beatmap-uri create de utilizatori și începe să joci!',
+                    'browse' => 'navigați',
                 ],
             ],
         ],
-        'video-guide' => 'ghid video',
     ],
 
     'user' => [
-        'title' => 'tablou de bord',
+        'title' => 'tablou de comenzi',
         'news' => [
-            'title' => 'Știri',
-            'error' => 'Eroare la încărcarea știrilor, încearcă să reîmrospătezi pagina?...',
+            'title' => 'Noutăți',
+            'error' => 'Eroare la încărcarea noutăților, încearcă să reîmprospătezi pagina?...',
         ],
         'header' => [
             'stats' => [
-                'friends' => 'Prieteni online',
+                'friends' => 'Prieteni Online',
                 'games' => 'Jocuri',
-                'online' => 'Utilizatori online',
+                'online' => 'Utilizatori Online',
             ],
         ],
         'beatmaps' => [
-            'new' => 'Noi beatmaps clasate',
-            'popular' => 'Beatmaps populare',
+            'daily_challenge' => 'Beatmap Provocare Zilnică',
+            'new' => 'Beatmap-uri Clasate Noi',
+            'popular' => 'Beatmap-uri Populare',
             'by_user' => 'de :user',
+            'resets' => 'se resetează :ends',
         ],
         'buttons' => [
             'download' => 'Descarcă osu!',
             'support' => 'Sprijină osu!',
-            'store' => 'magazinul osu!',
+            'store' => 'Magazinul osu!',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Wow!',
-        'subtitle' => 'Se pare că ai un timp plăcut! :D',
-        'body' => [
-            'part-1' => 'Știai că osu! rulează fără nicio publicitate și se bazează pe jucători pentru a-și susține dezvoltarea și funcționarea?',
-            'part-2' => 'De asemenea, știai că prin sprijinirea osu! primești o mulțime de avantaje utile, cum ar fi <strong>descărcarea în joc a beatmapurilor</strong> care se declanșează automat în modul de spectator și jocurile multiplayer?',
+        'livestream' => [
+            'title' => '',
         ],
-        'find-out-more' => 'Apasă aici pentru a afla mai multe!',
-        'download-starting' => "Oh, și nu-ți face griji - descărcarea ta a început deja pentru tine ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Deschide consola de administrator',
+            ],
+        ],
     ],
 ];

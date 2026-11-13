@@ -12,31 +12,35 @@ use App\Models\User;
 use App\Models\UserGroup;
 use App\Models\UserNotification;
 use App\Models\UserNotificationOption;
+use App\Models\UserRelation;
 use App\Traits\NotificationQueue;
+use Ds\Set;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
 
 abstract class BroadcastNotificationBase implements ShouldQueue
 {
-    use NotificationQueue, Queueable, SerializesModels;
+    use NotificationQueue;
+    use Queueable;
+    use SerializesModels;
 
     const CONTENT_TRUNCATE = 36;
-
+    const DELIVERY_MODE_DEFAULTS = ['mail' => false, 'push' => true];
     const NOTIFICATION_OPTION_NAME = null;
 
     protected $name;
     protected $source;
     protected $timestamp;
 
-    public static function getBaseKey(Notification $notification): string
+    public static function getMailBaseKey(Notification $notification): string
     {
         return "{$notification->notifiable_type}.{$notification->category}.{$notification->name}";
     }
 
     public static function getMailGroupingKey(Notification $notification): string
     {
-        $base = static::getBaseKey($notification);
+        $base = static::getMailBaseKey($notification);
 
         return "{$base}-{$notification->notifiable_type}-{$notification->notifiable_id}";
     }
@@ -78,8 +82,6 @@ abstract class BroadcastNotificationBase implements ShouldQueue
 
     private static function applyDeliverySettings(array $userIds)
     {
-        static $defaults = ['mail' => true, 'push' => true];
-
         if (static::NOTIFICATION_OPTION_NAME !== null) {
             $notificationOptionsQuery = UserNotificationOption
                 ::where(['name' => static::NOTIFICATION_OPTION_NAME])
@@ -99,15 +101,17 @@ abstract class BroadcastNotificationBase implements ShouldQueue
             }
 
             foreach ($chunkedUserIds as $userId) {
-                $details = $notificationOptions[$userId]->details ?? $defaults;
+                $details = $notificationOptions[$userId]->details ?? static::DELIVERY_MODE_DEFAULTS;
                 $delivery = 0;
                 foreach (UserNotification::DELIVERY_OFFSETS as $type => $_offset) {
-                    if ($details[$type] ?? $defaults[$type]) {
+                    if ($details[$type] ?? static::DELIVERY_MODE_DEFAULTS[$type]) {
                         $delivery |= UserNotification::deliveryMask($type);
                     }
                 }
 
-                $deliverySettings[$userId] = $delivery;
+                if ($delivery !== 0) {
+                    $deliverySettings[$userId] = $delivery;
+                }
             }
         }
 
@@ -136,6 +140,7 @@ abstract class BroadcastNotificationBase implements ShouldQueue
     {
         $this->name = snake_case(get_class_basename(get_class($this)));
         $this->source = $source;
+        $this->afterCommit = true;
     }
 
     abstract public function getDetails(): array;
@@ -170,10 +175,11 @@ abstract class BroadcastNotificationBase implements ShouldQueue
 
     public function handle()
     {
-        $deliverySettings = static::applyDeliverySettings(static::excludeBotUserIds($this->getReceiverIds()));
+        $receiverIds = $this->excludeBlockedUserIds(static::excludeBotUserIds($this->getReceiverIds()));
+        $deliverySettings = static::applyDeliverySettings($receiverIds);
 
         if (empty($deliverySettings)) {
-            return;
+            return null;
         }
 
         $notification = $this->makeNotification();
@@ -184,7 +190,7 @@ abstract class BroadcastNotificationBase implements ShouldQueue
 
         $pushReceiverIds = [];
         $notification->getConnection()->transaction(function () use ($deliverySettings, $notification, &$pushReceiverIds) {
-            $timestamp = (string) $this->getTimestamp();
+            $timestamp = $this->getTimestamp()->format('Y-m-d H:i:s');
             $notificationId = $notification->getKey();
             $tempUserNotification = new UserNotification();
 
@@ -209,8 +215,13 @@ abstract class BroadcastNotificationBase implements ShouldQueue
         });
 
         if (!empty($pushReceiverIds)) {
-            event(new NewPrivateNotificationEvent($notification, $pushReceiverIds));
+            (new NewPrivateNotificationEvent($notification, $pushReceiverIds))->broadcast();
         }
+
+        return [
+            'notification' => $notification,
+            'receiverIds' => $receiverIds,
+        ];
     }
 
     public function makeNotification(): Notification
@@ -230,5 +241,26 @@ abstract class BroadcastNotificationBase implements ShouldQueue
         }
 
         return $notification;
+    }
+
+    private function excludeBlockedUserIds(array $userIds): array
+    {
+        if ($this->source === null) {
+            return $userIds;
+        }
+
+        $filteredIds = new Set($userIds);
+        foreach (array_chunk($userIds, 10000) as $chunkedUserIds) {
+            $filteredIds->remove(
+                ...UserRelation
+                    ::where('zebra_id', $this->source->getKey())
+                    ->where('foe', true)
+                    ->whereIn('user_id', $chunkedUserIds)
+                    ->pluck('user_id')
+                    ->all(),
+            );
+        }
+
+        return $filteredIds->toArray();
     }
 }

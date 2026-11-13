@@ -4,6 +4,11 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'beatmapset' => [
+        'button' => 'Anmäl',
+        'title' => 'Vill du anmäla :username\'s beatmap?',
+    ],
+
     'beatmapset_discussion_post' => [
         'button' => 'Anmäl',
         'title' => 'Anmäl :username s inlägg?',
@@ -11,17 +16,27 @@ return [
 
     'comment' => [
         'button' => 'Anmäl',
-        'title' => 'Anmäl :username s kommentar?',
+        'title' => 'Anmäl kommentar från :username?',
     ],
 
     'forum_post' => [
         'button' => 'Anmäl',
-        'title' => '',
+        'title' => 'Anmäla inlägg från :username?',
+    ],
+
+    'message' => [
+        'button' => 'Anmäl meddelande',
+        'title' => 'Anmäl :username\'s meddelande?',
     ],
 
     'scores' => [
         'button' => 'Anmäl poäng',
-        'title' => 'Anmäl :username s poäng?',
+        'title' => 'Anmäl resultat från :username?',
+    ],
+
+    'team' => [
+        'button' => 'Rapportera lag',
+        'title' => 'Rapportera :username`s lag?',
     ],
 
     'user' => [

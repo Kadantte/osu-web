@@ -5,7 +5,8 @@
 
 namespace App\Models\Forum;
 
-use App\Jobs\EsIndexDocument;
+use App\Casts\TimestampOrZero;
+use App\Jobs\EsDocument;
 use App\Jobs\UpdateUserForumCache;
 use App\Jobs\UpdateUserForumTopicFollows;
 use App\Libraries\BBCodeForDB;
@@ -13,11 +14,13 @@ use App\Libraries\Transactions\AfterCommit;
 use App\Models\Beatmapset;
 use App\Models\Log;
 use App\Models\Notification;
+use App\Models\Traits\WithDbCursorHelper;
 use App\Models\User;
 use App\Traits\Memoizes;
 use App\Traits\Validatable;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\QueryException;
 
@@ -35,11 +38,11 @@ use Illuminate\Database\QueryException;
  * @property \Illuminate\Database\Eloquent\Collection $pollOptions PollOption
  * @property \Illuminate\Database\Eloquent\Collection $pollVotes PollVote
  * @property bool $poll_hide_results
- * @property int $poll_last_vote
+ * @property \Carbon\Carbon|null $poll_last_vote
  * @property int $poll_length
  * @property mixed $poll_length_days
  * @property int $poll_max_options
- * @property int $poll_start
+ * @property \Carbon\Carbon|null $poll_start
  * @property string $poll_title
  * @property bool $poll_vote_change
  * @property \Illuminate\Database\Eloquent\Collection $posts Post
@@ -48,23 +51,23 @@ use Illuminate\Database\QueryException;
  * @property int $topic_bumped
  * @property int $topic_bumper
  * @property int $topic_first_post_id
- * @property string $topic_first_poster_colour
+ * @property string|null $topic_first_poster_colour
  * @property string $topic_first_poster_name
  * @property int $topic_id
  * @property int $topic_last_post_id
  * @property string $topic_last_post_subject
- * @property int $topic_last_post_time
- * @property string $topic_last_poster_colour
+ * @property \Carbon\Carbon|null $topic_last_post_time
+ * @property string|null $topic_last_poster_colour
  * @property int $topic_last_poster_id
  * @property string $topic_last_poster_name
- * @property int $topic_last_view_time
+ * @property \Carbon\Carbon|null $topic_last_view_time
  * @property int $topic_moved_id
  * @property int $topic_poster
  * @property int $topic_replies
  * @property int $topic_replies_real
  * @property int $topic_reported
  * @property int $topic_status
- * @property int $topic_time
+ * @property \Carbon\Carbon|null $topic_time
  * @property int $topic_time_limit
  * @property string $topic_title
  * @property int $topic_type
@@ -74,12 +77,23 @@ use Illuminate\Database\QueryException;
  */
 class Topic extends Model implements AfterCommit
 {
-    use Memoizes, Validatable;
+    use Memoizes;
+    use Validatable;
     use SoftDeletes {
         restore as private origRestore;
     }
+    use WithDbCursorHelper;
 
     const DEFAULT_SORT = 'new';
+    const SORTS = [
+        'new' => [
+            // type 'timestamp' because the values are stored as integer in the database
+            ['column' => 'topic_last_post_time', 'order' => 'DESC', 'type' => 'timestamp'],
+        ],
+        'old' => [
+            ['column' => 'topic_last_post_time', 'order' => 'ASC', 'type' => 'timestamp'],
+        ],
+    ];
 
     const STATUS_LOCKED = 1;
     const STATUS_UNLOCKED = 0;
@@ -90,18 +104,33 @@ class Topic extends Model implements AfterCommit
         'announcement' => 2,
     ];
 
-    const ISSUE_TAGS = [
-        'added',
-        'assigned',
-        'confirmed',
-        'duplicate',
-        'invalid',
-        'resolved',
+    const array ISSUE_TAGS = [
+        'status' => [
+            'added',
+            'archived',
+            'assigned',
+            'confirmed',
+            'duplicate',
+            'invalid',
+            'resolved',
+        ],
+        'platform' => [
+            'osu!lazer',
+            'osu!stable',
+            'osu!web',
+        ],
+        'misc' => [
+            'technical support',
+            'question',
+            'other',
+        ],
     ];
 
     const MAX_FIELD_LENGTHS = [
-        'topic_title' => 100,
+        'topic_title' => 255, // matching db, there's separate validation for title_normalised
     ];
+
+    const VIEW_COUNT_INTERVAL = 86400; // 1 day
 
     protected $table = 'phpbb_topics';
     protected $primaryKey = 'topic_id';
@@ -110,9 +139,22 @@ class Topic extends Model implements AfterCommit
 
     protected $casts = [
         'poll_hide_results' => 'boolean',
+        'poll_last_vote' => TimestampOrZero::class,
+        'poll_start' => TimestampOrZero::class,
         'poll_vote_change' => 'boolean',
         'topic_approved' => 'boolean',
+        'topic_last_post_time' => TimestampOrZero::class,
+        'topic_last_view_time' => TimestampOrZero::class,
+        'topic_time' => TimestampOrZero::class,
     ];
+
+    /**
+     * @return string[]
+     */
+    public static function getIssueTagsFlat(): array
+    {
+        return array_flatten(static::ISSUE_TAGS);
+    }
 
     public static function createNew($forum, $params, $poll = null)
     {
@@ -158,7 +200,7 @@ class Topic extends Model implements AfterCommit
         }
     }
 
-    public function validationErrorsTranslationPrefix()
+    public function validationErrorsTranslationPrefix(): string
     {
         return 'forum.topic';
     }
@@ -223,59 +265,14 @@ class Topic extends Model implements AfterCommit
         return $this->hasMany(TopicWatch::class);
     }
 
-    public function getPollLastVoteAttribute($value)
-    {
-        return get_time_or_null($value);
-    }
-
-    public function setPollLastVoteAttribute($value)
-    {
-        $this->attributes['poll_last_vote'] = get_timestamp_or_zero($value);
-    }
-
     public function getPollLengthDaysAttribute()
     {
         return $this->attributes['poll_length'] / 86400;
     }
 
-    public function getPollStartAttribute($value)
+    public function getTitleNormalisedAttribute(): string
     {
-        return get_time_or_null($value);
-    }
-
-    public function setPollStartAttribute($value)
-    {
-        $this->attributes['poll_start'] = get_timestamp_or_zero($value);
-    }
-
-    public function getTopicLastPostTimeAttribute($value)
-    {
-        return get_time_or_null($value);
-    }
-
-    public function setTopicLastPostTimeAttribute($value)
-    {
-        $this->attributes['topic_last_post_time'] = get_timestamp_or_zero($value);
-    }
-
-    public function getTopicLastViewTimeAttribute($value)
-    {
-        return get_time_or_null($value);
-    }
-
-    public function setTopicLastViewTimeAttribute($value)
-    {
-        $this->attributes['topic_last_view_time'] = get_timestamp_or_zero($value);
-    }
-
-    public function getTopicTimeAttribute($value)
-    {
-        return get_time_or_null($value);
-    }
-
-    public function setTopicTimeAttribute($value)
-    {
-        $this->attributes['topic_time'] = get_timestamp_or_zero($value);
+        return $this->titleNormalized();
     }
 
     public function getTopicFirstPosterColourAttribute($value)
@@ -287,8 +284,7 @@ class Topic extends Model implements AfterCommit
 
     public function setTopicFirstPosterColourAttribute($value)
     {
-        // also functions for casting null to string
-        $this->attributes['topic_first_poster_colour'] = ltrim($value, '#');
+        $this->attributes['topic_first_poster_colour'] = ltrim($value ?? '', '#');
     }
 
     public function getTopicLastPosterColourAttribute($value)
@@ -300,13 +296,12 @@ class Topic extends Model implements AfterCommit
 
     public function setTopicLastPosterColourAttribute($value)
     {
-        // also functions for casting null to string
-        $this->attributes['topic_last_poster_colour'] = ltrim($value, '#');
+        $this->attributes['topic_last_poster_colour'] = ltrim($value ?? '', '#');
     }
 
     public function setTopicTitleAttribute($value)
     {
-        $this->attributes['topic_title'] = trim_unicode($value);
+        $this->attributes['topic_title'] = app('chat-filters')->filter(trim_unicode($value));
     }
 
     public function save(array $options = [])
@@ -329,36 +324,34 @@ class Topic extends Model implements AfterCommit
     {
         $this->validationErrors()->reset();
 
-        if ($this->isDirty('topic_title') && !present($this->topic_title)) {
-            $this->validationErrors()->add('topic_title', 'required');
-        }
-
-        foreach (static::MAX_FIELD_LENGTHS as $field => $limit) {
-            if ($this->isDirty($field)) {
-                $val = $this->$field;
-
-                if (mb_strlen($val) > $limit) {
-                    $this->validationErrors()->add($field, 'too_long', ['limit' => $limit]);
-                }
+        if ($this->isDirty('topic_title')) {
+            if (!present($this->topic_title)) {
+                $this->validationErrors()->add('topic_title', 'required');
             }
+
+            $this->validateFieldLength(100, 'topic_title', 'title_normalised');
         }
+
+
+        $this->validateDbFieldLengths();
 
         return $this->validationErrors()->isEmpty();
     }
 
     public function titleNormalized()
     {
+        $title = $this->topic_title ?? '';
+
         if (!$this->isIssue()) {
-            return $this->topic_title;
+            return $title;
         }
 
-        $title = $this->topic_title;
+        static $tags = array_map(
+            fn (string $t): string => "[{$t}]",
+            self::getIssueTagsFlat(),
+        );
 
-        foreach (static::ISSUE_TAGS as $tag) {
-            $title = str_replace("[{$tag}]", '', $title);
-        }
-
-        return trim($title);
+        return trim(str_ireplace($tags, '', $title));
     }
 
     public function issueTags()
@@ -369,7 +362,7 @@ class Topic extends Model implements AfterCommit
             }
 
             $tags = [];
-            foreach (static::ISSUE_TAGS as $tag) {
+            foreach (self::getIssueTagsFlat() as $tag) {
                 if ($this->hasIssueTag($tag)) {
                     $tags[] = $tag;
                 }
@@ -377,6 +370,26 @@ class Topic extends Model implements AfterCommit
 
             return $tags;
         });
+    }
+
+    public function scopeArchivable(Builder $query): void
+    {
+        $query->where('topic_type', '<>', static::TYPES['announcement']);
+    }
+
+    public function scopeDoesntHaveTags(Builder $query, array $tags): void
+    {
+        foreach ($tags as $tag) {
+            $query->whereNot('topic_title', 'LIKE', "%[{$tag}]%");
+        }
+    }
+
+    public function scopeHasAnyTags(Builder $query, array $tags): void
+    {
+        foreach (array_values($tags) as $i => $tag) {
+            $fn = $i === 0 ? 'where' : 'orWhere';
+            $query->$fn('topic_title', 'LIKE', "%[{$tag}]%");
+        }
     }
 
     public function scopePinned($query)
@@ -424,12 +437,15 @@ class Topic extends Model implements AfterCommit
         $tieBreakerOrder = 'desc';
 
         switch ($sort) {
+            case 'created':
+                $query->orderBy('topic_time', 'desc');
+                break;
             case 'feature-votes':
                 $query->orderBy('osu_starpriority', 'desc');
                 break;
         }
 
-        $query->orderBy('topic_last_post_time', $tieBreakerOrder);
+        return $query->orderBy('topic_last_post_time', $tieBreakerOrder);
     }
 
     public function scopeRecent($query, $params = null)
@@ -463,13 +479,16 @@ class Topic extends Model implements AfterCommit
 
     public function pollTitleHTML()
     {
-        return bbcode($this->poll_title, $this->posts()->withTrashed()->first()->bbcode_uid);
+        return bbcode($this->poll_title, $this->firstPost->bbcode_uid);
     }
 
     public function pollEnd()
     {
-        if ($this->poll_start !== null && $this->poll_length !== 0) {
-            return $this->poll_start->copy()->addSeconds($this->poll_length);
+        $pollStart = $this->poll_start;
+        $pollLength = $this->poll_length;
+
+        if ($pollStart !== null && $pollLength !== 0) {
+            return $pollStart->copy()->addSeconds($pollLength);
         }
     }
 
@@ -487,6 +506,16 @@ class Topic extends Model implements AfterCommit
         });
     }
 
+    public function isOld()
+    {
+        // pinned and announce posts should never be considered old
+        if ($this->topic_type !== static::TYPES['normal']) {
+            return false;
+        }
+
+        return $this->topic_last_post_time < Carbon::now()->subMonths($GLOBALS['cfg']['osu']['forum']['old_months']);
+    }
+
     public function isLocked()
     {
         // not checking STATUS_LOCK because there's another
@@ -496,7 +525,7 @@ class Topic extends Model implements AfterCommit
 
     public function isActive()
     {
-        return $this->topic_last_post_time > Carbon::now()->subMonths(config('osu.forum.necropost_months'));
+        return $this->topic_last_post_time > Carbon::now()->subMonths($GLOBALS['cfg']['osu']['forum']['necropost_months']);
     }
 
     public function markRead($user, $markTime)
@@ -530,13 +559,12 @@ class Topic extends Model implements AfterCommit
                 // Duplicate entry.
                 // Retry, hoping $status now contains something.
                 if (is_sql_unique_exception($ex)) {
-                    return $this->markRead($user, $markTime);
+                    $this->markRead($user, $markTime);
+                    return;
                 }
 
                 throw $ex;
             }
-
-            $this->increment('topic_views');
         } elseif ($status->mark_time < $markTime) {
             $status->update(['mark_time' => $markTime]);
         }
@@ -549,9 +577,21 @@ class Topic extends Model implements AfterCommit
         DB::commit();
     }
 
+    public function incrementViewCount(?User $user, string $ipAddr): void
+    {
+        $lockKey = "view:forum_topic:{$this->getKey()}:";
+        $lockKey .= $user === null
+            ? "guest:{$ipAddr}"
+            : "user:{$user->getKey()}";
+
+        if (\Cache::lock($lockKey, static::VIEW_COUNT_INTERVAL)->get()) {
+            $this->incrementInstance('topic_views');
+        }
+    }
+
     public function isIssue()
     {
-        return in_array($this->forum_id, config('osu.forum.issue_forum_ids'), true);
+        return in_array($this->forum_id, $GLOBALS['cfg']['osu']['forum']['issue_forum_ids'], true);
     }
 
     public function delete()
@@ -750,7 +790,7 @@ class Topic extends Model implements AfterCommit
 
     public function allowsDoublePosting(): bool
     {
-        return in_array($this->forum_id, config('osu.forum.double_post_allowed_forum_ids'), true);
+        return in_array($this->forum_id, $GLOBALS['cfg']['osu']['forum']['double_post_allowed_forum_ids'], true);
     }
 
     public function isDoublePostBy(User $user)
@@ -762,9 +802,9 @@ class Topic extends Model implements AfterCommit
             return false;
         }
         if ($user->user_id === $this->topic_poster) {
-            $minHours = config('osu.forum.double_post_time.author');
+            $minHours = $GLOBALS['cfg']['osu']['forum']['double_post_time']['author'];
         } else {
-            $minHours = config('osu.forum.double_post_time.normal');
+            $minHours = $GLOBALS['cfg']['osu']['forum']['double_post_time']['normal'];
         }
 
         return $this->topic_last_post_time > Carbon::now()->subHours($minHours);
@@ -775,7 +815,7 @@ class Topic extends Model implements AfterCommit
         return $this->topic_type === static::TYPES['normal'] && $this->forum->isFeatureForum();
     }
 
-    public function poll($poll = null)
+    public function poll($poll = null): TopicPoll
     {
         return $this->memoize(__FUNCTION__, function () use ($poll) {
             return ($poll ?? new TopicPoll())->setTopic($this);
@@ -789,7 +829,7 @@ class Topic extends Model implements AfterCommit
         });
     }
 
-    public function setIssueTag($tag)
+    public function setIssueTag($tag, bool $updateType = true)
     {
         $this->topic_type = static::typeInt($tag === 'confirmed' ? 'sticky' : 'normal');
 
@@ -797,7 +837,7 @@ class Topic extends Model implements AfterCommit
             $this->topic_title = "[{$tag}] {$this->topic_title}";
         }
 
-        $this->save();
+        $this->saveOrExplode();
     }
 
     public function unsetIssueTag($tag)
@@ -807,26 +847,21 @@ class Topic extends Model implements AfterCommit
         $this->topic_title = preg_replace(
             '/  +/',
             ' ',
-            trim(str_replace("[{$tag}]", '', $this->topic_title))
+            trim(str_ireplace("[{$tag}]", '', $this->topic_title))
         );
 
-        $this->save();
+        $this->saveOrExplode();
     }
 
     public function hasIssueTag($tag)
     {
-        return strpos($this->topic_title, "[{$tag}]") !== false;
-    }
-
-    public function toMetaDescription()
-    {
-        return "{$this->forum->toMetaDescription()} » {$this->topic_title}";
+        return stripos($this->topic_title, "[{$tag}]") !== false;
     }
 
     public function afterCommit()
     {
         if ($this->exists && $this->firstPost !== null) {
-            dispatch(new EsIndexDocument($this->firstPost));
+            dispatch(new EsDocument($this->firstPost));
         }
     }
 
@@ -839,7 +874,7 @@ class Topic extends Model implements AfterCommit
             ->select(['poster_id', 'post_id'])
             ->each(function ($post) {
                 dispatch(new UpdateUserForumCache($post->poster_id));
-                dispatch(new EsIndexDocument($post));
+                dispatch(new EsDocument($post));
             });
 
         dispatch(new UpdateUserForumTopicFollows($this));

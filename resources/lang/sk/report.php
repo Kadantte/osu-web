@@ -4,28 +4,43 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'beatmapset' => [
+        'button' => 'Nahlásiť',
+        'title' => 'Nahlásiť beatmapu používateľa :username?',
+    ],
+
     'beatmapset_discussion_post' => [
         'button' => 'Nahlásiť',
-        'title' => '',
+        'title' => 'Nahlásiť príspevok používateľa :username?',
     ],
 
     'comment' => [
         'button' => 'Nahlásiť',
-        'title' => '',
+        'title' => 'Nahlásiť komentár používateľa :username?',
     ],
 
     'forum_post' => [
-        'button' => '',
-        'title' => '',
+        'button' => 'Nahlásiť',
+        'title' => 'Nahlásiť príspevok používateľa :username?',
+    ],
+
+    'message' => [
+        'button' => 'Nahlásiť Správu',
+        'title' => 'Nahlásiť správu od používateľa :username?',
     ],
 
     'scores' => [
-        'button' => 'Nahlásiť skóre',
-        'title' => 'Nahlásiť skóre :username?',
+        'button' => 'Nahlásiť Skóre',
+        'title' => 'Nahlásiť skóre používateľa :username?',
+    ],
+
+    'team' => [
+        'button' => 'Nahlásiť Tím',
+        'title' => 'Nahlásiť tím používateľa :username?',
     ],
 
     'user' => [
         'button' => 'Nahlásiť',
-        'title' => '',
+        'title' => 'Nahlásiť používateľa :username?',
     ],
 ];

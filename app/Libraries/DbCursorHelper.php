@@ -6,6 +6,7 @@
 namespace App\Libraries;
 
 use App\Models\Model;
+use Illuminate\Support\Collection;
 
 class DbCursorHelper
 {
@@ -15,7 +16,7 @@ class DbCursorHelper
     public function __construct($sorts, $defaultSort, $requestedSort = null)
     {
         $this->sortName = $requestedSort;
-        $this->sort = $sorts[$requestedSort] ?? null;
+        $this->sort = $sorts[$requestedSort ?? ''] ?? null;
 
         if ($this->sort === null) {
             $this->sort = $sorts[$defaultSort];
@@ -74,8 +75,20 @@ class DbCursorHelper
         return $ret;
     }
 
-    public function next($items)
+    public function next($items, bool $hasMore = true)
     {
-        return $this->itemToCursor(array_last($items));
+        if (!$hasMore) {
+            return null;
+        }
+
+        if (is_array($items)) {
+            $lastItem = array_last($items);
+        } elseif ($items instanceof Collection) {
+            $lastItem = $items->last();
+        }
+
+        if (isset($lastItem)) {
+            return $this->itemToCursor($lastItem);
+        }
     }
 }

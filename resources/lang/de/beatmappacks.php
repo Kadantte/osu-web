@@ -6,46 +6,42 @@
 return [
     'index' => [
         'description' => 'Fertig gepackte Sammlungen an Beatmaps, die auf einem gemeinsamen Thema basieren.',
-        'nav_title' => 'liste',
-        'title' => 'Beatmap-Pakete',
+        'empty' => 'Demnächst verfügbar!',
+        'nav_title' => 'Liste',
+        'title' => 'Beatmap-Packs',
 
         'blurb' => [
             'important' => 'VOR DEM HERUNTERLADEN BITTE LESEN',
-            'instruction' => [
-                '_' => "Installation: Sobald das Paket heruntergeladen wurde, entpacke das .rar-Archiv in dein osu! \"Songs\"-Verzeichnis.
-                    Alle Lieder sind innerhalb des Pakets noch einmal als .zip oder .osz-Archiv verpackt, deshalb muss osu! die Beatmaps beim nächsten Start noch einmal entpacken.
-                    Entpacke die .zip/.osz-Dateien :scary selbst,
-                    oder die Beatmaps werden in osu! nicht richtig funktionieren.",
-                'scary' => 'NICHT',
-            ],
-            'note' => [
-                '_' => 'Außerdem ist es sehr empfehlenswert, :scary, weil die älteren Beatmaps qualitativ wesentlich schlechter sind als aktuellere Beatmaps.',
-                'scary' => 'die neuesten Pakete zuerst herunterzuladen',
-            ],
+            'install_instruction' => 'Installation: Sobald ein Beatmap-Paket heruntergeladen wurde, entpacke den Inhalt des Pakets in einen Ordner, selektiere die osz-Dateien und ziehe sie in das osu!-Fenster.',
         ],
     ],
 
     'show' => [
-        'download' => 'Download',
+        'created_by' => 'von :author',
+        'download' => 'Herunterladen',
+        'no_diff_reduction_badge' => 'Herausforderung',
         'item' => [
             'cleared' => 'geschafft',
             'not_cleared' => 'nicht geschafft',
         ],
         'no_diff_reduction' => [
-            '_' => ':link darf zum Absolvieren dieses Pakets nicht verwendet werden.',
-            'link' => 'Schwierigkeitsverringerungsmods',
+            '_' => ':link dürfen zum Absolvieren dieses Beatmap-Pakets nicht verwendet werden.',
+            'link' => 'Mods zur Vereinfachung der Schwierigkeit',
         ],
     ],
 
     'mode' => [
         'artist' => 'Künstler/Album',
-        'chart' => 'Im Spotlight',
+        'chart' => 'Spotlights',
+        'featured' => 'Featured Artist',
+        'loved' => 'Project Loved',
         'standard' => 'Standard',
         'theme' => 'Thema',
+        'tournament' => 'Turnier',
     ],
 
     'require_login' => [
-        '_' => 'Zum Herunterladen muss man :link sein',
+        '_' => 'Du musst :link sein, um dies herunterladen zu können',
         'link_text' => 'eingeloggt',
     ],
 ];

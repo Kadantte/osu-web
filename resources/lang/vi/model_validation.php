@@ -8,6 +8,7 @@ return [
     'not_negative' => ':attribute không thể âm.',
     'required' => 'Yêu cầu :attribute.',
     'too_long' => ':attribute vượt quá độ dài cho phép - chỉ có thể lên đến :limit kí tự.',
+    'url' => 'Xin vui lòng nhập một URL hợp lệ.',
     'wrong_confirmation' => 'Xác nhận không phù hợp.',
 
     'beatmapset_discussion' => [
@@ -24,11 +25,11 @@ return [
         ],
 
         'hype' => [
-            'discussion_locked' => "",
+            'discussion_locked' => "Beatmap này đang bị khoá thảo luận và không thể được hype",
             'guest' => 'Cần phải đăng nhập để hype.',
             'hyped' => 'Bạn đã hype beatmap này rồi.',
             'limit_exceeded' => 'Bạn đã sử dụng hết số hype bạn có.',
-            'not_hypeable' => 'Beatmap này không thể được hype.',
+            'not_hypeable' => 'Beatmap này không thể được hype',
             'owner' => 'Không thể hype map của bạn.',
         ],
 
@@ -57,13 +58,13 @@ return [
     ],
 
     'follow' => [
-        'invalid' => '',
+        'invalid' => ':attribute đã chọn không hợp lệ.',
     ],
 
     'forum' => [
         'feature_vote' => [
-            'not_feature_topic' => 'Chỉ có thể bầu chọn một feature request.',
-            'not_enough_feature_votes' => 'Không đủ phiếu bầu.',
+            'not_feature_topic' => 'Chỉ có thể bình chọn một yêu cầu tính năng.',
+            'not_enough_feature_votes' => 'Không đủ lượt bình chọn.',
         ],
 
         'poll_vote' => [
@@ -73,12 +74,12 @@ return [
         'post' => [
             'beatmapset_post_no_delete' => 'Không cho phép xóa beatmap metadata.',
             'beatmapset_post_no_edit' => 'Không cho phép chỉnh sửa beatmap metadata.',
-            'first_post_no_delete' => '',
-            'missing_topic' => '',
+            'first_post_no_delete' => 'Không thể xóa bài đăng mở đầu',
+            'missing_topic' => 'Bài đăng thiếu chủ đề',
             'only_quote' => 'Câu trả lời của bạn chỉ có một trích dẫn.',
 
             'attributes' => [
-                'post_text' => 'Thân bài viết',
+                'post_text' => 'Thân bài đăng',
             ],
         ],
 
@@ -90,7 +91,7 @@ return [
 
         'topic_poll' => [
             'duplicate_options' => 'Không cho phép thêm lựa chọn trùng lặp.',
-            'grace_period_expired' => 'Không thể chỉnh sửa cuộc thăm dò sau :limit giờ',
+            'grace_period_expired' => 'Không thể chỉnh sửa cuộc thăm dò sau :limit giờ.',
             'hiding_results_forever' => 'Không thể ẩn kết quả của một cuộc thăm dò không bao giờ kết thúc.',
             'invalid_max_options' => 'Số lựa chọn cho một người không được vượt quá số lựa chọn sẵn có.',
             'minimum_one_selection' => 'Yêu cầu tối thiểu một lựa chọn cho mỗi người dùng.',
@@ -104,30 +105,54 @@ return [
 
         'topic_vote' => [
             'required' => 'Chọn một lựa chọn khi đang bỏ phiếu.',
-            'too_many' => 'Vượt quá mức cho phép chọn các lựa chọn.',
+            'too_many' => 'Vượt quá mức số lựa chọn cho phép.',
+        ],
+    ],
+
+    'legacy_api_key' => [
+        'exists' => 'Mỗi người dùng chỉ được cung cấp một API.',
+
+        'attributes' => [
+            'api_key' => 'khoá api',
+            'app_name' => 'tên ứng dụng',
+            'app_url' => 'url ứng dụng',
         ],
     ],
 
     'oauth' => [
         'client' => [
-            'too_many' => '',
-            'url' => '',
+            'too_many' => 'Vượt quá số lượng ứng dụng OAuth được cho phép.',
+            'url' => 'Xin vui lòng nhập một URL hợp lệ.',
 
             'attributes' => [
-                'name' => '',
-                'redirect' => '',
+                'name' => 'Tên ứng dụng',
+                'redirect' => 'URL gọi lại ứng dụng',
             ],
+        ],
+    ],
+
+    'team' => [
+        'invalid_characters' => ':attribute này chứa ký tự không hợp lệ.',
+        'used' => 'Lựa chọn :attribute này đã được sử dụng.',
+        'word_not_allowed' => 'Lựa chọn :attribute này không được phép.',
+
+        'attributes' => [
+            'default_ruleset_id' => 'Quy tắc mặc định',
+            'is_open' => 'Đơn ứng tuyển của đội',
+            'name' => 'Tên',
+            'short_name' => 'Tên ngắn gọn',
+            'url' => 'URL',
         ],
     ],
 
     'user' => [
         'contains_username' => 'Mật khẩu không thể chứa tên tài khoản.',
         'email_already_used' => 'Địa chỉ email đã được sử dụng.',
-        'email_not_allowed' => '',
+        'email_not_allowed' => 'Địa chỉ email không được phép.',
         'invalid_country' => 'Quốc gia không có trong cơ sở dữ liệu.',
         'invalid_discord' => 'Tên người dùng Discord không hợp lệ.',
         'invalid_email' => "Dường như đây không phải là địa chỉ email hợp lệ.",
-        'invalid_twitter' => '',
+        'invalid_twitter' => 'Tên người dùng Twitter không hợp lệ.',
         'too_short' => 'Mật khẩu mới quá ngắn.',
         'unknown_duplicate' => 'Tên người dùng hoặc email đã được sử dụng.',
         'username_available_in' => 'Tên người dùng này sẽ có sẵn để sử dụng trong :duration.',
@@ -163,7 +188,10 @@ return [
     ],
 
     'user_report' => [
-        'reason_not_valid' => '',
+        'no_ranked_beatmapset' => 'Beatmap đã Được Xếp hạng không thể bị báo cáo',
+        'not_in_channel' => 'Bạn không ở trong kênh này.',
+        'in_team' => 'Bạn là một phần của đội.',
+        'reason_not_valid' => ':reason không phù hợp cho kiểu báo cáo này.',
         'self' => "Bạn không thể báo cáo chính mình!",
     ],
 

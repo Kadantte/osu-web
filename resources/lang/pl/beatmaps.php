@@ -4,9 +4,15 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => 'Wybrano nieprawidłowy tryb gry.',
+
+    'change_owner' => [
+        'too_many' => 'Zbyt wielu gościnnych twórców beatmap.',
+    ],
+
     'discussion-votes' => [
         'update' => [
-            'error' => 'Aktualizacja oceny nie powiodła się',
+            'error' => 'Nie udało się zaktualizować oceny',
         ],
     ],
 
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'odrzuć kudosu',
         'edit' => 'edytuj',
         'edited' => 'Ostatnio edytowane przez :editor :update_time',
-        'kudosu_denied' => 'Odmówiono uzyskania kudosu.',
-        'message_placeholder_deleted_beatmap' => 'Ten poziom trudności został usunięty, więc nie można umieszczać w nim postów.',
+        'guest' => 'Gościnny poziom trudności autorstwa :user',
+        'kudosu_denied' => 'Odmówiono przyznania kudosu.',
+        'include_replies' => 'Uwzględnij odpowiedzi',
+        'message_placeholder_deleted_beatmap' => 'Nie możesz zamieszczać dyskusji dla usuniętego poziomu trudności.',
         'message_placeholder_locked' => 'Tworzenie dyskusji dla tej beatmapy zostało wyłączone.',
-        'message_placeholder_silenced' => "Nie możesz zamieszczać dyskusji podczas uciszenia.",
+        'message_placeholder_silenced' => "Nie możesz zamieszczać dyskusji po tym, jak twoje konto zostało uciszone.",
         'message_type_select' => 'Wybierz typ komentarza',
         'reply_notice' => 'Naciśnij Enter, aby odpowiedzieć.',
+        'reply_resolve_notice' => 'Naciśnij Enter, aby odpowiedzieć. Naciśnij Ctrl+Enter, aby odpowiedzieć i rozwiązać dyskusję.',
         'reply_placeholder' => 'Napisz tutaj swoją odpowiedź',
-        'require-login' => 'Zaloguj się, aby odpowiedzieć bądź opublikować uwagę',
+        'require-login' => 'Zaloguj się, aby opublikować uwagi',
         'resolved' => 'Rozwiązane',
         'restore' => 'przywróć',
         'show_deleted' => 'Pokaż usunięte',
+        'show_other_replies' => 'Pokaż inne odpowiedzi',
         'title' => 'Dyskusje',
+        'unresolved_count' => ':count_delimited nierozwiązany problem|:count_delimited nierozwiązane problemy|:count_delimited nierozwiązanych problemów',
 
         'collapse' => [
             'all-collapse' => 'Zwiń wszystkie',
@@ -38,7 +49,7 @@ return [
 
         'empty' => [
             'empty' => 'Brak dyskusji!',
-            'hidden' => 'Żadna dyskusja nie pasuje do wybranego filtru.',
+            'hidden' => 'Brak dyskusji spełniających wybrane filtry.',
         ],
 
         'lock' => [
@@ -54,31 +65,44 @@ return [
         ],
 
         'message_hint' => [
-            'in_general' => 'Ten post znajdzie się w generalnej dyskusji tego zestawu beatmap. Aby zmodować tę beatmapę, zacznij wiadomość od znacznika czasu (np. 00:12:345).',
+            'in_general' => 'Ten post znajdzie się w ogólnej dyskusji tej beatmapy. Aby zacząć modować ten poziom trudności, zacznij wiadomość od znacznika czasu (np. 00:12:345).',
             'in_timeline' => 'Aby zgłosić uwagi dla kilku różnych znaczników czasu, utwórz dla nich odrębne posty (po jednym dla każdego znacznika czasu).',
         ],
 
         'message_placeholder' => [
-            'general' => 'Utwórz post w ogólnej dyskusji (:version)',
-            'generalAll' => 'Utwórz post w ogólnej dyskusji (wszystkie poziomy trudności)',
+            'general' => 'Pisz tutaj, aby utworzyć post w ogólnej dyskusji (:version)',
+            'generalAll' => 'Pisz tutaj, aby utworzyć post w ogólnej dyskusji (wszystkie poziomy trudności)',
             'review' => 'Pisz tutaj, by zamieścić recenzję',
-            'timeline' => 'Utwórz post dla osi czasu (:version)',
+            'timeline' => 'Pisz tutaj, aby utworzyć post dla osi czasu (:version)',
         ],
 
         'message_type' => [
             'disqualify' => 'Zdyskwalifikuj',
             'hype' => 'Priorytet',
             'mapper_note' => 'Adnotacja',
-            'nomination_reset' => 'Zresetuj nominację',
+            'nomination_reset' => 'Zresetuj nominacje',
             'praise' => 'Pochwała',
             'problem' => 'Problem',
+            'problem_warning' => 'Zgłoś problem',
             'review' => 'Recenzja',
             'suggestion' => 'Sugestia',
         ],
 
+        'message_type_title' => [
+            'disqualify' => 'Zdyskwalifikuj beatmapę',
+            'hype' => 'Nagłośnij beatmapę',
+            'mapper_note' => 'Opublikuj adnotację',
+            'nomination_reset' => 'Usuń wszystkie nominacje',
+            'praise' => 'Opublikuj pochwałę',
+            'problem' => 'Zgłoś problem',
+            'problem_warning' => 'Zgłoś problem',
+            'review' => 'Opublikuj recenzję',
+            'suggestion' => 'Opublikuj sugestię',
+        ],
+
         'mode' => [
             'events' => 'Historia',
-            'general' => 'Główne :scope',
+            'general' => 'Ogólne :scope',
             'reviews' => 'Recenzje',
             'timeline' => 'Oś czasu',
             'scopes' => [
@@ -90,7 +114,7 @@ return [
         'new' => [
             'pin' => 'Przypnij',
             'timestamp' => 'Znacznik czasu',
-            'timestamp_missing' => 'Naciśnij Ctrl+C w edytorze i wklej swoją wiadomość, aby dodać znacznik czasu!',
+            'timestamp_missing' => 'Naciśnij Ctrl+C w edytorze i wklej zawartość, aby dodać znacznik czasu!',
             'title' => 'Nowa dyskusja',
             'unpin' => 'Odepnij',
         ],
@@ -104,10 +128,11 @@ return [
                 'unsaved' => 'Niezapisana',
                 'timestamp' => [
                     'all-diff' => 'Posty dla wszystkich poziomów trudności nie mogą zawierać znaczników czasu.',
-                    'diff' => 'Jeżeli ten post typu „:type” rozpoczyna się od znacznika czasu, zostanie on wyświetlony w zakładce osi czasu.',
+                    'diff' => 'Jeżeli ten post rozpoczyna się od znacznika czasu, zostanie on wyświetlony w zakładce osi czasu.',
                 ],
             ],
             'insert-block' => [
+                'mapper_note' => 'wstaw adnotację',
                 'paragraph' => 'wstaw akapit',
                 'praise' => 'wstaw pochwałę',
                 'problem' => 'wstaw problem',
@@ -138,8 +163,8 @@ return [
         'status-messages' => [
             'approved' => 'Ta beatmapa została zatwierdzona :date!',
             'graveyard' => "Ta beatmapa nie była aktualizowana od :date i trafiła do kategorii porzuconych...",
-            'loved' => 'Ta beatmapa otrzymała status ulubionej społeczności :date!',
-            'ranked' => 'Ta beatmapa otrzymała status rankingowy :date!',
+            'loved' => 'Ta beatmapa uzyskała status ulubionej społeczności :date!',
+            'ranked' => 'Ta beatmapa uzyskała status rankingowy :date!',
             'wip' => 'Ważne: Ta beatmapa została oznaczona przez twórcę jako aktualnie rozwijana.',
         ],
 
@@ -158,7 +183,7 @@ return [
     'hype' => [
         'button' => 'Nagłośnij beatmapę!',
         'button_done' => 'Już nagłośniono!',
-        'confirm' => "Na pewno? Zużyje to jedno z twoich możliwych nagłośnień. Tej czynności nie można cofnąć.",
+        'confirm' => "Czy na pewno chcesz to zrobić? Ta czynność jest nieodwracalna i zużyje jedno z twoich :n dostępnych nagłośnień.",
         'explanation' => 'Nagłośnij tę beatmapę, aby stała się bardziej widoczna dla nominatorów i osób modujących!',
         'explanation_guest' => 'Zaloguj się i nagłośnij tę beatmapę, aby stała się bardziej widoczna dla nominatorów i osób modujących!',
         'new_time' => "Nagłośnienie kolejnej beatmapy będzie możliwe za :new_time.",
@@ -169,10 +194,12 @@ return [
     ],
 
     'feedback' => [
-        'button' => 'Zostaw ocenę',
+        'button' => 'Zostaw opinię',
     ],
 
     'nominations' => [
+        'already_nominated' => 'Już nominowano tę beatmapę.',
+        'cannot_nominate' => 'Nie możesz nominować beatmapy dla tego trybu gry.',
         'delete' => 'Usuń',
         'delete_own_confirm' => 'Czy na pewno chcesz to zrobić? Ta beatmapa zostanie usunięta i nastąpi przekierowanie do twojego profilu.',
         'delete_other_confirm' => 'Czy na pewno chcesz to zrobić? Ta beatmapa zostanie usunięta i nastąpi przekierowanie do profilu użytkownika.',
@@ -182,9 +209,10 @@ return [
         'disqualify' => 'Zdyskwalifikuj',
         'incorrect_state' => 'Wystąpił błąd podczas wykonywania tej akcji, spróbuj odświeżyć stronę.',
         'love' => 'Nadaj status ulubionej społeczności',
+        'love_choose' => 'Wybierz poziomy trudności, które uzyskają status ulubionych społeczności',
         'love_confirm' => 'Czy chcesz nadać tej beatmapie status ulubionej społeczności?',
         'nominate' => 'Nominuj',
-        'nominate_confirm' => 'Nominować tę beatmapę?',
+        'nominate_confirm' => 'Czy chcesz nominować tę beatmapę?',
         'nominated_by' => 'nominowana przez :users',
         'not_enough_hype' => "Beatmapa nie jest wystarczająco nagłośniona.",
         'remove_from_loved' => 'Usuń z ulubionych beatmap społeczności',
@@ -196,6 +224,9 @@ return [
 
         'rank_estimate' => [
             '_' => 'Ta beatmapa uzyska status rankingowy :date, jeżeli nie zostaną zgłoszone żadne problemy. Obecnie jest ona na :position. miejscu w :queue.',
+            'unresolved_problems' => ':problems muszą zostać rozwiązane, aby beatmapa mogła uzyskać status rankingowy.',
+            'problems' => 'Określone problemy',
+            'on' => ':date',
             'queue' => 'kolejce rankingowej',
             'soon' => 'wkrótce',
         ],
@@ -206,8 +237,9 @@ return [
         ],
 
         'reset_confirm' => [
-            'nomination_reset' => 'Na pewno? Zgłoszenie nowego problemu zresetuje proces nominacji.',
-            'disqualify' => 'Czy na pewno chcesz to zrobić? Ta czynność odbierze tej beatmapie status zakwalifikowanej i zresetuje proces nominacji.',
+            'disqualify' => 'Czy na pewno chcesz to zrobić? Ta czynność zdyskwalifikuje tę beatmapę i zresetuje proces nominacji.',
+            'nomination_reset' => 'Czy na pewno chcesz to zrobić? Zgłoszenie nowego problemu zresetuje proces nominacji.',
+            'problem_warning' => 'Czy na pewno chcesz zgłosić problem z tą beatmapą? Powiadomi to nominatorów beatmap.',
         ],
     ],
 
@@ -216,6 +248,7 @@ return [
             'prompt' => 'wpisz poszukiwaną frazę...',
             'login_required' => 'Zaloguj się, aby wyszukać.',
             'options' => 'Więcej opcji wyszukiwania',
+            'rank_filter_note' => 'Liczniki ocen na profilach oraz wyniki wyszukiwania wyświetlane na tej stronie są oparte o wyniki wykorzystujące nowy system punktacji (tryb „lazer”).',
             'supporter_filter' => 'Użycie wybranych filtrów (:filters) wymaga aktywnego statusu donatora osu!',
             'not-found' => 'brak wyników',
             'not-found-quote' => '...niczego nie znaleziono.',
@@ -233,7 +266,7 @@ return [
             'sorting' => [
                 'title' => 'Tytuł',
                 'artist' => 'Wykonawca',
-                'difficulty' => 'Poziom trudności',
+                'difficulty' => 'Trudność',
                 'favourites' => 'Polubienia',
                 'updated' => 'Ostatnie aktualizacje',
                 'ranked' => 'Data',
@@ -246,12 +279,18 @@ return [
                 '_' => 'Użycie wybranych filtrów (:filters) wymaga :link',
                 'link_text' => 'statusu donatora osu!',
             ],
+            'tag_picker' => [
+                'tooltip' => 'przeglądaj tagi użytkowników',
+                'prompt' => 'napisz, aby wyszukać',
+            ],
         ],
     ],
     'general' => [
         'converts' => 'Uwzględnij przekonwertowane beatmapy',
+        'featured_artists' => 'Wyróżnieni artyści',
         'follows' => 'Obserwowani twórcy',
         'recommended' => 'Polecany poziom trudności',
+        'spotlights' => 'Wyróżnione beatmapy',
     ],
     'mode' => [
         'all' => 'Wszyscy',
@@ -260,6 +299,7 @@ return [
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => 'nie ustawiono',
     ],
     'status' => [
         'any' => 'Jakikolwiek',
@@ -269,7 +309,8 @@ return [
         'leaderboard' => 'Z tabelą wyników',
         'loved' => 'Ulubione społeczności',
         'mine' => 'Moje beatmapy',
-        'pending' => 'Oczekujące i rozwijane',
+        'pending' => 'Oczekujące',
+        'wip' => 'Obecnie rozwijane',
         'qualified' => 'Zakwalifikowane',
         'ranked' => 'Rankingowe',
     ],
@@ -288,32 +329,6 @@ return [
         'classical' => 'Muzyka klasyczna',
         'folk' => 'Muzyka folkowa',
         'jazz' => 'Jazz',
-    ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => 'Score V2',
     ],
     'language' => [
         'any' => 'Jakikolwiek',

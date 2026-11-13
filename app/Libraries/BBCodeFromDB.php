@@ -5,6 +5,8 @@
 
 namespace App\Libraries;
 
+use App\Jobs\CacheImagesize;
+
 /*
 * Note that this class doesn't actually parse random bbcode.
 * It only does "second pass" parsing of phpbb-preprocessed bbcode.
@@ -13,23 +15,27 @@ namespace App\Libraries;
 */
 class BBCodeFromDB
 {
+    const IMAGESIZE_MAX_FETCH = 10;
+
     public $text;
     public $uid;
     public $refId;
     public $withGallery;
+
+    private array $options;
+    private int $imagesizeFetchCount = 0;
 
     public function __construct($text, $uid = '', $options = [])
     {
         $defaultOptions = [
             'withGallery' => false,
             'ignoreLineHeight' => false,
-            'withoutImageDimensions' => false,
             'extraClasses' => '',
             'modifiers' => [],
         ];
 
         $this->text = $text;
-        $this->uid = presence($uid) ?? config('osu.bbcode.uid');
+        $this->uid = presence($uid) ?? $GLOBALS['cfg']['osu']['bbcode']['uid'];
         $this->options = array_merge($defaultOptions, $options);
 
         if ($this->options['withGallery']) {
@@ -37,9 +43,17 @@ class BBCodeFromDB
         }
     }
 
-    public function clearSpacesBetweenTags($text)
+    public function parseAlignment(string $text): string
     {
-        return preg_replace("/([^-][^-]>)\s*</", '\1<', $text);
+        $replacements = [];
+        foreach (['centre', 'left', 'right'] as $alignment) {
+            $replacements["[{$alignment}:{$this->uid}]\n"] = "<div class='bbcode__align-{$alignment}'>";
+            $replacements["[{$alignment}:{$this->uid}]"] = "<div class='bbcode__align-{$alignment}'>";
+            $replacements["[/{$alignment}:{$this->uid}]\n"] = '</div>';
+            $replacements["[/{$alignment}:{$this->uid}]"] = '</div>';
+        }
+
+        return strtr($text, $replacements);
     }
 
     public function parseAudio($text)
@@ -47,8 +61,12 @@ class BBCodeFromDB
         preg_match_all("#\[audio:{$this->uid}\](?<url>[^[]+)\[/audio:{$this->uid}\]#", $text, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $match) {
-            $proxiedSrc = proxy_media(html_entity_decode_better($match['url']));
-            $tag = '<audio controls="controls" preload="none" src="'.$proxiedSrc.'"></audio>';
+            $tag = tag('audio', [
+                'controls' => 'controls',
+                'data-modifiers' => 'bbcode',
+                'preload' => 'none',
+                'src' => proxy_media(html_entity_decode_better($match['url'])),
+            ]);
 
             $text = str_replace($match[0], $tag, $text);
         }
@@ -66,7 +84,7 @@ class BBCodeFromDB
 
     public function parseBox($text)
     {
-        $text = preg_replace("#\[box=([^]]*?):{$this->uid}\]\n*#s", $this->parseBoxHelperPrefix('\\1'), $text);
+        $text = preg_replace("#\[box=((\\\[\[\]]|[^][]|\[(\\\[\[\]]|[^][]|(?R))*\])*?):{$this->uid}\]\n*#s", $this->parseBoxHelperPrefix('\\1'), $text);
         $text = preg_replace("#\n*\[/box:{$this->uid}]\n?#s", $this->parseBoxHelperSuffix(), $text);
 
         $text = preg_replace("#\[spoilerbox:{$this->uid}\]\n*#s", $this->parseBoxHelperPrefix(), $text);
@@ -79,20 +97,12 @@ class BBCodeFromDB
     {
         $linkText = presence($linkText) ?? 'SPOILER';
 
-        return "<div class='js-spoilerbox bbcode-spoilerbox'><button class='js-spoilerbox__link bbcode-spoilerbox__link' type='button'><span class='bbcode-spoilerbox__link-icon'></span>{$linkText}</button><div class='bbcode-spoilerbox__body'>";
+        return "<div class='js-spoilerbox bbcode-spoilerbox'><a class='js-spoilerbox__link bbcode-spoilerbox__link' href='#'><span class='bbcode-spoilerbox__link-icon'></span><span class='bbcode-spoilerbox__link-text'>{$linkText}</span></a><div class='js-spoilerbox__body bbcode-spoilerbox__body'>";
     }
 
     public function parseBoxHelperSuffix()
     {
         return '</div></div>';
-    }
-
-    public function parseCentre($text)
-    {
-        $text = str_replace("[centre:{$this->uid}]", '<center>', $text);
-        $text = str_replace("[/centre:{$this->uid}]", '</center>', $text);
-
-        return $text;
     }
 
     public function parseCode($text)
@@ -119,7 +129,7 @@ class BBCodeFromDB
             "<a rel='nofollow' href='mailto:\\1'>\\1</a>",
             $text
         );
-        $text = preg_replace("#\[email=(.+?):{$this->uid}\]#", "<a rel='nofollow' href='mailto:\\1'>", $text);
+        $text = preg_replace("#\[email=([^\]]+):{$this->uid}\]#", "<a rel='nofollow' href='mailto:\\1'>", $text);
         $text = str_replace("[/email:{$this->uid}]", '</a>', $text);
 
         return $text;
@@ -128,9 +138,66 @@ class BBCodeFromDB
     public function parseHeading($text)
     {
         $text = str_replace("[heading:{$this->uid}]", '<h2>', $text);
-        $text = str_replace("[/heading:{$this->uid}]", '</h2>', $text);
+        $text = preg_replace("#\[/heading:{$this->uid}\]\n?#", '</h2>', $text);
 
         return $text;
+    }
+
+    public function parseImagemap($text)
+    {
+        return preg_replace_callback(
+            '#(\[imagemap\].+?\[/imagemap\]\n?)#',
+            function ($m) {
+                $unescaped = html_entity_decode_better(BBCodeForDB::extraUnescape($m[1]));
+                $parsed = preg_replace_callback(
+                    '#^\[imagemap\]\n\s*(?<imageUrl>https?://.+)\n(?<links>(?:\s*(?:[0-9.]+ ){4}(?:\#|https?://[^\s]+|mailto:[^\s]+)(?: .*)?\n)+)\s*\[/imagemap\]\n?$#',
+                    function ($map) {
+                        $links = array_filter(
+                            array_map(
+                                fn ($rawLink) => explode(' ', trim($rawLink), 6),
+                                explode("\n", $map['links']),
+                            ),
+                            // filter out blank lines
+                            fn ($links) => (count($links) >= 5),
+                        );
+
+                        $linksHtml = implode('', array_map(
+                            fn ($link) => tag($link[4] === '#' ? 'span' : 'a', [
+                                'class' => 'imagemap__link',
+                                'href' => $link[4],
+                                'style' => implode(';', [
+                                    "left: {$link[0]}%",
+                                    "top: {$link[1]}%",
+                                    "width: {$link[2]}%",
+                                    "height: {$link[3]}%",
+                                ]),
+                                'title' => $link[5] ?? '',
+                            ]),
+                            $links,
+                        ));
+
+                        $imageUrl = proxy_media($map['imageUrl']);
+                        $imageAttributes = [
+                            'class' => 'imagemap__image',
+                            'loading' => 'lazy',
+                            'src' => $imageUrl,
+                        ];
+                        $imageSize = $this->imagesize($imageUrl);
+                        if ($imageSize !== null) {
+                            $imageAttributes['width'] = $imageSize[0];
+                            $imageAttributes['height'] = $imageSize[1];
+                        }
+                        $imageHtml = tag('img', $imageAttributes);
+
+                        return tag('div', ['class' => 'imagemap'], $imageHtml.$linksHtml);
+                    },
+                    $unescaped,
+                );
+
+                return $parsed === $unescaped ? $m[1] : $parsed;
+            },
+            $text,
+        );
     }
 
     public function parseItalic($text)
@@ -146,40 +213,50 @@ class BBCodeFromDB
         preg_match_all("#\[img:{$this->uid}\](?<url>[^[]+)\[/img:{$this->uid}\]#", $text, $images, PREG_SET_ORDER);
 
         $index = 0;
+        $replacements = [];
 
         foreach ($images as $i) {
             $proxiedSrc = proxy_media(html_entity_decode_better($i['url']));
 
-            $imageTag = $galleryAttributes = '';
+            $attributes = [
+                'alt' => '',
+                'src' => $proxiedSrc,
+                'loading' => 'lazy',
+            ];
 
-            if (!$this->options['withoutImageDimensions']) {
-                $imageSize = fast_imagesize($proxiedSrc);
-            }
+            $imageSize = $this->imagesize($proxiedSrc);
+            if ($imageSize !== null && $imageSize[1] !== 0) {
+                $aspectRatio = round($imageSize[0] / $imageSize[1], 4);
 
-            if (!$this->options['withoutImageDimensions'] && $imageSize !== null && $imageSize[0] !== 0) {
-                $heightPercentage = $imageSize[1] / $imageSize[0] * 100;
+                $attributes['style'] = "aspect-ratio: {$aspectRatio}; width: {$imageSize[0]}px;";
 
-                $topClass = 'proportional-container';
                 if ($this->options['withGallery']) {
-                    $topClass .= ' js-gallery';
-                    $galleryAttributes = " data-width='{$imageSize[0]}' data-height='{$imageSize[1]}' data-index='{$index}' data-gallery-id='{$this->refId}' data-src='{$proxiedSrc}'";
+                    $attributes = [
+                        ...$attributes,
+                        'class' => 'js-gallery',
+                        'data-width' => $imageSize[0],
+                        'data-height' => $imageSize[1],
+                        'data-index' => $index,
+                        'data-gallery-id' => $this->refId,
+                        'data-src' => $proxiedSrc,
+                    ];
                 }
 
-                $imageTag .= "<span class='{$topClass}' style='width: {$imageSize[0]}px;'$galleryAttributes>";
-                $imageTag .= "<span class='proportional-container__height' style='padding-bottom: {$heightPercentage}%;'>";
-                $imageTag .= lazy_load_image($proxiedSrc, 'proportional-container__content');
-                $imageTag .= '</span>';
-                $imageTag .= '</span>';
-
                 $index += 1;
-            } else {
-                $imageTag .= lazy_load_image($proxiedSrc);
             }
 
-            $text = str_replace($i[0], $imageTag, $text);
+            $replacements[$i[0]] = tag('img', $attributes);
         }
 
-        return $text;
+        return strtr($text, $replacements);
+    }
+
+    public function parseInlineCode(string $text): string
+    {
+        return strtr($text, [
+            "[c:{$this->uid}]" => '<code>',
+            "[/c:{$this->uid}]" => '</code>',
+        ]);
     }
 
     public function parseList($text)
@@ -189,12 +266,11 @@ class BBCodeFromDB
         $text = preg_replace("#\[list:{$this->uid}\]\s*\[\*:{$this->uid}\]#", '<ol class="unordered"><li>', $text);
 
         // convert list items.
-        $text = preg_replace("#\[/\*(:m)?:{$this->uid}\]\n?#", '</li>', $text);
-        $text = str_replace("[*:{$this->uid}]", '<li>', $text);
+        $text = preg_replace("#\[/\*(:m)?:{$this->uid}\]\n?\n?#", '</li>', $text);
+        $text = preg_replace("#\s*\[\*:{$this->uid}\]#", '<li>', $text);
 
         // close list tags.
-        $text = str_replace("[/list:o:{$this->uid}]", '</ol>', $text);
-        $text = str_replace("[/list:u:{$this->uid}]", '</ol>', $text);
+        $text = preg_replace("#\s*\[/list:(o|u):{$this->uid}\]\n?\n?#", '</ol>', $text);
 
         // list with "title", with it being just a list without style.
         $text = preg_replace("#\[list=[^]]+:{$this->uid}\](.+?)(<li>|</ol>)#s", '<ul class="bbcode__list-title"><li>$1</li></ul><ol>$2', $text);
@@ -218,7 +294,7 @@ class BBCodeFromDB
 
         foreach ($users as $user) {
             $username = html_entity_decode_better($user['name']);
-            $userId = presence($user['id']) ?? $username;
+            $userId = presence($user['id']) ?? "@{$username}";
             $userLink = link_to_user($userId, $username, null);
             $text = str_replace($user[0], $userLink, $text);
         }
@@ -230,13 +306,12 @@ class BBCodeFromDB
     {
         $text = preg_replace("#\[quote=&quot;([^:]+)&quot;:{$this->uid}\]\s*#", '<blockquote><h4>\\1 wrote:</h4>', $text);
         $text = preg_replace("#\[quote:{$this->uid}\]\s*#", '<blockquote>', $text);
-        $text = preg_replace("#\s*\[/quote:{$this->uid}\]\s*#", '</blockquote>', $text);
+        $text = preg_replace("#\s*\[/quote:{$this->uid}\]\n?\n?#", '</blockquote>', $text);
 
         return $text;
     }
 
     // stolen from: www/forum/includes/functions.php:2845
-
     public function parseSmilies($text)
     {
         return preg_replace('#<!\-\- s(.*?) \-\-><img src="\{SMILIES_PATH\}\/(.*?) \/><!\-\- s\1 \-\->#', '<img class="smiley" src="'.osu_url('smilies').'/\2 />', $text);
@@ -270,8 +345,12 @@ class BBCodeFromDB
 
     public function parseSize($text)
     {
-        $text = preg_replace("#\[size=(\d+):{$this->uid}\]#", "<span class='size-\\1'>", $text);
-        $text = str_replace("[/size:{$this->uid}]", '</span>', $text);
+        $text = preg_replace_callback(
+            "#\[size=(\d+):{$this->uid}\]#",
+            fn ($m) => '<span style="font-size:'.\Number::clamp((int) $m[1], 30, 200).'%;">',
+            $text,
+        );
+        $text = strtr($text, ["[/size:{$this->uid}]" => '</span>']);
 
         return $text;
     }
@@ -279,37 +358,53 @@ class BBCodeFromDB
     public function parseUrl($text)
     {
         $text = preg_replace("#\[url:{$this->uid}\](.+?)\[/url:{$this->uid}\]#", "<a rel='nofollow' href='\\1'>\\1</a>", $text);
-        $text = preg_replace("#\[url=(.+?):{$this->uid}\]#", "<a rel='nofollow' href='\\1'>", $text);
+        $text = preg_replace("#\[url=([^\]]+):{$this->uid}\]#", "<a rel='nofollow' href='\\1'>", $text);
         $text = str_replace("[/url:{$this->uid}]", '</a>', $text);
 
         return $text;
     }
 
-    public function parseYoutube($text)
+    public function parseYoutube(string $text): string
     {
-        $text = str_replace("[youtube:{$this->uid}]", "<div class='bbcode__video-box'><div class='bbcode__video'><iframe src='https://www.youtube.com/embed/", $text);
-        $text = str_replace("[/youtube:{$this->uid}]", "?rel=0' frameborder='0' allowfullscreen></iframe></div></div>", $text);
+        $max = $GLOBALS['cfg']['osu']['bbcode']['youtube_embed_max'];
+        $count = 0;
 
-        return $text;
+        return preg_replace_callback(
+            "#\[youtube:{$this->uid}\](.+?)\[/youtube:{$this->uid}\]#",
+            function ($m) use (&$count, $max) {
+                return ++$count < $max
+                    ? tag('iframe', [
+                        'class' => 'u-embed-wide u-embed-wide--bbcode',
+                        'src' => "https://www.youtube.com/embed/{$m[1]}?rel=0",
+                        'allowfullscreen' => '',
+                    ]) : tag('a', [
+                        'href' => 'https://www.youtube.com/watch?v='.urlencode($m[1]),
+                    ], "See in YouTube ({$m[1]})");
+            },
+            $text
+        );
     }
 
     public function toHTML()
     {
+        $this->imagesizeFetchCount = 0;
+
         $text = $this->text;
 
         // block
+        $text = $this->parseImagemap($text);
         $text = $this->parseBox($text);
         $text = $this->parseCode($text);
         $text = $this->parseList($text);
         $text = $this->parseNotice($text);
         $text = $this->parseQuote($text);
         $text = $this->parseHeading($text);
-        $text = $this->clearSpacesBetweenTags($text);
 
         // inline
         $text = $this->parseAudio($text);
         $text = $this->parseBold($text);
-        $text = $this->parseCentre($text);
+        $text = $this->parseAlignment($text);
+        $text = $this->parseInlineCode($text);
         $text = $this->parseColour($text);
         $text = $this->parseEmail($text);
         $text = $this->parseImage($text);
@@ -324,7 +419,7 @@ class BBCodeFromDB
         $text = $this->parseProfile($text);
 
         $text = str_replace("\n", '<br />', $text);
-        $text = CleanHTML::purify($text);
+        $text = app('clean-html')->purify($text);
 
         $className = class_with_modifiers('bbcode', $this->options['modifiers']);
 
@@ -342,6 +437,9 @@ class BBCodeFromDB
     public function toEditor()
     {
         $text = $this->text;
+        if ($text === null) {
+            return '';
+        }
 
         // remove list item closing tags
         $text = str_replace("[/*:m:{$this->uid}]", '', $text);
@@ -370,9 +468,9 @@ class BBCodeFromDB
         // Don't care if too many characters are stripped;
         // just don't want tags to go into index because they mess up the highlighting.
 
-        static $pattern = '#\[/?(\*|\*:m|audio|b|box|color|spoilerbox|centre|code|email|heading|i|img|list|list:o|list:u|notice|profile|quote|s|strike|u|spoiler|size|url|youtube)(=.*?(?=:))?(:[a-zA-Z0-9]{1,5})?\]#';
+        static $pattern = '#\[/?(\*|\*:m|audio|b|box|color|spoilerbox|centre|code|email|heading|i|img|left|list|list:o|list:u|notice|profile|quote|right|s|strike|u|spoiler|size|url|youtube)(=.*?(?=:))?(:[a-zA-Z0-9]{1,5})?\]#';
 
-        return preg_replace($pattern, '', $text);
+        return preg_replace($pattern, '', $text ?? '');
     }
 
     public static function removeBlockQuotes($text)
@@ -398,5 +496,22 @@ class BBCodeFromDB
         }
 
         return $text;
+    }
+
+    private function imagesize(string $url): ?array
+    {
+        [$isCached, $size] = fast_imagesize_cache_get($url);
+
+        if (!$isCached) {
+            if ($this->imagesizeFetchCount < static::IMAGESIZE_MAX_FETCH) {
+                $this->imagesizeFetchCount++;
+
+                $size = fast_imagesize_cache_put($url);
+            } else {
+                dispatch(new CacheImagesize($url));
+            }
+        }
+
+        return $size;
     }
 }

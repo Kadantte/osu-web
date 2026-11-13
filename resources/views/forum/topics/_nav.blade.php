@@ -8,14 +8,8 @@
     @if ($userCanModerate)
         @include('forum.topics._moderate_pin', compact('topic'))
         @include('forum.topics._moderate_move', compact('topic'))
-
-        @if ($topic->isIssue())
-            @foreach ($topic::ISSUE_TAGS as $type)
-                @include("forum.topics._issue_tag_{$type}")
-            @endforeach
-        @endif
-
         @include('forum.topics._moderate_toggle_deleted')
+        @include('forum.topics._moderate_logs', compact('topic'))
     @endif
 @endsection
 
@@ -28,14 +22,12 @@
         <div class="
             forum-topic-nav__seek-bar
             forum-topic-nav__seek-bar--all
-            u-forum--bg-link
         "></div>
 
         <div
             class="
                 js-forum__posts-progress
                 forum-topic-nav__seek-bar
-                u-forum--bg-link
             "
         >
         </div>
@@ -48,6 +40,9 @@
 
         @if ($userCanModerate)
             <div class="forum-topic-nav__mobile-float forum-topic-nav__mobile-float--right">
+                @if ($topic->isIssue())
+                    @include('forum.topics._edit_tags', ['topic' => $topic])
+                @endif
                 <div
                     class="btn-circle btn-circle--topic-nav js-menu"
                     data-menu-target="topic-moderation-mobile"
@@ -70,6 +65,9 @@
 
         <div class="forum-topic-nav__group forum-topic-nav__group--desktop">
             @yield('forum-topic-moderation-menu')
+            @if ($userCanModerate && $topic->isIssue())
+                @include('forum.topics._edit_tags', ['topic' => $topic])
+            @endif
             @include('forum.topics._watch', ['topic' => $topic, 'state' => $watch])
         </div>
 
@@ -78,7 +76,7 @@
                 href="{{ route('search', ['mode' => 'forum_post', 'topic_id' => $topic->getKey()]) }}"
                 class="btn-circle btn-circle--topic-nav"
                 data-tooltip-float="fixed"
-                title="{{ trans('forum.topics.actions.search') }}"
+                title="{{ osu_trans('forum.topics.actions.search') }}"
             >
                 <span class="btn-circle__content">
                     <i class="fas fa-search"></i>
@@ -92,7 +90,7 @@
                 class="js-forum-posts-seek--jump btn-circle btn-circle--topic-nav"
                 data-jump-target="first"
                 data-tooltip-float="fixed"
-                title="{{ trans('forum.topic.jump.first') }}"
+                title="{{ osu_trans('forum.topic.jump.first') }}"
             >
                 <span class="btn-circle__content">
                     <i class="fas fa-angle-double-left"></i>
@@ -104,7 +102,7 @@
                 class="js-forum-posts-seek--jump btn-circle btn-circle--topic-nav"
                 data-jump-target="previous"
                 data-tooltip-float="fixed"
-                title="{{ trans('forum.topic.jump.previous') }}"
+                title="{{ osu_trans('forum.topic.jump.previous') }}"
             >
                 <span class="btn-circle__content">
                     <i class="fas fa-angle-left"></i>
@@ -148,7 +146,7 @@
                 <div
                     class="js-forum-topic-post-jump--cover forum-topic-nav__counter-cover"
                     data-tooltip-float="fixed"
-                    title="{{ trans('forum.topic.jump.enter') }}"
+                    title="{{ osu_trans('forum.topic.jump.enter') }}"
                 ></div>
             </div>
 
@@ -157,7 +155,7 @@
                 class="js-forum-posts-seek--jump btn-circle btn-circle--topic-nav"
                 data-jump-target="next"
                 data-tooltip-float="fixed"
-                title="{{ trans('forum.topic.jump.next') }}"
+                title="{{ osu_trans('forum.topic.jump.next') }}"
             >
                 <span class="btn-circle__content">
                     <i class="fas fa-angle-right"></i>
@@ -165,11 +163,11 @@
             </button>
 
             <a
-                href="{{ route('forum.topics.show', ['topic' => $topic, 'end' => $topic->topic_last_post_id]) }}#forum-post-{{ $topic->topic_last_post_id }}"
+                href="{{ route('forum.posts.show', ['post' => $topic->topic_last_post_id]) }}"
                 class="js-forum-posts-seek--jump btn-circle btn-circle--topic-nav"
                 data-jump-target="last"
                 data-tooltip-float="fixed"
-                title="{{ trans('forum.topic.jump.last') }}"
+                title="{{ osu_trans('forum.topic.jump.last') }}"
             >
                 <span class="btn-circle__content">
                     <i class="fas fa-angle-double-right"></i>
@@ -186,7 +184,7 @@
                 <div
                     class="btn-circle btn-circle--topic-nav btn-circle--blank"
                     data-tooltip-float="fixed"
-                    title="{{ trans('forum.topics.lock.is_locked') }}"
+                    title="{{ osu_trans('forum.topics.lock.is_locked') }}"
                 >
                     <span class="btn-circle__content">
                         <i class="fas fa-lock"></i>
@@ -199,7 +197,7 @@
                         type="button"
                         class="btn-circle btn-circle--topic-nav js-forum-topic-reply--toggle"
                         data-tooltip-float="fixed"
-                        title="{{ trans('forum.topics.actions.reply') }}"
+                        title="{{ osu_trans('forum.topics.actions.reply') }}"
                     >
                         <span class="btn-circle__content">
                             <i class="fas fa-reply"></i>
@@ -210,7 +208,7 @@
                         type="button"
                         class="btn-circle btn-circle--topic-nav js-user-link"
                         data-tooltip-float="fixed"
-                        title="{{ trans('forum.topics.actions.login_reply') }}"
+                        title="{{ osu_trans('forum.topics.actions.login_reply') }}"
                     >
                         <span class="btn-circle__content">
                             <i class="fas fa-reply"></i>
@@ -225,7 +223,7 @@
                 href="{{ route('search', ['mode' => 'forum_post', 'topic_id' => $topic->getKey()]) }}"
                 class="btn-circle btn-circle--topic-nav"
                 data-tooltip-float="fixed"
-                title="{{ trans('forum.topics.actions.search') }}"
+                title="{{ osu_trans('forum.topics.actions.search') }}"
             >
                 <span class="btn-circle__content">
                     <i class="fas fa-search"></i>
@@ -240,7 +238,7 @@
                     <span class="btn-osu-big__content">
                         <span class="btn-osu-big__left">
                             <span class="btn-osu-big__text-top">
-                                {{ trans('forum.topics.actions.reply') }}
+                                {{ osu_trans('forum.topics.actions.reply') }}
                             </span>
                         </span>
 
@@ -261,7 +259,7 @@
 
                         <span class="btn-osu-big__left">
                             <span class="btn-osu-big__text-top">
-                                {{ trans('forum.topics.actions.login_reply') }}
+                                {{ osu_trans('forum.topics.actions.login_reply') }}
                             </span>
                         </span>
                     </span>

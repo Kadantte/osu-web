@@ -5,20 +5,30 @@
 
 return [
     'edit' => [
-        'title_compact' => 'nastavení',
+        'title_compact' => 'nastavení účtu',
         'username' => 'uživatelské jméno',
 
         'avatar' => [
             'title' => 'Avatar',
-            'rules' => 'Prosím ujistěte se, že Váš avatar dodržuje :link.<br/>To znamená, že musí být <strong>vhodný pro všechny věkové kategorie</strong>. Tj. žádný nahota či nenávistný obsah.',
-            'rules_link' => 'pravidla komunity',
+            'reset' => 'resetovat',
+            'rules' => 'Ujisti se prosím, že tvůj avatar dodržuje :link.<br/>To znamená, že musí být <strong>vhodný pro všechny věkové kategorie</strong>. Tj. žádná nahota, žádný urážlivý či sugestivní obsah.',
+            'rules_link' => 'kritéria vizuálního obsahu',
         ],
 
         'email' => [
-            'current' => 'aktuální e-mail',
             'new' => 'nový e-mail',
             'new_confirmation' => 'ověření e-mailu',
             'title' => 'E-mail',
+            'locked' => [
+                '_' => 'Kontaktujte prosím :accounts, pokud potřebujete aktualizovat svoji emailovou adresu.',
+                'accounts' => 'tým podpory pro účty',
+            ],
+        ],
+
+        'legacy_api' => [
+            'api' => 'api',
+            'irc' => 'irc',
+            'title' => 'Legacy API',
         ],
 
         'password' => [
@@ -29,7 +39,13 @@ return [
         ],
 
         'profile' => [
+            'country' => 'země',
             'title' => 'Profil',
+
+            'country_change' => [
+                '_' => "Vypadá to, že země zvolená na Vašem účtu neodpovídá zemi Vašeho bydliště. :update_link.",
+                'update_link' => 'Změnit na :country',
+            ],
 
             'user' => [
                 'user_discord' => '',
@@ -47,23 +63,53 @@ return [
         ],
     ],
 
+    'github_user' => [
+        'info' => "Pokud jste přispěvatelem do repozitářů s otevřeným zdrojovým kódem osu!, propojením vašeho účtu GitHub zde budou vaše záznamy změn spojeny s vaším osu! profilem. Účty GitHub bez historie příspěvků s osu! nelze propojit.",
+        'link' => 'Připojit GitHub účet',
+        'title' => 'GitHub',
+        'unlink' => 'Odpojit GitHub účet',
+
+        'error' => [
+            'already_linked' => 'Tento GitHub účet je již propojen s jiným uživatelem.',
+            'no_contribution' => 'Nelze propojit GitHub účet bez historie příspěvků v osu! repozitářích.',
+            'unverified_email' => 'Ověřte prosím svůj primární e-mail na GitHubu a pak zkuste znovu propojit svůj účet.',
+        ],
+    ],
+
     'notifications' => [
-        'beatmapset_discussion_qualified_problem' => 'dostávat oznámení na nové problémy u kvalifikovaných map u následujících módů',
-        'beatmapset_disqualify' => 'dostávat notifikace kdy mapy následujících módů jsou diskvalifikované',
-        'comment_reply' => 'dostávat notifikace na odpovědi na vaše komentáře',
+        'beatmapset_discussion_reply' => 'dostávat oznámení na odpovědi k diskuzím beatmap, kterých se účastníš',
+        'beatmapset_discussion_qualified_problem' => 'dostávat oznámení na nové problémy u kvalifikovaných map následujících módů',
+        'beatmapset_disqualify' => 'dostávat oznámení, když beatmapy následujících módů jsou diskvalifikované',
+        'comment_reply' => 'dostávat oznámení na odpovědi k tvým komentářům',
+        'news_post' => 'dostávat oznámení na články o novinkách',
         'title' => 'Oznámení',
         'topic_auto_subscribe' => 'automaticky povolit oznámení o nových tématech fóra, které vytvoříte',
 
         'options' => [
             '_' => 'možnosti doručení',
+            'beatmap_owner_change' => 'obtížnost hosta',
             'beatmapset:modding' => 'módování beatmap',
+            'channel_mention' => 'zmínka v chatu',
             'channel_message' => 'soukromé zprávy',
+            'channel_team' => 'zprávy týmového chatu',
             'comment_new' => 'nové komentáře',
-            'forum_topic_reply' => 'odpoveď témata',
+            'forum_topic_reply' => 'odpověď v tématu',
             'mail' => 'e-mail',
-            'mapping' => '',
+            'mapping' => 'tvůrce beatmapy',
+            'news_post' => 'články o novinkách',
             'push' => 'push',
-            'user_achievement_unlock' => 'medaile odemčena',
+        ],
+
+        'tooltips' => [
+            'beatmap_owner_change' => 'když jsi přidán jako hostující autor na obtížnost beatmapy',
+            'beatmapset:modding' => 'když diskuse beatmap, které sleduješ, obdrží aktualizace nebo když obdržíš problém nebo návrh k vlastní beatmapě',
+            'channel_mention' => 'když jsi zmíněn ve veřejném kanálu',
+            'channel_message' => 'když obdržíš novou soukromou zprávu',
+            'channel_team' => 'když chatovací kanál tvého týmu má novou zprávu',
+            'comment_new' => 'když se objeví nový komentář u položky, kterou sleduješ',
+            'forum_topic_reply' => 'když témata fóra, která sleduješ, obdrží nové odpovědi',
+            'mapping' => 'když autor, kterého sleduješ, nahraje beatmapu',
+            'news_post' => 'když se objeví nové články o novinkách',
         ],
     ],
 
@@ -74,19 +120,22 @@ return [
     ],
 
     'options' => [
-        'beatmapset_show_nsfw' => 'skrýt varování pro explicitní obsah v beatmapách',
-        'beatmapset_title_show_original' => 'zobrazit informace map v originálním jazyce',
+        'beatmapset_show_anime_cover' => 'zobrazovat anime záhlaví beatmap',
+        'beatmapset_show_nsfw' => 'skrýt varování před explicitním obsahem v beatmapách',
+        'beatmapset_title_show_original' => 'zobrazovat metadata beatmap v původním jazyce',
         'title' => 'Možnosti',
 
         'beatmapset_download' => [
             '_' => 'výchozí typ stahování map',
             'all' => 's videem, je-li k dispozici',
             'direct' => 'otevřít v osu!direct',
+            'lazer' => '',
             'no_video' => 'bez videa',
         ],
     ],
 
     'playstyles' => [
+        'default_ruleset' => 'výchozí herní mód',
         'keyboard' => 'klávesnice',
         'mouse' => 'myš',
         'tablet' => 'tablet',
@@ -96,7 +145,9 @@ return [
 
     'privacy' => [
         'friends_only' => 'blokovat soukromé zprávy od lidí, kteří nejsou v tvém seznamu přátel',
-        'hide_online' => 'skrýt váš online status',
+        'friends_only_info' => 'toto blokování se také vztahuje na osu!lazer multiplayer pozvánky a požadavky na duel v hodnocené hře',
+        'hide_online' => 'skrýt tvůj online status',
+        'hide_online_info' => 'toto je stejné, jako "neviditelný" režim v osu!lazer',
         'title' => 'Soukromí',
     ],
 
@@ -115,6 +166,21 @@ return [
 
     'update_password' => [
         'update' => 'aktualizovat',
+    ],
+
+    'user_totp' => [
+        'title' => 'Ověřovací aplikace',
+        'usage_note' => 'Použít ověřovací aplikaci namísto emailu k ověření. Ověření emailem bude stále k dispozici jako záloha.',
+
+        'button' => [
+            'remove' => 'Odebrat',
+            'setup' => 'Přidat ověřovací aplikaci',
+        ],
+        'status' => [
+            'label' => 'stav',
+            'not_set' => 'Nenastavena',
+            'set' => 'Nakonfigurována',
+        ],
     ],
 
     'verification_completed' => [

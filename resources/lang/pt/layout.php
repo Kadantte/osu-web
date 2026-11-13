@@ -5,25 +5,30 @@
 
 return [
     'audio' => [
-        'autoplay' => 'Reproduzir a próxima faixa automaticamente',
+        'autoplay' => 'Reproduzir automaticamente a faixa seguinte',
     ],
 
     'defaults' => [
-        'page_description' => 'osu! - O ritmo está a um *clique* de distância! Com Ouendan/EBA, Taiko e modos de jogo originais, como também um editor de níveis totalmente funcional.',
+        'page_description' => 'osu! — O ritmo está apenas a um *clique* de distância! Com os modos de jogo Ouendan/EBA, Taiko e original, além de um editor de níveis totalmente funcional.',
     ],
 
     'header' => [
         'admin' => [
-            'beatmapset' => 'conjunto de beatmaps',
-            'beatmapset_covers' => 'capas de conjunto de beatmaps',
+            'beatmapset' => 'conjunto de mapas',
+            'beatmapset_covers' => 'capas de conjunto de mapas',
             'contest' => 'concurso',
             'contests' => 'concursos',
-            'root' => 'consola',
-            'store_orders' => 'administrador da loja',
+            'root' => 'terminal',
         ],
 
         'artists' => [
             'index' => 'listagem',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'informação',
+            'discussions' => 'discussão',
+            'versions' => 'histórico de versões',
         ],
 
         'changelog' => [
@@ -32,12 +37,12 @@ return [
 
         'help' => [
             'index' => 'índice',
-            'sitemap' => 'Mapa do site',
+            'sitemap' => 'Mapa da página',
         ],
 
         'store' => [
             'cart' => 'carrinho',
-            'orders' => 'historial de pedidos',
+            'orders' => 'histórico de encomendas',
             'products' => 'produtos',
         ],
 
@@ -46,14 +51,17 @@ return [
         ],
 
         'users' => [
-            'modding' => 'modding',
+            'modding' => 'modificação',
+            'playlists' => 'listas de reprodução',
+            'ranked-play' => 'partida classificada',
+            'realtime' => 'multijogador',
             'show' => 'informação',
         ],
     ],
 
     'gallery' => [
         'close' => 'Fechar (Esc)',
-        'fullscreen' => 'Ativar/Desativar ecrã inteiro',
+        'fullscreen' => 'Alternar o modo de ecrã completo',
         'zoom' => 'Aproximar/Afastar',
         'previous' => 'Anterior (seta esquerda)',
         'next' => 'Seguinte (seta direita)',
@@ -61,50 +69,28 @@ return [
 
     'menu' => [
         'beatmaps' => [
-            '_' => 'beatmaps',
-            'artists' => 'artistas destacados',
-            'index' => 'listagem',
-            'packs' => 'pacotes',
+            '_' => 'mapas',
         ],
         'community' => [
             '_' => 'comunidade',
-            'chat' => 'chat',
-            'contests' => 'concursos',
             'dev' => 'desenvolvimento',
-            'forum-forums-index' => 'fóruns',
-            'getLive' => 'ao vivo',
-            'tournaments' => 'torneios',
         ],
         'help' => [
             '_' => 'ajuda',
             'getAbuse' => 'denunciar abuso',
             'getFaq' => 'perguntas frequentes',
             'getRules' => 'regras',
-            'getSupport' => 'a sério, preciso mesmo de ajuda!',
-            'getWiki' => 'wiki',
+            'getSupport' => 'não, a sério, preciso de ajuda!',
         ],
         'home' => [
             '_' => 'início',
-            'changelog-index' => 'lista de mudanças',
-            'getDownload' => 'transferir',
-            'news-index' => 'notícias',
-            'search' => 'pesquisar',
             'team' => 'equipa',
         ],
         'rankings' => [
             '_' => 'classificações',
-            'charts' => 'em destaque',
-            'country' => 'país',
-            'index' => 'desempenho',
-            'kudosu' => 'kudosu',
-            'multiplayer' => 'multijogador',
-            'score' => 'pontuação',
         ],
         'store' => [
             '_' => 'loja',
-            'cart-show' => 'carrinho',
-            'getListing' => 'listagem',
-            'orders-index' => 'histórico de encomendas',
         ],
     ],
 
@@ -113,23 +99,25 @@ return [
             '_' => 'Geral',
             'home' => 'Início',
             'changelog-index' => 'Registo de alterações',
-            'beatmaps' => 'Listagem de beatmaps',
-            'download' => 'Descarrega o osu!',
+            'beatmaps' => 'Listagem de mapas',
+            'download' => 'Transfira o osu!',
         ],
         'help' => [
-            '_' => 'Ajuda e comunidade',
-            'faq' => 'Perguntas frequentes (em brasileiro)',
+            '_' => 'Ajuda e Comunidade',
+            'faq' => 'Perguntas frequentes',
             'forum' => 'Fóruns da comunidade',
-            'livestreams' => 'Transmissões ao vivo',
+            'livestreams' => 'Transmissões em direto',
             'report' => 'Comunicar um problema',
             'wiki' => 'Wiki',
         ],
         'legal' => [
             '_' => 'Legalidade e Situação Jurídica',
             'copyright' => 'Direitos de autor (DMCA)',
+            'jp_sctl' => '',
             'privacy' => 'Privacidade',
+            'rules' => 'Regras',
             'server_status' => 'Estado do servidor',
-            'source_code' => 'Código-fonte',
+            'source_code' => 'Código fonte',
             'terms' => 'Termos de serviço',
         ],
     ],
@@ -141,82 +129,88 @@ return [
         ],
         '404' => [
             'error' => 'Página em falta',
-            'description' => "Lamento, mas a página que pediste não está aqui!",
+            'description' => "Lamentamos, mas a página que procurou não se encontra disponível!",
         ],
         '403' => [
-            'error' => "Tu não devias estar aqui.",
-            'description' => 'Contudo, podias tentar voltar para trás.',
+            'error' => "Não devia estar aqui.",
+            'description' => 'Ainda assim, podia tentar retroceder.',
         ],
         '401' => [
-            'error' => "Tu não devias estar aqui.",
-            'description' => 'Contudo, podias tentar voltar para trás ou talvez iniciares sessão.',
+            'error' => "Não devia estar aqui.",
+            'description' => 'Ainda assim, podia tentar retroceder. Ou talvez iniciar a sessão.',
         ],
         '405' => [
             'error' => 'Página em falta',
-            'description' => "Lamento, mas a página que pediste não está aqui!",
+            'description' => "Lamentamos, mas a página que procurou não se encontra disponível!",
         ],
         '422' => [
             'error' => 'Parâmetro de pedido inválido',
             'description' => '',
         ],
         '429' => [
-            'error' => 'Taxa limite excedida',
+            'error' => 'Limite de taxa excedido',
             'description' => '',
         ],
         '500' => [
-            'error' => 'Oh não! Algo se quebrou! ;_;',
-            'description' => "Somos automaticamente notificados de todos os erros.",
+            'error' => 'Ó não! Algo avariou! ;_;',
+            'description' => "Somos automaticamente notificados de cada erro.",
         ],
         'fatal' => [
-            'error' => 'Oh não! Algo se quebrou (seriamente)! ;_;',
-            'description' => "Somos automaticamente notificados de todos os erros.",
+            'error' => 'Ó não! Algo avariou (mesmo a sério)! ;_;',
+            'description' => "Somos automaticamente notificados de cada erro.",
         ],
         '503' => [
-            'error' => 'Offline para manutenção!',
-            'description' => "A manutenção geralmente demora mais ou menos desde 5 segundos até 10 minutos. Se estivermos offline por mais tempo, vê :link para mais informações.",
+            'error' => 'Em manutenção!',
+            'description' => "A manutenção costuma demorar entre 5 segundos e 10 minutos. Se estivermos indisponíveis por mais tempo, consulte :link para mais informações.",
             'link' => [
                 'text' => '',
                 'href' => '',
             ],
         ],
         // used by sentry if it returns an error
-        'reference' => "Só por acaso, aqui está um código que tu podes dar para ajudar!",
+        'reference' => "Só por precaução, aqui está um código que pode fornecer ao suporte!",
     ],
 
     'popup_login' => [
-        'button' => 'iniciar sessão / registar',
+        'button' => 'iniciar a sessão / registar',
 
         'login' => [
-            'forgot' => "Esqueci-me dos meus detalhes",
+            'forgot' => "Esqueci‑me dos meus dados",
             'password' => 'palavra-passe',
-            'title' => 'Inicia sessão para procederes',
+            'title' => 'Inicie a sessão para proceder',
             'username' => 'nome de utilizador',
 
             'error' => [
-                'email' => "Nome de utilizador ou endereço de email não existente",
-                'password' => 'Palavra-passe incorreta',
+                'email' => "O nome de utilizador ou o endereço de e-mail não existe",
+                'password' => 'Palavra‑passe incorreta',
             ],
         ],
 
         'register' => [
-            'download' => 'Descarregar',
-            'info' => 'Transfere o osu! para criar a tua própria conta!',
-            'title' => "Não tens uma conta?",
+            'download' => 'Transferir',
+            'info' => 'Transfira o osu! para criar a sua própria conta!',
+            'title' => "Não tem uma conta?",
         ],
     ],
 
     'popup_user' => [
         'links' => [
             'account-edit' => 'Definições',
+            'create_team' => 'Criar Equipa',
             'follows' => 'Listas de observação',
             'friends' => 'Amigos',
-            'logout' => 'Terminar sessão',
+            'legacy_score_only_toggle' => 'Modo lazer',
+            'legacy_score_only_toggle_tooltip' => 'O modo lazer mostra pontuações definidas a partir do lazer com um novo algoritmo de pontuação',
+            'logout' => 'Terminar a sessão',
             'profile' => 'O meu perfil',
+            'scoring_mode_toggle' => 'Pontuação clássica',
+            'scoring_mode_toggle_tooltip' => 'Ajuste os valores da pontuação para se aproximarem mais da pontuação clássica sem limite',
+            'team' => 'A minha equipa',
         ],
     ],
 
     'popup_search' => [
-        'initial' => 'Escreve para pesquisar!',
-        'retry' => 'Pesquisa falhada. Clica para tentar outra vez.',
+        'initial' => 'Escreva para pesquisar!',
+        'retry' => 'A pesquisa falhou. Clique para tentar novamente.',
     ],
 ];

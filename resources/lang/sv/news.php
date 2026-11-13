@@ -14,8 +14,27 @@ return [
 
         'title' => [
             '_' => 'nyheter',
-            'info' => 'framsida',
+            'info' => 'förstasida',
         ],
+    ],
+
+    'series' => [
+        'beatmap_spotlights' => 'Slagkarte Höjdpunkter',
+        'community_contests' => 'gemenskapstävlingar',
+        'community_tournaments' => 'gemenskapsturneringar',
+        'fanart_contests' => 'konst tävlingar',
+        'featured_artists' => 'Utvalda artistmeddelanden',
+        'game_updates' => 'klient och webbplatsuppdateringar',
+        'mappers_guild' => 'Mappers Guild',
+        'monthly_beatmapping_contest' => 'Månatlig Slagkartestävling',
+        'merch_runs' => 'osu! varor',
+        'miscellaneous' => 'diverse meddelanden',
+        'official_contests' => 'officiella tävlingar',
+        'offline_events' => 'offline händelser',
+        'online_events' => 'online-händelser',
+        'project_loved' => 'Älskade Projekt',
+        'ranking_system_updates' => 'rankning systemuppdateringar',
+        'world_cups' => 'osu! Världscuper',
     ],
 
     'show' => [

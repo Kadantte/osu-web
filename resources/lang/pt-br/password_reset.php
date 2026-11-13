@@ -5,7 +5,6 @@
 
 return [
     'button' => [
-        'cancel' => 'Cancelar',
         'resend' => 'Reenviar email de verificação',
         'set' => 'Definir senha',
         'start' => 'Começar',
@@ -13,10 +12,14 @@ return [
 
     'error' => [
         'contact_support' => 'Por favor, entre em contato com o suporte para recuperar a sua conta.',
+        'expired' => 'O código de verificação expirou.',
+        'invalid' => 'Erro inesperado no código de verificação.',
         'is_privileged' => 'Fala com o peppy, lul.',
         'missing_key' => 'Obrigatório.',
+        'too_many_requests' => 'O limite de solicitações de redefinição de senha foi atingido. Entre em contato com o suporte para recuperar a conta.',
         'too_many_tries' => 'Número de tentativas excedido.',
         'user_not_found' => 'O usuário selecionado não existe.',
+        'wait_resend' => 'Por favor, aguarde alguns minutos.',
         'wrong_key' => 'Código incorreto.',
     ],
 
@@ -35,6 +38,9 @@ return [
     'starting' => [
         'username' => 'Insira endereço de email ou nome de usuário',
 
+        'reason' => [
+            'inactive_different_country' => "Sua conta não foi utilizada há bastante tempo. Para garantir a segurança de sua conta, por favor redefina sua senha.",
+        ],
         'support' => [
             '_' => 'Precisa de mais assistência? Entre em contato conosco através do nosso :button.',
             'button' => 'sistema de suporte',

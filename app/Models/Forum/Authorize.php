@@ -5,6 +5,8 @@
 
 namespace App\Models\Forum;
 
+use Illuminate\Database\Eloquent\Builder;
+
 /**
  * temporary class until simpler acl is implemented.
  *
@@ -16,52 +18,42 @@ namespace App\Models\Forum;
  */
 class Authorize extends Model
 {
-    protected $table = 'phpbb_acl_groups';
+    public $incrementing = false;
     public $timestamps = false;
+
+    protected $primaryKey = ':composite';
     protected $primaryKeys = ['group_id', 'forum_id', 'auth_option_id', 'auth_role_id', 'auth_setting'];
+    protected $table = 'phpbb_acl_groups';
 
     public static function aclCheck($user, $authOption, $forum)
     {
-        $groupIds = $user->groupIds()['active'];
-        $authOptionId = AuthOption::where('auth_option', $authOption)->value('auth_option_id');
-
-        // the group may contain direct acl entry
-        $isAuthorized = static::directAcl($groupIds, $authOptionId)
+        return static::acl($user->groupIds(), $authOption)
             ->where('forum_id', $forum->forum_id)
             ->exists();
-
-        // the group may also be part of role which may have matching
-        // acl entry
-        if (!$isAuthorized) {
-            $isAuthorized = static::roleAcl($groupIds, $authOptionId)
-                ->where('forum_id', $forum->forum_id)
-                ->exists();
-        }
-
-        // there's actually another one (phpbb_acl_users) but doesn't seem
-        // to contain anything but old-ish banlist?
-        return $isAuthorized;
-    }
-
-    public static function aclGetAllowedForums($user, $authOption)
-    {
-        $groupIds = $user->groupIds()['active'];
-        $authOptionId = AuthOption::where('auth_option', $authOption)->value('auth_option_id');
-
-        $directAclForumIds = model_pluck(static::directAcl($groupIds, $authOptionId), 'forum_id');
-        $roleAclForumIds = model_pluck(static::roleAcl($groupIds, $authOptionId), 'forum_id');
-
-        return array_values(array_unique(array_merge($directAclForumIds, $roleAclForumIds)));
     }
 
     public static function increasesPostsCount($user, $forum)
     {
-        return static::aclCheck($user, 'f_postcount', $forum);
+        return $forum->enable_indexing && static::aclCheck($user, 'f_postcount', $forum);
     }
 
-    public static function postsCountedForums($user)
+    public static function postsCountedForums($user): array
     {
-        return static::aclGetAllowedForums($user, 'f_postcount');
+        return Forum::searchable()
+            ->whereIn('forum_id', static::acl($user->groupIds(), 'f_postcount')->select('forum_id'))
+            ->pluck('forum_id')
+            ->all();
+    }
+
+    public function scopeAcl(Builder $query, array $groupIds, string $authOption): void
+    {
+        $authOptionId = AuthOption::where('auth_option', $authOption)->value('auth_option_id');
+
+        // there's actually another one (phpbb_acl_users) but doesn't seem
+        // to contain anything but old-ish banlist?
+        $query
+            ->orWhere(fn ($q) => $q->directAcl($groupIds, $authOptionId))
+            ->orWhere(fn ($q) => $q->roleAcl($groupIds, $authOptionId));
     }
 
     public function scopeDirectAcl($query, $groupIds, $authOptionId)

@@ -8,12 +8,13 @@ return [
     'not_negative' => ':attribute negatif olamaz.',
     'required' => ':attribute gereklidir.',
     'too_long' => ':attribute azami uzunluğu aştı - sadece :limit karakter olabilir.',
+    'url' => 'Lütfen geçerli bir URL girin.',
     'wrong_confirmation' => 'Doğrulama eşleşmiyor.',
 
     'beatmapset_discussion' => [
         'beatmap_missing' => 'Zaman damgası belirtildi, ancak beatmap eksik.',
-        'beatmapset_no_hype' => "Bu beatmap'e destek oyu verilemez.",
-        'hype_requires_null_beatmap' => 'Gaz Genel (tüm zorluklar) sekmesinde verilmelidir.',
+        'beatmapset_no_hype' => "Beatmap gazlanamaz.",
+        'hype_requires_null_beatmap' => 'Gaz, Genel (tüm zorluklar) sekmesinde verilmelidir.',
         'invalid_beatmap_id' => 'Yanlış zorluk belirtildi.',
         'invalid_beatmapset_id' => 'Yanlış beatmap belirtildi.',
         'locked' => 'Tartışma kilitli.',
@@ -24,12 +25,12 @@ return [
         ],
 
         'hype' => [
-            'discussion_locked' => "Bu beatmap şu anda tartışmaya kapalı ve gazlanamaz",
-            'guest' => 'Destek oyu vermek için giriş yapmalısın.',
-            'hyped' => 'Bu beatmap\'e zaten destek oyu kullandın.',
-            'limit_exceeded' => 'Tüm destek oylarını kullandın.',
-            'not_hypeable' => 'Bu beatmap gaza getirilemez',
-            'owner' => 'Kendi beatmapine destek oy kullanamazsın.',
+            'discussion_locked' => "Bu beatmap şu anda tartışmaya kapalıdır ve gazlanamaz",
+            'guest' => 'Gazlamak giriş yapmalısın.',
+            'hyped' => 'Bu beatmapi çoktan gazladın.',
+            'limit_exceeded' => 'Bütün gazını kullandın.',
+            'not_hypeable' => 'Bu beatmap gazlanamaz',
+            'owner' => 'Kendi beatmapini gazlayamazsın.',
         ],
 
         'timestamp' => [
@@ -108,6 +109,16 @@ return [
         ],
     ],
 
+    'legacy_api_key' => [
+        'exists' => 'Şimdilik kullanıcı başına yalnızca bir adet API anahtarı verilir.',
+
+        'attributes' => [
+            'api_key' => 'api anahtarı',
+            'app_name' => 'uygulama adı',
+            'app_url' => 'uygulama url\'si',
+        ],
+    ],
+
     'oauth' => [
         'client' => [
             'too_many' => 'İzin verilen azami OAuth uygulama sayısı aşıldı.',
@@ -117,6 +128,20 @@ return [
                 'name' => 'Uygulama Adı',
                 'redirect' => 'Uygulama Geri Çağırma URL\'si',
             ],
+        ],
+    ],
+
+    'team' => [
+        'invalid_characters' => ':attribute geçersiz karakterler içeriyor.',
+        'used' => ':attribute seçeneği zaten kullanılıyor.',
+        'word_not_allowed' => ':attribute seçimine izin verilmiyor.',
+
+        'attributes' => [
+            'default_ruleset_id' => 'Varsayılan kural seti',
+            'is_open' => 'Takım başvurusu',
+            'name' => 'İsim',
+            'short_name' => 'Kısa isim',
+            'url' => 'URL',
         ],
     ],
 
@@ -163,6 +188,9 @@ return [
     ],
 
     'user_report' => [
+        'no_ranked_beatmapset' => 'Dereceli beatmapler bildirilemez',
+        'not_in_channel' => 'Bu kanalda değilsiniz.',
+        'in_team' => 'Takımın bir parçasısın.',
         'reason_not_valid' => ':reason sebebi bu rapor türü için geçerli değil.',
         'self' => "Kendinizi raporlayamazsınız!",
     ],

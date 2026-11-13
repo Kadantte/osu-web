@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'admin',
     ],
-    'admin_forum' => [
-        '_' => 'admin',
-    ],
-    'admin_store' => [
-        '_' => 'admin',
-    ],
     'error' => [
         'error' => [
             '400' => 'nieprawidłowe żądanie',
@@ -22,20 +16,19 @@ return [
             '401-verification' => 'weryfikacja konta',
             '405' => 'nie znaleziono',
             '422' => 'nieprawidłowe żądanie',
-            '429' => 'zbyt wiele zapytań',
+            '429' => 'zbyt wiele żądań',
             '500' => 'coś się popsuło',
             '503' => 'przerwa techniczna',
         ],
     ],
     'forum' => [
         '_' => 'forum',
-        'topic_watches_controller' => [
-            'index' => 'strona główna',
+        'topic_logs_controller' => [
+            'index' => 'historia zdarzeń wątku',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'strona główna',
             'verify_link' => 'weryfikacja konta',
         ],
         'artists_controller' => [
@@ -56,13 +49,11 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'historia beatmap',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'strona główna',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'dyskusja beatmapy',
             'index' => 'lista beatmap',
             'show' => 'informacje o beatmapie',
+            'versions' => 'historia wersji beatmapy',
         ],
         'changelog_controller' => [
             '_' => 'zmiany',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'komentarze',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'wyniki oceny prac konkursowych',
+        ],
         'contests_controller' => [
             '_' => 'konkursy',
+            'judge' => 'ocena prac konkursowych',
         ],
-        'follows_controller' => [
-            'index' => 'strona główna',
-        ],
-        'friends_controller' => [
-            'index' => 'strona główna',
+        'group_history_controller' => [
+            '_' => 'historia grup',
         ],
         'groups_controller' => [
             'show' => 'grupy',
@@ -92,14 +84,14 @@ return [
             'support_the_game' => 'wspomóż grę',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => 'mecze',
+        ],
         'legal_controller' => [
             '_' => 'informacje',
         ],
         'livestreams_controller' => [
             '_' => 'na żywo',
-        ],
-        'matches_controller' => [
-            '_' => 'mecze',
         ],
         'news_controller' => [
             '_' => 'aktualności',
@@ -111,36 +103,63 @@ return [
             '_' => 'resetowanie hasła',
         ],
         'ranking_controller' => [
-            '_' => 'ranking',
+            '_' => 'rankingi',
         ],
         'scores_controller' => [
             '_' => 'wynik',
         ],
-        'store_controller' => [
-            '_' => 'sklep osu!',
+        'seasons_controller' => [
+            '_' => 'rankingi',
+        ],
+        'teams_controller' => [
+            '_' => 'zespoły',
+            'create' => 'utwórz zespół',
+            'edit' => 'ustawienia zespołu',
+            'leaderboard' => 'ranking zespołu',
+            'show' => 'informacje o zespole',
         ],
         'tournaments_controller' => [
             '_' => 'turnieje',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'konfiguracja domyślnych teł profili',
+        ],
+        'user_totp_controller' => [
+            '_' => 'aplikacja uwierzytelniająca',
+        ],
         'users_controller' => [
             '_' => 'informacje o użytkowniku',
+            'create' => 'rejestracja',
             'disabled' => 'powiadomienie',
         ],
         'wiki_controller' => [
-            '_' => 'baza wiedzy',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'ranking',
+            'events' => 'historia meczu',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'autoryzuj aplikację',
         ],
     ],
     'store' => [
-        '_' => 'sklep osu!',
+        '_' => 'sklep',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'członkowie zespołu',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'informacje o modowaniu',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'historia gier w trybie wieloosobowym',
         ],
     ],
 ];

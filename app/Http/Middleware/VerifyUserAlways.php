@@ -5,40 +5,33 @@
 
 namespace App\Http\Middleware;
 
-use App\Events\UserSessionEvent;
-use App\Libraries\UserVerificationState;
+use App\Models\User;
 
 class VerifyUserAlways extends VerifyUser
 {
-    public static function isRequired($user)
+    const GET_ACTION_METHODS = [
+        'GET' => true,
+        'HEAD' => true,
+        'OPTIONS' => true,
+    ];
+
+    public static function isRequired(?User $user): bool
     {
-        return $user !== null && ($user->isPrivileged() || $user->isInactive());
+        return $user !== null
+            && (
+                $GLOBALS['cfg']['osu']['user']['always_require_verification']
+                || $user->isPrivileged()
+                || $user->isInactive());
     }
 
     public function requiresVerification($request)
     {
-        $user = auth()->user();
-
-        if ($user === null) {
-            return false;
-        }
-
-        if (UserVerificationState::fromCurrentRequest()->isDone()) {
-            $user->markSessionVerified();
-        }
-
         $method = $request->getMethod();
-        $isPostAction = config('osu.user.post_action_verification')
-            ? !in_array($method, ['GET', 'HEAD', 'OPTIONS'], true)
+        $isPostAction = $GLOBALS['cfg']['osu']['user']['post_action_verification']
+            ? !isset(static::GET_ACTION_METHODS[$method])
             : false;
 
-        $isRequired = $isPostAction || static::isRequired($user) || $method === 'DELETE';
-
-        if (session()->get('requires_verification') !== $isRequired) {
-            session()->put('requires_verification', $isRequired);
-            session()->save();
-            event(UserSessionEvent::newVerificationRequirementChange($user->getKey(), $isRequired));
-        }
+        $isRequired = $isPostAction || $method === 'DELETE' || session()->get('requires_verification');
 
         return $isRequired;
     }

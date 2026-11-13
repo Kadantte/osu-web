@@ -19,9 +19,9 @@ return [
     ],
 
     'buttons' => [
-        'admin' => 'Yönetici',
         'authorise' => 'Yetki ver',
         'authorising' => 'İzin Veriliyor...',
+        'back' => 'Geri',
         'back_to_previous' => 'Bir önceki pozisyona dön',
         'back_to_top' => 'Yukarıya geri dön',
         'cancel' => 'İptal',
@@ -39,11 +39,13 @@ return [
         'pin' => 'sabitle',
         'post' => 'Gönder',
         'read_more' => 'daha fazlası',
+        'refresh' => 'Yenile',
         'reply' => 'Cevapla',
         'reply_reopen' => 'Cevapla ve Yeniden Aç',
         'reply_resolve' => 'Yanıtla ve Çözümle',
         'reset' => 'Sıfırla',
         'restore' => 'Restore et',
+        'retry' => 'Yeniden dene',
         'save' => 'Kaydet',
         'saving' => 'Kaydediliyor...',
         'search' => 'Arama',
@@ -53,6 +55,7 @@ return [
         'show_less' => 'daha az göster',
         'show_more' => 'daha fazla göster',
         'show_more_options' => 'daha fazla seçenek göster',
+        'submit' => 'Gönder',
         'unpin' => 'sabitlemeyi kaldır',
         'update' => 'Güncelle',
         'upload_image' => 'görsel yükle',
@@ -73,6 +76,7 @@ return [
         'minutes' => ':count_delimited dakika|:count_delimited dakika',
         'months' => ':count_delimited ay|:count_delimited ay',
         'notifications' => ':count_delimited bildirim|:count_delimited bildirim',
+        'player' => ':count_delimited oyuncu|:count_delimited oyuncu',
         'plus_others' => '+ :count_delimited tane daha!|+ :count_delimited tane daha!',
         'post' => ':count_delimited gönderi|:count_delimited gönderi',
         'second_short_unit' => 'sn|sn',
@@ -90,6 +94,12 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => ' ay',
+        ],
+        'year' => [
+            'php' => ' yıl',
+        ],
         'year_month' => [
             'moment' => 'MMMM YYYY',
             'php' => 'MMMM y',
@@ -115,8 +125,8 @@ return [
     ],
 
     'pagination' => [
-        'previous' => 'ÖNCEKİ',
-        'next' => 'SONRAKİ',
+        'previous' => 'önceki',
+        'next' => 'sonraki',
     ],
 
     'score_count' => [
@@ -133,10 +143,10 @@ return [
         'dd' => '%d gün',
         'h' => '%d saat',
         'hh' => '%d saat',
-        'M' => '%d ay',
         'm' => '%d dk',
-        'MM' => '%d ay',
         'mm' => '%d dk',
+        'month' => '%d ay',
+        'months' => '%d ay',
         'past' => '',
         's' => '%d sn',
         'y' => '%d yıl',

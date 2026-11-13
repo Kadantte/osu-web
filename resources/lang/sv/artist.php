@@ -13,7 +13,7 @@ return [
 
     'beatmaps' => [
         '_' => 'Beatmaps',
-        'download' => 'Ladda ner Beatmapmall',
+        'download' => 'Ladda ner beatmapmall',
         'download-na' => 'Beatmapmallen är inte tillgänglig ännu',
     ],
 
@@ -22,6 +22,7 @@ return [
     ],
 
     'links' => [
+        'beatmaps' => 'osu!-beatmaps',
         'osu' => 'osu! profil',
         'site' => 'Officiell hemsida',
     ],
@@ -29,7 +30,8 @@ return [
     'songs' => [
         '_' => 'Låtar',
         'count' => ':count låt|:count låtar',
-        'exclusive' => 'osu! exklusivt',
+        'original' => 'osu! original',
+        'original_badge' => 'ORIGINAL',
     ],
 
     'tracklist' => [
@@ -37,5 +39,30 @@ return [
         'length' => 'längd',
         'bpm' => 'bpm',
         'genre' => 'genre',
+    ],
+
+    'tracks' => [
+        'index' => [
+            '_' => 'spårsökning',
+
+            'exclusive_only' => [
+                'all' => 'Alla',
+                'exclusive_only' => 'osu! original',
+            ],
+
+            'form' => [
+                'advanced' => 'Avancerad sökning',
+                'album' => 'Album',
+                'artist' => 'Artist',
+                'bpm_gte' => 'Minsta BPM',
+                'bpm_lte' => 'Högsta BPM',
+                'empty' => 'Inga spår som matchade sökfiltret hittades.',
+                'exclusive_only' => 'Typ',
+                'genre' => 'Genre',
+                'genre_all' => 'Alla',
+                'length_gte' => 'Minsta längd',
+                'length_lte' => 'Högsta längd',
+            ],
+        ],
     ],
 ];

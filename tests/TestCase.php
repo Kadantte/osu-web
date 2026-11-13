@@ -5,26 +5,38 @@
 
 namespace Tests;
 
+use App\Events\NewPrivateNotificationEvent;
+use App\Exceptions\InvalidScopeException;
 use App\Http\Middleware\AuthApi;
+use App\Jobs\Notifications\BroadcastNotificationBase;
+use App\Libraries\OAuth\EncodeToken;
+use App\Libraries\Search\ScoreSearch;
+use App\Libraries\Session\Store as SessionStore;
 use App\Models\Beatmapset;
+use App\Models\Build;
+use App\Models\Multiplayer\PlaylistItem;
+use App\Models\Multiplayer\ScoreLink;
 use App\Models\OAuth\Client;
+use App\Models\OAuth\Token;
+use App\Models\ScoreToken;
 use App\Models\User;
-use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
-use Firebase\JWT\JWT;
+use Artisan;
+use Carbon\CarbonInterface;
+use Illuminate\Database\DatabaseManager;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Testing\Fakes\MailFake;
 use Laravel\Passport\Passport;
-use Laravel\Passport\Token;
-use League\OAuth2\Server\ResourceServer;
-use Mockery;
 use Queue;
 use ReflectionMethod;
 use ReflectionProperty;
 
 class TestCase extends BaseTestCase
 {
-    use ArraySubsetAsserts, CreatesApplication, DatabaseTransactions;
+    use CreatesApplication;
+    use DatabaseTransactions;
 
     protected $connectionsToTransact = [
         'mysql',
@@ -34,104 +46,182 @@ class TestCase extends BaseTestCase
         'mysql-updates',
     ];
 
-    public function regularOAuthScopesDataProvider()
+    protected array $expectedCountsCallbacks = [];
+
+    public static function regularOAuthScopesDataProvider()
     {
-        $data = [];
+        // just skip over any scopes that require special conditions for now.
+        return static::allPassportScopeIds()
+            ->diff(['chat.read', ...Token::SCOPES_REQUIRE_DELEGATION])
+            ->map(fn ($scope) => [$scope]);
+    }
 
-        foreach (Passport::scopes()->pluck('id') as $scope) {
-            // just skip over any scopes that require special conditions for now.
-            if (in_array($scope, ['bot', 'chat.write'], true)) {
-                continue;
-            }
+    public static function withDbAccess(callable $callback): void
+    {
+        $db = static::createApp()->make('db');
 
-            $data[] = [$scope];
+        $callback();
+
+        static::resetAppDb($db);
+    }
+
+    protected static function createClientToken(Build $build, ?int $clientTime = null): string
+    {
+        $data = strtoupper(bin2hex($build->hash).bin2hex(pack('V', $clientTime ?? time())));
+        $expected = hash_hmac('sha1', $data, '');
+
+        return strtoupper(bin2hex(random_bytes(40)).$data.$expected.'00');
+    }
+
+    protected static function fileList($path, $suffix)
+    {
+        return array_map(
+            fn ($file) => [basename($file, $suffix), $path],
+            glob("{$path}/*{$suffix}"),
+        );
+    }
+
+    protected static function allPassportScopeIds(): Collection
+    {
+        return Passport::scopes()->pluck('id');
+    }
+
+    protected static function reindexScores()
+    {
+        $search = new ScoreSearch();
+        $search->deleteAll();
+        $search->refresh();
+        Artisan::call('es:index-scores:queue', [
+            '--all' => true,
+            '--no-interaction' => true,
+        ]);
+        $search->indexWait();
+    }
+
+    protected static function resetAppDb(DatabaseManager $database): void
+    {
+        foreach (array_keys($GLOBALS['cfg']['database']['connections']) as $name) {
+            $connection = $database->connection($name);
+
+            $connection->rollBack();
+            $connection->disconnect();
         }
+    }
 
-        return $data;
+    protected static function roomAddPlay(User $user, PlaylistItem $playlistItem, array $scoreParams): ScoreLink
+    {
+        return $playlistItem->room->completePlay(
+            static::roomStartPlay($user, $playlistItem),
+            [
+                'accuracy' => 0.5,
+                'beatmap_id' => $playlistItem->beatmap_id,
+                'ended_at' => json_time(new \DateTime()),
+                'max_combo' => 1,
+                'ruleset_id' => $playlistItem->ruleset_id,
+                'statistics' => ['good' => 1],
+                'total_score' => 10,
+                'user_id' => $user->getKey(),
+                ...$scoreParams,
+            ],
+        );
+    }
+
+    protected static function roomStartPlay(User $user, PlaylistItem $playlistItem): ScoreToken
+    {
+        return $playlistItem->room->startPlay($user, $playlistItem, [
+            'beatmap_hash' => $playlistItem->beatmap->checksum,
+            'beatmap_id' => $playlistItem->beatmap_id,
+            'build_id' => 0,
+            'ruleset_id' => $playlistItem->ruleset_id,
+        ]);
+    }
+
+    /**
+     * Helper for asserting notification receivers because the Queue and Event assertions don't tell us enough.
+     *
+     * @param array<Model>|Collection<Model>|Model $expected
+     */
+    protected function assertReceivers(
+        NewPrivateNotificationEvent|BroadcastNotificationBase $obj,
+        array|Collection|Model $expected
+    ): bool {
+        $includeIds = collect($expected instanceof Model ? [$expected] : $expected)->map->getKey()->sort()->values()->all();
+        $receiverIds = $obj->getReceiverIds();
+        sort($receiverIds);
+
+        $this->assertSame($includeIds, $receiverIds);
+        return true;
+    }
+
+    protected function expectInvalidScopeException(?string $key)
+    {
+        if ($key === null) {
+            $this->expectNotToPerformAssertions();
+        } else {
+            $this->expectException(InvalidScopeException::class);
+            $this->expectExceptionMessage(osu_trans("model_validation/token.invalid_scope.{$key}"));
+        }
     }
 
     protected function setUp(): void
     {
+        $this->beforeApplicationDestroyed(fn () => $this->runExpectedCountsCallbacks());
+
         parent::setUp();
 
         // change config setting because we need more than 1 for the tests.
-        config()->set('osu.oauth.max_user_clients', 100);
+        config_set('osu.oauth.max_user_clients', 100);
+
+        // Disable caching for the BeatmapTagsController and TagsController tests
+        // because otherwise multiple run of the tests may use stale cache data.
+        config_set('osu.beatmap_tags.cache_duration', 0);
 
         // Force connections to reset even if transactional tests were not used.
         // Should fix tests going wonky when different queue drivers are used, or anything that
         // breaks assumptions of object destructor timing.
-        $database = $this->app->make('db');
-        $this->beforeApplicationDestroyed(function () use ($database) {
-            foreach (array_keys(config('database.connections')) as $name) {
-                $connection = $database->connection($name);
+        $db = $this->app->make('db');
+        $this->beforeApplicationDestroyed(fn () => static::resetAppDb($db));
+    }
 
-                $connection->rollBack();
-                $connection->disconnect();
-            }
-        });
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->expectedCountsCallbacks = [];
     }
 
     /**
      * Act as a User with OAuth scope permissions.
-     * This is for tests that will run the request middleware stack.
-     *
-     * @param User|null $user User to act as, or null for guest.
-     * @param array|null $scopes OAuth token scopes.
-     * @param string $driver Auth driver to use.
-     * @return void
      */
-    protected function actAsScopedUser(?User $user, ?array $scopes = ['*'], ?Client $client = null, $driver = null)
+    protected function actAsScopedUser(?User $user, ?array $scopes = ['*'], ?Client $client = null): static
     {
-        if ($client === null) {
-            $client = factory(Client::class)->create();
-        }
-
-        // create valid token
-        $token = $this->createToken($user, $scopes, $client);
-
-        // mock the minimal number of things.
-        // this skips the need to form a request with all the headers.
-        $mock = Mockery::mock(ResourceServer::class);
-        $mock->shouldReceive('validateAuthenticatedRequest')
-            ->andReturnUsing(function ($request) use ($token) {
-                return $request->withAttribute('oauth_client_id', $token->client->id)
-                    ->withAttribute('oauth_access_token_id', $token->id)
-                    ->withAttribute('oauth_user_id', $token->user_id);
-            });
-
-        app()->instance(ResourceServer::class, $mock);
-        $this->withHeader('Authorization', 'Bearer tests_using_this_do_not_verify_this_header_because_of_the_mock');
-
-        $this->actAsUserWithToken($token, $driver);
+        return $this->actingWithToken($this->createToken(
+            $user,
+            $scopes,
+            $client ?? Client::factory()->create(),
+        ));
     }
 
-    protected function actAsUser(?User $user, ?bool $verified = null, $driver = null)
+    protected function actAsUser(?User $user, bool $verified = false, $driver = null): static
     {
-        if ($user === null) {
-            return;
+        if ($user !== null) {
+            $this->be($user, $driver)->withSession(['verified' => $verified]);
         }
 
-        $this->be($user, $driver);
-
-        if ($verified !== null) {
-            $this->withSession(['verified' => $verified]);
-        }
+        return $this;
     }
 
     /**
      * This is for tests that will skip the request middleware stack.
-     *
-     * @param Token $token OAuth token.
-     * @param string $driver Auth driver to use.
-     * @return void
      */
-    protected function actAsUserWithToken(Token $token, $driver = null)
+    protected function actAsUserWithToken(Token $token, ?string $driver = null): static
     {
         $guard = app('auth')->guard($driver);
         $user = $token->getResourceOwner();
 
-        if ($user !== null) {
-            // guard doesn't accept null user.
+        if ($user === null) {
+            $guard->logout();
+        } else {
             $guard->setUser($user);
             $user->withAccessToken($token);
         }
@@ -142,51 +232,35 @@ class TestCase extends BaseTestCase
         request()->attributes->set(AuthApi::REQUEST_OAUTH_TOKEN_KEY, $token);
 
         app('auth')->shouldUse($driver);
-    }
-
-    protected function actingAsVerified($user)
-    {
-        $this->actAsUser($user, true);
 
         return $this;
     }
 
-    // FIXME: figure out how to generate the encrypted token without doing it
-    //        manually here. Or alternatively some other way to authenticate
-    //        with token.
-    protected function actingWithToken($token)
+    protected function actingAsVerified($user): static
     {
-        static $privateKey;
-
-        if ($privateKey === null) {
-            $privateKey = file_get_contents(Passport::keyPath('oauth-private.key'));
-        }
-
-        $encryptedToken = JWT::encode([
-            'aud' => $token->client_id,
-            'exp' => $token->expires_at->timestamp,
-            'iat' => $token->created_at->timestamp, // issued at
-            'jti' => $token->getKey(),
-            'nbf' => $token->created_at->timestamp, // valid after
-            'sub' => $token->user_id,
-            'scopes' => $token->scopes,
-        ], $privateKey, 'RS256');
-
-        return $this->withHeaders([
-            'Authorization' => "Bearer {$encryptedToken}",
-        ]);
+        return $this->actAsUser($user, true);
     }
 
-    protected function createAllowedScopesDataProvider(array $allowedScopes)
+    protected function actingWithToken($token): static
     {
-        $data = Passport::scopes()->pluck('id')->map(function ($scope) use ($allowedScopes) {
-            return [[$scope], in_array($scope, $allowedScopes, true)];
-        })->all();
+        return $this->actAsUserWithToken($token)
+            ->withToken(EncodeToken::encodeAccessToken($token));
+    }
 
-        // scopeless tokens should fail in general.
-        $data[] = [[], false];
+    protected function assertEqualsUpToOneSecond(CarbonInterface $expected, CarbonInterface $actual): void
+    {
+        $this->assertTrue($expected->diffInSeconds($actual, true) < 2);
+    }
 
-        return $data;
+    protected function createVerifiedSession($user): SessionStore
+    {
+        $ret = SessionStore::findOrNew();
+        $ret->put(\Auth::getName(), $user->getKey());
+        $ret->put('verified', true);
+        $ret->migrate(false);
+        $ret->save();
+
+        return $ret;
     }
 
     protected function clearMailFake()
@@ -208,35 +282,66 @@ class TestCase extends BaseTestCase
      */
     protected function createToken(?User $user, ?array $scopes = null, ?Client $client = null)
     {
-        if ($client === null) {
-            $client = factory(Client::class)->create();
-        }
-
-        $token = $client->tokens()->create([
+        return ($client ?? Client::factory()->create())->tokens()->create([
             'expires_at' => now()->addDays(1),
             'id' => uniqid(),
             'revoked' => false,
             'scopes' => $scopes,
-            'user_id' => optional($user)->getKey(),
+            'user_id' => $user?->getKey(),
+            'verified' => true,
         ]);
-
-        return $token;
     }
 
-    protected function createUserWithGroup($groupIdentifier, array $attributes = []): ?User
+    protected function expectCountChange(callable $callback, int $change, string $message = '')
     {
-        if ($groupIdentifier === null) {
-            return null;
+        $traceEntry = debug_backtrace(0, 1)[0];
+        if ($message !== '') {
+            $message .= "\n";
+        }
+        $message .= "{$traceEntry['file']}:{$traceEntry['line']}";
+
+        $this->expectedCountsCallbacks[] = [
+            'callback' => $callback,
+            'expected' => $callback() + $change,
+            'message' => $message,
+        ];
+    }
+
+    protected function expectExceptionCallable(callable $callable, ?string $exceptionClass, ?string $exceptionMessage = null)
+    {
+        try {
+            $callable();
+        } catch (\Throwable $e) {
+            $this->assertSame($exceptionClass, $e::class, "{$e->getFile()}:{$e->getLine()}");
+
+            if ($exceptionMessage !== null) {
+                $this->assertSame($exceptionMessage, $e->getMessage());
+            }
+
+            return;
         }
 
-        return factory(User::class)->states($groupIdentifier)->create($attributes);
+        // trigger fail if expecting exception but doesn't fail.
+        if ($exceptionClass !== null) {
+            static::fail("Did not throw expected {$exceptionClass}");
+        }
     }
 
-    protected function fileList($path, $suffix)
+    protected function invokeMethod($obj, string $name, array $params = [])
     {
-        return array_map(function ($file) use ($path, $suffix) {
-            return [basename($file, $suffix), $path];
-        }, glob("{$path}/*{$suffix}"));
+        return new ReflectionMethod($obj, $name)->invokeArgs($obj, $params);
+    }
+
+    protected function invokeProperty($obj, string $name)
+    {
+        return new ReflectionProperty($obj, $name)->getValue($obj);
+    }
+
+    protected function invokeSetProperty($obj, string $name, $value)
+    {
+        $property = new ReflectionProperty($obj, $name);
+
+        new ReflectionProperty($obj, $name)->setValue($obj, $value);
     }
 
     protected function makeBeatmapsetDiscussionPostParams(Beatmapset $beatmapset, string $messageType)
@@ -252,33 +357,9 @@ class TestCase extends BaseTestCase
         ];
     }
 
-    protected function invokeMethod($obj, string $name, array $params = [])
-    {
-        $method = new ReflectionMethod($obj, $name);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($obj, $params);
-    }
-
-    protected function invokeProperty($obj, string $name)
-    {
-        $property = new ReflectionProperty($obj, $name);
-        $property->setAccessible(true);
-
-        return $property->getValue($obj);
-    }
-
-    protected function invokeSetProperty($obj, string $name, $value)
-    {
-        $property = new ReflectionProperty($obj, $name);
-        $property->setAccessible(true);
-
-        $property->setValue($obj, $value);
-    }
-
     protected function normalizeHTML($html)
     {
-        return str_replace('<br />', "<br />\n", str_replace("\n", '', preg_replace("/>\s*</s", '><', trim($html))));
+        return str_replace('<br />', "<br />\n", str_replace("\n", '', preg_replace('/>\s*</s', '><', trim($html))));
     }
 
     protected function runFakeQueue()
@@ -292,10 +373,36 @@ class TestCase extends BaseTestCase
         $this->invokeSetProperty(app('queue'), 'jobs', []);
     }
 
-    protected function withInterOpHeader($url)
+    protected function withInterOpHeader($url, ?callable $callback = null)
     {
-        return $this->withHeaders([
-            'X-LIO-Signature' => hash_hmac('sha1', $url, config('osu.legacy.shared_interop_secret')),
+        if ($callback === null) {
+            $timestampedUrl = $url;
+        } else {
+            $connector = strpos($url, '?') === false ? '?' : '&';
+            $timestampedUrl = $url.$connector.'timestamp='.time();
+        }
+
+        $this->withHeaders([
+            'X-LIO-Signature' => hash_hmac('sha1', $timestampedUrl, $GLOBALS['cfg']['osu']['legacy']['shared_interop_secret']),
         ]);
+
+        return $callback === null ? $this : $callback($timestampedUrl);
+    }
+
+    protected function withPersistentSession(SessionStore $session): static
+    {
+        $session->save();
+
+        return $this->withCookies([
+            $session->getName() => $session->getId(),
+        ]);
+    }
+
+    private function runExpectedCountsCallbacks()
+    {
+        foreach ($this->expectedCountsCallbacks as $expectedCount) {
+            $after = $expectedCount['callback']();
+            $this->assertSame($expectedCount['expected'], $after, $expectedCount['message']);
+        }
     }
 }

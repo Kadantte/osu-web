@@ -5,7 +5,7 @@
 
 return [
     'play_more' => 'Co si místo toho zahrát osu!?',
-    'require_login' => 'Pro pokračování se prosím přihlašte.',
+    'require_login' => 'Pro pokračování se prosím přihlaste.',
     'require_verification' => 'Prosím ověřte se pro pokračování.',
     'restricted' => "Toto nelze provést, když jste omezeni.",
     'silenced' => "Toto nelze provést, když jste umlčeni.",
@@ -15,12 +15,13 @@ return [
         'destroy' => [
             'is_hype' => 'Hype nelze vrátit zpět.',
             'has_reply' => 'Nelze odstranit diskusi s odpověďmi',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => 'Dosáhl jsi dnešního limitu nominací, zkus to prosím zítra.',
             'incorrect_state' => 'Nastala chyba při provádění akce, zkuste stránku obnovit.',
             'owner' => "Nelze nominovat vlastní beatmapu.",
-            'set_metadata' => 'Před jmenováním musíte nastavit žánr a jazyk.',
+            'set_metadata' => 'Před nominováním musíte nastavit žánr a jazyk.',
         ],
         'resolve' => [
             'not_owner' => 'Pouze zakladatel vlákna a vlastník beatmapy může označit diskusi za vyřešenou.',
@@ -43,22 +44,33 @@ return [
             'not_owner' => 'Můžeš odstranit pouze svoje příspěvky.',
             'resolved' => 'Nemůžete odstranit příspěvek v vyřešené diskusi.',
             'system_generated' => 'Automaticky generované příspěvky nelze odstranit.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
             'not_owner' => 'Pouze autor může příspěvek upravovat.',
             'resolved' => 'Nemůžete upravit příspěvek ve vyřešené diskusi.',
             'system_generated' => 'Nelze upravovat automaticky generovaný příspěvek.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => 'Tato beatmapa je zablokována od diskuze.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => 'Tato beatmapa je k diskuzi uzamčena.',
+
         'metadata' => [
-            'nominated' => 'Nemůžete změnit informace nominované mapy. Pokud si myslíte že je nastavena nesprávně, kontaktujte BN nebo NAT člena.',
+            'nominated' => 'Nemůžete změnit metadata nominované beatmapy. Pokud si myslíte, že jsou nastavena nesprávně, kontaktujte člena BN nebo NAT.',
+        ],
+
+        'rate' => [
+            'owner' => 'Nemůžeš ohodnotit sadu beatmap, na jejíž tvorbě jsi se podílel.',
+            'status' => 'Nemůžeš ohodnotit sadu beatmap s tímto stavem.',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => 'Pro přidání tagu musíš na beatmapě zahrát skóre.',
         ],
     ],
 
@@ -67,17 +79,23 @@ return [
         'friends_only' => 'Uživatel blokuje zprávy od lidí, kteří nejsou v jeho listu přátel.',
         'moderated' => 'Tento kanál je právě moderován.',
         'no_access' => 'Nemáte přístup k tomu kanálu.',
+        'no_announce' => 'Nemáte oprávnění postnout oznámení.',
+        'receive_friends_only' => 'Tento uživatel nemusí být schopen odpovědět, protože přijímáte zprávy pouze od lidí ve vašem seznamu přátel.',
         'restricted' => 'Nemůžete posílat zprávy, když jste umlčen, omezen nebo zabanován.',
-        'silenced' => '',
+        'silenced' => 'Nemůžete posílat zprávy, když jste umlčen, omezen nebo zabanován.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => 'Komentáře jsou vypnuty',
+        ],
         'update' => [
             'deleted' => "Nemůžete editovat již odstraněný příspěvek.",
         ],
     ],
 
     'contest' => [
+        'judging_not_active' => 'Souzení pro tuto soutěž není aktivní.',
         'voting_over' => 'Po skončení hlasovací doby pro tuto soutěž již nemůžeš změnit svůj hlas.',
 
         'entry' => [
@@ -103,6 +121,7 @@ return [
                 'deleted' => 'Nelze upravovat odstraněný příspěvek.',
                 'locked' => 'Příspěvek je uzamčen od upravování.',
                 'no_forum_access' => 'K vybranému fóru je vyžadován přístup.',
+                'no_permission' => 'Nemáte oprávnění upravovat.',
                 'not_owner' => 'Pouze autor může příspěvek upravit.',
                 'topic_locked' => 'Nelze upravit příspěvek uzamčeného tématu.',
             ],
@@ -129,7 +148,7 @@ return [
 
             'store' => [
                 'no_forum_access' => 'K vybranému fóru je vyžadován přístup.',
-                'no_permission' => 'Žádná oprávnění k vytvoření nového tématu.',
+                'no_permission' => 'Nemáte oprávnění na vytvoření nového tématu.',
                 'forum_closed' => 'Fórum je uzavřeno a další příspěvky se už nesmí přidávat.',
             ],
 
@@ -140,7 +159,7 @@ return [
                 'voted' => 'Změna hlasu není povolena.',
 
                 'user' => [
-                    'require_login' => 'Pro hlasování se prosím přihlašte.',
+                    'require_login' => 'Pro hlasování se prosím přihlaste.',
                     'restricted' => "Nelze hlasovat, když jste omezeni.",
                     'silenced' => "Nelze hlasovat, když jste umlčeni.",
                 ],
@@ -166,6 +185,40 @@ return [
         ],
     ],
 
+    'room' => [
+        'destroy' => [
+            'not_owner' => 'Pouze vlastník místnosti ji může zavřít.',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "Nelze připnout tento typ skóre",
+            'failed' => "Nelze připnout neprocházející skóre.",
+            'not_owner' => 'Pouze vlastník skóre může připnout skóre.',
+            'too_many' => 'Připnuto příliš mnoho skóre.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "Jsi již součástí tohoto týmu.",
+                'already_other_member' => "Jsi již součástí jiného týmu.",
+                'currently_applying' => 'Máte čekající žádosti o připojení.',
+                'team_closed' => 'Tým v současné době nepřijímá žádné žádosti o připojení.',
+                'team_full' => "Tým je plný a nemůže přijmout žádné další členy.",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "Vedoucí týmu nemůže opustit tým.",
+            'not_member' => 'Není členem tohoto týmu.',
+        ],
+        'store' => [
+            'require_supporter_tag' => 'osu!supporter tag je vyžadován pro vytvoření týmu.',
+        ],
+    ],
+
     'user' => [
         'page' => [
             'edit' => [
@@ -173,6 +226,9 @@ return [
                 'not_owner' => 'Lze upravit pouze svou vlastní uživatelskou stránku.',
                 'require_supporter_tag' => 'supporter tag je vyžadován.',
             ],
+        ],
+        'update_email' => [
+            'locked' => 'emailová adresa je uzamčená',
         ],
     ],
 ];

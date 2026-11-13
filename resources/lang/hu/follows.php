@@ -5,8 +5,8 @@
 
 return [
     'comment' => [
-        'empty' => '',
-        'page_title' => '',
+        'empty' => 'Nincs figyelt hozzászólás.',
+        'page_title' => 'figyelt hozzászólások listája',
         'title' => 'hozzászólás',
 
         'table' => [
@@ -34,5 +34,9 @@ return [
 
     'modding' => [
         'title' => 'beatmap megbeszélés',
+    ],
+
+    'store' => [
+        'too_many' => 'Elérte a követési korlátot.',
     ],
 ];

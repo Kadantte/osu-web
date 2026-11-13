@@ -7,39 +7,32 @@ return [
     'admin' => [
         '_' => 'адмін',
     ],
-    'admin_forum' => [
-        '_' => 'адмін',
-    ],
-    'admin_store' => [
-        '_' => 'адмін',
-    ],
     'error' => [
         'error' => [
             '400' => 'недапушчальны запыт',
             '404' => 'страчана',
             '403' => 'забаронена',
             '401' => 'вы не аўтарізованы',
-            '401-verification' => 'пацверджанне ўліковага запісу',
+            '401-verification' => 'верыфікацыя акаўнту',
             '405' => 'не знойдзена',
             '422' => 'недапушчальны запыт',
-            '429' => '',
+            '429' => 'занадта шмат запытаў',
             '500' => 'нешта зламалася',
             '503' => 'тэхнічныя працы',
         ],
     ],
     'forum' => [
         '_' => 'форум',
-        'topic_watches_controller' => [
-            'index' => 'панэль кіравання',
+        'topic_logs_controller' => [
+            'index' => 'статыстыка тэмы',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'панэль кіравання',
-            'verify_link' => 'пацверджанне ўліковага запісу',
+            'verify_link' => 'верыфікацыя акаўнту',
         ],
         'artists_controller' => [
-            '_' => 'featured artists',
+            '_' => 'ліцэнзаваныя мастакі',
         ],
         'beatmap_discussion_posts_controller' => [
             '_' => 'допісы ў абмеркаваннях бітмап',
@@ -56,13 +49,11 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'гісторыя бітмапы',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'панэль кіравання',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'абмеркаванне бітмапы',
             'index' => 'спіс бітмап',
-            'show' => 'інфармацыя о бітмапе',
+            'show' => 'інфармацыя пра бітмап',
+            'versions' => '',
         ],
         'changelog_controller' => [
             '_' => 'гісторыя змен',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'каментарыі',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'вынікі судзейства конкурсу',
+        ],
         'contests_controller' => [
             '_' => 'конкурсы',
+            'judge' => 'судзейства конкурсу',
         ],
-        'follows_controller' => [
-            'index' => '',
-        ],
-        'friends_controller' => [
-            'index' => 'панэль кіравання',
+        'group_history_controller' => [
+            '_' => '',
         ],
         'groups_controller' => [
             'show' => 'групы',
@@ -92,14 +84,14 @@ return [
             'support_the_game' => 'падтрымаць гульню',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => 'матчы',
+        ],
         'legal_controller' => [
             '_' => 'інфармацыя',
         ],
         'livestreams_controller' => [
             '_' => 'прамыя трансляцыі',
-        ],
-        'matches_controller' => [
-            '_' => 'cупадзенняў',
         ],
         'news_controller' => [
             '_' => 'навіны',
@@ -114,33 +106,60 @@ return [
             '_' => 'рэйтынг',
         ],
         'scores_controller' => [
-            '_' => 'прадукцыйнасць',
+            '_' => 'па прадукцыйнасці',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'рэйтынг',
+        ],
+        'teams_controller' => [
+            '_' => 'каманды',
+            'create' => 'стварыць каманду',
+            'edit' => 'налады каманды',
+            'leaderboard' => 'камандная рэйтынгавая табліца',
+            'show' => 'інфармацыя аб камандзе',
         ],
         'tournaments_controller' => [
             '_' => 'турніры',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'пресеты вокладак',
+        ],
+        'user_totp_controller' => [
+            '_' => '',
+        ],
         'users_controller' => [
             '_' => 'інфармацыя пра гульца',
+            'create' => 'стварыць акаўнт',
             'disabled' => 'звярніце ўвагу',
         ],
         'wiki_controller' => [
-            '_' => 'база ведаў',
+            '_' => 'вікі',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => '',
+            'events' => '',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'аўтарызацыя праграмы',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'крама',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'удзельнікі каманды',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'інфармацыя пра модэра',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'мультыплэерная гісторыя',
         ],
     ],
 ];

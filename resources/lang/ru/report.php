@@ -4,6 +4,11 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'beatmapset' => [
+        'button' => 'Пожаловаться',
+        'title' => 'Пожаловаться на карту :username?',
+    ],
+
     'beatmapset_discussion_post' => [
         'button' => 'Пожаловаться',
         'title' => 'Пожаловаться на пост :username?',
@@ -11,7 +16,7 @@ return [
 
     'comment' => [
         'button' => 'Пожаловаться',
-        'title' => 'Пожаловать на комментарий :username?',
+        'title' => 'Пожаловаться на комментарий :username?',
     ],
 
     'forum_post' => [
@@ -19,9 +24,19 @@ return [
         'title' => 'Пожаловаться на пост :username?',
     ],
 
+    'message' => [
+        'button' => 'Пожаловаться',
+        'title' => 'Пожаловаться на сообщение :username?',
+    ],
+
     'scores' => [
         'button' => 'Пожаловаться',
         'title' => 'Пожаловаться на игру :username?',
+    ],
+
+    'team' => [
+        'button' => 'Пожаловаться на команду',
+        'title' => 'Пожаловаться на команду :username?',
     ],
 
     'user' => [

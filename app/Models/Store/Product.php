@@ -40,9 +40,15 @@ use Carbon\Carbon;
  */
 class Product extends Model
 {
+    const BUTTON_DISABLED = [self::SUPPORTER_TAG_NAME, self::USERNAME_CHANGE];
+    const REDIRECT_PLACEHOLDER = 'redirect';
+    const SUPPORTER_TAG_NAME = 'supporter-tag';
+    const USERNAME_CHANGE = 'username-change';
+
     protected $primaryKey = 'product_id';
 
     protected $casts = [
+        'available_until' => 'datetime',
         'cost' => 'float',
         'base_shipping' => 'float',
         'next_shipping' => 'float',
@@ -51,10 +57,8 @@ class Product extends Model
         'allow_multiple' => 'boolean',
     ];
 
-    protected $dates = ['available_until'];
-
     private $images;
-    private $types;
+    private array|false $types;
 
     public function masterProduct()
     {
@@ -69,6 +73,11 @@ class Product extends Model
     public function notificationRequests()
     {
         return $this->hasMany(NotificationRequest::class);
+    }
+
+    public function isRedirectPlaceholder()
+    {
+        return $this->custom_class === static::REDIRECT_PLACEHOLDER;
     }
 
     public function inStock($quantity = 1, $includeVariations = false)
@@ -106,11 +115,7 @@ class Product extends Model
 
     public function getDescriptionAttribute($value)
     {
-        if ($this->masterProduct) {
-            return $this->masterProduct->description;
-        } else {
-            return $value;
-        }
+        return presence($value) ?? $this->masterProduct?->description;
     }
 
     public function isAvailable(): bool
@@ -223,7 +228,7 @@ class Product extends Model
             return;
         }
 
-        $this->increment('stock', $quantity);
+        $this->incrementInstance('stock', $quantity);
     }
 
     public function reserve($quantity)
@@ -232,7 +237,7 @@ class Product extends Model
             return;
         }
 
-        $this->decrement('stock', $quantity);
+        $this->decrementInstance('stock', $quantity);
 
         // operating under the assumtion that the caller will prevent concurrent updates.
         if ($this->stock < 0) {
@@ -240,32 +245,75 @@ class Product extends Model
         }
     }
 
-    public function types()
+    /**
+     * Generate array of types with corresponding products
+     *
+     * This is based on `type_mappings_json` column of the model or its parent model.
+     * The column contains either these fields:
+     * - main_types: TypeName[]
+     *   - TypeName is string which all possible values are always listed even if
+     *     there's no product which has overlapping remaining types
+     *   - it means selecting the non-overlapping product will also change other
+     *     types, not just this specific type
+     * - products: Record<RelatedProductId, ProductType>
+     *   - RelatedProductId: id of related products
+     *   - ProductType: Record<TypeName, TypeValue>
+     *     - TypeName: name of the type. Used as dropdown option label
+     *     - TypeValue: value of the type. Used as dropdown option values
+     * An alternative content for the column is:
+     * - Record<RelatedProductId, ProductType>
+     *   - just the products field of the above
+     *
+     * The return format is:
+     * - Record<TypeName, Record<TypeValue, Product>>
+     *
+     * The Product should always only have one different TypeValue compared
+     * to current Product unless TypeName is listed in main_types.
+     */
+    public function types(): ?array
     {
-        $mappings = $this->typeMappings();
-        if ($mappings === null) {
-            return;
-        }
-
-        if ($this->types !== null) {
-            return $this->types;
-        }
-
-        $currentMapping = $mappings[strval($this->product_id)];
-        $this->types = [];
-
-        foreach ($mappings as $product_id => $mapping) {
-            foreach ($mapping as $type => $value) {
-                if (!isset($this->types[$type])) {
-                    $this->types[$type] = [];
+        if (!isset($this->types)) {
+            $mappings = $this->typeMappings();
+            if ($mappings === null) {
+                $this->types = false;
+            } else {
+                // check if its of the newer json format
+                if (isset($mappings['main_types'])) {
+                    $mainTypes = array_flip($mappings['main_types']);
+                    $mappings = $mappings['products'];
+                } else {
+                    $mainTypes = [];
                 }
-                $mappingDiff = array_diff_assoc($mapping, $currentMapping);
-                if ((count($mappingDiff) === 0) || (count($mappingDiff) === 1 && isset($mappingDiff[$type]))) {
-                    $this->types[$type][$value] = intval($product_id);
+
+                $currentMapping = $mappings[$this->getKey()];
+                $this->types = [];
+
+                $productById = static::whereKey(array_keys($mappings))->get()->keyBy('product_id');
+                $productById[$this->getKey()] = $this;
+
+                foreach ($mappings as $productId => $mapping) {
+                    foreach ($mapping as $type => $value) {
+                        $this->types[$type] ??= [];
+                        if (isset($mainTypes[$type])) {
+                            $this->types[$type][$value] ??= $productById[$productId];
+                        }
+
+                        $mappingDiff = array_diff_assoc($mapping, $currentMapping);
+                        if ((count($mappingDiff) === 0) || (count($mappingDiff) === 1 && isset($mappingDiff[$type]))) {
+                            $this->types[$type][$value] = $productById[$productId];
+                        }
+                    }
                 }
             }
         }
 
-        return $this->types;
+        return null_if_false($this->types);
+    }
+
+    public function url(): string
+    {
+        return $this->isRedirectPlaceholder()
+            ? $this->description
+            : route('store.products.show', $this);
     }
 }

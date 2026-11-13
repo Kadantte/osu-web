@@ -15,18 +15,37 @@ return [
     'top' => 'บนสุด',
     'username' => 'ชื่อผู้ใช้',
 
+    'artist_tracks' => [
+        'album' => 'อัลบั้ม',
+        'artist' => 'ศิลปิน',
+        'bpm' => 'BPM',
+        'genre' => 'ประเภท',
+        'length' => 'ความยาว',
+        'relevance' => 'ความเกี่ยวข้อง',
+        'title' => 'หัวเรื่อง',
+        'update' => 'อัพเดต',
+    ],
+
     'forum_posts' => [
-        'created' => '',
-        'relevance' => '',
+        'created' => 'เวลาการโพสต์',
+        'relevance' => 'ความเกี่ยวข้อง',
     ],
 
     'forum_topics' => [
+        'created' => 'สร้างแล้ว',
         'feature_votes' => 'ลำดับความสำคัญ',
         'new' => 'ตอบกลับครั้งล่าสุด',
     ],
 
+    'teams' => [
+        'created' => '',
+        'relevance' => 'ความเกี่ยวข้อง',
+        'name' => 'ชื่อ',
+        'short-name' => 'ชื่อย่อ',
+    ],
+
     'users' => [
-        'relevance' => '',
-        'username' => '',
+        'relevance' => 'ความเกี่ยวข้อง',
+        'username' => 'ชื่อ',
     ],
 ];

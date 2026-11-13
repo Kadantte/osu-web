@@ -5,7 +5,6 @@
 
 return [
     'button' => [
-        'cancel' => 'Avbryt',
         'resend' => 'Send verifiserings e-posten på nytt',
         'set' => 'Sett passord',
         'start' => 'Start',
@@ -13,10 +12,14 @@ return [
 
     'error' => [
         'contact_support' => 'Vennligst kontakt kundestøtte for å gjenopprette kontoen.',
+        'expired' => 'Bekreftelseskode er utløpt.',
+        'invalid' => 'Uventet feil i bekreftelseskoden.',
         'is_privileged' => 'Kontakt peppy lulz.',
         'missing_key' => 'Kreves.',
+        'too_many_requests' => '',
         'too_many_tries' => 'For mange mislykkede påloggingsforsøk.',
         'user_not_found' => 'Forespurt bruker eksisterer ikke.',
+        'wait_resend' => '',
         'wrong_key' => 'Feil kode.',
     ],
 
@@ -35,6 +38,9 @@ return [
     'starting' => [
         'username' => 'Skriv inn e-postadresse eller brukernavn',
 
+        'reason' => [
+            'inactive_different_country' => "Brukeren din har ikke blitt brukt på en lang tid. For å sikre kontoen din, vennligst tilbakestill passordet ditt.",
+        ],
         'support' => [
             '_' => 'Trenger du mer hjelp? Kontakt oss via vårt :button.',
             'button' => 'støttesystem',

@@ -4,6 +4,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'blocked' => ' Tämä käyttäjä on estänyt sinut.',
     'title_compact' => 'kaverit',
     'too_many' => 'Kaverilista täynnä',
 

@@ -6,6 +6,7 @@
 return [
     'event' => [
         'approve' => 'Zatwierdzona.',
+        'beatmap_owner_change' => 'Zmieniono twórcę poziomu trudności „:beatmap” na użytkownika :new_user.',
         'discussion_delete' => 'Moderator usunął dyskusję :discussion.',
         'discussion_lock' => 'Tworzenie dyskusji dla tej beatmapy zostało wyłączone (:text).',
         'discussion_post_delete' => 'Moderator usunął post z dyskusji :discussion.',
@@ -15,21 +16,25 @@ return [
         'disqualify' => ':user zdyskwalifikował(a) tę beatmapę. Powód: :discussion (:text).',
         'disqualify_legacy' => ':user zdyskwalifikował(a) tę beatmapę. Powód: :text.',
         'genre_edit' => 'Zmieniono gatunek z :old na :new.',
-        'issue_reopen' => 'Rozwiązany problem :discussion został otworzony ponownie.',
-        'issue_resolve' => 'Problem :discussion został oznaczony jako rozwiązany.',
+        'issue_reopen' => 'Rozwiązany problem :discussion zgłoszony przez użytkownika :discussion_user został otworzony ponownie przez użytkownika :user.',
+        'issue_resolve' => 'Problem :discussion zgłoszony przez użytkownika :discussion_user został oznaczony jako rozwiązany przez użytkownika :user.',
         'kudosu_allow' => 'Odrzucenie kudosu dla dyskusji :discussion zostało usunięte.',
         'kudosu_deny' => 'Dyskusja :discussion nie otrzyma kudosu.',
-        'kudosu_gain' => 'Dyskusja :discussion otrzymała wystarczająco dużo głosów na kudosu.',
-        'kudosu_lost' => 'Dyskusja :discussion straciła głosy, a przyznane kudosu zostało odebrane.',
+        'kudosu_gain' => 'Dyskusja :discussion użytkownika :user otrzymała wystarczająco dużo głosów na kudosu.',
+        'kudosu_lost' => 'Dyskusja :discussion użytkownika :user straciła głosy, a przyznane kudosu zostało odebrane.',
         'kudosu_recalculate' => 'Kudosu w dyskusji :discussion zostało przekalkulowane.',
         'language_edit' => 'Zmieniono język z :old na :new.',
         'love' => ':user nadał(a) tej beatmapie status ulubionej społeczności',
-        'nominate' => 'Nominowana przez :user.',
-        'nominate_modes' => 'Nominowana przez :user (:modes).',
-        'nomination_reset' => 'Nowy problem :discussion spowodował zresetowanie nominacji.',
+        'nominate' => 'Nominowana przez użytkownika :user.',
+        'nominate_modes' => 'Nominowana przez użytkownika :user (:modes).',
+        'nomination_reset' => 'Nowy problem :discussion (:text) spowodował zresetowanie nominacji.',
+        'nomination_reset_received' => 'Nominacja użytkownika :user została zresetowana przez użytkownika :source_user (:text)',
+        'nomination_reset_received_profile' => 'Nominacja została zresetowana przez użytkownika :user (:text)',
+        'offset_edit' => 'Zmieniono opóźnienie z :old na :new.',
         'qualify' => 'Ta beatmapa osiągnęła wystarczającą liczbę nominacji i została zakwalifikowana.',
         'rank' => 'Rankingowa.',
         'remove_from_loved' => 'Usunięta z ulubionych beatmap społeczności przez użytkownika :user (:text).',
+        'tags_edit' => 'Zmieniono tagi z „:old” na „:new”.  ',
 
         'nsfw_toggle' => [
             'to_0' => 'Usunięto oznaczenie jako treść dla pełnoletnich',
@@ -38,7 +43,7 @@ return [
     ],
 
     'index' => [
-        'title' => 'Historia zdarzeń zestawów beatmap',
+        'title' => 'Historia zdarzeń w beatmapach',
 
         'form' => [
             'period' => 'Okres',
@@ -54,10 +59,13 @@ return [
 
     'type' => [
         'approve' => 'Zatwierdzenie',
+        'beatmap_owner_change' => 'Zmiana twórcy poziomu trudności',
         'discussion_delete' => 'Usunięcie dyskusji',
+        'discussion_lock' => 'Zablokowanie dyskusji',
         'discussion_post_delete' => 'Usunięcie odpowiedzi w dyskusji',
         'discussion_post_restore' => 'Przywrócenie odpowiedzi w dyskusji',
         'discussion_restore' => 'Przywrócenie dyskusji',
+        'discussion_unlock' => 'Odblokowanie dyskusji',
         'disqualify' => 'Dyskwalifikacja',
         'genre_edit' => 'Zmiana gatunku',
         'issue_reopen' => 'Ponowne otworzenie dyskusji',
@@ -71,9 +79,12 @@ return [
         'love' => 'Nadanie statusu ulubionej społeczności',
         'nominate' => 'Nominacja',
         'nomination_reset' => 'Zresetowanie nominacji',
+        'nomination_reset_received' => 'Ręczne zresetowanie nominacji',
         'nsfw_toggle' => 'Oznaczenie jako treść dla pełnoletnich',
+        'offset_edit' => 'Zmiana opóźnienia',
         'qualify' => 'Kwalifikacja',
         'rank' => 'Nadanie statusu rankingowego',
         'remove_from_loved' => 'Usunięcie z ulubionych beatmap społeczności',
+        'tags_edit' => 'Edycja tagów',
     ],
 ];

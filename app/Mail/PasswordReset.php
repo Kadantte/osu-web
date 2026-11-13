@@ -12,7 +12,8 @@ use Illuminate\Queue\SerializesModels;
 
 class PasswordReset extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $user;
     public $key;
@@ -37,6 +38,6 @@ class PasswordReset extends Mailable implements ShouldQueue
     {
         return $this
             ->text('emails.password_reset')
-            ->subject(trans('mail.password_reset.subject'));
+            ->subject(osu_trans('mail.password_reset.subject'));
     }
 }

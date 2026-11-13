@@ -7,61 +7,61 @@ return [
     'support' => [
         'convinced' => [
             'title' => 'Vakuutuin! :D',
-            'support' => 'tue osua!',
+            'support' => 'tue osu!a',
             'gift' => 'tai lahjoita Tukija toiselle pelaajalle',
             'instructions' => 'klikkaa sydäntä jatkaaksesi osu!kauppaan',
         ],
         'why-support' => [
-            'title' => 'Miksi minun pitäisi tukea osu!:a? Mihin rahat menevät?',
+            'title' => 'Miksi minun pitäisi tukea osu!a? Mihin rahat menevät?',
 
             'team' => [
-                'title' => 'Tue Tiimiä',
-                'description' => '',
+                'title' => 'Tue tiimiä',
+                'description' => 'Pieni tiimi huolehtii osu!n kehittämisestä ja ylläpidosta. Tukesi auttaa heitä niin sanotusti... pärjäämään.',
             ],
             'infra' => [
                 'title' => 'Palvelininfrastruktuuri',
-                'description' => 'Avustukset menevät palvelimiin, joilla ylläpidetään verkkosivustoa, moninpelipalveluita, online-pistetaulukoita jne.',
+                'description' => 'Osa avustuksista menee palvelimia varten ja niillä ylläpidetään verkkosivustoa, moninpelipalveluita, verkon tulostauluja jne.',
             ],
             'featured-artists' => [
-                'title' => 'Esittelyssä olevat Artistit',
-                'description' => 'Sinun tuella voimme lähestyä mahtavia artisteja vielä enemmän ja lisensoida lisää hienoa musiikkia käytettäväksi osu!:ssa',
-                'link_text' => '',
+                'title' => 'Esitellyt artistit',
+                'description' => 'Tuellasi voimme lähestyä mahtavia artisteja vielä enemmän ja lisensoida lisää hienoa musiikkia osu!ssa käytettäväksi',
+                'link_text' => 'Näytä nykyinen lista &raquo;',
             ],
             'ads' => [
-                'title' => 'Pidä osu! itsekestävänä',
-                'description' => '',
+                'title' => 'Pidä osu! omavaraisena',
+                'description' => 'Lahjoituksesi auttavat pitämään pelin itsenäisenä ja täysin vapaana mainoksista ja ulkopuolisista sponsoreista.',
             ],
             'tournaments' => [
-                'title' => '',
-                'description' => '',
-                'link_text' => '',
+                'title' => 'Viralliset turnaukset',
+                'description' => 'Auta osu!-maailmancup -turnausten ylläpidon (sekä palkintojen) rahoituksessa.',
+                'link_text' => 'Selaa turnauksia &raquo;',
             ],
             'bounty-program' => [
-                'title' => '',
-                'description' => '',
-                'link_text' => '',
+                'title' => 'Avoimen lähdekoodin palkkio -ohjelma',
+                'description' => 'Tue yhteisön osallistujia, jotka ovat käyttäneet aikaansa ja vaivaansa tekemään osu!sta paremman.',
+                'link_text' => 'Lue lisää &raquo;',
             ],
         ],
         'perks' => [
-            'title' => 'Aha. No mitä minä sitten saan?!',
+            'title' => 'Aivan. Millaisia etuja minä saan?',
             'osu_direct' => [
                 'title' => 'osu!direct',
-                'description' => 'Nopea ja helppo tapa etsiä beatmappejä ilman tarvetta poistua pelistä.',
+                'description' => 'Saat nopean ja helpon tavan hakea ja ladata rytmikarttoja, ilman pelistä poistumista.',
             ],
 
             'friend_ranking' => [
-                'title' => '',
-                'description' => "",
+                'title' => 'Kavereiden sijoitukset',
+                'description' => "Näe miten pärjäät kavereitasi vastaan rytmikarttojen tulostaulukoilla, sekä pelissä että verkkosivustolla.",
             ],
 
             'country_ranking' => [
-                'title' => '',
-                'description' => '',
+                'title' => 'Maakohtaiset sijoitukset',
+                'description' => 'Valloita oma maasi ennen kuin valloitat koko maailman.',
             ],
 
             'mod_filtering' => [
-                'title' => '',
-                'description' => '',
+                'title' => 'Suodata muunnelmien mukaan',
+                'description' => 'Viihdytkö vain HDHR-pelaajien kanssa? Ei hätää!',
             ],
 
             'auto_downloads' => [
@@ -71,7 +71,7 @@ return [
 
             'upload_more' => [
                 'title' => 'Lataa enemmän',
-                'description' => 'Lisäpaikkoja vireillä oleville beatmapeille jokaista hyväksyttyä beatmappiä vastaan. (Max. 10)',
+                'description' => 'Vireillä olevien rytmikarttojen lisäpaikkoja jokaista rankattua rytmikarttaa kohden, enintään 10 kappaletta.',
             ],
 
             'early_access' => [
@@ -80,13 +80,13 @@ return [
             ],
 
             'customisation' => [
-                'title' => 'Kustomointi',
-                'description' => "Tee profiilistasi omalaatuinen lisäämällä täysin muokattava käyttäjä-sivu.",
+                'title' => 'Mukauttaminen',
+                'description' => "Tee profiilistasi omalaatuinen lisäämällä räätälöidyn kansikuvan tai luomalla täysin mukautettavan 'minä!'-osion oman käyttäjäprofiilisi alle.",
             ],
 
             'beatmap_filters' => [
-                'title' => 'Beatmap Suodattimet',
-                'description' => 'Suodata beatmappien hakua pelatun, pelaamattoman sekä kartassa saavutetun luokituksen mukaan.',
+                'title' => 'Rytmikarttojen suodattimet',
+                'description' => 'Suodata rytmikarttojen haku pelattujen, pelaamattomien sekä kartassa saavutetun arvosanan mukaan.',
             ],
 
             'yellow_fellow' => [
@@ -101,11 +101,11 @@ return [
 
             'change_username' => [
                 'title' => 'Vaihda käyttäjänimeä',
-                'description' => 'Voit vaihtaa käyttäjänimesi ilman ylimääräisiä kuluja. (vain kerran)',
+                'description' => 'Voit vaihtaa käyttäjänimesi ilman ylimääräisiä kuluja (vain kerran).',
             ],
 
             'skinnables' => [
-                'title' => 'Ulkonäöllisyyksiä',
+                'title' => 'Ulkoasun muokattavuuksia',
                 'description' => 'Lisää muokattavia pelinsisäisiä kohteita, kuten esimerkiksi päävalikon taustakuva.',
             ],
 
@@ -116,33 +116,37 @@ return [
 
             'sort_options' => [
                 'title' => 'Lajitteluasetuksia',
-                'description' => 'Näet beatmapin maa-, kaveri- ja modikohtaiset sijoitukset pelissä.',
+                'description' => 'Näet rytmikartan maa-, kaveri- ja muunnelmakohtaiset sijoitukset pelissä.',
             ],
 
             'more_favourites' => [
-                'title' => '',
-                'description' => '',
+                'title' => 'Lisää suosikkeja',
+                'description' => 'Voit lisätä enemmän rytmikarttoja suosikkeihin. :normally &rarr; :supporter',
             ],
             'more_friends' => [
-                'title' => '',
-                'description' => '',
+                'title' => 'Lisää kavereita',
+                'description' => 'Voit lisätä enemmän kavereita. :normally &rarr; :supporter',
             ],
             'more_beatmaps' => [
-                'title' => '',
-                'description' => '',
+                'title' => 'Lähetä lisää rytmikarttoja',
+                'description' => 'Vireillä olevien rytmikarttojen enimmäismäärä määräytyy perusarvosta plus kunkin tekemäsi rankatun rytmikartan lisäbonuksesta (tiettyyn rajaan asti). <br/><br/>Tavallisesti tämä on :base plus :bonus per rankattu rytmikartta (bonusta enintään :bonus_max). Jos olet tukija, tämä on :supporter_base plus :supporter_bonus per rankattu rytmikartta (bonusta enintään :supporter_bonus_max).',
             ],
             'friend_filtering' => [
-                'title' => '',
-                'description' => '',
+                'title' => 'Kavereiden tulostaulukot',
+                'description' => 'Kilpaile kavereidesi kanssa ja katso, miten sijoittaudut heitä vastaan!',
             ],
 
         ],
         'supporter_status' => [
-            'contribution' => 'Kiitos tuestasi tähän saakka! Olet tukenut kokonaisuudessaan :dollars :tags tukijaostoksella!',
-            'gifted' => "Tagiostoksistasi :giftedTags on lahjoitettu (yhteensä :giftedDollars), kuinka anteliasta!",
-            'not_yet' => "Et ole vielä tukija :(",
-            'valid_until' => 'Nykyinen tukijatagi on voimassa :date asti!',
-            'was_valid_until' => 'Tukijatagisi oli voimassa :date asti.',
+            'contribution_with_duration' => 'Kiitos jatkuvasta tuestasi! Olet tähän mennessä lahjoittanut yhteensä :dollars, ja olet ansainnut ”Supporter”-tunnuksen :duration ajaksi.',
+            'not_yet' => "Sinulla ei vielä ole ollut tukijamerkkiä :(",
+            'valid_until' => 'Nykyinen tukijamerkkisi on voimassa :date asti!',
+            'was_valid_until' => 'Tukijamerkkisi oli voimassa :date asti.',
+
+            'gifted' => [
+                '_' => 'Olet lahjoittanut yhteensä :dollars edestä tukijalahjoituksia :users käyttäjälle, joka on yhteensä :duration. Tuo on erittäin antelista! ',
+                'users' => ':count_delimited muu käyttäjä|:count_delimited muuta käyttäjää',
+            ],
         ],
     ],
 ];

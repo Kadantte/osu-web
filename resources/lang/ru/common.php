@@ -5,7 +5,7 @@
 
 return [
     'confirmation' => 'Вы уверены?',
-    'confirmation_unsaved' => 'Несохраненные изменения будет утеряны. Вы уверены?',
+    'confirmation_unsaved' => 'Несохранённые изменения будут утеряны. Вы уверены?',
     'saved' => 'Сохранено',
 
     'array_and' => [
@@ -15,35 +15,37 @@ return [
     ],
 
     'badges' => [
-        'new' => 'НОВОЕ',
+        'new' => 'НОВЫЙ',
     ],
 
     'buttons' => [
-        'admin' => 'Администратор',
         'authorise' => 'Авторизовать',
         'authorising' => 'Авторизация...',
-        'back_to_previous' => 'Возвратить предыдущее состояние',
+        'back' => 'Назад',
+        'back_to_previous' => 'Вернуться',
         'back_to_top' => 'В начало',
         'cancel' => 'Отмена',
         'change' => 'изменить',
         'clear' => 'Очистить',
-        'click_to_copy' => 'нажмите чтобы скопировать',
+        'click_to_copy' => 'скопировать',
         'click_to_copy_copied' => 'скопировано!',
         'close' => 'Закрыть',
         'collapse' => 'свернуть',
         'delete' => 'Удалить',
-        'edit' => 'Изменить',
+        'edit' => 'Редактировать',
         'expand' => 'развернуть',
         'hide' => 'скрыть',
         'permalink' => 'прямая ссылка',
         'pin' => 'закрепить',
-        'post' => 'Опубликовать',
-        'read_more' => 'подробнее',
+        'post' => 'Отправить',
+        'read_more' => 'читать дальше',
+        'refresh' => 'Обновить',
         'reply' => 'Ответить',
-        'reply_reopen' => 'Ответить и возобновить',
-        'reply_resolve' => 'Ответить и разрешить',
+        'reply_reopen' => 'Ответить и переоткрыть',
+        'reply_resolve' => 'Ответить и решить',
         'reset' => 'Сбросить',
         'restore' => 'Восстановить',
+        'retry' => 'Обновить',
         'save' => 'Сохранить',
         'saving' => 'Сохранение...',
         'search' => 'Найти',
@@ -51,35 +53,37 @@ return [
         'show' => 'показать',
         'show_deleted' => 'Показать удалённые',
         'show_less' => 'показать меньше',
-        'show_more' => 'показать больше',
+        'show_more' => 'показать ещё',
         'show_more_options' => 'показать больше опций',
+        'submit' => 'Отправить',
         'unpin' => 'открепить',
         'update' => 'Обновить',
         'upload_image' => 'выбрать файл',
 
         'watch' => [
-            'to_0' => 'Не следить',
-            'to_1' => 'Следить',
+            'to_0' => 'Не отслеживать',
+            'to_1' => 'Отслеживать',
         ],
     ],
 
     'count' => [
-        'badges' => ':count значок|:count значка|:count значков',
-        'days' => ':count день|:count дня|:count дней',
+        'badges' => ':count_delimited значок|:count_delimited значка|:count_delimited значков',
+        'days' => ':count_delimited день|:count_delimited дня|:count_delimited дней',
         'hour_short_unit' => 'ч',
-        'hours' => ':count час|:count часа|:count часов',
-        'item' => ':count единица|:count единицы|:count единиц',
+        'hours' => ':count_delimited час|:count_delimited часа|:count_delimited часов',
+        'item' => ':count_delimited единица|:count_delimited единицы|:count_delimited единиц',
         'minute_short_unit' => 'мин',
-        'minutes' => ':count минута|:count минуты|:count минут',
-        'months' => ':count месяц|:count месяца|:count месяцев',
+        'minutes' => ':count_delimited минута|:count_delimited минуты|:count_delimited минут',
+        'months' => ':count_delimited месяц|:count_delimited месяца|:count_delimited месяцев',
         'notifications' => ':count_delimited уведомление|:count_delimited уведомления|:count_delimited уведомлений',
-        'plus_others' => '+ :count_delimited другой!|+ :count_delimited других!',
+        'player' => ':count_delimited игрок|:count_delimited игрока|:count_delimited игроков',
+        'plus_others' => '+ ещё у :count_delimited другого!|+ ещё у :count_delimited других!|+ ещё у :count_delimited других!',
         'post' => ':count_delimited пост|:count_delimited поста|:count_delimited постов',
         'second_short_unit' => 'сек',
         'star_priority' => ':count_delimited приоритет|:count_delimited приоритета|:count_delimited приоритетов',
-        'update' => ':count_delimited обновление|:count_delimited обновления',
+        'update' => ':count_delimited обновление|:count_delimited обновления|:count_delimited обновлений',
         'view' => ':count_delimited просмотр|:count_delimited просмотра|:count_delimited просмотров',
-        'years' => ':count год|:count года|:count лет',
+        'years' => ':count_delimited год|:count_delimited года|:count_delimited лет',
     ],
 
     'countdown' => [
@@ -90,6 +94,12 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => 'мес',
+        ],
+        'year' => [
+            'php' => 'г',
+        ],
         'year_month' => [
             'moment' => 'MMMM YYYY',
             'php' => 'MMMM y',
@@ -107,7 +117,7 @@ return [
     ],
 
     'dropzone' => [
-        'target' => 'бросьте файл сюда',
+        'target' => 'перетащите для загрузки',
     ],
 
     'input' => [
@@ -125,7 +135,7 @@ return [
         'count_50' => '50',
         'count_geki' => '',
         'count_katu' => '200',
-        'count_miss' => 'Промах',
+        'count_miss' => 'Промахи',
     ],
 
     'scoreboard_time' => [
@@ -133,25 +143,25 @@ return [
         'dd' => '%d д',
         'h' => '%d ч',
         'hh' => '%d ч',
-        'M' => '%d мес',
-        'm' => '%d мин',
-        'MM' => '%d мес',
-        'mm' => '%d мин',
+        'm' => 'только что',
+        'mm' => 'только что',
+        'month' => '%d мес',
+        'months' => '%d мес',
         'past' => '',
-        's' => '%d сек',
+        's' => 'только что',
         'y' => '%d лет',
         'yy' => '%d лет',
     ],
 
     'time' => [
-        'days_ago' => ':count день назад|:count дня назад|:count дней назад',
-        'hours_ago' => ':count час назад|:count часа назад|:count часов назад',
+        'days_ago' => ':count_delimited день назад|:count_delimited дня назад|:count_delimited дней назад',
+        'hours_ago' => ':count_delimited час назад|:count_delimited часа назад|:count_delimited часов назад',
         'now' => 'сейчас',
         'remaining' => 'Времени осталось',
     ],
 
     'title' => [
-        'notice' => 'Замечание',
+        'notice' => 'Примечание',
     ],
 
     'wrong_user' => [

@@ -5,17 +5,29 @@
 
 return [
     'mode' => [
+        'artist_track' => 'Featured Artist Track',
         'beatmapset' => 'Beatmap',
         'forum_post' => 'Forum',
         'other' => 'Other',
+        'team' => 'Team',
         'user' => 'Player',
         'wiki_page' => 'Wiki',
     ],
 
     'result' => [
-        'empty' => 'No results',
-        'empty_for' => 'No results for :modes',
         'more' => 'More :mode Search Results',
         'title' => ':mode Search Results',
+
+        'no_results' => [
+            '_' => 'No results for :mode',
+
+            'artist_track' => 'Featured Artist Tracks',
+            'beatmapset' => 'Beatmaps',
+            'forum_post' => 'Forums',
+            'other' => 'Others',
+            'team' => 'Teams',
+            'user' => 'Players',
+            'wiki_page' => 'Wiki',
+        ],
     ],
 ];

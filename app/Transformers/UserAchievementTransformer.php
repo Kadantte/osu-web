@@ -12,7 +12,7 @@ class UserAchievementTransformer extends TransformerAbstract
     public function transform(UserAchievement $userAchievement)
     {
         return [
-            'achieved_at' => json_time($userAchievement->date),
+            'achieved_at' => $userAchievement->getJsonTime('date'),
             'achievement_id' => $userAchievement->achievement_id,
         ];
     }

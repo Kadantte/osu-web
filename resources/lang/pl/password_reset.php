@@ -5,7 +5,6 @@
 
 return [
     'button' => [
-        'cancel' => 'Anuluj',
         'resend' => 'Wyślij ponownie e-mail weryfikacyjny',
         'set' => 'Ustaw hasło',
         'start' => 'Rozpocznij',
@@ -13,10 +12,14 @@ return [
 
     'error' => [
         'contact_support' => 'Skontaktuj się z pomocą techniczną, aby odzyskać konto.',
+        'expired' => 'Kod weryfikacyjny wygasł.',
+        'invalid' => 'Wystąpił nieoczekiwany błąd z kodem weryfikacyjnym.',
         'is_privileged' => 'Skontaktuj się administratorem, by odzyskać konto.',
         'missing_key' => 'Wymagane.',
-        'too_many_tries' => 'Za dużo błędnych prób.',
+        'too_many_requests' => 'Osiągnięto limit próśb o zresetowanie hasła. Skontaktuj się z zespołem osu!, aby odzyskać konto.',
+        'too_many_tries' => 'Zbyt wiele nieudanych prób.',
         'user_not_found' => 'Ten użytkownik nie istnieje.',
+        'wait_resend' => 'Proszę czekać.',
         'wrong_key' => 'Nieprawidłowy kod.',
     ],
 
@@ -28,13 +31,16 @@ return [
     'started' => [
         'password' => 'Nowe hasło',
         'password_confirmation' => 'Potwierdź hasło',
-        'title' => 'Resetowanie hasła dla konta <strong>:username</strong>.',
+        'title' => 'Resetowanie hasła dla użytkownika<strong>:username</strong>.',
         'verification_key' => 'Kod weryfikacyjny',
     ],
 
     'starting' => [
         'username' => 'Wprowadź e-mail lub nazwę użytkownika',
 
+        'reason' => [
+            'inactive_different_country' => "Twoje konto nie było używane przez długi czas. Zresetuj hasło, aby zapewnić bezpieczeństwo konta.",
+        ],
         'support' => [
             '_' => 'Potrzebujesz pomocy? Skontaktuj się z :button.',
             'button' => 'pomocą techniczną',

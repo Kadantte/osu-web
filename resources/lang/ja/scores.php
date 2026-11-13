@@ -5,6 +5,7 @@
 
 return [
     'show' => [
+        'non_preserved' => 'このスコアは削除対象としてマークされているので、まもなく削除されます。',
         'title' => ':title[:version]の:username',
 
         'beatmap' => [
@@ -13,7 +14,10 @@ return [
 
         'player' => [
             'by' => 'プレイ',
+            'played_on' => 'プレイ環境',
             'submitted_on' => '投稿日',
+            'watched' => '視聴回数',
+            'watched_count' => ':count_delimited 回|:count_delimited 回',
 
             'rank' => [
                 'country' => '国別ランキング',
@@ -23,7 +27,9 @@ return [
     ],
 
     'status' => [
-        'non_best' => '個人ベストスコア賞のみpp',
+        'non_best' => '個人のベストスコアのみppを与えます。',
+        'no_pp' => 'このスコアに対してppは授与されていません',
         'processing' => 'このスコアはまだ計算中です。すぐに表示されます。',
+        'no_rank' => 'このスコアはUnranked、または削除対象のマップなのでランクはありません。',
     ],
 ];

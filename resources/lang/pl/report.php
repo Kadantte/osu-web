@@ -4,6 +4,11 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'beatmapset' => [
+        'button' => 'Zgłoś',
+        'title' => 'Zgłosić beatmapę użytkownika :username?',
+    ],
+
     'beatmapset_discussion_post' => [
         'button' => 'Zgłoś',
         'title' => 'Zgłosić post użytkownika :username?',
@@ -11,7 +16,7 @@ return [
 
     'comment' => [
         'button' => 'Zgłoś',
-        'title' => 'Zgłosić komentarz gracza :username?',
+        'title' => 'Zgłosić komentarz użytkownika :username?',
     ],
 
     'forum_post' => [
@@ -19,9 +24,19 @@ return [
         'title' => 'Zgłosić post użytkownika :username?',
     ],
 
+    'message' => [
+        'button' => 'Zgłoś wiadomość',
+        'title' => 'Zgłosić wiadomość użytkownika :username?',
+    ],
+
     'scores' => [
         'button' => 'Zgłoś wynik',
-        'title' => 'Zgłosić wynik gracza :username?',
+        'title' => 'Zgłosić wynik użytkownika :username?',
+    ],
+
+    'team' => [
+        'button' => 'Zgłoś zespół',
+        'title' => 'Zgłosić zespół użytkownika :username?',
     ],
 
     'user' => [

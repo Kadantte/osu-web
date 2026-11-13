@@ -12,10 +12,11 @@ use Cache;
 
 class CurrentStats
 {
-    public $currentOnline;
-    public $currentGames;
-    public $graphData;
-    public $totalUsers;
+    public int $currentOnline;
+    public int $currentGames;
+    public array $graphData;
+    public int $onlineFriends;
+    public int $totalUsers;
 
     public function __construct()
     {
@@ -24,14 +25,14 @@ class CurrentStats
             $latest = array_last($stats);
 
             return [
-                'currentOnline' => $latest['users_osu'] ?? 0,
-                'currentGames' => $latest['multiplayer_games'] ?? 0,
-                'graphData' => array_to_graph_json($stats, 'users_osu'),
-                'totalUsers' => Count::totalUsers(),
+                'currentOnline' => $latest['users'] ?? 0,
+                'currentGames' => ($latest['multiplayer_games'] ?? 0) + ($latest['multiplayer_games_lazer'] ?? 0),
+                'graphData' => array_to_graph_json($stats, 'users'),
+                'totalUsers' => Count::totalUsers()->count,
             ];
         });
 
-        $this->onlineFriends = Auth::user() ? Auth::user()->friends()->online()->count() : 0;
+        $this->onlineFriends = Auth::user()?->friends()->online()->count() ?? 0;
         $this->currentOnline = $data['currentOnline'];
         $this->currentGames = $data['currentGames'];
         $this->graphData = $data['graphData'];

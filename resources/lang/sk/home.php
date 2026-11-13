@@ -10,7 +10,7 @@ return [
         'peak' => 'Vrchol, :count online užívateľov',
         'players' => '<strong>:count</strong> registrovaných hráčov',
         'title' => 'vitajte',
-        'see_more_news' => '',
+        'see_more_news' => 'zobraziť viac noviniek',
 
         'slogan' => [
             'main' => 'najlepšia free-to-win rytmická hra',
@@ -22,12 +22,15 @@ return [
         'advanced_link' => 'Pokročilé vyhľadávanie',
         'button' => 'Hľadať',
         'empty_result' => 'Nič sa nenašlo!',
-        'keyword_required' => '',
+        'keyword_required' => 'Je potrebné kľúčové slovo pre vyhľadávanie',
         'placeholder' => 'zadajte pre vyhľadávanie',
         'title' => 'Hľadať',
 
+        'artist_track' => [
+            'more_simple' => 'Zobraziť viac skladieb od významných umelcov',
+        ],
         'beatmapset' => [
-            'login_required' => '',
+            'login_required' => 'Prihlás sa pre vyhladávanie beatmáp',
             'more' => ':count ďalších výsledkov vyhladávaní máp',
             'more_simple' => 'Zobraziť ďalšie výsledký vyhladávania máp',
             'title' => 'Beatmapy',
@@ -36,13 +39,14 @@ return [
         'forum_post' => [
             'all' => 'Všetky fóra',
             'link' => 'Prehľadať fórum',
-            'login_required' => '',
+            'login_required' => 'Prihlás sa pre vyhladávanie vo fóre',
             'more_simple' => 'Zobraziť ďalšie výsledky prehľadávania fóra',
             'title' => 'Fórum',
 
             'label' => [
                 'forum' => 'hľadať vo fóroch',
                 'forum_children' => 'zahrnúť subfóra',
+                'include_deleted' => 'zahrnúť vymazané príspevky',
                 'topic_id' => 'téma #',
                 'username' => 'autor',
             ],
@@ -50,14 +54,21 @@ return [
 
         'mode' => [
             'all' => 'všetko',
+            'artist_track' => 'skladba od významného umelca',
             'beatmapset' => 'beatmapy',
             'forum_post' => 'fórum',
+            'team' => 'tím',
             'user' => 'hráč',
             'wiki_page' => 'wiki',
         ],
 
+        'team' => [
+            'login_required' => 'Prihlás sa na vyhľadávanie tímov',
+            'more_simple' => 'Zobraziť ďalšie tímy',
+        ],
+
         'user' => [
-            'login_required' => '',
+            'login_required' => 'Prihlás sa na vyhľadávanie používateľov',
             'more' => ':count ďalších výsledkov vyhľadávania hráčov',
             'more_simple' => 'Zobraziť ďalśie výsledky vyhľadávania hráčov',
             'more_hidden' => 'Vyhľadávanie hráčov bolo obmedzené na :max hráčov. Skús upraviť tvoje vyhľadávanie.',
@@ -72,13 +83,24 @@ return [
     ],
 
     'download' => [
-        'tagline' => "poďme začať!",
-        'action' => 'Sťahovať!',
+        'action_lazer_info' => 'klikni sem pre viac informácií',
+        'download' => 'Stiahnuť',
+        'for_os' => 'pre :os',
+        'macos-fallback' => 'macOS užívateľ',
+        'mirror' => 'mirror',
+        'or' => 'alebo',
+        'os_version_or_later' => ':os_version a novšie',
+        'other_os' => 'iné platformy',
+        'quick_start_guide' => 'stručná príručka',
+        'stable_text' => 'ak hľadáš to staršie',
+        'tagline_1' => 'poďme',
+        'tagline_2' => 'začať!',
+        'video-guide' => 'video návod',
 
         'help' => [
-            '_' => '',
-            'help_forum_link' => '',
-            'support_button' => '',
+            '_' => 'ak máš problém so zapínaním hry alebo registrovaním účtu, :help_forum_link alebo :support_button.',
+            'help_forum_link' => 'pozri si pomocné fórum',
+            'support_button' => 'kontaktuj podporu',
         ],
 
         'os' => [
@@ -86,11 +108,9 @@ return [
             'macos' => 'pre macOS',
             'linux' => 'pre Linux',
         ],
-        'mirror' => 'mirror',
-        'macos-fallback' => 'macOS užívateľ',
         'steps' => [
             'register' => [
-                'title' => 'vytvorte si účet',
+                'title' => 'vytvor si účet',
                 'description' => 'pri spustení hry postupuj podľa pokynov pre prihlásenie alebo vytvorenie účtu',
             ],
             'download' => [
@@ -100,12 +120,11 @@ return [
             'beatmaps' => [
                 'title' => 'získaj beatmapy',
                 'description' => [
-                    '_' => 'potom už ostáva iba :browse rozsiahlu knihovňu použivateľmi vytvorených máp a pustiť sa do hrania!',
+                    '_' => 'už ostáva iba :browse rozsiahlu knižnicu používateľmi vytvorených máp a pustiť sa do hrania!',
                     'browse' => 'prehľadávať',
                 ],
             ],
         ],
-        'video-guide' => 'video návod',
     ],
 
     'user' => [
@@ -118,29 +137,28 @@ return [
             'stats' => [
                 'friends' => 'Online Priatelia',
                 'games' => 'Hry',
-                'online' => 'Online užívatelia',
+                'online' => 'Online Používatelia',
             ],
         ],
         'beatmaps' => [
+            'daily_challenge' => 'Beatmapa dennej výzvy',
             'new' => 'Nové Hodnotené Beatmapy',
             'popular' => 'Populárne Beatmapy',
             'by_user' => 'od :user',
+            'resets' => 'resetuje sa :ends',
         ],
         'buttons' => [
-            'download' => 'Sťahovať osu!',
+            'download' => 'Stiahnuť osu!',
             'support' => 'Podpor osu!',
             'store' => 'osu!store',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Wow!',
-        'subtitle' => 'Vyzerá to, že sa dobre bavíš! :D',
-        'body' => [
-            'part-1' => 'Vedel si, že osu! beží bez reklam a spolieha sa iba na hráčov, aby podporili rozvoj a prevádzkové náklady?',
-            'part-2' => 'A tiež si vedel, že podporením osu! získaš veľa užitočných východ, ako napríklad <strong>in-game sťahovanie</strong>, ktoré sa automatický spustí pri pozeraní a multiplayer hrách?',
+        'livestream' => [
+            'title' => 'Odporúčané živé vysielanie',
         ],
-        'find-out-more' => 'Klikni tu aby si zistil viac!',
-        'download-starting' => "Oh, a nemaj obavy - tvoje sťahovanie sa už začalo ;)",
+        'show' => [
+            'admin' => [
+                'page' => 'Otvoriť administrátorskú konzolu',
+            ],
+        ],
     ],
 ];

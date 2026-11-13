@@ -5,6 +5,7 @@
 
 return [
     'show' => [
+        'non_preserved' => 'Esta pontuação está marcada para eliminação e desaparecerá em breve.',
         'title' => ':username em :title [:version]',
 
         'beatmap' => [
@@ -13,7 +14,10 @@ return [
 
         'player' => [
             'by' => 'Jogado por',
+            'played_on' => 'Jogado em',
             'submitted_on' => 'Submetido a',
+            'watched' => 'Assistido',
+            'watched_count' => ':count_delimited vez|:count_delimited vezes',
 
             'rank' => [
                 'country' => 'Classificação Nacional',
@@ -23,7 +27,9 @@ return [
     ],
 
     'status' => [
-        'non_best' => 'Apenas as melhores pontuações pessoais dão pp',
-        'processing' => 'Esta pontuação ainda está a ser calculada e será exibida em breve',
+        'non_best' => 'Apenas as melhores pontuações pessoais atribuem pp',
+        'no_pp' => 'não são atribuídos pp para esta pontuação',
+        'processing' => 'Esta pontuação ainda está a ser calculada e será apresentada em breve',
+        'no_rank' => 'Esta pontuação não tem classificação por estar não classificada ou marcada para eliminação',
     ],
 ];

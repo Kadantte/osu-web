@@ -5,47 +5,43 @@
 
 return [
     'index' => [
-        'description' => 'Coleções pré-empacotadas de beatmaps baseadas num tema em comum.',
+        'description' => 'Coleções pré-empacotadas de mapas baseadas num tema em comum.',
+        'empty' => 'Brevemente!',
         'nav_title' => 'listagem',
-        'title' => 'Pacotes de beatmap',
+        'title' => 'Pacotes de mapas',
 
         'blurb' => [
-            'important' => 'LÊ ISTO ANTES DE TRANSFERIR',
-            'instruction' => [
-                '_' => "Instalação: Uma vez transferido um pacote, extrai o .rar para o teu Diretório de Canções do osu!.
-                    Todas as canções estão no formato .ZIP e/ou .OSZ dentro do pacote, por isso o osu! irá precisar de extrair, por si próprio, os beatmaps da próxima vez que fores para o Modo de jogo.
-                    :scary extrai os ZIPs/OSZs por ti próprio,
-                    ou os beatmaps vão-se apresentar de forma incorreta no osu! e não irão funcionar corretamente.",
-                'scary' => 'NÃO',
-            ],
-            'note' => [
-                '_' => 'Toma nota de que também é altamente recomendado :scary, já que os mapas mais velhos são de menor qualidade do que os mapas mais recentes.',
-                'scary' => 'transferir os pacotes do mais velho para o mais novo',
-            ],
+            'important' => 'LEIA ISTO ANTES DE TRANSFERIR',
+            'install_instruction' => 'Instalação: Assim que um pacote for transferido, extraia o seu conteúdo para a pasta Songs do osu! e o jogo tratará do resto.',
         ],
     ],
 
     'show' => [
+        'created_by' => 'criado por :author',
         'download' => 'Transferir',
+        'no_diff_reduction_badge' => 'Desafio',
         'item' => [
             'cleared' => 'concluído',
             'not_cleared' => 'não concluído',
         ],
         'no_diff_reduction' => [
-            '_' => ':link não poderá ser usado para limpar este pacote.',
-            'link' => 'Mods de redução da dificuldade',
+            '_' => ':link não poderá ser usado para concluír este pacote.',
+            'link' => 'Modificações de redução da dificuldade',
         ],
     ],
 
     'mode' => [
         'artist' => 'Artista/Álbum',
-        'chart' => 'Em destaque',
+        'chart' => 'Destaques',
+        'featured' => 'Artista Destacado',
+        'loved' => 'Projeto Adorado',
         'standard' => 'Padrão',
         'theme' => 'Tema',
+        'tournament' => 'Torneio',
     ],
 
     'require_login' => [
-        '_' => 'Tu precisas de estar :link para transferir',
+        '_' => 'Tem de estar :link para transferir',
         'link_text' => 'autenticado',
     ],
 ];

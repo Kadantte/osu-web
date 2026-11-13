@@ -5,18 +5,94 @@
 
 namespace Tests\Models\Store;
 
+use App\Models\Store\Order;
 use App\Models\Store\OrderItem;
 use App\Models\Store\Product;
 use Tests\TestCase;
 
 class OrderTest extends TestCase
 {
+    public function testContainsSupporterTag()
+    {
+        $order = Order::factory()->create();
+        $product = Product::factory()->create();
+        OrderItem::factory()->create(['order_id' => $order, 'product_id' => $product]);
+        OrderItem::factory()->supporterTag()->create(['order_id' => $order]);
+
+        $this->assertTrue($order->containsSupporterTag());
+    }
+
+    public function testIsHideSupporterFromActivity()
+    {
+        $order = Order::factory()->create();
+        OrderItem::factory()->count(2)->supporterTag()->create(['order_id' => $order]);
+
+        $this->assertFalse($order->isHideSupporterFromActivity());
+
+        $order->items[0]->extra_data->hidden = true;
+        $order->saveOrExplode();
+
+        $this->assertTrue($order->isHideSupporterFromActivity());
+    }
+
+    public function testSetGiftsHidden()
+    {
+        $order = Order::factory()->create();
+        OrderItem::factory()->count(2)->supporterTag()->create(['order_id' => $order]);
+
+        $order->setGiftsHidden(true);
+        OrderItem::each(fn ($item) => $this->assertTrue($item->extra_data->hidden));
+
+        $order->setGiftsHidden(false);
+        OrderItem::each(fn ($item) => $this->assertFalse($item->extra_data->hidden));
+    }
+
+    public function testReserveItems()
+    {
+        $productFactory = Product::factory()->state(['stock' => 5, 'max_quantity' => 5]);
+        $orderItemFactory = OrderItem::factory();
+
+        $product1 = $productFactory->create();
+        $product2 = $productFactory->create();
+
+        $order = Order::factory()
+            ->has($orderItemFactory->state(['product_id' => $product1, 'quantity' => 2]), 'items')
+            ->has($orderItemFactory->state(['product_id' => $product2, 'quantity' => 1]), 'items')
+            ->create();
+
+        $this->expectCountChange(fn () => $product1->fresh()->stock, -2);
+        $this->expectCountChange(fn () => $product2->fresh()->stock, -1);
+        $this->expectCountChange(fn () => $order->fresh()->items()->where('reserved', true)->count(), 2);
+
+        $order->reserveItems();
+    }
+
+    public function testReserveItemsAlreadyReserved()
+    {
+        $productFactory = Product::factory()->state(['stock' => 5, 'max_quantity' => 5]);
+        $orderItemFactory = OrderItem::factory()->reserved();
+
+        $product1 = $productFactory->create();
+        $product2 = $productFactory->create();
+
+        $order = Order::factory()
+            ->has($orderItemFactory->state(['product_id' => $product1, 'quantity' => 2]), 'items')
+            ->has($orderItemFactory->state(['product_id' => $product2, 'quantity' => 1]), 'items')
+            ->create();
+
+        $this->expectCountChange(fn () => $product1->fresh()->stock, 0);
+        $this->expectCountChange(fn () => $product2->fresh()->stock, 0);
+        $this->expectCountChange(fn () => $order->fresh()->items()->where('reserved', true)->count(), 0);
+
+        $order->reserveItems();
+    }
+
     public function testSwitchOrderItemReservation()
     {
-        $product1 = factory(Product::class)->create(['stock' => 5, 'max_quantity' => 5]);
-        $product2 = factory(Product::class)->create(['stock' => 5, 'max_quantity' => 5]);
-        $orderItem = factory(OrderItem::class)->create([
-            'product_id' => $product1->product_id,
+        $product1 = Product::factory()->create(['stock' => 5, 'max_quantity' => 5]);
+        $product2 = Product::factory()->create(['stock' => 5, 'max_quantity' => 5]);
+        $orderItem = OrderItem::factory()->create([
+            'product_id' => $product1,
             'quantity' => 2,
             'reserved' => true,
         ]);

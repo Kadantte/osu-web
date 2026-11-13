@@ -6,15 +6,14 @@
     if (priv_check('ForumTopicReply', $topic)->can()) {
         if (!$topic->isActive()) {
             if (priv_check('ForumTopicStore', $topic->forum)->can()) {
-                $warning = trans('forum.topic.create.necropost.new_topic._', [
-                    'create' => link_to_route(
-                        'forum.topics.create',
-                        trans('forum.topic.create.necropost.new_topic.create'),
-                        ['forum_id' => $topic->forum]
+                $warning = osu_trans('forum.topic.create.necropost.new_topic._', [
+                    'create' => link_to(
+                        route('forum.topics.create', ['forum_id' => $topic->forum_id]),
+                        osu_trans('forum.topic.create.necropost.new_topic.create'),
                     ),
                 ]);
             } else {
-                $warning = e(trans('forum.topic.create.necropost.default'));
+                $warning = e(osu_trans('forum.topic.create.necropost.default'));
             }
         }
     } else {
@@ -22,13 +21,15 @@
     }
 @endphp
 <div class="js-forum-topic-reply--container js-sync-height--target forum-topic-reply" data-sync-height-id="forum-topic-reply">
-    {!! Form::open([
-        'url' => route('forum.topics.reply', $topic->getKey()),
-        'class' => 'osu-page osu-page--forum-topic-reply js-forum-topic-reply js-sync-height--reference js-fixed-element',
-        'data-remote' => true,
-        'data-sync-height-target' => 'forum-topic-reply',
-        'data-force-reload' => Auth::check() ? '0' : '1',
-    ]) !!}
+    <form
+        action="{{ route('forum.topics.reply', $topic->getKey()) }}"
+        class="osu-page osu-page--forum-topic-reply js-forum-post-input--form js-forum-topic-reply js-sync-height--reference js-fixed-element"
+        data-force-reload="{{ Auth::check() ? '0' : '1' }}"
+        data-remote
+        data-sync-height-target="forum-topic-reply"
+        method="POST"
+    >
+        @csrf
         @if (isset($warning))
             <div class="warning-box">
                 <div class="warning-box__icon">
@@ -41,6 +42,10 @@
             </div>
         @endif
 
-        @include('forum.topics._post_edit_form', ['type' => 'reply', 'enabled' => priv_check('ForumTopicReply', $topic)->can()])
-    {!! Form::close() !!}
+        @include('forum.topics._post_edit_form', [
+            'enabled' => priv_check('ForumTopicReply', $topic)->can(),
+            'inputId' => "topic:{$topic->getKey()}",
+            'type' => 'reply',
+        ])
+    </form>
 </div>

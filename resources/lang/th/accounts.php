@@ -10,15 +10,25 @@ return [
 
         'avatar' => [
             'title' => 'รูปโปรไฟล์',
+            'reset' => 'รีเซ็ต',
             'rules' => 'โปรดตรวจสอบให้แน่ใจว่า avatar ของคุณเป็นไปตาม :link.<br/> ซึ่งหมายความว่ามันจะต้องเป็น <strong> เหมาะสำหรับทุกวัย </strong> เช่น ไม่มีภาพลามกหยาบคายหรือเนื้อหาที่มีการชักจูง',
             'rules_link' => 'กฎของชุมชน',
         ],
 
         'email' => [
-            'current' => 'อีเมลปัจจุบัน',
             'new' => 'อีเมลใหม่',
             'new_confirmation' => 'ยืนยันอีเมล',
             'title' => 'อีเมล',
+            'locked' => [
+                '_' => 'โปรดติดต่อ :accounts หากคุณต้องการอัปเดตอีเมลของคุณ',
+                'accounts' => 'ทีมสนับสนุนบัญชี',
+            ],
+        ],
+
+        'legacy_api' => [
+            'api' => 'api',
+            'irc' => 'irc',
+            'title' => 'API เดิม',
         ],
 
         'password' => [
@@ -29,7 +39,13 @@ return [
         ],
 
         'profile' => [
+            'country' => 'ประเทศ',
             'title' => 'โปรไฟล์',
+
+            'country_change' => [
+                '_' => "ดูเหมือนว่าประเทศในบัญชีของคุณไม่ตรงกับประเทศที่คุณอาศัยอยู่ :update_link.",
+                'update_link' => 'อัปเดตเป็น :country',
+            ],
 
             'user' => [
                 'user_discord' => '',
@@ -47,33 +63,64 @@ return [
         ],
     ],
 
+    'github_user' => [
+        'info' => "หากคุณเป็นผู้มีส่วนร่วมในพื้นที่เก็บข้อมูลโอเพ่นซอร์สของ osu! การเชื่อมโยงบัญชี GitHub ของคุณที่นี่จะเชื่อมโยงรายการบันทึกการเปลี่ยนแปลงของคุณกับ osu! ประวัติโดยย่อ. บัญชี GitHub ที่ไม่มีประวัติการมีส่วนร่วมกับ osu! ไม่สามารถเชื่อมโยงได้",
+        'link' => 'เชื่อมโยงบัญชี GitHub',
+        'title' => 'GitHub',
+        'unlink' => 'ยกเลิกการเชื่อมโยงบัญชี GitHub',
+
+        'error' => [
+            'already_linked' => 'บัญชี GitHub นี้เชื่อมโยงกับผู้ใช้รายอื่นแล้ว',
+            'no_contribution' => 'ไม่สามารถเชื่อมโยงบัญชี GitHub โดยไม่มีประวัติการมีส่วนร่วมใน osu! ที่เก็บ',
+            'unverified_email' => 'โปรดยืนยันอีเมลหลักของคุณบน GitHub จากนั้นลองเชื่อมโยงบัญชีของคุณอีกครั้ง',
+        ],
+    ],
+
     'notifications' => [
-        'beatmapset_discussion_qualified_problem' => 'ได้รับการแจ้งเตือนเกียวกับปัญหาของ Qualified beatmaps กับโหมดต่อไปนี้',
+        'beatmapset_discussion_reply' => '',
+        'beatmapset_discussion_qualified_problem' => 'ได้รับการแจ้งเตือนเกียวกับปัญหาของบีทแมพที่ผ่านการรับรองกับโหมดต่อไปนี้',
         'beatmapset_disqualify' => 'ได้รับการแจ้งเตือนเมื่อบีทแมพในโหมดที่ท่านเลือกถูกตัดสิทธิ์',
         'comment_reply' => 'รับการแจ้งเตือนสำหรับการตอบกลับความคิดเห็นของคุณ',
+        'news_post' => 'รับการแจ้งเตือนโพสต์ข่าว',
         'title' => 'การแจ้งเตือน',
         'topic_auto_subscribe' => 'เปิดการแจ้งเตือนอัตโนมัติในกระทู้ที่คุณสร้างขึ้น',
 
         'options' => [
             '_' => 'วิธีการรับการแจ้งเตือน',
+            'beatmap_owner_change' => 'ระดับความยากของผู้มีส่วนร่วม',
             'beatmapset:modding' => 'การวิจารณ์บีทแมพ',
+            'channel_mention' => '',
             'channel_message' => 'ข้อความส่วนตัว',
+            'channel_team' => 'ข้อความกลุ่ม',
             'comment_new' => 'ความคิดเห็นใหม่',
             'forum_topic_reply' => 'ข้อความตอบกลับในกระทู้',
             'mail' => 'อีเมล',
             'mapping' => 'ผู้ทำบีทแมพ',
+            'news_post' => 'โพสต์ข่าว',
             'push' => 'ส่งการแจ้งเตือน',
-            'user_achievement_unlock' => 'ผู้เล่นได้ปลดล็อกเหรียญตรา',
+        ],
+
+        'tooltips' => [
+            'beatmap_owner_change' => '',
+            'beatmapset:modding' => '',
+            'channel_mention' => '',
+            'channel_message' => '',
+            'channel_team' => '',
+            'comment_new' => '',
+            'forum_topic_reply' => '',
+            'mapping' => '',
+            'news_post' => '',
         ],
     ],
 
     'oauth' => [
-        'authorized_clients' => 'client ที่ได้รับการยืนยัน',
-        'own_clients' => 'client ของตนเอง',
+        'authorized_clients' => 'ไคลเอนต์ที่ได้รับการยืนยัน',
+        'own_clients' => 'ไคลเอนต์ของตนเอง',
         'title' => 'OAuth',
     ],
 
     'options' => [
+        'beatmapset_show_anime_cover' => 'แสดงปกแนวอนิเมะ',
         'beatmapset_show_nsfw' => 'ซ่อนคำเตือนเกี่ยวกับเนื้อหาที่ล่อแหลมในบีทแมพ',
         'beatmapset_title_show_original' => 'แสดงข้อมูลของ บีทแมพ ในภาษาดั้งเดิม',
         'title' => 'ตัวเลือก',
@@ -82,11 +129,13 @@ return [
             '_' => 'ประเภทการดาวน์โหลดบีทแมพเริ่มต้น',
             'all' => 'พร้อมวิดีโอ ถ้าใช้ได้',
             'direct' => 'เปิดใน osu!direct',
+            'lazer' => '',
             'no_video' => 'โดยที่ไม่มีวิดีโอ',
         ],
     ],
 
     'playstyles' => [
+        'default_ruleset' => '',
         'keyboard' => 'คีย์บอร์ด',
         'mouse' => 'เมาส์',
         'tablet' => 'แท็บเล็ต',
@@ -96,7 +145,9 @@ return [
 
     'privacy' => [
         'friends_only' => 'บล็อกข้อความส่วนตัวจากคนที่ไม่ได้อยู่ในรายชื่อเพื่อน',
+        'friends_only_info' => '',
         'hide_online' => 'ซ่อนสถานะออนไลน์ของคุณ',
+        'hide_online_info' => 'เป็นตั้งค่าเดียวกับ "แสดงเป็นออฟไลน์" ในเกม',
         'title' => 'ความเป็นส่วนตัว',
     ],
 
@@ -115,6 +166,21 @@ return [
 
     'update_password' => [
         'update' => 'อัปเดต',
+    ],
+
+    'user_totp' => [
+        'title' => 'แอป Authenticator',
+        'usage_note' => 'ใช้แอป Authenticator แทนอีเมลสำหรับการยืนยันตัวตน การยืนยันผ่านอีเมลจะยังใช้ได้ปกติหากจำเป็น',
+
+        'button' => [
+            'remove' => 'ลบ',
+            'setup' => 'เพิ่มแอป Authenticator',
+        ],
+        'status' => [
+            'label' => 'สถานะ',
+            'not_set' => 'ยังไม่ได้กำหนดค่า',
+            'set' => 'กำหนดค่าแล้ว',
+        ],
     ],
 
     'verification_completed' => [

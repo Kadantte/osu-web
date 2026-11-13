@@ -5,6 +5,7 @@
 
 return [
     'show' => [
+        'non_preserved' => 'Denne scoren er markert for sletting og vil forsvinne snart.',
         'title' => ':username på :title [:version]',
 
         'beatmap' => [
@@ -13,7 +14,10 @@ return [
 
         'player' => [
             'by' => 'Avspilt av',
+            'played_on' => '',
             'submitted_on' => 'Innsendt på',
+            'watched' => '',
+            'watched_count' => '',
 
             'rank' => [
                 'country' => 'Landsrangering',
@@ -23,7 +27,9 @@ return [
     ],
 
     'status' => [
-        'non_best' => '',
-        'processing' => '',
+        'non_best' => 'Kun personlige rekorder tilldeler pp',
+        'no_pp' => 'pp er ikke tildelt for denne scoren',
+        'processing' => 'Denne scoren blir fremdeles beregnet og vil vises snart',
+        'no_rank' => '',
     ],
 ];

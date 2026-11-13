@@ -5,15 +5,19 @@
 
 return [
     'show' => [
-        'title' => ':title 에서의 :username 님 [:version]',
+        'non_preserved' => '이 점수는 삭제 될 예정입니다.',
+        'title' => ':title에서의 :username님 [:version]',
 
         'beatmap' => [
-            'by' => ':artist 님이 만듦',
+            'by' => 'by :artist',
         ],
 
         'player' => [
             'by' => '플레이어',
+            'played_on' => '클라이언트 버전',
             'submitted_on' => '제출 날짜',
+            'watched' => '시청된 횟수',
+            'watched_count' => ':count_delimited 회|:count_delimited 회',
 
             'rank' => [
                 'country' => '국가 순위',
@@ -24,6 +28,8 @@ return [
 
     'status' => [
         'non_best' => '개인 최고 점수만 pp를 얻습니다.',
+        'no_pp' => '이 점수에는 pp가 부여되지 않습니다.',
         'processing' => '이 점수는 아직 계산 중이며 곧 표시될 예정입니다.',
+        'no_rank' => '이 점수는 랭크되지 않았거나 삭제할 것으로 처리되어 등록되지 않았습니다',
     ],
 ];

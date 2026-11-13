@@ -12,7 +12,7 @@ return [
 
         'info' => [
             'check_spam' => "Sprawdź folder spam, jeżeli nie możesz znaleźć e-maila.",
-            'recover' => "Jeżeli nie masz dostępu do e-maila, lub nie pamiętasz, który jest przypisany do konta, spróbuj :link.",
+            'recover' => "Jeżeli nie masz dostępu do e-maila lub nie pamiętasz, który jest przypisany do konta, spróbuj :link.",
             'recover_link' => 'odzyskać go tutaj',
             'reissue' => 'Możesz także :reissue_link lub :logout_link.',
             'reissue_link' => 'poprosić o inny kod',
@@ -20,11 +20,28 @@ return [
         ],
     ],
 
+    'box_totp' => [
+        'heading' => 'Wprowadź kod z aplikacji uwierzytelniającej.',
+
+        'info' => [
+            'logout' => [
+                '_' => 'Możesz się także :link.',
+                'link' => 'wylogować',
+            ],
+            'mail_fallback' => [
+                '_' => 'Jeżeli nie masz dostępu do aplikacji, :link.',
+                'link' => 'możesz zweryfikować się poprzez wiadomość e-mail',
+            ],
+        ],
+    ],
+
     'errors' => [
         'expired' => 'Ten kod wygasł. Wysłano nowy kod weryfikacyjny.',
         'incorrect_key' => 'Wprowadzono nieprawidłowy kod weryfikacyjny.',
-        'retries_exceeded' => 'Wprowadzono nieprawidłowy kod weryfikacyjny. Liczba prób została przekroczona, w związku z tym wysłaliśmy nowy kod weryfikacyjny.',
+        'retries_exceeded' => 'Wprowadzono nieprawidłowy kod weryfikacyjny. Liczba prób została przekroczona, w związku z czym wysłaliśmy nowy kod weryfikacyjny.',
         'reissued' => 'Wygenerowano nowy kod weryfikacyjny. Sprawdź swoją skrzynkę odbiorczą.',
-        'unknown' => 'Wystąpił nieoczekiwany błąd. Wysłano nowy e-mail weryfikacyjny.',
+        'totp_used_key' => 'Kod weryfikacyjny został już użyty. Poczekaj chwilę i użyj nowego kodu.',
+        'totp_gone' => 'Token uwierzytelniający został usunięty - zmieniam na weryfikację poprzez wiadomość e-mail. Wiadomość z kodem weryfikacyjnym została wysłana na adres e-mail.',
+        'unknown' => 'Wystąpił nieoczekiwany błąd. Wysłano nowy kod weryfikacyjny.',
     ],
 ];

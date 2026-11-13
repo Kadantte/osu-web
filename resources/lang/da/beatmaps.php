@@ -4,6 +4,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => 'Ugyldigt regelsæt valgt.',
+
+    'change_owner' => [
+        'too_many' => 'For mange gæstemappere.',
+    ],
+
     'discussion-votes' => [
         'update' => [
             'error' => 'Kunne ikke afgive stemme',
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'nægt kudosu',
         'edit' => 'rediger',
         'edited' => 'Sidst redigeret af :editor :update_time.',
+        'guest' => 'Gæst sværhedsgrad af :user',
         'kudosu_denied' => 'Nægtet fra at kunne modtage kudosu.',
+        'include_replies' => '',
         'message_placeholder_deleted_beatmap' => 'Denne sværhedsgrad er blevet slettet så den kan ikke blive diskuteret længere.',
         'message_placeholder_locked' => 'Diskussion for dette beatmap er blevet deaktiveret.',
         'message_placeholder_silenced' => "Kan ikke skrive diskussion, mens du er tavs.",
         'message_type_select' => 'Vælg kommentar-type',
         'reply_notice' => 'Tryk enter for at svare.',
+        'reply_resolve_notice' => 'Tryk på enter for at besvare. Tryk ctrl+enter for at besvare og løse.',
         'reply_placeholder' => 'Skriv dit svar her',
         'require-login' => 'Log ind for at lave et opslag eller svare',
         'resolved' => 'Løst',
         'restore' => 'gendan',
         'show_deleted' => 'Vis slettede',
+        'show_other_replies' => '',
         'title' => 'Diskussioner',
+        'unresolved_count' => ':count_delimited uløst problematik|:count_delimited uløst problemer',
 
         'collapse' => [
             'all-collapse' => 'Sammenfold alle',
@@ -72,8 +83,21 @@ return [
             'nomination_reset' => 'Nulstil Nominering',
             'praise' => 'Ros',
             'problem' => 'Problem',
+            'problem_warning' => 'Anmeld problem',
             'review' => 'Anmeld',
             'suggestion' => 'Forslag',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => 'Post Diskvalifikation',
+            'hype' => 'Post Hype!',
+            'mapper_note' => 'Post Notat',
+            'nomination_reset' => 'Fjern alle nominationer',
+            'praise' => 'Post Ros',
+            'problem' => 'Post Problem',
+            'problem_warning' => 'Rapportér Problem',
+            'review' => 'Indlæg Anmeldelse',
+            'suggestion' => 'Indlæg Forslag',
         ],
 
         'mode' => [
@@ -103,13 +127,14 @@ return [
                 'unlink' => 'Fjern link',
                 'unsaved' => 'Ikke gemt',
                 'timestamp' => [
-                    'all-diff' => '',
-                    'diff' => '',
+                    'all-diff' => 'Indlæg på "Alle sværhedsgrader" kan ikke tidsstemples.',
+                    'diff' => 'Hvis denne :type starter med et tidsstempel, vil den blive vist under tidslinje.',
                 ],
             ],
             'insert-block' => [
+                'mapper_note' => '',
                 'paragraph' => 'indsæt afsnit',
-                'praise' => '',
+                'praise' => 'indsæt praise',
                 'problem' => 'indsæt problem',
                 'suggestion' => 'indsæt forslag',
             ],
@@ -173,6 +198,8 @@ return [
     ],
 
     'nominations' => [
+        'already_nominated' => 'Du har allerede nomineret dette beatmap.',
+        'cannot_nominate' => 'Du kan ikke nominere denne beatmap spiltilstand.',
         'delete' => 'Fjern',
         'delete_own_confirm' => 'Er du sikker? Dette beatmap vil blive slettet og du vil blive ledt tilbage til din profil.',
         'delete_other_confirm' => 'Er du sikker? Dette beatmap vil blive slettet og du vil blive ledt tilbage til brugerens profil.',
@@ -182,6 +209,7 @@ return [
         'disqualify' => 'Diskvalificér',
         'incorrect_state' => 'Der opstod en fejl da vi prøvede at udføre handlingen, prøv at genindlæse siden.',
         'love' => 'Elsk',
+        'love_choose' => 'Vælg sværhedsgrad for elskede',
         'love_confirm' => 'Elsk dette beatmap?',
         'nominate' => 'Nominér',
         'nominate_confirm' => 'Nominér dette beatmap?',
@@ -195,8 +223,11 @@ return [
         'unresolved_issues' => 'Der er stadig uløste problemer der skal tages fat på først.',
 
         'rank_estimate' => [
-            '_' => '',
-            'queue' => '',
+            '_' => 'Dette kort anslås at være rangeret :date , hvis ingen problemer findes. Det er #:position i :queue.',
+            'unresolved_problems' => 'Dette map er i øjeblikket blokeret fra at forlade den kvalificerede sektion indtil :problems er løst.',
+            'problems' => 'disse problemer',
+            'on' => 'den :date',
+            'queue' => 'rangering kø',
             'soon' => 'snart',
         ],
 
@@ -206,8 +237,9 @@ return [
         ],
 
         'reset_confirm' => [
-            'nomination_reset' => 'Er du sikker? At slå et nyt problem op nulstiller nominations-processen.',
             'disqualify' => 'Er du sikker? Dette vil fjerne beatmappet fra de kvalificerede beatmaps og vil nulstille nominations-processen.',
+            'nomination_reset' => 'Er du sikker? At slå et nyt problem op nulstiller nominations-processen.',
+            'problem_warning' => 'Er du sikker på at du vil rapportere problem på dette beatmap? Dette vil advare Beatmap Nominatorer.',
         ],
     ],
 
@@ -216,6 +248,7 @@ return [
             'prompt' => 'skriv nøgleord...',
             'login_required' => 'Log ind for at kunne søge.',
             'options' => 'Flere Søgefunktioner',
+            'rank_filter_note' => 'Profilens højeste rangerings-tællinger og resultater er vist på denne side baseret på din højeste "standardiserede" (aka "lazer") scores på beatmaps.',
             'supporter_filter' => 'Filtrering af :filters kræver et aktivt osu! supporter tag',
             'not-found' => 'ingen resultater',
             'not-found-quote' => '... desværre, intet fundet.',
@@ -225,7 +258,7 @@ return [
                 'genre' => 'Genre',
                 'language' => 'Sprog',
                 'mode' => 'Mode',
-                'nsfw' => '',
+                'nsfw' => 'Eksplicit Indhold',
                 'played' => 'Allerede spillet',
                 'rank' => 'Rank Opnået',
                 'status' => 'Kategorier',
@@ -246,13 +279,19 @@ return [
                 '_' => 'Filtrering af :filters kræver et aktivt :link',
                 'link_text' => 'osu!supporter tag',
             ],
+            'tag_picker' => [
+                'tooltip' => 'udforsk brugertags',
+                'prompt' => 'skriv for at søge',
+            ],
         ],
     ],
     'general' => [
         'converts' => 'Inkluder konvertert beatmeaps',
+        'featured_artists' => 'Udvalgte kunstnere',
         'follows' => 'Subscribed mappers
 ',
         'recommended' => 'Rekommenderat sværhedsgrad',
+        'spotlights' => 'Spotlightet beatmaps',
     ],
     'mode' => [
         'all' => 'Alle',
@@ -261,6 +300,7 @@ return [
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => 'ikke angivet',
     ],
     'status' => [
         'any' => 'Vilkårlig',
@@ -271,6 +311,7 @@ return [
         'loved' => 'Elsket',
         'mine' => 'Mine Maps',
         'pending' => 'Afventende & WIP',
+        'wip' => 'WIP',
         'qualified' => 'Kvalificeret',
         'ranked' => 'Ranked',
     ],
@@ -291,34 +332,8 @@ return [
         'folk' => 'Folkemusik',
         'jazz' => 'Jazz',
     ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => 'Score V2',
-    ],
     'language' => [
-        'any' => '',
+        'any' => 'Alle',
         'english' => 'Engelsk',
         'chinese' => 'Kinesisk',
         'french' => 'Fransk',
@@ -336,8 +351,8 @@ return [
     ],
 
     'nsfw' => [
-        'exclude' => '',
-        'include' => '',
+        'exclude' => 'Skjul',
+        'include' => 'Vis',
     ],
 
     'played' => [

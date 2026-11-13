@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => '관리',
     ],
-    'admin_forum' => [
-        '_' => '관리',
-    ],
-    'admin_store' => [
-        '_' => '관리',
-    ],
     'error' => [
         'error' => [
             '400' => '잘못된 요청',
@@ -29,13 +23,12 @@ return [
     ],
     'forum' => [
         '_' => '포럼',
-        'topic_watches_controller' => [
-            'index' => '대시보드',
+        'topic_logs_controller' => [
+            'index' => '주제 로그',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => '대시보드',
             'verify_link' => '계정 인증',
         ],
         'artists_controller' => [
@@ -56,13 +49,11 @@ return [
         'beatmapset_events_controller' => [
             '_' => '비트맵 기록',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => '대시보드',
-        ],
         'beatmapsets_controller' => [
             'discussion' => '비트맵 토론',
             'index' => '비트맵 목록',
             'show' => '비트맵 정보',
+            'versions' => '비트맵 버전 이력',
         ],
         'changelog_controller' => [
             '_' => '변경 사항',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => '댓글',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => '콘테스트 심사 결과',
+        ],
         'contests_controller' => [
             '_' => '콘테스트',
+            'judge' => '콘테스트 심사',
         ],
-        'follows_controller' => [
-            'index' => '대시보드',
-        ],
-        'friends_controller' => [
-            'index' => '대시보드',
+        'group_history_controller' => [
+            '_' => '그룹 기록',
         ],
         'groups_controller' => [
             'show' => '그룹',
@@ -92,17 +84,17 @@ return [
             'support_the_game' => '게임 지원하기',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => '매치',
+        ],
         'legal_controller' => [
             '_' => '정보',
         ],
         'livestreams_controller' => [
             '_' => '라이브 스트림',
         ],
-        'matches_controller' => [
-            '_' => '경기',
-        ],
         'news_controller' => [
-            '_' => '소식',
+            '_' => '뉴스',
         ],
         'notifications_controller' => [
             '_' => '알림 기록',
@@ -116,31 +108,58 @@ return [
         'scores_controller' => [
             '_' => '퍼포먼스',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => '순위',
+        ],
+        'teams_controller' => [
+            '_' => '팀',
+            'create' => '팀 만들기',
+            'edit' => '팀 설정',
+            'leaderboard' => '팀 리더보드',
+            'show' => '팀 정보',
         ],
         'tournaments_controller' => [
             '_' => '토너먼트',
         ],
+        'user_cover_presets_controller' => [
+            '_' => '유저 커버 프리셋',
+        ],
+        'user_totp_controller' => [
+            '_' => '인증 앱',
+        ],
         'users_controller' => [
             '_' => '플레이어 정보',
+            'create' => '계정 만들기',
             'disabled' => '알림',
         ],
         'wiki_controller' => [
-            '_' => '지식 창고',
+            '_' => '위키',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => '순위',
+            'events' => '방 기록',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => '앱 인증',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => '상점',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => '팀원',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => '모더 정보',
+        ],
+        'multiplayer_controller' => [
+            '_' => '멀티플레이 기록',
         ],
     ],
 ];

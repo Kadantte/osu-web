@@ -4,29 +4,48 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    '_' => 'Сортувати за',
+    '_' => 'Сортувати',
 
     'all' => 'Усі',
     'friends' => 'Друзі',
-    'last_visit' => 'Останні дії',
-    'new' => 'Свіжістю',
-    'old' => 'Старістю',
+    'last_visit' => 'Нещодавно активні',
+    'new' => 'Нещодавні',
+    'old' => 'Старі',
     'rank' => 'Ранг',
-    'top' => 'Популярністю',
+    'top' => 'Популярні',
     'username' => 'Ім\'я користувача',
 
+    'artist_tracks' => [
+        'album' => 'Альбом ',
+        'artist' => 'Виконавець',
+        'bpm' => 'BPM',
+        'genre' => 'Жанр',
+        'length' => 'Тривалість',
+        'relevance' => 'Актуальність',
+        'title' => 'Назва',
+        'update' => 'Оновлення',
+    ],
+
     'forum_posts' => [
-        'created' => '',
-        'relevance' => '',
+        'created' => 'Час розміщення',
+        'relevance' => 'Актуальність',
     ],
 
     'forum_topics' => [
-        'feature_votes' => 'Кількістю голосів',
-        'new' => 'Останьою відповідю',
+        'created' => 'Створено',
+        'feature_votes' => 'Кількість голосів',
+        'new' => 'Остання відповідь',
+    ],
+
+    'teams' => [
+        'created' => 'Дата створення',
+        'relevance' => 'Релевантністю',
+        'name' => 'Назвою',
+        'short-name' => 'Абревіатурою',
     ],
 
     'users' => [
-        'relevance' => '',
-        'username' => '',
+        'relevance' => 'Актуальність',
+        'username' => 'Назва',
     ],
 ];

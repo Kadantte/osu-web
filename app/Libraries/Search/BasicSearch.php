@@ -5,6 +5,7 @@
 
 namespace App\Libraries\Search;
 
+use App\Libraries\Elasticsearch\Queryable;
 use App\Libraries\Elasticsearch\Search;
 
 class BasicSearch extends Search
@@ -13,7 +14,7 @@ class BasicSearch extends Search
      * @param string $index Name of the index.
      * @param string $loggingTag Name to tag the operation with.
      */
-    public function __construct(string $index, string $loggingTag = null)
+    public function __construct(string $index, ?string $loggingTag = null)
     {
         parent::__construct($index, new EmptySearchParams());
 
@@ -25,7 +26,7 @@ class BasicSearch extends Search
         return $this->response();
     }
 
-    public function getQuery()
+    public function getQuery(): array|Queryable
     {
         return $this->query;
     }

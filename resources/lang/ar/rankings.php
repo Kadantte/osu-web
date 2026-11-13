@@ -9,6 +9,17 @@ return [
         'title' => 'الدولة',
     ],
 
+    'daily_challenge' => [
+        'beatmap' => 'الصعوبة',
+        'theme' => '',
+        'top_10p' => 'أفضل 10% من النتائج',
+        'top_50p' => 'أفضل 50% من النتائج',
+        'unavailable' => [
+            'future' => 'لا يوجد تحدٍ يومي في التاريخ المحدد بعد!',
+            'past' => 'لا يوجد تحدٍ يومي في التاريخ المحدد!',
+        ],
+    ],
+
     'filter' => [
         'title' => 'عرض',
 
@@ -17,12 +28,62 @@ return [
         ],
     ],
 
+    'kudosu' => [
+        'total' => 'المُكتسب',
+        'available' => 'متوفر',
+        'used' => 'المُنفق',
+    ],
+
+    'matchmaking' => [
+        'plays' => 'مرات اللعب',
+        'points' => 'النقاط',
+        'provisional' => '',
+        'rating' => 'التقييم',
+        'wins' => 'مرات الفوز
+',
+    ],
+
+    'multiplayer' => [
+        'room_name' => 'إسم الغرفة',
+    ],
+
+    'performance' => [
+        'insufficient_history' => 'لهذا المستخدم سِجل ترتيب يقل عن 30 يوماً.',
+    ],
+
+    'top_plays' => [
+        'empty' => 'يتم حساب البيانات...',
+        'last_updated' => 'تاريخ آخر تحديث',
+    ],
+
+    'playlists' => [
+        'charts' => 'الأضواء القديمة',
+        'featured' => 'مميّز
+',
+        'season_room' => '',
+        'seasons' => '',
+    ],
+
     'type' => [
-        'charts' => 'منطقة ألأضواء',
         'country' => 'الدولة',
-        'multiplayer' => 'متعدد اللاعبين',
-        'performance' => 'الأداء',
-        'score' => 'النقاط',
+        'daily_challenge' => 'التحدّي اليومي',
+        'global' => 'عالمي',
+        'kudosu' => 'كودوسو',
+        'matchmaking' => 'اللعب المصنّف',
+        'playlists' => 'قوائم التشغيل',
+        'team' => 'الفريق',
+        'top_plays' => 'أفضل الأداءات',
+    ],
+
+    'seasons' => [
+        'empty' => 'لا توجد غرف في هذا الموسم حتى الآن.',
+        'ongoing' => 'هذا الموسم لا يزال جاريا (سيتم إضافة المزيد من قوائم التشغيل).',
+        'room_count' => 'عدد قوائم التشغيل',
+        'summary' => '',
+        'url' => 'عرض المزيد من المعلومات عن هذا الموسم.',
+        'validation' => [
+            'not_enough_factors' => '',
+        ],
     ],
 
     'spotlight' => [
@@ -36,10 +97,12 @@ return [
         'accuracy' => 'ألدِقة',
         'active_users' => 'المستخدمين النشطين',
         'country' => 'الدولة',
+        'division' => '',
+        'members' => 'الأعضاء',
         'play_count' => 'مرات اللعب',
         'performance' => 'الأداء',
         'total_score' => 'مجموع النقاط',
-        'ranked_score' => 'نقاط الترتيب',
+        'ranked_score' => 'نتيجة Ranked',
         'average_score' => 'متوسط النقاط',
         'average_performance' => 'متوسط الاداء.',
         'ss' => '',

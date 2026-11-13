@@ -13,32 +13,56 @@ return [
     'see_channel' => 'ir para o chat',
     'verifying' => 'Por favor verifique a sessão para ver as notificações',
 
-    'filters' => [
-        '_' => 'tudo',
-        'user' => 'perfil',
+    'action_type' => [
+        '_' => 'todas',
         'beatmapset' => 'beatmaps',
-        'forum_topic' => 'fórum',
-        'news_post' => 'notícias',
         'build' => 'versões',
         'channel' => 'chat',
+        'forum_topic' => 'fórum',
+        'news_post' => 'notícias',
+        'team' => 'equipe',
+        'user' => 'perfil',
+    ],
+
+    'filters' => [
+        '_' => 'tudo',
+        'beatmapset' => 'beatmaps',
+        'build' => 'versões',
+        'channel' => 'chat',
+        'forum_topic' => 'fórum',
+        'news_post' => 'notícias',
+        'team' => 'equipe',
+        'user' => 'perfil',
     ],
 
     'item' => [
         'beatmapset' => [
             '_' => 'Beatmap',
 
+            'beatmap_owner_change' => [
+                '_' => 'Dificuldade de convidado',
+                'beatmap_owner_change' => 'Você agora é dono(a) da dificuldade ":beatmap" para o mapa ":title" ',
+                'beatmap_owner_change_compact' => 'Você agora é dono(a) da dificuldade ":beatmap"',
+            ],
+
             'beatmapset_discussion' => [
                 '_' => 'Discussão do beatmap',
                 'beatmapset_discussion_lock' => 'A discussão do beatmap ":title" foi trancada.',
                 'beatmapset_discussion_lock_compact' => 'A discussão foi trancada',
                 'beatmapset_discussion_post_new' => ':username publicou uma nova mensagem na discussão do beatmap ":title".',
-                'beatmapset_discussion_post_new_empty' => 'Nova publicação em ":title" de :username',
+                'beatmapset_discussion_post_new_empty' => 'Nova publicação em ":title" por :username',
                 'beatmapset_discussion_post_new_compact' => 'Nova publicação de :username',
                 'beatmapset_discussion_post_new_compact_empty' => 'Nova publicação de :username',
-                'beatmapset_discussion_review_new' => 'Nova revisão em ":title" por :username contendo problemas: :problems, sugestões: :suggestions, elogios: :praises',
-                'beatmapset_discussion_review_new_compact' => 'Nova revisão por :username contendo problemas: :problems, sugestões: :suggestions, elogios: :praises',
+                'beatmapset_discussion_review_new' => 'Nova análise em ":title" por :username contendo :review_counts',
+                'beatmapset_discussion_review_new_compact' => 'Nova análise por :username contendo :review_counts',
                 'beatmapset_discussion_unlock' => 'A discussão do beatmap ":title" foi destrancada.',
                 'beatmapset_discussion_unlock_compact' => 'A discussão foi destrancada',
+
+                'review_count' => [
+                    'praises' => ':count_delimited elogio|:count_delimited elogios',
+                    'problems' => ':count_delimited problema|:count_delimited problemas',
+                    'suggestions' => ':count_delimited sugestão|:count_delimited sugestões',
+                ],
             ],
 
             'beatmapset_problem' => [
@@ -63,7 +87,7 @@ return [
                 'beatmapset_rank_compact' => 'O beatmap foi ranqueado',
                 'beatmapset_remove_from_loved' => '":title" foi removido dos Loved',
                 'beatmapset_remove_from_loved_compact' => 'O beatmap foi removido dos Loved',
-                'beatmapset_reset_nominations' => 'Um problema publicado por :username reiniciou a nomeação do beatmap ":title" ',
+                'beatmapset_reset_nominations' => 'A nomeação de ":title" foi reiniciada',
                 'beatmapset_reset_nominations_compact' => 'A nomeação foi reiniciada',
             ],
 
@@ -80,12 +104,43 @@ return [
         'channel' => [
             '_' => 'Chat',
 
+            'announcement' => [
+                '_' => 'Novo aviso',
+
+                'announce' => [
+                    'channel_announcement' => ':username diz ":title"',
+                    'channel_announcement_compact' => ':title',
+                    'channel_announcement_group' => 'Aviso de :username',
+                ],
+            ],
+
             'channel' => [
                 '_' => 'Nova mensagem',
+
                 'pm' => [
                     'channel_message' => ':username diz ":title"',
                     'channel_message_compact' => ':title',
                     'channel_message_group' => 'de :username',
+                ],
+            ],
+
+            'channel_mention' => [
+                '_' => 'Menções no chat',
+
+                'public' => [
+                    'channel_mention' => ':username lhe mencionou em :name ":title"',
+                    'channel_mention_compact' => ':username ":title"',
+                    'channel_mention_group' => 'mencionado em :name',
+                ],
+            ],
+
+            'channel_team' => [
+                '_' => 'Nova mensagem da equipe',
+
+                'team' => [
+                    'channel_team' => ':username disse ":title"',
+                    'channel_team_compact' => ':username disse ":title"',
+                    'channel_team_group' => ':username disse ":title"',
                 ],
             ],
         ],
@@ -114,6 +169,13 @@ return [
                 'comment_reply' => ':username respondeu ":content" em ":title"',
                 'comment_reply_compact' => ':username respondeu ":content"',
             ],
+
+            'news_post' => [
+                '_' => 'Novidades (:series)',
+
+                'news_post_new' => ':title',
+                'news_post_new_compact' => ':title',
+            ],
         ],
 
         'forum_topic' => [
@@ -126,12 +188,19 @@ return [
             ],
         ],
 
-        'legacy_pm' => [
-            '_' => 'Mensagens Privadas do Fórum Legado',
+        'team' => [
+            'team_application' => [
+                '_' => 'Solicitação de entrada em equipe',
 
-            'legacy_pm' => [
-                '_' => '',
-                'legacy_pm' => ':count_delimited mensagem não lida|:count_delimited mensagens não lidas',
+                'team_application_accept' => "Você agora é membro da equipe :title",
+                'team_application_accept_compact' => "Você agora é membro da equipe :title",
+
+                'team_application_group' => 'Atualizações de solicitações de entrada em equipe',
+
+                'team_application_reject' => 'Sua solicitação para se juntar à equipe :title foi recusada',
+                'team_application_reject_compact' => 'Sua solicitação para se juntar à equipe :title foi recusada',
+                'team_application_store' => ':title pediu para se juntar à sua equipe',
+                'team_application_store_compact' => ':title pediu para se juntar à sua equipe',
             ],
         ],
 
@@ -142,6 +211,9 @@ return [
                 'user_beatmapset_new' => 'Novo beatmap ":title" por :username',
                 'user_beatmapset_new_compact' => 'Novo beatmap ":title"',
                 'user_beatmapset_new_group' => 'Novos beatmaps por :username',
+
+                'user_beatmapset_revive' => 'Beatmap ":title" revivido por :username',
+                'user_beatmapset_revive_compact' => 'Beatmap ":title" revivido',
             ],
         ],
 
@@ -158,7 +230,13 @@ return [
     ],
 
     'mail' => [
+        'news' => 'Novidades',
+
         'beatmapset' => [
+            'beatmap_owner_change' => [
+                'beatmap_owner_change' => 'Você agora é convidado do mapa ":title"',
+            ],
+
             'beatmapset_discussion' => [
                 'beatmapset_discussion_lock' => 'A discussão em ":title" foi trancada',
                 'beatmapset_discussion_post_new' => 'A discussão em ":title" tem novas atualizações',
@@ -185,8 +263,18 @@ return [
         ],
 
         'channel' => [
+            'announcement' => [
+                'channel_announcement' => 'Há um novo anúncio em ":name"',
+            ],
             'channel' => [
-                'pm' => 'Você recebeu uma nova mensagem de :username',
+                'channel_message' => 'Você recebeu uma nova mensagem de :username',
+            ],
+            'channel_mention' => [
+                'channel_mention' => ':username lhe mencionou em :name ":title"',
+            ],
+
+            'channel_team' => [
+                'channel_team' => 'Há uma nova mensagem na equipe ":name"',
             ],
         ],
 
@@ -208,14 +296,18 @@ return [
             ],
         ],
 
-        'user' => [
-            'user_achievement_unlock' => [
-                'user_achievement_unlock' => ':username desbloqueou uma nova medalha, ":title"!',
-                'user_achievement_unlock_self' => 'Você desbloqueou uma nova medalha, ":title"!',
+        'team' => [
+            'team_application' => [
+                'team_application_accept' => "Você agora é membro da equipe :title",
+                'team_application_reject' => 'Sua solicitação para se juntar à equipe :title foi recusada',
+                'team_application_store' => ':title pediu para se juntar à sua equipe',
             ],
+        ],
 
+        'user' => [
             'user_beatmapset_new' => [
                 'user_beatmapset_new' => ':username criou novos beatmaps',
+                'user_beatmapset_revive' => ':username reviveu beatmaps',
             ],
         ],
     ],

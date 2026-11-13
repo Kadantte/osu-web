@@ -5,7 +5,7 @@
 
 return [
     'index' => [
-        'title_page' => 'ข่าว osu!',
+        'title_page' => 'osu!ข่าวสาร',
 
         'nav' => [
             'newer' => 'โพสต์ใหม่กว่า',
@@ -16,6 +16,25 @@ return [
             '_' => 'ข่าว :info',
             'info' => 'หน้าหลัก',
         ],
+    ],
+
+    'series' => [
+        'beatmap_spotlights' => 'บีทแมพสปอตไลท์',
+        'community_contests' => 'คอมมูนิตี้คอนเทสต์',
+        'community_tournaments' => 'คอมมูนิตี้ทัวร์นาเมนต์',
+        'fanart_contests' => 'อาร์ตคอนเทสต์',
+        'featured_artists' => 'ประกาศศิลปินเด่น',
+        'game_updates' => 'อัปเดตไคลเอนต์และเว็บไซต์',
+        'mappers_guild' => 'กิลด์นักทำแมพ',
+        'monthly_beatmapping_contest' => 'คอนเทสต์บีทแมพประจำเดือน',
+        'merch_runs' => 'osu! merchandise',
+        'miscellaneous' => 'ประกาศอื่นๆ',
+        'official_contests' => 'ออฟฟิเชียลคอนเทสต์',
+        'offline_events' => 'อีเวนต์ออฟไลน์',
+        'online_events' => 'อีเวนต์ออนไลน์',
+        'project_loved' => 'โปรเจกต์เลิฟด์',
+        'ranking_system_updates' => 'อัปเดตระบบแรงกิ้ง',
+        'world_cups' => 'osu! เวิลด์คัพ',
     ],
 
     'show' => [

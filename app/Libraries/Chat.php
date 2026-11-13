@@ -6,58 +6,79 @@
 namespace App\Libraries;
 
 use App\Exceptions\API;
+use App\Exceptions\InvariantException;
 use App\Models\Chat\Channel;
 use App\Models\User;
-use ChaseConey\LaravelDatadogHelper\Datadog;
+use LaravelRedis as Redis;
 
 class Chat
 {
-    // Do the restricted user lookup before calling this.
-    public static function sendPrivateMessage(User $sender, User $target, $message, $isAction)
+    public static function ack(User $user)
     {
-        if ($target->is($sender)) {
-            abort(422, "can't send message to same user");
+        $channelIds = $user->channels()->public()->pluck((new Channel())->qualifyColumn('channel_id'));
+        $userId = $user->getKey();
+        $timestamp = time();
+        $transaction = Redis::transaction();
+
+        foreach ($channelIds as $channelId) {
+            Channel::ack($channelId, $userId, $timestamp, $transaction);
         }
 
-        priv_check_user($sender, 'ChatStart', $target)->ensureCan();
+        $transaction->exec();
+    }
 
-        return (new Channel())->getConnection()->transaction(function () use ($sender, $target, $message, $isAction) {
-            $channel = Channel::findPM($target, $sender);
+    public static function createAnnouncement(User $sender, array $rawParams)
+    {
+        priv_check_user($sender, 'ChatAnnounce')->ensureCan();
 
-            $newChannel = $channel === null;
+        $params = get_params($rawParams, null, [
+            'channel:array',
+            'message:string',
+            'target_ids:int[]',
+            'uuid',
+        ], ['null_missing' => true]);
 
-            if ($newChannel) {
-                $channel = Channel::createPM($target, $sender);
-            } else {
-                $channel->addUser($sender);
-            }
+        if (!isset($params['target_ids'])) {
+            throw new InvariantException('missing target_ids parameter');
+        }
 
-            $ret = static::sendMessage($sender, $channel, $message, $isAction);
+        if (!isset($params['channel'])) {
+            throw new InvariantException('missing channel parameter');
+        }
 
-            if ($newChannel) {
-                Datadog::increment('chat.channel.create', 1, ['type' => $channel->type]);
-            }
+        $users = User::find($params['target_ids']);
+        if ($users->isEmpty()) {
+            throw new InvariantException('Nobody to broadcast to!');
+        }
 
-            return $ret;
+        $users = $users->push($sender)->uniqueStrict('user_id');
+
+        $channel = (new Channel())->getConnection()->transaction(function () use ($sender, $params, $users) {
+            $channel = Channel::createAnnouncement($users, $params['channel'], $params['uuid']);
+            static::sendMessage($sender, $channel, $params['message'], false);
+
+            return $channel;
+        });
+
+        return $channel;
+    }
+
+    // Do the restricted user lookup before calling this.
+    public static function sendPrivateMessage(User $sender, User $target, ?string $message, ?bool $isAction, ?string $uuid = null, bool $privCheck = true)
+    {
+        if ($privCheck) {
+            priv_check_user($sender, 'ChatPmStart', $target)->ensureCan();
+        }
+
+        return (new Channel())->getConnection()->transaction(function () use ($sender, $target, $message, $isAction, $uuid, $privCheck) {
+            $channel = Channel::findPM($target, $sender) ?? Channel::createPM($target, $sender);
+
+            return static::sendMessage($sender, $channel, $message, $isAction, $uuid, $privCheck);
         });
     }
 
-    public static function sendMessage($sender, $channel, $message, $isAction)
+    public static function sendMessage(User $sender, Channel $channel, ?string $message, ?bool $isAction, ?string $uuid = null, bool $privCheck = true)
     {
-        $isAction = $isAction ?? false;
-
-        if (!($sender instanceof User)) {
-            $sender = User::findOrFail($sender);
-        }
-
-        if (!($channel instanceof Channel)) {
-            $channel = Channel::findOrFail($channel);
-        }
-
-        if (!present($message) || !is_string($message)) {
-            abort(422, "can't send empty message");
-        }
-
         if ($channel->isPM()) {
             // restricted users should be treated as if they do not exist
             if (optional($channel->pmTargetFor($sender))->isRestricted()) {
@@ -65,10 +86,12 @@ class Chat
             }
         }
 
-        priv_check_user($sender, 'ChatChannelSend', $channel)->ensureCan();
+        if ($privCheck) {
+            priv_check_user($sender, 'ChatChannelSend', $channel)->ensureCan();
+        }
 
         try {
-            return $channel->receiveMessage($sender, $message, $isAction);
+            return $channel->receiveMessage($sender, $message, $isAction ?? false, $uuid);
         } catch (API\ChatMessageEmptyException $e) {
             abort(422, $e->getMessage());
         } catch (API\ChatMessageTooLongException $e) {

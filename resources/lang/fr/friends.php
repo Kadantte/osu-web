@@ -4,12 +4,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'blocked' => 'Vous avez été bloqué par cet utilisateur.',
     'title_compact' => 'amis',
-    'too_many' => 'Limite d\'amis atteinte.',
+    'too_many' => 'Limite d\'amis atteinte',
 
     'buttons' => [
         'add' => 'ajouter aux amis',
-        'disabled' => 'amis',
-        'remove' => 'supprimer des amis',
+        'disabled' => 'abonnés',
+        'remove' => 'retirer des amis',
     ],
 ];

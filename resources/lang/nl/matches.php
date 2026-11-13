@@ -6,28 +6,31 @@
 return [
     'match' => [
         'beatmap-deleted' => 'verwijderde beatmap',
-        'difference' => 'met :difference',
         'failed' => 'GEFAALD',
-        'header' => 'Multiplayer Spellen',
+        'header' => 'Multiplayer Wedstrijden',
         'in-progress' => '(spel is al bezig)',
         'in_progress_spinner_label' => 'match is bezig',
         'loading-events' => 'Gebeurtenissen laden...',
         'winner' => ':team heeft gewonnen',
+        'winner_by' => ':winner met :difference punten verschil',
 
         'events' => [
-            'player-left' => ':user heeft het spel verlaten',
-            'player-joined' => ':user speelt nu mee',
-            'player-kicked' => ':user was verwijderd van het spel',
-            'match-created' => ':user heeft het spel gecreëerd',
-            'match-disbanded' => 'het spel was gestopt',
-            'host-changed' => ':user is nu de spelleider',
-
-            'player-left-no-user' => 'een speler heeft het spel verlaten',
-            'player-joined-no-user' => 'een speler speelt nu mee',
-            'player-kicked-no-user' => 'een speler was verwijderd van het spel',
-            'match-created-no-user' => 'het spel is gecreëerd',
-            'match-disbanded-no-user' => 'het spel was gestopt',
-            'host-changed-no-user' => 'de spelleider is veranderd',
+            'game_aborted' => 'het spel was geannuleerd',
+            'game_aborted_no_user' => 'het spel was geannuleerd',
+            'game_completed' => 'het spel is beëindigd',
+            'game_completed_no_user' => 'het spel is beëindigd',
+            'host_changed' => ':user is nu de spelleider',
+            'host_changed_no_user' => 'de spelleider is veranderd',
+            'player_joined' => ':user doet nu mee',
+            'player_joined_no_user' => 'een speler doet nu mee',
+            'player_kicked' => ':user is uit het spel geschopt',
+            'player_kicked_no_user' => 'een speler is uit het spel geschopt',
+            'player_left' => ':user heeft het spel verlaten',
+            'player_left_no_user' => 'een speler heeft het spel verlaten',
+            'room_created' => ':user heeft het spel aangemaakt',
+            'room_created_no_user' => 'het spel is aangemaakt',
+            'room_disbanded' => '',
+            'room_disbanded_no_user' => '',
         ],
 
         'score' => [
@@ -38,11 +41,11 @@ return [
             ],
         ],
 
-        'team-types' => [
-            'head-to-head' => 'Head-to-head',
-            'tag-coop' => 'Tag Co-op',
-            'team-vs' => 'Team VS',
-            'tag-team-vs' => 'Tag Team VS',
+        'team_types' => [
+            'head_to_head' => 'Head-to-head',
+            'tag_coop' => 'Tag Co-op',
+            'tag_team_versus' => 'Tag Team VS',
+            'team_versus' => 'Team VS',
         ],
 
         'teams' => [
@@ -51,6 +54,8 @@ return [
         ],
     ],
     'game' => [
+        'freestyle' => 'Freestyle',
+
         'scoring-type' => [
             'score' => 'Hoogste Score',
             'accuracy' => 'Hooghste Nauwkeurigheid',

@@ -47,10 +47,7 @@ class WikiSearch extends RecordSearch
         return $pages;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getQuery()
+    public function getQuery(): BoolQuery
     {
         $langQuery = (new BoolQuery())
             ->shouldMatch(1)
@@ -65,7 +62,7 @@ class WikiSearch extends RecordSearch
             ->should(['constant_score' => [
                 'filter' => [
                     'match' => [
-                        'locale' => config('app.fallback_locale'),
+                        'locale' => $GLOBALS['cfg']['app']['fallback_locale'],
                     ],
                 ],
             ]]);

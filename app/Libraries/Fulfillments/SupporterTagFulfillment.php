@@ -5,26 +5,29 @@
 
 namespace App\Libraries\Fulfillments;
 
-use App\Events\Fulfillments\SupporterTagEvent;
+use App\Mail\DonationThanks;
+use App\Mail\SupporterGift;
 use App\Models\Event;
 use App\Models\Store\OrderItem;
+use App\Models\Store\Product;
 use App\Models\SupporterTag;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Log;
 use Mail;
 
 class SupporterTagFulfillment extends OrderFulfiller
 {
-    const TAGGED_NAME = 'supporter-tag';
+    const TAGGED_NAME = Product::SUPPORTER_TAG_NAME;
 
     private $continued;
     private $fulfillers;
-    private $orderItems;
-    private $minimumRequired = 0; // do not read this field outside of minimumRequired()
+    private int $minimumRequired = 0; // do not read this field outside of minimumRequired()
+    private ?Collection $orderItems;
 
     public function run()
     {
-        $this->throwOnFail($this->validateRun());
+        $this->assertValid();
 
         $this->continued = $this->order->user->supporterTagPurchases()->exists();
         $fulfillers = $this->getOrderItemFulfillers();
@@ -33,10 +36,7 @@ class SupporterTagFulfillment extends OrderFulfiller
             $fulfiller->run();
         }
 
-        event(
-            "store.fulfillments.run.{$this->taggedName()}",
-            new SupporterTagEvent($this->order, $this->getOrderItems())
-        );
+        $this->incrementRun();
 
         $this->afterRun();
     }
@@ -49,68 +49,67 @@ class SupporterTagFulfillment extends OrderFulfiller
             $fulfiller->revoke();
         }
 
-        event(
-            "store.fulfillments.revoke.{$this->taggedName()}",
-            new SupporterTagEvent($this->order, $this->getOrderItems())
-        );
+        $this->incrementRevoke();
     }
 
     private function afterRun()
     {
         $items = $this->getOrderItems();
         $donor = $this->order->user;
-        $gifts = [];
-        $donationTotal = $items->sum('cost');
-        $totalDuration = 0;
+        $giftsByUserId = $items->groupBy('extra_data.targetId')->forget($donor->getKey());
+        $isGift = !$giftsByUserId->isEmpty();
 
-        foreach ($items as $item) {
-            $duration = (int) $item['extra_data']['duration'];
-            $totalDuration += $duration;
-            $targetId = $item['extra_data']['target_id'];
-            $target = User::find($targetId);
-            // TODO: warn if user doesn't exist, but don't explode.
-            if ($donor->getKey() !== $target->getKey()) {
-                if (($gifts[$targetId] ?? null) === null) {
-                    $gifts[$targetId] = ['target' => $target, 'duration' => $duration];
-                } else {
-                    $gifts[$targetId]['duration'] += $duration;
-                }
-            }
+        if (!$this->order->isHideSupporterFromActivity()) {
+            Event::generate(
+                $this->continued ? 'userSupportAgain' : 'userSupportFirst',
+                ['user' => $donor, 'date' => $this->order->paid_at]
+            );
         }
 
-        $isGift = count($gifts) !== 0;
+        if (is_valid_email_format($donor->user_email)) {
+            $donationTotal = $items->sum('cost');
+            $totalDuration = $isGift ? null : $items->sum('extra_data.duration'); // duration is not relevant for gift.
 
-        Event::generate(
-            $this->continued ? 'userSupportAgain' : 'userSupportFirst',
-            ['user' => $donor, 'date' => $this->order->paid_at]
-        );
-
-        if (present($donor->user_email)) {
             Mail::to($donor)
-                ->queue(new \App\Mail\DonationThanks($donor, $totalDuration, $donationTotal, $isGift, $this->continued));
+                ->queue(new DonationThanks($donor, $totalDuration, $donationTotal, $isGift, $this->continued));
         } else {
             Log::warning("User ({$$donor->getKey()}) does not have an email address set!");
         }
 
-        foreach ($gifts as $_key => $value) {
-            $giftee = $value['target'];
+        /** @var Collection<OrderItem> $gifts */
+        foreach ($giftsByUserId as $targetId => $gifts) {
+            // TODO: warn if user doesn't exist, but don't explode.
+            $giftee = User::find($targetId);
+
             Event::generate('userSupportGift', ['user' => $giftee, 'date' => $this->order->paid_at]);
 
-            if (present($giftee->user_email)) {
+            if (is_valid_email_format($giftee->user_email)) {
+                $duration = 0;
+                $messages = [];
+
+                foreach ($gifts as $gift) {
+                    $extraData = $gift->extra_data;
+                    $duration += $extraData->duration;
+
+                    if ($extraData->message !== null) {
+                        $messages[] = $extraData->message;
+                    }
+                }
+
                 Mail::to($giftee)
-                    ->queue(new \App\Mail\SupporterGift($donor, $giftee, $value['duration']));
+                    ->queue(new SupporterGift($donor, $giftee, $duration, $messages));
             } else {
                 Log::warning("User ({$giftee->getKey()}) does not have an email address set!");
             }
         }
     }
 
-    private function validateRun()
+    private function assertValid(): void
     {
         $this->validationErrors()->reset();
 
         $donationTotal = $this->getOrderItems()->sum('cost');
-        Log::debug("total: {$donationTotal}, required: {$this->minimumRequired()}");
+
         if ($donationTotal < $this->minimumRequired()) {
             $this->validationErrors()->add(
                 'order_total',
@@ -119,13 +118,16 @@ class SupporterTagFulfillment extends OrderFulfiller
             );
         }
 
-        return $this->validationErrors()->isEmpty();
+        $this->assertNoValidationErrors();
     }
 
-    private function getOrderItems()
+    /**
+     * @return Collection<OrderItem>
+     */
+    private function getOrderItems(): Collection
     {
         if (!isset($this->orderItems)) {
-            $this->orderItems = $this->order->items()->customClass('supporter-tag')->get();
+            $this->orderItems = $this->order->items()->customClass(Product::SUPPORTER_TAG_NAME)->get();
         }
 
         return $this->orderItems;
@@ -155,11 +157,7 @@ class SupporterTagFulfillment extends OrderFulfiller
 
     private function createFulfiller(OrderItem $item)
     {
-        $extraData = $item['extra_data'];
-        $duration = (int) $extraData['duration'];
-        $minimum = SupporterTag::getMinimumDonation($duration);
-
-        $this->minimumRequired += $minimum;
+        $this->minimumRequired += SupporterTag::getMinimumDonation($item->extra_data->duration);
 
         return new ApplySupporterTag($item);
     }
@@ -167,12 +165,12 @@ class SupporterTagFulfillment extends OrderFulfiller
     //================
     // Validatable
     //================
-    public function validationErrorsTranslationPrefix()
+    public function validationErrorsTranslationPrefix(): string
     {
         return 'fulfillments.supporter_tag';
     }
 
-    public function validationErrorsKeyBase()
+    public function validationErrorsKeyBase(): string
     {
         return 'model_validation/';
     }

@@ -16,32 +16,36 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         Middleware\DatadogMetrics::class,
+        Middleware\SentryMetrics::class,
     ];
 
     protected $middlewareGroups = [
         'api' => [
             Middleware\AuthApi::class,
-            Middleware\SetLocale::class,
+            Middleware\SetLocaleApi::class,
             Middleware\CheckUserBanStatus::class,
+            Middleware\UpdateUserInfo::class,
+            Middleware\VerifyUserAlways::class,
         ],
         'web' => [
-            Middleware\StripCookies::class,
             Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            Middleware\AutologinFromLegacyCookie::class,
             Middleware\VerifyCsrfToken::class,
+            Middleware\SetSessionVerification::class,
             Middleware\SetLocale::class,
-            Middleware\UpdateUserLastvisit::class,
+            Middleware\UpdateUserInfo::class,
             Middleware\VerifyUserAlways::class,
             Middleware\CheckUserBanStatus::class,
-            Middleware\TurbolinksSupport::class,
         ],
         'lio' => [
             Middleware\LegacyInterOpAuth::class,
         ],
     ];
+
+    // TODO: check if laravel builtin order makes sense
+    protected $middlewarePriority = [];
 
     /**
      * The application's route middleware.
@@ -53,6 +57,7 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'check-user-restricted' => Middleware\CheckUserRestricted::class,
         'guest' => Middleware\RedirectIfAuthenticated::class,
+        'request-cost' => Middleware\RequestCost::class,
         'require-scopes' => Middleware\RequireScopes::class,
         'throttle' => Middleware\ThrottleRequests::class,
         'verify-user' => Middleware\VerifyUser::class,

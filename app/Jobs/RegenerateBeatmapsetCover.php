@@ -7,7 +7,6 @@ namespace App\Jobs;
 
 use App\Exceptions\SilencedException;
 use App\Models\Beatmapset;
-use Datadog;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,7 +18,9 @@ use Sentry\State\Scope;
 
 class RegenerateBeatmapsetCover implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $beatmapset;
     protected $sizesToRegenerate;
@@ -36,10 +37,15 @@ class RegenerateBeatmapsetCover implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Beatmapset $beatmapset, array $sizesToRegenerate = null)
+    public function __construct(Beatmapset $beatmapset, ?array $sizesToRegenerate = null)
     {
         $this->beatmapset = $beatmapset;
         $this->sizesToRegenerate = $sizesToRegenerate;
+    }
+
+    public function displayName()
+    {
+        return static::class." (Beatmapset {$this->beatmapset->getKey()})";
     }
 
     /**
@@ -52,13 +58,13 @@ class RegenerateBeatmapsetCover implements ShouldQueue
         try {
             Log::info("[beatmapset_id: {$this->beatmapset->beatmapset_id}] Started cover regeneration.");
             $this->beatmapset->regenerateCovers($this->sizesToRegenerate);
-            Datadog::increment(['thumbdonger.processed', 'thumbdonger.ok']);
+            datadog_increment('regenerate_beatmapset_cover.ok');
             Log::info("[beatmapset_id: {$this->beatmapset->beatmapset_id}] Cover regeneration done.");
         } catch (Exception $e) {
-            Datadog::increment(['thumbdonger.processed', 'thumbdonger.error']);
+            datadog_increment('regenerate_beatmapset_cover.error');
             Log::warning("[beatmapset_id: {$this->beatmapset->beatmapset_id}] Cover regeneration FAILED.");
-            if (config('osu.beatmap_processor.sentry')) {
-                $client = ClientBuilder::create(['dsn' => config('osu.beatmap_processor.sentry')])->getClient();
+            if ($GLOBALS['cfg']['osu']['beatmap_processor']['sentry']) {
+                $client = ClientBuilder::create(['dsn' => $GLOBALS['cfg']['osu']['beatmap_processor']['sentry']])->getClient();
                 $scope = (new Scope())->setTag('beatmapset_id', (string) $this->beatmapset->beatmapset_id);
                 $client->captureException($e, $scope);
                 throw new SilencedException('Silenced Exception: ['.get_class($e).'] '.$e->getMessage());

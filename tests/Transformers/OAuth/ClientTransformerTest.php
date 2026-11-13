@@ -7,6 +7,8 @@ namespace Tests\Transformers\OAuth;
 
 use App\Models\OAuth\Client;
 use App\Models\User;
+use App\Transformers\OAuth\ClientTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class ClientTransformerTest extends TestCase
@@ -19,36 +21,34 @@ class ClientTransformerTest extends TestCase
     public function testRedirectAndSecretVisibleToOwner()
     {
         $this->actAsUser($this->owner);
-        $json = json_item($this->client, 'OAuth\Client', ['redirect', 'secret']);
+        $json = json_item($this->client, new ClientTransformer(), ['redirect', 'secret']);
 
         $this->assertSame($this->client->redirect, $json['redirect']);
-        $this->assertSame($this->client->secret, $json['secret']);
+        $this->assertTrue(\Hash::check($json['secret'], $this->client->secret));
     }
 
     public function testRedirectAndSecretNotVisibleToOtherUsers()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actAsUser($user);
-        $json = json_item($this->client, 'OAuth\Client', ['redirect', 'secret']);
+        $json = json_item($this->client, new ClientTransformer(), ['redirect', 'secret']);
 
         $this->assertArrayNotHasKey('redirect', $json);
         $this->assertArrayNotHasKey('secret', $json);
     }
 
-    /**
-     * @dataProvider groupsDataProvider
-     */
+    #[DataProvider('groupsDataProvider')]
     public function testRedirectAndSecretNotVisibleToGroup($groupIdentifier)
     {
-        $user = factory(User::class)->states($groupIdentifier)->create();
+        $user = User::factory()->withGroup($groupIdentifier)->create();
         $this->actAsUser($user);
-        $json = json_item($this->client, 'OAuth\Client', ['redirect', 'secret']);
+        $json = json_item($this->client, new ClientTransformer(), ['redirect', 'secret']);
 
         $this->assertArrayNotHasKey('redirect', $json);
         $this->assertArrayNotHasKey('secret', $json);
     }
 
-    public function groupsDataProvider()
+    public static function groupsDataProvider()
     {
         return [
             ['admin'],
@@ -62,7 +62,7 @@ class ClientTransformerTest extends TestCase
     {
         parent::setUp();
 
-        $this->owner = factory(User::class)->create();
-        $this->client = factory(Client::class)->make(['user_id' => $this->owner->getKey()]);
+        $this->client = Client::factory()->make();
+        $this->owner = $this->client->user;
     }
 }

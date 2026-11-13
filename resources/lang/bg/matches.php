@@ -6,28 +6,31 @@
 return [
     'match' => [
         'beatmap-deleted' => 'изтрит бийтмап',
-        'difference' => 'по :difference',
         'failed' => 'ПРОВАЛИЛ СЕ',
-        'header' => 'Мултиплейър мачове',
-        'in-progress' => '(мач в ход)',
-        'in_progress_spinner_label' => 'мач в ход',
+        'header' => 'Мултиплейър състезания',
+        'in-progress' => '(състезание в ход)',
+        'in_progress_spinner_label' => 'състезание в ход',
         'loading-events' => 'Зареждане на събитията...',
-        'winner' => ':team печели',
+        'winner' => ':team победи',
+        'winner_by' => ':winner с :difference',
 
         'events' => [
-            'player-left' => ':user напусна мача',
-            'player-joined' => ':user се присъедини към мача',
-            'player-kicked' => ':user бе изритан от мача',
-            'match-created' => ':user създаде този мач',
-            'match-disbanded' => 'мачът се разпадна',
-            'host-changed' => ':user стана домакин',
-
-            'player-left-no-user' => 'играч напусна мача',
-            'player-joined-no-user' => 'играч се присъедини към мача',
-            'player-kicked-no-user' => 'играч бе изритан от мача',
-            'match-created-no-user' => 'мачът бе създаден',
-            'match-disbanded-no-user' => 'мачът се разпадна',
-            'host-changed-no-user' => 'домакинът бе сменен',
+            'game_aborted' => 'играта беше прекратена',
+            'game_aborted_no_user' => 'играта беше прекратена',
+            'game_completed' => 'играта приключи',
+            'game_completed_no_user' => 'играта приключи',
+            'host_changed' => ':user стана домакин',
+            'host_changed_no_user' => 'домакинът е променен',
+            'player_joined' => ':user се присъедини',
+            'player_joined_no_user' => 'играч се присъедини',
+            'player_kicked' => ':user беше изгонен',
+            'player_kicked_no_user' => 'играч беше изгонен',
+            'player_left' => ':user напусна стаята',
+            'player_left_no_user' => 'играч напусна стаята',
+            'room_created' => ':user създаде стая',
+            'room_created_no_user' => 'създадена е стая',
+            'room_disbanded' => 'стаята е разпусната',
+            'room_disbanded_no_user' => 'стаята е разпусната',
         ],
 
         'score' => [
@@ -38,11 +41,11 @@ return [
             ],
         ],
 
-        'team-types' => [
-            'head-to-head' => 'Head-to-head',
-            'tag-coop' => 'Tag Co-op',
-            'team-vs' => 'Team VS',
-            'tag-team-vs' => 'Tag Team VS',
+        'team_types' => [
+            'head_to_head' => 'Всеки за себе си',
+            'tag_coop' => 'С редуване',
+            'tag_team_versus' => 'По отбори с редуване',
+            'team_versus' => 'По отбори',
         ],
 
         'teams' => [
@@ -51,10 +54,12 @@ return [
         ],
     ],
     'game' => [
+        'freestyle' => 'Свободен стил',
+
         'scoring-type' => [
             'score' => 'Най-висок резултат',
             'accuracy' => 'Най-висока прецизност',
-            'combo' => 'Най-голямо комбо',
+            'combo' => 'Най-дълго комбо',
             'scorev2' => 'Score V2',
         ],
     ],

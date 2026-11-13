@@ -18,19 +18,20 @@
         class="js-search osu-page"
         autocomplete="off"
     >
-        <input type="hidden" name="mode" value="{{ request('mode') }}">
+        <input type="hidden" name="mode" value="{{ $allSearch->getMode() }}">
 
         <div class="search-header js-search--header">
             <div class="search-header__box">
                 <input
-                    class="search-header__input js-search--input"
-                    name="query"
-                    value="{{ request('query') }}"
-                    placeholder="{{ trans('home.search.placeholder') }}"
-                    data-search-current="{{ request('query') }}"
-                    data-turbolinks-permanent
-                    id="search-input"
                     autofocus
+                    class="search-header__input js-search--input"
+                    data-search-current="{{ $allSearch->getRawQuery() }}"
+                    data-turbo-permanent
+                    id="search-input"
+                    name="query"
+                    placeholder="{{ osu_trans('home.search.placeholder') }}"
+                    type="search"
+                    value="{{ $allSearch->getRawQuery() }}"
                 />
 
                 <button class="search-header__icon search-header__icon--normal">
@@ -47,7 +48,7 @@
             @include('home._search_page_tabs', compact('allSearch'))
 
             @if ($searchMode === 'forum_post')
-                @include('objects.search._forum_options')
+                @include('objects.search._forum_options', compact('fields'))
             @endif
 
             @if ($allSearch->hasQuery())
@@ -58,10 +59,10 @@
                 @foreach ($allSearch->visibleSearches() as $mode => $search)
                     @if ($searchMode === 'forum_post')
                         @include('objects.search._forum_sort', compact('search'))
-                    @endif
-
-                    @if ($searchMode === 'user')
+                    @elseif ($searchMode === 'user')
                         @include('objects.search._user_sort', compact('search'))
+                    @elseif ($searchMode === 'team')
+                        @include('objects.search._team_sort', compact('search'))
                     @endif
 
                     @include('home._search_results', compact('mode', 'search', 'showMore'))
@@ -69,7 +70,7 @@
             @else
                 <div class="search-result">
                     <div class="search-result__row search-result__row--notice">
-                        {{ trans('home.search.keyword_required') }}
+                        {{ osu_trans('home.search.keyword_required') }}
                     </div>
                 </div>
             @endif

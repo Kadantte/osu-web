@@ -10,28 +10,27 @@ use App\Transformers\TransformerAbstract;
 
 class TopicCoverTransformer extends TransformerAbstract
 {
-    public function transform(TopicCover $cover = null)
+    public function transform(TopicCover $cover)
     {
-        if ($cover === null) {
-            $cover = new TopicCover();
-        }
-
-        if ($cover->getFileProperties() === null) {
+        if ($cover->filename === null) {
             $data = [
                 'method' => 'post',
-                'url' => route('forum.topic-covers.store', ['topic_id' => $cover->topic_id]),
+                'url' => route('forum.topic-covers.store', [
+                    'forum_id' => $cover->getForumId(),
+                    'topic_id' => $cover->topic_id,
+                ]),
             ];
         } else {
             $data = [
                 'method' => 'put',
                 'url' => route('forum.topic-covers.update', [$cover, 'topic_id' => $cover->topic_id]),
 
-                'id' => $cover->id,
-                'fileUrl' => $cover->fileUrl(),
+                'id' => $cover->getKey(),
+                'fileUrl' => $cover->file()->url(),
             ];
         }
 
-        $data['dimensions'] = $cover->getMaxDimensions();
+        $data['dimensions'] = $cover::MAX_DIMENSIONS;
         $data['defaultFileUrl'] = $cover->defaultFileUrl();
 
         return $data;

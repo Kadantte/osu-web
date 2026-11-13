@@ -4,7 +4,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'play_more' => 'osu!를 조금 더 해보시는 건 어떨까요?',
+    'play_more' => '대신에 osu! 몇 판을 즐겨보시는 게 어떨까요?',
     'require_login' => '계속하려면 로그인해 주세요.',
     'require_verification' => '계속하려면 인증해 주세요.',
     'restricted' => "제한된 상태에서는 할 수 없습니다.",
@@ -15,10 +15,11 @@ return [
         'destroy' => [
             'is_hype' => 'Hype한 것은 되돌릴 수 없습니다.',
             'has_reply' => '답글이 달린 토론은 삭제할 수 없습니다',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => '오늘은 더 이상 추천할 수 없습니다. 내일 다시 시도해주세요.',
-            'incorrect_state' => '해당 작업을 수행하는 중 오류가 발생했습니다. 페이지를 새로 고쳐주세요.',
+            'incorrect_state' => '요청하신 작업 수행 중 오류가 발생했으니, 본 페이지를 새로고침해 주세요.',
             'owner' => "자신의 비트맵을 추천할 수 없습니다.",
             'set_metadata' => '추천하려면 먼저 장르와 언어를 지정해야 합니다.',
         ],
@@ -27,14 +28,14 @@ return [
         ],
 
         'store' => [
-            'mapper_note_wrong_user' => '비트맵 소유자나 nominator/QAT그룹 구성원만이 mapper notes를 작성할 수 있습니다.',
+            'mapper_note_wrong_user' => '비트맵 소유자나 노미네이터/NAT 구성원만이 매퍼 노트를 작성할 수 있습니다.',
         ],
 
         'vote' => [
             'bot' => "봇이 만든 토론에는 투표할 수 없습니다.",
-            'limit_exceeded' => '투표를 더 하기 전에 조금 기다려주세요',
+            'limit_exceeded' => '더 투표하기 전에 잠시 기다려 주세요.',
             'owner' => "자신이 시작한 토론에는 투표할 수 없습니다.",
-            'wrong_beatmapset_state' => 'Pending인 비트맵의 토론에만 투표할 수 있습니다.',
+            'wrong_beatmapset_state' => '대기 중인 비트맵의 토론에만 투표할 수 있습니다.',
         ],
     ],
 
@@ -43,22 +44,33 @@ return [
             'not_owner' => '자신의 게시글만 삭제할 수 있습니다.',
             'resolved' => '해결된 토론의 게시글은 삭제할 수 없습니다.',
             'system_generated' => '자동으로 생성된 글은 삭제할 수 없습니다.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
             'not_owner' => '본인이 쓴 글만 수정할 수 있습니다.',
             'resolved' => '해결된 토론의 게시글은 수정할 수 없습니다.',
             'system_generated' => '자동으로 생성된 글은 수정할 수 없습니다.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => '이 비트맵은 토론을 할 수 없도록 잠겨 있습니다.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => '이 비트맵은 토론을 할 수 없도록 잠겨 있습니다.',
+
         'metadata' => [
-            'nominated' => '추천된 맵의 메타데이터를 변경할 순 없습니다. 잘못 지정된 것 같으면 BN이나 NAT 멤버에게 알려주세요.',
+            'nominated' => '추천된 맵의 메타데이터를 변경할 수는 없습니다. 잘못 지정된 것 같으시면 BN이나 NAT 멤버에게 알려주세요.',
+        ],
+
+        'rate' => [
+            'owner' => '자신이 연관된 비트맵 세트에는 평점을 매길 수 없습니다.',
+            'status' => '이 상태인 비트맵 세트에는 평점을 매길 수 없습니다.',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => '비트맵에 태그를 추가하려면 점수를 지정해야 합니다.',
         ],
     ],
 
@@ -67,17 +79,23 @@ return [
         'friends_only' => '해당 유저는 친구가 아닌 유저의 메시지를 차단한 상태입니다.',
         'moderated' => '채널은 현재 관리 중입니다.',
         'no_access' => '해당 채널에 대한 접근 권한이 없습니다.',
-        'restricted' => '침목이나 제한, 밴이 된 상태인 동안에는 메시지를 보낼 수 없습니다.',
+        'no_announce' => '공지를 게시할 권한이 없습니다.',
+        'receive_friends_only' => '친구 목록에 있는 사람들의 메시지만 수락하기 때문에 유저가 답장하지 못할 수 있습니다.',
+        'restricted' => '침묵, 제한, 차단 상태에서는 메시지를 전송할 수 없습니다.',
         'silenced' => '침묵, 제한, 차단 상태에서는 메시지를 전송할 수 없습니다.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => '댓글이 비활성화되었습니다',
+        ],
         'update' => [
             'deleted' => "삭제된 게시물을 수정 할 수 없습니다.",
         ],
     ],
 
     'contest' => [
+        'judging_not_active' => '이 콘테스트의 심사는 아직 활성화되지 않았습니다.',
         'voting_over' => '투표 기간 이후에는 콘테스트가 끝날 때 까지 선택한 투표를 바꿀 수 없습니다.',
 
         'entry' => [
@@ -103,6 +121,7 @@ return [
                 'deleted' => '삭제된 답글은 수정할 수 없습니다.',
                 'locked' => '이 답글은 잠겨있어 수정할 수 없습니다.',
                 'no_forum_access' => '요청하신 포럼에 대한 접근 권한이 필요합니다.',
+                'no_permission' => '수정 권한이 없어요.',
                 'not_owner' => '본인이 쓴 답글만 수정할 수 있습니다.',
                 'topic_locked' => '잠긴 주제에 달린 답글은 수정할 수 없습니다.',
             ],
@@ -136,7 +155,7 @@ return [
             'vote' => [
                 'no_forum_access' => '요청하신 포럼에 대한 접근 권한이 필요합니다.',
                 'over' => '투표가 종료되어 더이상 투표할 수 없습니다.',
-                'play_more' => '포럼에 투표를 하기 전에 게임을 조금 더 플레이하셔야 해요.',
+                'play_more' => '포럼에 글을 남기려면 게임을 조금 더 해야 해요.',
                 'voted' => '투표한 뒤에는 변경할 수 없습니다.',
 
                 'user' => [
@@ -166,6 +185,40 @@ return [
         ],
     ],
 
+    'room' => [
+        'destroy' => [
+            'not_owner' => '방 소유자만 닫을 수 있습니다.',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "이러한 유형의 점수는 고정할 수 없습니다",
+            'failed' => "클리어 하지 못한 점수는 고정할 수 없습니다.",
+            'not_owner' => '점수 소유자만 점수를 고정할 수 있습니다.',
+            'too_many' => '너무 많은 점수를 고정했습니다.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "이미 팀에 소속되어 있습니다.",
+                'already_other_member' => "이미 다른 팀에 소속되어 있습니다.",
+                'currently_applying' => '대기 중인 팀 가입 요청이 있습니다.',
+                'team_closed' => '이 팀은 현재 가입 요청을 받고 있지 않습니다.',
+                'team_full' => "이 팀은 가득 차 더 이상 팀원을 받을 수 없습니다.",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "팀 리더는 팀을 떠날 수 없습니다.",
+            'not_member' => '팀의 멤버가 아닙니다.',
+        ],
+        'store' => [
+            'require_supporter_tag' => '팀을 만들려면 osu! 서포터 태그가 필요합니다.',
+        ],
+    ],
+
     'user' => [
         'page' => [
             'edit' => [
@@ -173,6 +226,9 @@ return [
                 'not_owner' => '본인의 유저 페이지만 수정할 수 있습니다.',
                 'require_supporter_tag' => 'osu! 서포터 태그가 필요합니다.',
             ],
+        ],
+        'update_email' => [
+            'locked' => '이메일 주소가 잠겨있습니다.',
         ],
     ],
 ];

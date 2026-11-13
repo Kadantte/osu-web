@@ -4,6 +4,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'blocked' => 'Ez a felhasználó letiltott téged.',
     'title_compact' => 'barátok',
     'too_many' => 'Teli a barátlista.',
 

@@ -2,12 +2,9 @@
     Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
     See the LICENCE file in the repository root for full licence text.
 --}}
-@php
-    $user = auth()->user();
-@endphp
-
 @extends('master', [
     'blank' => true,
+    'titlePrepend' => $client->name,
 ])
 
 @section('content')
@@ -15,7 +12,7 @@
         <div class="dialog-form__dialog">
             <div
                 class="dialog-form__row dialog-form__row--header"
-                style="background-image: url('{{ $user->profileCustomization()->cover()->url() }}')"
+                style="background-image: url('{{ $user->cover()->url() }}')"
             >
                 <div class="dialog-form__header-overlay"></div>
                 <a
@@ -35,22 +32,27 @@
 
             <div class="dialog-form__row dialog-form__row--title">
                 <div class="dialog-form__logo"></div>
-                <h1 class="dialog-form__title">{{ trans('oauth.authorise.title') }}</h1>
+                <h1 class="dialog-form__title">{{ osu_trans('oauth.authorise.title') }}</h1>
             </div>
 
             <div class="dialog-form__row dialog-form__row--label">
                 <h2 class="dialog-form__client-name">
                     {{ $client->name }}
                 </h2>
+                <p><small>
+                    {!! osu_trans('oauth.authorise.app_owner', [
+                        'owner' => link_to_user($client->user_id, $client->user->username),
+                    ]) !!}
+                </small></p>
                 <p class="dialog-form__client-request">
-                    {{ trans('oauth.authorise.request') }}
+                    {{ osu_trans('oauth.authorise.request') }}
                 </p>
             </div>
 
             @if (count($scopes) > 0)
                 <div class="dialog-form__row dialog-form__row--scopes">
                     <p class="dialog-form__scopes-title">
-                        {{ trans('oauth.authorise.scopes_title') }}
+                        {{ osu_trans('oauth.authorise.scopes_title') }}
                     </p>
 
                     <ul class="oauth-scopes oauth-scopes--oauth-form">
@@ -58,7 +60,7 @@
                             <li>
                                 <span class="oauth-scopes__icon">
                                     <span class="fas fa-check"></span>
-                                </span>{{ trans("api.scopes.{$scope->id}") }}
+                                </span>{{ osu_trans("api.scopes.{$scope->id}") }}
                             </li>
                         @endforeach
                     </ul>
@@ -66,42 +68,54 @@
             @endif
 
             <div class="dialog-form__row dialog-form__row--wrong-user">
-                {!! trans('common.wrong_user._', [
+                {!! osu_trans('common.wrong_user._', [
                     'user' => e($user->username),
-                    'logout_link' => link_to_route(
-                        'logout',
-                        trans('common.wrong_user.logout_link'),
-                        [],
+                    'logout_link' => link_to(
+                        route('logout'),
+                        osu_trans('common.wrong_user.logout_link'),
                         [
                             'class' => 'dialog-form__extra-link',
-                            'data-confirm' => trans('users.logout_confirm'),
+                            'data-confirm' => osu_trans('users.logout_confirm'),
                             'data-method' => 'DELETE',
                             'data-reload-on-success' => '1',
                             'data-remote' => '1',
-                        ]
+                        ],
                     ),
                 ]) !!}
             </div>
             <div class="dialog-form__row dialog-form__row--buttons">
-                {!! Form::open([
-                    'url' => '/oauth/authorize',
-                    'method' => 'POST',
-                ]) !!}
-                    <button class="dialog-form__button">
-                        {{ trans('common.buttons.authorise') }}
-                    </button>
-                {!! Form::close() !!}
+                <form
+                    action="{{ route('oauth.authorizations.authorize') }}"
+                    data-turbo="false"
+                    method="POST"
+                >
+                    @csrf
+                    <input type="hidden" name="state" value="{{ $request->state }}">
+                    <input type="hidden" name="client_id" value="{{ $client->getKey() }}">
+                    <input type="hidden" name="auth_token" value="{{ $authToken }}">
 
-                {!! Form::open([
-                    'url' => '/oauth/authorize',
-                    'method' => 'DELETE',
-                ]) !!}
+                    <button class="dialog-form__button">
+                        {{ osu_trans('common.buttons.authorise') }}
+                    </button>
+                </form>
+
+                <form
+                    action="{{ route('oauth.authorizations.authorize') }}"
+                    data-turbo="false"
+                    method="POST"
+                >
+                    @csrf
+                    <input name="_method" value="DELETE" type="hidden" />
+                    <input type="hidden" name="state" value="{{ $request->state }}">
+                    <input type="hidden" name="client_id" value="{{ $client->getKey() }}">
+                    <input type="hidden" name="auth_token" value="{{ $authToken }}">
+
                     <button
                         class="dialog-form__button dialog-form__button--cancel"
                     >
-                        {{ trans('common.buttons.cancel') }}
+                        {{ osu_trans('common.buttons.cancel') }}
                     </button>
-                {!! Form::close() !!}
+                </form>
             </div>
         </div>
     </div>

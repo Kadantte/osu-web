@@ -7,31 +7,32 @@ return [
     'play_more' => '¿Qué tal si en vez de eso jugamos un poco de osu!?',
     'require_login' => 'Por favor, inicia sesión para continuar.',
     'require_verification' => 'Verifique para continuar.',
-    'restricted' => "No puede hacer eso mientras esté restringido.",
-    'silenced' => "No puede hacer eso mientras esté silenciado.",
+    'restricted' => "No puedes hacer eso mientras estás restringido.",
+    'silenced' => "No puedes hacer eso mientras estás silenciado.",
     'unauthorized' => 'Acceso denegado.',
 
     'beatmap_discussion' => [
         'destroy' => [
             'is_hype' => 'No se puede deshacer el hyping.',
             'has_reply' => 'No se puede eliminar una discusión con respuestas',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => 'Has alcanzado tu límite de nominaciones diarias, por favor inténtalo de nuevo mañana.',
-            'incorrect_state' => 'Error al realizar esa acción, intente actualizar la página.',
+            'incorrect_state' => 'Error al realizar esa acción, intenta actualizar la página.',
             'owner' => "No puedes nominar tu propio mapa.",
-            'set_metadata' => 'Debe establecer el género y el idioma antes de nominar.',
+            'set_metadata' => 'Debes establecer el género y el idioma antes de nominar.',
         ],
         'resolve' => [
             'not_owner' => 'Solo el creador del tema y el dueño del mapa pueden resolver una discusión.',
         ],
 
         'store' => [
-            'mapper_note_wrong_user' => 'Sólo el dueño del mapa o el nominador/miembro del grupo NAT puede publicar notas de mapeo.',
+            'mapper_note_wrong_user' => 'Solo el dueño del mapa o el nominador/miembro del grupo NAT puede publicar notas de mapeo.',
         ],
 
         'vote' => [
-            'bot' => "No puede votar en una discusión hecha por un bot",
+            'bot' => "No puedes votar en una discusión hecha por un bot",
             'limit_exceeded' => 'Espera un poco antes de seguir votando',
             'owner' => "No puedes votar tus propias discusiones.",
             'wrong_beatmapset_state' => 'Solo puedes votar en discusiones de mapas pendientes.',
@@ -43,46 +44,63 @@ return [
             'not_owner' => 'Solo puedes eliminar tus publicaciones.',
             'resolved' => 'No puedes eliminar una publicación de una discusión resuelta.',
             'system_generated' => 'La publicación generada automáticamente no puede ser eliminada.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
             'not_owner' => 'Solo el creador puede editar la publicación.',
             'resolved' => 'No puedes editar una publicación de una discusión resuelta.',
             'system_generated' => 'Una publicación generada automáticamente no se puede editar.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => 'Este mapa está bloqueado para discusión.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => 'La discusión de este mapa está bloqueada.',
+
         'metadata' => [
             'nominated' => 'No puedes cambiar los metadatos de un mapa nominado. Contacta con un miembro de los BN o del NAT si crees que están establecidos incorrectamente.',
+        ],
+
+        'rate' => [
+            'owner' => 'No puedes valorar un mapa del que formas parte.',
+            'status' => 'No puedes valorar un mapa con este estado.',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => 'Debes establecer una puntuación en un mapa para añadir una etiqueta.',
         ],
     ],
 
     'chat' => [
         'blocked' => 'No puedes enviar mensajes a un usuario que bloqueaste o que te haya bloqueado.',
         'friends_only' => 'Este usuario está bloqueando los mensajes de personas que no están en su lista de amigos.',
-        'moderated' => 'Ese canal está actualmente siendo moderado.',
+        'moderated' => 'Este canal está actualmente siendo moderado.',
         'no_access' => 'No tienes acceso a ese canal.',
-        'restricted' => 'No puede enviar mensajes mientras esté silenciado, restringido o baneado.',
-        'silenced' => 'No puede enviar mensajes mientras esté silenciado, restringido o baneado.',
+        'no_announce' => 'No tienes permiso para publicar anuncios.',
+        'receive_friends_only' => 'Es posible que el usuario no pueda responder porque solo aceptas mensajes de las personas en tu lista de amigos.',
+        'restricted' => 'No puedes enviar mensajes mientras estás silenciado, restringido o baneado.',
+        'silenced' => 'No puedes enviar mensajes mientras estás silenciado, restringido o baneado.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => 'Los comentarios están desactivados',
+        ],
         'update' => [
             'deleted' => "No puedes editar una publicación eliminada.",
         ],
     ],
 
     'contest' => [
-        'voting_over' => 'No puedes cambiar tu voto después de haber concluido el periodo de votación.',
+        'judging_not_active' => 'La evaluación para este concurso no está activa.',
+        'voting_over' => 'No puedes cambiar tu voto después de que el periodo de votación para este concurso haya finalizado.',
 
         'entry' => [
             'limit_reached' => 'Has alcanzado el límite de entradas para este concurso',
-            'over' => '¡Gracias por su participación! Los envíos se han cerrado para este concurso y la votación se abrirá pronto.',
+            'over' => '¡Gracias por tu participación! Los envíos se han cerrado para este concurso y la votación se abrirá pronto.',
         ],
     ],
 
@@ -103,27 +121,28 @@ return [
                 'deleted' => 'No puedes editar una publicación eliminada.',
                 'locked' => 'La edición de la publicación está bloqueada.',
                 'no_forum_access' => 'Se requiere acceso al foro solicitado.',
+                'no_permission' => 'No tienes permisos para editar.',
                 'not_owner' => 'Solo el creador puede editar la publicación.',
-                'topic_locked' => 'No puedes editar una publicación en un hilo cerrado.',
+                'topic_locked' => 'No puedes editar una publicación de un tema cerrado.',
             ],
 
             'store' => [
-                'play_more' => '¡Intenta jugar antes de publicar en los foros, por favor! Si tiene un problema jugando, publícalo en el foro de Ayuda y Soporte.',
-                'too_many_help_posts' => "Necesitas jugar más el juego antes de poder hacer publicaciones adicionales. Si aún tienes problemas para jugar, envía un correo electrónico a support@ppy.sh", // FIXME: unhardcode email address.
+                'play_more' => '¡Por favor, intenta jugar antes de escribir en los foros! Si tienes algún problema jugando, publícalo en el foro de ayuda y soporte.',
+                'too_many_help_posts' => "Necesitas jugar más el juego antes de poder hacer publicaciones adicionales. Si sigues teniendo problemas para jugar, envía un correo a support@ppy.sh", // FIXME: unhardcode email address.
             ],
         ],
 
         'topic' => [
             'reply' => [
-                'double_post' => 'Por favor edita tu última publicación en vez de publicar otra vez.',
+                'double_post' => 'Por favor, edita tu última publicación en lugar de publicarla de nuevo.',
                 'locked' => 'No puedes responder a un hilo cerrado.',
                 'no_forum_access' => 'Se requiere acceso al foro solicitado.',
                 'no_permission' => 'No tienes permisos para responder.',
 
                 'user' => [
                     'require_login' => 'Por favor, inicia sesión para responder.',
-                    'restricted' => "No puede responder mientras esté restringido.",
-                    'silenced' => "No puede responder mientras esté silenciado.",
+                    'restricted' => "No puedes responder mientras estés restringido.",
+                    'silenced' => "No puedes responder mientras estés silenciado.",
                 ],
             ],
 
@@ -140,9 +159,9 @@ return [
                 'voted' => 'Cambiar el voto no está permitido.',
 
                 'user' => [
-                    'require_login' => 'Por favor, Inicia sesión para votar.',
+                    'require_login' => 'Inicia sesión para votar.',
                     'restricted' => "No puede votar mientras esté restringido.",
-                    'silenced' => "No puede votar mientras esté silenciado.",
+                    'silenced' => "No puedes votar mientras estés silenciado.",
                 ],
             ],
 
@@ -153,7 +172,7 @@ return [
 
         'topic_cover' => [
             'edit' => [
-                'uneditable' => 'Portada especificada inválida.',
+                'uneditable' => 'Portada especificada no válida.',
                 'not_owner' => 'Solo el dueño puede editar la portada.',
             ],
             'store' => [
@@ -166,13 +185,50 @@ return [
         ],
     ],
 
+    'room' => [
+        'destroy' => [
+            'not_owner' => 'Solo el propietario de la sala puede cerrarla.',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "No se puede anclar este tipo de puntuación",
+            'failed' => "No se puede fijar una puntuación fallida.",
+            'not_owner' => 'Solo el propietario puede anclar la puntuación.',
+            'too_many' => 'Se han anclado demasiadas puntuaciones.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "Ya formas parte del equipo.",
+                'already_other_member' => "Ya formas parte de otro equipo.",
+                'currently_applying' => 'Tienes pendiente una solicitud para unirte a un equipo.',
+                'team_closed' => 'Por el momento, el equipo no está aceptando solicitudes para formar parte de él.',
+                'team_full' => "El equipo está completo y no puede aceptar a más miembros.",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "El líder del equipo no puede abandonar el equipo.",
+            'not_member' => 'No es miembro del equipo.',
+        ],
+        'store' => [
+            'require_supporter_tag' => 'Se requiere una etiqueta de osu!supporter para crear un equipo.',
+        ],
+    ],
+
     'user' => [
         'page' => [
             'edit' => [
                 'locked' => 'La página de usuario está bloqueada.',
                 'not_owner' => 'Solo puedes editar tu página de usuario.',
-                'require_supporter_tag' => 'Se requiere el tag de osu!supporter.',
+                'require_supporter_tag' => 'Necesitas una etiqueta de osu!supporter.',
             ],
+        ],
+        'update_email' => [
+            'locked' => 'la dirección de correo está bloqueada',
         ],
     ],
 ];

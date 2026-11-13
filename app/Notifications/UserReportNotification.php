@@ -10,6 +10,7 @@ use App\Models\UserReport;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Channels\SlackWebhookChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 
@@ -36,11 +37,11 @@ class UserReportNotification extends Notification implements ShouldQueue
             ->attachment(function ($attachment) use ($notifiable) {
                 $reportable = $notifiable->reportable;
                 $reportableUrl = null;
-                if (method_exists($reportable, 'url')) {
+                if ($reportable !== null && method_exists($reportable, 'url')) {
                     $reportableUrl = $reportable->url();
                 }
 
-                $user = optional($notifiable->user)->username ?? "User {$notifiable->user_id}";
+                $user = $notifiable->user?->username ?? "User {$notifiable->user_id}";
                 $userUrl = route('users.show', ['user' => $notifiable->user_id]);
 
                 $reportedText =
@@ -48,20 +49,37 @@ class UserReportNotification extends Notification implements ShouldQueue
                     ? "<{$reportableUrl}|{$notifiable->reportable_type} {$notifiable->reportable_id}>"
                     : "{$notifiable->reportable_type} {$notifiable->reportable_id}";
 
+                $fields = [
+                    'Reporter' => $this->discordMarkdownLink($this->reporter->url(), $this->reporter->username),
+                    'Reported' => $reportedText,
+                    'User' => $this->discordMarkdownLink($userUrl, $user),
+                    'Reason' => $notifiable->reason,
+                ];
+
+                $additionalInfo = $reportable?->reportableAdditionalInfo($notifiable);
+                if ($additionalInfo !== null) {
+                    $fields['Additional Info'] = $additionalInfo;
+                }
+
                 $attachment
                     ->color('warning')
                     ->content($notifiable->comments)
-                    ->fields([
-                        'Reporter' => "<{$this->reporter->url()}|{$this->reporter->username}>",
-                        'Reported' => $reportedText,
-                        'User' => "<{$userUrl}|{$user}>",
-                        'Reason' => $notifiable->reason,
-                    ]);
+                    ->fields($fields);
             });
     }
 
     public function via($notifiable)
     {
-        return ['slack'];
+        // see https://github.com/laravel/slack-notification-channel/issues/68#issuecomment-2569304703
+        return SlackWebhookChannel::class;
+    }
+
+    private function discordMarkdownLink(string $url, string $text): string
+    {
+        // I couldn't find any way to escape them so this seems to be the next best thing.
+        // The alternative characters were taken from https://github.com/python-discord/sir-lancebot/pull/820
+        $text = strtr($text, ['[' => '⦋', ']' => '⦌']);
+
+        return "[{$text}]({$url})";
     }
 }

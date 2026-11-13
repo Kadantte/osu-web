@@ -13,9 +13,28 @@ return [
         ],
 
         'title' => [
-            '_' => 'Новини :info',
-            'info' => 'Головна сторінка',
+            '_' => 'новини',
+            'info' => 'головна сторінка',
         ],
+    ],
+
+    'series' => [
+        'beatmap_spotlights' => 'Beatmap Spotlights',
+        'community_contests' => 'конкурси спільноти',
+        'community_tournaments' => 'турніри спільноти',
+        'fanart_contests' => 'творчі конкурси',
+        'featured_artists' => 'анонси Обраних виконавців',
+        'game_updates' => 'оновлення сайту та клієнту',
+        'mappers_guild' => 'Mappers\' Guild',
+        'monthly_beatmapping_contest' => 'Щомісячний конкурс мапінгу',
+        'merch_runs' => 'офіційний мерч osu! ',
+        'miscellaneous' => 'інші оголошення',
+        'official_contests' => 'офіційні конкурси',
+        'offline_events' => 'офлайн події',
+        'online_events' => 'онлайн події',
+        'project_loved' => 'Проєкт Улюблені',
+        'ranking_system_updates' => 'оновлення рейтингової системи',
+        'world_cups' => 'osu! World Cups',
     ],
 
     'show' => [
@@ -27,7 +46,7 @@ return [
         ],
 
         'title' => [
-            '_' => 'Новини :info',
+            '_' => 'новини',
             'info' => 'Перегляд',
         ],
     ],

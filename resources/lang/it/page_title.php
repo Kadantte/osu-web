@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'amministratore',
     ],
-    'admin_forum' => [
-        '_' => 'amministratore',
-    ],
-    'admin_store' => [
-        '_' => 'amministratore',
-    ],
     'error' => [
         'error' => [
             '400' => 'richiesta non valida',
@@ -29,13 +23,12 @@ return [
     ],
     'forum' => [
         '_' => 'forum',
-        'topic_watches_controller' => [
-            'index' => 'dashboard',
+        'topic_logs_controller' => [
+            'index' => 'log dei topic',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'dashboard',
             'verify_link' => 'verifica account',
         ],
         'artists_controller' => [
@@ -56,16 +49,14 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'cronologia beatmap',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'dashboard',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'discussione beatmap',
             'index' => 'lista beatmap',
-            'show' => 'info beatmap',
+            'show' => 'informazioni beatmap',
+            'versions' => 'cronologia versioni beatmap',
         ],
         'changelog_controller' => [
-            '_' => 'note di rilascio',
+            '_' => 'changelog',
         ],
         'chat_controller' => [
             '_' => 'chat',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'commenti',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'risultati della valutazione di concorso',
+        ],
         'contests_controller' => [
             '_' => 'concorsi',
+            'judge' => 'valutazione di concorso',
         ],
-        'follows_controller' => [
-            'index' => 'dashboard',
-        ],
-        'friends_controller' => [
-            'index' => 'dashboard',
+        'group_history_controller' => [
+            '_' => 'storico gruppi',
         ],
         'groups_controller' => [
             'show' => 'gruppi',
@@ -92,14 +84,14 @@ return [
             'support_the_game' => 'supporta il gioco',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => 'partite',
+        ],
         'legal_controller' => [
             '_' => 'informazioni',
         ],
         'livestreams_controller' => [
-            '_' => 'trasmissioni in diretta',
-        ],
-        'matches_controller' => [
-            '_' => 'partite',
+            '_' => 'dirette streaming',
         ],
         'news_controller' => [
             '_' => 'notizie',
@@ -108,39 +100,66 @@ return [
             '_' => 'cronologia notifiche',
         ],
         'password_reset_controller' => [
-            '_' => 'reimpostazione password',
+            '_' => 'reset password',
         ],
         'ranking_controller' => [
-            '_' => 'classifica',
+            '_' => 'classifiche',
         ],
         'scores_controller' => [
             '_' => 'performance',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'classifiche',
+        ],
+        'teams_controller' => [
+            '_' => 'squadre',
+            'create' => 'creazione squadra',
+            'edit' => 'impostazioni squadra',
+            'leaderboard' => 'classifica della squadra',
+            'show' => 'dettagli squadra',
         ],
         'tournaments_controller' => [
             '_' => 'tornei',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'copertine predefinite dall\'utente',
+        ],
+        'user_totp_controller' => [
+            '_' => 'autenticatore',
+        ],
         'users_controller' => [
-            '_' => 'info giocatore',
+            '_' => 'dettagli giocatore',
+            'create' => 'crea account',
             'disabled' => 'avviso',
         ],
         'wiki_controller' => [
-            '_' => 'base delle conoscenze',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'classifica',
+            'events' => 'cronologia stanze',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'autorizza app',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'negozio',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'membri della squadra',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
-            '_' => 'info modder',
+            '_' => 'dettagli modder',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'cronologia multigiocatore',
         ],
     ],
 ];

@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'yönetici',
     ],
-    'admin_forum' => [
-        '_' => 'yönetici',
-    ],
-    'admin_store' => [
-        '_' => 'yönetici',
-    ],
     'error' => [
         'error' => [
             '400' => 'geçersiz istek',
@@ -29,13 +23,12 @@ return [
     ],
     'forum' => [
         '_' => 'forum',
-        'topic_watches_controller' => [
-            'index' => 'kontrol paneli',
+        'topic_logs_controller' => [
+            'index' => 'konu kayıtları',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'kontrol paneli',
             'verify_link' => 'hesap doğrulama',
         ],
         'artists_controller' => [
@@ -56,13 +49,11 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'beatmap geçmişi',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'kontrol paneli',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'beatmap tartışma',
-            'index' => 'beatmap listesi',
+            'index' => 'beatmap kataloğu',
             'show' => 'beatmap bilgisi',
+            'versions' => 'beatmap sürüm geçmişi',
         ],
         'changelog_controller' => [
             '_' => 'değişiklik kayıtları',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'yorumlar',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'yarışma yargı sonucu',
+        ],
         'contests_controller' => [
             '_' => 'yarışmalar',
+            'judge' => 'yarışma yargısı',
         ],
-        'follows_controller' => [
-            'index' => 'kontrol paneli',
-        ],
-        'friends_controller' => [
-            'index' => 'kontrol paneli',
+        'group_history_controller' => [
+            '_' => 'grup geçmişi',
         ],
         'groups_controller' => [
             'show' => 'gruplar',
@@ -92,14 +84,14 @@ return [
             'support_the_game' => 'oyunu destekle',
             'testflight' => 'testflight',
         ],
+        'legacy_matches_controller' => [
+            '_' => 'eşleşmeler',
+        ],
         'legal_controller' => [
             '_' => 'bilgi',
         ],
         'livestreams_controller' => [
             '_' => 'canlı yayınlar',
-        ],
-        'matches_controller' => [
-            '_' => 'maçlar',
         ],
         'news_controller' => [
             '_' => 'haberler',
@@ -116,31 +108,58 @@ return [
         'scores_controller' => [
             '_' => 'performans',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'sıralamalar',
+        ],
+        'teams_controller' => [
+            '_' => 'takımlar',
+            'create' => 'takım oluştur',
+            'edit' => 'takım ayarları',
+            'leaderboard' => 'takım sıralaması',
+            'show' => 'takım bilgisi',
         ],
         'tournaments_controller' => [
             '_' => 'turnuvalar',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'kullanıcı kapak fotoğrafı ön ayarları',
+        ],
+        'user_totp_controller' => [
+            '_' => 'doğrulama uygulaması',
+        ],
         'users_controller' => [
             '_' => 'oyuncu bilgisi',
+            'create' => 'hesap oluştur',
             'disabled' => 'bildirim',
         ],
         'wiki_controller' => [
-            '_' => 'bilgi bankası',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'sıralama',
+            'events' => 'oda geçmişi',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'uygulamaya izin ver',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'mağaza',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'takım üyeleri',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'modder bilgisi',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'çok oyunculu geçmişi',
         ],
     ],
 ];

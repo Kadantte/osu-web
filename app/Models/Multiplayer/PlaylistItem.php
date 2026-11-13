@@ -6,31 +6,44 @@
 namespace App\Models\Multiplayer;
 
 use App\Exceptions\InvariantException;
-use App\Libraries\Multiplayer\Mod;
-use App\Libraries\Multiplayer\Ruleset;
 use App\Models\Beatmap;
 use App\Models\Model;
+use App\Models\ScoreToken;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * @property json|null $allowed_mods
- * @property Beatmap $beatmap
+ * @property ?object[] $allowed_mods
+ * @property-read Beatmap $beatmap
  * @property int $beatmap_id
- * @property \Carbon\Carbon|null $created_at
+ * @property ?\Carbon\Carbon $created_at
+ * @property-read ?RealtimeRoomEvent $detailEvent
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, PlaylistItemUserHighScore> $highScores
  * @property int $id
- * @property int|null $playlist_order
- * @property json|null $required_mods
- * @property Room $room
+ * @property ?int $max_attempts
+ * @property int $owner_id
+ * @property ?int $playlist_order
+ * @property ?object[] $required_mods
+ * @property bool $freestyle
+ * @property-read Room $room
  * @property int $room_id
- * @property int|null $ruleset_id
- * @property \Illuminate\Database\Eloquent\Collection $scores Score
- * @property \Carbon\Carbon|null $updated_at
- * @property bool expired
+ * @property int $ruleset_id
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, ScoreLink> $scoreLinks
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, ScoreToken> $scoreTokens
+ * @property ?\Carbon\Carbon $updated_at
+ * @property bool $expired
+ * @property ?\Carbon\Carbon $played_at
  */
 class PlaylistItem extends Model
 {
     protected $table = 'multiplayer_playlist_items';
     protected $casts = [
         'allowed_mods' => 'object',
+        'expired' => 'boolean',
+        'freestyle' => 'boolean',
+        'played_at' => 'datetime',
         'required_mods' => 'object',
     ];
 
@@ -49,7 +62,7 @@ class PlaylistItem extends Model
         }
     }
 
-    public static function fromJsonParams($json)
+    public static function fromJsonParams(User $owner, $json)
     {
         $obj = new self();
         foreach (['beatmap_id', 'ruleset_id'] as $field) {
@@ -60,19 +73,28 @@ class PlaylistItem extends Model
             $obj->$field = $value;
         }
 
+        $obj->freestyle = get_bool($json['freestyle'] ?? false);
         $obj->max_attempts = get_int($json['max_attempts'] ?? null);
 
-        $obj->allowed_mods = Mod::parseInputArray(
+        $modsHelper = app('mods');
+        $obj->allowed_mods = $modsHelper->parseInputArray(
+            $obj->ruleset_id,
             $json['allowed_mods'] ?? [],
-            $obj->ruleset_id
         );
 
-        $obj->required_mods = Mod::parseInputArray(
+        $obj->required_mods = $modsHelper->parseInputArray(
+            $obj->ruleset_id,
             $json['required_mods'] ?? [],
-            $obj->ruleset_id
         );
+
+        $obj->owner_id = $owner->getKey();
 
         return $obj;
+    }
+
+    public function detailEvent(): HasOne
+    {
+        return $this->hasOne(RealtimeRoomEvent::class)->where('event_type', 'game_started');
     }
 
     public function room()
@@ -90,17 +112,94 @@ class PlaylistItem extends Model
         return $this->hasMany(PlaylistItemUserHighScore::class);
     }
 
-    public function scores()
+    public function scoreLinks()
     {
-        return $this->hasMany(Score::class);
+        return $this->hasMany(ScoreLink::class);
     }
 
-    public function topScores()
+    public function scoreTokens(): HasMany
     {
-        return $this->highScores()
-            ->with('score')
-            ->orderBy('total_score', 'desc')
-            ->orderBy('score_id', 'asc');
+        return $this->hasMany(ScoreToken::class);
+    }
+
+    public function scopeWithDifficultyrating(Builder $query): void
+    {
+        $query->addSelect([
+            'difficultyrating' => Beatmap
+                ::select('difficultyrating')
+                ->withTrashed()
+                ->whereColumn('beatmap_id', $this->qualifyColumn('beatmap_id')),
+        ]);
+    }
+
+    public function getAttribute($key)
+    {
+        return match ($key) {
+            'beatmap_id',
+            'id',
+            'max_attempts',
+            'owner_id',
+            'playlist_order',
+            'room_id',
+            'ruleset_id' => $this->getRawAttribute($key),
+
+            'expired',
+            'freestyle' => (bool) $this->getRawAttribute($key),
+
+            'allowed_mods',
+            'required_mods' => $this->getArray($key, false),
+
+            'created_at',
+            'played_at',
+            'updated_at' => $this->getTimeFast($key),
+
+            'beatmap',
+            'detailEvent',
+            'highScores',
+            'room',
+            'scoreLinks',
+            'scoreTokens' => $this->getRelationValue($key),
+        };
+    }
+
+    public function save(array $options = [])
+    {
+        $this->assertValid();
+
+        return parent::save($options);
+    }
+
+    public function scorePercentile(): array
+    {
+        $key = "playlist_item_score_percentile:v2:{$this->getKey()}";
+
+        if (!$this->expired && !$this->room->hasEnded()) {
+            $key .= ':ongoing';
+        }
+
+        return \Cache::remember($key, 600, function (): array {
+            $scores = $this->highScores()
+                ->passing()
+                ->orderBy('total_score', 'DESC')
+                ->pluck('total_score');
+            $count = count($scores);
+
+            return $count === 0
+                ? [
+                    'top_10p' => 0,
+                    'top_50p' => 0,
+                ] : [
+                    'top_10p' => $scores[max(0, (int) ($count * 0.1) - 1)],
+                    'top_50p' => $scores[max(0, (int) ($count * 0.5) - 1)],
+                ];
+        });
+    }
+
+    public function assertValid()
+    {
+        $this->assertValidMaxAttempts();
+        $this->assertValidRuleset();
+        $this->assertValidMods();
     }
 
     private function assertValidMaxAttempts()
@@ -109,22 +208,27 @@ class PlaylistItem extends Model
             return;
         }
 
-        $maxAttemptsLimit = config('osu.multiplayer.max_attempts_limit');
+        $maxAttemptsLimit = $GLOBALS['cfg']['osu']['multiplayer']['max_attempts_limit'];
         if ($this->max_attempts < 1 || $this->max_attempts > $maxAttemptsLimit) {
             throw new InvariantException("field 'max_attempts' must be between 1 and {$maxAttemptsLimit}");
         }
     }
 
-    private function validateRuleset()
+    private function assertValidRuleset()
     {
         // osu beatmaps can be played in any mode, but non-osu maps can only be played in their specific modes
-        if ($this->beatmap->playmode !== Ruleset::OSU && $this->beatmap->playmode !== $this->ruleset_id) {
+        if (!$this->beatmap->canBeConvertedTo($this->ruleset_id)) {
             throw new InvariantException("invalid ruleset_id for beatmap {$this->beatmap->beatmap_id}");
         }
     }
 
     private function assertValidMods()
     {
+        // Freestyle unconditionally allows all freemods, so we'll expect them to not be specified.
+        if ($this->freestyle && count($this->allowed_mods) !== 0) {
+            throw new InvariantException('allowed mods cannot be specified on freestyle items');
+        }
+
         $allowedModIds = array_column($this->allowed_mods, 'acronym');
         $requiredModIds = array_column($this->required_mods, 'acronym');
 
@@ -133,17 +237,10 @@ class PlaylistItem extends Model
             throw new InvariantException('mod cannot be listed as both allowed and required: '.implode(', ', $dupeMods));
         }
 
-        Mod::validateSelection($allowedModIds, $this->ruleset_id);
-        Mod::validateSelection($requiredModIds, $this->ruleset_id);
-        Mod::assertValidExclusivity($requiredModIds, $allowedModIds, $this->ruleset_id);
-    }
-
-    public function save(array $options = [])
-    {
-        $this->assertValidMaxAttempts();
-        $this->validateRuleset();
-        $this->assertValidMods();
-
-        return parent::save($options);
+        $isRealtimeRoom = $this->room->isRealtime();
+        $modsHelper = app('mods');
+        $modsHelper->assertValidForMultiplayer($this->ruleset_id, $allowedModIds, false, $isRealtimeRoom, $this->freestyle);
+        $modsHelper->assertValidForMultiplayer($this->ruleset_id, $requiredModIds, true, $isRealtimeRoom, $this->freestyle);
+        $modsHelper->assertValidMultiplayerExclusivity($this->ruleset_id, $requiredModIds, $allowedModIds);
     }
 }

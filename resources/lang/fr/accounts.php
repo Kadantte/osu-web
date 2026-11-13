@@ -10,15 +10,25 @@ return [
 
         'avatar' => [
             'title' => 'Avatar',
-            'rules' => 'Veuillez vous assurer que votre avatar correspond aux :link.<br/>Cela signifie qu\'il doit être <strong>adapté à tous les âges</strong>. c\'est-à-dire pas de nudité, de profanation ou de contenu suggestif.',
-            'rules_link' => 'règles de la communauté',
+            'reset' => 'réinitialiser',
+            'rules' => 'Veuillez vous assurer que votre avatar correspond aux :link.<br/>Cela signifie qu\'il doit être <strong>adapté à tous les âges</strong>. C\'est-à-dire pas de nudité, de profanation ou de contenu suggestif.',
+            'rules_link' => 'Considérations relatives au contenu visuel',
         ],
 
         'email' => [
-            'current' => 'email actuel',
-            'new' => 'nouvel email',
-            'new_confirmation' => 'confirmation de l\'email',
-            'title' => 'Email',
+            'new' => 'nouvel e-mail',
+            'new_confirmation' => 'confirmation de l\'e-mail',
+            'title' => 'E-mail',
+            'locked' => [
+                '_' => 'Veuillez contacter l\':accounts: si vous avez besoin de mettre à jour votre adresse e-mail.',
+                'accounts' => 'équipe d\'assistance aux comptes',
+            ],
+        ],
+
+        'legacy_api' => [
+            'api' => 'api',
+            'irc' => 'irc',
+            'title' => 'Ancienne API',
         ],
 
         'password' => [
@@ -29,13 +39,19 @@ return [
         ],
 
         'profile' => [
+            'country' => 'pays',
             'title' => 'Profil',
+
+            'country_change' => [
+                '_' => "Il semble que le pays de votre compte ne correspond pas à votre pays de résidence. :update_link.",
+                'update_link' => 'Obtenir le drapeau du pays suivant : :country',
+            ],
 
             'user' => [
                 'user_discord' => '',
                 'user_from' => 'localisation actuelle',
                 'user_interests' => 'centres d\'intérêt',
-                'user_occ' => 'occupation',
+                'user_occ' => 'profession',
                 'user_twitter' => '',
                 'user_website' => 'site web',
             ],
@@ -47,23 +63,53 @@ return [
         ],
     ],
 
+    'github_user' => [
+        'info' => "Si vous êtes un contributeur des dépôts open-source d'osu!, associer votre compte GitHub permettra à vos contributions affichées sur les changelogs de mener directement vers votre profil osu!. Les comptes GitHub sans historique de contribution à osu! ne peuvent pas être associés.",
+        'link' => 'Associer un compte GitHub',
+        'title' => 'GitHub',
+        'unlink' => 'Dissocier le compte GitHub',
+
+        'error' => [
+            'already_linked' => 'Ce compte GitHub est déjà associé à un autre utilisateur.',
+            'no_contribution' => 'Impossible d\'associer un compte GitHub sans historique de contribution dans les dépôts d\'osu!.',
+            'unverified_email' => 'Veuillez vérifier votre adresse e-mail principale sur GitHub, puis essayez d\'associer votre compte à nouveau.',
+        ],
+    ],
+
     'notifications' => [
-        'beatmapset_discussion_qualified_problem' => 'recevoir des notifications lorsqu\'un nouveau problème est posté sur les beatmaps qualifiées des modes suivants',
-        'beatmapset_disqualify' => 'recevoir des notifications lorsque les beatmaps des modes suivants sont disqualifiées',
+        'beatmapset_discussion_reply' => 'recevoir des notifications pour des réponses aux discussions de beatmap auxquels vous participez ',
+        'beatmapset_discussion_qualified_problem' => 'recevoir des notifications lorsqu\'un nouveau problème est posté sur les beatmaps qualifiées dans les modes suivants',
+        'beatmapset_disqualify' => 'recevoir des notifications lorsque des beatmaps sont disqualifiées dans les modes suivants',
         'comment_reply' => 'recevoir des notifications pour des réponses à vos commentaires',
+        'news_post' => 'recevoir des notifications pour les articles d\'actualité',
         'title' => 'Notifications',
-        'topic_auto_subscribe' => 'activer automatiquement les notifications sur les nouveaux sujets de forum que vous créez',
+        'topic_auto_subscribe' => 'activer automatiquement les notifications sur les nouveaux sujets que vous créez ou auxquels vous avez répondu sur le forum',
 
         'options' => [
             '_' => 'types d\'alertes',
+            'beatmap_owner_change' => 'guest difficulty',
             'beatmapset:modding' => 'modding de beatmap',
+            'channel_mention' => 'mentions du chat',
             'channel_message' => 'messages privés',
+            'channel_team' => 'messages d\'équipe',
             'comment_new' => 'nouveaux commentaires',
             'forum_topic_reply' => 'réponse à un sujet',
-            'mail' => 'email',
-            'mapping' => 'mapper de la beatmap',
+            'mail' => 'mail',
+            'mapping' => 'créateur de beatmap',
+            'news_post' => 'articles d\'actualité',
             'push' => 'push',
-            'user_achievement_unlock' => 'médaille utilisateur déverrouillée',
+        ],
+
+        'tooltips' => [
+            'beatmap_owner_change' => 'lorsque vous êtes ajouté en tant que participant sur une difficulté de carte',
+            'beatmapset:modding' => 'lorsque des discussions sur des cartes que vous regardez reçoivent des mises à jour, ou qu\'il y a un problème ou une suggestion sur votre propre carte.',
+            'channel_mention' => 'quand vous êtes mentionné dans un canal public',
+            'channel_message' => 'quand vous recevez un nouveau message privé',
+            'channel_team' => 'quand votre tchat d\'équipe reçoit un nouveau message ',
+            'comment_new' => 'quand il y a un nouveau commentaire sur un élément que vous suivez',
+            'forum_topic_reply' => 'lorsqu’il y a de nouvelles réponses dans les sujets suivis',
+            'mapping' => 'quand un créateur de carte en sort une nouvelle',
+            'news_post' => 'quand il y a de nouvelles publications publiées',
         ],
     ],
 
@@ -74,34 +120,39 @@ return [
     ],
 
     'options' => [
-        'beatmapset_show_nsfw' => 'masquer les avertissements pour contenu explicite dans les beatmaps',
-        'beatmapset_title_show_original' => 'afficher les métadonnées de la beatmap dans la langue d\'origine',
+        'beatmapset_show_anime_cover' => 'afficher les couvertures de beatmap de style anime',
+        'beatmapset_show_nsfw' => 'masquer les avertissements de contenu explicite dans les beatmaps',
+        'beatmapset_title_show_original' => 'afficher les métadonnées des beatmaps dans la langue d\'origine',
         'title' => 'Options',
 
         'beatmapset_download' => [
-            '_' => 'type de téléchargement des beatmaps par défaut',
-            'all' => 'avec vidéo si possible',
+            '_' => 'téléchargement des beatmaps par défaut',
+            'all' => 'avec vidéo si disponible',
             'direct' => 'ouvrir dans osu!direct',
+            'lazer' => '',
             'no_video' => 'sans vidéo',
         ],
     ],
 
     'playstyles' => [
+        'default_ruleset' => 'mode de jeu par défaut',
         'keyboard' => 'clavier',
         'mouse' => 'souris',
         'tablet' => 'tablette',
-        'title' => 'Styles de jeu',
+        'title' => 'Périphériques de jeu',
         'touch' => 'écran tactile',
     ],
 
     'privacy' => [
-        'friends_only' => 'bloquer les messages privés des personnes qui ne sont pas dans votre liste d’amis',
+        'friends_only' => 'bloquer les messages privés des utilisateurs qui ne sont pas dans votre liste d’amis',
+        'friends_only_info' => 'ce blocage s\'applique aussi aux invitations multijoueurs et aux demandes de duel en partie classée dans osu!lazer',
         'hide_online' => 'masquer votre présence en ligne',
+        'hide_online_info' => 'vous fera apparaître hors-ligne sur osu!lazer si activé',
         'title' => 'Confidentialité',
     ],
 
     'security' => [
-        'current_session' => 'actuel',
+        'current_session' => 'actuelle',
         'end_session' => 'Mettre fin à la session',
         'end_session_confirmation' => 'Ceci va immédiatement mettre fin à votre session sur cet appareil. Êtes-vous sûr ?',
         'last_active' => 'Dernière activité :',
@@ -115,6 +166,21 @@ return [
 
     'update_password' => [
         'update' => 'mettre à jour',
+    ],
+
+    'user_totp' => [
+        'title' => 'Application d\'authentification',
+        'usage_note' => 'Utiliser une application d\'authentification au lieu de la vérification par courriel. La vérification par courriel est toujours disponible en tant qu\'option de recours.',
+
+        'button' => [
+            'remove' => 'Retirer',
+            'setup' => 'Ajouter une application d\'authentification',
+        ],
+        'status' => [
+            'label' => 'statut',
+            'not_set' => 'Non configuré',
+            'set' => 'Configuré',
+        ],
     ],
 
     'verification_completed' => [

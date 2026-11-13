@@ -8,6 +8,7 @@ return [
     'not_negative' => ':attribute не можа быць адмоўным.',
     'required' => ':attribute ёсць неабходны.',
     'too_long' => ':attribute максімальная колькасць сімвалаў перавышана - абмежаванне на :limit сімвалаў.',
+    'url' => 'Калі ласка, увядзіце сапраўдны URL.',
     'wrong_confirmation' => 'Пацверджання не супадае.',
 
     'beatmapset_discussion' => [
@@ -73,8 +74,8 @@ return [
         'post' => [
             'beatmapset_post_no_delete' => 'Выдаленне метададзеных допіса бітмапы недазволена.',
             'beatmapset_post_no_edit' => 'Рэдагаванне метададзеных допіса бітмапы недазволена.',
-            'first_post_no_delete' => '',
-            'missing_topic' => '',
+            'first_post_no_delete' => 'Нельга выдаліць пачатковую публікацыю',
+            'missing_topic' => 'У пасту адсутнічае тэма',
             'only_quote' => 'Ваш адказ змяшчае толькі цытату.',
 
             'attributes' => [
@@ -108,6 +109,16 @@ return [
         ],
     ],
 
+    'legacy_api_key' => [
+        'exists' => 'У наступны час кожнаму карыстальніку выдаецца толькі адзін ключ API.',
+
+        'attributes' => [
+            'api_key' => 'ключ api',
+            'app_name' => 'назва дадатку',
+            'app_url' => 'адрас дадатку',
+        ],
+    ],
+
     'oauth' => [
         'client' => [
             'too_many' => 'Перавышана максімальна дазволеная колькасць прыклад OAuth.',
@@ -120,10 +131,24 @@ return [
         ],
     ],
 
+    'team' => [
+        'invalid_characters' => ':attribute змяшчае недапушчальныя сімвалы.',
+        'used' => ':attribute ўжо занята.',
+        'word_not_allowed' => 'Такое :attribute забаронена.',
+
+        'attributes' => [
+            'default_ruleset_id' => 'Асноўны рэжым гульні',
+            'is_open' => 'Падача заявак',
+            'name' => 'Назва',
+            'short_name' => 'Кароткая назва',
+            'url' => 'URL',
+        ],
+    ],
+
     'user' => [
         'contains_username' => 'Пароль не павінен змяшчаць імя карыстальніка.',
         'email_already_used' => 'Эл. пошта ўжо выкарыстоўваецца.',
-        'email_not_allowed' => '',
+        'email_not_allowed' => 'Адрас электроннай пошты не дапускаецца.',
         'invalid_country' => 'Краіны няма ў базедадзеных.',
         'invalid_discord' => 'Няправільнае імя карыстальніка Discord.',
         'invalid_email' => "Не падобна на дзейны адрас эл. пошты.",
@@ -163,6 +188,9 @@ return [
     ],
 
     'user_report' => [
+        'no_ranked_beatmapset' => 'Нельга скардзіцца на ранкаваныя бітмапы',
+        'not_in_channel' => 'Вы няма ў гэтым канале.',
+        'in_team' => 'Вы з\'яўляецеся часткай каманды.',
         'reason_not_valid' => ':reason не падыходзіць для дадзенага тыпу дакладу.',
         'self' => "Вы не можаце паскардзіцца на самога сябе!",
     ],

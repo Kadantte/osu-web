@@ -1,121 +1,87 @@
 name: Tests
 
 on: [push, pull_request]
-
-env:
-  APP_ENV: testing
-  APP_KEY: base64:q7U5qyAkedR1F6UhN0SQlUxBpAMDyfHy3NNFkqmiMqA=
-  APP_URL: http://localhost:8000
-  CACHE_DRIVER: redis
-  CACHE_DRIVER_LOCAL: array
-  DB_USERNAME: root
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  NOTIFICATION_ENDPOINT: ws://127.0.0.1:3000
-  NOTIFICATION_SERVER_LISTEN_PORT: 3000
-  OSU_INSTALL_DEV: 1
-  OSU_USE_SYSTEM_COMPOSER: 1
-  PAYMENT_SANDBOX: true
-  SESSION_DRIVER: redis
-  SHOPIFY_DOMAIN: notarealdomainortld
-  SHOPIFY_STOREFRONT_TOKEN: notreal
-  SLACK_ENDPOINT: https://myconan.net/null/
-  REDIS_HOST: 127.0.0.1
-  NOTIFICATION_REDIS_HOST: 127.0.0.1
-  DB_HOST: 127.0.0.1
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
-    services:
-      db:
-        image: mysql:8.0
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-          -e MYSQL_ALLOW_EMPTY_PASSWORD=1
-          --entrypoint sh mysql:8.0 -c "exec docker-entrypoint.sh mysqld --default-authentication-plugin=mysql_native_password"
-
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-
+    env:
+      ASSETS_COMMAND: assets
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Setup node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12'
-
-      - name: Set php version
-        uses: shivammathur/setup-php@v2
-        with:
-          extensions: redis
-          tools: composer:v2
-          php-version: '7.4'
-
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
 
-      - name: Get composer cache directory
-        id: composercache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Create .env
+        run: |
+          cat > .env <<EOF
+          APP_ENV=testing
+          APP_URL=http://nginx
+          PAYMENT_SANDBOX=true
+          EOF
+
+      - name: Create .env.testing
+        run: |
+          ln -s .env .env.testing
+
+      - name: Create .env.dusk.local
+        run: |
+          ln -s .env .env.dusk.local
+
+      - name: Get current date
+        id: current-date
+        run: echo "today=$(date '+%Y%m%d')" >> "$GITHUB_OUTPUT"
+
+      - name: Cache ip2asn
+        uses: actions/cache@v5
+        with:
+          path: database/ip2asn/
+          key: ip2asn-${{ steps.current-date.outputs.today }}
+          restore-keys: ip2asn-
 
       - name: Cache composer
-        uses: actions/cache@v2
+        uses: actions/cache@v5
         with:
-          path: ${{ steps.composercache.outputs.dir }}
+          path: .docker/.cache/composer/files/
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Spin up Docker dev environment
+        run: ./bin/docker_dev.sh -d
 
-      - name: Cache yarn
-        uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+      - name: Wait for migrations to be done
+        run: docker compose logs -t -f migrator & docker compose wait migrator || true
 
-      # Settings for elasticsearch
-      # https://github.com/elastic/elastic-github-actions/tree/master/elasticsearch#usage
-      - name: Configure sysctl limits
-        run: |
-          sudo swapoff -a
-          sudo sysctl -w vm.swappiness=1
-          sudo sysctl -w fs.file-max=262144
-          sudo sysctl -w vm.max_map_count=262144
+      - name: Wait for assets building to be done
+        run: docker compose logs -t -f assets & docker compose wait assets || true
 
-      - name: Start Elasticsearch
-        uses: elastic/elastic-github-actions/elasticsearch@master
-        with:
-          stack-version: 6.8.13
-
-      - run: ./bin/db_setup.sh -h 127.0.0.1
-      - run: ./build.sh
-
-      - name: Setup indices
-        run: |
-          php artisan es:create-search-blacklist
-          php artisan es:index-documents --yes
-          php artisan es:index-wiki --create-only --yes
-
-      - name: Generate apidocs
-        run: php artisan apidoc:generate
-
-      - name: Run karma
-        run: yarn karma start --single-run --browsers ChromeHeadless
+      - name: Generate docs
+        run: docker compose exec php /app/docker/development/entrypoint.sh artisan scribe:generate
 
       - name: Run PHPUnit
-        run: ./bin/phpunit.sh
+        run: docker compose exec php /app/docker/development/entrypoint.sh test phpunit
+
+      # TODO: workaround things (beatmaps) being indexed during test above and not cleaned up.
+      # This used to cause beatmap listing returning cursor with Long.MIN_VALUE for null timetamp
+      # and errors out when trying to get the next page (es can't parse such value for timestamp)
+      # but has since been fixed.
+      # Something should still be done regarding es index between tests though.
+      - name: Clean indexes
+        run: docker compose exec php /app/docker/development/entrypoint.sh artisan es:index-documents --no-interaction
 
       - name: Run Dusk
-        run: ./bin/run_dusk.sh
+        run: docker compose exec php /app/docker/development/entrypoint.sh artisan dusk
+
+      - name: Run karma
+        run: docker compose run --rm testjs
+
+      # this only tests that the rollback functions are valid and doesn't check
+      # if they actually do what they're expected to do.
+      - name: Migration rollback test
+        run: |
+          docker compose exec php /app/docker/development/entrypoint.sh artisan migrate:reset | tee rollback.log
+          grep -Fq 'no rolling back from this migration =)' rollback.log

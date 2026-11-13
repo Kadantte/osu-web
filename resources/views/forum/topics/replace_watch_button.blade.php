@@ -2,7 +2,7 @@
     Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
     See the LICENCE file in the repository root for full licence text.
 --}}
-Timeout.set(0, function() {
+window.setTimeout(function() {
     var $new = $({!! json_encode(view('forum.topics._watch', [
         'topic' => $topic,
         'state' => $state,
@@ -14,4 +14,9 @@ Timeout.set(0, function() {
 
     var $newMenu = $new.find('.js-forum-topic-watch--menu');
     $current.find('.js-forum-topic-watch--menu').html($newMenu.html());
+
+    const watchCountEl = document.querySelector('.js-forum__total-watches');
+    if (watchCountEl != null) {
+        watchCountEl.innerHTML = '{{ i18n_number_format($topic->watches()->count()) }}';
+    }
 });

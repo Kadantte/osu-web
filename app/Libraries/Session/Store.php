@@ -3,282 +3,283 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
 // See the LICENCE file in the repository root for full licence text.
 
+declare(strict_types=1);
+
 namespace App\Libraries\Session;
 
 use App\Events\UserSessionEvent;
-use Auth;
-use Illuminate\Support\Str;
-use Jenssegers\Agent\Agent;
-use LaravelRedis as Redis;
+use App\Interfaces\SessionVerificationInterface;
+use Carbon\Carbon;
+use DeviceDetector\DeviceDetector;
+use Illuminate\Redis\Connections\PhpRedisConnection;
+use Illuminate\Session\Store as BaseStore;
+use Illuminate\Support\Arr;
 
-class Store extends \Illuminate\Session\Store
+class Store extends BaseStore implements SessionVerificationInterface
 {
-    const SESSION_ID_LENGTH = 40;
+    private const PREFIX = 'sessions:';
+    // Mainly to reject passport 12 related classes.
+    // Passport 13 serialises the model before storing.
+    private const UNSERIALIZE_OPTIONS = [
+        'allowed_classes' => [Carbon::class],
+    ];
 
-    public static function destroy($userId)
+    public static function batchDelete(?int $userId, ?array $ids = null): void
     {
-        if (!static::isUsingRedis()) {
+        $ids ??= static::ids($userId);
+
+        if (empty($ids)) {
             return;
         }
 
-        $keys = static::keys($userId);
-        event(UserSessionEvent::newLogout($userId, $keys));
-        Redis::del(array_merge([static::listKey($userId)], $keys));
+        $currentSession = \Session::instance();
+        if (in_array($currentSession->getId(), $ids, true)) {
+            $currentSession->flush();
+        }
+
+        $redis = self::redis();
+        $redis->del($ids);
+        if ($userId !== null) {
+            $idsForEvent = self::keysForEvent($ids);
+            // Also delete ids that were previously stored with prefix which is
+            // the full redis key just like for event.
+            $redis->srem(self::listKey($userId), ...$ids, ...$idsForEvent);
+            UserSessionEvent::newLogout($userId, $idsForEvent)->broadcast();
+        }
     }
 
-    public static function isUsingRedis()
+    public static function findForVerification(string $id): static
     {
-        return config('session.driver') === 'redis';
+        return static::findOrNew($id);
     }
 
-    /**
-     * Get the redis key prefix for the given user (excluding cache prefix).
-     *
-     * @return string
-     */
-    public static function keyPrefix($userId)
+    public static function findOrNew(?string $id = null): static
     {
-        return 'sessions:'.($userId ?? 'guest');
+        if ($id !== null) {
+            $currentSession = \Session::instance();
+
+            if ($currentSession->getId() === $id) {
+                return $currentSession;
+            }
+        }
+
+        $ret = (new SessionManager(\App::getInstance()))->instance();
+        if ($id !== null) {
+            $ret->setId($id);
+        }
+        $ret->start();
+
+        return $ret;
     }
 
-    public static function keys($userId)
+    public static function ids(?int $userId): array
     {
-        if (!static::isUsingRedis()) {
+        return $userId === null
+            ? []
+            : array_map(
+                // The ids were previously stored with prefix.
+                fn ($id) => str_starts_with($id, 'osu-next:') ? substr($id, 9) : $id,
+                self::redis()->smembers(self::listKey($userId)),
+            );
+    }
+
+    public static function keyForEvent(string $id): string
+    {
+        // TODO: use config's database.redis.session.prefix (also in notification-server)
+        return "osu-next:{$id}";
+    }
+
+    public static function keysForEvent(array $ids): array
+    {
+        return array_map(static::keyForEvent(...), $ids);
+    }
+
+    public static function sessions(int $userId): array
+    {
+        $ids = static::ids($userId);
+        if (empty($ids)) {
             return [];
         }
 
-        return Redis::smembers(static::listKey($userId));
-    }
+        $sessions = array_combine(
+            $ids,
+            // Sessions are stored double-serialized in redis (session serialization + cache backend serialization)
+            array_map(
+                fn ($s) => $s === null ? null : unserialize(unserialize($s), static::UNSERIALIZE_OPTIONS),
+                self::redis()->mget($ids),
+            ),
+        );
 
-    /**
-     * Get the redis key containing the session list for the given user.
-     *
-     * @return string
-     */
-    public static function listKey($userId)
-    {
-        return config('cache.prefix').':'.static::keyPrefix($userId);
-    }
-
-    public static function parseKey($key)
-    {
-        $pattern = '/^'.preg_quote(config('cache.prefix'), '/').':sessions:(?<userId>[0-9]+):(?<id>.{'.static::SESSION_ID_LENGTH.'})$/';
-        preg_match($pattern, $key, $matches);
-
-        return [
-            'userId' => get_int($matches['userId'] ?? null),
-            'id' => $matches['id'] ?? null,
-        ];
-    }
-
-    public static function removeFullId($userId, $fullId)
-    {
-        return static::removeKey($userId, config('cache.prefix').':'.$fullId);
-    }
-
-    public static function removeKey($userId, $key)
-    {
-        if (!static::isUsingRedis()) {
-            return;
+        // Current session data in redis may be stale
+        $currentSession = \Session::instance();
+        if ($currentSession->userId() === $userId) {
+            $sessions[$currentSession->getId()] = $currentSession->attributes;
         }
-
-        if ($userId === null) {
-            $userId = static::parseKey($key)['userId'];
-        }
-
-        event(UserSessionEvent::newLogout($userId, [$key]));
-        Redis::srem(static::listKey($userId), $key);
-        Redis::del($key);
-    }
-
-    /**
-     * Destroys a session owned by the current user that is identified by the given id.
-     *
-     * @return bool
-     */
-    public function destroyUserSession($sessionId)
-    {
-        if (Auth::check()) {
-            $userId = Auth::user()->user_id;
-            $fullSessionId = static::keyPrefix($userId).':'.$sessionId;
-            $this->handler->destroy($fullSessionId);
-
-            static::removeFullId($userId, $fullSessionId);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Return whether the given id matches the current session's id.
-     *
-     * @return bool
-     */
-    public function isCurrentSession($sessionId)
-    {
-        return $this->getIdWithoutKeyPrefix() === $this->stripKeyPrefix($sessionId);
-    }
-
-    /**
-     * Returns whether the current session is a guest session based on the key prefix of the session id.
-     *
-     * @return bool
-     */
-    public function isGuestSession()
-    {
-        return starts_with($this->getId(), static::keyPrefix(null).':');
-    }
-
-    public function currentUserSessions()
-    {
-        if (!Auth::check()) {
-            return;
-        }
-
-        if (config('session.driver') !== 'redis') {
-            return [];
-        }
-
-        $userId = Auth::user()->user_id;
-
-        // flush the current session data to redis early, otherwise we will get stale metadata for the current session
-        $this->save();
-
-        // TODO: When(if?) the session driver config is decoupled from the cache driver config, update the prefix below:
-        $sessionIds = static::keys($userId);
-        if (empty($sessionIds)) {
-            return [];
-        }
-
-        $sessions = array_combine($sessionIds, Redis::mget($sessionIds));
 
         $sessionMeta = [];
-        $agent = new Agent();
+        $deviceDetector = new DeviceDetector();
+        $expiredIds = [];
         foreach ($sessions as $id => $session) {
             if ($session === null) {
-                // cleanup expired sessions
-                static::removeKey($userId, $id);
+                $expiredIds[] = $id;
                 continue;
             }
-            // Sessions are stored double-serialized in redis (session serialization + cache backend serialization)
-            $session = unserialize(unserialize($session));
 
             if (!isset($session['meta'])) {
                 continue;
             }
 
             $meta = $session['meta'];
-            $agent->setUserAgent($meta['agent']);
-            $id = $this->stripKeyPrefix($id);
 
-            $sessionMeta[$id] = $meta;
-            $sessionMeta[$id]['mobile'] = $agent->isMobile() || $agent->isTablet();
-            $sessionMeta[$id]['device'] = $agent->device();
-            $sessionMeta[$id]['platform'] = $agent->platform();
-            $sessionMeta[$id]['browser'] = $agent->browser();
-            $sessionMeta[$id]['verified'] = (bool) ($session['verified'] ?? false);
+            $deviceDetector->setUserAgent($meta['agent'] ?? '');
+            $deviceDetector->parse();
+
+            $sessionMeta[$id] = [
+                ...$meta,
+                'mobile' => $deviceDetector->isMobile() || $deviceDetector->isTablet(),
+                'platform' => $deviceDetector->getOs('family'),
+                'browser' => $deviceDetector->getClient('name'),
+                'verified' => (bool) ($session['verified'] ?? false),
+            ];
         }
 
+        // cleanup expired sessions
+        static::batchDelete($userId, $expiredIds);
+
         // returns sessions sorted from most to least recently active
-        return array_reverse(array_sort($sessionMeta, function ($value) {
-            return $value['last_visit'];
-        }), true);
+        return Arr::sortDesc(
+            $sessionMeta,
+            fn ($value) => is_int($value['last_visit']) ? $value['last_visit'] : $value['last_visit']->getTimestamp(),
+        );
     }
 
     /**
-     * Returns current session key (cache prefix + prefix + id)
-     *
-     * @return string
+     * Get the redis key containing the session list for the given user.
      */
-    public function getKey()
+    private static function listKey(int $userId): string
     {
-        return config('cache.prefix').':'.$this->getId();
+        return static::PREFIX.$userId;
+    }
+
+    private static function redis(): PhpRedisConnection
+    {
+        return \LaravelRedis::connection($GLOBALS['cfg']['session']['connection']);
+    }
+
+    public function delete(): void
+    {
+        static::batchDelete($this->userId(), [$this->getId()]);
+    }
+
+    public function getKey(): string
+    {
+        return $this->getId();
+    }
+
+    public function getKeyForEvent(): string
+    {
+        return self::keyForEvent($this->getId());
+    }
+
+    public function getVerificationMethod(): ?string
+    {
+        return $this->attributes['verification_method'] ?? null;
     }
 
     /**
-     * Determine if this is a valid session ID.
-     *
-     * @param  string  $id
-     * @return bool
+     * Used to obtain the instance from Session facade or SessionManager instance
      */
+    public function instance(): static
+    {
+        return $this;
+    }
+
     public function isValidId($id)
     {
-        // Overriden to allow using symbols for namespacing the keys in redis
-
+        // Overridden to allow prefixed id
         return is_string($id);
     }
 
-    public function getIdWithoutKeyPrefix()
+    public function isVerified(): bool
     {
-        return $this->stripKeyPrefix($this->getId());
+        return $this->attributes['verified'] ?? false;
+    }
+
+    public function markVerified(): void
+    {
+        $this->attributes['verified'] = true;
+        $this->save();
     }
 
     /**
-     * Generate a new session ID for the session.
+     * Generate a new session id.
      *
-     * @param  bool  $destroy
-     * @param  string  $sessionId
-     * @return bool
+     * Overridden to delete session from redis - both entry and list.
      */
-    public function migrate($destroy = false, int $userId = null)
+    public function migrate($destroy = false)
     {
-        // Overriden to allow passing through $userId to namespace session ids
-
         if ($destroy) {
-            if (!$this->isGuestSession()) {
-                static::removeFullId($userId, $this->getId());
+            $userId = $this->userId();
+            if ($userId !== null) {
+                // Keep existing attributes
+                $attributes = $this->attributes;
+                static::batchDelete($userId, [$this->getId()]);
+                $this->attributes = $attributes;
             }
-            $this->handler->destroy($this->getId());
         }
-        $this->setExists(false);
-        $this->setId($this->generateSessionId($userId));
 
-        return true;
+        return parent::migrate($destroy);
     }
 
     /**
      * Save the session data to storage.
+     *
+     * Overriden to track user sessions in Redis and shorten lifetime for guest sessions.
      */
     public function save()
     {
-        $isGuest = $this->isGuestSession();
+        $userId = $this->userId();
 
-        if ($isGuest && $this->handler instanceof CacheBasedSessionHandler) {
-            $this->handler->setMinutes(120);
+        if ($this->handler instanceof CacheBasedSessionHandler) {
+            $this->handler->setMinutes($userId === null ? 120 : $GLOBALS['cfg']['session']['lifetime']);
         }
 
-        // Overriden to track user sessions in Redis
         parent::save();
 
-        if (!$isGuest) {
-            Redis::sadd(config('cache.prefix').':'.$this->getCurrentKeyPrefix(), $this->getKey());
+        // TODO: move this to migrate and validate session id in readFromHandler
+        if ($userId !== null) {
+            static::redis()->pipeline(function ($pipe) use ($userId) {
+                $listKey = static::listKey($userId);
+                $pipe->sadd($listKey, $this->getId());
+                $pipe->expire($listKey, $GLOBALS['cfg']['session']['lifetime'] * 60);
+            });
         }
     }
 
-    /**
-     * Get a new, random session ID.
-     *
-     * @return string
-     */
-    protected function generateSessionId(int $userId = null)
+    public function setVerificationMethod(string $method): void
     {
-        // Overriden to allow namespacing the session id (used as the redis key)
-
-        return static::keyPrefix($userId).':'.Str::random(static::SESSION_ID_LENGTH);
+        $this->attributes['verification_method'] = $method;
+        $this->save();
     }
 
-    /**
-     * Get the redis key prefix of the current session (excluding cache prefix).
-     *
-     * @return string
-     */
-    protected function getCurrentKeyPrefix()
+    public function userId(): ?int
     {
-        $sessionId = $this->getId();
+        // From `Auth::getName()`.
+        // Hardcoded because Auth depends on this class instance which then
+        // calls this functions and would otherwise cause circular dependency.
+        // Note that osu-notification-server also checks this key. Make sure
+        // to also update it if the value changes.
+        return $this->attributes['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'] ?? null;
+    }
 
-        return substr($sessionId, 0, strlen($sessionId) - static::SESSION_ID_LENGTH - 1);
+    protected function generateSessionId()
+    {
+        $userId = $this->userId();
+
+        return self::PREFIX
+            .($userId ?? 'guest')
+            .':'
+            .parent::generateSessionId();
     }
 
     /**
@@ -289,9 +290,8 @@ class Store extends \Illuminate\Session\Store
     protected function readFromHandler()
     {
         // Overridden to force session ids to be regenerated when trying to load a session that doesn't exist anymore
-
         if ($data = $this->handler->read($this->getId())) {
-            $data = @unserialize($this->prepareForUnserialize($data));
+            $data = @unserialize($this->prepareForUnserialize($data), static::UNSERIALIZE_OPTIONS);
 
             if ($data !== false && !is_null($data) && is_array($data)) {
                 return $data;
@@ -301,15 +301,5 @@ class Store extends \Illuminate\Session\Store
         $this->regenerate(true);
 
         return [];
-    }
-
-    /**
-     * Returns the session id without the key prefix.
-     *
-     * @return string
-     */
-    protected function stripKeyPrefix($sessionId)
-    {
-        return substr($sessionId, -static::SESSION_ID_LENGTH);
     }
 }

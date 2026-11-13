@@ -12,6 +12,29 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DatadogMetrics extends LaravelDatadogMiddleware
 {
+    public static function makeLogTags(Request $request, Response $response): array
+    {
+        static $hostname;
+        if (!isset($hostname)) {
+            $hostname = gethostname();
+            if (!is_string($hostname)) {
+                $hostname = 'unknown';
+            }
+        }
+
+        return [
+            'action' => 'error_page',
+            'api' => is_api_request() ? 'true' : 'false',
+            'controller' => 'error',
+            'namespace' => 'error',
+            'pod_name' => $hostname,
+            'section' => 'error',
+            'status_code' => $response->getStatusCode(),
+            'status_code_extra' => $request->attributes->get('status_code_extra'),
+            ...app('route-section')->getOriginal(),
+        ];
+    }
+
     /**
      * Logs the duration of a specific request through the application
      *
@@ -21,19 +44,10 @@ class DatadogMetrics extends LaravelDatadogMiddleware
      */
     protected static function logDuration(Request $request, Response $response, $startTime)
     {
+        $tags = static::makeLogTags($request, $response);
+
         $duration = microtime(true) - $startTime;
-        $tags = [
-            'action' => 'error_page',
-            'api' => $request->is('api/*') ? 'true' : 'false',
-            'controller' => 'error',
-            'namespace' => 'error',
-            'section' => 'error',
-            'status_code' => $response->getStatusCode(),
-            'status_code_extra' => $request->attributes->get('status_code_extra'),
-        ];
 
-        $tags = array_merge($tags, app('route-section')->getCurrent());
-
-        Datadog::timing(config('datadog-helper.prefix_web').'.request_time', $duration, 1, $tags);
+        Datadog::timing($GLOBALS['cfg']['datadog-helper']['prefix_web'].'.request_time', $duration, 1, $tags);
     }
 }

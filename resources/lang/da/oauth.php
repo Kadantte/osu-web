@@ -7,6 +7,7 @@ return [
     'cancel' => 'Annullér',
 
     'authorise' => [
+        'app_owner' => 'en app af :owner',
         'request' => 'anmoder om adgang til din konto.',
         'scopes_title' => 'Denne applikation vil være i stand til at:',
         'title' => 'Autorisation Anmodning',
@@ -57,6 +58,12 @@ Er du sikker på, at du vil nulstille klienthemmeligheden? Dette vil fjerne alle
         'revoked' => [
             'false' => 'Fjern',
             'true' => 'Slettet',
+        ],
+
+        'secret' => [
+            'copy' => '',
+            'generate_new' => '',
+            'visible_once' => '',
         ],
     ],
 ];

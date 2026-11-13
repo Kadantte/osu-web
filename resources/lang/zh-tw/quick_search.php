@@ -5,17 +5,29 @@
 
 return [
     'mode' => [
+        'artist_track' => '精選藝術家曲目',
         'beatmapset' => '圖譜',
         'forum_post' => '論壇',
         'other' => '其他',
+        'team' => '團隊',
         'user' => '玩家',
         'wiki_page' => 'Wiki',
     ],
 
     'result' => [
-        'empty' => '沒有任何搜尋結果',
-        'empty_for' => '沒有找到:modes搜尋結果',
         'more' => '更多:mode的搜尋結果',
         'title' => ':mode搜尋結果',
+
+        'no_results' => [
+            '_' => '沒有找到:mode搜尋結果',
+
+            'artist_track' => '精選藝術家曲目',
+            'beatmapset' => '圖譜',
+            'forum_post' => '論壇',
+            'other' => '其他',
+            'team' => '隊伍',
+            'user' => '玩家',
+            'wiki_page' => '維基百科',
+        ],
     ],
 ];

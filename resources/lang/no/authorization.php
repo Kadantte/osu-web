@@ -4,7 +4,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'play_more' => '',
+    'play_more' => 'Hva med å spille litt osu! i stedet?',
     'require_login' => 'Vennligst logg inn for å fortsette.',
     'require_verification' => 'Vennligst verifiser deg for å fortsette.',
     'restricted' => "Kan ikke gjøre det mens kontoen din er begrenset.",
@@ -15,6 +15,7 @@ return [
         'destroy' => [
             'is_hype' => 'Kan ikke angre hyping.',
             'has_reply' => 'Kan ikke slette en diskusjon med svar',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => 'Du har nådd din nominasjons-grense for dagen, vennligst prøv igjen i morgen.',
@@ -31,7 +32,7 @@ return [
         ],
 
         'vote' => [
-            'bot' => "",
+            'bot' => "Kan ikke stemme på diskusjon lagd av bot",
             'limit_exceeded' => 'Vennligst vent en stund før du avgir flere stemmer',
             'owner' => "Du kan ikke stemme på ditt eget diskusjonsinnlegg.",
             'wrong_beatmapset_state' => 'Kan bare stemme på diskusjoner der beatmappet er ventende.',
@@ -43,22 +44,33 @@ return [
             'not_owner' => 'Du kan bare slette dine egne innlegg.',
             'resolved' => 'Du kan ikke slette et innlegg på en besvart tråd.',
             'system_generated' => 'Innlegg som er automatisk generert kan ikke bli slettet.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
             'not_owner' => 'Bare senderen kan redigere innlegget.',
             'resolved' => 'Du kan ikke redigere et innlegg på en besvart tråd.',
             'system_generated' => 'Innlegg som er automatisk generert kan ikke bli endret.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => 'Dette beatmappet har blitt låst for diskusjon.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => 'Diskusjon er låst for dette beatmappet.',
+
         'metadata' => [
             'nominated' => 'Du kan ikke endre metadataen av et nominert kart. Kontakt et BN eller NAT medlem hvis du tror det er angitt feil.',
+        ],
+
+        'rate' => [
+            'owner' => '',
+            'status' => '',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => '',
         ],
     ],
 
@@ -67,17 +79,23 @@ return [
         'friends_only' => 'Brukeren blokkerer meldinger fra personer som ikke er på deres venneliste.',
         'moderated' => 'Denne kanalen er for tiden moderert.',
         'no_access' => 'Du har ingen adgang til denne kanalen.',
+        'no_announce' => '',
+        'receive_friends_only' => 'Brukeren kan ikke svare fordi du bare godtar meldinger fra personer på vennelisten din.',
         'restricted' => 'Du kan ikke sende meldinger mens du er stum, begrenset eller bannlyst.',
-        'silenced' => '',
+        'silenced' => 'Du kan ikke sende meldinger mens du er stum, begrenset eller bannlyst.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => 'Kommentarer er deaktivert',
+        ],
         'update' => [
             'deleted' => "Kan ikke redigere slettet innlegg.",
         ],
     ],
 
     'contest' => [
+        'judging_not_active' => 'Dømming for denne konkurransen er ikke aktiv.',
         'voting_over' => 'Du kan ikke endre stemmen din etter den stemmeberettigede perioden for denne konkurransen har avsluttet.',
 
         'entry' => [
@@ -103,6 +121,7 @@ return [
                 'deleted' => 'Kan ikke redigere slettet innlegg.',
                 'locked' => 'Innlegget er låst fra redigering.',
                 'no_forum_access' => 'Adgang til forespurt forum kreves.',
+                'no_permission' => 'Du har ikke rettighetene til å redigere dette.',
                 'not_owner' => 'Bare senderen kan redigere innlegget.',
                 'topic_locked' => 'Kan ikke redigere innlegget i et låst emne.',
             ],
@@ -166,6 +185,40 @@ return [
         ],
     ],
 
+    'room' => [
+        'destroy' => [
+            'not_owner' => '',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "Kan ikke feste denne typen score",
+            'failed' => "Kan ikke feste ikke-bestått score.",
+            'not_owner' => 'Kun resultateieren kan festeresultat.',
+            'too_many' => 'Festet for mange resultater.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "Du er allerede en del av et lag.",
+                'already_other_member' => "Du er allerede en del av et annet lag.",
+                'currently_applying' => '',
+                'team_closed' => 'Laget tar ikke imot nye medlemmer.',
+                'team_full' => "Laget er fullt, og kan ikke ta imot flere medlemmer.",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "Lagleder kan ikke forlate laget.",
+            'not_member' => 'Ikke et medlem av laget.',
+        ],
+        'store' => [
+            'require_supporter_tag' => '',
+        ],
+    ],
+
     'user' => [
         'page' => [
             'edit' => [
@@ -173,6 +226,9 @@ return [
                 'not_owner' => 'Kan kun redigere egen brukerside.',
                 'require_supporter_tag' => 'osu!supporter tag kreves.',
             ],
+        ],
+        'update_email' => [
+            'locked' => 'e-postadressen er låst',
         ],
     ],
 ];

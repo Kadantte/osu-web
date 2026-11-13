@@ -9,7 +9,7 @@ use App\Models\Beatmapset;
 
 class BeatmapsetDescriptionTransformer extends TransformerAbstract
 {
-    protected $defaultIncludes = [
+    protected array $defaultIncludes = [
         'bbcode',
     ];
 
@@ -20,12 +20,12 @@ class BeatmapsetDescriptionTransformer extends TransformerAbstract
     public function transform(Beatmapset $beatmapset)
     {
         return [
-            'description' => $beatmapset->description(),
+            'description' => $beatmapset->description()->bbcode()->toHTML(),
         ];
     }
 
     public function includeBbcode(Beatmapset $beatmapset)
     {
-        return $this->primitive($beatmapset->editableDescription());
+        return $this->primitive($beatmapset->description()->bbcode()->toEditor());
     }
 }

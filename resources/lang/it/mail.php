@@ -15,6 +15,7 @@ return [
         'closing' => 'Saluti,',
         'hello' => 'Ciao :user,',
         'report' => 'Per favore, rispondi IMMEDIATAMENTE a questa email se non hai richiesto questa modifica.',
+        'ignore' => 'Se non se stato tu a richiedere questo, puoi ignorare tranquillamente questa email.',
     ],
 
     'donation_thanks' => [
@@ -55,8 +56,8 @@ return [
         'processing' => 'Abbiamo ricevuto il tuo pagamento e stiamo elaborando l\'ordine. Puoi seguire i progressi del tuo ordine qui:',
         'questions' => "Se hai dubbi, non esitare a contattarci rispondendo a questa email.",
         'shipping' => 'Spedizione',
-        'subject' => 'Abbiamo ricevuto il tuo ordine sull\'osu!store!',
-        'thank_you' => 'Grazie per il tuo ordine sull\'osu!store!',
+        'subject' => 'Abbiamo ricevuto il tuo ordine su osu!store!',
+        'thank_you' => 'Grazie per il tuo ordine su osu!store!',
         'total' => 'Totale',
     ],
 
@@ -66,6 +67,7 @@ return [
         'duration' => 'Grazie a loro, ora hai accesso ad osu!direct e ad altri benefici da osu!supporter per :duration.',
         'features' => 'Puoi trovare ulteriori dettagli su queste funzionalità qui:',
         'gifted' => 'Qualcuno ti ha appena regalato un tag osu!supporter!',
+        'gift_message' => 'La persona che ti ha regalato questo tag ti ha lasciato un messaggio:',
         'subject' => 'Ti hanno regalato un tag osu!supporter!',
     ],
 

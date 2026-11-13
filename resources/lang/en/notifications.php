@@ -13,19 +13,37 @@ return [
     'see_channel' => 'go to chat',
     'verifying' => 'Please verify session to view notifications',
 
-    'filters' => [
+    'action_type' => [
         '_' => 'all',
-        'user' => 'profile',
         'beatmapset' => 'beatmaps',
-        'forum_topic' => 'forum',
-        'news_post' => 'news',
         'build' => 'builds',
         'channel' => 'chat',
+        'forum_topic' => 'forum',
+        'news_post' => 'news',
+        'team' => 'team',
+        'user' => 'profile',
+    ],
+
+    'filters' => [
+        '_' => 'all',
+        'beatmapset' => 'beatmaps',
+        'build' => 'builds',
+        'channel' => 'chat',
+        'forum_topic' => 'forum',
+        'news_post' => 'news',
+        'team' => 'team',
+        'user' => 'profile',
     ],
 
     'item' => [
         'beatmapset' => [
             '_' => 'Beatmap',
+
+            'beatmap_owner_change' => [
+                '_' => 'Guest difficulty',
+                'beatmap_owner_change' => 'You\'re now owner of difficulty ":beatmap" for beatmap ":title"',
+                'beatmap_owner_change_compact' => 'You\'re now owner of difficulty ":beatmap"',
+            ],
 
             'beatmapset_discussion' => [
                 '_' => 'Beatmap discussion',
@@ -35,10 +53,16 @@ return [
                 'beatmapset_discussion_post_new_empty' => 'New post on ":title" by :username',
                 'beatmapset_discussion_post_new_compact' => 'New post by :username: ":content"',
                 'beatmapset_discussion_post_new_compact_empty' => 'New post by :username',
-                'beatmapset_discussion_review_new' => 'New review on ":title" by :username containing problems: :problems, suggestions: :suggestions, praises: :praises',
-                'beatmapset_discussion_review_new_compact' => 'New review by :username containing problems: :problems, suggestions: :suggestions, praises: :praises',
+                'beatmapset_discussion_review_new' => 'New review on ":title" by :username containing :review_counts',
+                'beatmapset_discussion_review_new_compact' => 'New review by :username containing :review_counts',
                 'beatmapset_discussion_unlock' => 'Discussion on ":title" has been unlocked',
                 'beatmapset_discussion_unlock_compact' => 'Discussion was unlocked',
+
+                'review_count' => [
+                    'praises' => ':count_delimited praise|:count_delimited praises',
+                    'problems' => ':count_delimited problem|:count_delimited problems',
+                    'suggestions' => ':count_delimited suggestion|:count_delimited suggestions',
+                ],
             ],
 
             'beatmapset_problem' => [
@@ -80,12 +104,43 @@ return [
         'channel' => [
             '_' => 'Chat',
 
+            'announcement' => [
+                '_' => 'New announcement',
+
+                'announce' => [
+                    'channel_announcement' => ':username says ":title"',
+                    'channel_announcement_compact' => ':title',
+                    'channel_announcement_group' => 'Announcement from :username',
+                ],
+            ],
+
             'channel' => [
                 '_' => 'New message',
+
                 'pm' => [
                     'channel_message' => ':username says ":title"',
                     'channel_message_compact' => ':title',
                     'channel_message_group' => 'from :username',
+                ],
+            ],
+
+            'channel_mention' => [
+                '_' => 'Chat mention',
+
+                'public' => [
+                    'channel_mention' => ':username mentioned you in :name ":title"',
+                    'channel_mention_compact' => ':username ":title"',
+                    'channel_mention_group' => 'mentioned in :name',
+                ],
+            ],
+
+            'channel_team' => [
+                '_' => 'New team message',
+
+                'team' => [
+                    'channel_team' => ':username says ":title"',
+                    'channel_team_compact' => ':username says ":title"',
+                    'channel_team_group' => ':username says ":title"',
                 ],
             ],
         ],
@@ -114,6 +169,13 @@ return [
                 'comment_reply' => ':username replied ":content" on ":title"',
                 'comment_reply_compact' => ':username replied ":content"',
             ],
+
+            'news_post' => [
+                '_' => 'News (:series)',
+
+                'news_post_new' => ':title',
+                'news_post_new_compact' => ':title',
+            ],
         ],
 
         'forum_topic' => [
@@ -126,12 +188,19 @@ return [
             ],
         ],
 
-        'legacy_pm' => [
-            '_' => 'Legacy Forum PM',
+        'team' => [
+            'team_application' => [
+                '_' => 'Team join request',
 
-            'legacy_pm' => [
-                '_' => '',
-                'legacy_pm' => ':count_delimited unread message|:count_delimited unread messages',
+                'team_application_accept' => "You're now member of team :title",
+                'team_application_accept_compact' => "You're now member of team :title",
+
+                'team_application_group' => 'Team join request updates',
+
+                'team_application_reject' => 'Your request to join team :title has been declined',
+                'team_application_reject_compact' => 'Your request to join team :title has been declined',
+                'team_application_store' => ':title requested to join your team',
+                'team_application_store_compact' => ':title requested to join your team',
             ],
         ],
 
@@ -142,6 +211,9 @@ return [
                 'user_beatmapset_new' => 'New beatmap ":title" by :username',
                 'user_beatmapset_new_compact' => 'New beatmap ":title"',
                 'user_beatmapset_new_group' => 'New beatmaps by :username',
+
+                'user_beatmapset_revive' => 'Beatmap ":title" revived by :username',
+                'user_beatmapset_revive_compact' => 'Beatmap ":title" revived',
             ],
         ],
 
@@ -158,7 +230,13 @@ return [
     ],
 
     'mail' => [
+        'news' => 'News',
+
         'beatmapset' => [
+            'beatmap_owner_change' => [
+                'beatmap_owner_change' => 'You\'re now guest of beatmap ":title"',
+            ],
+
             'beatmapset_discussion' => [
                 'beatmapset_discussion_lock' => 'The discussion on ":title" has been locked',
                 'beatmapset_discussion_post_new' => 'The discussion on ":title" has new updates',
@@ -185,8 +263,18 @@ return [
         ],
 
         'channel' => [
+            'announcement' => [
+                'channel_announcement' => 'There is a new announcement in ":name"',
+            ],
             'channel' => [
-                'pm' => 'You\'ve received a new message from :username',
+                'channel_message' => 'You\'ve received a new message from :username',
+            ],
+            'channel_mention' => [
+                'channel_mention' => ':username mentioned you in :name ":title"',
+            ],
+
+            'channel_team' => [
+                'channel_team' => 'There is a new message in team ":name"',
             ],
         ],
 
@@ -208,14 +296,18 @@ return [
             ],
         ],
 
-        'user' => [
-            'user_achievement_unlock' => [
-                'user_achievement_unlock' => ':username has unlocked a new medal, ":title"!',
-                'user_achievement_unlock_self' => 'You\'ve unlocked a new medal, ":title"!',
+        'team' => [
+            'team_application' => [
+                'team_application_accept' => "You're now member of team :title",
+                'team_application_reject' => 'Your request to join team :title has been declined',
+                'team_application_store' => ':title requested to join your team',
             ],
+        ],
 
+        'user' => [
             'user_beatmapset_new' => [
                 'user_beatmapset_new' => ':username has created new beatmaps',
+                'user_beatmapset_revive' => ':username has revived beatmaps',
             ],
         ],
     ],

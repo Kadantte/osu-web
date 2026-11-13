@@ -13,7 +13,35 @@ return [
         'nav_title' => '清單',
     ],
 
+    'judge' => [
+        'comments' => '評論',
+        'hide_judged' => '隱藏已評分的項目',
+        'nav_title' => '評分',
+        'no_current_vote' => '您尚未投票',
+        'update' => '更新',
+        'unsaved_changes' => '未儲存的變更',
+        'validation' => [
+            'missing_score' => '缺少成績',
+            'contest_vote_judged' => '無法在已評分的競賽中投票',
+        ],
+        'voted' => '您已經提交過此項目的投票',
+    ],
+
+    'judge_results' => [
+        '_' => '評分結果',
+        'creator' => '作者',
+        'hosts_only' => '',
+        'provisional' => '',
+        'score' => '分數',
+        'score_std' => '標準分數',
+        'total_score' => '總分',
+        'total_score_std' => '總標準分數',
+    ],
+
     'voting' => [
+        'host_link' => '',
+        'judge_link' => '您是此競賽的評委。請在這裡評分。',
+        'judged_notice' => '本競賽使用評分系統，評委正在進行評分。',
         'login_required' => '請登入後再投票。',
         'over' => '這場評選的投票已經結束',
         'show_voted_only' => '顯示投票',
@@ -27,29 +55,44 @@ return [
             'remove' => '取消投票',
             'used_up' => '您的票已經用光了。',
         ],
+
+        'progress' => [
+            '_' => ':used / :max 已使用票數',
+        ],
+
+        'requirement' => [
+            'playlist_beatmapsets' => [
+                'incomplete_play' => '在玩過指定音樂清單中的所有圖譜後您才能進行投票',
+            ],
+        ],
     ],
+
     'entry' => [
         '_' => '參加',
         'login_required' => '請登入後再參加評選。',
-        'silenced_or_restricted' => '帳戶受限時無法參加評選。',
+        'silenced_or_restricted' => '帳號受限時無法參加評選。',
         'preparation' => '我們正在準備這場評選，請耐心等待！',
-        'drop_here' => '將您的參賽文件拖到此處',
+        'drop_here' => '將您的參賽檔案拖曳至此',
+        'allowed_extensions' => '只接受:types 類型的檔案',
+        'max_size' => '檔案大小不得超過 :limit',
+        'required_dimensions' => '尺寸必須是 :widthx:height',
         'download' => '下載 .osz 檔案',
-        'wrong_type' => [
-            'art' => '只接受 .jpg 和 .png 格式的文件.',
-            'beatmap' => '只接受 .osu 格式的文件.',
-            'music' => '只接受 .mp3 格式的文件.',
-        ],
-        'too_big' => '參賽文件的大小不能超過 :limit.',
+        'wrong_file_type' => '該競賽只接受 :types 格式的檔案。',
+        'wrong_dimensions' => '參加競賽的數量必須達到 :widthx:height',
+        'too_big' => '參賽檔案的大小不能超過 :limit。',
     ],
+
     'beatmaps' => [
         'download' => '下載模板',
     ],
+
     'vote' => [
         'list' => '投票',
         'count' => ':count_delimited 票|:count_delimited 票',
         'points' => ':count_delimited 分|:count_delimited 分',
+        'points_float' => ':points 分',
     ],
+
     'dates' => [
         'ended' => '結束於 :date',
         'ended_no_date' => '已結束',
@@ -59,9 +102,16 @@ return [
             'soon' => 'soon™',
         ],
     ],
+
     'states' => [
         'entry' => '可參加',
         'voting' => '投票中',
         'results' => '已結束',
+    ],
+
+    'show' => [
+        'admin' => [
+            'page' => '檢視詳細資訊及參賽作品',
+        ],
     ],
 ];

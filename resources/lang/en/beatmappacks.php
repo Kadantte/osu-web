@@ -6,27 +6,20 @@
 return [
     'index' => [
         'description' => 'Pre-packaged collections of beatmaps based around a common theme.',
+        'empty' => 'Coming soon!',
         'nav_title' => 'listing',
         'title' => 'Beatmap Packs',
 
         'blurb' => [
             'important' => 'READ THIS BEFORE DOWNLOADING',
-            'instruction' => [
-                '_' => "Installation: Once a pack has been downloaded, extract the .rar into your osu! Songs directory.
-                    All songs are still .zip'd and/or .osz'd inside the pack, so osu! will need to extract the beatmaps itself the next time you go into Play mode.
-                    :scary extract the zip's/osz's yourself,
-                    or the beatmaps will display incorrectly in osu! and will not function properly.",
-                'scary' => 'Do NOT',
-            ],
-            'note' => [
-                '_' => 'Also note that it is highly recommended to :scary, since the oldest maps are of much lower quality than most recent maps.',
-                'scary' => 'download the packs from latest to earliest',
-            ],
+            'install_instruction' => 'Installation: Once a pack has been downloaded, extract the contents of the pack into a folder, select the osz files and then drag and drop them to a running osu! instance.',
         ],
     ],
 
     'show' => [
+        'created_by' => 'by :author',
         'download' => 'Download',
+        'no_diff_reduction_badge' => 'Challenge',
         'item' => [
             'cleared' => 'cleared',
             'not_cleared' => 'not cleared',
@@ -40,8 +33,11 @@ return [
     'mode' => [
         'artist' => 'Artist/Album',
         'chart' => 'Spotlights',
+        'featured' => 'Featured Artist',
+        'loved' => 'Project Loved',
         'standard' => 'Standard',
         'theme' => 'Theme',
+        'tournament' => 'Tournament',
     ],
 
     'require_login' => [

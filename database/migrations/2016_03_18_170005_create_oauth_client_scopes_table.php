@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of OAuth 2.0 Laravel.
  *
  * (c) Luca Degasperi <packages@lucadegasperi.com>
@@ -8,6 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,7 +20,7 @@ use Illuminate\Support\Facades\Schema;
  *
  * @author Luca Degasperi <packages@lucadegasperi.com>
  */
-class CreateOauthClientScopesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -60,4 +62,4 @@ class CreateOauthClientScopesTable extends Migration
         });
         Schema::drop('oauth_client_scopes');
     }
-}
+};

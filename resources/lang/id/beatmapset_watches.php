@@ -5,25 +5,25 @@
 
 return [
     'index' => [
-        'description' => 'Berikut ini adalah daftar beatmap-beatmap yang sedang Anda pantau. Anda akan menerima notifikasi setiap kali terdapat perkembangan baru seputar beatmap-beatmap yang tertera di bawah ini.',
-        'title_compact' => 'daftar pantauan beatmap',
+        'description' => 'Berikut adalah daftar diskusi beatmap yang sedang kamu ikuti. Kamu akan menerima notifikasi setiap kali terdapat postingan atau perkembangan baru.',
+        'title_compact' => 'daftar pengamatan beatmap',
 
         'counts' => [
-            'total' => 'Beatmap yang dipantau',
+            'total' => 'Beatmap yang diikuti',
             'unread' => 'Beatmap dengan aktivitas baru',
         ],
 
         'table' => [
-            'empty' => 'Anda tidak sedang memantau laman diskusi beatmap manapun.',
+            'empty' => 'Kamu tidak sedang mengikuti diskusi beatmap mana pun.',
             'last_update' => 'Pembaruan terakhir',
-            'open_issues' => 'Isu yang belum terjawab',
+            'open_issues' => 'Masalah yang terbuka',
             'state' => 'Status',
             'title' => 'Judul',
         ],
     ],
 
     'status' => [
-        'read' => 'Telah Dibaca',
+        'read' => 'Sudah Dibaca',
         'unread' => 'Belum Dibaca',
     ],
 ];

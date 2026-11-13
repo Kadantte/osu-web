@@ -12,7 +12,8 @@ use Illuminate\Queue\SerializesModels;
 
 class UserPasswordUpdated extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $user;
 
@@ -35,6 +36,6 @@ class UserPasswordUpdated extends Mailable implements ShouldQueue
     {
         return $this
             ->text('emails.user_password_updated')
-            ->subject(trans('mail.user_password_updated.subject'));
+            ->subject(osu_trans('mail.user_password_updated.subject'));
     }
 }

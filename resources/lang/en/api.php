@@ -17,15 +17,22 @@ return [
         'identify' => 'Identify you and read your public profile.',
 
         'chat' => [
+            'read' => 'Read messages on your behalf.',
             'write' => 'Send messages on your behalf.',
+            'write_manage' => 'Join and leave channels on your behalf.',
         ],
 
         'forum' => [
             'write' => 'Create and edit forum topics and posts on your behalf.',
+            'write_manage' => 'Manage forum topics and posts on your behalf.',
         ],
 
         'friends' => [
             'read' => 'See who you are following.',
+        ],
+
+        'multiplayer' => [
+            'write_manage' => 'Create and manage multiplayer rooms on your behalf.',
         ],
 
         'public' => 'Read public data on your behalf.',

@@ -76,10 +76,10 @@ class LoginAttempt extends Model
             return true;
         }
 
-        return $record->failed_attempts > config('osu.user.max_login_attempts');
+        return $record->failed_attempts > $GLOBALS['cfg']['osu']['user']['max_login_attempts'];
     }
 
-    public static function logAttempt($ip, $user, $type, $password = null)
+    public static function logAttempt($ip, $user, $type, $password = null, bool $allowDuplicates = false)
     {
         $state = $type;
 
@@ -89,7 +89,7 @@ class LoginAttempt extends Model
 
         $record = static::findOrDefault($ip);
 
-        if ($record->containsUser($user, $state)) {
+        if ($record->containsUser($user, $state) && !$allowDuplicates) {
             return;
         }
 
@@ -120,15 +120,11 @@ class LoginAttempt extends Model
 
     public static function logLoggedIn($ip, $user)
     {
-        $record = static::find($ip);
-
-        if ($record === null) {
-            return;
-        }
+        $record = static::findOrDefault($ip);
 
         $updates = [];
 
-        if (!$record->containsUser($user, 'success')) {
+        if ($record->failed_attempts > 0 && !$record->containsUser($user, 'success')) {
             $updates['failed_attempts'] = db_unsigned_increment('failed_attempts', -1);
         }
 

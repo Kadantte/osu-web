@@ -8,6 +8,7 @@ return [
     'not_negative' => ':attribute kan niet negatief zijn.',
     'required' => ':attribute is nodig.',
     'too_long' => ':attribute heeft de maximum lengte overschreden - kan enkel tot :limit karakters gebruiken.',
+    'url' => 'Voer een geldige URL in.',
     'wrong_confirmation' => 'Bevestiging komt niet overeen.',
 
     'beatmapset_discussion' => [
@@ -108,6 +109,16 @@ return [
         ],
     ],
 
+    'legacy_api_key' => [
+        'exists' => 'Op dit moment is er een maximum van één API key per gebruiker.',
+
+        'attributes' => [
+            'api_key' => 'api sleutel',
+            'app_name' => 'applicatie naam',
+            'app_url' => 'applicatie url',
+        ],
+    ],
+
     'oauth' => [
         'client' => [
             'too_many' => 'Het maximum aantal toegestane OAuth toepassingen is overschreden.',
@@ -117,6 +128,20 @@ return [
                 'name' => 'Applicatienaam',
                 'redirect' => 'Applicatie Terugbel URL',
             ],
+        ],
+    ],
+
+    'team' => [
+        'invalid_characters' => 'Deze :attribute bevat ongeldige tekens.',
+        'used' => 'Deze keuze :attribute wordt al gebruikt.',
+        'word_not_allowed' => 'Deze keuze voor :attribute is niet toegestaan.',
+
+        'attributes' => [
+            'default_ruleset_id' => 'Standaard spelmodus',
+            'is_open' => 'Team aanvraag',
+            'name' => 'Naam',
+            'short_name' => 'Korte naam',
+            'url' => 'URL',
         ],
     ],
 
@@ -163,6 +188,9 @@ return [
     ],
 
     'user_report' => [
+        'no_ranked_beatmapset' => 'Ranked beatmaps kunnen niet worden gerapporteerd',
+        'not_in_channel' => 'Je zit niet in dit kanaal.',
+        'in_team' => 'Je maakt deel uit van het team.',
         'reason_not_valid' => ':reason is niet geldig voor dit rapporttype.',
         'self' => "Je kunt jezelf niet rapporteren!",
     ],

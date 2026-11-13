@@ -4,9 +4,15 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
+    'invalid_ruleset' => 'Quy tắc đã chỉ định không hợp lệ.',
+
+    'change_owner' => [
+        'too_many' => 'Quá nhiều mapper khách.',
+    ],
+
     'discussion-votes' => [
         'update' => [
-            'error' => 'Cập nhật vote thất bại',
+            'error' => 'Cập nhật bình chọn thất bại',
         ],
     ],
 
@@ -18,18 +24,23 @@ return [
         'deny_kudosu' => 'từ chối kudosu',
         'edit' => 'chỉnh sửa',
         'edited' => 'Sửa đổi lần cuối bởi :editor :update_time.',
+        'guest' => 'Chế độ khách bởi :user',
         'kudosu_denied' => 'Đã từ chối nhận kudosu.',
-        'message_placeholder_deleted_beatmap' => 'Difficulty này đã bị xóa nên nó có thể sẽ không còn được thảo luận nữa.',
-        'message_placeholder_locked' => 'Chức năng bàn luận của beatmap này đã bị vô hiệu hóa.',
-        'message_placeholder_silenced' => "Không thể đăng thảo luận khi bị khoá mõm.",
-        'message_type_select' => 'Chọn Loại Nhận Xét',
+        'include_replies' => 'Bao gồm cả phản hồi',
+        'message_placeholder_deleted_beatmap' => 'Độ khó này đã bị xóa nên nó có thể sẽ không còn được thảo luận nữa.',
+        'message_placeholder_locked' => 'Chức năng thảo luận của beatmap này đã bị vô hiệu hóa.',
+        'message_placeholder_silenced' => "Không thể đăng thảo luận khi bị câm lặng.",
+        'message_type_select' => 'Chọn Kiểu Bình Luận',
         'reply_notice' => 'Nhấn enter để trả lời.',
+        'reply_resolve_notice' => 'Ấn Enter để phản hồi. Ấn Ctrl+Enter để phản hồi và giải quyết.',
         'reply_placeholder' => 'Nhập câu trả lời của bạn tại đây',
         'require-login' => 'Hãy đăng nhập để đăng hoặc trả lời',
         'resolved' => 'Đã giải quyết',
-        'restore' => 'hoàn lại',
-        'show_deleted' => 'Hiển thị đã bị xóa',
+        'restore' => 'khôi phục',
+        'show_deleted' => 'Hiển thị bình luận đã xóa',
+        'show_other_replies' => 'Hiển thị phản hồi của người khác',
         'title' => 'Góc Thảo Luận',
+        'unresolved_count' => ':count_delimited vấn đề chưa được giải quyết|:count_delimited vấn đề chưa được giải quyết',
 
         'collapse' => [
             'all-collapse' => 'Thu gọn tất cả',
@@ -49,38 +60,51 @@ return [
 
             'prompt' => [
                 'lock' => 'Lí do khóa',
-                'unlock' => 'Bạn có chắc chắn muốn mở khóa không ?',
+                'unlock' => 'Bạn có chắc chắn muốn mở khóa không?',
             ],
         ],
 
         'message_hint' => [
             'in_general' => 'Bài đăng này sẽ vào phần thảo luận chung của beatmap, dùng mốc thởi gian để bắt đầu bài đăng (ví dụ 00:12:345) để mod beatmap này.',
-            'in_timeline' => 'Để mod nhiều mốc thời gian , hãy đăng nhiều lần (một bài đăng trên một mốc thời gian).',
+            'in_timeline' => 'Để mod nhiều mốc thời gian, hãy đăng nhiều lần (một bài đăng trên một mốc thời gian).',
         ],
 
         'message_placeholder' => [
             'general' => 'Nhập vào đây để đăng vào Chung (:version)',
-            'generalAll' => 'Nhập vào đây để đăng vào Chung (Tất cả difficulties)',
+            'generalAll' => 'Nhập vào đây để đăng vào Chung (Tất cả độ khó)',
             'review' => 'Gõ ở đây để đăng một bài đánh giá',
-            'timeline' => 'Nhập vào đây để đăng vào Timeline (:version)',
+            'timeline' => 'Nhập vào đây để đăng vào Dòng thời gian (:version)',
         ],
 
         'message_type' => [
-            'disqualify' => 'Disqualify',
+            'disqualify' => 'Hủy trạng thái đủ điều kiện',
             'hype' => 'Hype!',
             'mapper_note' => 'Ghi Chú',
             'nomination_reset' => 'Thiết Lập Lại Đề Cử',
-            'praise' => 'Khen Ngợi',
-            'problem' => 'Vấn Đề',
+            'praise' => 'Khen ngợi',
+            'problem' => 'Vấn đề',
+            'problem_warning' => 'Báo cáo vấn đề',
             'review' => 'Đánh giá',
-            'suggestion' => 'Đề Nghị',
+            'suggestion' => 'Gợi ý',
+        ],
+
+        'message_type_title' => [
+            'disqualify' => 'Hủy trạng thái đủ điều kiện',
+            'hype' => 'Đăng Hype!',
+            'mapper_note' => 'Đăng Ghi Chú',
+            'nomination_reset' => 'Loại bỏ tất cả đề cử',
+            'praise' => ' Đăng Khen ngợi',
+            'problem' => 'Đăng Vấn đề',
+            'problem_warning' => 'Đăng Vấn đề',
+            'review' => 'Đăng nhận xét',
+            'suggestion' => 'Đăng Đề xuất',
         ],
 
         'mode' => [
             'events' => 'Lịch sử',
             'general' => 'Chung :scope',
             'reviews' => 'Các đánh giá',
-            'timeline' => 'Timeline',
+            'timeline' => 'Dòng thời gian',
             'scopes' => [
                 'general' => 'Difficulty này',
                 'generalAll' => 'Tất cả difficulties',
@@ -104,10 +128,11 @@ return [
                 'unsaved' => 'Huỷ lưu',
                 'timestamp' => [
                     'all-diff' => 'Các bài đăng trên "Mọi độ khó" không thể gắn mốc thời gian.',
-                    'diff' => '',
+                    'diff' => 'Nếu bài đăng này bắt đầu với một dấu thời gian, nó sẽ được hiển thị trong Dòng thời gian.',
                 ],
             ],
             'insert-block' => [
+                'mapper_note' => 'thêm ghi chú',
                 'paragraph' => 'chèn đoạn văn',
                 'praise' => 'chèn lời ca ngợi',
                 'problem' => 'chèn vấn đề',
@@ -116,12 +141,12 @@ return [
         ],
 
         'show' => [
-            'title' => ':title được map bởi :mapper',
+            'title' => ':title được tạo bởi :mapper',
         ],
 
         'sort' => [
             'created_at' => 'Thời gian tạo',
-            'timeline' => 'Timeline',
+            'timeline' => 'Dòng thời gian',
             'updated_at' => 'Cập nhật lần cuối',
         ],
 
@@ -137,8 +162,8 @@ return [
 
         'status-messages' => [
             'approved' => 'Beatmap này đã được chấp nhận (approved) vào :date!',
-            'graveyard' => "Beatmap này chưa được cập nhật từ :date và có thể đã bị bỏ rơi bởi mapper...",
-            'loved' => 'Beatmap này đã được love vào :date!',
+            'graveyard' => "Beatmap này chưa được cập nhật từ :date và có thể đã bị đắp mộ...",
+            'loved' => 'Beatmap này đã được loved vào :date!',
             'ranked' => 'Beatmap này đã được xếp hạng (ranked) vào :date!',
             'wip' => 'Ghi chú: Beatmap này được đánh dấu là đang thực hiện bởi mapper.',
         ],
@@ -162,52 +187,59 @@ return [
         'explanation' => 'Hype beatmap này để làm nó có khả năng được đề cử (nominate) và xếp hạng (rank)!',
         'explanation_guest' => 'Đăng nhập và hype beatmap này để nó có khả năng được đề cử (nominate) và xếp hạng (rank)!',
         'new_time' => "Bạn sẽ nhận được đợt hype khác vào :new_time.",
-        'remaining' => 'Bạn còn :remaining hype.',
+        'remaining' => 'Bạn chỉ còn :remaining hype.',
         'required_text' => 'Hype: :current/:required',
         'section_title' => 'Hype Train',
         'title' => 'Hype',
     ],
 
     'feedback' => [
-        'button' => 'Để Lại Phản Hồi',
+        'button' => 'Để lại Phản hồi',
     ],
 
     'nominations' => [
+        'already_nominated' => 'Bạn đã đề cử beatmap này rồi.',
+        'cannot_nominate' => 'Bạn không thể đề cử chế độ trò chơi của beatmap này.',
         'delete' => 'Xóa',
         'delete_own_confirm' => 'Bạn có chắc không? Beatmap sẽ bị xóa và bạn sẽ được chuyển hướng quay lại trang cá nhân của bạn.',
         'delete_other_confirm' => 'Bạn có chắc không? Beatmap sẽ bị xóa và bạn sẽ được chuyển hướng quay trở lại trang cá nhân của người dùng.',
-        'disqualification_prompt' => 'Lí do để qualify?',
-        'disqualified_at' => 'Disqualified :time_ago (:reason).',
+        'disqualification_prompt' => 'Lý do hủy trạng thái đủ điều kiện?',
+        'disqualified_at' => 'Bị loại khỏi hàng chờ xếp hạng :time_ago (:reason).',
         'disqualified_no_reason' => 'không đưa ra lí do',
-        'disqualify' => 'Disqualify',
+        'disqualify' => 'Hủy trạng thái đủ điều kiện',
         'incorrect_state' => 'Có lỗi khi thực hiện việc này, hãy thử tải lại trang.',
         'love' => 'Yêu thích',
+        'love_choose' => 'Chọn độ khó để đề cử loved',
         'love_confirm' => 'Yêu thích beatmap này?',
         'nominate' => 'Đề Cử',
         'nominate_confirm' => 'Đề cử (nominate) beatmap này?',
-        'nominated_by' => 'Được :users đề cử',
+        'nominated_by' => 'được :users đề cử',
         'not_enough_hype' => "Không đủ hype.",
-        'remove_from_loved' => 'Gỡ khỏi Được Yêu thích',
-        'remove_from_loved_prompt' => 'Lý do gỡ khỏi Được Yêu thích:',
+        'remove_from_loved' => 'Gỡ khỏi Loved',
+        'remove_from_loved_prompt' => 'Lý do gỡ khỏi Loved:',
         'required_text' => 'Trạng thái đề cử: :current/:required',
         'reset_message_deleted' => 'đã xóa',
         'title' => 'Trạng Thái Đề Cử',
         'unresolved_issues' => 'Vẫn còn một số vấn đề chưa giải quyết cần được xem lại trước.',
 
         'rank_estimate' => [
-            '_' => 'Map này ước tính sẽ được Xếp Hạng :date nếu không tìm ra lỗi nào. Nó đang ở #:position trong :queue.',
+            '_' => 'Map này ước tính sẽ được xếp hạng :date nếu không tìm ra lỗi nào. Nó đang ở #:position trong :queue.',
+            'unresolved_problems' => 'Map này không thể cho ra khỏi mục Đủ điều kiện cho đến khi :problems được giải quyết.',
+            'problems' => 'những vấn đề này',
+            'on' => 'vào ngày :date',
             'queue' => 'hàng chờ xếp hạng',
             'soon' => 'sớm',
         ],
 
         'reset_at' => [
             'nomination_reset' => 'Quá trình đề cử (nomination) thiết lập lại vào :time_ago bởi :user với vấn đề mới :discussion (:message).',
-            'disqualify' => 'Disqualified :time_ago bởi :user với vấn đề mới :discussion (:message).',
+            'disqualify' => 'Bị hủy trạng thái đủ điều kiện :time_ago bởi :user với vấn đề mới :discussion (:message).',
         ],
 
         'reset_confirm' => [
+            'disqualify' => 'Bạn chắc không? Việc này sẽ loại bỏ beatmap khỏi mục đủ điều kiện và thiết lập lại quá trình đề cử.',
             'nomination_reset' => 'Bạn chắc không? Đăng một vấn đề mới sẽ thiết lập lại quá trình đề cử (nomination).',
-            'disqualify' => 'Bạn chắc không? Việc này sẽ loại bỏ beatmap khỏi qualify và thiết lập lại quá trình đề cử.',
+            'problem_warning' => 'Bạn có chắc là muốn báo cáo vấn đề về beatmap này không? Việc này sẽ gửi cánh báo đến những người đề cử beatmap.',
         ],
     ],
 
@@ -216,11 +248,12 @@ return [
             'prompt' => 'nhập từ khóa...',
             'login_required' => 'Đăng nhập để tìm kiếm.',
             'options' => 'Tùy Chọn Tìm Kiếm Khác',
-            'supporter_filter' => 'Lọc theo :filters cần một supporter tag đang hoạt động',
+            'rank_filter_note' => 'Số lượng top rank và kết quả hiển thị trên trang này dựa trên các điểm số “chuẩn hoá” cao nhất của bạn (còn gọi là “lazer”) trên beatmap.',
+            'supporter_filter' => 'Lọc theo :filters cần một thẻ supporter đang hoạt động',
             'not-found' => 'không có kết quả',
             'not-found-quote' => '... không, chả có gì cả.',
             'filters' => [
-                'extra' => 'thêm',
+                'extra' => 'Thêm',
                 'general' => 'Chung',
                 'genre' => 'Thể Loại',
                 'language' => 'Ngôn Ngữ',
@@ -244,14 +277,20 @@ return [
             ],
             'supporter_filter_quote' => [
                 '_' => 'Lọc theo :filters cần một :link đang hoạt động',
-                'link_text' => 'osu!supporter tag',
+                'link_text' => 'thẻ osu!supporter',
+            ],
+            'tag_picker' => [
+                'tooltip' => 'duyệt các thẻ của người dùng',
+                'prompt' => 'gõ để tìm kiếm',
             ],
         ],
     ],
     'general' => [
         'converts' => 'Bao gồm beatmap được chuyển đổi',
-        'follows' => '',
+        'featured_artists' => 'Nghệ sĩ nổi bật',
+        'follows' => 'Mapper đã đăng ký',
         'recommended' => 'Độ khó đề nghị',
+        'spotlights' => 'Beatmap tiêu điểm',
     ],
     'mode' => [
         'all' => 'Tất cả',
@@ -260,21 +299,23 @@ return [
         'taiko' => '',
         'fruits' => '',
         'mania' => '',
+        'undefined' => 'chưa đặt',
     ],
     'status' => [
-        'any' => 'Bất Kì',
+        'any' => 'Bất kì',
         'approved' => 'Được Chấp Nhận',
         'favourites' => 'Yêu thích',
-        'graveyard' => 'Graveyard',
-        'leaderboard' => 'Có danh sách xếp hạng',
-        'loved' => 'Loved',
+        'graveyard' => 'Đắp mộ',
+        'leaderboard' => 'Có bảng xếp hạng',
+        'loved' => 'Được yêu mến',
         'mine' => 'Map của tôi',
-        'pending' => 'Đang chờ & WIP',
-        'qualified' => 'Qualified',
+        'pending' => 'Đang chờ',
+        'wip' => 'Chưa xong',
+        'qualified' => 'Đủ điều kiện',
         'ranked' => 'Đã được xếp hạng',
     ],
     'genre' => [
-        'any' => 'Bất Kì',
+        'any' => 'Bất kì',
         'unspecified' => 'Chưa Xác Định',
         'video-game' => 'Video Game',
         'anime' => 'Anime',
@@ -289,34 +330,8 @@ return [
         'folk' => 'Dân ca',
         'jazz' => 'Jazz',
     ],
-    'mods' => [
-        '4K' => '',
-        '5K' => '',
-        '6K' => '',
-        '7K' => '',
-        '8K' => '',
-        '9K' => '',
-        'AP' => '',
-        'DT' => '',
-        'EZ' => '',
-        'FI' => '',
-        'FL' => '',
-        'HD' => '',
-        'HR' => '',
-        'HT' => '',
-        'MR' => '',
-        'NC' => '',
-        'NF' => '',
-        'NM' => '',
-        'PF' => '',
-        'Relax' => '',
-        'SD' => '',
-        'SO' => '',
-        'TD' => '',
-        'V2' => 'Score V2',
-    ],
     'language' => [
-        'any' => 'Bất Kì',
+        'any' => 'Bất kì',
         'english' => 'Tiếng Anh',
         'chinese' => 'Tiếng Trung',
         'french' => 'Tiếng Pháp',
@@ -339,8 +354,8 @@ return [
     ],
 
     'played' => [
-        'any' => 'Bất Kì',
-        'played' => 'Đã Chơi',
+        'any' => 'Bất kì',
+        'played' => 'Đã chơi',
         'unplayed' => 'Chưa Chơi',
     ],
     'extra' => [
@@ -348,7 +363,7 @@ return [
         'storyboard' => 'Có Storyboard',
     ],
     'rank' => [
-        'any' => 'Bất Kì',
+        'any' => 'Bất kì',
         'XH' => 'Silver SS',
         'X' => '',
         'SH' => 'Silver S',

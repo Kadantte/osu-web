@@ -19,9 +19,9 @@ return [
     ],
 
     'buttons' => [
-        'admin' => 'Admin',
         'authorise' => 'Autorizar',
         'authorising' => 'Autorizando...',
+        'back' => 'Voltar',
         'back_to_previous' => 'Voltar para posição anterior',
         'back_to_top' => 'Voltar ao topo',
         'cancel' => 'Cancelar',
@@ -39,11 +39,13 @@ return [
         'pin' => 'fixar',
         'post' => 'Enviar',
         'read_more' => 'leia mais',
+        'refresh' => 'Atualizar',
         'reply' => 'Responder',
         'reply_reopen' => 'Responder e Reabrir',
         'reply_resolve' => 'Responder e Resolver',
         'reset' => 'Reiniciar',
         'restore' => 'Restaurar',
+        'retry' => 'Tente novamente',
         'save' => 'Salvar',
         'saving' => 'Salvando...',
         'search' => 'Pesquisar',
@@ -53,6 +55,7 @@ return [
         'show_less' => 'mostrar menos',
         'show_more' => 'mostrar mais',
         'show_more_options' => 'mostrar mais opções',
+        'submit' => 'Enviar',
         'unpin' => 'desafixar',
         'update' => 'Atualizar',
         'upload_image' => 'enviar imagem',
@@ -73,6 +76,7 @@ return [
         'minutes' => ':count minuto|:count minutos',
         'months' => ':count mês|:count meses',
         'notifications' => ':count_delimited notificação|:count_delimited notificações',
+        'player' => ':count_delimited jogador|:count_delimited jogadores',
         'plus_others' => '+ :count_delimited outro!|+ :count_delimited outros!',
         'post' => ':count_delimited publicação|:count_delimited publicações',
         'second_short_unit' => 'seg|segs',
@@ -90,6 +94,12 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => 'm',
+        ],
+        'year' => [
+            'php' => 'a',
+        ],
         'year_month' => [
             'moment' => 'MMMM YYYY',
             'php' => 'MMMM y',
@@ -133,10 +143,10 @@ return [
         'dd' => '%d d',
         'h' => '%d h',
         'hh' => '%d h',
-        'M' => '%d me',
         'm' => '%d min',
-        'MM' => '%d me',
         'mm' => '%d min',
+        'month' => '%d me',
+        'months' => '%d me',
         'past' => '',
         's' => '%d seg',
         'y' => '%d an',
@@ -156,6 +166,6 @@ return [
 
     'wrong_user' => [
         '_' => 'Você está conectado como :user. :logout_link.',
-        'logout_link' => 'Clique aqui para iniciar sessão com um usuário diferente',
+        'logout_link' => 'Clique aqui para entrar como outro usuário',
     ],
 ];

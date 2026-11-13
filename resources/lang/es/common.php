@@ -5,7 +5,7 @@
 
 return [
     'confirmation' => '¿Estás seguro?',
-    'confirmation_unsaved' => 'Se perderán todos los cambios sin guardar. ¿Está seguro?',
+    'confirmation_unsaved' => 'Se perderán todos los cambios sin guardar. ¿Estás seguro?',
     'saved' => 'Guardado',
 
     'array_and' => [
@@ -19,9 +19,9 @@ return [
     ],
 
     'buttons' => [
-        'admin' => 'Administrador',
         'authorise' => 'Autorizar',
         'authorising' => 'Autorizando...',
+        'back' => 'Volver',
         'back_to_previous' => 'Volver a la última posición',
         'back_to_top' => 'Volver al principio',
         'cancel' => 'Cancelar',
@@ -39,11 +39,13 @@ return [
         'pin' => 'anclar',
         'post' => 'Publicar',
         'read_more' => 'leer más',
+        'refresh' => 'Actualizar',
         'reply' => 'Responder',
         'reply_reopen' => 'Responder y reabrir',
         'reply_resolve' => 'Responder y resolver',
-        'reset' => 'Reiniciar',
+        'reset' => 'Restablecer',
         'restore' => 'Restaurar',
+        'retry' => 'Volver a intentar',
         'save' => 'Guardar',
         'saving' => 'Guardando...',
         'search' => 'Buscar',
@@ -53,6 +55,7 @@ return [
         'show_less' => 'mostrar menos',
         'show_more' => 'mostrar más',
         'show_more_options' => 'mostrar más opciones',
+        'submit' => 'Enviar',
         'unpin' => 'desanclar',
         'update' => 'Actualizar',
         'upload_image' => 'subir imagen',
@@ -73,7 +76,8 @@ return [
         'minutes' => ':count_delimited minuto|:count_delimited minutos',
         'months' => ':count_delimited mes|:count_delimited meses',
         'notifications' => ':count_delimited notificación|:count_delimited notificaciones',
-        'plus_others' => '+ :count_delimited otro!|+ :count_delimited otros!',
+        'player' => ':count_delimited jugador|:count_delimited jugadores',
+        'plus_others' => '¡+ :count_delimited otro!|¡+ :count_delimited otros!',
         'post' => ':count_delimited publicación|:count_delimited publicaciones',
         'second_short_unit' => 'seg|segs',
         'star_priority' => 'prioridad de :count_delimited estrella|prioridad de :count_delimited estrellas',
@@ -90,12 +94,18 @@ return [
     ],
 
     'datetime' => [
+        'month' => [
+            'php' => 'm',
+        ],
+        'year' => [
+            'php' => 'a',
+        ],
         'year_month' => [
             'moment' => 'MMMM [de] YYYY',
             'php' => 'MMMM y',
         ],
         'year_month_short' => [
-            'moment' => 'MMMM [de] YYYY',
+            'moment' => 'MMM YYYY',
         ],
     ],
 
@@ -133,10 +143,10 @@ return [
         'dd' => '%d d',
         'h' => '%d h',
         'hh' => '%d h',
-        'M' => '%d m',
         'm' => '%d min',
-        'MM' => '%d m',
         'mm' => '%d min',
+        'month' => '%d m',
+        'months' => '%d m',
         'past' => '',
         's' => '%d s',
         'y' => '%d a',
@@ -155,7 +165,7 @@ return [
     ],
 
     'wrong_user' => [
-        '_' => 'Ha iniciado sesión como :user. :logout_link.',
-        'logout_link' => 'Haga clic aquí para iniciar sesión como otro usuario',
+        '_' => 'Has iniciado sesión como :user. :logout_link.',
+        'logout_link' => 'Haz clic aquí para iniciar sesión como otro usuario',
     ],
 ];

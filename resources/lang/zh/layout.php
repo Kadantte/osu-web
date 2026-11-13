@@ -5,11 +5,11 @@
 
 return [
     'audio' => [
-        'autoplay' => '自动播放下一曲目',
+        'autoplay' => '自动播放下一首',
     ],
 
     'defaults' => [
-        'page_description' => 'osu! - 节奏跃然指上！内含来自「押忍！战斗应援团」、「精英节拍特工」、太鼓的以及 osu! 原创的游戏模式，以及为其设计的全功能谱面编辑器。',
+        'page_description' => 'osu! - 节奏跃然指上！内含来自「押忍！战斗应援团」、「精英节拍特工」、「太鼓达人」及原创的 osu! 游戏玩法，更有全功能谱面编辑器等你来创作。',
     ],
 
     'header' => [
@@ -19,11 +19,16 @@ return [
             'contest' => '竞赛',
             'contests' => '竞赛',
             'root' => '控制中心',
-            'store_orders' => '商店管理',
         ],
 
         'artists' => [
             'index' => '列表',
+        ],
+
+        'beatmapsets' => [
+            'show' => '信息',
+            'discussions' => '讨论',
+            'versions' => '版本历史',
         ],
 
         'changelog' => [
@@ -47,64 +52,45 @@ return [
 
         'users' => [
             'modding' => '摸图',
+            'playlists' => '歌单',
+            'ranked-play' => '排位模式',
+            'realtime' => '多人游戏',
             'show' => '信息',
         ],
     ],
 
     'gallery' => [
-        'close' => '关闭（ESC）',
+        'close' => '关闭 (Esc)',
         'fullscreen' => '切换全屏',
         'zoom' => '放大/缩小',
-        'previous' => '前一个（左箭头）',
-        'next' => '后一个（右箭头）',
+        'previous' => '前一张（左箭头）',
+        'next' => '后一张（右箭头）',
     ],
 
     'menu' => [
         'beatmaps' => [
             '_' => '谱面',
-            'artists' => '精选艺术家',
-            'index' => '列表',
-            'packs' => '曲包',
         ],
         'community' => [
             '_' => '社区',
-            'chat' => '聊天',
-            'contests' => '评选',
             'dev' => '开发',
-            'forum-forums-index' => '论坛',
-            'getLive' => '直播',
-            'tournaments' => '官方比赛',
         ],
         'help' => [
             '_' => '帮助',
-            'getAbuse' => '报告不当行为',
+            'getAbuse' => '举报不当行为',
             'getFaq' => '常见问题',
             'getRules' => '规章制度',
             'getSupport' => '帮助中心',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => '主页',
-            'changelog-index' => '更新日志',
-            'getDownload' => '下载',
-            'news-index' => '新闻',
-            'search' => '搜索',
             'team' => '团队',
         ],
         'rankings' => [
             '_' => '排名',
-            'charts' => '月赛',
-            'country' => '国家和地区',
-            'index' => '表现',
-            'kudosu' => 'kudosu',
-            'multiplayer' => '聚光灯',
-            'score' => '得分',
         ],
         'store' => [
             '_' => '商店',
-            'cart-show' => '购物车',
-            'getListing' => '列表',
-            'orders-index' => '历史订单',
         ],
     ],
 
@@ -122,12 +108,14 @@ return [
             'forum' => '论坛',
             'livestreams' => '直播',
             'report' => '报告问题',
-            'wiki' => '维基',
+            'wiki' => 'Wiki',
         ],
         'legal' => [
             '_' => '法律 & 状态',
-            'copyright' => '版权（DMCA）',
+            'copyright' => '版权 (DMCA)',
+            'jp_sctl' => '',
             'privacy' => '隐私政策',
+            'rules' => '规定',
             'server_status' => '服务器状态',
             'source_code' => '源代码',
             'terms' => '服务条款',
@@ -145,11 +133,11 @@ return [
         ],
         '403' => [
             'error' => "这里不是你该来的地方。",
-            'description' => '不过，你可以选择往回走。',
+            'description' => '请返回上一页',
         ],
         '401' => [
             'error' => "这里不是你该来的地方。",
-            'description' => '不过，你可以选择往回走。或者试试登录？',
+            'description' => '试试返回上一页，或者登录看看？',
         ],
         '405' => [
             'error' => '无法找到网页',
@@ -165,11 +153,11 @@ return [
         ],
         '500' => [
             'error' => '哎呀，服务器崩溃了！;_;',
-            'description' => "服务器一旦出错，我们都会收到通知。请返回到上一个页面。",
+            'description' => "所有错误均已被系统自动捕获并记录。请返回到上一个页面。",
         ],
         'fatal' => [
             'error' => '哎呀，服务器被外星人带走了！;_;',
-            'description' => "服务器一旦出错，我们都会收到通知。请返回到上一个页面。",
+            'description' => "所有错误均已被系统自动捕获并记录。请返回到上一个页面。",
         ],
         '503' => [
             'error' => '服务器维护中！',
@@ -200,7 +188,7 @@ return [
 
         'register' => [
             'download' => '下载',
-            'info' => '立刻下载 osu! 并且注册帐号吧！',
+            'info' => '立刻下载 osu! 并且注册账号吧！',
             'title' => "没有账号？",
         ],
     ],
@@ -208,15 +196,21 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => '设置',
+            'create_team' => '创建战队',
             'follows' => '订阅',
             'friends' => '好友',
-            'logout' => '退出',
+            'legacy_score_only_toggle' => 'Lazer 模式',
+            'legacy_score_only_toggle_tooltip' => '使用来自 Lazer 客户端的新计分算法显示您的成绩',
+            'logout' => '登出',
             'profile' => '资料',
+            'scoring_mode_toggle' => '经典计分',
+            'scoring_mode_toggle_tooltip' => '调整分数显示数值，使其看起来更接近经典的无上限得分算法',
+            'team' => '战队',
         ],
     ],
 
     'popup_search' => [
-        'initial' => '键入以搜索！',
+        'initial' => '输入以搜索！',
         'retry' => '搜索失败。点此重试。',
     ],
 ];

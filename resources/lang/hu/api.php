@@ -13,21 +13,28 @@ return [
     ],
 
     'scopes' => [
-        'bot' => 'Csevegőrobotként működjön.',
+        'bot' => 'Csevegőrobotként működni.',
         'identify' => 'Azonosíthat téged és olvashat a nyilvános profilodból.',
 
         'chat' => [
-            'write' => 'Küldjön üzeneteket az Ön nevében.',
+            'read' => 'Olvasni üzeneteket a nevedben.',
+            'write' => 'Üzeneteket küldeni a nevedben.',
+            'write_manage' => 'Csatornákhoz csatlakozni, vagy azokat elhagyni a nevedben.',
         ],
 
         'forum' => [
-            'write' => '',
+            'write' => 'Létrehozni és szerkeszteni fórum posztokat a nevedben.',
+            'write_manage' => 'A fórum témáit és hozzászólásait kezelni a nevedben.',
         ],
 
         'friends' => [
             'read' => 'Lásd, hogy kit követsz.',
         ],
 
-        'public' => 'Nyilvános adatok olvasása az ön nevében',
+        'multiplayer' => [
+            'write_manage' => 'Többjátékos szobákat létrehozni és kezelni a nevedben.',
+        ],
+
+        'public' => 'Nyilvános adatokat olvasni a nevedben.',
     ],
 ];

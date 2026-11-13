@@ -13,10 +13,38 @@ return [
         'nav_title' => 'listaus',
     ],
 
+    'judge' => [
+        'comments' => 'kommentit',
+        'hide_judged' => 'piilota arvioidut tuotokset',
+        'nav_title' => 'arvioi',
+        'no_current_vote' => 'et äänestänyt vielä.',
+        'update' => 'päivitä',
+        'unsaved_changes' => 'tallentamattomia muutoksia',
+        'validation' => [
+            'missing_score' => 'puuttuva pisteytys',
+            'contest_vote_judged' => 'et voi äänestää tuomaroiduissa kilpailuissa',
+        ],
+        'voted' => 'Olet jo äänestänyt tätä tuotosta.',
+    ],
+
+    'judge_results' => [
+        '_' => 'Tuomaroinnin tulokset',
+        'creator' => 'tekijä',
+        'hosts_only' => '',
+        'provisional' => '',
+        'score' => 'Pisteet',
+        'score_std' => 'Standardoitu Pistemäärä',
+        'total_score' => 'yhteispisteet',
+        'total_score_std' => 'standardisoitu kokonaispistemäärä',
+    ],
+
     'voting' => [
+        'host_link' => '',
+        'judge_link' => 'Olet tämän kilpailun tuomari. Arvostele tuotoksia täällä!',
+        'judged_notice' => 'Tämä kilpailu käyttää tuomarointijärjestelmää, tuomarit käsittelevät tuotoksia parhaillaan.',
         'login_required' => 'Kirjaudu sisään äänestääksesi.',
         'over' => 'Äänestys tälle kilpailulle on päättynyt',
-        'show_voted_only' => '',
+        'show_voted_only' => 'Näytä äänestetyt',
 
         'best_of' => [
             'none_played' => "Näyttäisi siltä, ettet ole pelannut tähän kilpailuun kelpuutettuja mappeja!",
@@ -27,41 +55,63 @@ return [
             'remove' => 'Poista ääni',
             'used_up' => 'Olet käyttänyt kaikki äänesi',
         ],
+
+        'progress' => [
+            '_' => ':used / :max ääntä käytetty',
+        ],
+
+        'requirement' => [
+            'playlist_beatmapsets' => [
+                'incomplete_play' => 'Pelattava kaikki annettujen soittolistojen beatmapit ennen äänestämistä',
+            ],
+        ],
     ],
+
     'entry' => [
         '_' => 'ehdokas',
         'login_required' => 'Kirjaudu sisään osallistuaksesi kilpailuun.',
         'silenced_or_restricted' => 'Et voi osallistua kilpailuun jos olet rajoitetussa -tai mykistetyssä tilassa.',
         'preparation' => 'Valmistelemme tätä kilpailua. Odota rauhassa!',
         'drop_here' => 'Pudota työsi tähän',
+        'allowed_extensions' => ':types-tiedostot hyväksytään',
+        'max_size' => 'Suurin koko :limit',
+        'required_dimensions' => 'Mittojen on oltava :widthx:height',
         'download' => 'Lataa .osz-tiedosto',
-        'wrong_type' => [
-            'art' => 'Tähän kilpailuun sallitaan ainoastaan .jpg- ja -png-tiedostot.',
-            'beatmap' => 'Tähän kilpailuun sallitaan ainoastaan .osu-tiedostot.',
-            'music' => 'Tähän kilpailuun sallitaan ainoastaan .mp3-tiedostot.',
-        ],
+        'wrong_file_type' => 'Vain :types tiedostot ovat hyväksyttyjä tähän kilpailuun.',
+        'wrong_dimensions' => 'Tämän kilpailun kohteiden on oltava :widthx:height',
         'too_big' => 'Tähän kilpailuun voi lähettää korkeintaan :limit työtä.',
     ],
+
     'beatmaps' => [
-        'download' => 'Lataa ehdokas',
+        'download' => 'Lataa tuotos',
     ],
+
     'vote' => [
         'list' => 'äänet',
-        'count' => ':count ääni|:count ääntä',
+        'count' => ':count_delimited ääni|:count_delimited ääntä',
         'points' => ':count piste|:count pistettä',
+        'points_float' => ':points pistettä',
     ],
+
     'dates' => [
         'ended' => 'Loppui :date',
         'ended_no_date' => 'Päättyi',
 
         'starts' => [
-            '_' => 'Alkoi :date',
+            '_' => 'Alkaa :date',
             'soon' => 'pian™',
         ],
     ],
+
     'states' => [
         'entry' => 'Avoinna',
         'voting' => 'Äänestys Alkanut',
         'results' => 'Tulokset Julkistettu',
+    ],
+
+    'show' => [
+        'admin' => [
+            'page' => '',
+        ],
     ],
 ];

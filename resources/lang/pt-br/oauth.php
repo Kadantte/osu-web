@@ -7,6 +7,7 @@ return [
     'cancel' => 'Cancelar',
 
     'authorise' => [
+        'app_owner' => 'um aplicativo de :owner',
         'request' => 'está pedindo permissão para acessar sua conta.',
         'scopes_title' => 'Essa aplicação será capaz de:',
         'title' => 'Pedido de Autorização',
@@ -26,7 +27,7 @@ return [
 
     'client' => [
         'id' => 'ID do Cliente',
-        'name' => 'Nome da Aplicação',
+        'name' => 'Nome da aplicação',
         'redirect' => 'URL de Callback da Aplicação',
         'reset' => 'Redefinir segredo do cliente',
         'reset_failed' => 'Falha ao redefinir segredo do cliente',
@@ -56,6 +57,12 @@ return [
         'revoked' => [
             'false' => 'Excluir',
             'true' => 'Excluído',
+        ],
+
+        'secret' => [
+            'copy' => 'Certifique-se de copiar o valor antes de sair navegando por aí.',
+            'generate_new' => 'Redefinir segredo do cliente para gerar um novo.',
+            'visible_once' => 'O segredo do cliente só é visível após a criação inicial.',
         ],
     ],
 ];

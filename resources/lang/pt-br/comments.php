@@ -5,10 +5,13 @@
 
 return [
     'deleted' => 'excluído',
+    'deleted_by' => 'excluído há :timeago por :user',
+    'deleted_by_system' => 'sistema',
     'deleted_count' => ':count_delimited comentário excluído|:count_delimited comentários excluídos',
     'edited' => 'editado por :user :timeago',
     'pinned' => 'fixado',
     'empty' => 'Sem comentários no momento.',
+    'empty_other' => 'Ainda não há outros comentários.',
     'load_replies' => 'carregar respostas',
     'replies_count' => ':count_delimited resposta|:count_delimited respostas',
     'title' => 'Comentários',
@@ -30,14 +33,18 @@ return [
     ],
 
     'guest_button' => [
-        'new' => 'Conecte-se para comentar',
-        'reply' => 'Conecte-se para responder',
+        'new' => 'Entre para comentar',
+        'reply' => 'Entre para responder',
     ],
 
     'index' => [
         'nav_comments' => 'comentários',
         'nav_title' => 'listagem',
         'no_comments' => 'nenhum comentário encontrado...',
+    ],
+
+    'ogp' => [
+        'title' => 'comentário de :user',
     ],
 
     'placeholder' => [

@@ -19,11 +19,16 @@ return [
             'contest' => 'concurso',
             'contests' => 'concursos',
             'root' => 'console',
-            'store_orders' => 'loja admin',
         ],
 
         'artists' => [
             'index' => 'listagem',
+        ],
+
+        'beatmapsets' => [
+            'show' => 'informação',
+            'discussions' => 'discussão',
+            'versions' => 'histórico de versões',
         ],
 
         'changelog' => [
@@ -47,13 +52,16 @@ return [
 
         'users' => [
             'modding' => 'modding',
+            'playlists' => 'playlists',
+            'ranked-play' => 'competitivo',
+            'realtime' => 'multiplayer',
             'show' => 'info',
         ],
     ],
 
     'gallery' => [
         'close' => 'Fechar (Esc)',
-        'fullscreen' => 'Alternar tela cheia',
+        'fullscreen' => 'Ativar/desativar tela cheia',
         'zoom' => 'Ampliar/Reduzir',
         'previous' => 'Anterior (seta esquerda)',
         'next' => 'Seguinte (seta direita)',
@@ -62,18 +70,10 @@ return [
     'menu' => [
         'beatmaps' => [
             '_' => 'beatmaps',
-            'artists' => 'artistas em destaque',
-            'index' => 'listagem',
-            'packs' => 'pacotes',
         ],
         'community' => [
             '_' => 'comunidade',
-            'chat' => 'chat',
-            'contests' => 'concursos',
             'dev' => 'desenvolvimento',
-            'forum-forums-index' => 'fóruns',
-            'getLive' => 'transmissões',
-            'tournaments' => 'torneios',
         ],
         'help' => [
             '_' => 'ajuda',
@@ -81,30 +81,16 @@ return [
             'getFaq' => 'perguntas frequentes',
             'getRules' => 'regras',
             'getSupport' => 'não, sério, preciso de ajuda!',
-            'getWiki' => 'wiki',
         ],
         'home' => [
             '_' => 'início',
-            'changelog-index' => 'registro de alterações',
-            'getDownload' => 'baixar',
-            'news-index' => 'notícias',
-            'search' => 'busca',
             'team' => 'equipe',
         ],
         'rankings' => [
             '_' => 'colocações',
-            'charts' => 'destaques',
-            'country' => 'país',
-            'index' => 'desempenho',
-            'kudosu' => 'kudosu',
-            'multiplayer' => 'multiplayer',
-            'score' => 'pontuação',
         ],
         'store' => [
             '_' => 'loja',
-            'cart-show' => 'carrinho',
-            'getListing' => 'catálogo',
-            'orders-index' => 'histórico de pedidos',
         ],
     ],
 
@@ -127,7 +113,9 @@ return [
         'legal' => [
             '_' => 'Informações Legais & Estado',
             'copyright' => 'Copyright (DMCA)',
+            'jp_sctl' => '',
             'privacy' => 'Privacidade',
+            'rules' => 'Regras',
             'server_status' => 'Estado dos Servidores',
             'source_code' => 'Código-fonte',
             'terms' => 'Termos de Serviço',
@@ -149,7 +137,7 @@ return [
         ],
         '401' => [
             'error' => "Você não deveria estar aqui.",
-            'description' => 'Mas você pode tentar voltar. Ou iniciar a sessão.',
+            'description' => 'Você bem que poderia tentar voltar... ou quem sabe entrar.',
         ],
         '405' => [
             'error' => 'Página não encontrada',
@@ -189,7 +177,7 @@ return [
         'login' => [
             'forgot' => "Esqueci as minhas credenciais",
             'password' => 'senha',
-            'title' => 'Conecte-se para continuar',
+            'title' => 'Entre para continuar',
             'username' => 'nome de usuário',
 
             'error' => [
@@ -208,10 +196,16 @@ return [
     'popup_user' => [
         'links' => [
             'account-edit' => 'Configurações',
-            'follows' => 'Observações',
+            'create_team' => 'Criar equipe',
+            'follows' => 'Listas de observação',
             'friends' => 'Amigos',
+            'legacy_score_only_toggle' => 'Modo Lazer',
+            'legacy_score_only_toggle_tooltip' => 'O Modo Lazer mostra as pontuações definidas no lazer com um novo algoritmo de pontuação',
             'logout' => 'Desconectar',
             'profile' => 'Meu Perfil',
+            'scoring_mode_toggle' => 'Pontuação clássica',
+            'scoring_mode_toggle_tooltip' => 'Ajusta o valor das pontuações para se aproximar da pontuação ilimitada clássica',
+            'team' => 'Minha equipe',
         ],
     ],
 

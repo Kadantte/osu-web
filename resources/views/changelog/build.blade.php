@@ -7,7 +7,7 @@
 ])
 
 @section('content')
-    <div class="js-react--changelog-build osu-layout osu-layout--full"></div>
+    <div class="js-react u-contents" data-react="changelog-build"></div>
 
     <script id="json-build" type="application/json">
         {!! json_encode($buildJson) !!}
@@ -21,9 +21,9 @@
         {!! json_encode($chartConfig) !!}
     </script>
 
-    <script id="json-comments-build-{{ $build->getKey() }}" type="application/json">
+    <script id="json-comments" type="application/json">
         {!! json_encode($commentBundle->toArray()) !!}
     </script>
 
-    @include('layout._extra_js', ['src' => 'js/react/changelog-build.js'])
+    @include('layout._react_js', ['src' => 'js/changelog-build.js'])
 @endsection

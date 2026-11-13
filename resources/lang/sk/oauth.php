@@ -7,6 +7,7 @@ return [
     'cancel' => 'Zrušiť',
 
     'authorise' => [
+        'app_owner' => '',
         'request' => '',
         'scopes_title' => '',
         'title' => '',
@@ -56,6 +57,12 @@ return [
         'revoked' => [
             'false' => 'Odstrániť',
             'true' => 'Vymazané',
+        ],
+
+        'secret' => [
+            'copy' => '',
+            'generate_new' => '',
+            'visible_once' => '',
         ],
     ],
 ];

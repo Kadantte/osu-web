@@ -1,0 +1,127 @@
+// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the GNU Affero General Public License v3.0.
+// See the LICENCE file in the repository root for full licence text.
+
+import { observer } from 'mobx-react';
+import * as React from 'react';
+import { classWithModifiers } from 'utils/css';
+import { navigate } from 'utils/turbolinks';
+import { wikiUrl } from 'utils/url';
+import WikiSearchController, { SuggestionJson } from 'wiki-search-controller';
+
+interface Props {
+  locale: string;
+  placeholder: string;
+}
+
+@observer
+export default class WikiSearch extends React.PureComponent<Props> {
+  private readonly controller = new WikiSearchController(this.props.locale);
+  private readonly ref = React.createRef<HTMLDivElement>();
+  private readonly selectedRef = React.createRef<HTMLAnchorElement>();
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleEsc);
+    document.addEventListener('mousedown', this.handleMouseDown);
+  }
+
+  componentDidUpdate() {
+    // scroll highlighted option into view if triggered by keys
+    this.selectedRef.current?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleEsc);
+    document.removeEventListener('mousedown', this.handleMouseDown);
+    this.controller.cancel();
+  }
+
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.controller.updateQuery(event.target.value, this.props.locale);
+  };
+
+  handleEsc = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      this.controller.unselect(true);
+    }
+  };
+
+  handleKeyDown = (e: React.KeyboardEvent) => {
+    const key = e.key;
+
+    if (key === 'Enter') {
+      if (this.controller.selectedItem == null) {
+        this.handleSearch();
+      } else {
+        navigate(this.makeUrl(this.controller.selectedItem));
+      }
+    } else if (key === 'ArrowUp' || key === 'ArrowDown') {
+      e.preventDefault();
+      this.controller.shiftSelectedIndex(key === 'ArrowDown' ? 1 : -1);
+    }
+  };
+
+  handleMouseDown = (e: MouseEvent) => {
+    if (this.ref.current == null) return;
+
+    if (!e.composedPath().includes(this.ref.current)) {
+      this.controller.unselect(true);
+    }
+  };
+
+  handleSearch = () => {
+    this.controller.search();
+  };
+
+  render() {
+    return (
+      <div className='wiki-search'>
+        <div className='wiki-search__bar'>
+          <input
+            autoFocus
+            className='wiki-search__input'
+            onChange={this.handleChange}
+            onKeyDown={this.handleKeyDown}
+            placeholder={this.props.placeholder}
+            value={this.controller.displayText}
+          />
+          <button className='wiki-search__button' onClick={this.handleSearch}>
+            <i className='fa fa-search' />
+          </button>
+        </div>
+        {this.renderSuggestions()}
+      </div>
+    );
+  }
+
+  renderSuggestions() {
+    if (!this.controller.isSuggestionsVisible) return null;
+
+    return (
+      <div ref={this.ref} className='wiki-search__suggestions u-fancy-scrollbar'>
+        {
+          this.controller.suggestions.map((item, index) => {
+            const active = this.controller.selectedIndex === index;
+
+            return (
+              <a
+                key={index}
+                ref={active ? this.selectedRef : undefined}
+                className={classWithModifiers('wiki-search__suggestion', { active })}
+                data-index={index}
+                href={this.makeUrl(item)}
+              >
+                <span dangerouslySetInnerHTML={{ __html: item.highlight }} />
+              </a>
+            );
+          })
+        }
+      </div>
+    );
+  }
+
+  private makeUrl(suggestion: SuggestionJson) {
+    const locale = suggestion.locale === fallbackLocale ? this.props.locale : suggestion.locale;
+
+    return wikiUrl(suggestion.path, locale);
+  }
+}

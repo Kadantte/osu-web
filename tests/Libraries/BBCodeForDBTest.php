@@ -7,13 +7,12 @@ namespace Tests\Libraries;
 
 use App\Libraries\BBCodeForDB;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class BBCodeForDBTest extends TestCase
 {
-    /**
-     * @dataProvider examples
-     */
+    #[DataProvider('examples')]
     public function testGenerate($name, $path)
     {
         $baseFilePath = "{$path}/{$name}.base.txt";
@@ -36,7 +35,7 @@ class BBCodeForDBTest extends TestCase
 
     public function testProfile()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $emptyBbcode = new BBCodeForDB();
         $name = $emptyBbcode->extraEscapes($user->username);
 
@@ -50,7 +49,7 @@ class BBCodeForDBTest extends TestCase
 
     public function testProfileMismatchId()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $emptyBbcode = new BBCodeForDB();
         $name = $emptyBbcode->extraEscapes($user->username);
 
@@ -72,15 +71,15 @@ class BBCodeForDBTest extends TestCase
         $this->assertSame($expectedOutput, $output);
     }
 
-    public function examples()
+    public static function examples()
     {
-        return $this->fileList(__DIR__.'/bbcode_examples', '.base.txt');
+        return static::fileList(__DIR__.'/bbcode_examples', '.base.txt');
     }
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        config()->set('osu.bbcode.uid', '1');
+        config_set('osu.bbcode.uid', '1');
     }
 }

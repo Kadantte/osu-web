@@ -6,7 +6,7 @@
 namespace App\Libraries\Search;
 
 use App\Models\Beatmapset;
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 class BeatmapsetQueryParser
 {
@@ -15,12 +15,15 @@ class BeatmapsetQueryParser
         $options = [];
 
         // reference: https://github.com/ppy/osu/blob/f6baf49ad6b42c662a729ad05e18bd99bc48b4c7/osu.Game/Screens/Select/FilterQueryParser.cs
-        $keywords = preg_replace_callback('#\b(?<key>\w+)(?<op>(:|=|(>|<)(:|=)?))(?<value>(".*")|(\S*))#i', function ($m) use (&$options) {
+        // adjusted for multiple quoted options (with side effect of inner quotes must be escaped)
+        $keywords = preg_replace_callback('#\b(?<key>\w+)(?<op>(:|=|(>|<)(:|=)?))(?<value>("{1,2})(?:\\\"|.)*?\7|\S*)#i', function ($m) use (&$options) {
             $key = strtolower($m['key']);
             $op = str_replace(':', '=', $m['op']);
             switch ($key) {
+                case 'star':
                 case 'stars':
-                    $option = static::makeFloatRangeOption($op, $m['value'], 0.01 / 2);
+                    $key = 'stars';
+                    $option = static::makeFloatRangeOption($op, $m['value'], 0.0);
                     break;
                 case 'ar':
                     $option = static::makeFloatRangeOption($op, $m['value'], 0.1 / 2);
@@ -33,32 +36,68 @@ class BeatmapsetQueryParser
                 case 'cs':
                     $option = static::makeFloatRangeOption($op, $m['value'], 0.1 / 2);
                     break;
+                case 'od':
+                    $option = static::makeFloatRangeOption($op, $m['value'], 0.1 / 2);
+                    break;
                 case 'bpm':
                     $option = static::makeFloatRangeOption($op, $m['value'], 0.01 / 2);
                     break;
-                case 'length':
-                    $parsed = static::parseLength($m['value']);
-                    $option = static::makeFloatRangeOption($op, $parsed['value'], $parsed['scale'] / 2.0);
+                case 'circles':
+                    $option = static::makeIntRangeOption($op, $m['value']);
                     break;
+                case 'sliders':
+                    $option = static::makeIntRangeOption($op, $m['value']);
+                    break;
+                case 'length':
+                    $parsed = get_length_seconds($m['value']);
+                    if ($parsed !== null) {
+                        $option = static::makeFloatRangeOption($op, $parsed['value'], $parsed['min_scale'] / 2);
+                    }
+                    break;
+                case 'featured_artist':
+                    $option = static::makeIntOption($op, $m['value']);
+                    break;
+                case 'key':
                 case 'keys':
+                    $key = 'keys';
                     $option = static::makeIntRangeOption($op, $m['value']);
                     break;
                 case 'divisor':
                     $option = static::makeIntRangeOption($op, $m['value']);
                     break;
                 case 'status':
-                    $option = static::makeIntRangeOption($op, Beatmapset::STATES[$m['value']] ?? null);
+                    $option = static::makeIntRangeOption($op, static::statePrefixSearch($m['value']));
                     break;
                 case 'creator':
                     $option = static::makeTextOption($op, $m['value']);
                     break;
+                case 'difficulty':
+                    $option = static::makeTextOption($op, $m['value']);
+                    break;
+                case 'favourites':
+                    $option = static::makeIntRangeOption($op, $m['value']);
+                    break;
                 case 'artist':
                     $option = static::makeTextOption($op, $m['value']);
                     break;
+                case 'source':
+                    $option = static::makeTextOption($op, $m['value']);
+                    break;
+                case 'tag':
+                    $option = [static::makeTextOption($op, $m['value'])];
+                    break;
+                case 'title':
+                    $option = static::makeTextOption($op, $m['value']);
+                    break;
                 case 'created':
+                case 'submitted':
+                    $key = 'created';
                     $option = static::makeDateRangeOption($op, $m['value']);
                     break;
                 case 'ranked':
+                    $option = static::makeDateRangeOption($op, $m['value']);
+                    break;
+                case 'updated':
                     $option = static::makeDateRangeOption($op, $m['value']);
                     break;
             }
@@ -87,56 +126,51 @@ class BeatmapsetQueryParser
         $value = presence(trim($value, '"'));
 
         if (preg_match('#^\d{4}$#', $value) === 1) {
-            $startTime = Carbon::create($value, 1, 1, 0, 0, 0, 'UTC');
-            $endTimeFunction = 'addYear';
+            $startTime = CarbonImmutable::create($value, 1, 1, 0, 0, 0, 'UTC');
+            $endTime = $startTime->addYears(1);
         } elseif (preg_match('#^(?<year>\d{4})[-./]?(?<month>\d{1,2})$#', $value, $m) === 1) {
-            $startTime = Carbon::create($m['year'], $m['month'], 1, 0, 0, 0, 'UTC');
-            $endTimeFunction = 'addMonth';
+            $startTime = CarbonImmutable::create($m['year'], $m['month'], 1, 0, 0, 0, 'UTC');
+            $endTime = $startTime->addMonths(1);
         } elseif (preg_match('#^(?<year>\d{4})[-./]?(?<month>\d{1,2})[-./]?(?<day>\d{1,2})$#', $value, $m) === 1) {
-            $startTime = Carbon::create($m['year'], $m['month'], $m['day'], 0, 0, 0, 'UTC');
-            $endTimeFunction = 'addDay';
+            $startTime = CarbonImmutable::create($m['year'], $m['month'], $m['day'], 0, 0, 0, 'UTC');
+            $endTime = $startTime->addDays(1);
         } else {
-            $startTime = parse_time_to_carbon($value);
-            $endTimeFunction = 'addSecond';
+            $startTime = parse_time_to_carbon($value)?->toImmutable()->utc();
+            $endTime = $startTime?->addSeconds(1);
         }
 
-        if (isset($startTime) && isset($endTimeFunction)) {
-            switch ($operator) {
-                case '=':
-                    return [
-                        'gte' => json_time($startTime),
-                        'lt' => json_time($startTime->$endTimeFunction()),
-                    ];
-                case '<':
-                    return [
-                        'lt' => json_time($startTime),
-                    ];
-                case '<=':
-                    return [
-                        'lt' => json_time($startTime->$endTimeFunction()),
-                    ];
-                case '>':
-                    return [
-                        'gte' => json_time($startTime->$endTimeFunction()),
-                    ];
-                case '>=':
-                    return [
-                        'gte' => json_time($startTime),
-                    ];
-            }
+        if (isset($startTime) && isset($endTime)) {
+            return match ($operator) {
+                '=' => [
+                    'gte' => $startTime->getTimestampMs(),
+                    'lt' => $endTime->getTimestampMs(),
+                ],
+                '<' => [
+                    'lt' => $startTime->getTimestampMs(),
+                ],
+                '<=' => [
+                    'lt' => $endTime->getTimestampMs(),
+                ],
+                '>' => [
+                    'gte' => $endTime->getTimestampMs(),
+                ],
+                '>=' => [
+                    'gte' => $startTime->getTimestampMs(),
+                ],
+            };
         }
 
         return null;
     }
 
-    private static function makeFloatRangeOption($operator, $value, $tolerance)
+    private static function makeFloatRangeOption($operator, $value, float $tolerance): ?array
     {
         // Some locales have `,` as decimal separator.
         // Note that thousand separator is not (yet?) supported.
         $value = str_replace(',', '.', $value);
 
         if (!is_numeric($value)) {
-            return;
+            return null;
         }
 
         $value = get_float($value);
@@ -148,21 +182,26 @@ class BeatmapsetQueryParser
                     'lte' => $value + $tolerance,
                 ];
             case '<':
-                return [
-                    'lte' => $value - $tolerance,
-                ];
+                return $tolerance === 0.0
+                    ? ['lt' => $value]
+                    : ['lte' => $value - $tolerance];
             case '<=':
-                return [
-                    'lte' => $value + $tolerance,
-                ];
+                return ['lte' => $value + $tolerance];
             case '>':
-                return [
-                    'gte' => $value + $tolerance,
-                ];
+                return $tolerance === 0.0
+                    ? ['gt' => $value]
+                    : ['gte' => $value + $tolerance];
             case '>=':
-                return [
-                    'gte' => $value - $tolerance,
-                ];
+                return ['gte' => $value - $tolerance];
+        }
+
+        return null;
+    }
+
+    private static function makeIntOption($operator, $value)
+    {
+        if (is_numeric($value) && $operator === '=') {
+            return get_int($value);
         }
     }
 
@@ -199,32 +238,29 @@ class BeatmapsetQueryParser
         }
     }
 
-    private static function makeTextOption($operator, $value)
+    private static function makeTextOption(string $operator, string $value): ?string
     {
-        if ($operator === '=') {
-            return presence(trim($value, '"'));
-        }
+        return $operator === '='
+            ? presence(strtr(preg_replace('/^"(.*)"$/', '$1', $value), ['\\"' => '"']))
+            : null;
     }
 
-    private static function parseLength($input)
+    private static function statePrefixSearch($value): ?int
     {
-        static $scales = [
-            'ms' => 0.001,
-            's' => 1,
-            'm' => 60,
-            'h' => 3600,
-        ];
-
-        $value = get_float($input);
-
-        if ($value !== null) {
-            $scale = $scales[substr($input, -2)] ?? $scales[substr($input, -1)] ?? 1;
-            $value *= $scale;
+        if (!present($value)) {
+            return null;
         }
 
-        return [
-            'value' => $value,
-            'scale' => $scale ?? null,
-        ];
+        if (isset(Beatmapset::STATES[$value])) {
+            return Beatmapset::STATES[$value];
+        }
+
+        foreach (Beatmapset::STATES as $string => $int) {
+            if (starts_with($string, $value)) {
+                return $int;
+            }
+        }
+
+        return null;
     }
 }

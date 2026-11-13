@@ -5,6 +5,7 @@
 
 return [
     'show' => [
+        'non_preserved' => 'Цей результат відмічено для видалення і скоро зникне.',
         'title' => ':username з :title [:version]',
 
         'beatmap' => [
@@ -12,8 +13,11 @@ return [
         ],
 
         'player' => [
-            'by' => 'Зіграв',
-            'submitted_on' => 'Відправлено',
+            'by' => 'Гравець',
+            'played_on' => 'Клієнт',
+            'submitted_on' => 'Поставлено',
+            'watched' => 'Переглядів',
+            'watched_count' => ':count_delimited раз|:count_delimited рази|:count_delimited разів',
 
             'rank' => [
                 'country' => 'Ранг країни',
@@ -23,7 +27,9 @@ return [
     ],
 
     'status' => [
-        'non_best' => '',
-        'processing' => '',
+        'non_best' => 'Лише персональні рекорди приносять pp',
+        'no_pp' => 'За цей результат не можна отримати pp',
+        'processing' => 'Цей рекорд все ще обчислюється й незабаром буде відображений',
+        'no_rank' => 'Цей рекорд немає рангу, тому що він як такий є нерейтинговим або відмічений для видалення',
     ],
 ];

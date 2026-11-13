@@ -7,14 +7,22 @@ namespace App\Transformers;
 
 use App\Models\Beatmap;
 use App\Models\BeatmapFailtimes;
+use App\Models\DeletedUser;
+use App\Models\User;
+use League\Fractal\Resource\ResourceInterface;
 
 class BeatmapCompactTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
         'beatmapset',
         'checksum',
+        'current_user_playcount',
+        'current_user_tag_ids',
         'failtimes',
         'max_combo',
+        'owners',
+        'top_tag_ids',
+        'user',
     ];
 
     protected $beatmapsetTransformer = BeatmapsetCompactTransformer::class;
@@ -22,11 +30,14 @@ class BeatmapCompactTransformer extends TransformerAbstract
     public function transform(Beatmap $beatmap)
     {
         return [
+            'beatmapset_id' => $beatmap->beatmapset_id,
             'difficulty_rating' => $beatmap->difficultyrating,
             'id' => $beatmap->beatmap_id,
+            'lazer_only' => $beatmap->lazer_only,
             'mode' => $beatmap->mode,
             'status' => $beatmap->status(),
             'total_length' => $beatmap->total_length,
+            'user_id' => $beatmap->user_id,
             'version' => $beatmap->version,
         ];
     }
@@ -43,6 +54,16 @@ class BeatmapCompactTransformer extends TransformerAbstract
     public function includeChecksum(Beatmap $beatmap)
     {
         return $this->primitive($beatmap->checksum);
+    }
+
+    public function includeCurrentUserPlaycount(Beatmap $beatmap): ResourceInterface
+    {
+        return $this->primitive($beatmap->getUserPlaycount());
+    }
+
+    public function includeCurrentUserTagIds(Beatmap $beatmap)
+    {
+        return $this->primitive($beatmap->getUserTagIds());
     }
 
     public function includeFailtimes(Beatmap $beatmap)
@@ -67,5 +88,26 @@ class BeatmapCompactTransformer extends TransformerAbstract
     public function includeMaxCombo(Beatmap $beatmap)
     {
         return $this->primitive($beatmap->maxCombo());
+    }
+
+    public function includeOwners(Beatmap $beatmap)
+    {
+        return $this->collection($beatmap->getOwners(), fn (User $user) => [
+            'id' => $user->getKey(),
+            'username' => $user->username,
+        ]);
+    }
+
+    public function includeTopTagIds(Beatmap $beatmap)
+    {
+        return $this->primitive($beatmap->topTagIds());
+    }
+
+    public function includeUser(Beatmap $beatmap)
+    {
+        return $this->item(
+            $beatmap->user ?? new DeletedUser(),
+            new UserCompactTransformer(),
+        );
     }
 }

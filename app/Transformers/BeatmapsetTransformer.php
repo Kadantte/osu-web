@@ -5,13 +5,15 @@
 
 namespace App\Transformers;
 
+use App\Libraries\Beatmapset\NominateBeatmapset;
 use App\Models\Beatmapset;
 
 class BeatmapsetTransformer extends BeatmapsetCompactTransformer
 {
     protected $beatmapTransformer = BeatmapTransformer::class;
 
-    protected $defaultIncludes = [
+    protected array $defaultIncludes = [
+        'availability',
         'has_favourited',
     ];
 
@@ -19,27 +21,28 @@ class BeatmapsetTransformer extends BeatmapsetCompactTransformer
 
     public function transform(Beatmapset $beatmapset)
     {
-        $result = parent::transform($beatmapset);
+        // only for showing in BeatmapPanel.
+        $nominationsSummary = [
+            'current' => $beatmapset->nominations,
+            'eligible_main_rulesets' => $beatmapset->eligible_main_rulesets,
+            'required_meta' => NominateBeatmapset::requiredNominationsConfig(),
+        ];
 
-        return array_merge($result, [
-            'availability' => [
-                'download_disabled' => $beatmapset->download_disabled,
-                'more_information' => $beatmapset->download_disabled_url,
-            ],
+        return array_merge(parent::transform($beatmapset), [
             'bpm' => $beatmapset->bpm,
             'can_be_hyped' => $beatmapset->canBeHyped(),
-            'creator' => $beatmapset->creator,
-            'discussion_enabled' => $beatmapset->discussion_enabled,
+            'deleted_at' => $beatmapset->getJsonTime('deleted_at'),
+            'discussion_enabled' => true, // TODO: deprecated 2022-06-08
             'discussion_locked' => $beatmapset->discussion_locked,
             'is_scoreable' => $beatmapset->isScoreable(),
-            'last_updated' => json_time($beatmapset->last_update),
-            'legacy_thread_url' => $beatmapset->thread_id !== 0 ? route('forum.topics.show', $beatmapset->thread_id) : null,
-            'nominations_summary' => $beatmapset->nominationsSummaryMeta(),
+            'last_updated' => $beatmapset->getJsonTime('last_update'),
+            'legacy_thread_url' => ($beatmapset->thread_id ?? 0) !== 0 ? route('forum.topics.show', ['topic' => $beatmapset->thread_id]) : null,
+            'nominations_summary' => $nominationsSummary,
             'ranked' => $beatmapset->approved,
-            'ranked_date' => json_time($beatmapset->approved_date),
-            'source' => $beatmapset->source,
+            'ranked_date' => $beatmapset->getJsonTime('approved_date'),
+            'rating' => $beatmapset->rating,
             'storyboard' => $beatmapset->storyboard,
-            'submitted_date' => json_time($beatmapset->submit_date),
+            'submitted_date' => $beatmapset->getJsonTime('submit_date'),
             'tags' => $beatmapset->tags,
         ]);
     }

@@ -12,40 +12,35 @@ if [ ! -f artisan ]; then
 fi
 
 _run() {
-    docker-compose run --rm php "$@"
+    docker compose run --rm php "$@"
 }
 
-_run_dusk() {
-    docker-compose run --rm -e APP_ENV=dusk.local php "$@"
-}
+for envfile in .env .env.testing .env.dusk.local; do
+    if [ ! -f "${envfile}" ]; then
+        echo "Copying env file '${envfile}'"
+        cp "${envfile}.example" "${envfile}"
+    fi
+    if [ "${envfile}" != .env.testing ] && ! grep -q '^APP_KEY=.' "${envfile}"; then
+        echo "Generating app key for env file '${envfile}'"
+        sed -i -e '/^APP_KEY=.*/d' "${envfile}"
+        : ${APP_KEY="base64:$(head -c 32 /dev/urandom | base64)"}
+        echo "APP_KEY=${APP_KEY}" >> "${envfile}"
+    fi
+done
 
-genkey=0
-if [ ! -f .env ]; then
-    echo "Copying default env file"
-    cp .env.example .env
-    genkey=1
+docker compose build
+docker compose build testjs
+
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+    _run composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
+    for envfile in .env .env.dusk.local; do
+        grep -q '^GITHUB_TOKEN=' "${envfile}" || echo "GITHUB_TOKEN=${GITHUB_TOKEN}" >> "${envfile}"
+    done
 fi
+
+_run yarn --network-timeout 100000 --frozen-lockfile
 
 _run composer install
-
-_run artisan dusk:chrome-driver
-
-if [ "$genkey" = 1 ]; then
-    echo "Generating app key"
-    _run artisan key:generate
-fi
-
-if [ ! -f .env.testing ]; then
-    echo "Copying default test env file"
-    cp .env.testing.example .env.testing
-fi
-
-if [ ! -f .env.dusk.local ]; then
-    echo "Copying default dusk env file"
-    cp .env.dusk.local.example .env.dusk.local
-    echo "Generating app key for dusk"
-    _run_dusk artisan key:generate
-fi
 
 if [ -d storage/oauth-public.key ]; then
     echo "oauth-public.key is a directory. Removing it"
@@ -55,6 +50,7 @@ fi
 if [ ! -f storage/oauth-public.key ]; then
     echo "Generating passport key pair"
     _run artisan passport:keys
+    chmod 644 storage/oauth-public.key
 fi
 
 if [ ! -f .docker/.my.cnf ]; then
@@ -62,4 +58,8 @@ if [ ! -f .docker/.my.cnf ]; then
     cp .docker/.my.cnf.example .docker/.my.cnf
 fi
 
-echo "Preparation completed. Adjust .env file if needed and run 'docker-compose up' followed by running migration."
+if [ ! -f database/ip2asn/v6.tsv ]; then
+    _run artisan ip2asn:update
+fi
+
+echo "Preparation completed. Adjust .env file if needed and run 'docker compose up' followed by running migration."

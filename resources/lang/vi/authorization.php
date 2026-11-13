@@ -15,6 +15,7 @@ return [
         'destroy' => [
             'is_hype' => 'Không thể hủy bỏ hype.',
             'has_reply' => 'Không thể xóa cuộc thảo luận có trả lời trong đó',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
         'nominate' => [
             'exhausted' => 'Bạn đã đạt giới hạn số lần đề cử của hôm nay, hãy thử lại vào ngày mai.',
@@ -23,7 +24,7 @@ return [
             'set_metadata' => 'Bạn phải chọn thể loại nhạc và ngôn ngữ trước khi nominating.',
         ],
         'resolve' => [
-            'not_owner' => 'Chỉ có người mở thread và chủ beatmap mới có thể đánh dấu cuộc thảo luận là đã được giải quyết.',
+            'not_owner' => 'Chỉ có chủ thớt và chủ beatmap mới có thể đánh dấu cuộc thảo luận là đã được giải quyết.',
         ],
 
         'store' => [
@@ -31,7 +32,7 @@ return [
         ],
 
         'vote' => [
-            'bot' => "Không thể bầu trên thảo luận tạo bởi bot",
+            'bot' => "Không thể bình chọn trên thảo luận tạo bởi bot",
             'limit_exceeded' => 'Vui lòng đợi một lúc trước khi bình chọn thêm',
             'owner' => "Không thể bình chọn cuộc thảo luận của bạn.",
             'wrong_beatmapset_state' => 'Chỉ có thể bình chọn cuộc thảo luận của beatmap ở trạng thái pending.',
@@ -43,22 +44,33 @@ return [
             'not_owner' => 'Bạn chỉ có thể xóa bài đăng của chính mình.',
             'resolved' => 'Bạn không thể xoá một bài đăng về một thảo luận đã được giải quyết.',
             'system_generated' => 'Không thể xóa bài đăng được tạo tự động.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
 
         'edit' => [
-            'not_owner' => 'Bài đăng chỉ có thể được chỉnh sửa bởi người đăng.',
+            'not_owner' => 'Chỉ người đăng mới có thể chỉnh sửa bài đăng.',
             'resolved' => 'Bạn không thể sửa một bài đăng về một thảo luận đã được giải quyết.',
             'system_generated' => 'Không thể chỉnh sửa bài đăng được tạo tự động.',
-        ],
-
-        'store' => [
-            'beatmapset_locked' => 'Thảo luận bị khóa cho beatmap này.',
+            'caused_disqualify_or_nomination_reset' => '',
         ],
     ],
 
     'beatmapset' => [
+        'discussion_locked' => 'Beatmap này bị khoá thảo luận.',
+
         'metadata' => [
             'nominated' => 'Bạn không thể thay đổi metadata của map đã được nominated. Liên hệ với một BN hoặc NAT nếu bạn thấy metadata bị sai.',
+        ],
+
+        'rate' => [
+            'owner' => 'Bạn không thể đánh giá một bộ beatmap mà mình tham gia thực hiện.',
+            'status' => 'Bạn không thể đánh giá một bộ beatmap ở trạng thái này.',
+        ],
+    ],
+
+    'beatmap_tag' => [
+        'store' => [
+            'no_score' => 'Bạn phải đạt điểm trên một beatmap để thêm thẻ.',
         ],
     ],
 
@@ -67,42 +79,49 @@ return [
         'friends_only' => 'Người dùng này đang chặn tin nhắn từ những người không trong danh sách bạn của họ.',
         'moderated' => 'Kênh hiện đang được kiểm duyệt.',
         'no_access' => 'Bạn không có quyền truy cập vào kênh này.',
-        'restricted' => 'Bạn không thể gửi tin nhắn trong khi bị silenced, bị hạn chế hoặc bị cấm (ban).',
-        'silenced' => '',
+        'no_announce' => 'Bạn không có quyền đăng thông báo.',
+        'receive_friends_only' => 'Người này có thể không trả lời được vì bạn đang chỉ chấp nhận tin nhắn từ người trong danh sách bạn bè.',
+        'restricted' => 'Bạn không thể gửi tin nhắn trong khi bị cấm ngôn, bị hạn chế hoặc bị cấm.',
+        'silenced' => 'Bạn không thể gửi tin nhắn trong khi bị cấm ngôn, bị hạn chế hoặc bị cấm.',
     ],
 
     'comment' => [
+        'store' => [
+            'disabled' => 'Bình luận bị tắt',
+        ],
         'update' => [
             'deleted' => "Không thể chỉnh sửa bài đăng đã bị xóa.",
         ],
     ],
 
     'contest' => [
-        'voting_over' => 'Bạn không thể đổi phiếu bầu sau khi giai đoạn bầu chọn của cuộc thi này kết thúc.',
+        'judging_not_active' => 'Phần đánh giá cho cuộc thi này không hoạt động.',
+        'voting_over' => 'Bạn không thể đổi bình chọn sau khi giai đoạn bình chọn của cuộc thi này kết thúc.',
 
         'entry' => [
             'limit_reached' => 'Bạn đã đạt giới hạn bài dự thi cho cuộc thi này',
-            'over' => 'Cảm ơn về bài dự thi của bạn! Cuộc thi đã không còn nhận thêm mục nào nữa và sẽ sớm mở bình chọn.',
+            'over' => 'Cảm ơn bạn đã tham gia! Thời gian nộp bài dự thi đã kết thúc và cổng bình chọn sẽ sớm được mở.',
         ],
     ],
 
     'forum' => [
         'moderate' => [
-            'no_permission' => 'Bạn không có quyền chỉnh sửa forum này.',
+            'no_permission' => 'Không có quyền quản trị diễn đàn này.',
         ],
 
         'post' => [
             'delete' => [
                 'only_last_post' => 'Chỉ có thể xóa bài đăng cuối cùng.',
-                'locked' => 'Không thể xóa bài đăng của một topic bị khóa.',
-                'no_forum_access' => 'Yêu cầu quyền truy cập vào forum mong muốn.',
+                'locked' => 'Không thể xóa bài đăng của một chủ đề bị khóa.',
+                'no_forum_access' => 'Cần có quyền truy cập vào diễn đàn được yêu cầu.',
                 'not_owner' => 'Chỉ người đăng mới có thể xóa bài đăng.',
             ],
 
             'edit' => [
                 'deleted' => 'Không thể chỉnh sửa bài đăng đã bị xóa.',
                 'locked' => 'Bài đăng đã bị khóa chỉnh sửa.',
-                'no_forum_access' => 'Yêu cầu quyền truy cập vào forum mong muốn.',
+                'no_forum_access' => 'Cần có quyền truy cập vào diễn đàn được yêu cầu.',
+                'no_permission' => 'Không có quyền chỉnh sửa.',
                 'not_owner' => 'Chỉ có người đăng mới có thể chỉnh sửa bài đăng.',
                 'topic_locked' => 'Không thể chỉnh sửa bài đăng của một chủ đề bị khóa.',
             ],
@@ -116,8 +135,8 @@ return [
         'topic' => [
             'reply' => [
                 'double_post' => 'Vui lòng chỉnh sửa bài đăng cuối cùng của bạn thay vì đăng thêm lần nữa.',
-                'locked' => 'Không thể trả lời một thread bị khóa.',
-                'no_forum_access' => 'Yêu cầu quyền truy cập vào forum mong muốn.',
+                'locked' => 'Không thể trả lời một thớt bị khóa.',
+                'no_forum_access' => 'Cần có quyền truy cập vào diễn đàn được yêu cầu.',
                 'no_permission' => 'Không có quyền trả lời.',
 
                 'user' => [
@@ -128,26 +147,26 @@ return [
             ],
 
             'store' => [
-                'no_forum_access' => 'Yêu cầu quyền truy cập vào forum mong muốn.',
-                'no_permission' => 'Không có quyền tạo topic mới.',
-                'forum_closed' => 'Forum này đã bị đóng và không thể đăng thêm bài.',
+                'no_forum_access' => 'Cần có quyền truy cập vào diễn đàn được yêu cầu.',
+                'no_permission' => 'Không có quyền tạo chủ đề mới.',
+                'forum_closed' => 'Diễn đàn này đã bị đóng và không thể đăng bài.',
             ],
 
             'vote' => [
-                'no_forum_access' => 'Yêu cầu quyền truy cập vào forum mong muốn.',
-                'over' => 'Đã kết thúc bỏ phiếu và không thể bình chọn nữa.',
-                'play_more' => 'Bạn cần chơi nhiều hơn trước khi bỏ phiếu trên diễn đàn.',
-                'voted' => 'Không cho phép đổi phiếu bầu.',
+                'no_forum_access' => 'Cần có quyền truy cập vào diễn đàn được yêu cầu.',
+                'over' => 'Đã kết thúc cuộc bình chọn và không thể bình chọn nữa.',
+                'play_more' => 'Bạn cần chơi nhiều hơn trước khi bình chọn trên diễn đàn.',
+                'voted' => 'Không được phép đổi bình chọn.',
 
                 'user' => [
                     'require_login' => 'Vui lòng đăng nhập để bình chọn.',
-                    'restricted' => "Không thể bình chọn trong khi bị hạn chế",
-                    'silenced' => "Không thể bình chọn khi im lặng",
+                    'restricted' => "Không thể bình chọn trong khi bị hạn chế.",
+                    'silenced' => "Không thể bình chọn khi im lặng.",
                 ],
             ],
 
             'watch' => [
-                'no_forum_access' => 'Yêu cầu quyền truy cập vào forum mong muốn.',
+                'no_forum_access' => 'Cần có quyền truy cập vào diễn đàn được yêu cầu.',
             ],
         ],
 
@@ -162,7 +181,41 @@ return [
         ],
 
         'view' => [
-            'admin_only' => 'Chỉ có admin mới có thể xem diễn đàn này.',
+            'admin_only' => 'Chỉ có quản trị viên mới có thể xem diễn đàn này.',
+        ],
+    ],
+
+    'room' => [
+        'destroy' => [
+            'not_owner' => 'Chỉ chủ phòng mới có thể đóng phòng.',
+        ],
+    ],
+
+    'score' => [
+        'pin' => [
+            'disabled_type' => "Không thể ghim điểm này",
+            'failed' => "Không thể ghim điểm chưa hoàn thành.",
+            'not_owner' => 'Chỉ có người sở hữu có thể ghim điểm.',
+            'too_many' => 'Ghim quá nhiều điểm.',
+        ],
+    ],
+
+    'team' => [
+        'application' => [
+            'store' => [
+                'already_member' => "Bạn đã là một phần của đội rồi.",
+                'already_other_member' => "Bạn đã là một phần của một đội khác rồi.",
+                'currently_applying' => 'Bạn có yêu cầu gia nhập đội đang chờ.',
+                'team_closed' => 'Đội này hiện không chấp nhận bất kì yêu cầu gia nhập nào.',
+                'team_full' => "Đội đã đầy và không thể chấp nhận thêm thành viên nữa.",
+            ],
+        ],
+        'part' => [
+            'is_leader' => "Đội trưởng không thể rời khỏi đội.",
+            'not_member' => 'Không phải thành viên của một đội.',
+        ],
+        'store' => [
+            'require_supporter_tag' => 'cần thẻ osu!supporter để tạo đội.',
         ],
     ],
 
@@ -171,8 +224,11 @@ return [
             'edit' => [
                 'locked' => 'Trang người dùng này đã bị khóa.',
                 'not_owner' => 'Chỉ có thể chỉnh sửa trang người dùng của bạn.',
-                'require_supporter_tag' => 'phải có osu!supporter.',
+                'require_supporter_tag' => 'phải có thẻ osu!supporter.',
             ],
+        ],
+        'update_email' => [
+            'locked' => 'địa chỉ email bị khóa',
         ],
     ],
 ];

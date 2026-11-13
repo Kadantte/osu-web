@@ -5,20 +5,30 @@
 
 return [
     'edit' => [
-        'title_compact' => 'cài đặt',
+        'title_compact' => 'cài đặt tài khoản',
         'username' => 'tên người dùng',
 
         'avatar' => [
             'title' => 'Ảnh đại diện',
-            'rules' => 'Hãy chắc rằng ảnh đại diện của bạn tuân thủ :link.<br/>Điều này có nghĩa rằng ảnh phải <strong>phù hợp với mọi lứa tuổi</strong>. Ví dụ như không có nội dung khỏa thân, thô tục hoặc gợi tưởng.',
-            'rules_link' => 'những tiêu chuẩn cộng đồng',
+            'reset' => 'đặt lại',
+            'rules' => 'Hãy chắc rằng ảnh đại diện của bạn tuân thủ :link.<br/>Điều này có nghĩa rằng ảnh phải <strong>phù hợp với mọi lứa tuổi</strong>. Ví dụ như không có nội dung khiêu gợi, thô tục hoặc gợi tưởng.',
+            'rules_link' => 'những cân nhắc về Nội dung trực quan',
         ],
 
         'email' => [
-            'current' => 'Email hiện tại',
             'new' => 'email mới',
             'new_confirmation' => 'xác nhận email',
             'title' => 'Email',
+            'locked' => [
+                '_' => 'Vui lòng liên hệ :accounts nếu bạn cần cập nhật địa chỉ email.',
+                'accounts' => 'đội ngũ hỗ trợ tài khoản',
+            ],
+        ],
+
+        'legacy_api' => [
+            'api' => 'api',
+            'irc' => 'irc',
+            'title' => 'API cũ',
         ],
 
         'password' => [
@@ -29,7 +39,13 @@ return [
         ],
 
         'profile' => [
+            'country' => 'quốc gia',
             'title' => 'Trang cá nhân',
+
+            'country_change' => [
+                '_' => "Có vẻ như quốc gia cho tài khoản của bạn chưa khớp với quốc gia bạn đang ở. :update_link.",
+                'update_link' => 'Cập nhật quốc gia thành :country',
+            ],
 
             'user' => [
                 'user_discord' => '',
@@ -47,23 +63,53 @@ return [
         ],
     ],
 
+    'github_user' => [
+        'info' => "Nếu bạn là người đóng góp cho các kho mã nguồn mở của osu!, việc liên kết tài khoản GitHub của bạn tại đây sẽ liên kết các mục nhật ký thay đổi với trang cá nhân osu! của bạn. Tài khoản GitHub không có lịch sử đóng góp cho osu! không thể liên kết được.",
+        'link' => 'Liên kết tài khoản GitHub',
+        'title' => 'GitHub',
+        'unlink' => 'Hủy liên kết tài khoản GitHub',
+
+        'error' => [
+            'already_linked' => 'Tài khoản GitHub này đã được liên kết với một người dùng khác.',
+            'no_contribution' => 'Không thể liên kết tài khoản GitHub mà không có bất kỳ lịch sử đóng góp nào trong kho lưu trữ của osu!.',
+            'unverified_email' => 'Vui lòng xác minh email chính của bạn trên GitHub, sau đó thử liên kết lại tài khoản của bạn.',
+        ],
+    ],
+
     'notifications' => [
-        'beatmapset_discussion_qualified_problem' => 'nhận thông báo về vấn đề mới ở các beatmap đủ tiêu chuẩn của chế độ này',
-        'beatmapset_disqualify' => 'nhận thông báo khi beatmap ở các chế độ sau bị disqualified',
+        'beatmapset_discussion_reply' => 'nhận thông báo khi có phản hồi đến các cuộc thảo luận beatmap bạn đang theo dõi',
+        'beatmapset_discussion_qualified_problem' => 'nhận thông báo về các vấn đề mới trên các beatmap đủ điều kiện thuộc các chế độ sau',
+        'beatmapset_disqualify' => 'nhận thông báo khi beatmap ở các chế độ sau bị hủy trạng thái đủ điều kiện',
         'comment_reply' => 'nhận thông báo khi có phản hồi đến bình luận của bạn',
+        'news_post' => 'nhận thông báo về các bài đăng tin tức',
         'title' => 'Thông báo',
-        'topic_auto_subscribe' => 'tự động nhận thông báo cho các topic bạn tạo trong forum',
+        'topic_auto_subscribe' => 'tự động nhận thông báo cho các chủ đề trên diễn đàn mà bạn mới tạo hoặc trả lời',
 
         'options' => [
-            '_' => 'phương thức giao hàng',
-            'beatmapset:modding' => 'sửa đổi beatmap',
+            '_' => 'cách nhận thông báo',
+            'beatmap_owner_change' => 'độ khó khách mời',
+            'beatmapset:modding' => 'nhận xét beatmap',
+            'channel_mention' => 'nhắc tên trong chat',
             'channel_message' => 'tin nhắn riêng tư',
+            'channel_team' => 'tin nhắn đội',
             'comment_new' => 'bình luận mới',
             'forum_topic_reply' => 'trả lời chủ đề',
             'mail' => 'thư',
-            'mapping' => '',
-            'push' => 'push',
-            'user_achievement_unlock' => 'mở khoá huy chương',
+            'mapping' => 'người tạo beatmap',
+            'news_post' => 'bài đăng tin tức',
+            'push' => 'đẩy',
+        ],
+
+        'tooltips' => [
+            'beatmap_owner_change' => 'khi bạn được thêm làm guest mapper cho một độ khó của bài nhạc',
+            'beatmapset:modding' => 'khi các thảo luận beatmap bạn đang theo dõi có cập nhật, hoặc có lỗi hoặc góp ý xuất hiện trên beatmap của chính bạn.',
+            'channel_mention' => 'khi bạn được nhắc đến trong một kênh trò chuyện công khai',
+            'channel_message' => 'khi bạn nhận được tin nhắn riêng tư',
+            'channel_team' => 'khi kênh chat đội của bạn có tin nhắn mới',
+            'comment_new' => 'khi có bình luận mới về một mục bạn đang theo dõi',
+            'forum_topic_reply' => 'khi các chủ đề diễn đàn bạn đang theo dõi có phản hồi mới',
+            'mapping' => 'khi một mapper bạn đang theo dõi tải lên một beatmap',
+            'news_post' => 'khi có bài đăng tin tức mới',
         ],
     ],
 
@@ -74,36 +120,41 @@ return [
     ],
 
     'options' => [
-        'beatmapset_show_nsfw' => 'ẩn cảnh báo nội dung không phù hợp trong beatmap',
-        'beatmapset_title_show_original' => 'hiển thị metadata của beatmap ở ngôn ngữ gốc',
+        'beatmapset_show_anime_cover' => 'hiện ảnh bìa beatmap phong cách anime',
+        'beatmapset_show_nsfw' => 'ẩn cảnh báo nội dung không lành mạnh trong beatmap',
+        'beatmapset_title_show_original' => 'hiển thị metadata của beatmap bằng ngôn ngữ gốc',
         'title' => 'Tuỳ chọn',
 
         'beatmapset_download' => [
             '_' => 'kiểu tải beatmap mặc định',
             'all' => 'kèm video nếu có',
             'direct' => 'mở trong osu!direct',
+            'lazer' => '',
             'no_video' => 'không kèm video',
         ],
     ],
 
     'playstyles' => [
+        'default_ruleset' => 'chế độ chơi mặc định',
         'keyboard' => 'bàn phím',
         'mouse' => 'chuột',
-        'tablet' => 'tablet',
-        'title' => 'Lối Chơi',
+        'tablet' => 'bảng vẽ',
+        'title' => 'Lối chơi',
         'touch' => 'cảm ứng',
     ],
 
     'privacy' => [
         'friends_only' => 'chặn tin nhắn từ những người không có trong danh sách bạn bè của bạn',
-        'hide_online' => 'Ẩn sự xuất hiện của bạn khi bạn online',
+        'friends_only_info' => 'tùy chọn chặn này cũng chặn lời mời chơi nhiều người và yêu cầu đấu xếp hạng trong osu!lazer',
+        'hide_online' => 'ẩn trạng thái trực tuyến của bạn',
+        'hide_online_info' => 'tính năng này tương ứng với chế độ "xuất hiện ngoại tuyến" trong osu!lazer',
         'title' => 'Quyền Riêng Tư',
     ],
 
     'security' => [
         'current_session' => 'hiện tại',
         'end_session' => 'Kết thúc Phiên',
-        'end_session_confirmation' => 'Việc này sẽ ngay lập tức kết thúc phiên của bạn trên thiết bị đó. Bạn có chắc không?',
+        'end_session_confirmation' => 'Việc này sẽ ngay lập tức kết thúc phiên của bạn trên thiết bị đó. Bạn chắc chứ?',
         'last_active' => 'Hoạt động lần cuối:',
         'title' => 'Bảo mật',
         'web_sessions' => 'phiên trên web',
@@ -117,12 +168,27 @@ return [
         'update' => 'cập nhật',
     ],
 
+    'user_totp' => [
+        'title' => 'Ứng Dụng Xác Thực',
+        'usage_note' => 'Xác thực bằng ứng dụng xác thực thay cho email. Email vẫn sẽ được sử dụng như một phương thức dự phòng.',
+
+        'button' => [
+            'remove' => 'Loại bỏ',
+            'setup' => 'Thêm ứng dụng xác thực',
+        ],
+        'status' => [
+            'label' => 'trạng thái',
+            'not_set' => 'Chưa được thiết lập',
+            'set' => 'Đã thiết lập',
+        ],
+    ],
+
     'verification_completed' => [
         'text' => 'Bây giờ bạn có thể đóng cửa sổ này',
-        'title' => 'Tài khoản đã được xác minh',
+        'title' => 'Quá trình xác minh đã hoàn tất',
     ],
 
     'verification_invalid' => [
-        'title' => 'Đường dẫn xác minh tài khoản không hợp lệ hoặc hết hạn',
+        'title' => 'Đường dẫn xác minh không hợp lệ hoặc đã hết hạn',
     ],
 ];

@@ -7,12 +7,6 @@ return [
     'admin' => [
         '_' => 'admin',
     ],
-    'admin_forum' => [
-        '_' => 'admin',
-    ],
-    'admin_store' => [
-        '_' => 'admin',
-    ],
     'error' => [
         'error' => [
             '400' => 'ogiltig begäran',
@@ -29,13 +23,12 @@ return [
     ],
     'forum' => [
         '_' => 'forum',
-        'topic_watches_controller' => [
-            'index' => 'kontrollpanel',
+        'topic_logs_controller' => [
+            'index' => 'ämneslogg',
         ],
     ],
     'main' => [
         'account_controller' => [
-            'edit' => 'kontrollpanel',
             'verify_link' => 'kontobekräftelse',
         ],
         'artists_controller' => [
@@ -56,13 +49,11 @@ return [
         'beatmapset_events_controller' => [
             '_' => 'beatmaphistorik',
         ],
-        'beatmapset_watches_controller' => [
-            'index' => 'kontrollpanel',
-        ],
         'beatmapsets_controller' => [
             'discussion' => 'beatmapdiskussioner',
-            'index' => 'beatmap listningar',
+            'index' => 'beatmaplistning',
             'show' => 'beatmapinfo',
+            'versions' => 'slagkarta versionshistorik',
         ],
         'changelog_controller' => [
             '_' => 'ändringslogg',
@@ -73,14 +64,15 @@ return [
         'comments_controller' => [
             '_' => 'kommentarer',
         ],
+        'contest_entries_controller' => [
+            'judge_results' => 'tävlingsbedömnings resultat',
+        ],
         'contests_controller' => [
             '_' => 'tävlingar',
+            'judge' => 'tävlingsbedömning',
         ],
-        'follows_controller' => [
-            'index' => 'kontrollpanel',
-        ],
-        'friends_controller' => [
-            'index' => 'kontrollpanel',
+        'group_history_controller' => [
+            '_' => 'grupp historik',
         ],
         'groups_controller' => [
             'show' => 'grupper',
@@ -89,17 +81,17 @@ return [
             'get_download' => 'ladda ner',
             'index' => 'kontrollpanel',
             'search' => 'sök',
-            'support_the_game' => 'stödja spelet',
-            'testflight' => 'testflyg',
+            'support_the_game' => 'stötta spelet',
+            'testflight' => 'testflight',
+        ],
+        'legacy_matches_controller' => [
+            '_' => 'matcher',
         ],
         'legal_controller' => [
             '_' => 'information',
         ],
         'livestreams_controller' => [
             '_' => 'direktsändningar',
-        ],
-        'matches_controller' => [
-            '_' => 'matchningar',
         ],
         'news_controller' => [
             '_' => 'nyheter',
@@ -116,31 +108,58 @@ return [
         'scores_controller' => [
             '_' => 'prestation',
         ],
-        'store_controller' => [
-            '_' => 'osu!store',
+        'seasons_controller' => [
+            '_' => 'rankningar',
+        ],
+        'teams_controller' => [
+            '_' => 'lag',
+            'create' => 'skapa lag',
+            'edit' => 'lag inställningar ',
+            'leaderboard' => 'lag topplista',
+            'show' => 'lag info',
         ],
         'tournaments_controller' => [
             '_' => 'turneringar',
         ],
+        'user_cover_presets_controller' => [
+            '_' => 'användarens omslagsförinställningar',
+        ],
+        'user_totp_controller' => [
+            '_' => 'autentiseringsapp',
+        ],
         'users_controller' => [
-            '_' => 'spelar information',
+            '_' => 'spelarinformation',
+            'create' => 'skapa konto',
             'disabled' => 'notera',
         ],
         'wiki_controller' => [
-            '_' => 'kunskapsbas',
+            '_' => 'wiki',
         ],
     ],
     'multiplayer' => [
         'rooms_controller' => [
-            '_' => 'rankning',
+            'events' => 'rums historik',
+        ],
+    ],
+    'passport' => [
+        'authorization_controller' => [
+            '_' => 'auktorisera app',
         ],
     ],
     'store' => [
-        '_' => 'osu!store',
+        '_' => 'butik',
+    ],
+    'teams' => [
+        'members_controller' => [
+            'index' => 'lag medlemmar ',
+        ],
     ],
     'users' => [
         'modding_history_controller' => [
             '_' => 'modder info',
+        ],
+        'multiplayer_controller' => [
+            '_' => 'flerspelarhistorik',
         ],
     ],
 ];

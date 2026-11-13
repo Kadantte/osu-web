@@ -4,32 +4,67 @@
 // See the LICENCE file in the repository root for full licence text.
 
 return [
-    'talking_in' => 'berbicara pada :channel',
+    'loading_users' => 'memuat pengguna...',
+    'searching_users' => 'mencari pengguna...',
+    'talking_in' => 'berbicara di :channel',
     'talking_with' => 'berbicara dengan :name',
-    'title_compact' => 'percakapan',
+    'title_compact' => 'obrolan',
+    'unread_messages' => 'pesan yang belum dibaca',
 
     'cannot_send' => [
-        'channel' => 'Saat ini Anda tidak dapat mengirimkan pesan pada kanal percakapan ini. Hal ini dapat disebabkan oleh beberapa alasan berikut:',
-        'user' => 'Saat ini Anda tidak dapat mengirimkan pesan pada pada pengguna yang Anda tuju. Hal ini dapat disebabkan oleh beberapa alasan berikut:',
-        'reasons' => [
-            'blocked' => 'Anda sedang diblokir oleh penerima pesan yang Anda tuju',
-            'channel_moderated' => 'Kanal percakapan ini sedang berada dalam status termoderasi',
-            'friends_only' => 'Penerima pesan yang Anda tuju hanya menerima pesan-pesan masuk dari para pengguna yang ditambahkan sebagai teman',
-            'not_enough_plays' => 'Anda belum bermain cukup lama',
-            'not_verified' => 'Sesi Anda belum diverifikasi',
-            'restricted' => 'Akun Anda saat ini sedang di-restrict',
-            'silenced' => 'Anda sedang di-silence',
-            'target_restricted' => 'Penerima pesan yang Anda tuju saat ini sedang di-restrict',
+        'channel' => 'Kamu sedang tidak bisa mengirim pesan pada kanal ini.',
+        'user' => 'Kamu sedang tidak bisa mengirimkan pesan kepada pengguna ini.',
+    ],
+
+    'channels' => [
+        'confirm_part' => 'Apakah kamu ingin menyembunyikan kanal ini? Kamu akan tetap menerima pesan dari kanal ini.',
+        'create' => 'buat pengumuman',
+        'join' => 'gabung kanal baru',
+        'none' => 'tidak ada kanal',
+
+        'list' => [
+            'title' => [
+                'ANNOUNCE' => 'Pengumuman',
+                'GROUP' => 'Grup',
+                'PM' => 'Pesan pribadi',
+                'PUBLIC' => 'Kanal Obrolan',
+                'TEAM' => 'Tim',
+            ],
         ],
     ],
+
+    'form' => [
+        'title' => [
+            'announcement' => 'Buat Pengumuman Baru',
+        ],
+
+        'labels' => [
+            'description' => 'keterangan',
+            'message' => 'pesan',
+            'name' => 'nama ruangan',
+            'users' => 'pemain yang akan ditambahkan',
+        ],
+    ],
+
+    'not_found' => [
+        'message' => 'Tidak ada apa-apa di sini. Mungkin kamu sudah meninggalkan kanal ini, atau kanal yang ingin kamu tuju sudah tidak ada...',
+        'title' => 'kanal tidak ditemukan',
+    ],
+
+    'not_joined' => [
+        'message' => 'Bergabunglah ke kanal ini untuk melihat isi pesan di dalamnya.',
+        'join' => 'Gabung Kanal',
+    ],
+
     'input' => [
-        'disabled' => 'gagal mengirim pesan...',
-        'placeholder' => 'ketikkan pesan...',
+        'create' => 'Buat',
+        'disabled' => 'pesan tidak bisa dikirim...',
+        'disconnected' => 'Terputus',
+        'placeholder' => 'ketik pesan...',
         'send' => 'Kirim',
     ],
-    'no-conversations' => [
-        'howto' => "Mulailah suatu percakapan dengan meng-klik tombol yang tersedia pada halaman profil atau kartu pop-up pengguna.",
-        'lazer' => 'Kanal-kanal percakapan yang Anda buka melalui <a href=":link">osu!lazer</a> juga akan terlihat di sini.',
-        'title' => 'belum ada percakapan',
+
+    'join_channels' => [
+        'loading' => 'Memuat daftar kanal...',
     ],
 ];

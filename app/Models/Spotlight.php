@@ -5,7 +5,6 @@
 
 namespace App\Models;
 
-use App\Models\Score\Best as ScoreBest;
 use DB;
 use Illuminate\Database\Schema\Blueprint;
 use Schema;
@@ -28,16 +27,15 @@ class Spotlight extends Model
 
     public $timestamps = false;
 
-    protected $table = 'osu_charts';
-    protected $primaryKey = 'chart_id';
-    protected $guarded = [];
-
     protected $casts = [
         'active' => 'boolean',
+        'chart_month' => 'datetime',
+        'end_date' => 'datetime',
         'mode_specific' => 'boolean',
+        'start_date' => 'datetime',
     ];
-
-    protected $dates = ['chart_month', 'end_date', 'start_date'];
+    protected $primaryKey = 'chart_id';
+    protected $table = 'osu_charts';
 
     public function beatmapsets(string $mode)
     {
@@ -46,23 +44,6 @@ class Spotlight extends Model
         return Beatmapset::whereIn('beatmapset_id', function ($q) use ($tableName) {
             return $q->from($tableName)->select('beatmapset_id');
         });
-    }
-
-    /**
-     * Returns a builder for best scores.
-     * IMPORTANT: The models returned by the query will have the incorrect table set.
-     *
-     * @param string $mode
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scores(string $mode)
-    {
-        $clazz = ScoreBest\Model::getClass(Beatmap::MODES[$mode]);
-        $model = new $clazz();
-        $model->setTable($this->bestScoresTableName($mode));
-        $model->setConnection('mysql-charts');
-
-        return $model->newQuery();
     }
 
     /**
@@ -97,7 +78,7 @@ class Spotlight extends Model
         // These models will not have the correct table name set on them
         // as they get overriden when Laravel hydrates them.
         return $this->userStats($mode)
-            ->with(['user', 'user.country'])
+            ->with(['user', 'user.country', 'user.team'])
             ->whereHas('user', function ($userQuery) {
                 $model = new User();
                 $userQuery
@@ -118,17 +99,6 @@ class Spotlight extends Model
             $name = "{$this->acronym}_beatmapsets";
         } else {
             $name = "{$this->acronym}_beatmapsets_{$mode}";
-        }
-
-        return $name;
-    }
-
-    public function bestScoresTableName(string $mode)
-    {
-        if ($mode === 'osu') {
-            $name = "{$this->acronym}_scores_high";
-        } else {
-            $name = "{$this->acronym}_scores_{$mode}_high";
         }
 
         return $name;
@@ -158,7 +128,6 @@ class Spotlight extends Model
             }
 
             foreach ($modes as $mode) {
-                static::createBestScoresTable($this->bestScoresTableName($mode));
                 static::createUserStatsTable($this->userStatsTableName($mode));
             }
         });
@@ -173,36 +142,6 @@ class Spotlight extends Model
             $table->collation = 'utf8_general_ci';
 
             $table->unsignedMediumInteger('beatmapset_id')->primary();
-        });
-    }
-
-    private static function createBestScoresTable(string $name)
-    {
-        \Log::debug("create table {$name}");
-
-        Schema::connection('mysql-charts')->create($name, function (Blueprint $table) {
-            $table->charset = 'utf8';
-            $table->collation = 'utf8_general_ci';
-
-            $table->increments('score_id');
-            $table->unsignedMediumInteger('beatmap_id')->default(0);
-            $table->unsignedMediumInteger('beatmapset_id')->default(0);
-            $table->mediumInteger('user_id')->default(0);
-            $table->integer('score')->default(0);
-            $table->unsignedSmallInteger('maxcombo')->default(0);
-            $table->enum('rank', ['A', 'B', 'C', 'D', 'S', 'SH', 'X', 'XH']);
-            $table->unsignedSmallInteger('count50')->default(0);
-            $table->unsignedSmallInteger('count100')->default(0);
-            $table->unsignedSmallInteger('count300')->default(0);
-            $table->unsignedSmallInteger('countmiss')->default(0);
-            $table->unsignedSmallInteger('countgeki')->default(0);
-            $table->unsignedSmallInteger('countkatu')->default(0);
-            $table->boolean('perfect')->default(0);
-            $table->unsignedMediumInteger('enabled_mods')->default(0);
-            $table->timestamp('date')->useCurrent();
-            $table->unique(['user_id', 'beatmap_id'], 'user_beatmap');
-            $table->index(['beatmap_id', 'score'], 'beatmap_score');
-            $table->index(['user_id', 'beatmapset_id'], 'user_beatmapset');
         });
     }
 

@@ -26,6 +26,9 @@ return [
         'placeholder' => 'skriv for å søke',
         'title' => 'Søk',
 
+        'artist_track' => [
+            'more_simple' => '',
+        ],
         'beatmapset' => [
             'login_required' => 'Logg inn for å søke etter beatmaps',
             'more' => ':count flere beatmap-søkeresultater',
@@ -43,6 +46,7 @@ return [
             'label' => [
                 'forum' => 'søk i forumet',
                 'forum_children' => 'inkluder underkategorier',
+                'include_deleted' => 'inkluder slettede innlegg',
                 'topic_id' => 'emne #',
                 'username' => 'forfatter',
             ],
@@ -50,10 +54,17 @@ return [
 
         'mode' => [
             'all' => 'alt',
+            'artist_track' => '',
             'beatmapset' => 'beatmap',
             'forum_post' => 'forum',
+            'team' => '',
             'user' => 'spiller',
             'wiki_page' => 'wiki',
+        ],
+
+        'team' => [
+            'login_required' => '',
+            'more_simple' => '',
         ],
 
         'user' => [
@@ -72,13 +83,24 @@ return [
     ],
 
     'download' => [
-        'tagline' => "la oss<br>få deg i gang!",
-        'action' => 'Last ned osu!',
+        'action_lazer_info' => 'sjekk denne siden for mer informasjon',
+        'download' => '',
+        'for_os' => 'for :os',
+        'macos-fallback' => 'macOS brukere',
+        'mirror' => 'alternativ link',
+        'or' => 'eller',
+        'os_version_or_later' => ':os_version eller senere',
+        'other_os' => 'andre plattformer',
+        'quick_start_guide' => 'hurtigveiledning',
+        'stable_text' => '',
+        'tagline_1' => '',
+        'tagline_2' => '',
+        'video-guide' => 'video veiledning',
 
         'help' => [
-            '_' => '',
-            'help_forum_link' => '',
-            'support_button' => '',
+            '_' => 'hvis du har problem å starte spillet eller med å registrere en konto, :help_forum_link eller :support_button.',
+            'help_forum_link' => 'sjekk hjelp-forumet',
+            'support_button' => 'kontakt kundestøtte',
         ],
 
         'os' => [
@@ -86,8 +108,6 @@ return [
             'macos' => 'for macOS',
             'linux' => 'for Linux',
         ],
-        'mirror' => 'alternativ link',
-        'macos-fallback' => 'macOS brukere',
         'steps' => [
             'register' => [
                 'title' => 'opprett en konto',
@@ -105,7 +125,6 @@ return [
                 ],
             ],
         ],
-        'video-guide' => 'video veiledning',
     ],
 
     'user' => [
@@ -122,25 +141,24 @@ return [
             ],
         ],
         'beatmaps' => [
+            'daily_challenge' => '',
             'new' => 'Nye Rangerte Beatmaps',
             'popular' => 'Populære Beatmaps',
             'by_user' => 'av :user',
+            'resets' => '',
         ],
         'buttons' => [
             'download' => 'Last ned osu!',
             'support' => 'Støtt osu!',
             'store' => 'osu!butikken',
         ],
-    ],
-
-    'support-osu' => [
-        'title' => 'Wow!',
-        'subtitle' => 'Du ser ut som du trives! :D',
-        'body' => [
-            'part-1' => 'Visste du, at osu! kjører uten reklamering, og er avhengig av spillernes støtte for sin utvikling og driftskostnader?',
-            'part-2' => 'Visste du også, at ved å støtte osu! får du en haug med nyttige funksjoner, som for eksempel <strong>nedlasting i spillet</strong> som automatisk laster ned maps mens du ser på andre eller spiller i flerspillerspill?',
+        'livestream' => [
+            'title' => '',
         ],
-        'find-out-more' => 'Klikk her for å finne ut mer!',
-        'download-starting' => "Åh, og ikke bekymre deg - nedlastingen din har allerede begynt :)",
+        'show' => [
+            'admin' => [
+                'page' => '',
+            ],
+        ],
     ],
 ];

@@ -12,11 +12,11 @@
                 }
             @endphp
             <a
-                href="{{ route('search', ['mode' => $mode, 'query' => request('query')]) }}"
+                href="{{ route('search', ['mode' => $mode, 'query' => $allSearch->getRawQuery()]) }}"
                 class="{{ $cssClasses }}"
             >
-                <span class="fake-bold" data-content="{{ trans("home.search.mode.{$mode}") }}">
-                    {{ trans("home.search.mode.{$mode}") }}
+                <span class="fake-bold" data-content="{{ osu_trans("home.search.mode.{$mode}") }}">
+                    {{ osu_trans("home.search.mode.{$mode}") }}
                 </span>
 
                 @if ($allSearch->hasQuery() && $search !== null && (!$search->isLoginRequired() || auth()->check()))
@@ -29,7 +29,7 @@
                     </span>
                 @endif
 
-                <span class="page-mode-link__stripe u-forum--bg">
+                <span class="page-mode-link__stripe">
                 </span>
             </a>
         </div>

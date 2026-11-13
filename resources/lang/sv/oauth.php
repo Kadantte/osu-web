@@ -7,6 +7,7 @@ return [
     'cancel' => 'Avbryt',
 
     'authorise' => [
+        'app_owner' => 'en app av :owner',
         'request' => 'begär behörighet att komma åt ditt konto.',
         'scopes_title' => 'Denna applikation kommer att kunna:',
         'title' => 'Auktoriseringsbegäran.',
@@ -27,7 +28,7 @@ return [
     'client' => [
         'id' => 'Klient-ID',
         'name' => 'Applikationsnamn',
-        'redirect' => 'URL för appens uppringning',
+        'redirect' => 'URL för appens callback',
         'reset' => 'Återställ klienthemligheten',
         'reset_failed' => 'Kunde inte återställa klienthemligheten',
         'secret' => 'Klienthemlighet',
@@ -39,23 +40,29 @@ return [
     ],
 
     'new_client' => [
-        'header' => 'Registrera en ny OAuth applikation',
+        'header' => 'Registrera en ny OAuth-applikation',
         'register' => 'Registrera applikationen',
         'terms_of_use' => [
-            '_' => 'Genom att använda API godkänner du :link.',
+            '_' => 'Genom att använda denna API godkänner du :link.',
             'link' => 'Användarvillkor',
         ],
     ],
 
     'own_clients' => [
         'confirm_delete' => 'Är du säker på att du vill radera denna klient?',
-        'confirm_reset' => 'Är du säger på att du vill återställa klient hemligheten? Detta kommer att återkalla alla befintliga polletter.',
-        'new' => 'Ny OAuth Applikation ',
+        'confirm_reset' => 'Är du säker på att du vill återställa klienthemligheten? Detta kommer att återkalla alla befintliga tokens.',
+        'new' => 'Ny OAuth-applikation ',
         'none' => 'Inga klienter',
 
         'revoked' => [
             'false' => 'Radera',
             'true' => 'Raderad',
+        ],
+
+        'secret' => [
+            'copy' => '',
+            'generate_new' => '',
+            'visible_once' => '',
         ],
     ],
 ];

@@ -5,6 +5,7 @@
 
 return [
     'show' => [
+        'non_preserved' => 'Ce score doit être supprimé et disparaîtra bientôt.',
         'title' => ':username sur :title [:version]',
 
         'beatmap' => [
@@ -13,7 +14,10 @@ return [
 
         'player' => [
             'by' => 'Joué par',
-            'submitted_on' => 'Envoyé le',
+            'played_on' => 'Réalisé sur',
+            'submitted_on' => 'Réalisé le',
+            'watched' => 'Vu',
+            'watched_count' => ':count_delimited fois|:count_delimited fois',
 
             'rank' => [
                 'country' => 'Rang national',
@@ -23,7 +27,9 @@ return [
     ],
 
     'status' => [
-        'non_best' => 'Seuls les meilleurs scores en pp personnels sont récompensés',
-        'processing' => 'Ce score est toujours en cours de calcul et sera affiché bientôt',
+        'non_best' => 'Seul vos meilleurs scores vous rapportent des pp',
+        'no_pp' => 'Ce score n\'attribue pas de pp',
+        'processing' => 'Ce score est toujours en cours de calcul et sera bientôt affiché',
+        'no_rank' => 'Ce score n\'a pas de rang : il est soit non classé, soit destiné à être supprimé',
     ],
 ];
